@@ -6,16 +6,11 @@ using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Network.Listener;
 using SharpexGL.Framework.Network.Packages;
-using SharpexGL.Framework.Network.Protocols;
 
 namespace SharpexGL.Framework.Network
 {
     public interface IServer : IGameHandler
     {
-        /// <summary>
-        /// Gets the Server Protocol.
-        /// </summary>
-        IServerProtocol Protocol { get; }
         /// <summary>
         /// Subscribes the Listener to the Server.
         /// </summary>
