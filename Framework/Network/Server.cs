@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SharpexGL.Framework.Network.Listener;
+using SharpexGL.Framework.Network.Packages;
+using SharpexGL.Framework.Network.Protocols;
 using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Network
@@ -53,16 +55,74 @@ namespace SharpexGL.Framework.Network
         {
             _subscribers.Remove(unsubscriber);
         }
+        /// <summary>
+        /// Gets the protocol.
+        /// </summary>
+        public IServerProtocol Protocol { get; private set; }
+        /// <summary>
+        /// Gets the connections.
+        /// </summary>
+        public IList<IConnection> Connections { get; private set; }
+        /// <summary>
+        /// Sends the specified package.
+        /// </summary>
+        /// <param name="package">The package.</param>
+        public void Send(IPackage<object> package)
+        {
+            
+        }
+        /// <summary>
+        /// Sends the specified package to the receiver.
+        /// </summary>
+        /// <param name="package">The package.</param>
+        /// <param name="receiver">The receiver.</param>
+        public void Send(IPackage<object> package, IConnection receiver)
+        {
+            
+        }
 
         #endregion
 
         #region Server
 
         private readonly List<IServerListener> _subscribers;
+        private readonly ConnectionProvider _conProvider;
 
-        public Server()
+        public bool IsRunning { get; private set; }
+
+        public Server(IServerProtocol protocol)
         {
             _subscribers = new List<IServerListener>();
+            Connections = new List<IConnection>();
+            _conProvider = new ConnectionProvider(this);
+            IsRunning = true;
+            Protocol = protocol;
+            Protocol.Server = this;
+            _conProvider.BeginAcceptingConnections();
+        }
+
+        internal void OnClientJoined(IConnection connection)
+        {
+            foreach (var subscriber in _subscribers)
+            {
+                subscriber.OnClientJoined(this, connection);
+            }
+        }
+
+        internal void OnPackageReceived(IConnection connection, IPackage<object> package)
+        {
+            foreach (var subscriber in _subscribers)
+            {
+                subscriber.OnReceive(this, package, connection);
+            }
+        }
+
+        internal void OnClientLeft(IConnection connection)
+        {
+            foreach (var subscriber in _subscribers)
+            {
+                subscriber.OnClientLeft(this, connection);
+            }
         }
 
         #endregion
