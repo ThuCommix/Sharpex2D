@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SharpexGL.Framework.Network.Packages
@@ -47,5 +48,13 @@ namespace SharpexGL.Framework.Network.Packages
                 return (T)new BinaryFormatter().Deserialize(mStream);
             }
         }
+        /// <summary>
+        /// Gets the receiver/s.
+        /// </summary>
+        public IReceiver Receiver { internal set; get; }
+        /// <summary>
+        /// Gets the sender.
+        /// </summary>
+        public IConnection Sender { internal set; get; }
     }
 }
