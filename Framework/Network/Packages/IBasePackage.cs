@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SharpexGL.Framework.Network.Packages
 {
@@ -29,14 +26,6 @@ namespace SharpexGL.Framework.Network.Packages
         /// Deserializes an object out of the Content.
         /// </summary>
         /// <returns>The Object.</returns>
-        object DeserializeContent();
-        /// <summary>
-        /// Converts the deserialized object into its base type.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <param name="obj">The Object.</param>
-        /// <returns>The Object.</returns>
-        /// <remarks>The type is determined by the Origin Property.</remarks>
-        T Convert<T>(object obj);
+        T DeserializeContent<T>();
     }
 }

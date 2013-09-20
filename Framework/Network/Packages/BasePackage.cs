@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 
 namespace SharpexGL.Framework.Network.Packages
 {
@@ -40,24 +37,15 @@ namespace SharpexGL.Framework.Network.Packages
         /// <summary>
         /// Deserializes an object out of the Content.
         /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <remarks>The type is determined by the OriginType Property.</remarks>
         /// <returns>The Object.</returns>
-        public object DeserializeContent()
+        public T DeserializeContent<T>()
         {
             using (var mStream = new MemoryStream(Content))
             {
-                return new BinaryFormatter().Deserialize(mStream);
+                return (T)new BinaryFormatter().Deserialize(mStream);
             }
-        }
-        /// <summary>
-        /// Converts the deserialized object into its base type.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <param name="obj">The Object.</param>
-        /// <returns>The Object.</returns>
-        /// <remarks>The type is determined by the Origin Property.</remarks>
-        public T Convert<T>(object obj)
-        {
-            return (T) obj;
         }
     }
 }
