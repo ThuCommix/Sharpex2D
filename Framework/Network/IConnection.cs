@@ -11,10 +11,10 @@ namespace SharpexGL.Framework.Network
         /// <summary>
         /// Sets or gets the IPAddress.
         /// </summary>
-        IPAddress IPAddress { set; get; }
+        IPAddress IPAddress { get; }
         /// <summary>
         /// A value indicating whether the connection is still available.
         /// </summary>
-        bool Connected { set; get; }
+        bool Connected { get; }
     }
 }
