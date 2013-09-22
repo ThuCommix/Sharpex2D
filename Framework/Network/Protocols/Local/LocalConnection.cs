@@ -7,6 +7,7 @@ using System.Text;
 
 namespace SharpexGL.Framework.Network.Protocols.Local
 {
+    [Serializable]
     public class LocalConnection : IConnection
     {
         /// <summary>

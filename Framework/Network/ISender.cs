@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using SharpexGL.Framework.Network.Packages;
 
@@ -18,6 +19,6 @@ namespace SharpexGL.Framework.Network
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
-        void Send(IBasePackage package, IConnection receiver);
+        void Send(IBasePackage package, IPAddress receiver);
     }
 }

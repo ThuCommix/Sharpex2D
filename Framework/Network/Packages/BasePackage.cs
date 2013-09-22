@@ -51,6 +51,10 @@ namespace SharpexGL.Framework.Network.Packages
         /// <summary>
         /// Gets the sender.
         /// </summary>
-        public IConnection Sender { internal set; get; }
+        public IPAddress Sender { internal set; get; }
+        /// <summary>
+        /// Gets the receiver.
+        /// </summary>
+        public IPAddress Receiver {  set; get; }
     }
 }

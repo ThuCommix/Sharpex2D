@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace SharpexGL.Framework.Network.Packages
 {
@@ -27,5 +28,13 @@ namespace SharpexGL.Framework.Network.Packages
         /// </summary>
         /// <returns>The Object.</returns>
         T DeserializeContent<T>();
+        /// <summary>
+        /// Gets the sender.
+        /// </summary>
+        IPAddress Sender { get; }
+        /// <summary>
+        /// Gets the receiver.
+        /// </summary>
+        IPAddress Receiver { get; set; }
     }
 }

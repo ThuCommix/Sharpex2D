@@ -5,6 +5,17 @@ namespace SharpexGL.Framework.Network.Packages
 {
     public class PackageSerializer
     {
+
+        private static readonly BinaryFormatter Formatter;
+
+        /// <summary>
+        /// Initializes a new PackageSerializer class.
+        /// </summary>
+        static PackageSerializer()
+        {
+            Formatter = new BinaryFormatter();
+        }
+
         /// <summary>
         /// Serializes the package in the given stream.
         /// </summary>
@@ -12,7 +23,7 @@ namespace SharpexGL.Framework.Network.Packages
         /// <param name="targetStream">The TargetStream</param>
         public static void Serialize(IBasePackage package, Stream targetStream)
         {
-            new BinaryFormatter().Serialize(targetStream, package);
+            Formatter.Serialize(targetStream, package);
         }
 
         /// <summary>
@@ -22,7 +33,7 @@ namespace SharpexGL.Framework.Network.Packages
         /// <returns>Package</returns>
         public static IBasePackage Deserialize(Stream stream)
         {
-            return (IBasePackage) new BinaryFormatter().Deserialize(stream);
+            return (IBasePackage)Formatter.Deserialize(stream);
         }
     }
 }

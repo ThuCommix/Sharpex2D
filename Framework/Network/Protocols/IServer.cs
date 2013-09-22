@@ -6,7 +6,7 @@ using SharpexGL.Framework.Network.Packages;
 
 namespace SharpexGL.Framework.Network.Protocols
 {
-    public interface IServer : ISender, IReceiver
+    public interface IServer : ISender
     {
         /// <summary>
         /// A value indicating whether the server is active.

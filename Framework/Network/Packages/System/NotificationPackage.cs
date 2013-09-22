@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 
 namespace SharpexGL.Framework.Network.Packages.System
 {
@@ -9,7 +10,7 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// Initializes a new NotificationPackage class.
         /// </summary>
         /// <param name="connection">The Connection.</param>
-        public NotificationPackage(IConnection[] connection)
+        public NotificationPackage(IPAddress[] connection)
         {
             Connection = connection;
             Mode = NotificationMode.None;
@@ -19,7 +20,7 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// </summary>
         /// <param name="connection">The Connection.</param>
         /// <param name="mode">The NotificationMode.</param>
-        public NotificationPackage(IConnection[] connection, NotificationMode mode)
+        public NotificationPackage(IPAddress[] connection, NotificationMode mode)
         {
             Connection = connection;
             Mode = mode;
@@ -31,6 +32,6 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// <summary>
         /// Gets the corresponding connection.
         /// </summary>
-        public IConnection[] Connection { private set; get; }
+        public IPAddress[] Connection { private set; get; }
     }
 }
