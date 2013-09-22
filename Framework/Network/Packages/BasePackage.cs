@@ -49,10 +49,6 @@ namespace SharpexGL.Framework.Network.Packages
             }
         }
         /// <summary>
-        /// Gets the receiver/s.
-        /// </summary>
-        public IReceiver Receiver { internal set; get; }
-        /// <summary>
         /// Gets the sender.
         /// </summary>
         public IConnection Sender { internal set; get; }

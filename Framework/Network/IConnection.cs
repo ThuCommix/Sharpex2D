@@ -13,10 +13,6 @@ namespace SharpexGL.Framework.Network
         /// </summary>
         IPAddress IPAddress { set; get; }
         /// <summary>
-        /// A value indicating whether the connection is a host.
-        /// </summary>
-        bool IsHost { set; get; }
-        /// <summary>
         /// A value indicating whether the connection is still available.
         /// </summary>
         bool Connected { set; get; }
