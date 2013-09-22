@@ -17,5 +17,15 @@ namespace SharpexGL.Framework.Network.Protocols
         /// Disconnect from the local server.
         /// </summary>
         void Disconnect();
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        void Subscribe(IPackageListener subscriber);
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        void Unsubscribe(IPackageListener unsubscriber);
     }
 }
