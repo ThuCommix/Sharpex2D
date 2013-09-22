@@ -16,8 +16,15 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         public void Send(IBasePackage package)
         {
             if (!_tcpClient.Connected) throw new InvalidOperationException("The client is not connected.");
-            PackageSerializer.Serialize(package, _nStream);
-            _nStream.Flush();
+            try
+            {
+                PackageSerializer.Serialize(package, _nStream);
+                _nStream.Flush();
+            }
+            catch (Exception ex)
+            {
+                //TODO Publish event 
+            }
         }
         /// <summary>
         /// Sends a package to the given receivers.
@@ -27,9 +34,16 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         public void Send(IBasePackage package, IPAddress receiver)
         {
             if (!_tcpClient.Connected) throw new InvalidOperationException("The client is not connected.");
-            package.Receiver = receiver;
-            PackageSerializer.Serialize(package, _nStream);
-            _nStream.Flush();
+            try
+            {
+                package.Receiver = receiver;
+                PackageSerializer.Serialize(package, _nStream);
+                _nStream.Flush();
+            }
+            catch (Exception ex)
+            {
+                //TODO Publish event
+            }
         }
         /// <summary>
         /// Receives a package.
@@ -38,7 +52,15 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         public IBasePackage Receive()
         {
             if (!_tcpClient.Connected) throw new InvalidOperationException("The client is not connected.");
-            return _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+            try
+            {
+                return _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+            }
+            catch (Exception ex)
+            {
+                //TODO Publish event
+                return null;
+            }
         }
         /// <summary>
         /// Connects to the local server.
