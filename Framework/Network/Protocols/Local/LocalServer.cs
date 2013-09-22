@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -39,6 +40,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
+        private int _idle = 0;
 
         /// <summary>
         /// Initializes a new LocalServer class.
@@ -65,6 +67,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                 if (_localListener.Pending())
                 {
                     var tcpClient = _localListener.AcceptTcpClient();
+                    //Reset idle
+                    _idle = 0;
                     var localConnection = new LocalConnection(tcpClient);
                     _connections.Add(localConnection);
                     //Handle connection.
@@ -91,6 +95,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             {
                 if (localConnection.Client.Available > 0)
                 {
+                    //Reset idle
+                    _idle = 0;
                     var package = PackageSerializer.Deserialize(networkStream);
                     var binaryPackage = package as BinaryPackage;
                     if (binaryPackage != null)
@@ -227,8 +233,12 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// </summary>
         private static void Idle()
         {
-            //Idle to save cpu power.
-            Thread.Sleep(1);
+            //Idle to save cpu power.   
+            if (_idle < 50)
+            {
+                _idle++;
+            }
+            Thread.Sleep(_idle);
         }
     }
 }
