@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SharpexGL.Framework.Localization
 {
+    [Serializable]
     public class LanguageSerializationException : Exception
     {
         /// <summary>
