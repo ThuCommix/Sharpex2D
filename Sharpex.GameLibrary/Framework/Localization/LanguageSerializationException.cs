@@ -10,8 +10,9 @@ namespace SharpexGL.Framework.Localization
         /// </summary>
         public LanguageSerializationException()
         {
-            
+
         }
+
         /// <summary>
         /// Creates a new LanguageSerializationException.
         /// </summary>
@@ -29,6 +30,17 @@ namespace SharpexGL.Framework.Localization
             {
                 return _message;
             }
+        }
+
+        /// <summary>
+        /// Initializes a new LanguageSerializationException class.
+        /// </summary>
+        /// <param name="info">The SerializationInfo.</param>
+        /// <param name="context">The SerializationContext.</param>
+        protected LanguageSerializationException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        {
         }
     }
 }

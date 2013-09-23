@@ -27,5 +27,16 @@ namespace SharpexGL.Framework.Plugins
         {
             _message = message;
         }
+
+                /// <summary>
+        /// Initializes a new PluginException class.
+        /// </summary>
+        /// <param name="info">The SerializationInfo.</param>
+        /// <param name="context">The SerializationContext.</param>
+        protected PluginException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context)
+            : base(info, context)
+        {
+        }
     }
 }
