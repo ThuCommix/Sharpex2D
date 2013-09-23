@@ -159,6 +159,12 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             var listenerContext = new List<IPackageListener>();
             for (var i = 0; i <= _packageListeners.Count - 1; i++)
             {
+                //if listener type is null go to next
+                if (_packageListeners[i].ListenerType == null)
+                {
+                    continue;
+                }
+
                 if (_packageListeners[i].ListenerType == type)
                 {
                     listenerContext.Add(_packageListeners[i]);
