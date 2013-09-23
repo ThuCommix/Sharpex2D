@@ -41,10 +41,12 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
         private int _idleTimeout;
-        private const int IdleMax = 20;
+        private const int IdleMax = 30;
         private int _currentIdle;
-
-
+        /// <summary>
+        /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be disconnected.
+        /// </summary>
+        public float TimeOutLatency { set; get; }
         /// <summary>
         /// Initializes a new LocalServer class.
         /// </summary>
@@ -53,6 +55,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             _connections = new List<LocalConnection>();
             _localListener = new TcpListener(new IPEndPoint(IPAddress.Any, 2563));
             _localListener.Start();
+            TimeOutLatency = 200.0f;
             IsActive = true;
             //Listen on Connections.
             var connectionHandler = new Thread(BeginAcceptConnections) {IsBackground = true};
@@ -142,6 +145,12 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             var dif = timeNow - pingPackage.TimeStamp;
             var connection = GetConnection(pingPackage.Receiver);
             connection.Latency = (float)dif.TotalMilliseconds;
+
+            //Kick the client if the latency is to high
+            if (!(connection.Latency > TimeOutLatency)) return;
+            SendNotificationPackage(NotificationMode.TimeOut, new[] {connection.IPAddress});
+            connection.Client.Close();
+            _connections.Remove(connection);
         }
 
         /// <summary>
@@ -206,8 +215,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                     //May not be neccessary
                     networkStream.Flush();
                 }
-                //Idle for 30 seconds
-                Thread.Sleep(30000);
+                //Idle for 15 seconds
+                Thread.Sleep(15000);
             }
         }
 
@@ -244,7 +253,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             if (_currentIdle < IdleMax) return;
 
             _currentIdle = 0;
-            if (_idleTimeout < 20)
+            if (_idleTimeout < 15)
             {
                 _idleTimeout++;
             }

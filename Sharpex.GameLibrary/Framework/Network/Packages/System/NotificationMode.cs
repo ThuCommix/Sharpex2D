@@ -9,6 +9,7 @@ namespace SharpexGL.Framework.Network.Packages.System
         ClientExited = 2,
         ServerShutdown = 3,
         ClientList = 4,
+        TimeOut = 5,
         None = 0
     }
 }
