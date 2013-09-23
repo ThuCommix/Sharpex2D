@@ -6,7 +6,7 @@ using SharpexGL.Framework.Network.Packages;
 
 namespace SharpexGL.Framework.Network.Logic
 {
-    public abstract class PackageListener<T> 
+    public abstract class PackageListener<T>  : IPackageListener
     {
         /// <summary>
         /// Gets the ListenerType.

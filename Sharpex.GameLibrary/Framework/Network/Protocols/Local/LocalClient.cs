@@ -4,14 +4,17 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using SharpexGL.Framework.Events;
+using SharpexGL.Framework.Game;
+using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Network.Events;
 using SharpexGL.Framework.Network.Logic;
 using SharpexGL.Framework.Network.Packages;
 using SharpexGL.Framework.Network.Packages.System;
+using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Network.Protocols.Local
 {
-    public class LocalClient : IClient
+    public class LocalClient : IClient, IGameHandler
     {
         #region IClient Implementation
         /// <summary>
@@ -59,7 +62,6 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             try
             {
                 var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
-
                 var binaryPackage = package as BinaryPackage;
                 if (binaryPackage != null)
                 {
@@ -196,6 +198,35 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
         #endregion
 
+
+        #region IGameHandler
+        /// <summary>
+        /// Constructs the Component
+        /// </summary>
+        public void Construct()
+        {
+
+        }
+        /// <summary>
+        /// Processes a Game tick.
+        /// </summary>
+        /// <param name="elapsed">The Elapsed.</param>
+        public void Tick(float elapsed)
+        {
+            Receive();
+        }
+        /// <summary>
+        /// Processes a Render.
+        /// </summary>
+        /// <param name="renderer">The GraphicRenderer.</param>
+        /// <param name="elapsed">The Elapsed.</param>
+        public void Render(IGraphicRenderer renderer, float elapsed)
+        {
+
+        }
+
+        #endregion
+
         private readonly TcpClient _tcpClient;
         private NetworkStream _nStream;
         private readonly List<IPackageListener> _packageListeners;
@@ -209,6 +240,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             _tcpClient = new TcpClient();
             _packageListeners = new List<IPackageListener>();
             _clientListeners = new List<ClientListener>();
+            SGL.Components.Get<GameLoop>().Subscribe(this);
         }
 
         /// <summary>

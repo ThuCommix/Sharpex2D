@@ -1,8 +1,11 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace SharpexGL.Framework.Math
 {
- #region Constructors
+    #region Constructors
+
+    [Serializable]
     public class Vector2
     {
         /// <summary>
