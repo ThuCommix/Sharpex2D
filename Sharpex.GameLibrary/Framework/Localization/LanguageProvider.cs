@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Localization.Events;
@@ -15,16 +14,16 @@ namespace SharpexGL.Framework.Localization
             _languages = new List<Language>();
         }
 
-        private List<Language> _languages;
+        private readonly List<Language> _languages;
         private Language _currentLanguage;
 
         /// <summary>
         /// Changes the current language.
         /// </summary>
-        /// <param name="name">The Languagename.</param>
-        public void ChangeLanguage(string name)
+        /// <param name="guid">The LanguageGuide.</param>
+        public void ChangeLanguage(Guid guid)
         {
-            var lang = _languages.FirstOrDefault(language => language.Name == name);
+            var lang = _languages.FirstOrDefault(language => language.Name == guid);
             if (lang != null)
             {
                 _currentLanguage = lang;
@@ -32,7 +31,7 @@ namespace SharpexGL.Framework.Localization
             }
             else
             {
-                throw new InvalidOperationException("Language " + name + " not exists.");
+                throw new InvalidOperationException("Language " + guid + " not exists.");
             }
         }
 

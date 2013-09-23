@@ -13,9 +13,9 @@ namespace SharpexGL.Framework.Localization
             LocalizedValues = new List<LocalizedValue>();
         }
         /// <summary>
-        /// Gets or sets the Name of the language.
+        /// Gets or sets the guid of the language.
         /// </summary>
-        public string Name { set; get; }
+        public Guid Name { set; get; }
 
         public List<LocalizedValue> LocalizedValues { set; get; }
 
