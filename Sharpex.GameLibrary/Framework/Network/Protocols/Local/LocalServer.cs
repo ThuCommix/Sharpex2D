@@ -40,7 +40,10 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
-        private int _idle;
+        private int _idleTimeout;
+        private const int IdleMax = 20;
+        private int _currentIdle;
+
 
         /// <summary>
         /// Initializes a new LocalServer class.
@@ -57,6 +60,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             var pingLoopHandler = new Thread(PingRequestLoop) {IsBackground = true};
             pingLoopHandler.Start();
         }
+
         /// <summary>
         /// Accepts clients if available.
         /// </summary>
@@ -64,24 +68,19 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         {
             while (IsActive)
             {
-                if (_localListener.Pending())
-                {
-                    var tcpClient = _localListener.AcceptTcpClient();
-                    //Reset idle
-                    _idle = 0;
-                    var localConnection = new LocalConnection(tcpClient);
-                    _connections.Add(localConnection);
-                    //Handle connection.
-                    var pts = new ParameterizedThreadStart(HandleClient);
-                    var handleClient = new Thread(pts) {IsBackground = true};
-                    handleClient.Start(localConnection);
-                }
-                else
-                {
-                    Idle();
-                }
+                var tcpClient = _localListener.AcceptTcpClient();
+                //Reset idle
+                _idleTimeout = 0;
+                _currentIdle = 0;
+                var localConnection = new LocalConnection(tcpClient);
+                _connections.Add(localConnection);
+                //Handle connection.
+                var pts = new ParameterizedThreadStart(HandleClient);
+                var handleClient = new Thread(pts) {IsBackground = true};
+                handleClient.Start(localConnection);
             }
         }
+
         /// <summary>
         /// Handles a connection.
         /// </summary>
@@ -96,7 +95,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                 if (localConnection.Client.Available > 0)
                 {
                     //Reset idle
-                    _idle = 0;
+                    _idleTimeout = 0;
+                    _currentIdle = 0;
                     var package = PackageSerializer.Deserialize(networkStream);
                     var binaryPackage = package as BinaryPackage;
                     if (binaryPackage != null)
@@ -234,11 +234,20 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private void Idle()
         {
             //Idle to save cpu power.   
-            if (_idle < 50)
+            _currentIdle++;
+
+            if (_idleTimeout > 0)
             {
-                _idle++;
+                Thread.Sleep(_idleTimeout);
             }
-            Thread.Sleep(_idle);
+
+            if (_currentIdle < IdleMax) return;
+
+            _currentIdle = 0;
+            if (_idleTimeout < 20)
+            {
+                _idleTimeout++;
+            }
         }
     }
 }
