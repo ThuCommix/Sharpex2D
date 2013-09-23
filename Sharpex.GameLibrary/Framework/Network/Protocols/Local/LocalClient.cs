@@ -7,6 +7,7 @@ using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Network.Events;
 using SharpexGL.Framework.Network.Logic;
 using SharpexGL.Framework.Network.Packages;
+using SharpexGL.Framework.Network.Packages.System;
 
 namespace SharpexGL.Framework.Network.Protocols.Local
 {
@@ -58,6 +59,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             try
             {
                 var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+
                 var binaryPackage = package as BinaryPackage;
                 if (binaryPackage != null)
                 {
@@ -68,12 +70,48 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                     {
                         subscriber.OnPackageReceived(binaryPackage);
                     }
+
+                    //Nothing more to do.
+                    return;
                 }
-                else
+                //determine, which package is it.
+                var notificationPackage = package as NotificationPackage;
+                if (notificationPackage != null)
                 {
-                    //system package
-                    //determine, which package is it.
+                    //Notificationpackage
+
+                    switch (notificationPackage.Mode)
+                    {
+                        //client joined
+                        case NotificationMode.ClientJoined:
+                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                            {
+                                _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
+                            }
+                            break;
+                        //client exited
+                        case NotificationMode.ClientExited:
+                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                            {
+                                _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
+                            }
+                            break;
+                    }
+
+                    //exit sub
+                    return;
                 }
+                var pingPackage = package as PingPackage;
+                if (pingPackage != null)
+                {
+                    //Pingpackage
+                    //Send the ping package back to the server.
+                    Send(pingPackage);
+                    //exit sub
+                    return;
+                }
+
+                SGL.Components.Get<EventManager>().Publish(new UnknownPackageExceptionEvent());
             }
             catch (Exception ex)
             {
