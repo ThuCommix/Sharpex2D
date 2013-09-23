@@ -37,7 +37,7 @@ namespace SharpexGL
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.271"; } }
+        public static string Version { get { return "0.1.437"; } }
         /// <summary>
         /// Determines, if SGL is initialized.
         /// </summary>
