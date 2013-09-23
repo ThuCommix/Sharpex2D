@@ -91,7 +91,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private void HandleClient(object objConnection)
         {
             var localConnection = (LocalConnection) objConnection;
-            SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { localConnection });
+            SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { SerializableConnection.FromIConnection(localConnection) });
             var networkStream = localConnection.Client.GetStream();
             while (localConnection.Connected)
             {
@@ -131,7 +131,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             }
 
             //Client exited.
-            SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {localConnection});
+            SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
             _connections.Remove(localConnection);
         }
 
@@ -148,7 +148,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
             //Kick the client if the latency is to high
             if (!(connection.Latency > TimeOutLatency)) return;
-            SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { connection });
+            SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { SerializableConnection.FromIConnection(connection) });
             connection.Client.Close();
             _connections.Remove(connection);
         }
