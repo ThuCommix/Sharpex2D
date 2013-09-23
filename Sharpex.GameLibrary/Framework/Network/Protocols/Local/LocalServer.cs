@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -266,6 +265,14 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             {
                 _idleTimeout++;
             }
+        }
+        /// <summary>
+        /// Closes the server.
+        /// </summary>
+        public void Close()
+        {
+            SendNotificationPackage(NotificationMode.ServerShutdown, null);
+            _localListener.Stop();
         }
     }
 }
