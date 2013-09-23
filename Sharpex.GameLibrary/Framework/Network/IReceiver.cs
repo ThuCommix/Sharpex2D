@@ -11,6 +11,6 @@ namespace SharpexGL.Framework.Network
         /// <summary>
         /// Receives a package.
         /// </summary>
-        void Receive();
+        void BeginReceive();
     }
 }

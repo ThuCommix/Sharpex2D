@@ -62,6 +62,14 @@ namespace SharpexGL.Framework.Network.Logic
         {
             _client.Send(package, target);
         }
+        /// <summary>
+        /// Called, if our client timed out.
+        /// </summary>
+        public virtual void OnClientTimedOut()
+        {
+            
+        }
+
 
         private readonly IClient _client;
     }

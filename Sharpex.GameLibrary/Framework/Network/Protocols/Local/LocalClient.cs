@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using SharpexGL.Framework.Events;
-using SharpexGL.Framework.Game;
-using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Network.Events;
 using SharpexGL.Framework.Network.Logic;
 using SharpexGL.Framework.Network.Packages;
 using SharpexGL.Framework.Network.Packages.System;
-using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Network.Protocols.Local
 {
-    public class LocalClient : IClient, IGameHandler
+    public class LocalClient : IClient
     {
         #region IClient Implementation
         /// <summary>
@@ -56,83 +54,11 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// <summary>
         /// Receives a package.
         /// </summary>
-        public void Receive()
+        public void BeginReceive()
         {
             if (!_tcpClient.Connected) throw new InvalidOperationException("The client is not connected.");
-            try
-            {
-                var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
-                var binaryPackage = package as BinaryPackage;
-                if (binaryPackage != null)
-                {
-                    //binary package
-                    //Gets the subscriber list with the matching origin type
-                    var subscribers = GetPackageSubscriber(binaryPackage.OriginType);
-                    foreach (var subscriber in subscribers)
-                    {
-                        subscriber.OnPackageReceived(binaryPackage);
-                    }
-
-                    //Nothing more to do.
-                    return;
-                }
-                //determine, which package is it.
-                var notificationPackage = package as NotificationPackage;
-                if (notificationPackage != null)
-                {
-                    //Notificationpackage
-
-                    switch (notificationPackage.Mode)
-                    {
-                        //client joined
-                        case NotificationMode.ClientJoined:
-                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
-                            {
-                                _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
-                            }
-                            break;
-                        //client exited
-                        case NotificationMode.ClientExited:
-                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
-                            {
-                                _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
-                            }
-                            break;
-                        //client listing
-                        case NotificationMode.ClientList:
-                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
-                            {
-                                _clientListeners[i].OnClientListing(notificationPackage.Connection);
-                            }
-                            break;
-                        //server shutdown
-                        case NotificationMode.ServerShutdown:
-                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
-                            {
-                                _clientListeners[i].OnServerShutdown();
-                            }
-                            break;
-                    }
-
-                    //exit sub
-                    return;
-                }
-                var pingPackage = package as PingPackage;
-                if (pingPackage != null)
-                {
-                    //Pingpackage
-                    //Send the ping package back to the server.
-                    Send(pingPackage);
-                    //exit sub
-                    return;
-                }
-
-                SGL.Components.Get<EventManager>().Publish(new UnknownPackageExceptionEvent());
-            }
-            catch (Exception ex)
-            {
-                SGL.Components.Get<EventManager>().Publish(new PackageReceiveExceptionEvent(ex.Message));
-            }
+            var beginReceiveHandler = new Thread(InternalBeginReceive) {IsBackground = true};
+            beginReceiveHandler.Start();
         }
         /// <summary>
         /// Connects to the local server.
@@ -198,39 +124,17 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
         #endregion
 
-
-        #region IGameHandler
-        /// <summary>
-        /// Constructs the Component
-        /// </summary>
-        public void Construct()
-        {
-
-        }
-        /// <summary>
-        /// Processes a Game tick.
-        /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
-        {
-            Receive();
-        }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IGraphicRenderer renderer, float elapsed)
-        {
-
-        }
-
-        #endregion
-
         private readonly TcpClient _tcpClient;
         private NetworkStream _nStream;
         private readonly List<IPackageListener> _packageListeners;
         private readonly List<ClientListener> _clientListeners;
+
+        /// <summary>
+        /// A value indicating whether the client is connected.
+        /// </summary>
+        public bool Connected{
+            get { return _tcpClient != null && _tcpClient.Connected; }
+        }
 
         /// <summary>
         /// Initializes a new LocalClient class.
@@ -240,7 +144,6 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             _tcpClient = new TcpClient();
             _packageListeners = new List<IPackageListener>();
             _clientListeners = new List<ClientListener>();
-            SGL.Components.Get<GameLoop>().Subscribe(this);
         }
 
         /// <summary>
@@ -259,6 +162,103 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                 }
             }
             return listenerContext;
+        }
+
+        /// <summary>
+        /// Starts receiving data.
+        /// </summary>
+        private void InternalBeginReceive()
+        {
+            while (_tcpClient.Connected)
+            {
+                try
+                {
+                    var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+                    if (package == null)
+                    {
+                        continue;
+                    }
+                    var binaryPackage = package as BinaryPackage;
+                    if (binaryPackage != null)
+                    {
+                        //binary package
+                        //Gets the subscriber list with the matching origin type
+                        var subscribers = GetPackageSubscriber(binaryPackage.OriginType);
+                        foreach (var subscriber in subscribers)
+                        {
+                            subscriber.OnPackageReceived(binaryPackage);
+                        }
+
+                        //Nothing more to do.
+                        continue;
+                    }
+                    //determine, which package is it.
+                    var notificationPackage = package as NotificationPackage;
+                    if (notificationPackage != null)
+                    {
+                        //Notificationpackage
+
+                        switch (notificationPackage.Mode)
+                        {
+                            //client joined
+                            case NotificationMode.ClientJoined:
+                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
+                                }
+                                break;
+                            //client exited
+                            case NotificationMode.ClientExited:
+                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
+                                }
+                                break;
+                            //client listing
+                            case NotificationMode.ClientList:
+                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientListing(notificationPackage.Connection);
+                                }
+                                break;
+                            //server shutdown
+                            case NotificationMode.ServerShutdown:
+                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnServerShutdown();
+                                    _tcpClient.Close();
+                                }
+                                break;
+                            //we timed out.
+                            case NotificationMode.TimeOut:
+                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientTimedOut();
+                                }
+                                _tcpClient.Close();
+                                break;
+                        }
+
+                        //exit sub
+                        continue;
+                    }
+                    var pingPackage = package as PingPackage;
+                    if (pingPackage != null)
+                    {
+                        //Pingpackage
+                        //Send the ping package back to the server.
+                        Send(pingPackage);
+                        //exit sub
+                        continue;
+                    }
+
+                    SGL.Components.Get<EventManager>().Publish(new UnknownPackageExceptionEvent());
+                }
+                catch (Exception ex)
+                {
+                    SGL.Components.Get<EventManager>().Publish(new PackageReceiveExceptionEvent(ex.Message));
+                }
+            }
         }
     }
 }
