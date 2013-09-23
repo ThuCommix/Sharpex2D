@@ -91,7 +91,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private void HandleClient(object objConnection)
         {
             var localConnection = (LocalConnection) objConnection;
-            SendNotificationPackage(NotificationMode.ClientJoined, new[] { localConnection.IPAddress });
+            SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { localConnection });
             var networkStream = localConnection.Client.GetStream();
             while (localConnection.Connected)
             {
@@ -131,7 +131,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             }
 
             //Client exited.
-            SendNotificationPackage(NotificationMode.ClientExited, new [] {localConnection.IPAddress});
+            SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {localConnection});
             _connections.Remove(localConnection);
         }
 
@@ -148,7 +148,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
 
             //Kick the client if the latency is to high
             if (!(connection.Latency > TimeOutLatency)) return;
-            SendNotificationPackage(NotificationMode.TimeOut, new[] {connection.IPAddress});
+            SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { connection });
             connection.Client.Close();
             _connections.Remove(connection);
         }
@@ -225,7 +225,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// </summary>
         /// <param name="mode">The Mode.</param>
         /// <param name="connections">The ConnectionParams.</param>
-        private void SendNotificationPackage(NotificationMode mode, IPAddress[] connections)
+        private void SendNotificationPackage(NotificationMode mode, IConnection[] connections)
         {
             var notificationPackage = new NotificationPackage(connections, mode);
             for (var i = 0; i <= _connections.Count - 1; i++)

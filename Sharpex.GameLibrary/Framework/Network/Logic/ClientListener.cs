@@ -18,7 +18,7 @@ namespace SharpexGL.Framework.Network.Logic
         /// Called if a client joined on the server.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
-        public virtual void OnClientJoined(IPAddress ipAddress)
+        public virtual void OnClientJoined(IConnection ipAddress)
         {
             
         }
@@ -26,7 +26,7 @@ namespace SharpexGL.Framework.Network.Logic
         /// Called if a client exited.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
-        public virtual void OnClientExited(IPAddress ipAddress)
+        public virtual void OnClientExited(IConnection ipAddress)
         {
             
         }
@@ -34,7 +34,7 @@ namespace SharpexGL.Framework.Network.Logic
         /// Called if the server sends a client list.
         /// </summary>
         /// <param name="connections">The Connections.</param>
-        public virtual void OnClientListing(IPAddress[] connections)
+        public virtual void OnClientListing(IConnection[] connections)
         {
             
         }

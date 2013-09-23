@@ -10,7 +10,7 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// Initializes a new NotificationPackage class.
         /// </summary>
         /// <param name="connection">The Connection.</param>
-        public NotificationPackage(IPAddress[] connection)
+        public NotificationPackage(IConnection[] connection)
         {
             Connection = connection;
             Mode = NotificationMode.None;
@@ -20,7 +20,7 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// </summary>
         /// <param name="connection">The Connection.</param>
         /// <param name="mode">The NotificationMode.</param>
-        public NotificationPackage(IPAddress[] connection, NotificationMode mode)
+        public NotificationPackage(IConnection[] connection, NotificationMode mode)
         {
             Connection = connection;
             Mode = mode;
@@ -32,6 +32,6 @@ namespace SharpexGL.Framework.Network.Packages.System
         /// <summary>
         /// Gets the corresponding connection.
         /// </summary>
-        public IPAddress[] Connection { private set; get; }
+        public IConnection[] Connection { private set; get; }
     }
 }
