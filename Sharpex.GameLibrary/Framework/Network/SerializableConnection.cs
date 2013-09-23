@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace SharpexGL.Framework.Network
@@ -27,6 +29,15 @@ namespace SharpexGL.Framework.Network
         public static SerializableConnection FromIConnection(IConnection connection)
         {
             return new SerializableConnection(connection.IPAddress, connection.Latency, connection.Connected);
+        }
+        /// <summary>
+        /// Converts an IConnection array into SerialiableConnection array.
+        /// </summary>
+        /// <param name="connections">The Connections.</param>
+        /// <returns>SerializableConnections</returns>
+        public static IConnection[] FromIConnection(IConnection[] connections)
+        {
+            return connections.Select(FromIConnection).ToArray();
         }
         /// <summary>
         /// Initializes a new SerializableConnection class.

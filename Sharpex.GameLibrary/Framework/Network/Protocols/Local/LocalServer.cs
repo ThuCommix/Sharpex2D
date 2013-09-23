@@ -92,6 +92,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         {
             var localConnection = (LocalConnection) objConnection;
             SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { SerializableConnection.FromIConnection(localConnection) });
+            var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+            SendNotificationPackage(NotificationMode.ClientList, connectionList);
             var networkStream = localConnection.Client.GetStream();
             while (localConnection.Connected)
             {
@@ -133,6 +135,9 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             //Client exited.
             SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
             _connections.Remove(localConnection);
+
+            connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+            SendNotificationPackage(NotificationMode.ClientList, connectionList);
         }
 
         /// <summary>
@@ -206,6 +211,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         {
             while (IsActive)
             {
+                var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
                 //Send a ping request to all clients
                 for (var i = 0; i <= _connections.Count - 1; i++)
                 {
@@ -214,6 +220,9 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                     PackageSerializer.Serialize(pingPackage, networkStream);
                     //May not be neccessary
                     networkStream.Flush();
+
+                    //Also update the client list.
+                    SendNotificationPackage(NotificationMode.ClientList, connectionList);
                 }
                 //Idle for 15 seconds
                 Thread.Sleep(15000);

@@ -17,16 +17,16 @@ namespace SharpexGL.Framework.Network.Logic
         /// <summary>
         /// Called if a client joined on the server.
         /// </summary>
-        /// <param name="ipAddress">The IPAddress.</param>
-        public virtual void OnClientJoined(IConnection ipAddress)
+        /// <param name="connection">The IPAddress.</param>
+        public virtual void OnClientJoined(IConnection connection)
         {
             
         }
         /// <summary>
         /// Called if a client exited.
         /// </summary>
-        /// <param name="ipAddress">The IPAddress.</param>
-        public virtual void OnClientExited(IConnection ipAddress)
+        /// <param name="connection">The IPAddress.</param>
+        public virtual void OnClientExited(IConnection connection)
         {
             
         }
