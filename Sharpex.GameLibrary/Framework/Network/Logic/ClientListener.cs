@@ -31,6 +31,21 @@ namespace SharpexGL.Framework.Network.Logic
             
         }
         /// <summary>
+        /// Called if the server sends a client list.
+        /// </summary>
+        /// <param name="connections">The Connections.</param>
+        public virtual void OnClientListing(IPAddress[] connections)
+        {
+            
+        }
+        /// <summary>
+        /// Called if the server is closing.
+        /// </summary>
+        public virtual void OnServerShutdown()
+        {
+            
+        }
+        /// <summary>
         /// Sends a package to all Clients.
         /// </summary>
         /// <param name="package">The Package.</param>

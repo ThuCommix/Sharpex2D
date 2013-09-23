@@ -96,6 +96,20 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                                 _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
                             }
                             break;
+                        //client listing
+                        case NotificationMode.ClientList:
+                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                            {
+                                _clientListeners[i].OnClientListing(notificationPackage.Connection);
+                            }
+                            break;
+                        //server shutdown
+                        case NotificationMode.ServerShutdown:
+                            for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                            {
+                                _clientListeners[i].OnServerShutdown();
+                            }
+                            break;
                     }
 
                     //exit sub
