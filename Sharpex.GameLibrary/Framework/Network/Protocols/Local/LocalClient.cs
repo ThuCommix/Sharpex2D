@@ -128,6 +128,9 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private NetworkStream _nStream;
         private readonly List<IPackageListener> _packageListeners;
         private readonly List<ClientListener> _clientListeners;
+        private int _idleTimeout;
+        private const int IdleMax = 30;
+        private int _currentIdle;
 
         /// <summary>
         /// A value indicating whether the client is connected.
@@ -176,6 +179,8 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                     var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
                     if (package == null)
                     {
+                        //Idle the client.
+                        Idle();
                         continue;
                     }
                     var binaryPackage = package as BinaryPackage;
@@ -258,6 +263,27 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                 {
                     SGL.Components.Get<EventManager>().Publish(new PackageReceiveExceptionEvent(ex.Message));
                 }
+            }
+        }
+        /// <summary>
+        /// Idles the thread.
+        /// </summary>
+        private void Idle()
+        {
+            //Idle to save cpu power.   
+            _currentIdle++;
+
+            if (_idleTimeout > 0)
+            {
+                Thread.Sleep(_idleTimeout);
+            }
+
+            if (_currentIdle < IdleMax) return;
+
+            _currentIdle = 0;
+            if (_idleTimeout < 15)
+            {
+                _idleTimeout++;
             }
         }
     }
