@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Network.Events;
@@ -70,7 +69,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
 
         #endregion
 
-        private readonly UdpClient _listener;
+        private readonly System.Net.Sockets.UdpClient _listener;
         private readonly List<IConnection> _connections;
         private readonly List<IPackageListener> _packageListeners;
         private int _idleTimeout;
@@ -90,7 +89,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
             _packageListeners = new List<IPackageListener>();
             _connections = new List<IConnection>();
             TimeOutLatency = 500f;
-            _listener = new UdpClient(2563);
+            _listener = new System.Net.Sockets.UdpClient(2563);
             IsActive = true;
             var beginHandle = new Thread(BeginAcceptConnections) {IsBackground = true};
             var pingHandle = new Thread(PingRequestLoop) {IsBackground = true};
