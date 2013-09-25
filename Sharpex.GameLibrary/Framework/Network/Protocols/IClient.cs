@@ -23,7 +23,7 @@ namespace SharpexGL.Framework.Network.Protocols
         /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
-        void Subscribe(ClientListener subscriber);
+        void Subscribe(IClientListener subscriber);
         /// <summary>
         /// Unsubscribes from a Client.
         /// </summary>
@@ -33,6 +33,6 @@ namespace SharpexGL.Framework.Network.Protocols
         /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
-        void Unsubscribe(ClientListener unsubscriber);
+        void Unsubscribe(IClientListener unsubscriber);
     }
 }

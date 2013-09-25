@@ -101,7 +101,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
-        public void Subscribe(ClientListener subscriber)
+        public void Subscribe(IClientListener subscriber)
         {
             _clientListeners.Add(subscriber);
         }
@@ -117,7 +117,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
-        public void Unsubscribe(ClientListener unsubscriber)
+        public void Unsubscribe(IClientListener unsubscriber)
         {
             _clientListeners.Remove(unsubscriber);
         }
@@ -127,7 +127,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private readonly TcpClient _tcpClient;
         private NetworkStream _nStream;
         private readonly List<IPackageListener> _packageListeners;
-        private readonly List<ClientListener> _clientListeners;
+        private readonly List<IClientListener> _clientListeners;
         private int _idleTimeout;
         private const int IdleMax = 30;
         private int _currentIdle;
@@ -146,7 +146,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         {
             _tcpClient = new TcpClient();
             _packageListeners = new List<IPackageListener>();
-            _clientListeners = new List<ClientListener>();
+            _clientListeners = new List<IClientListener>();
         }
 
         /// <summary>
