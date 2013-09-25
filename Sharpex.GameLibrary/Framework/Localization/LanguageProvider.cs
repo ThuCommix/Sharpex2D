@@ -23,7 +23,7 @@ namespace SharpexGL.Framework.Localization
         /// <param name="guid">The LanguageGuide.</param>
         public void ChangeLanguage(Guid guid)
         {
-            var lang = _languages.FirstOrDefault(language => language.Name == guid);
+            var lang = _languages.FirstOrDefault(language => language.Guid == guid);
             if (lang != null)
             {
                 _currentLanguage = lang;
@@ -53,7 +53,7 @@ namespace SharpexGL.Framework.Localization
                     return localized.LocalizedString;
                 }
             }
-            throw new InvalidOperationException("LocalizedString Id not found in " + _currentLanguage.Name);
+            throw new InvalidOperationException("LocalizedString Id not found in " + _currentLanguage.Guid);
         }
 
         /// <summary>
