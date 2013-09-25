@@ -98,6 +98,9 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                 //Handle connection.
                 var pts = new ParameterizedThreadStart(HandleClient);
                 var handleClient = new Thread(pts) {IsBackground = true};
+                SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { SerializableConnection.FromIConnection(localConnection) });
+                var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+                SendNotificationPackage(NotificationMode.ClientList, connectionList);
                 handleClient.Start(localConnection);
             }
         }
@@ -109,9 +112,6 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         private void HandleClient(object objConnection)
         {
             var localConnection = (LocalConnection) objConnection;
-            SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { SerializableConnection.FromIConnection(localConnection) });
-            var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
-            SendNotificationPackage(NotificationMode.ClientList, connectionList);
             var networkStream = localConnection.Client.GetStream();
             while (localConnection.Connected)
             {
@@ -162,7 +162,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
             SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
             _connections.Remove(localConnection);
 
-            connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+            var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
             SendNotificationPackage(NotificationMode.ClientList, connectionList);
         }
 
