@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using SharpexGL.Framework.Network.Logic;
 using SharpexGL.Framework.Network.Packages;
 using SharpexGL.Framework.Network.Packages.System;
 
@@ -33,12 +34,29 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         /// A value indicating whether the server is active.
         /// </summary>
         public bool IsActive { get; private set; }
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        public void Subscribe(IPackageListener subscriber)
+        {
+            _packageListeners.Add(subscriber);
+        }
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        public void Unsubscribe(IPackageListener unsubscriber)
+        {
+            _packageListeners.Remove(unsubscriber);
+        }
 
         #endregion
 
 
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
+        private readonly List<IPackageListener> _packageListeners;
         private int _idleTimeout;
         private const int IdleMax = 30;
         private int _currentIdle;
@@ -52,6 +70,7 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         public LocalServer()
         {
             _connections = new List<LocalConnection>();
+            _packageListeners = new List<IPackageListener>();
             _localListener = new TcpListener(new IPEndPoint(IPAddress.Any, 2563));
             _localListener.Start();
             TimeOutLatency = 200.0f;
@@ -105,6 +124,12 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                     var binaryPackage = package as BinaryPackage;
                     if (binaryPackage != null)
                     {
+                        //notify package listeners
+                        foreach (var subscriber in GetPackageSubscriber(binaryPackage.OriginType))
+                        {
+                            subscriber.OnPackageReceived(binaryPackage);
+                        }
+
                         //The package is not a system package, send it to it's destination
                         if (binaryPackage.Receiver == null)
                         {
@@ -116,13 +141,15 @@ namespace SharpexGL.Framework.Network.Protocols.Local
                             //Special destination
                             Send(binaryPackage, binaryPackage.Receiver);
                         }
-                        
+                        return;
                     }
-                    else
+
+                    //system package with type of pingpackage
+                    var pingPackage = package as PingPackage;
+                    if(pingPackage != null)
                     {
-                        //system package, the only package received by client is pingpackage
-                        var pingPackage = (PingPackage) package;
                         SetLatency(pingPackage);
+                        return;
                     }
                 }
                 else
@@ -273,6 +300,30 @@ namespace SharpexGL.Framework.Network.Protocols.Local
         {
             SendNotificationPackage(NotificationMode.ServerShutdown, null);
             _localListener.Stop();
+        }
+
+        /// <summary>
+        /// Gets a list of all matching package listeners.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <returns>List of package listeners</returns>
+        private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
+        {
+            var listenerContext = new List<IPackageListener>();
+            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            {
+                //if listener type is null go to next
+                if (_packageListeners[i].ListenerType == null)
+                {
+                    continue;
+                }
+
+                if (_packageListeners[i].ListenerType == type)
+                {
+                    listenerContext.Add(_packageListeners[i]);
+                }
+            }
+            return listenerContext;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpexGL.Framework.Network.Packages;
+﻿using SharpexGL.Framework.Network.Logic;
 
 namespace SharpexGL.Framework.Network.Protocols
 {
@@ -12,5 +8,15 @@ namespace SharpexGL.Framework.Network.Protocols
         /// A value indicating whether the server is active.
         /// </summary>
         bool IsActive { get; }
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        void Subscribe(IPackageListener subscriber);
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        void Unsubscribe(IPackageListener unsubscriber);
     }
 }
