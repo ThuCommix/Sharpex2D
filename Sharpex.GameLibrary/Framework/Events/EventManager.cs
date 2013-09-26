@@ -9,10 +9,10 @@ namespace SharpexGL.Framework.Events
     {
         public EventManager()
         {
-            _observers = new List<dynamic>();
+            _observers = new LinkedList<IObserver<IEvent>>();
         }
 
-        private List<dynamic> _observers;
+        private readonly LinkedList<IObserver<IEvent>> _observers;
 
         /// <summary>
         /// Subscribes to a special event.
@@ -21,29 +21,17 @@ namespace SharpexGL.Framework.Events
         /// <returns>Unsubscriber</returns>
         public IDisposable Subscribe(IObserver<IEvent> observer)
         {
-            _observers.Add(observer);
-            return new Unsubscriber(_observers, observer);
-        }
-
-        /// <summary>
-        /// Unsubscribes from a special event.
-        /// </summary>
-        /// <param name="observer">The Observer.</param>
-        public void Unsubscribe(IObserver<IEvent> observer)
-        {
-            if (observer != null && _observers.Contains(observer))
-                _observers.Remove(observer);
+            if (observer == null) throw new ArgumentNullException("observer");
+            return new Unsubscriber(_observers.AddLast(observer));
         }
 
         /// <summary>
         /// Gets the observer of a special event.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public IEnumerable<dynamic> GetObservers<T>() where T : IEvent
+        public IEnumerable<IObserver<IEvent>> GetObservers<T>()
         {
-            var type = typeof (T);
-            return _observers.Where(observer => observer == type).ToList();
+            return _observers.Where(observer => observer is T);
         }
 
         /// <summary>
@@ -56,6 +44,29 @@ namespace SharpexGL.Framework.Events
             foreach (IObserver<TEvent> observer in GetObservers<TEvent>())
             {
                 observer.OnNext(e);
+            }
+        }
+
+        private class Unsubscriber : IDisposable
+        {
+            private readonly LinkedListNode<IObserver<IEvent>> _observer;
+            /// <summary>
+            /// Initializes a new Unsubscriber instance.
+            /// </summary>
+            /// <param name="observer">The Observer.</param>
+            public Unsubscriber(LinkedListNode<IObserver<IEvent>> observer)
+            {
+                _observer = observer;
+            }
+            /// <summary>
+            /// Removes the Observer.
+            /// </summary>
+            public void Dispose()
+            {
+                if (_observer != null)
+                {
+                    _observer.List.Remove(_observer);
+                }
             }
         }
     }
