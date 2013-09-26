@@ -28,7 +28,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
             }
             for (var i = 0; i <= _connections.Count - 1; i++)
             {
-                _listener.Client.SendTo(result, new IPEndPoint(_connections[i].IPAddress, 2563));
+                _listener.Client.SendTo(result, new IPEndPoint(_connections[i].IPAddress, 2565));
             }
         }
         /// <summary>
@@ -44,7 +44,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                 PackageSerializer.Serialize(package, mStream);
                 result = mStream.ToArray();
             }
-            _listener.Client.SendTo(result, new IPEndPoint(receiver, 2563));
+            _listener.Client.SendTo(result, new IPEndPoint(receiver, 2565));
         }
         /// <summary>
         /// A value indicating whether the server is active.
@@ -102,7 +102,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         /// </summary>
         private void BeginAcceptConnections()
         {
-            var incommingConnection = new IPEndPoint(IPAddress.Any, 2563);
+            var incommingConnection = new IPEndPoint(IPAddress.Any, 2565);
 
             while (IsActive)
             {

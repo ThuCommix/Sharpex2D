@@ -125,7 +125,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         {
             _clientListeners = new List<IClientListener>();
             _packageListeners = new List<IPackageListener>();
-            _udpClient = new System.Net.Sockets.UdpClient(2563);
+            _udpClient = new System.Net.Sockets.UdpClient(2565);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
             {
                 if (_udpClient.Available > 0)
                 {
-                    var serverIpEndPoint = new IPEndPoint(IPAddress.Any, 2563);
+                    var serverIpEndPoint = new IPEndPoint(IPAddress.Any, 2565);
                     var receivedData = _udpClient.Receive(ref serverIpEndPoint);
                     using (var mStream = new MemoryStream(receivedData))
                     {
