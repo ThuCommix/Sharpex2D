@@ -124,6 +124,8 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                                     //add connection
                                     var udpConnection = new UdpConnection(incommingConnection.Address);
                                     _connections.Add(udpConnection);
+                                    // publish the new server list, after a new connection.
+                                    SendNotificationPackage(NotificationMode.ClientList, _connections.ToArray());
                                 }
                                 else //(UdpNotify.Bye)
                                 {
@@ -134,6 +136,8 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                                     if (udpConnection != null)
                                     {
                                         _connections.Remove(udpConnection);
+                                        // publish the new server list, after a lost connection.
+                                        SendNotificationPackage(NotificationMode.ClientList, _connections.ToArray());
                                     }
                                 }
                             }
@@ -313,6 +317,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         /// </summary>
         public void Close()
         {
+            SendNotificationPackage(NotificationMode.ServerShutdown, null);
             _listener.Close();
             IsActive = false;
         }
