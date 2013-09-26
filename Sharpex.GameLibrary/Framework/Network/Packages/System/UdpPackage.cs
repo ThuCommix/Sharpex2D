@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SharpexGL.Framework.Network.Packages.System
 {
+    [Serializable]
     internal class UdpPackage : BasePackage
     {
         /// <summary>
