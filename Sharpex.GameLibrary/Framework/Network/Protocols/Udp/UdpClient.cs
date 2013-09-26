@@ -151,7 +151,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                             {
                                 subscriber.OnPackageReceived(binaryPackage);
                             }
-                            return;
+                            continue;
                         }
 
                         //system packages
