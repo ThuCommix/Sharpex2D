@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -146,7 +147,10 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                         if (binaryPackage != null)
                         {
                             //binary package
-
+                            foreach (var subscriber in GetPackageSubscriber(binaryPackage.OriginType))
+                            {
+                                subscriber.OnPackageReceived(binaryPackage);
+                            }
                             return;
                         }
 
@@ -204,6 +208,30 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                     Idle();
                 }
             }
+        }
+
+        /// <summary>
+        /// Gets a list of all matching package listeners.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <returns>List of package listeners</returns>
+        private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
+        {
+            var listenerContext = new List<IPackageListener>();
+            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            {
+                //if listener type is null go to next
+                if (_packageListeners[i].ListenerType == null)
+                {
+                    continue;
+                }
+
+                if (_packageListeners[i].ListenerType == type)
+                {
+                    listenerContext.Add(_packageListeners[i]);
+                }
+            }
+            return listenerContext;
         }
 
         /// <summary>
