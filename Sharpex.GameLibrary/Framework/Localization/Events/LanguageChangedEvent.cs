@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpexGL.Framework.Events;
+﻿using SharpexGL.Framework.Events;
 
 namespace SharpexGL.Framework.Localization.Events
 {
