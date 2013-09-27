@@ -346,6 +346,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         {
             SendNotificationPackage(NotificationMode.ServerShutdown, null);
             _listener.Close();
+            _connectionManager.Stop();
             IsActive = false;
         }
     }
