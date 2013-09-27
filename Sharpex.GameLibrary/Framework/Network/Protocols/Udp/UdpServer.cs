@@ -75,6 +75,7 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         private int _idleTimeout;
         private const int IdleMax = 30;
         private int _currentIdle;
+        private readonly UdpConnectionManager _connectionManager;
 
         /// <summary>
         /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be disconnected.
@@ -88,6 +89,9 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
         {
             _packageListeners = new List<IPackageListener>();
             _connections = new List<IConnection>();
+            _connectionManager = new UdpConnectionManager();
+            _connectionManager.PingTimedOut += _connectionManager_PingTimedOut;
+            _connectionManager.Start();
             TimeOutLatency = 500f;
             _listener = new System.Net.Sockets.UdpClient(2563);
             IsActive = true;
@@ -95,6 +99,23 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
             var pingHandle = new Thread(PingRequestLoop) {IsBackground = true};
             beginHandle.Start();
             pingHandle.Start();
+        }
+        /// <summary>
+        /// Called if a PingRequest timed out.
+        /// </summary>
+        void _connectionManager_PingTimedOut(object sender, IPAddress ipAddress)
+        {
+            for (var i = 0; i <= _connections.Count - 1; i++)
+            {
+                if (Equals(_connections[i].IPAddress, ipAddress))
+                {
+                    //remove the connection
+                    _connections.RemoveAt(i);
+                    //notify clients
+                    SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { SerializableConnection.FromIConnection(_connections[i]) });
+                    break;
+                }
+            }
         }
 
         /// <summary>
@@ -209,6 +230,9 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
             var dif = timeNow - pingPackage.TimeStamp;
             var connection = GetConnection(pingPackage.Receiver);
             connection.Latency = (float)dif.TotalMilliseconds;
+            
+            //alert the connectionmanager
+            _connectionManager.RemoveByIP(pingPackage.Receiver);
 
             //Kick the client if the latency is to high
             if (!(connection.Latency > TimeOutLatency)) return;
@@ -246,6 +270,9 @@ namespace SharpexGL.Framework.Network.Protocols.Udp
                 {
                     var pingPackage = new PingPackage { Receiver = _connections[i].IPAddress };
                     Send(pingPackage, _connections[i].IPAddress);
+                    //add the ping request to the connection manager.
+                    _connectionManager.AddPingRequest(new UdpPingRequest(_connections[i].IPAddress,
+                        pingPackage.TimeStamp));
 
                     //Also update the client list.
                     SendNotificationPackage(NotificationMode.ClientList, connectionList);
