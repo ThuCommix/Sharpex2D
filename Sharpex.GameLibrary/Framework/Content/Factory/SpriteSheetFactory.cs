@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Sprites;
 
 namespace SharpexGL.Framework.Content.Factory
@@ -18,10 +19,20 @@ namespace SharpexGL.Framework.Content.Factory
         /// Creates a new SpriteSheet Instance.
         /// </summary>
         /// <param name="file">The FilePath.</param>
-        /// <returns></returns>
+        /// <returns>SpriteSheet</returns>
         public SpriteSheet Create(string file)
         {
             return new SpriteSheet((Bitmap) Image.FromFile(file));
+        }
+
+        /// <summary>
+        /// Creates a new SpriteSheet Instance.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <returns>SpriteSheet</returns>
+        public SpriteSheet Create(Texture texture)
+        {
+            return new SpriteSheet(texture.Texture2D);
         }
     }
 }
