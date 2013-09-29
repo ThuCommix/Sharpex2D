@@ -6,6 +6,7 @@ using SharpexGL.Framework.Content.Serialization;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Font;
+using SharpexGL.Framework.Rendering.Sprites;
 
 namespace SharpexGL.Framework.Content
 {
@@ -90,14 +91,10 @@ namespace SharpexGL.Framework.Content
                     return (T)(Object)SGL.Implementations.Get<SpriteFontSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
-            /*/if (typeof(T) == typeof(Sound)) Sound isn't realy a asset, so it can not be loaded from ContentManager.
+            if (typeof (T) == typeof (SpriteSheet))
             {
-                using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
-                {
-                    return (T)(Object)SGL.GetImplementation<SpriteFontSerializer>().Read(new BinaryReader(fileStream));
-                }
-            }/*/
-            //Enable non-assetLoader:rawloader
+                return (T)(Object)SpriteSheet.Factory.Create(FileSystem.ConnectPath(ContentPath, asset));
+            }
             if (typeof(T) == typeof(Sound))
             {
                 return (T) (Object) Sound.Factory.Create(FileSystem.ConnectPath(ContentPath, asset));
