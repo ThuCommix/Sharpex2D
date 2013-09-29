@@ -93,7 +93,11 @@ namespace SharpexGL.Framework.Content
             }
             if (typeof (T) == typeof (SpriteSheet))
             {
-                return (T)(Object)SpriteSheet.Factory.Create(FileSystem.ConnectPath(ContentPath, asset));
+                using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
+                {
+                    var texture = SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
+                    return (T)(Object)new SpriteSheet(texture.Texture2D);
+                }
             }
             if (typeof(T) == typeof(Sound))
             {
