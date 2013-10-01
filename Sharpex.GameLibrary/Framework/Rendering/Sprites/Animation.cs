@@ -1,4 +1,5 @@
-﻿using SharpexGL.Framework.Math;
+﻿using SharpexGL.Framework.Content.Factory;
+using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Rendering.Sprites
 {
@@ -27,7 +28,10 @@ namespace SharpexGL.Framework.Rendering.Sprites
         private float _timeElapsed;
         internal Rectangle Rect;
         private int _currentFrame;
-
+        /// <summary>
+        /// Sets or gets the Factory.
+        /// </summary>
+        public static AnimationFactory Factory { private set; get; }
         /// <summary>
         /// Gets the duration of a single keyframe.
         /// </summary>
@@ -63,6 +67,11 @@ namespace SharpexGL.Framework.Rendering.Sprites
                 //Reset time
                 _timeElapsed = 0;
             }
+        }
+
+        static Animation()
+        {
+            Factory = new AnimationFactory();
         }
     }
 }
