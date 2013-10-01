@@ -11,6 +11,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
         internal SpriteSheet(Bitmap rawTexture)
         {
             _rawTexture = rawTexture;
+            RawTexture = rawTexture;
             _spriteBuffer = new SpriteBuffer();
         }
         /// <summary>
@@ -27,6 +28,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
 
         private readonly Bitmap _rawTexture;
         private readonly SpriteBuffer _spriteBuffer;
+        internal Bitmap RawTexture;
 
         /// <summary>
         /// Gets a single Sprite based on the given coords, width and height.
