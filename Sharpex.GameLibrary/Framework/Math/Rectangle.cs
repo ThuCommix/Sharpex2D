@@ -191,6 +191,14 @@ namespace SharpexGL.Framework.Math
 
             return new Rectangle(left, top, right - left, bottom - top);
         }
+        /// <summary>
+        /// Converts the Rectangle to a string.
+        /// </summary>
+        /// <returns>String</returns>
+        public override string ToString()
+        {
+            return X + ";" + Y + ";" + Width + ";" + Height;
+        }
         #endregion
 
         #region Operators

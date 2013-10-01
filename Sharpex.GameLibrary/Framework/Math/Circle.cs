@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace SharpexGL.Framework.Math
 {
     public struct Circle
@@ -76,6 +72,14 @@ namespace SharpexGL.Framework.Math
             return r <
                    MathHelper.Pow((circle1.Position.X + circle2.Position.X), 2) +
                    MathHelper.Pow((circle1.Position.Y + circle2.Position.Y), 2);
+        }
+        /// <summary>
+        /// Converts the circle in to a string.
+        /// </summary>
+        /// <returns>String</returns>
+        public override string ToString()
+        {
+            return Position.X + ";" + Position.Y + ";" + Radius;
         }
     }
 }
