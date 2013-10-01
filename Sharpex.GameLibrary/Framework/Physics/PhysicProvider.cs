@@ -284,7 +284,7 @@ namespace SharpexGL.Framework.Physics
         {
             float xDamped;
             float yDamped;
-            var dampingValue = damping / 10;
+            var dampingValue = damping / 15;
             if (velocity.X > 0)
             {
                 xDamped = velocity.X - dampingValue >= 0 ? velocity.X - dampingValue : 0;
@@ -304,6 +304,17 @@ namespace SharpexGL.Framework.Physics
 
             return new Vector2(xDamped, yDamped);
         }
+        /// <summary>
+        /// Damps the particle on impact.
+        /// </summary>
+        /// <param name="originVelocity">The Velocity.</param>
+        /// <returns>Damped Velocity</returns>
+        private Vector2 DampOnImpact(Vector2 originVelocity)
+        {
+            // lets say we loos 20% of power after impact
+            return new Vector2(originVelocity.X * 80 / 100, originVelocity.Y * 80 / 100);
+        }
+
         /// <summary>
         /// Returns the new velocity of two particles after an elastic impact.
         /// </summary>
@@ -338,25 +349,31 @@ namespace SharpexGL.Framework.Physics
             if (particle2.Mass/particle1.Mass > 10)
             {
                 //only use reflection:
-                return new[] { -particle1.Velocity * particle1.Elasticity, particle2.Velocity};
+                particle1.Velocity = DampOnImpact(particle1.Velocity);
+                return new[] {-particle1.Velocity*particle1.Elasticity, particle2.Velocity};
             }
 
-            //check if obj2.velocity = 0 and the mass of both objects are the same
             //get min elasticity
             var elasticity = MathHelper.Min(particle1.Elasticity, particle2.Elasticity);
 
+
+            //check if obj2.velocity = 0 and the mass of both objects are the same
+            //then velocity of obj1 = velocity of obj2, obj1.velocity = 0
             if (particle2.Velocity == new Vector2(0, 0) && System.Math.Abs(particle1.Mass - particle2.Mass) < 0.01f)
             {
                 return new[] {new Vector2(0, 0), particle1.Velocity};
             }
-            var u1 = particle1.Velocity * particle1.Mass  +
-                     (particle2.Velocity * 2 - particle1.Velocity)*particle2.Mass/
+            var u1 = particle1.Velocity*particle1.Mass +
+                     (particle2.Velocity*2 - particle1.Velocity)*particle2.Mass/
                      (particle1.Mass + particle2.Mass);
-            var u2 = particle2.Velocity * particle2.Mass +
+            var u2 = particle2.Velocity*particle2.Mass +
                      (particle1.Velocity*2 - particle2.Velocity)*particle1.Mass/
                      (particle1.Mass + particle2.Mass);
-            return new[] { (u1 * elasticity), (u2 * elasticity)};
+            var velocity1 = DampOnImpact(u1*elasticity);
+            var velocity2 = DampOnImpact(u2*elasticity);
+            return new[] {velocity1, velocity2};
         }
+
         /// <summary>
         /// Returns the new velocity after a non elastic impact.
         /// </summary>
