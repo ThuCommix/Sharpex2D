@@ -10,12 +10,14 @@ namespace SharpexGL.Framework.Rendering.Sprites
         /// <param name="sprite">The SpriteSheet.</param>
         /// <param name="duration">The Duration.</param>
         /// <param name="rectangle">The Spritedimension.</param>
-        public Animation(SpriteSheet sprite, float duration, Rectangle rectangle)
+        /// <param name="keyframes">The amount of KeyFrames.</param>
+        public Animation(float duration, int keyframes, SpriteSheet sprite, Rectangle rectangle)
         {
             _sprite = sprite;
             _duration = duration;
             _timeElapsed = 0;
-            _x = 0;
+            _currentFrame = 0;
+            KeyFrames = keyframes;
             _rect = rectangle;
             Texture = sprite.GetSprite(0, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height);
         }
@@ -24,7 +26,12 @@ namespace SharpexGL.Framework.Rendering.Sprites
         private readonly float _duration;
         private float _timeElapsed;
         private Rectangle _rect;
-        private int _x;
+        private int _currentFrame;
+
+        /// <summary>
+        /// Gets the amount of KeyFrames.
+        /// </summary>
+        public int KeyFrames { get; private set; }
 
         /// <summary>
         /// Gets the current Texture.
@@ -40,14 +47,13 @@ namespace SharpexGL.Framework.Rendering.Sprites
             _timeElapsed += elapsed;
             if (_timeElapsed > _duration)
             {
-                _x += (int)_rect.Width;
-                //Reset if the x is out of bounds
-                if (_x >= _sprite.RawTexture.Width)
+                _currentFrame++;
+                if (_currentFrame > KeyFrames)
                 {
-                    _x = 0;
+                    _currentFrame = 0;
                 }
                 //Set texture
-                Texture = _sprite.GetSprite(_x, (int) _rect.Y, (int) _rect.Width, (int) _rect.Height);
+                Texture = _sprite.GetSprite(_currentFrame * (int)_rect.Width, (int) _rect.Y, (int) _rect.Width, (int) _rect.Height);
                 //Reset time
                 _timeElapsed = 0;
             }
