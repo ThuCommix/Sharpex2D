@@ -32,6 +32,10 @@ namespace SharpexGL.Framework.Game.Timing
         /// </summary>
         public float TargetFramesPerSecond { get; set; }
         /// <summary>
+        /// Sets or gets the RenderMode.
+        /// </summary>
+        public RenderMode RenderMode { set; get; }
+        /// <summary>
         /// Starts the GameLoop.
         /// </summary>
         public void Start()
@@ -84,6 +88,11 @@ namespace SharpexGL.Framework.Game.Timing
         #endregion
 
         #region Internal
+
+        public GameLoop()
+        {
+            RenderMode = RenderMode.Limited;  
+        }
 
         private void InternalUpdateLoop()
         {
@@ -150,13 +159,18 @@ namespace SharpexGL.Framework.Game.Timing
                 sw.Stop();
                 _renderTime = sw.ElapsedMilliseconds;
                 sw.Reset();
-                //Check if the render was shorter than TargetFrameTime
-                if (_renderTime < TargetFrameTime)
+                //only limit render thread if rendermode is limited
+                if (RenderMode == RenderMode.Limited)
                 {
-                    //Wait to sync
-                    _renderTask.Wait((int) (TargetFrameTime - _renderTime));
+                    //Check if the render was shorter than TargetFrameTime
+                    if (_renderTime < TargetFrameTime)
+                    {
+                        //Wait to sync
+                        _renderTask.Wait((int) (TargetFrameTime - _renderTime));
+                        _renderTime = TargetFrameTime;
+                    }
+                    //If the RenderTask takes to long, there is no solution, we can't make the system better as it is
                 }
-                //If the RenderTask takes to long, there is no solution, we can't make the system better as it is
             }
         }
 
