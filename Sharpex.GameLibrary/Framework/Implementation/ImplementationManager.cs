@@ -88,6 +88,8 @@ namespace SharpexGL.Framework.Implementation
             AddImplementation(new StringSerializer());
             AddImplementation(new TextureSerializer());
             AddImplementation(new Vector2Serializer());
+            AddImplementation(new SpriteSheetSerializer());
+            AddImplementation(new AnimationSerializer());
         }
 
         #endregion
