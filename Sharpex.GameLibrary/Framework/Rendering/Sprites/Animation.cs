@@ -18,21 +18,27 @@ namespace SharpexGL.Framework.Rendering.Sprites
             _timeElapsed = 0;
             _currentFrame = 0;
             KeyFrames = keyframes;
-            _rect = rectangle;
+            Rect = rectangle;
             Texture = sprite.GetSprite(0, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height);
         }
 
         private readonly SpriteSheet _sprite;
         private readonly float _duration;
         private float _timeElapsed;
-        private Rectangle _rect;
+        internal Rectangle Rect;
         private int _currentFrame;
 
+        /// <summary>
+        /// Gets the duration of a single keyframe.
+        /// </summary>
+        public float Duration
+        {
+            get { return _duration; }
+        }
         /// <summary>
         /// Gets the amount of KeyFrames.
         /// </summary>
         public int KeyFrames { get; private set; }
-
         /// <summary>
         /// Gets the current Texture.
         /// </summary>
@@ -53,7 +59,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
                     _currentFrame = 0;
                 }
                 //Set texture
-                Texture = _sprite.GetSprite(_currentFrame * (int)_rect.Width, (int) _rect.Y, (int) _rect.Width, (int) _rect.Height);
+                Texture = _sprite.GetSprite(_currentFrame * (int)Rect.Width, (int) Rect.Y, (int) Rect.Width, (int) Rect.Height);
                 //Reset time
                 _timeElapsed = 0;
             }
