@@ -76,7 +76,7 @@ namespace SharpexGL.Framework.Content
         /// <returns></returns>
         public T Load<T>(string asset)
         {
-            //determine between texture & spritefont as they the only assets.
+            //texture
             if (typeof (T) == typeof (Texture))
             {
                 using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
@@ -84,6 +84,7 @@ namespace SharpexGL.Framework.Content
                     return (T)(Object)SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
+            //spritefont
             if (typeof(T) == typeof(SpriteFont))
             {
                 using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
@@ -91,14 +92,25 @@ namespace SharpexGL.Framework.Content
                     return (T)(Object)SGL.Implementations.Get<SpriteFontSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
+            //spritesheet
             if (typeof (T) == typeof (SpriteSheet))
             {
                 using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
                 {
-                    var texture = SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
-                    return (T)(Object)new SpriteSheet(texture.Texture2D);
+                    var spriteSheet = SGL.Implementations.Get<SpriteSheetSerializer>().Read(new BinaryReader(fileStream));
+                    return (T)(Object)spriteSheet;
                 }
             }
+            //animation
+            if (typeof (T) == typeof (Animation))
+            {
+                using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
+                {
+                    var animation = SGL.Implementations.Get<AnimationSerializer>().Read(new BinaryReader(fileStream));
+                    return (T)(Object)animation;
+                }               
+            }
+            //sound
             if (typeof(T) == typeof(Sound))
             {
                 return (T) (Object) Sound.Factory.Create(FileSystem.ConnectPath(ContentPath, asset));
