@@ -20,7 +20,7 @@ namespace SharpexGL.Framework.Content.Factory
         {
             using (var fileStream = new FileStream(file, FileMode.Open))
             {
-                return SGL.Implementations.Get<AnimationSerializer>().Read(new BinaryReader(fileStream));
+                return new AnimationSerializer().Read(new BinaryReader(fileStream));
             }
         }
     }

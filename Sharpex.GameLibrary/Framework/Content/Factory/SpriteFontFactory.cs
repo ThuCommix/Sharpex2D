@@ -20,7 +20,7 @@ namespace SharpexGL.Framework.Content.Factory
         {
             using (var fileStream = new FileStream(file, FileMode.Open))
             {
-                return SGL.Implementations.Get<SpriteFontSerializer>().Read(new BinaryReader(fileStream));
+                return new SpriteFontSerializer().Read(new BinaryReader(fileStream));
             }
         }
     }
