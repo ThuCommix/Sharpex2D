@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
 
-namespace SharpexGL.Framework.Plugins
+namespace SharpexGL.Framework.Assemblys
 {
-    public class PluginImplementer
+    public class AssemblyLoader
     {
         /// <summary>
         /// Loads a assembly into SGL.
@@ -22,7 +22,7 @@ namespace SharpexGL.Framework.Plugins
             {
                 return (T)((object)assembly);
             }
-            throw new PluginException("The resource is not a valid " + typeof(T).FullName + ".");
+            throw new AssemblyException("The resource is not a valid " + typeof(T).FullName + ".");
         }
     }
 }
