@@ -20,7 +20,7 @@ namespace SharpexGL.Framework.Content.Factory
         {
             using (var fileStream = new FileStream(file, FileMode.Open))
             {
-                return SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
+                return new TextureSerializer().Read(new BinaryReader(fileStream));
             }
         }
     }
