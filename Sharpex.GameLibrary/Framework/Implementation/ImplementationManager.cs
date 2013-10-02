@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SharpexGL.Framework.Common.Cryptography;
 using SharpexGL.Framework.Common.TypeParsers;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content.Serialization;
@@ -16,6 +17,7 @@ namespace SharpexGL.Framework.Implementation
             _implementations = new List<IImplementation>();
             AddSerializers();
             _implementations.Add(new TypeParserProvider());
+            _implementations.Add(new HashProvider());
         }
 
         private readonly List<IImplementation> _implementations;
