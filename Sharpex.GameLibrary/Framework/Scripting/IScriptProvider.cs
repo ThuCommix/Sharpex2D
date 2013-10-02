@@ -32,7 +32,6 @@ namespace SharpexGL.Framework.Scripting
         /// <param name="name">The MethodName.</param>
         /// <param name="parameter">The Parameters.</param>
         /// <param name="callback">The return object.</param>
-        /// <returns>True on success</returns>
-        bool Call(string name, out object callback, params object[] parameter);
+        void Call(string name, out object callback, params object[] parameter);
     }
 }

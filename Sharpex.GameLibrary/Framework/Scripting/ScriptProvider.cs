@@ -66,7 +66,7 @@ namespace SharpexGL.Framework.Scripting
         /// <param name="name">The MethodName.</param>
         /// <param name="parameter">The Parameters.</param>
         /// <param name="callback">The return object.</param>
-        public bool Call(string name, out object callback, params object[] parameter)
+        public void Call(string name, out object callback, params object[] parameter)
         {
             if (_methods.ContainsKey(name))
             {
@@ -74,7 +74,7 @@ namespace SharpexGL.Framework.Scripting
                 if (_methods.TryGetValue(name, out action))
                 {
                     callback = action.DynamicInvoke(parameter);
-                    return true;
+                    return;
                 }
 
                 throw new InvalidOperationException(name + " does not exist.");
