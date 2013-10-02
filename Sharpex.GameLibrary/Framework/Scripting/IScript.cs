@@ -10,10 +10,10 @@ namespace SharpexGL.Framework.Scripting
         /// <summary>
         /// A value indicating whether the script is active.
         /// </summary>
-        bool IsActive { get; }
+        bool IsActive { get; set; }
         /// <summary>
-        /// Gets the name of the script.
+        /// Gets or sets the name of the script.
         /// </summary>
-        string Name { get; }
+        string Name { get; set; }
     }
 }
