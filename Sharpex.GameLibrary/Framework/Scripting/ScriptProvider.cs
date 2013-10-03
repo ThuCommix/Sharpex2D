@@ -35,9 +35,9 @@ namespace SharpexGL.Framework.Scripting
         public void Run(IScript script)
         {
             script.IsActive = true;
-            SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Name));
+            SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
             _scriptInterpreter.Evaluate(script);
-            SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Name));
+            SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Guid));
             script.IsActive = false;
         }
         /// <summary>

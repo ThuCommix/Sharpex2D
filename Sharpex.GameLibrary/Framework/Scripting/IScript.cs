@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace SharpexGL.Framework.Scripting
 {
     public interface IScript
@@ -12,8 +13,8 @@ namespace SharpexGL.Framework.Scripting
         /// </summary>
         bool IsActive { get; set; }
         /// <summary>
-        /// Gets or sets the name of the script.
+        /// Gets or sets the guid of the script.
         /// </summary>
-        string Name { get; set; }
+        Guid Guid { get; set; }
     }
 }
