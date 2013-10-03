@@ -100,10 +100,9 @@ namespace SharpexGL.Framework.Game.Simulation.Weather
                                 CurrentWeather = WeatherType.Foggy;
                                 break;
                             }
-                            if (_gRandom.NextBoolean(0.33))
-                            {
-                                CurrentWeather = WeatherType.Dry;
-                            }
+
+                            CurrentWeather = WeatherType.Dry;
+
                             break;
                         case WeatherType.Foggy:
                             //After foggy the weather could be wet or cloudy 50%
