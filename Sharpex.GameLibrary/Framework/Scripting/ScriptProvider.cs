@@ -98,6 +98,7 @@ namespace SharpexGL.Framework.Scripting
         {
             _methods = new Dictionary<string, Action>();
             _scriptInterpreter = scriptInterpreter;
+            _scriptInterpreter.ScriptProvider = this;
         }
     }
 }

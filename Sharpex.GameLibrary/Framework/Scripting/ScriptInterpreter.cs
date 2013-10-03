@@ -6,13 +6,14 @@ namespace SharpexGL.Framework.Scripting
         /// <summary>
         /// Initializes a new ScriptInterpreter class.
         /// </summary>
-        /// <param name="scriptProvider">The ScriptProvider.</param>
-        protected ScriptInterpreter(ScriptProvider scriptProvider)
+        protected ScriptInterpreter()
         {
-            ScriptProvider = scriptProvider;
-        }
 
-        protected ScriptProvider ScriptProvider { get; private set; }
+        }
+        /// <summary>
+        /// Sets or gets the ScriptProvider.
+        /// </summary>
+        public ScriptProvider ScriptProvider { get; set; }
 
         /// <summary>
         /// Evaluate the script.
