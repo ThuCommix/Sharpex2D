@@ -48,6 +48,7 @@ local.properties
 Dokumentation/
 [Dd]ebug/
 [Rr]elease/
+Properties/
 x64/
 build/
 [Bb]in/
