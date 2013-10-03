@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Scripting.Events;
 
@@ -34,11 +35,14 @@ namespace SharpexGL.Framework.Scripting
         /// <param name="script">The Script.</param>
         public void Run(IScript script)
         {
-            script.IsActive = true;
-            SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
-            _scriptInterpreter.Evaluate(script);
-            SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Guid));
-            script.IsActive = false;
+            Task.Factory.StartNew(() =>
+            {
+                script.IsActive = true;
+                SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
+                _scriptInterpreter.Evaluate(script);
+                SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Guid));
+                script.IsActive = false;
+            });
         }
         /// <summary>
         /// Calls the method.
