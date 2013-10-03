@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 namespace SharpexGL.Framework.Components
 {
     public class ComponentManager : IConstructable
     {
         public delegate void ComponentChangedEventHandler(object sender, EventArgs e);
         private List<IComponent> _internalComponents = new List<IComponent>();
+        private bool _alreadyCalledConstruct;
         public event ComponentChangedEventHandler ComponentChanged;
         /// <summary>
         /// Access to the Components enumeration.
@@ -33,6 +33,15 @@ namespace SharpexGL.Framework.Components
         public void AddComponent(IComponent component)
         {
             Components.Add(component);
+            if (_alreadyCalledConstruct)
+            {
+                //Single Construct.
+                var com = component as IConstructable;
+                if (com != null)
+                {
+                    com.Construct();
+                }
+            }
         }
         /// <summary>
         /// Removes a Component from the enumeration.
@@ -63,11 +72,6 @@ namespace SharpexGL.Framework.Components
         /// </summary>
         public void Construct()
         {
-            /*/foreach (var com in Components.OfType<IConstructable>())
-            {
-                com.Construct();
-            }/*/
-
             for (var i = 0; i<= _internalComponents.Count -1; i++)
             {
                 var com = _internalComponents[i] as IConstructable;
@@ -76,6 +80,7 @@ namespace SharpexGL.Framework.Components
                     com.Construct();
                 }
             }
+            _alreadyCalledConstruct = true;
         }
     }
 }
