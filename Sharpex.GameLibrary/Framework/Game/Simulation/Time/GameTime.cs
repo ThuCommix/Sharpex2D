@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpexGL.Framework.Components;
+using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Rendering;
 
-namespace SharpexGL.Framework.Game.Timing
+namespace SharpexGL.Framework.Game.Simulation.Time
 {
     public class GameTime : IGameHandler
     {

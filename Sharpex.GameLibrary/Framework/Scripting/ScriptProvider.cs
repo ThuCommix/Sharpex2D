@@ -14,7 +14,7 @@ namespace SharpexGL.Framework.Scripting
         /// </summary>
         /// <param name="name">The MethodName.</param>
         /// <param name="linkedMethod">The LinkedMethod.</param>
-        public void AddMethod(string name, Action linkedMethod)
+        public void AddMethod(string name, Action<object[]> linkedMethod)
         {
             _methods.Add(name, linkedMethod);
         }
@@ -38,9 +38,9 @@ namespace SharpexGL.Framework.Scripting
             Task.Factory.StartNew(() =>
             {
                 script.IsActive = true;
-                SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
+                //SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
                 _scriptInterpreter.Evaluate(script);
-                SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Guid));
+                //SGL.Components.Get<EventManager>().Publish(new ScriptCompletedEvent(script.Guid));
                 script.IsActive = false;
             });
         }
@@ -53,7 +53,7 @@ namespace SharpexGL.Framework.Scripting
         {
             if (_methods.ContainsKey(name))
             {
-                Action action;
+                Action<object[]> action;
                 if (_methods.TryGetValue(name, out action))
                 {
                     action.DynamicInvoke(parameter);
@@ -74,7 +74,7 @@ namespace SharpexGL.Framework.Scripting
         {
             if (_methods.ContainsKey(name))
             {
-                Action action;
+                Action<object[]> action;
                 if (_methods.TryGetValue(name, out action))
                 {
                     callback = action.DynamicInvoke(parameter);
@@ -88,7 +88,7 @@ namespace SharpexGL.Framework.Scripting
 
         #endregion
 
-        private readonly Dictionary<string, Action> _methods;
+        private readonly Dictionary<string, Action<object[]>> _methods;
         private readonly ScriptInterpreter _scriptInterpreter;
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace SharpexGL.Framework.Scripting
         /// </summary>
         public ScriptProvider(ScriptInterpreter scriptInterpreter)
         {
-            _methods = new Dictionary<string, Action>();
+            _methods = new Dictionary<string, Action<object[]>>();
             _scriptInterpreter = scriptInterpreter;
             _scriptInterpreter.ScriptProvider = this;
         }

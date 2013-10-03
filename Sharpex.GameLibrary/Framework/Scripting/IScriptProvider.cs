@@ -9,7 +9,7 @@ namespace SharpexGL.Framework.Scripting
         /// </summary>
         /// <param name="name">The MethodName.</param>
         /// <param name="linkedMethod">The LinkedMethod.</param>
-        void AddMethod(string name, Action linkedMethod);
+        void AddMethod(string name, Action<object[]> linkedMethod);
         /// <summary>
         /// Removes a Method from the script.
         /// </summary>
