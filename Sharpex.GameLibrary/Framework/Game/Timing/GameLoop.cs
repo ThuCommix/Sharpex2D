@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using SharpexGL.Framework.Events;
+using SharpexGL.Framework.Game.Timing.Events;
 
 namespace SharpexGL.Framework.Game.Timing
 {
@@ -30,7 +32,16 @@ namespace SharpexGL.Framework.Game.Timing
         /// <summary>
         /// Gets or sets the Target FPS.
         /// </summary>
-        public float TargetFramesPerSecond { get; set; }
+        public float TargetFramesPerSecond
+        {
+            get { return _targetFramesPerSecond; }
+            set
+            {
+                _targetFramesPerSecond = value;
+                OnFpsChanged();
+
+            }
+        }
         /// <summary>
         /// Sets or gets the RenderMode.
         /// </summary>
@@ -80,6 +91,7 @@ namespace SharpexGL.Framework.Game.Timing
         private Task _updateTask;
         private Task _renderTask;
         private float _updateTime;
+        private float _targetFramesPerSecond;
         private float _renderTime;
         private float _unprocessedTicks;
         private bool _suppressRender;
@@ -93,7 +105,21 @@ namespace SharpexGL.Framework.Game.Timing
         {
             RenderMode = RenderMode.Limited;  
         }
-
+        /// <summary>
+        /// Called if the FPS changed.
+        /// </summary>
+        private void OnFpsChanged()
+        {
+            var targetTime = 1000 / TargetFramesPerSecond;
+            TargetFrameTime = targetTime;
+            TargetUpdateTime = targetTime;
+            //publish event
+            SGL.Components.Get<EventManager>()
+                .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, targetTime));
+        }
+        /// <summary>
+        /// Handles the update loop.
+        /// </summary>
         private void InternalUpdateLoop()
         {
             var sw = new System.Diagnostics.Stopwatch();
@@ -140,7 +166,9 @@ namespace SharpexGL.Framework.Game.Timing
                 }
             }
         }
-
+        /// <summary>
+        /// Handles the rendering loop.
+        /// </summary>
         private void InternalRenderingLoop()
         {
             var sw = new System.Diagnostics.Stopwatch();
