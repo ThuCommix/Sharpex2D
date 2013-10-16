@@ -5,7 +5,7 @@ namespace SharpexGL.Framework.Media.Sound
 {
     public class SoundManager : IComponent,  ICloneable
     {
-        private ISoundProvider _soundProvider;
+        private readonly ISoundProvider _soundProvider;
 
         public SoundManager(ISoundInitializer soundInitializer)
         {
