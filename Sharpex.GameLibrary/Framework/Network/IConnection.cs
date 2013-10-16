@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System;
 
 namespace SharpexGL.Framework.Network
 {

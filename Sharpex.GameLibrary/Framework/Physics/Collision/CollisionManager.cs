@@ -1,7 +1,5 @@
-﻿using System;
-using SharpexGL.Framework.Components;
+﻿using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
-using SharpexGL.Framework.Physics.Shapes;
 using Circle = SharpexGL.Framework.Physics.Shapes.Circle;
 using Rectangle = SharpexGL.Framework.Physics.Shapes.Rectangle;
 
