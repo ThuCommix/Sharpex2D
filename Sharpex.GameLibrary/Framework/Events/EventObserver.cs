@@ -4,7 +4,7 @@ namespace SharpexGL.Framework.Events
 {
     public class EventObserver<T> : IObserver<IEvent> where T : class
     {
-        private Action<T> _action;
+        private readonly Action<T> _action;
         /// <summary>
         /// Tracks the event to it's delegate.
         /// </summary>
