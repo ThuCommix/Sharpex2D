@@ -16,9 +16,12 @@ namespace SharpexGL.Framework.Media.Sound.MCI
         /// <param name="ret">The ReturnString.</param>
         /// <param name="retLen">The Length of the ReturnString.</param>
         /// <param name="hwnd">The Handle.</param>
-        public static void SendCommand(string cmd, StringBuilder ret, int retLen, IntPtr hwnd)
+        /// <param name="throwException">The ExceptionState.</param>
+        public static void SendCommand(string cmd, StringBuilder ret, int retLen, IntPtr hwnd, bool throwException)
         {
             var errorCode = mciSendString(cmd, ret, retLen, hwnd);
+
+            if (!throwException) return;
 
             //http://msdn.microsoft.com/en-us/library/aa228215(v=vs.60).aspx
             switch (errorCode)
@@ -213,6 +216,8 @@ namespace SharpexGL.Framework.Media.Sound.MCI
                     throw new InvalidOperationException("MCIERR_FILE_WRITE");
                 case 512:
                     throw new InvalidOperationException("MCIERR_CUSTOM_DRIVER_BASE");
+                default:
+                    throw new InvalidCastException("MCERR_UNKNOWN");
             }
         }
     }
