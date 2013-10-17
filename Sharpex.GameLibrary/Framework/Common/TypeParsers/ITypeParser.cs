@@ -1,5 +1,4 @@
 ﻿using System;
-using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Common.TypeParsers
 {

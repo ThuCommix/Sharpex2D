@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using SharpexGL.Framework.Rendering.Font;
 using Color = SharpexGL.Framework.Rendering.Color;
 

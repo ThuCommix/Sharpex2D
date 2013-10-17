@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SharpexGL.Framework.Components;
+﻿using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Game.Timing
 {
