@@ -5,7 +5,7 @@ using SharpexGL.Framework.Rendering.Font;
 
 namespace SharpexGL.Framework.Rendering
 {
-    public interface IGraphicRenderer : IConstructable, IDisposable
+    public interface IRenderer : IConstructable, IDisposable
     {
         /// <summary>
         /// Sets or gets the GraphicsDevice.

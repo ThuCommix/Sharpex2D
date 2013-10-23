@@ -48,7 +48,7 @@ namespace SharpexGL.Framework.Game
             OnTick(elapsed);
         }
 
-        void IGameHandler.Render(IGraphicRenderer renderer, float elapsed)
+        void IGameHandler.Render(IRenderer renderer, float elapsed)
         {
             OnRendering(renderer, elapsed);
         }
@@ -71,7 +71,7 @@ namespace SharpexGL.Framework.Game
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        public abstract void OnRendering(IGraphicRenderer renderer, float elapsed);
+        public abstract void OnRendering(IRenderer renderer, float elapsed);
         /// <summary>
         /// Processes the Game initialization.
         /// </summary>

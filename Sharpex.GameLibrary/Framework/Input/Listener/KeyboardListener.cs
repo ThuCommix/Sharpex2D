@@ -30,7 +30,7 @@ namespace SharpexGL.Framework.Input.Listener
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IGraphicRenderer renderer, float elapsed)
+        public void Render(IRenderer renderer, float elapsed)
         {
 
         }

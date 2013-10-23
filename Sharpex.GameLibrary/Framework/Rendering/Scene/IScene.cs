@@ -41,7 +41,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        void Render(IGraphicRenderer graphicRenderer, float elapsed);
+        void Render(IRenderer graphicRenderer, float elapsed);
 
         /// <summary>
         /// Called if the scene should be initialized.

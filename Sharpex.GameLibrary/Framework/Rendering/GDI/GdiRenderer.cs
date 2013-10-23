@@ -7,7 +7,7 @@ using SharpexGL.Framework.Rendering.Font;
 
 namespace SharpexGL.Framework.Rendering.GDI
 {
-    public class GdiRenderer : IGraphicRenderer
+    public class GdiRenderer : IRenderer
     {
         private Bitmap _buffer;
         private AccurateFpsCounter DrawInfo = new AccurateFpsCounter();

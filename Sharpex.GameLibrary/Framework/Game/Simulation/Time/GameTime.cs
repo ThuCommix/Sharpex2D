@@ -37,7 +37,7 @@ namespace SharpexGL.Framework.Game.Simulation.Time
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IGraphicRenderer renderer, float elapsed)
+        public void Render(IRenderer renderer, float elapsed)
         {
         }
         #endregion

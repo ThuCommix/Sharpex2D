@@ -15,6 +15,6 @@ namespace SharpexGL.Framework.Game
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        void Render(IGraphicRenderer renderer, float elapsed);
+        void Render(IRenderer renderer, float elapsed);
     }
 }

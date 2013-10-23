@@ -66,7 +66,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         /// <param name="index">The Index.</param>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
-        public void RenderScene(int index, IGraphicRenderer graphicRenderer)
+        public void RenderScene(int index, IRenderer graphicRenderer)
         {
             if ((index > Scenes.Count - 1) | (index < 0))
                 throw new ArgumentOutOfRangeException("index");
@@ -81,7 +81,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         /// <param name="scene">The Scene.</param>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
-        public void RenderScene(IScene scene, IGraphicRenderer graphicRenderer)
+        public void RenderScene(IScene scene, IRenderer graphicRenderer)
         {
             if (!scene.AllowRender) return;
             graphicRenderer.DrawTexture(scene.Texture, scene.Position, scene.AlphaColor);
@@ -91,7 +91,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// Renders the entire enumeration of scenes.
         /// </summary>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
-        public void RenderScenes(IGraphicRenderer graphicRenderer)
+        public void RenderScenes(IRenderer graphicRenderer)
         {
             foreach (var scene in Scenes)
             {
@@ -169,7 +169,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IGraphicRenderer renderer, float elapsed)
+        public void Render(IRenderer renderer, float elapsed)
         {
             
         }
