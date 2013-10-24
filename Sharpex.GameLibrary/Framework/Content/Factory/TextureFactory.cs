@@ -15,12 +15,24 @@ namespace SharpexGL.Framework.Content.Factory
         /// Creates a new Texture from the given FilePath.
         /// </summary>
         /// <param name="file">The FilePath.</param>
-        /// <returns></returns>
+        /// <returns>Texture</returns>
         public Texture Create(string file)
         {
             using (var fileStream = new FileStream(file, FileMode.Open))
             {
                 return new TextureSerializer().Read(new BinaryReader(fileStream));
+            }
+        }
+        /// <summary>
+        /// Creates a new Texture from the given Stream.
+        /// </summary>
+        /// <param name="stream">The Stream.</param>
+        /// <returns>Texture</returns>
+        public Texture Create(Stream stream)
+        {
+            using (stream)
+            {
+                return new TextureSerializer().Read(new BinaryReader(stream)); 
             }
         }
     }

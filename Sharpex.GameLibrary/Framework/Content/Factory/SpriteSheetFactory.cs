@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Sprites;
 
@@ -33,6 +34,18 @@ namespace SharpexGL.Framework.Content.Factory
         public SpriteSheet Create(Texture texture)
         {
             return new SpriteSheet(texture.Texture2D);
+        }
+        /// <summary>
+        /// Creates a new SpriteSheet Instance.
+        /// </summary>
+        /// <param name="stream">The Stream.</param>
+        /// <returns>SpriteSheet</returns>
+        public SpriteSheet Create(Stream stream)
+        {
+            using (stream)
+            {
+                return new SpriteSheet((Bitmap) Image.FromStream(stream));
+            }
         }
     }
 }
