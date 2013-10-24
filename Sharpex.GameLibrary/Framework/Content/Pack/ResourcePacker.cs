@@ -76,7 +76,7 @@ namespace SharpexGL.Framework.Content.Pack
                 var streamReader = new StreamReader(gzipStream);
                 var header = streamReader.ReadLine();
                 AnalyzeHeader(header);
-                var fileCount = Convert.ToInt32(header.Split(',')[3].Replace(" Files=", "").Trim());
+                var fileCount = Convert.ToInt32(header.Split(',')[3].Replace(" Files=", "").Replace("]","").Trim());
                 var filesProcessed = 0;
                 while (!streamReader.EndOfStream)
                 {
@@ -187,7 +187,7 @@ namespace SharpexGL.Framework.Content.Pack
         private string GetFileHeader(string file)
         {
             var fInfo = new FileInfo(file);
-            return "[Filename=" + fInfo.Name + fInfo.Extension + ", Size=" + fInfo.Length + "]";
+            return "[Filename=" + fInfo.Name + ", Size=" + fInfo.Length + "]";
         }
 
         /// <summary>
@@ -198,7 +198,7 @@ namespace SharpexGL.Framework.Content.Pack
         {
             if (header.Split(',').Length == 4)
             {
-                var packversion = Convert.ToInt32(header.Split(',')[0].Replace("[PackerVersion", "").Trim().Replace(".", ""));
+                var packversion = Convert.ToInt32(header.Split(',')[0].Replace("[PackerVersion=", "").Trim().Replace(".", ""));
                 if (Convert.ToInt32(PackerVersion.Replace(".", "")) != packversion)
                 {
                     throw new InvalidOperationException("The PackerVersion does not match. (Current:" + PackerVersion +
