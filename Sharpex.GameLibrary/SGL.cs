@@ -30,14 +30,14 @@ namespace SharpexGL
         /// <summary>
         /// The Current Renderer.
         /// </summary>
-        internal static IGraphicRenderer CurrentRenderer { set; get; }
+        internal static IRenderer CurrentRenderer { set; get; }
         #endregion
 
         #region Public Fields
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.479"; } }
+        public static string Version { get { return "0.1.500"; } }
         /// <summary>
         /// Determines, if SGL is initialized.
         /// </summary>
@@ -101,7 +101,7 @@ namespace SharpexGL
         /// </summary>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
         /// <param name="soundInitializer">The SoundInitializer</param>
-        public static void Run(IGraphicRenderer graphicRenderer, ISoundInitializer soundInitializer)
+        public static void Run(IRenderer graphicRenderer, ISoundInitializer soundInitializer)
         {
             CurrentRenderer = graphicRenderer;
             CurrentRenderer.GraphicsDevice = GraphicsDevice;
