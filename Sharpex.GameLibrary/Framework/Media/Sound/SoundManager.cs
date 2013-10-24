@@ -12,7 +12,10 @@ namespace SharpexGL.Framework.Media.Sound
             if (soundInitializer == null) return;
             _soundProvider = soundInitializer.CreateProvider();
         }
-
+        /// <summary>
+        /// Plays the sound.
+        /// </summary>
+        /// <param name="sound">The Soundfile.</param>
         public void Play(Sound sound)
         {
             if (_soundProvider != null)
@@ -24,7 +27,11 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Plays the sound.
+        /// </summary>
+        /// <param name="sound">The Soundfile.</param>
+        /// <param name="playMode">The PlayMode.</param>
         public void Play(Sound sound, PlayMode playMode)
         {
             if (_soundProvider != null)
@@ -36,7 +43,9 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Resumes a sound.
+        /// </summary>
         public void Resume()
         {
             if (_soundProvider != null)
@@ -48,7 +57,24 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Pause a sound.
+        /// </summary>
+        public void Pause()
+        {
+            if (_soundProvider != null)
+            {
+                _soundProvider.Pause();
+            }
+            else
+            {
+                throw new SoundProviderNotInitializedException();
+            }
+        }
+        /// <summary>
+        /// Seeks a sound to a specified position.
+        /// </summary>
+        /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
             if (_soundProvider != null)
@@ -60,7 +86,9 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Sets or gets the Balance.
+        /// </summary>
         public float Balance
         {
             get
@@ -81,7 +109,9 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Sets or gets the Volume.
+        /// </summary>
         public float Volume
         {
             get
@@ -102,7 +132,9 @@ namespace SharpexGL.Framework.Media.Sound
                 throw new SoundProviderNotInitializedException();
             }
         }
-
+        /// <summary>
+        /// Sets or gets the Position.
+        /// </summary>
         public long Position
         {
             get
@@ -122,6 +154,34 @@ namespace SharpexGL.Framework.Media.Sound
                 }
                 throw new SoundProviderNotInitializedException();
             }           
+        }
+        /// <summary>
+        /// A value indicating whether the SoundProvider is playing.
+        /// </summary>
+        public bool IsPlaying
+        {
+            get
+            {
+                if (_soundProvider != null)
+                {
+                    return _soundProvider.IsPlaying;
+                }
+                throw new SoundProviderNotInitializedException();
+            }
+        }
+        /// <summary>
+        /// Gets the sound length.
+        /// </summary>
+        public long Length
+        {
+            get
+            {
+                if (_soundProvider != null)
+                {
+                    return _soundProvider.Length;
+                }
+                throw new SoundProviderNotInitializedException();
+            }
         }
 
         public object Clone()
