@@ -143,19 +143,21 @@ namespace SharpexGL.Framework.Content.Pack
 
             var gzipStream = new GZipStream(new FileStream(packagePath, FileMode.Open, FileAccess.Read),
                 CompressionMode.Decompress);
-            var streamReader = new StreamReader(gzipStream);
-            var header = streamReader.ReadLine();
-            AnalyzeHeader(header);
-
-            while (!streamReader.EndOfStream)
+            using (var streamReader = new StreamReader(gzipStream))
             {
-                var line = streamReader.ReadLine();
-                if (line.StartsWith("[Filename="))
+                var header = streamReader.ReadLine();
+                AnalyzeHeader(header);
+
+                while (!streamReader.EndOfStream)
                 {
-                    var packfileName = AnalyzeFileHeader(line);
-                    if (packfileName == filename)
+                    var line = streamReader.ReadLine();
+                    if (line.StartsWith("[Filename="))
                     {
-                        return new MemoryStream(Convert.FromBase64String(streamReader.ReadLine()));
+                        var packfileName = AnalyzeFileHeader(line);
+                        if (packfileName == filename)
+                        {
+                            return new MemoryStream(Convert.FromBase64String(streamReader.ReadLine()));
+                        }
                     }
                 }
             }
