@@ -21,7 +21,11 @@ namespace SharpexGL.Framework.Content.Pack
                 //packing code.
                 var filesToProcess = sources.Length;
                 var currentProcessed = 0;
-                var gzipStream = new GZipStream(new FileStream(destination + ".respack", FileMode.Create, FileAccess.ReadWrite),
+                if (!destination.EndsWith(".respack"))
+                {
+                    destination += ".respack";
+                }
+                var gzipStream = new GZipStream(new FileStream(destination, FileMode.Create, FileAccess.ReadWrite),
                     CompressionMode.Compress);
                 var streamWriter = new StreamWriter(gzipStream);
                 streamWriter.WriteLine(GetResourceHeader(sources.Length));
