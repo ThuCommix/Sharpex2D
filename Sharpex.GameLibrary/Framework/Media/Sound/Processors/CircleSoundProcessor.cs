@@ -1,4 +1,5 @@
-﻿using SharpexGL.Framework.Math;
+﻿using System;
+using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Media.Sound.Processors
 {
@@ -13,6 +14,7 @@ namespace SharpexGL.Framework.Media.Sound.Processors
         /// <param name="soundOriginPosition">The SoundOriginPosition.</param>
         public void Update(Vector2 listenerPosition, Vector2 soundOriginPosition)
         {
+            if (Radius <= 0) throw new InvalidOperationException("The radius can not be lower or equal to zero.");
             var originDistance = (soundOriginPosition - listenerPosition).Length;
             if (originDistance > Radius)
             {
