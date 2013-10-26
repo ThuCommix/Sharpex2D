@@ -173,7 +173,10 @@ namespace SharpexGL.Framework.Content.Packing
 
         #region Internal
 
-        public const string PackerVersion = "1.1521.2363";
+        public string PackerVersion
+        {
+            get { return "1.1521.2363"; }
+        }
 
         /// <summary>
         /// Returns the ResourceHeader.
