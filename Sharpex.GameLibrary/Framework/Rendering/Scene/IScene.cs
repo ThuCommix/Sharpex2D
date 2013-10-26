@@ -21,20 +21,10 @@ namespace SharpexGL.Framework.Rendering.Scene
         Color AlphaColor { set; get; }
 
         /// <summary>
-        /// Sets or gets if the scene should be updated.
-        /// </summary>
-        bool AllowUpdate { set; get; }
-
-        /// <summary>
-        /// Sets or gets if the scene should be rendered.
-        /// </summary>
-        bool AllowRender { set; get; }
-
-        /// <summary>
         /// Called if the scene should be updated.
         /// </summary>
         /// <param name="elapsed">The GameTime.</param>
-        void Update(float elapsed);
+        void Tick(float elapsed);
 
         /// <summary>
         /// Called if the scene should be rendered.
