@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace SharpexGL.Framework.Content.Pack
+namespace SharpexGL.Framework.Content.Packing
 {
     public class ResourcePacker
     {
@@ -173,7 +173,7 @@ namespace SharpexGL.Framework.Content.Pack
 
         #region Internal
 
-        private const string PackerVersion = "1.1521.2363";
+        public const string PackerVersion = "1.1521.2363";
 
         /// <summary>
         /// Returns the ResourceHeader.

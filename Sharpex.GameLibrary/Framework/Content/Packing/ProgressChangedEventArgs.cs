@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpexGL.Framework.Content.Pack
+namespace SharpexGL.Framework.Content.Packing
 {
     public class ProgressChangedEventArgs : EventArgs
     {
