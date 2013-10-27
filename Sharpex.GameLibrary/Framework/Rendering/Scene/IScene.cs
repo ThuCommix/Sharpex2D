@@ -6,21 +6,6 @@ namespace SharpexGL.Framework.Rendering.Scene
     public interface IScene
     {
         /// <summary>
-        /// Rendering Texture.
-        /// </summary>
-        Texture Texture { set; get; }
-
-        /// <summary>
-        /// The position on which the scene should be rendered.
-        /// </summary>
-        Vector2 Position { set; get; }
-
-        /// <summary>
-        /// The alpha color, which get overdrawed on the scene
-        /// </summary>
-        Color AlphaColor { set; get; }
-
-        /// <summary>
         /// Called if the scene should be updated.
         /// </summary>
         /// <param name="elapsed">The GameTime.</param>
