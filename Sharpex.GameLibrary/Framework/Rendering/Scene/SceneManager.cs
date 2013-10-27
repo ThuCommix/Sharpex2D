@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
 
@@ -97,6 +98,8 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// <param name="scene">The Scene.</param>
         public void AddScene(IScene scene)
         {
+            scene.Initialize();
+            scene.LoadContent(SGL.Components.Get<ContentManager>());
             _scenes.Add(scene);
         }
 
