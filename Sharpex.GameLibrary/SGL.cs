@@ -81,9 +81,9 @@ namespace SharpexGL
             Components.AddComponent(Implementations);
             Components.AddComponent(initializer.GameInstance);
             Components.AddComponent(GraphicsDevice);
+            Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
             Components.AddComponent(initializer.GameInstance.Content);
-            Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(new EventManager());
             Components.AddComponent(new GameLoop
                 {
