@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
@@ -210,14 +211,19 @@ namespace SharpexGL.Framework.Rendering.GDI
         private void ChangedQuality(GdiQuality quality)
         {
             _quality = quality;
-            _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.AntiAlias : SmoothingMode.HighSpeed;
-            _buffergraphics.InterpolationMode = _quality.Interpolation
-                ? InterpolationMode.High
-                : InterpolationMode.NearestNeighbor;
-            _buffergraphics.CompositingQuality = _quality.Compositing ? CompositingQuality.HighQuality : CompositingQuality.AssumeLinear;
-            _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
-                ? PixelOffsetMode.HighQuality
-                : PixelOffsetMode.HighSpeed;  
+            if (_buffergraphics != null)
+            {
+                _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.AntiAlias : SmoothingMode.HighSpeed;
+                _buffergraphics.InterpolationMode = _quality.Interpolation
+                    ? InterpolationMode.High
+                    : InterpolationMode.NearestNeighbor;
+                _buffergraphics.CompositingQuality = _quality.Compositing
+                    ? CompositingQuality.HighQuality
+                    : CompositingQuality.AssumeLinear;
+                _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
+                    ? PixelOffsetMode.HighQuality
+                    : PixelOffsetMode.HighSpeed;
+            }
         }
 
         /// <summary>
@@ -228,14 +234,14 @@ namespace SharpexGL.Framework.Rendering.GDI
             _buffer = new Bitmap(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
             _buffergraphics = Graphics.FromImage(_buffer);
             if (_quality == null) _quality = new GdiQuality(GdiQualityMode.High);
-            _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.AntiAlias : SmoothingMode.HighSpeed;
+            _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.HighQuality : SmoothingMode.HighSpeed;
             _buffergraphics.InterpolationMode = _quality.Interpolation
                 ? InterpolationMode.High
                 : InterpolationMode.NearestNeighbor;
             _buffergraphics.CompositingQuality = _quality.Compositing ? CompositingQuality.HighQuality : CompositingQuality.AssumeLinear;
             _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
                 ? PixelOffsetMode.HighQuality
-                : PixelOffsetMode.HighSpeed;  
+                : PixelOffsetMode.HighSpeed;
             GraphicsDevice.ClearColor = Color.CornflowerBlue;
             _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
         }
