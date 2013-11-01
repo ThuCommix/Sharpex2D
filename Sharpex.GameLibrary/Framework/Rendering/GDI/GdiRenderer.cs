@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
@@ -11,7 +10,7 @@ namespace SharpexGL.Framework.Rendering.GDI
     public class GdiRenderer : IRenderer
     {
         private Bitmap _buffer;
-        private readonly AccurateFpsCounter DrawInfo = new AccurateFpsCounter();
+        private readonly AccurateFpsCounter _drawInfo = new AccurateFpsCounter();
         private Graphics _buffergraphics;
         private GdiQuality _quality;
 
@@ -37,7 +36,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         {
             get
             {
-                return DrawInfo.FramesPerSecond;
+                return _drawInfo.FramesPerSecond;
             }
         }
         /// <summary>
@@ -48,6 +47,10 @@ namespace SharpexGL.Framework.Rendering.GDI
             get;
             set;
         }
+        /// <summary>
+        /// A value indicating whether VSync is enabled.
+        /// </summary>
+        public bool VSync { set; get; }
         /// <summary>
         /// Determines if the renderer is disposed.
         /// </summary>
@@ -61,7 +64,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         public GdiRenderer()
         {
-            DrawInfo.Start();
+            _drawInfo.Start();
         }
         /// <summary>
         /// Opens the buffer for draw operations.
@@ -82,7 +85,7 @@ namespace SharpexGL.Framework.Rendering.GDI
             {
                 IsBegin = false;
                 Renderer();
-                DrawInfo.AddDraw();
+                _drawInfo.AddDraw();
             }
         }
         /// <summary>
