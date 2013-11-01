@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace SharpexGL.Framework.UI
 {
-    public class UICollection
+    public class UIManager
     {
         /// <summary>
         /// Initializes a new UICollection class.
         /// </summary>
-        public UICollection()
+        public UIManager()
         {
             _controls = new List<UIControl>();
         }
