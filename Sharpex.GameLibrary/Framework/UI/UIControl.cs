@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Windows.Forms;
 using SharpexGL.Framework.Common.Extensions;
-using SharpexGL.Framework.Game;
-using SharpexGL.Framework.Game.Timing;
+using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering;
 using InputManager = SharpexGL.Framework.Input.InputManager;
 
 namespace SharpexGL.Framework.UI
 {
-    public abstract class UIControl : IGameHandler
+    public abstract class UIControl : IComponent
     {
         #region IGameHandler Implementation
         /// <summary>
@@ -30,15 +29,6 @@ namespace SharpexGL.Framework.UI
             _mouseRectangle.Y = _inputManager.Mouse.Position.Y;
             IsMouseHoverState = _mouseRectangle.Intersects(Bounds.ToRectangle());
             OnTick(elapsed);
-        }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-            OnRender(renderer);
         }
 
         #endregion
@@ -115,7 +105,6 @@ namespace SharpexGL.Framework.UI
             _mouseRectangle = new Rectangle {Width = 1, Height = 1};
             Guid = Guid.NewGuid();
             _inputManager = SGL.Components.Get<InputManager>();
-            SGL.Components.Get<GameLoop>().Subscribe(this);
             SGL.Components.AddComponent(this);
         }
 
