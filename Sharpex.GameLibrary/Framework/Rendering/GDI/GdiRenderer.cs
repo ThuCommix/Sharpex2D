@@ -9,10 +9,8 @@ namespace SharpexGL.Framework.Rendering.GDI
 {
     public class GdiRenderer : IRenderer
     {
-        private Bitmap _buffer;
-        private readonly AccurateFpsCounter _drawInfo = new AccurateFpsCounter();
-        private Graphics _buffergraphics;
-        private GdiQuality _quality;
+
+        #region IRendererImplementation
 
         /// <summary>
         /// Sets or gets the GDIQuality.
@@ -59,13 +57,7 @@ namespace SharpexGL.Framework.Rendering.GDI
             get;
             set;
         }
-        /// <summary>
-        /// Initializes a new GdiRenderer.
-        /// </summary>
-        public GdiRenderer()
-        {
-            _drawInfo.Start();
-        }
+
         /// <summary>
         /// Opens the buffer for draw operations.
         /// </summary>
@@ -171,6 +163,43 @@ namespace SharpexGL.Framework.Rendering.GDI
             spriteFont.FontColor = color.ToWin32Color();
             _buffergraphics.DrawImage(spriteFont.Render().Texture2D, position.ToPoint());
         }
+
+        /// <summary>
+        /// Constructs the Component.
+        /// </summary>
+        public void Construct()
+        {
+            _buffer = new Bitmap(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
+            _buffergraphics = Graphics.FromImage(_buffer);
+            if (_quality == null) _quality = new GdiQuality(GdiQualityMode.High);
+            _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.HighQuality : SmoothingMode.HighSpeed;
+            _buffergraphics.InterpolationMode = _quality.Interpolation
+                ? InterpolationMode.High
+                : InterpolationMode.NearestNeighbor;
+            _buffergraphics.CompositingQuality = _quality.Compositing ? CompositingQuality.HighQuality : CompositingQuality.AssumeLinear;
+            _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
+                ? PixelOffsetMode.HighQuality
+                : PixelOffsetMode.HighSpeed;
+            GraphicsDevice.ClearColor = Color.CornflowerBlue;
+            _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
+        }
+
+        #endregion
+
+        #region GDIRenderer
+        /// <summary>
+        /// Initializes a new GdiRenderer.
+        /// </summary>
+        public GdiRenderer()
+        {
+            _drawInfo.Start();
+        }
+
+        private Bitmap _buffer;
+        private readonly AccurateFpsCounter _drawInfo = new AccurateFpsCounter();
+        private Graphics _buffergraphics;
+        private GdiQuality _quality;
+
         /// <summary>
         /// Starts the rendering pipe.
         /// </summary>
@@ -229,24 +258,6 @@ namespace SharpexGL.Framework.Rendering.GDI
             }
         }
 
-        /// <summary>
-        /// Constructs the Component.
-        /// </summary>
-        public void Construct()
-        {
-            _buffer = new Bitmap(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height);
-            _buffergraphics = Graphics.FromImage(_buffer);
-            if (_quality == null) _quality = new GdiQuality(GdiQualityMode.High);
-            _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.HighQuality : SmoothingMode.HighSpeed;
-            _buffergraphics.InterpolationMode = _quality.Interpolation
-                ? InterpolationMode.High
-                : InterpolationMode.NearestNeighbor;
-            _buffergraphics.CompositingQuality = _quality.Compositing ? CompositingQuality.HighQuality : CompositingQuality.AssumeLinear;
-            _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
-                ? PixelOffsetMode.HighQuality
-                : PixelOffsetMode.HighSpeed;
-            GraphicsDevice.ClearColor = Color.CornflowerBlue;
-            _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
-        }
+        #endregion
     }
 }
