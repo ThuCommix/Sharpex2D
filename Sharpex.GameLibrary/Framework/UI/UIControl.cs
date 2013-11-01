@@ -29,6 +29,7 @@ namespace SharpexGL.Framework.UI
             _mouseRectangle.X = _inputManager.Mouse.Position.X;
             _mouseRectangle.Y = _inputManager.Mouse.Position.Y;
             IsMouseHoverState = _mouseRectangle.Intersects(Bounds.ToRectangle());
+            OnTick(elapsed);
         }
         /// <summary>
         /// Processes a Render.
@@ -37,7 +38,7 @@ namespace SharpexGL.Framework.UI
         /// <param name="elapsed">The Elapsed.</param>
         public void Render(IRenderer renderer, float elapsed)
         {
-            
+            OnRender(renderer);
         }
 
         #endregion
