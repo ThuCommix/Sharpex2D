@@ -31,6 +31,10 @@ namespace SharpexGL.Framework.Rendering
             set;
         }
         /// <summary>
+        /// A value indicating whether VSync is enabled.
+        /// </summary>
+        bool VSync { set; get; }
+        /// <summary>
         /// Begins the draw operation.
         /// </summary>
         void Begin();

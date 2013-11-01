@@ -184,6 +184,18 @@ namespace SharpexGL.Framework.Game.Timing
                         subscriber.Render(SGL.CurrentRenderer, _renderTime);
                     }
                 }
+                if (SGL.CurrentRenderer.VSync)
+                {
+                    if (sw.ElapsedMilliseconds < 15)
+                        _renderTask.Wait(15 - (int)sw.ElapsedMilliseconds);
+                    while (sw.ElapsedMilliseconds < TargetFrameTime)
+                    {
+                    }
+                    _renderTime = TargetFrameTime;
+                    sw.Stop();
+                    sw.Reset();
+                    return;
+                }
                 sw.Stop();
                 _renderTime = sw.ElapsedMilliseconds;
                 sw.Reset();
