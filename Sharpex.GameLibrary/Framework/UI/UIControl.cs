@@ -1,33 +1,32 @@
 ﻿using System;
 using System.Windows.Forms;
 using SharpexGL.Framework.Common.Extensions;
-using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering;
 using InputManager = SharpexGL.Framework.Input.InputManager;
 
 namespace SharpexGL.Framework.UI
 {
-    public abstract class UIControl : IComponent
+    public abstract class UIControl
     {
         #region IGameHandler Implementation
-        /// <summary>
-        /// Constructs the Component
-        /// </summary>
-        public void Construct()
-        {
-
-        }
         /// <summary>
         /// Processes a Game tick.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         public void Tick(float elapsed)
         {
-            IsMouseDownState = IsMouseDown(MouseButtons.Left);
             _mouseRectangle.X = _inputManager.Mouse.Position.X;
             _mouseRectangle.Y = _inputManager.Mouse.Position.Y;
             IsMouseHoverState = _mouseRectangle.Intersects(Bounds.ToRectangle());
+
+            //check if the mouse clicked the control
+
+            if (IsMouseHoverState && IsMouseDown(MouseButtons.Left))
+            {
+                SetFocus();
+            }
+
             OnTick(elapsed);
         }
 
@@ -74,9 +73,9 @@ namespace SharpexGL.Framework.UI
         public bool IsMouseHoverState { private set; get; }
 
         /// <summary>
-        /// A value indicating whether the mouse clicked on the UIControl.
+        /// A value indicating whether the UIControl has focus.
         /// </summary>
-        public bool IsMouseDownState { private set; get; }
+        public bool HasFocus { internal set; get; }
 
         /// <summary>
         /// Gets the Guid-Identifer.
@@ -94,6 +93,7 @@ namespace SharpexGL.Framework.UI
         {
             Bounds = new UIBounds((int) Position.X, (int) Position.Y, Size.Width, Size.Height);
         }
+
         /// <summary>
         /// Initializes a new UIControl class.
         /// </summary>
@@ -105,7 +105,29 @@ namespace SharpexGL.Framework.UI
             _mouseRectangle = new Rectangle {Width = 1, Height = 1};
             Guid = Guid.NewGuid();
             _inputManager = SGL.Components.Get<InputManager>();
-            SGL.Components.AddComponent(this);
+            UIManager.Add(this);
+        }
+
+        /// <summary>
+        /// Sets the Focus for this UIControl.
+        /// </summary>
+        public void SetFocus()
+        {
+            // unset the last focused element
+            foreach (var ctrl in UIManager.GetAll())
+            {
+                ctrl.HasFocus = false;
+            }
+
+            HasFocus = true;
+        }
+
+        /// <summary>
+        /// Removes the Focus of the UIControl.
+        /// </summary>
+        public void RemoveFocus()
+        {
+            HasFocus = false;
         }
 
         /// <summary>
@@ -115,7 +137,8 @@ namespace SharpexGL.Framework.UI
         /// <returns>True if pressed</returns>
         public bool IsMouseDown(MouseButtons mouseButton)
         {
-            return _inputManager.Mouse.IsButtonPressed(mouseButton);
+            //while the cursor do not intersect our control, return false
+            return IsMouseHoverState && _inputManager.Mouse.IsButtonPressed(mouseButton);
         }
 
         /// <summary>
@@ -125,7 +148,7 @@ namespace SharpexGL.Framework.UI
         /// <returns>True if pressed down</returns>
         public bool IsKeyDown(Input.Keys key)
         {
-            return _inputManager.Keyboard.IsKeyDown(key);
+            return HasFocus && _inputManager.Keyboard.IsKeyDown(key);
         }
 
         /// <summary>
@@ -135,7 +158,7 @@ namespace SharpexGL.Framework.UI
         /// <returns>True if pressed</returns>
         public bool IsKeyPressed(Input.Keys key)
         {
-            return _inputManager.Keyboard.IsKeyPressed(key);
+            return HasFocus && _inputManager.Keyboard.IsKeyPressed(key);
         }
 
         #endregion
