@@ -3,34 +3,34 @@ using System.Collections.Generic;
 
 namespace SharpexGL.Framework.UI
 {
-    public class UIManager
+    public static class UIManager
     {
         /// <summary>
         /// Initializes a new UICollection class.
         /// </summary>
-        public UIManager()
+        static UIManager()
         {
-            _controls = new List<UIControl>();
+            Controls = new List<UIControl>();
         }
 
-        private readonly List<UIControl> _controls;
+        private static readonly List<UIControl> Controls;
 
         /// <summary>
         /// Adds a new UIControl to the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
-        public void Add(UIControl control)
+        public static void Add(UIControl control)
         {
-            _controls.Add(control);
+            Controls.Add(control);
         }
 
         /// <summary>
         /// Removes a new UIControl from the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
-        public void Remove(UIControl control)
+        public static void Remove(UIControl control)
         {
-            _controls.Remove(control);
+            Controls.Remove(control);
         }
 
         /// <summary>
@@ -38,13 +38,13 @@ namespace SharpexGL.Framework.UI
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>UIControl</returns>
-        public T Get<T>() where T : UIControl
+        public static T Get<T>() where T : UIControl
         {
-            for (var i = 0; i <= _controls.Count - 1; i++)
+            for (var i = 0; i <= Controls.Count - 1; i++)
             {
-                if (typeof (T) == _controls[i].GetType())
+                if (typeof (T) == Controls[i].GetType())
                 {
-                    return (T)_controls[i];
+                    return (T)Controls[i];
                 }
             }
 
@@ -56,17 +56,26 @@ namespace SharpexGL.Framework.UI
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>UIControl</returns>
-        public UIControl Get(Guid guid)
+        public static UIControl Get(Guid guid)
         {
-            for (var i = 0; i <= _controls.Count - 1; i++)
+            for (var i = 0; i <= Controls.Count - 1; i++)
             {
-                if (guid == _controls[i].Guid)
+                if (guid == Controls[i].Guid)
                 {
-                    return _controls[i];
+                    return Controls[i];
                 }
             }
 
             throw new ArgumentException("The UIControl with GUID " + guid + " could not be found.");
+        }
+
+        /// <summary>
+        /// Gets all UIControls.
+        /// </summary>
+        /// <returns>UIControl Array</returns>
+        public static UIControl[] GetAll()
+        {
+            return Controls.ToArray();
         }
     }
 }
