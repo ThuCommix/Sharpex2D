@@ -133,8 +133,16 @@ namespace SharpexGL.Framework.UI
         /// <param name="parent">The Parent.</param>
         internal void SetParent(UIControl parent)
         {
-            parent.Childs.Add(this);
-            _parent = parent;
+            if (parent != null)
+            {
+                parent.Childs.Add(this);
+                _parent = parent;
+            }
+            else
+            {
+                _parent.RemoveChild(this);
+                _parent = null;
+            }
         }
 
         /// <summary>
@@ -179,7 +187,10 @@ namespace SharpexGL.Framework.UI
         /// <param name="control">The UIControl.</param>
         public void RemoveChild(UIControl control)
         {
-            Childs.Remove(control);
+            if (Childs.Contains(control))
+            {
+                Childs.Remove(control);
+            }
         }
 
         /// <summary>
