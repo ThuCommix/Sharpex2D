@@ -8,8 +8,18 @@ using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Input.Listener
 {
-    public class MouseListener : IComponent
+    public class MouseListener : IComponent, IInputListener
     {
+
+        #region IInputListener Implementation
+
+        /// <summary>
+        /// A value indicating whether the InputListener is enabled.
+        /// </summary>
+        public bool IsEnabled { set; get; }
+
+        #endregion
+
         private Dictionary<MouseButtons, bool> _mousestate;
         /// <summary>
         /// Gets the current MousePosition.
@@ -36,6 +46,7 @@ namespace SharpexGL.Framework.Input.Listener
             control.MouseDown += surface_MouseDown;
             control.MouseUp += surface_MouseUp;
             Handle = handle;
+            IsEnabled = true;
         }
         /// <summary>
         /// Determines, if a specific button is pressed.
@@ -70,11 +81,17 @@ namespace SharpexGL.Framework.Input.Listener
         }
         private void surface_MouseUp(object sender, MouseEventArgs e)
         {
-            SetButtonState(e.Button, false);
+            if (IsEnabled)
+            {
+                SetButtonState(e.Button, false);
+            }
         }
         private void surface_MouseDown(object sender, MouseEventArgs e)
         {
-            SetButtonState(e.Button, true);
+            if (IsEnabled)
+            {
+                SetButtonState(e.Button, true);
+            }
         }
         private void surface_MouseMove(object sender, MouseEventArgs e)
         {

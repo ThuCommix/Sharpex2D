@@ -7,7 +7,7 @@ using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Input.Listener
 {
-    public class KeyboardListener : IGameHandler
+    public class KeyboardListener : IGameHandler, IInputListener
     {
 
         #region IGameHandler Implementation
@@ -17,12 +17,15 @@ namespace SharpexGL.Framework.Input.Listener
         /// <param name="elapsed">The Elapsed.</param>
         public void Tick(float elapsed)
         {
-            _lastkeystate.Clear();
-            foreach (KeyValuePair<Keys, bool> current in _keystate)
+            if (IsEnabled)
             {
-                _lastkeystate.Add(current.Key, current.Value);
+                _lastkeystate.Clear();
+                foreach (KeyValuePair<Keys, bool> current in _keystate)
+                {
+                    _lastkeystate.Add(current.Key, current.Value);
+                }
+                _keystate.Clear();
             }
-            _keystate.Clear();
         }
 
         /// <summary>
@@ -45,6 +48,15 @@ namespace SharpexGL.Framework.Input.Listener
 
         #endregion
 
+        #region IInputListener Implementation
+
+        /// <summary>
+        /// A value indicating whether the InputListener is enabled.
+        /// </summary>
+        public bool IsEnabled { set; get; }
+
+        #endregion
+
         private Dictionary<Keys, bool> _keystate;
         private Dictionary<Keys, bool> _lastkeystate;
         /// <summary>
@@ -58,6 +70,7 @@ namespace SharpexGL.Framework.Input.Listener
             _lastkeystate = new Dictionary<Keys, bool>();
             control.KeyDown += surface_KeyDown;
             control.KeyUp += surface_KeyUp;
+            IsEnabled = true;
         }
 
         /// <summary>
@@ -75,11 +88,17 @@ namespace SharpexGL.Framework.Input.Listener
         }
         private void surface_KeyUp(object sender, KeyEventArgs e)
         {
-            SetKeyState((Keys)e.KeyData, false);
+            if (IsEnabled)
+            {
+                SetKeyState((Keys) e.KeyData, false);
+            }
         }
         private void surface_KeyDown(object sender, KeyEventArgs e)
         {
-            SetKeyState((Keys)e.KeyData, true);
+            if (IsEnabled)
+            {
+                SetKeyState((Keys) e.KeyData, true);
+            }
         }
         /// <summary>
         /// Determines, if a specific key is pressed down.
