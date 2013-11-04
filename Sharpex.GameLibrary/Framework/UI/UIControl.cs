@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpexGL.Framework.Common.Extensions;
 using SharpexGL.Framework.Math;
@@ -60,6 +61,11 @@ namespace SharpexGL.Framework.UI
         public bool Visible { set; get; }
 
         /// <summary>
+        /// A value indicating whether the UIConrol is enabled.
+        /// </summary>
+        public bool Enable { set; get; }
+
+        /// <summary>
         /// A value indicating whether the UIControl is available to get the focus.
         /// </summary>
         public bool CanGetFocus { set; get; }
@@ -92,6 +98,23 @@ namespace SharpexGL.Framework.UI
         /// </summary>
         public Guid Guid { private set; get; }
 
+        /// <summary>
+        /// Sets or gets the Parent UIControl.
+        /// </summary>
+        public UIControl Parent
+        {
+            set { SetParent(value); }
+            get
+            {
+                return _parent;
+            }
+        }
+
+        /// <summary>
+        /// Gets the childs of the UIControl.
+        /// </summary>
+        public List<UIControl> Childs { internal set; get; } 
+
         #endregion
 
         #region Methods
@@ -102,6 +125,16 @@ namespace SharpexGL.Framework.UI
         internal void UpdateBounds()
         {
             Bounds = new UIBounds((int) Position.X, (int) Position.Y, Size.Width, Size.Height);
+        }
+
+        /// <summary>
+        /// Sets the Parent.
+        /// </summary>
+        /// <param name="parent">The Parent.</param>
+        internal void SetParent(UIControl parent)
+        {
+            parent.Childs.Add(this);
+            _parent = parent;
         }
 
         /// <summary>
@@ -116,6 +149,9 @@ namespace SharpexGL.Framework.UI
             Guid = Guid.NewGuid();
             _inputManager = SGL.Components.Get<InputManager>();
             CanGetFocus = true;
+            Enable = true;
+            _parent = null;
+            Childs = new List<UIControl>();
             UIManager.Add(this);
         }
 
@@ -126,7 +162,7 @@ namespace SharpexGL.Framework.UI
         {
             //check if we can get the focus
 
-            if (!CanGetFocus) return;
+            if (!CanGetFocus || !Enable) return;
 
             // unset the last focused element
             foreach (var ctrl in UIManager.GetAll())
@@ -135,6 +171,15 @@ namespace SharpexGL.Framework.UI
             }
 
             HasFocus = true;
+        }
+
+        /// <summary>
+        /// Removes a UIControl from the Childs.
+        /// </summary>
+        /// <param name="control">The UIControl.</param>
+        public void RemoveChild(UIControl control)
+        {
+            Childs.Remove(control);
         }
 
         /// <summary>
@@ -153,7 +198,7 @@ namespace SharpexGL.Framework.UI
         public bool IsMouseDown(MouseButtons mouseButton)
         {
             //while the cursor do not intersect our control, return false
-            return IsMouseHoverState && _inputManager.Mouse.IsButtonPressed(mouseButton);
+            return IsMouseHoverState && Enable && _inputManager.Mouse.IsButtonPressed(mouseButton);
         }
 
         /// <summary>
@@ -163,7 +208,7 @@ namespace SharpexGL.Framework.UI
         /// <returns>True if pressed down</returns>
         public bool IsKeyDown(Input.Keys key)
         {
-            return HasFocus && _inputManager.Keyboard.IsKeyDown(key);
+            return HasFocus && Enable && _inputManager.Keyboard.IsKeyDown(key);
         }
 
         /// <summary>
@@ -173,7 +218,7 @@ namespace SharpexGL.Framework.UI
         /// <returns>True if pressed</returns>
         public bool IsKeyPressed(Input.Keys key)
         {
-            return HasFocus && _inputManager.Keyboard.IsKeyPressed(key);
+            return HasFocus && Enable && _inputManager.Keyboard.IsKeyPressed(key);
         }
 
         #endregion
@@ -184,6 +229,7 @@ namespace SharpexGL.Framework.UI
         private UISize _size;
         private readonly InputManager _inputManager;
         private Rectangle _mouseRectangle;
+        private UIControl _parent;
 
         #endregion
 
