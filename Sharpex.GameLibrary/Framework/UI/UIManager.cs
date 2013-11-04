@@ -87,7 +87,10 @@ namespace SharpexGL.Framework.UI
         {
             for (var i = 0; i <= Controls.Count - 1; i++)
             {
-                Controls[i].OnTick(elapsed);
+                if (Controls[i].Enable)
+                {
+                    Controls[i].OnTick(elapsed);
+                }
             }
         }
 
