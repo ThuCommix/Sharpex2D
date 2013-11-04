@@ -55,6 +55,16 @@ namespace SharpexGL.Framework.UI
         }
 
         /// <summary>
+        /// A value indicating whether the UIControl is visible.
+        /// </summary>
+        public bool Visible { set; get; }
+
+        /// <summary>
+        /// A value indicating whether the UIControl is available to get the focus.
+        /// </summary>
+        public bool CanGetFocus { set; get; }
+
+        /// <summary>
         /// Sets or gets the Size of the UIControl.
         /// </summary>
         public UISize Size
@@ -105,6 +115,7 @@ namespace SharpexGL.Framework.UI
             _mouseRectangle = new Rectangle {Width = 1, Height = 1};
             Guid = Guid.NewGuid();
             _inputManager = SGL.Components.Get<InputManager>();
+            CanGetFocus = true;
             UIManager.Add(this);
         }
 
@@ -113,6 +124,10 @@ namespace SharpexGL.Framework.UI
         /// </summary>
         public void SetFocus()
         {
+            //check if we can get the focus
+
+            if (!CanGetFocus) return;
+
             // unset the last focused element
             foreach (var ctrl in UIManager.GetAll())
             {
