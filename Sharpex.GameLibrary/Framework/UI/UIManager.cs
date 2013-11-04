@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.UI
 {
@@ -76,6 +77,34 @@ namespace SharpexGL.Framework.UI
         public static UIControl[] GetAll()
         {
             return Controls.ToArray();
+        }
+
+        /// <summary>
+        /// Processes a Tick.
+        /// </summary>
+        /// <param name="elapsed">The Elapsed.</param>
+        public static void Tick(float elapsed)
+        {
+            for (var i = 0; i <= Controls.Count - 1; i++)
+            {
+                Controls[i].OnTick(elapsed);
+            }
+        }
+
+        /// <summary>
+        /// Proceses a Render.
+        /// </summary>
+        /// <param name="renderer">The Renderer.</param>
+        /// <param name="elapsed">The Elapsed.</param>
+        public static void Render(IRenderer renderer, float elapsed)
+        {
+            for (var i = 0; i <= Controls.Count - 1; i++)
+            {
+                if (Controls[i].Visible)
+                {
+                    Controls[i].OnTick(elapsed);
+                }
+            }
         }
     }
 }
