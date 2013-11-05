@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Threading;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
 
@@ -22,12 +23,22 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// </summary>
         public void Start()
         {
-            if (!issubscribed)
+            if (!_issubscribed)
             {
                 SGL.Components.Get<GameLoop>().Subscribe(this);
-                issubscribed = true;
+                _finished = false;
+                Completed = false;
+                _issubscribed = true;
             }
         }
+        /// <summary>
+        /// A value indicating whether the Effect is completed.
+        /// </summary>
+        public bool Completed { private set; get; }
+        /// <summary>
+        /// Gets the Callback action.
+        /// </summary>
+        public Action Callback { private set; get; }
 
         #endregion
 
@@ -47,14 +58,47 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// <param name="elapsed">The Elapsed.</param>
         public void Tick(float elapsed)
         {
-            if (finished)
+            if (_finished)
             {
                 SGL.Components.Get<GameLoop>().Unsubscribe(this);
-                issubscribed = false;
+                _issubscribed = false;
+                Completed = true;
+                if (Callback != null)
+                {
+                    // Invoke callback
+                    new Thread(() => Callback.Invoke()).Start();
+                }
             }
             else
             {
-                //logic here
+                var scalingPerSecond = 255/Duration * elapsed;
+                if (_blendMode == BlendMode.FadeIn)
+                {
+                    if (_alpha - scalingPerSecond > 0)
+                    {
+                        _alpha -= scalingPerSecond;
+                    }
+                    else
+                    {
+                        _alpha = 0;
+                        _finished = true;
+                    }
+
+                    _color.A = (byte) _alpha;
+                }
+                else
+                {
+                    if (_alpha + scalingPerSecond < 255)
+                    {
+                        _alpha += scalingPerSecond;
+                    }
+                    else
+                    {
+                        _alpha = 255;
+                        _finished = true;
+                    }
+                    _color.A = (byte)_alpha;
+                }
             }
         }
         /// <summary>
@@ -65,7 +109,7 @@ namespace SharpexGL.Framework.Rendering.Effects
         public void Render(IRenderer renderer, float elapsed)
         {
             renderer.DrawTexture(_overlay,
-                new Math.Rectangle(0, 0, SGL.GraphicsDevice.DisplayMode.Width, SGL.GraphicsDevice.DisplayMode.Height),
+                new Math.Rectangle(-10, -10, SGL.GraphicsDevice.DisplayMode.Width + 60, SGL.GraphicsDevice.DisplayMode.Height + 60),
                 _color);
         }
 
@@ -74,20 +118,26 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// <summary>
         /// Initializes a new Blend class.
         /// </summary>
-        public Blend()
+        /// <param name="callback">The Callback Action.</param>
+        /// <param name="blendMode">The BlendMode.</param>
+        public Blend(Action callback, BlendMode blendMode)
         {
             var bmp = new Bitmap(100, 100);
             Graphics.FromImage(bmp).FillRectangle(new SolidBrush(Color.Transparent.ToWin32Color()), new Rectangle(0, 0, 100, 100));
             _overlay = new Texture {Texture2D = bmp};
             _color = Color.Black;
-            _color.A = 255;
-            _totalElapsed = 0f;
+            _color.A = blendMode == BlendMode.FadeIn ? (byte)255 : (byte)0;
+            _alpha = blendMode == BlendMode.FadeIn ? 255 : 0;
+            _finished = false;
+            Callback = callback;
+            _blendMode = blendMode;
         }
 
         private readonly Texture _overlay;
-        private bool finished;
-        private bool issubscribed;
+        private bool _finished;
+        private bool _issubscribed;
         private Color _color;
-        private float _totalElapsed;
+        private readonly BlendMode _blendMode;
+        private float _alpha;
     }
 }
