@@ -16,5 +16,13 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// Starts the Effect.
         /// </summary>
         void Start();
+        /// <summary>
+        /// A value indicating whether the Effect is completed.
+        /// </summary>
+        bool Completed { get; }
+        /// <summary>
+        /// Gets the Callback action.
+        /// </summary>
+        Action Callback { get; }
     }
 }
