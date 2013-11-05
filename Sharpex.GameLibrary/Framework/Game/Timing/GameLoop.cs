@@ -133,8 +133,9 @@ namespace SharpexGL.Framework.Game.Timing
                     for (var i = 1; i <= lostFrames; i++)
                     {
                         //Process a tick in every subscriber
-                        foreach (var subscriber in _subscribers)
+                        for (int index = 0; index < _subscribers.Count; index++)
                         {
+                            var subscriber = _subscribers[index];
                             subscriber.Tick(_updateTime);
                         }
                     }
@@ -145,8 +146,9 @@ namespace SharpexGL.Framework.Game.Timing
                 }
                 sw.Start();
                 //Process a tick in every subscriber
-                foreach (var subscriber in _subscribers)
+                for (var index = 0; index < _subscribers.Count; index++)
                 {
+                    var subscriber = _subscribers[index];
                     subscriber.Tick(_updateTime);
                 }
                 sw.Stop();
@@ -175,15 +177,18 @@ namespace SharpexGL.Framework.Game.Timing
             while (!_cancelFlag)
             {
                 sw.Start();
+                SGL.CurrentRenderer.Begin();
                 //Only render, if the rendering is not suppressed
                 if (!_suppressRender)
                 {
                     //Process a render in every subscriber
-                    foreach (var subscriber in _subscribers)
+                    for (int index = 0; index < _subscribers.Count; index++)
                     {
+                        var subscriber = _subscribers[index];
                         subscriber.Render(SGL.CurrentRenderer, _renderTime);
                     }
                 }
+                SGL.CurrentRenderer.Close();
                 if (SGL.CurrentRenderer.VSync)
                 {
                     if (sw.ElapsedMilliseconds < 15)
