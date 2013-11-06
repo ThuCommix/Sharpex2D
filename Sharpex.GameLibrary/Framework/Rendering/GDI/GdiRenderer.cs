@@ -2,8 +2,10 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
+using SharpexGL.Framework.Common.Extensions;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
+using Rectangle = SharpexGL.Framework.Math.Rectangle;
 
 namespace SharpexGL.Framework.Rendering.GDI
 {
@@ -89,17 +91,148 @@ namespace SharpexGL.Framework.Rendering.GDI
             GraphicsDevice = null;
         }
         /// <summary>
+        /// Draws a Rectangle.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        public void DrawRectangle(Color color, Rectangle rectangle)
+        {
+            CheckDisposed();
+
+            _buffergraphics.DrawRectangle(new Pen(new SolidBrush(color.ToWin32Color())),
+                new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
+        }
+        /// <summary>
+        /// Draws a Line between two points.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="start">The Startpoint.</param>
+        /// <param name="target">The Targetpoint.</param>
+        public void DrawLine(Color color, Vector2 start, Vector2 target)
+        {
+            CheckDisposed();
+
+            _buffergraphics.DrawLine(new Pen(new SolidBrush(color.ToWin32Color())), start.X, start.Y, target.X, target.Y);
+        }
+        /// <summary>
+        /// Draws a Ellipse.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        public void DrawEllipse(Color color, Rectangle rectangle)
+        {
+            CheckDisposed();
+
+            _buffergraphics.DrawEllipse(new Pen(new SolidBrush(color.ToWin32Color())),
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height));
+        }
+        /// <summary>
+        /// Draws an Arc.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="startAngle">The StartAngle.</param>
+        /// <param name="sweepAngle">The SweepAngle.</param>
+        public void DrawArc(Color color, Rectangle rectangle, float startAngle, float sweepAngle)
+        {
+            CheckDisposed();
+
+            _buffergraphics.DrawArc(new Pen(new SolidBrush(color.ToWin32Color())),
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height), startAngle, sweepAngle);
+        }
+        /// <summary>
+        /// Draws a Polygon.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="points">The Points.</param>
+        public void DrawPolygon(Color color, Vector2[] points)
+        {
+            CheckDisposed();
+
+            _buffergraphics.DrawPolygon(new Pen(new SolidBrush(color.ToWin32Color())), points.ToPoints());
+        }
+        /// <summary>
+        /// Draws a corner-rounded Rectangle.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="radius">The Radius.</param>
+        public void DrawRoundedRectangle(Color color, Rectangle rectangle, int radius)
+        {
+            var gfxPath = new GraphicsPath();
+            gfxPath.AddArc(rectangle.X, rectangle.Y, radius, radius, 180, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y, radius, radius, 270, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius, radius, 0, 90);
+            gfxPath.AddArc(rectangle.X, rectangle.Y + rectangle.Height - radius, radius, radius, 90, 90);
+            gfxPath.CloseAllFigures();
+            _buffergraphics.DrawPath(new Pen(new SolidBrush(color.ToWin32Color())), gfxPath);
+        }
+        /// <summary>
+        /// Fills a Rectangle.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        public void FillRectangle(Color color, Rectangle rectangle)
+        {
+            CheckDisposed();
+
+            _buffergraphics.FillRectangle(new SolidBrush(color.ToWin32Color()),
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height));
+        }
+        /// <summary>
+        /// Fills a Ellipse.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        public void FillEllipse(Color color, Rectangle rectangle)
+        {
+            CheckDisposed();
+
+            _buffergraphics.FillEllipse(new SolidBrush(color.ToWin32Color()),
+                new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width,
+                    (int)rectangle.Height));
+        }
+        /// <summary>
+        /// Fills a Polygon.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="points">The Points.</param>
+        public void FillPolygon(Color color, Vector2[] points)
+        {
+            CheckDisposed();
+
+            _buffergraphics.FillPolygon(new SolidBrush(color.ToWin32Color()), points.ToPoints());
+        }
+        /// <summary>
+        /// Draws a corner-rounded Rectangle.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="radius">The Radius.</param>
+        public void FillRoundedRectangle(Color color, Rectangle rectangle, int radius)
+        {
+            var gfxPath = new GraphicsPath();
+            gfxPath.AddArc(rectangle.X, rectangle.Y, radius, radius, 180, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y, radius, radius, 270, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius, radius, 0, 90);
+            gfxPath.AddArc(rectangle.X, rectangle.Y + rectangle.Height - radius, radius, radius, 90, 90);
+            gfxPath.CloseAllFigures();
+            _buffergraphics.FillPath(new SolidBrush(color.ToWin32Color()), gfxPath);
+        }
+
+        /// <summary>
         /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture texture, Math.Rectangle rectangle, Color color)
+        public void DrawTexture(Texture texture, Rectangle rectangle, Color color)
         {
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException("GdiRenderer");
-            }
+            CheckDisposed();
+
             if (color != Color.White)
             {
                 var tempBmp = new Bitmap(texture.Texture2D.Width, texture.Texture2D.Height);
@@ -125,10 +258,8 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture texture, Vector2 position, Color color)
         {
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException("GdiRenderer");
-            }
+            CheckDisposed();
+
             if (color != Color.White)
             {
                 var tempBmp = new Bitmap(texture.Texture2D.Width, texture.Texture2D.Height);
@@ -155,10 +286,8 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <param name="color">The Color.</param>
         public void DrawString(string text, SpriteFont spriteFont, Vector2 position, Color color)
         {
-            if (IsDisposed)
-            {
-                throw new ObjectDisposedException("GdiRenderer");
-            }
+            CheckDisposed();
+
             spriteFont.Value = text;
             spriteFont.FontColor = color.ToWin32Color();
             _buffergraphics.DrawImage(spriteFont.Render().Texture2D, position.ToPoint());
@@ -255,6 +384,17 @@ namespace SharpexGL.Framework.Rendering.GDI
                 _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
                     ? PixelOffsetMode.HighQuality
                     : PixelOffsetMode.HighSpeed;
+            }
+        }
+
+        /// <summary>
+        /// Checks if the GDIRenderer is disposed.
+        /// </summary>
+        private void CheckDisposed()
+        {
+            if (IsDisposed)
+            {
+                throw new ObjectDisposedException("GdiRenderer");
             }
         }
 
