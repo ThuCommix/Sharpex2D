@@ -2,10 +2,11 @@
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
+using SharpexGL.Framework.Rendering.Geometry;
 
 namespace SharpexGL.Framework.Rendering
 {
-    public interface IRenderer : IConstructable, IDisposable
+    public interface IRenderer : IGeometryRenderer, IConstructable, IDisposable
     {
         /// <summary>
         /// Sets or gets the GraphicsDevice.
