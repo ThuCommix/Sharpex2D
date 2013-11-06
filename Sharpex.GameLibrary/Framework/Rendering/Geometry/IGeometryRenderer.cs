@@ -57,14 +57,6 @@ namespace SharpexGL.Framework.Rendering.Geometry
         /// <param name="rectangle">The Rectangle.</param>
         void FillEllipse(Color color, Rectangle rectangle);
         /// <summary>
-        /// Fills an Arc.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="startAngle">The StartAngle.</param>
-        /// <param name="sweepAngle">The SweepAngle.</param>
-        void FillArc(Color color, Rectangle rectangle, float startAngle, float sweepAngle);
-        /// <summary>
         /// Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
