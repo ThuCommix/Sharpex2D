@@ -345,7 +345,7 @@ namespace SharpexGL.Framework.Physics
                 particle2.Velocity = new Vector2(-particle2.Velocity.X, particle2.Velocity.Y);
             }
 
-            //check if object2 got a very hight mass opposed to obj1
+            //check if object2 got a very hight mass compared to obj1
             if (particle2.Mass/particle1.Mass > 10)
             {
                 //only use reflection:
