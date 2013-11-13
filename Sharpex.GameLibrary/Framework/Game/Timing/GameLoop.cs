@@ -80,7 +80,10 @@ namespace SharpexGL.Framework.Game.Timing
         /// <param name="gameHandler">The GameHandler</param>
         public void Unsubscribe(IGameHandler gameHandler)
         {
-            _subscribers.Remove(gameHandler);
+            if (_subscribers.Contains(gameHandler))
+            {
+                _subscribers.Remove(gameHandler);
+            }
         }
 
         #endregion
