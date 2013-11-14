@@ -147,6 +147,7 @@ namespace SharpexGL.Framework.Game.Timing
                         Thread.Sleep(1);
                         Update(1);
                     }
+                    IsRunning = false;
                 }) {IsBackground = true}.Start();
             }
         }
