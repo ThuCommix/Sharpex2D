@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SharpexGL.Framework.Common.FileSystem;
 using SharpexGL.Framework.Components;
@@ -32,6 +33,9 @@ namespace SharpexGL.Framework.Content
         /// Sets or gets the FileSystem.
         /// </summary>
         public IFileSystem FileSystem { set; get; }
+
+        private readonly List<IContentExtension> _extensions; 
+
         /// <summary>
         /// Initializes a new ContentManager.
         /// </summary>
@@ -39,6 +43,7 @@ namespace SharpexGL.Framework.Content
         {
             FileSystem = new Win32FileSystem();
             ContentPath = FileSystem.ConnectPath(Environment.CurrentDirectory, "Content");
+            _extensions = new List<IContentExtension>();
         }
         /// <summary>
         /// Destructs the ContentManager.
@@ -74,7 +79,7 @@ namespace SharpexGL.Framework.Content
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="asset">The Asset.</param>
         /// <returns></returns>
-        public T Load<T>(string asset)
+        public T Load<T>(string asset) where T : IContent
         {
             //texture
             if (typeof (T) == typeof (Texture))
@@ -115,7 +120,25 @@ namespace SharpexGL.Framework.Content
             {
                 return (T) (Object) Sound.Factory.Create(FileSystem.ConnectPath(ContentPath, asset));
             }
+
+            for (var i = 0; i <= _extensions.Count - 1; i++)
+            {
+                if (_extensions[i].ContentType == null) continue;
+                if (_extensions[i].ContentType != typeof (T)) continue;
+                System.Diagnostics.Debug.WriteLine("Loaded content with IContentExtension: {0}.", _extensions[i].Guid);
+                return (T) _extensions[i].Create(FileSystem.ConnectPath(ContentPath, asset));
+            }
+
             throw new InvalidOperationException(typeof (T).FullName + " could not be loaded.");
+        }
+
+        /// <summary>
+        /// Extends the current asset loading.
+        /// </summary>
+        /// <param name="extension">The Extension.</param>
+        public void Extend(IContentExtension extension)
+        {
+            _extensions.Add(extension);
         }
 
         #endregion
