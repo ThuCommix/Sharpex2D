@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
 
 namespace SharpexGL.Framework.Rendering.Sprites
 {
-    public class SpriteSheet
+    public class SpriteSheet : IContent
     {
         /// <summary>
         /// Initializes a new Sprite class.

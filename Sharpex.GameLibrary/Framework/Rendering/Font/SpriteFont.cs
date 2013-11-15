@@ -2,13 +2,14 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
 using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Rendering.Font
 {
     [Serializable]
-    public class SpriteFont
+    public class SpriteFont : IContent
     {
         private string _internalValue = "";
         private System.Drawing.Color _internalColor = System.Drawing.Color.Black;

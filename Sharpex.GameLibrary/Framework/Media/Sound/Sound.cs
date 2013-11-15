@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
 
 namespace SharpexGL.Framework.Media.Sound
 {
-    public class Sound
+    public class Sound : IContent
     {
         /// <summary>
         /// Sets or Gets the resource path.

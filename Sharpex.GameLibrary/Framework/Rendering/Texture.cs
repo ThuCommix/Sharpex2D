@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Drawing;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
 
 namespace SharpexGL.Framework.Rendering
 {
     [Serializable]
-    public class Texture : IDisposable
+    public class Texture : IContent, IDisposable
     {
         /// <summary>
         /// Gets or sets the texture.

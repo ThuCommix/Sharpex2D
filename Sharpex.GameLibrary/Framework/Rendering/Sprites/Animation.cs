@@ -1,9 +1,10 @@
-﻿using SharpexGL.Framework.Content.Factory;
+﻿using SharpexGL.Framework.Content;
+using SharpexGL.Framework.Content.Factory;
 using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Rendering.Sprites
 {
-    public class Animation
+    public class Animation : IContent
     {
         /// <summary>
         /// Initializes a new Animation class.
