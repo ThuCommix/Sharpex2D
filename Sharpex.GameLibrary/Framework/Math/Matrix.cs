@@ -18,7 +18,7 @@ namespace SharpexGL.Framework.Math
             {
                 for (var y = 0; y <= rows - 1; y++)
                 {
-                    _fields[x, y] = 1;
+                    _fields[x, y] = 0;
                 }
             }
             _columns = columns;
@@ -406,6 +406,56 @@ namespace SharpexGL.Framework.Math
                     throw new ArgumentNullException("The matrix can not be null.");
                 }
             }
+        }
+
+        /// <summary>
+        /// Copys the current Matrix to another matrix.
+        /// </summary>
+        /// <param name="matrix">The Matrix.</param>
+        public void CopyTo(Matrix matrix)
+        {
+            if (Columns == matrix.Columns && Rows == matrix.Rows)
+            {
+                for(var y =0;y<= Rows -1;y++)
+                {
+                    for (var x = 0;x <= Columns - 1;x++)
+                    {
+                        matrix.Set(x, y, Get(x, y));
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException("The matrices needs to have the same size.");
+            }
+        }
+
+        /// <summary>
+        /// Resizes the matrix.
+        /// </summary>
+        /// <param name="columns">The Columns.</param>
+        /// <param name="rows">The Rows.</param>
+        /// <returns>Matrix</returns>
+        public Matrix Resize(int columns, int rows)
+        {
+            var result = new Matrix(columns, rows);
+
+            for (var y = 0; y <= rows - 1; y++)
+            {
+                for (var x = 0; x <= columns - 1; x++)
+                {
+                    if (x <= Columns - 1 && y <= Rows - 1)
+                    {
+                        result.Set(x, y, Get(x, y));
+                    }
+                    else
+                    {
+                        result.Set(x, y, 0);
+                    }
+                }
+            }
+
+            return result;
         }
 
         #endregion
