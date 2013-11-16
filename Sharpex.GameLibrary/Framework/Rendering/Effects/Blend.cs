@@ -25,6 +25,9 @@ namespace SharpexGL.Framework.Rendering.Effects
         {
             if (!_issubscribed)
             {
+                _scaling = 255 / Duration;
+                _drawingRect = new Math.Rectangle(-8, -5, SGL.GraphicsDevice.DisplayMode.Width + 20,
+                    SGL.GraphicsDevice.DisplayMode.Height + 20);
                 SGL.Components.Get<GameLoop>().Subscribe(this);
                 _finished = false;
                 Completed = false;
@@ -71,12 +74,12 @@ namespace SharpexGL.Framework.Rendering.Effects
             }
             else
             {
-                var scalingPerSecond = 255/Duration * elapsed;
+                var deltaA = _scaling*elapsed;
                 if (_blendMode == BlendMode.FadeIn)
                 {
-                    if (_alpha - scalingPerSecond > 0)
+                    if (_alpha - deltaA > 0)
                     {
-                        _alpha -= scalingPerSecond;
+                        _alpha -= deltaA;
                     }
                     else
                     {
@@ -88,9 +91,9 @@ namespace SharpexGL.Framework.Rendering.Effects
                 }
                 else
                 {
-                    if (_alpha + scalingPerSecond < 255)
+                    if (_alpha + deltaA < 255)
                     {
-                        _alpha += scalingPerSecond;
+                        _alpha += deltaA;
                     }
                     else
                     {
@@ -109,7 +112,7 @@ namespace SharpexGL.Framework.Rendering.Effects
         public void Render(IRenderer renderer, float elapsed)
         {
             renderer.DrawTexture(_overlay,
-                new Math.Rectangle(-10, -10, SGL.GraphicsDevice.DisplayMode.Width + 60, SGL.GraphicsDevice.DisplayMode.Height + 60),
+                _drawingRect,
                 _color);
         }
 
@@ -123,7 +126,6 @@ namespace SharpexGL.Framework.Rendering.Effects
         public Blend(Action callback, BlendMode blendMode)
         {
             var bmp = new Bitmap(100, 100);
-            Graphics.FromImage(bmp).FillRectangle(new SolidBrush(Color.Transparent.ToWin32Color()), new Rectangle(0, 0, 100, 100));
             _overlay = new Texture {Texture2D = bmp};
             _color = Color.Black;
             _color.A = blendMode == BlendMode.FadeIn ? (byte)255 : (byte)0;
@@ -139,5 +141,7 @@ namespace SharpexGL.Framework.Rendering.Effects
         private Color _color;
         private readonly BlendMode _blendMode;
         private float _alpha;
+        private float _scaling;
+        private Math.Rectangle _drawingRect;
     }
 }
