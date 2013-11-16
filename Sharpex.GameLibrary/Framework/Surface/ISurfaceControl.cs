@@ -1,18 +1,10 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using SharpexGL.Framework.Math;
 
-namespace SharpexGL.Framework.Window
+namespace SharpexGL.Framework.Surface
 {
-    public interface IGameWindow
+    public interface ISurfaceControl
     {
-        /// <summary>
-        /// Gets or sets the GameWindowHandle.
-        /// </summary>
-        IntPtr Handle { set; get; }
-        /// <summary>
-        /// Updates the GameWindow.
-        /// </summary>
-        void Update();
         /// <summary>
         /// Sets the Title of the GameWindow.
         /// </summary>
@@ -39,11 +31,11 @@ namespace SharpexGL.Framework.Window
         /// Sets the Style of the GameWindow.
         /// </summary>
         /// <param name="style">The WindowStyle.</param>
-        void SetWindowStyle(WindowStyle style);
+        void SetWindowStyle(SurfaceStyle style);
         /// <summary>
         /// Gets the Soue of the GameWindow.
         /// </summary>
         /// <returns>Size</returns>
-        Size GetSize();
+        Vector2 GetSize();
     }
 }

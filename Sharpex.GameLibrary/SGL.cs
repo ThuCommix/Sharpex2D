@@ -8,7 +8,7 @@ using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Scene;
-using SharpexGL.Framework.Window;
+using SharpexGL.Framework.Surface;
 
 namespace SharpexGL
 {
@@ -37,7 +37,7 @@ namespace SharpexGL
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.519"; } }
+        public static string Version { get { return "0.1.537"; } }
         /// <summary>
         /// Determines, if SGL is initialized.
         /// </summary>
@@ -64,15 +64,11 @@ namespace SharpexGL
             Components = new ComponentManager();
             Implementations = new ImplementationManager();
             _gameInstance = initializer.GameInstance;
-            var gameWindowProvider = new GameWindowProvider();
-            Components.AddComponent(gameWindowProvider);
-            gameWindowProvider.Create();
-            while (!gameWindowProvider.IsCreated)
-            {
-            }
-            gameWindowProvider.GameWindow.SetSize(initializer.Width, initializer.Height);
-            initializer.GameInstance.Input = new InputManager(gameWindowProvider.GameWindow.Handle);
-            GraphicsDevice = new GraphicsDevice(gameWindowProvider.GameWindow.Handle)
+            var renderTarget = new RenderTarget(initializer.TargetHandle);
+            Components.AddComponent(renderTarget);
+            renderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
+            initializer.GameInstance.Input = new InputManager(renderTarget.Handle);
+            GraphicsDevice = new GraphicsDevice(renderTarget.Handle)
             {
                 DisplayMode = new DisplayMode(initializer.Width, initializer.Height)
             };
@@ -109,6 +105,7 @@ namespace SharpexGL
             Components.AddComponent(graphicRenderer);
             Components.AddComponent(_gameInstance.SoundManager);
             Components.Construct();
+            _gameInstance.OnInitialize();
             _gameInstance.OnLoadContent();
             Components.Get<GameLoop>().Start();
         }
