@@ -1,6 +1,7 @@
 ﻿using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Events;
+using SharpexGL.Framework.Exceptions;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Implementation;
@@ -27,6 +28,10 @@ namespace SharpexGL
             get;
             set;
         }
+        /// <summary>
+        /// A value indicating whether SGL is running.
+        /// </summary>
+        private static bool _isRunning;
         /// <summary>
         /// The Current Renderer.
         /// </summary>
@@ -99,6 +104,12 @@ namespace SharpexGL
         /// <param name="soundInitializer">The SoundInitializer</param>
         public static void Run(IRenderer graphicRenderer, ISoundInitializer soundInitializer)
         {
+            if (!IsInitialized)
+                throw new SGLNotInitializedException("SGL must be initialized in the first place.");
+
+            if (_isRunning) return;
+
+            _isRunning = true;
             CurrentRenderer = graphicRenderer;
             CurrentRenderer.GraphicsDevice = GraphicsDevice;
             _gameInstance.SoundManager = new SoundManager(soundInitializer);
