@@ -342,7 +342,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         private void Present()
         {
-            Control control = Control.FromHandle(GraphicsDevice.DeviceHandle);
+            var control = Control.FromHandle(GraphicsDevice.RenderTarget.Handle);
             if (control != null)
             {
                 var width = control.Width;

@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
+using SharpexGL.Framework.Surface;
 
 namespace SharpexGL.Framework.Rendering
 {
@@ -24,9 +25,9 @@ namespace SharpexGL.Framework.Rendering
             set;
         }
         /// <summary>
-        /// Sets or gets the DeviceHandle.
+        /// Sets or gets the RenderTarget.
         /// </summary>
-        public IntPtr DeviceHandle
+        public RenderTarget RenderTarget
         {
             get;
             internal set;
@@ -34,10 +35,10 @@ namespace SharpexGL.Framework.Rendering
         /// <summary>
         /// Initializes a new GraphicsDeivce.
         /// </summary>
-        /// <param name="deviceHandle">The Handle.</param>
-        public GraphicsDevice(IntPtr deviceHandle)
+        /// <param name="renderTarget">The RenderTarget.</param>
+        public GraphicsDevice(RenderTarget renderTarget)
         {
-            DeviceHandle = deviceHandle;
+            RenderTarget = renderTarget;
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace SharpexGL.Framework.Rendering
         {
             get
             {
-                var control = Control.FromHandle(DeviceHandle);
+                var control = Control.FromHandle(RenderTarget.Handle);
                 if (control == null)
                 {
                     return new Vector2(1, 1);
@@ -71,7 +72,7 @@ namespace SharpexGL.Framework.Rendering
         public void Dispose()
         {
             IsDisposed = true;
-            DeviceHandle = IntPtr.Zero;
+            RenderTarget = null;
         }
     }
 }

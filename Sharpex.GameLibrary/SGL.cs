@@ -73,7 +73,7 @@ namespace SharpexGL
             Components.AddComponent(renderTarget);
             renderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
             initializer.GameInstance.Input = new InputManager(renderTarget.Handle);
-            GraphicsDevice = new GraphicsDevice(renderTarget.Handle)
+            GraphicsDevice = new GraphicsDevice(renderTarget)
             {
                 DisplayMode = new DisplayMode(initializer.Width, initializer.Height)
             };
