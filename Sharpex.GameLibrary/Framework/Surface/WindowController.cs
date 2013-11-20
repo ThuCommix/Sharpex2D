@@ -103,6 +103,21 @@ namespace SharpexGL.Framework.Surface
             return size;
         }
 
+        /// <summary>
+        /// Sets the ControlLayout.
+        /// </summary>
+        /// <param name="surfaceLayout">The SurfaceLayout.</param>
+        public void SetControlLayout(SurfaceLayout surfaceLayout)
+        {
+            MethodInvoker br = delegate
+            {
+                _surface.MaximizeBox = surfaceLayout.CanMaximize;
+                _surface.MinimizeBox = surfaceLayout.CanMinimize;
+                _surface.ControlBox = surfaceLayout.CanClose;
+            };
+            _surface.BeginInvoke(br);
+        }
+
         #endregion
 
         /// <summary>
@@ -113,6 +128,7 @@ namespace SharpexGL.Framework.Surface
         {
             _surface = (Form) Control.FromHandle(renderTarget.Handle);
             Cursor.Hide();
+            SetControlLayout(new SurfaceLayout(true, false, true));
         }
 
         private readonly Form _surface;

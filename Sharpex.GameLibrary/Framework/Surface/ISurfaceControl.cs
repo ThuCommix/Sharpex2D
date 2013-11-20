@@ -37,5 +37,10 @@ namespace SharpexGL.Framework.Surface
         /// </summary>
         /// <returns>Size</returns>
         Vector2 GetSize();
+        /// <summary>
+        /// Sets the ControlLayout.
+        /// </summary>
+        /// <param name="surfaceLayout">The SurfaceLayout.</param>
+        void SetControlLayout(SurfaceLayout surfaceLayout);
     }
 }
