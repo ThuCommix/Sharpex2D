@@ -127,8 +127,8 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// <param name="blendMode">The BlendMode.</param>
         public Blend(Action callback, BlendMode blendMode)
         {
-            var bmp = new Bitmap(100, 100);
-            _overlay = new Texture {Texture2D = bmp};
+            //var bmp = new Bitmap(100, 100);
+            //_overlay = new Texture {Texture2D = bmp};
             _color = Color.Black;
             _color.A = blendMode == BlendMode.FadeIn ? (byte)255 : (byte)0;
             _alpha = blendMode == BlendMode.FadeIn ? 255 : 0;
@@ -137,7 +137,7 @@ namespace SharpexGL.Framework.Rendering.Effects
             _blendMode = blendMode;
         }
 
-        private readonly Texture _overlay;
+        //private readonly Texture _overlay;
         private bool _finished;
         private bool _issubscribed;
         private Color _color;
