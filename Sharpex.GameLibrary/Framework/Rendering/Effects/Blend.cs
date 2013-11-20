@@ -111,9 +111,11 @@ namespace SharpexGL.Framework.Rendering.Effects
         /// <param name="elapsed">The Elapsed.</param>
         public void Render(IRenderer renderer, float elapsed)
         {
-            renderer.DrawTexture(_overlay,
+            /*/renderer.DrawTexture(_overlay,
                 _drawingRect,
-                _color);
+                _color);/*/
+
+            renderer.FillRectangle(_color, _drawingRect);
         }
 
         #endregion
