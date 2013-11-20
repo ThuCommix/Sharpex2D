@@ -112,6 +112,7 @@ namespace SharpexGL.Framework.Surface
         public WindowController(RenderTarget renderTarget)
         {
             _surface = (Form) Control.FromHandle(renderTarget.Handle);
+            Cursor.Hide();
         }
 
         private readonly Form _surface;
