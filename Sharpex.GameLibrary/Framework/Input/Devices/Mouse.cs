@@ -1,26 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Input.Events;
 using SharpexGL.Framework.Math;
 
-namespace SharpexGL.Framework.Input.Listener
+namespace SharpexGL.Framework.Input.Devices
 {
-    public class MouseListener : IComponent, IInputListener
+    public class Mouse : IDevice
     {
-
-        #region IInputListener Implementation
+        #region IDevice Implementation
 
         /// <summary>
-        /// A value indicating whether the InputListener is enabled.
+        /// A value indicating whether the device is enabled.
         /// </summary>
-        public bool IsEnabled { set; get; }
+        public bool IsEnabled { get; set; }
+        /// <summary>
+        /// Gets the Guid-Identifer of the device.
+        /// </summary>
+        public Guid Guid { get; private set; }
+        /// <summary>
+        /// Gets the device description.
+        /// </summary>
+        public string Description { get; private set; }
 
         #endregion
 
-        private Dictionary<MouseButtons, bool> _mousestate;
+        /// <summary>
+        /// Initializes a new Mouse class.
+        /// </summary>
+        /// <param name="handle">The Handle.</param>
+        public Mouse(IntPtr handle)
+        {
+            Guid = new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF");
+            Description = "MouseDevice";
+            IsEnabled = true;
+
+            Position = new Vector2(0f, 0f);
+            var control = Control.FromHandle(handle);
+            _mousestate = new Dictionary<MouseButtons, bool>();
+            control.MouseMove += surface_MouseMove;
+            control.MouseDown += surface_MouseDown;
+            control.MouseUp += surface_MouseUp;
+            Handle = handle;
+        }
+
+        private readonly Dictionary<MouseButtons, bool> _mousestate;
         /// <summary>
         /// Gets the current MousePosition.
         /// </summary>
@@ -33,21 +58,7 @@ namespace SharpexGL.Framework.Input.Listener
         /// Represents the surface handle.
         /// </summary>
         public IntPtr Handle { private set; get; }
-        /// <summary>
-        /// Initializes a new MouseProvider.
-        /// </summary>
-        /// <param name="handle">The Handle.</param>
-        public MouseListener(IntPtr handle)
-        {
-            Position = new Vector2(0f, 0f);
-            var control = Control.FromHandle(handle);
-            _mousestate = new Dictionary<MouseButtons, bool>();
-            control.MouseMove += surface_MouseMove;
-            control.MouseDown += surface_MouseDown;
-            control.MouseUp += surface_MouseUp;
-            Handle = handle;
-            IsEnabled = true;
-        }
+
         /// <summary>
         /// Determines, if a specific button is pressed.
         /// </summary>

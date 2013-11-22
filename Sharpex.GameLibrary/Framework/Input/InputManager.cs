@@ -1,6 +1,6 @@
 ﻿using System;
 using SharpexGL.Framework.Game;
-using SharpexGL.Framework.Input.Listener;
+using SharpexGL.Framework.Input.Devices;
 using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Input
@@ -42,16 +42,16 @@ namespace SharpexGL.Framework.Input
         /// <param name="handle">The GameWindowHandle.</param>
         public InputManager(IntPtr handle)
         {
-            Keyboard = new KeyboardListener(handle);
-            Mouse = new MouseListener(handle);
+            Keyboard = new Keyboard();
+            Mouse = new Mouse(handle);
         }
         /// <summary>
         /// Gets the KeyboardListener.
         /// </summary>
-        public KeyboardListener Keyboard { get; private set; }
+        public Keyboard Keyboard { get; private set; }
         /// <summary>
         /// Gets the MouseListener.
         /// </summary>
-        public MouseListener Mouse { get; private set; }
+        public Mouse Mouse { get; private set; }
     }
 }
