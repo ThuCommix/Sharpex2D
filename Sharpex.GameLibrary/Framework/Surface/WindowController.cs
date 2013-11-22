@@ -118,6 +118,22 @@ namespace SharpexGL.Framework.Surface
             _surface.BeginInvoke(br);
         }
 
+        /// <summary>
+        /// Sets the Cursor visibility.
+        /// </summary>
+        /// <param name="state">The State.</param>
+        public void SetCursorVisibility(bool state)
+        {
+            if (state)
+            {
+                Cursor.Show();
+            }
+            else
+            {
+                Cursor.Hide();
+            }
+        }
+
         #endregion
 
         /// <summary>
@@ -127,7 +143,7 @@ namespace SharpexGL.Framework.Surface
         public WindowController(RenderTarget renderTarget)
         {
             _surface = (Form) Control.FromHandle(renderTarget.Handle);
-            Cursor.Hide();
+            SetCursorVisibility(false);
             SetControlLayout(new SurfaceLayout(true, false, true));
         }
 

@@ -42,5 +42,10 @@ namespace SharpexGL.Framework.Surface
         /// </summary>
         /// <param name="surfaceLayout">The SurfaceLayout.</param>
         void SetControlLayout(SurfaceLayout surfaceLayout);
+        /// <summary>
+        /// Sets the Cursor visibility.
+        /// </summary>
+        /// <param name="state">The State.</param>
+        void SetCursorVisibility(bool state);
     }
 }
