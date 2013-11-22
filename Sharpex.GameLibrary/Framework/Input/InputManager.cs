@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Input.Devices;
 using SharpexGL.Framework.Rendering;
@@ -37,15 +38,6 @@ namespace SharpexGL.Framework.Input
         #endregion
 
         /// <summary>
-        /// Initializes a new InputManager Instance.
-        /// </summary>
-        /// <param name="handle">The GameWindowHandle.</param>
-        public InputManager(IntPtr handle)
-        {
-            Keyboard = new Keyboard();
-            Mouse = new Mouse(handle);
-        }
-        /// <summary>
         /// Gets the KeyboardListener.
         /// </summary>
         public Keyboard Keyboard { get; private set; }
@@ -53,5 +45,65 @@ namespace SharpexGL.Framework.Input
         /// Gets the MouseListener.
         /// </summary>
         public Mouse Mouse { get; private set; }
+
+        /// <summary>
+        /// Initializes a new InputManager Instance.
+        /// </summary>
+        /// <param name="handle">The GameWindowHandle.</param>
+        public InputManager(IntPtr handle)
+        {
+            Keyboard = new Keyboard();
+            Mouse = new Mouse(handle);
+            _devices = new List<IDevice> {Keyboard, Mouse};
+        }
+
+        private readonly List<IDevice> _devices;
+
+        /// <summary>
+        /// Gets all Devices.
+        /// </summary>
+        /// <returns>IDevice Array</returns>
+        public IDevice[] GetDevices()
+        {
+            return _devices.ToArray();
+        }
+
+        /// <summary>
+        /// Adds a new device to the InputManager.
+        /// </summary>
+        /// <param name="device">The Device.</param>
+        public void Add(IDevice device)
+        {
+            _devices.Add(device);
+        }
+
+        /// <summary>
+        /// Removes a device from the InputManager.
+        /// </summary>
+        /// <param name="device">The Device.</param>
+        public void Remove(IDevice device)
+        {
+            if (_devices.Contains(device))
+            {
+                _devices.Remove(device);
+            }
+        }
+        /// <summary>
+        /// Gets a special device.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <returns>Device</returns>
+        public T Get<T>() where T : IDevice
+        {
+            for (var i = 0; i <= _devices.Count - 1; i++)
+            {
+                if (_devices[i].GetType() == typeof (T))
+                {
+                    return (T)_devices[i];
+                }
+            }
+
+            throw new InvalidOperationException("Device not found (" + typeof(T).FullName + ").");
+        }
     }
 }
