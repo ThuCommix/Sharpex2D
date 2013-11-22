@@ -71,7 +71,7 @@ namespace SharpexGL.Framework.Input.Devices
         private static extern IntPtr SetWindowsHookEx(HookType code, HookProc func, IntPtr hInstance, int threadID);
 
         [DllImport("user32.dll")]
-        private static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         private enum HookType
         {
@@ -117,8 +117,7 @@ namespace SharpexGL.Framework.Input.Devices
                 
             }
             //return the value returned by CallNextHookEx
-            CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
-            return IntPtr.Zero;
+            return CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
         }
 
         #endregion
