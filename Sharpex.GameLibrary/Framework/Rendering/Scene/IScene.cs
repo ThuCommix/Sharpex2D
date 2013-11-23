@@ -1,4 +1,5 @@
 ﻿using SharpexGL.Framework.Content;
+using SharpexGL.Framework.Entities;
 using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Rendering.Scene
@@ -28,5 +29,14 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         /// <param name="content">The ContentManager.</param>
         void LoadContent(ContentManager content);
+
+        /// <summary>
+        /// The Current EntityEnvironment.
+        /// </summary>
+        EntityEnvironment EntityEnvironment
+        {
+            get;
+            set;
+        }
     }
 }

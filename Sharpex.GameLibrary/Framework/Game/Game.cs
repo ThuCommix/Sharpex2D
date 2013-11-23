@@ -42,14 +42,6 @@ namespace SharpexGL.Framework.Game
             get;
             set;
         }
-        /// <summary>
-        /// The Current EntityEnvironment.
-        /// </summary>
-        public EntityEnvironment EntityEnvironment
-        {
-            get;
-            set;
-        }
 
         #region IGameHandler Implementation
         void IGameHandler.Tick(float elapsed)
