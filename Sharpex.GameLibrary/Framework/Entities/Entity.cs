@@ -13,7 +13,7 @@ namespace SharpexGL.Framework.Entities
         /// </summary>
         protected Entity()
         {
-            Id = Guid.NewGuid();
+            Id = 0;
             _position = new Vector2(0, 0);
             EntityContainer = new EntityContainer();
             _componentsEnabled = true;
@@ -40,7 +40,7 @@ namespace SharpexGL.Framework.Entities
         /// <summary>
         /// Sets or gets the Id of the Entity.
         /// </summary>
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets the EntityContainer.
@@ -68,7 +68,10 @@ namespace SharpexGL.Framework.Entities
         /// <param name="delta">The Delta.</param>
         public virtual void OnPositionChanged(Vector2 delta)
         {
-            _eventManager.Publish(new EntityPositionChangedEvent(delta));
+            if (RaiseEvents)
+            {
+                _eventManager.Publish(new EntityPositionChangedEvent(delta));
+            }
         }
         /// <summary>
         /// Enables Container updates.
@@ -91,7 +94,10 @@ namespace SharpexGL.Framework.Entities
         public void Destroy()
         {
             IsDestroyed = true;
-            _eventManager.Publish(new EntityDestroyedEvent(this));
+            if (RaiseEvents)
+            {
+                _eventManager.Publish(new EntityDestroyedEvent(this));
+            }
         }
 
         /// <summary>
