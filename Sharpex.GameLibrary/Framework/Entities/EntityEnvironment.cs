@@ -4,17 +4,17 @@ using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Entities
 {
-    public class EntityManager
+    public class EntityEnvironment
     {
         /// <summary>
         /// Initializes a new EntityManager class.
         /// </summary>
-        public EntityManager()
+        public EntityEnvironment()
         {
-            _entities = new List<Entity>();
+            _entities = new Dictionary<int, Entity>();
         }
 
-        private readonly List<Entity> _entities;
+        private readonly Dictionary<int, Entity> _entities;
 
         /// <summary>
         /// Adds a new Entity to the Container.
@@ -22,7 +22,14 @@ namespace SharpexGL.Framework.Entities
         /// <param name="entity">The Entity.</param>
         public void Add(Entity entity)
         {
-            _entities.Add(entity);
+            if (!_entities.ContainsKey(entity.Id))
+            {
+                _entities.Add(entity.Id, entity);
+            }
+            else
+            {
+                throw new ArgumentException("The entity id is already in use.");
+            }
         }
 
         /// <summary>
@@ -31,9 +38,9 @@ namespace SharpexGL.Framework.Entities
         /// <param name="entity">The Entity.</param>
         public void Remove(Entity entity)
         {
-            if (_entities.Contains(entity))
+            if (_entities.ContainsValue(entity))
             {
-                _entities.Remove(entity);
+                _entities.Remove(entity.Id);
             }
         }
 
@@ -43,7 +50,9 @@ namespace SharpexGL.Framework.Entities
         /// <returns>Entity Array</returns>
         public Entity[] GetEntities()
         {
-            return _entities.ToArray();
+            var entities = new Entity[_entities.Values.Count];
+            _entities.Values.CopyTo(entities, 0);
+            return entities;
         }
 
         /// <summary>
@@ -69,7 +78,7 @@ namespace SharpexGL.Framework.Entities
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>Entity.</returns>
-        public Entity GetEntityById(Guid id)
+        public Entity GetEntityById(int id)
         {
             for (var i = 0; i <= _entities.Count - 1; i++)
             {
@@ -100,9 +109,9 @@ namespace SharpexGL.Framework.Entities
             {
                 if (entity.IsDestroyed)
                 {
-                    if (_entities.Contains(entity))
+                    if (_entities.ContainsValue(entity))
                     {
-                        _entities.Remove(entity);
+                        _entities.Remove(entity.Id);
                     }
                 }
                 else

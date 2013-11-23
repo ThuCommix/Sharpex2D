@@ -1,5 +1,6 @@
 ﻿using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
+using SharpexGL.Framework.Entities;
 using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering;
@@ -37,6 +38,14 @@ namespace SharpexGL.Framework.Game
         /// The Current SceneManager.
         /// </summary>
         public SceneManager SceneManager
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// The Current EntityEnvironment.
+        /// </summary>
+        public EntityEnvironment EntityEnvironment
         {
             get;
             set;
