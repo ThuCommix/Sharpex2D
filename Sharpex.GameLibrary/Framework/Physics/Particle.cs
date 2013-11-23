@@ -1,10 +1,11 @@
-﻿using SharpexGL.Framework.Math;
+﻿using SharpexGL.Framework.Entities;
+using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Physics.Collision;
 using SharpexGL.Framework.Physics.Shapes;
 
 namespace SharpexGL.Framework.Physics
 {
-    public class Particle
+    public class Particle : Entity
     {
         #region IShape Implementation
         /// <summary>
@@ -29,7 +30,7 @@ namespace SharpexGL.Framework.Physics
         private float _elasticity = 1f;
         private Vector2 _velocity = new Vector2(0, 0);
         private float _damping = 1f;
-        private IPhysicProvider _physicProvider;
+        private readonly IPhysicProvider _physicProvider;
 
         /// <summary>
         /// Sets or gets the mass of the object.
@@ -68,10 +69,6 @@ namespace SharpexGL.Framework.Physics
                 _damping = value;
             }
         }
-        /// <summary>
-        /// Sets or gets the Position of the object.
-        /// </summary>
-        public Vector2 Position { set; get; }
         /// <summary>
         /// Sets or gets whether gravity should be used.
         /// </summary>
