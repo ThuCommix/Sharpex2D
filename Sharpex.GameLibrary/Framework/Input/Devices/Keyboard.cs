@@ -114,7 +114,6 @@ namespace SharpexGL.Framework.Input.Devices
                 {
                     SetKeyState((Keys)vkcode, true);
                 }
-                
             }
             //return the value returned by CallNextHookEx
             return CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
