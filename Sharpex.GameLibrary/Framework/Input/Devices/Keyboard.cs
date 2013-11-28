@@ -37,11 +37,10 @@ namespace SharpexGL.Framework.Input.Devices
             if (IsEnabled)
             {
                 _lastkeystate.Clear();
-                foreach (KeyValuePair<Keys, bool> current in _keystate)
+                foreach (var current in _keystate)
                 {
                     _lastkeystate.Add(current.Key, current.Value);
                 }
-                _keystate.Clear();
             }
         }
 
