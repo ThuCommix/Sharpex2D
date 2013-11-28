@@ -124,7 +124,7 @@ namespace SharpexGL
         /// <summary>
         /// Closes the current session.
         /// </summary>
-        internal static void Shutdown()
+        public static void Shutdown()
         {
             Components.Get<GameLoop>().Stop();
             _gameInstance.OnUnload();
