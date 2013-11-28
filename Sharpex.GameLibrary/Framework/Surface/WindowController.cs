@@ -146,25 +146,18 @@ namespace SharpexGL.Framework.Surface
             _surface = (Form) Control.FromHandle(renderTarget.Handle);
             SetCursorVisibility(false);
             SetControlLayout(new SurfaceLayout(true, false, true));
-            InternalCheckWindowAvailability();
+            _surface.FormClosing += _surface_FormClosing;
         }
 
         /// <summary>
-        /// Checks whether the surface is available.
+        /// Called, if the surface is closing.
         /// </summary>
-        private void InternalCheckWindowAvailability()
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        void _surface_FormClosing(object sender, FormClosingEventArgs e)
         {
-            new Thread(() =>
-            {
-                while (true)
-                {
-                    if (Application.OpenForms.Count == 0)
-                    {
-                        SGL.Shutdown();
-                    }
-                    Thread.Sleep(200);
-                }
-            }) {IsBackground = true}.Start();
+            e.Cancel = true;
+            SGL.Shutdown();
         }
 
         private readonly Form _surface;
