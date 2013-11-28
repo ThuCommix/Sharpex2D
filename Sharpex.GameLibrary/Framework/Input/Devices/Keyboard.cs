@@ -67,10 +67,10 @@ namespace SharpexGL.Framework.Input.Devices
         #region Win32
 
         [DllImport("user32.dll")]
-        private static extern IntPtr SetWindowsHookEx(HookType code, HookProc func, IntPtr hInstance, int threadID);
+        private static extern int SetWindowsHookEx(HookType code, HookProc func, IntPtr hInstance, int threadID);
 
         [DllImport("user32.dll")]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        private static extern int CallNextHookEx(int hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
         private enum HookType
         {
@@ -80,14 +80,14 @@ namespace SharpexGL.Framework.Input.Devices
             WH_MOUSE_LL = 14
         }
 
-        delegate IntPtr HookProc(int code, IntPtr wParam, IntPtr lParam);
+        delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr GetModuleHandle(string lpModuleName);
 
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        static extern bool UnhookWindowsHookEx(int hhk);
 
         private const int WM_KEYUP = 0x0101;
         private const int WM_SYSKEYUP = 0x0105;
@@ -100,27 +100,29 @@ namespace SharpexGL.Framework.Input.Devices
         /// <param name="code">The Status.</param>
         /// <param name="wParam">The Handle.</param>
         /// <param name="lParam">The Handle.</param>
-        private IntPtr HookCallback(int code, IntPtr wParam, IntPtr lParam)
+        private int HookCallback(int code, IntPtr wParam, IntPtr lParam)
         {
-            if (code == 0)
+            if (code < 0)
             {
-                var vkcode = Marshal.ReadInt32(lParam);
-                if (wParam == (IntPtr) WM_KEYUP || wParam == (IntPtr) WM_SYSKEYUP)
-                {
-                    SetKeyState((Keys)vkcode, false);
-                }
-                if (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
-                {
-                    SetKeyState((Keys)vkcode, true);
-                }
+                return CallNextHookEx(_hook, code, wParam, lParam); 
             }
-            //return the value returned by CallNextHookEx
-            return CallNextHookEx(IntPtr.Zero, code, wParam, lParam);
+
+            var vkcode = Marshal.ReadInt32(lParam);
+            if (wParam == (IntPtr) WM_KEYUP || wParam == (IntPtr) WM_SYSKEYUP)
+            {
+                SetKeyState((Keys)vkcode, false);
+            }
+            if (wParam == (IntPtr)WM_KEYDOWN || wParam == (IntPtr)WM_SYSKEYDOWN)
+            {
+                SetKeyState((Keys)vkcode, true);
+            }
+            return CallNextHookEx(_hook, code, wParam, lParam);
         }
 
         #endregion
 
-        private readonly IntPtr _hook;
+        private readonly int _hook;
+        private readonly HookProc _hookCallback;
 
         private readonly Dictionary<Keys, bool> _keystate;
         private readonly Dictionary<Keys, bool> _lastkeystate;
@@ -135,8 +137,9 @@ namespace SharpexGL.Framework.Input.Devices
             _keystate = new Dictionary<Keys, bool>();
             _lastkeystate = new Dictionary<Keys, bool>();
             IsEnabled = true;
+            _hookCallback = new HookProc(HookCallback);
             var hModule = GetModuleHandle(Process.GetCurrentProcess().MainModule.ModuleName);
-           _hook = SetWindowsHookEx(HookType.WH_KEYBOARD_LL, HookCallback,  hModule, 0);
+           _hook = SetWindowsHookEx(HookType.WH_KEYBOARD_LL, _hookCallback,  hModule, 0);
         }
 
         /// <summary>
