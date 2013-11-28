@@ -15,7 +15,6 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         public void Construct()
         {
-            _scenes = new List<IScene>();
             SGL.Components.Get<GameLoop>().Subscribe(this);
         }
 
@@ -58,7 +57,15 @@ namespace SharpexGL.Framework.Rendering.Scene
 
         #endregion
 
-        private List<IScene> _scenes;
+        /// <summary>
+        /// Initializes a new SceneManager class.
+        /// </summary>
+        public SceneManager()
+        {
+            _scenes = new List<IScene>();
+        }
+
+        private readonly List<IScene> _scenes;
 
         /// <summary>
         /// Gets the ActiveScene.
