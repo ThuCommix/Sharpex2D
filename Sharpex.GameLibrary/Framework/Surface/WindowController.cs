@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using SharpexGL.Framework.Math;
 
@@ -145,6 +146,25 @@ namespace SharpexGL.Framework.Surface
             _surface = (Form) Control.FromHandle(renderTarget.Handle);
             SetCursorVisibility(false);
             SetControlLayout(new SurfaceLayout(true, false, true));
+            InternalCheckWindowAvailability();
+        }
+
+        /// <summary>
+        /// Checks whether the surface is available.
+        /// </summary>
+        private void InternalCheckWindowAvailability()
+        {
+            new Thread(() =>
+            {
+                while (true)
+                {
+                    if (Application.OpenForms.Count == 0)
+                    {
+                        SGL.Shutdown();
+                    }
+                    Thread.Sleep(200);
+                }
+            }) {IsBackground = true}.Start();
         }
 
         private readonly Form _surface;
