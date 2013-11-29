@@ -42,7 +42,7 @@ namespace SharpexGL
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.537"; } }
+        public static string Version { get { return "0.1.549"; } }
         /// <summary>
         /// Determines, if SGL is initialized.
         /// </summary>
@@ -71,6 +71,7 @@ namespace SharpexGL
             _gameInstance = initializer.GameInstance;
             var renderTarget = new RenderTarget(initializer.TargetHandle);
             Components.AddComponent(renderTarget);
+            Components.AddComponent(new EventManager());
             renderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
             initializer.GameInstance.Input = new InputManager(renderTarget.Handle);
             GraphicsDevice = new GraphicsDevice(renderTarget)
@@ -79,17 +80,16 @@ namespace SharpexGL
             };
             initializer.GameInstance.Content = new ContentManager();
             initializer.GameInstance.SceneManager = new SceneManager();
+            Components.AddComponent(new GameLoop
+            {
+                TargetFramesPerSecond = initializer.TargetFramesPerSecond
+            });
             Components.AddComponent(Implementations);
             Components.AddComponent(initializer.GameInstance.Content);
             Components.AddComponent(GraphicsDevice);
             Components.AddComponent(initializer.GameInstance);
             Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
-            Components.AddComponent(new EventManager());
-            Components.AddComponent(new GameLoop
-                {
-                    TargetFramesPerSecond = initializer.TargetFramesPerSecond
-                });
             Components.Get<GameLoop>().Subscribe(_gameInstance);
         }
 
