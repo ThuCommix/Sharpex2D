@@ -7,7 +7,7 @@ using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Input.Devices
 {
-    public class Mouse : IDevice
+    public class Mouse : IMouse
     {
         #region IDevice Implementation
 
@@ -23,6 +23,37 @@ namespace SharpexGL.Framework.Input.Devices
         /// Gets the device description.
         /// </summary>
         public string Description { get; private set; }
+
+        #endregion
+
+        #region IMouse Implementation
+
+        /// <summary>
+        /// Gets the current MousePosition.
+        /// </summary>
+        public Vector2 Position
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// Determines, if a specific button is pressed.
+        /// </summary>
+        /// <param name="button">The Button.</param>
+        /// <returns>Boolean</returns>
+        public bool IsButtonPressed(MouseButtons button)
+        {
+            return _mousestate.ContainsKey(button) && _mousestate[button];
+        }
+        /// <summary>
+        /// Determines, if a specific button is released.
+        /// </summary>
+        /// <param name="button">The Button.</param>
+        /// <returns>Boolean</returns>
+        public bool IsButtonReleased(MouseButtons button)
+        {
+            return _mousestate.ContainsKey(button) && _mousestate[button];
+        }
 
         #endregion
 
@@ -46,37 +77,12 @@ namespace SharpexGL.Framework.Input.Devices
         }
 
         private readonly Dictionary<MouseButtons, bool> _mousestate;
-        /// <summary>
-        /// Gets the current MousePosition.
-        /// </summary>
-        public Vector2 Position
-        {
-            get;
-            private set;
-        }
+
         /// <summary>
         /// Represents the surface handle.
         /// </summary>
         public IntPtr Handle { private set; get; }
 
-        /// <summary>
-        /// Determines, if a specific button is pressed.
-        /// </summary>
-        /// <param name="button">The Button.</param>
-        /// <returns>Boolean</returns>
-        public bool IsButtonPressed(MouseButtons button)
-        {
-            return _mousestate.ContainsKey(button) && _mousestate[button];
-        }
-        /// <summary>
-        /// Determines, if a specific button is released.
-        /// </summary>
-        /// <param name="button">The Button.</param>
-        /// <returns>Boolean</returns>
-        public bool IsButtonReleased(MouseButtons button)
-        {
-            return _mousestate.ContainsKey(button) && _mousestate[button];
-        }
         /// <summary>
         /// Sets the internal button state.
         /// </summary>
