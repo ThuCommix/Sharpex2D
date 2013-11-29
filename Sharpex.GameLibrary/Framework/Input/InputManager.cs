@@ -40,11 +40,11 @@ namespace SharpexGL.Framework.Input
         /// <summary>
         /// Gets the KeyboardListener.
         /// </summary>
-        public Keyboard Keyboard { get; private set; }
+        public IKeyboard Keyboard { get; private set; }
         /// <summary>
         /// Gets the MouseListener.
         /// </summary>
-        public Mouse Mouse { get; private set; }
+        public IMouse Mouse { get; private set; }
 
         /// <summary>
         /// Initializes a new InputManager Instance.
@@ -52,12 +52,23 @@ namespace SharpexGL.Framework.Input
         /// <param name="handle">The GameWindowHandle.</param>
         public InputManager(IntPtr handle)
         {
-            Keyboard = new Keyboard();
             Mouse = new Mouse(handle);
-            _devices = new List<IDevice> {Keyboard, Mouse};
+            var fluentKeyboard = new Keyboard(handle){IsEnabled=true};
+            Keyboard = fluentKeyboard;
+            _devices = new List<IDevice> {fluentKeyboard, Mouse};
         }
 
         private readonly List<IDevice> _devices;
+
+        /// <summary>
+        /// Sets the standard keyboard.
+        /// </summary>
+        /// <param name="keyboard">The Keyboard.</param>
+        public void SetStandardKeyboard(IKeyboard keyboard)
+        {
+            Keyboard = keyboard;
+            Keyboard.Construct();
+        }
 
         /// <summary>
         /// Gets all Devices.
