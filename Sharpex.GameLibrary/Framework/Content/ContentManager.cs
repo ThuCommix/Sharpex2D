@@ -33,6 +33,10 @@ namespace SharpexGL.Framework.Content
         /// Sets or gets the FileSystem.
         /// </summary>
         public IFileSystem FileSystem { set; get; }
+        /// <summary>
+        /// Gets the ContentVerifier.
+        /// </summary>
+        public ContentVerifier ContentVerifier { private set; get; }
 
         private readonly List<IContentExtension> _extensions; 
 
@@ -44,6 +48,7 @@ namespace SharpexGL.Framework.Content
             FileSystem = new Win32FileSystem();
             ContentPath = FileSystem.ConnectPath(Environment.CurrentDirectory, "Content");
             _extensions = new List<IContentExtension>();
+            ContentVerifier = new ContentVerifier();
         }
         /// <summary>
         /// Destructs the ContentManager.
