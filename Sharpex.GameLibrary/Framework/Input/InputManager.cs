@@ -71,6 +71,15 @@ namespace SharpexGL.Framework.Input
         }
 
         /// <summary>
+        /// Sets the standard mouse.
+        /// </summary>
+        /// <param name="mouse">The Mouse.</param>
+        public void SetStandardMouse(IMouse mouse)
+        {
+            Mouse = mouse;
+        }
+
+        /// <summary>
         /// Gets all Devices.
         /// </summary>
         /// <returns>IDevice Array</returns>
