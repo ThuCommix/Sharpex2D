@@ -15,7 +15,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         public void Construct()
         {
-            SGL.Components.Get<GameLoop>().Subscribe(this);
+         
         }
 
         /// <summary>
