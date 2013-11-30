@@ -100,14 +100,14 @@ namespace SharpexGL.Framework.Input.Devices
         {
             if (IsEnabled)
             {
-                SetButtonState(e.Button, false);
+                SetButtonState((MouseButtons)e.Button, false);
             }
         }
         private void surface_MouseDown(object sender, MouseEventArgs e)
         {
             if (IsEnabled)
             {
-                SetButtonState(e.Button, true);
+                SetButtonState((MouseButtons)e.Button, true);
             }
         }
         private void surface_MouseMove(object sender, MouseEventArgs e)
