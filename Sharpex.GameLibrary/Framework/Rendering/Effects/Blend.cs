@@ -28,7 +28,6 @@ namespace SharpexGL.Framework.Rendering.Effects
                 _scaling = 255 / Duration;
                 _drawingRect = new Math.Rectangle(-8, -5, SGL.GraphicsDevice.DisplayMode.Width + 20,
                     SGL.GraphicsDevice.DisplayMode.Height + 20);
-                SGL.Components.Get<GameLoop>().Subscribe(this);
                 _finished = false;
                 Completed = false;
                 _issubscribed = true;
@@ -63,17 +62,21 @@ namespace SharpexGL.Framework.Rendering.Effects
         {
             if (_finished)
             {
-                SGL.Components.Get<GameLoop>().Unsubscribe(this);
-                _issubscribed = false;
-                Completed = true;
-                if (Callback != null)
+                if (!_finishFired)
                 {
-                    // Invoke callback
-                    new Thread(() => Callback.Invoke()).Start();
+                    _finishFired = true;
+                    _issubscribed = false;
+                    Completed = true;
+                    if (Callback != null)
+                    {
+                        // Invoke callback
+                        new Thread(() => Callback.Invoke()).Start();
+                    }
                 }
             }
             else
             {
+                if (!_issubscribed) return;
                 var deltaA = _scaling*elapsed;
                 if (_blendMode == BlendMode.FadeIn)
                 {
@@ -114,7 +117,7 @@ namespace SharpexGL.Framework.Rendering.Effects
             /*/renderer.DrawTexture(_overlay,
                 _drawingRect,
                 _color);/*/
-
+            if (!_issubscribed) return;
             renderer.FillRectangle(_color, _drawingRect);
         }
 
@@ -144,6 +147,7 @@ namespace SharpexGL.Framework.Rendering.Effects
         private readonly BlendMode _blendMode;
         private float _alpha;
         private float _scaling;
+        private bool _finishFired;
         private Math.Rectangle _drawingRect;
     }
 }
