@@ -180,7 +180,6 @@ namespace SharpexGL.Framework.Game.Timing
             while (!_cancelFlag)
             {
                 sw.Start();
-                SGL.CurrentRenderer.Begin();
                 //Only render, if the rendering is not suppressed
                 if (!_suppressRender)
                 {
@@ -191,7 +190,6 @@ namespace SharpexGL.Framework.Game.Timing
                         subscriber.Render(SGL.CurrentRenderer, _renderTime);
                     }
                 }
-                SGL.CurrentRenderer.Close();
                 if (SGL.CurrentRenderer.VSync)
                 {
                     if (sw.ElapsedMilliseconds < 15)
