@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Common.Extensions;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering;
