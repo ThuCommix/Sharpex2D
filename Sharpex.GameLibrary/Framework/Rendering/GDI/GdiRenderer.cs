@@ -281,16 +281,19 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
-        /// <param name="spriteFont">The SpriteFont.</param>
+        /// <param name="font">The Fonr.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, SpriteFont spriteFont, Vector2 position, Color color)
+        public void DrawString(string text, IFont font, Vector2 position, Color color)
         {
             CheckDisposed();
 
-            spriteFont.Value = text;
-            spriteFont.FontColor = color.ToWin32Color();
-            _buffergraphics.DrawImage(spriteFont.Render().Texture2D, position.ToPoint());
+            var gdifont = font as GdiFont;
+            if (gdifont == null)
+            {
+                throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
+            }
+            TextRenderer.DrawText(_buffergraphics, text, gdifont.GetFont(), position.ToPoint(), color.ToWin32Color(), TextFormatFlags.Default);
         }
 
         /// <summary>
@@ -311,6 +314,7 @@ namespace SharpexGL.Framework.Rendering.GDI
                 : PixelOffsetMode.HighSpeed;
             GraphicsDevice.ClearColor = Color.CornflowerBlue;
             _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
+            _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
         }
 
         #endregion
@@ -376,14 +380,16 @@ namespace SharpexGL.Framework.Rendering.GDI
             {
                 _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.AntiAlias : SmoothingMode.HighSpeed;
                 _buffergraphics.InterpolationMode = _quality.Interpolation
-                    ? InterpolationMode.High
-                    : InterpolationMode.NearestNeighbor;
+                    ? InterpolationMode.HighQualityBicubic
+                    : InterpolationMode.Low;
                 _buffergraphics.CompositingQuality = _quality.Compositing
                     ? CompositingQuality.HighQuality
-                    : CompositingQuality.AssumeLinear;
+                    : CompositingQuality.HighSpeed;
                 _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
                     ? PixelOffsetMode.HighQuality
                     : PixelOffsetMode.HighSpeed;
+                _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+                _buffergraphics.CompositingMode = CompositingMode.SourceOver;
             }
         }
 

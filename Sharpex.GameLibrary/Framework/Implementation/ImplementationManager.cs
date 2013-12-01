@@ -86,7 +86,7 @@ namespace SharpexGL.Framework.Implementation
             AddImplementation(new IntegerSerializer());
             AddImplementation(new LongSerializer());
             AddImplementation(new ShortSerializer());
-            AddImplementation(new SpriteFontSerializer());
+            AddImplementation(new TypefaceSerializer());
             AddImplementation(new StringSerializer());
             AddImplementation(new TextureSerializer());
             AddImplementation(new Vector2Serializer());

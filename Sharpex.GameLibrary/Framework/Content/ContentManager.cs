@@ -94,12 +94,12 @@ namespace SharpexGL.Framework.Content
                     return (T)(Object)SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
-            //spritefont
-            if (typeof(T) == typeof(SpriteFont))
+            //typeface
+            if (typeof(T) == typeof(Typeface))
             {
                 using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
                 {
-                    return (T)(Object)SGL.Implementations.Get<SpriteFontSerializer>().Read(new BinaryReader(fileStream));
+                    return (T)(Object)SGL.Implementations.Get<TypefaceSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
             //spritesheet
