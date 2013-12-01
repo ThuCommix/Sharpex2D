@@ -175,12 +175,10 @@ namespace SharpexGL.Framework.Rendering.Font
                 var vector = MeassureString(Value);
                 var bitmap = new Bitmap((int)vector.X, (int)vector.Y);
                 var graphics = Graphics.FromImage(bitmap);
-                graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-                graphics.SmoothingMode = SmoothingMode.HighQuality;
-                graphics.CompositingQuality = CompositingQuality.HighQuality;
-                graphics.CompositingMode = CompositingMode.SourceCopy;
-                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.TextRenderingHint = TextRenderingHint.SingleBitPerPixelGridFit;
                 var num = 0;
                 var num2 = 0;
                 var array = Value.Split(new[]
