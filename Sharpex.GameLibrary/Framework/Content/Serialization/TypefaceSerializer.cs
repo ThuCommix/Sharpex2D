@@ -15,7 +15,7 @@ namespace SharpexGL.Framework.Content.Serialization
             var typeface = new Typeface
             {
                 FamilyName = reader.ReadString(),
-                Size = reader.ReadInt32(),
+                Size = reader.ReadSingle(),
                 Style = (TypefaceStyle) reader.ReadInt32()
             };
             return typeface;
