@@ -1,8 +1,9 @@
 ﻿using System.Drawing;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
+using SharpexGL.Framework.Rendering.GDI;
 
-namespace SharpexGL.Framework.Rendering.Sprites
+namespace SharpexGL.Framework.Rendering.Sprites.GDI
 {
     public class SpriteSheet : IContent
     {
@@ -15,6 +16,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
             RawTexture = rawTexture;
             _spriteBuffer = new SpriteBuffer();
         }
+
         /// <summary>
         /// Static ctor.
         /// </summary>
@@ -22,6 +24,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
         {
             Factory = new SpriteSheetFactory();
         }
+
         /// <summary>
         /// Sets or gets the SpriteSheetFactory.
         /// </summary>
@@ -39,17 +42,18 @@ namespace SharpexGL.Framework.Rendering.Sprites
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
         /// <returns>Texture</returns>
-        public Texture GetSprite(int x, int y, int width, int height)
+        public GdiTexture GetSprite(int x, int y, int width, int height)
         {
-            var textureParam = new Texture();
+            GdiTexture textureParam;
             if (_spriteBuffer.IsBuffered(x, y, width, height))
             {
-                textureParam.Texture2D = _spriteBuffer.GetBuffer();
+                textureParam = new GdiTexture(_spriteBuffer.GetBuffer());
             }
             else
             {
-                textureParam.Texture2D = _rawTexture.Clone(new Rectangle(x, y, width, height), _rawTexture.PixelFormat);
-                _spriteBuffer.SetBuffer(x, y, width, height, textureParam.Texture2D);
+                textureParam =
+                    new GdiTexture(_rawTexture.Clone(new Rectangle(x, y, width, height), _rawTexture.PixelFormat));
+                _spriteBuffer.SetBuffer(x, y, width, height, textureParam.Bmp);
             }
             return textureParam;
         }

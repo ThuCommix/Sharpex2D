@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using SharpexGL.Framework.Content.Serialization;
-using SharpexGL.Framework.Rendering.Sprites;
+using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content.Factory
 {

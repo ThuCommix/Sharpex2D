@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace SharpexGL.Framework.Rendering.Sprites
+namespace SharpexGL.Framework.Rendering.Sprites.GDI
 {
     public class SpriteBuffer
     {

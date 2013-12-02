@@ -1,8 +1,9 @@
 ﻿using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Content.Factory;
 using SharpexGL.Framework.Math;
+using SharpexGL.Framework.Rendering.GDI;
 
-namespace SharpexGL.Framework.Rendering.Sprites
+namespace SharpexGL.Framework.Rendering.Sprites.GDI
 {
     public class Animation : IContent
     {
@@ -47,7 +48,7 @@ namespace SharpexGL.Framework.Rendering.Sprites
         /// <summary>
         /// Gets the current Texture.
         /// </summary>
-        public Texture Texture { private set; get; }
+        public GdiTexture Texture { private set; get; }
 
         /// <summary>
         /// Updates the Animation class.

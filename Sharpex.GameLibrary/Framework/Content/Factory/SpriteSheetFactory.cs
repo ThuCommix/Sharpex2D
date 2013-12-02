@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using SharpexGL.Framework.Rendering;
-using SharpexGL.Framework.Rendering.Sprites;
+using SharpexGL.Framework.Rendering.GDI;
+using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content.Factory
 {
@@ -31,9 +31,9 @@ namespace SharpexGL.Framework.Content.Factory
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <returns>SpriteSheet</returns>
-        public SpriteSheet Create(Texture texture)
+        public SpriteSheet Create(GdiTexture texture)
         {
-            return new SpriteSheet(texture.Texture2D);
+            return new SpriteSheet(texture.Bmp);
         }
         /// <summary>
         /// Creates a new SpriteSheet Instance.

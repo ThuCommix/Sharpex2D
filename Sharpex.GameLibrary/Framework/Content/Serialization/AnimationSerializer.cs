@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.IO;
 using SharpexGL.Framework.Common.Extensions;
-using SharpexGL.Framework.Rendering.Sprites;
+using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content.Serialization
 {
@@ -34,7 +34,7 @@ namespace SharpexGL.Framework.Content.Serialization
         {
             //write image
             var stream = new MemoryStream();
-            value.Texture.Texture2D.Save(stream, ImageFormat.Png);
+            value.Texture.Bmp.Save(stream, ImageFormat.Png);
             var bytes = stream.ToArray();
             writer.Write(bytes);
             //write duration

@@ -2,7 +2,7 @@
 using System.Drawing.Imaging;
 using System.IO;
 using SharpexGL.Framework.Common.Extensions;
-using SharpexGL.Framework.Rendering.Sprites;
+using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content.Serialization
 {
