@@ -1,38 +1,34 @@
 ﻿using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using SharpexGL.Framework.Common.Extensions;
-using SharpexGL.Framework.Rendering;
+using SharpexGL.Framework.Rendering.GDI;
 
 namespace SharpexGL.Framework.Content.Serialization
 {
-    public class TextureSerializer : ContentSerializer<Texture>
+    public class GdiTextureSerializer : ContentSerializer<GdiTexture>
     {
         /// <summary>
         /// Reads a value from the given Reader.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns></returns>
-        public override Texture Read(BinaryReader reader)
+        public override GdiTexture Read(BinaryReader reader)
         {
             var stream = new MemoryStream(reader.ReadAllBytes());
-            var newImage = Image.FromStream(stream);
+            var newImage = (Bitmap)Image.FromStream(stream);
             stream.Dispose();
-            var texture = new Texture();
-            texture.Texture2D = (Bitmap)newImage;
             reader.Close();
-            return texture;
+            return new GdiTexture(newImage);
         }
         /// <summary>
         /// Writes a specified value.
         /// </summary>
         /// <param name="writer">The BinaryWriter.</param>
         /// <param name="value">The Value.</param>
-        public override void Write(BinaryWriter writer, Texture value)
+        public override void Write(BinaryWriter writer, GdiTexture value)
         {
-            //Define final destination:
             var stream = new MemoryStream();
-            value.Texture2D.Save(stream, ImageFormat.Png);
+            value.Bmp.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
             var bytes = stream.ToArray();
             writer.Write(bytes);
             stream.Dispose();

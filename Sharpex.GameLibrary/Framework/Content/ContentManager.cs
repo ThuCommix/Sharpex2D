@@ -5,9 +5,9 @@ using SharpexGL.Framework.Common.FileSystem;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content.Serialization;
 using SharpexGL.Framework.Media.Sound;
-using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Font;
-using SharpexGL.Framework.Rendering.Sprites;
+using SharpexGL.Framework.Rendering.GDI;
+using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content
 {
@@ -86,12 +86,12 @@ namespace SharpexGL.Framework.Content
         /// <returns></returns>
         public T Load<T>(string asset) where T : IContent
         {
-            //texture
-            if (typeof (T) == typeof (Texture))
+            //gditexture
+            if (typeof(T) == typeof(GdiTexture))
             {
                 using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
                 {
-                    return (T)(Object)SGL.Implementations.Get<TextureSerializer>().Read(new BinaryReader(fileStream));
+                    return (T)(Object)SGL.Implementations.Get<GdiTextureSerializer>().Read(new BinaryReader(fileStream));
                 }
             }
             //typeface

@@ -229,24 +229,27 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture texture, Rectangle rectangle, Color color)
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
         {
             CheckDisposed();
 
+            var gdiTexture = texture as GdiTexture;
+            if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
+
             if (color != Color.White)
             {
-                var tempBmp = new Bitmap(texture.Texture2D.Width, texture.Texture2D.Height);
+                var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
                 var g = Graphics.FromImage(tempBmp);
-                g.DrawImage(texture.Texture2D, 0, 0);
+                g.DrawImage(gdiTexture.Bmp, 0, 0);
                 g.FillRectangle(new SolidBrush(color.ToWin32Color()),
-                                new System.Drawing.Rectangle(0, 0, texture.Texture2D.Width, texture.Texture2D.Height));
+                                new System.Drawing.Rectangle(0, 0, gdiTexture.Width, gdiTexture.Height));
                 g.Dispose();
                 _buffergraphics.DrawImage(tempBmp, new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
                 tempBmp.Dispose();
             }
             else
             {
-                _buffergraphics.DrawImage(texture.Texture2D, new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
+                _buffergraphics.DrawImage(gdiTexture.Bmp, new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
             }
         }
 
@@ -256,24 +259,27 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture texture, Vector2 position, Color color)
+        public void DrawTexture(ITexture texture, Vector2 position, Color color)
         {
             CheckDisposed();
 
+            var gdiTexture = texture as GdiTexture;
+            if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
+
             if (color != Color.White)
             {
-                var tempBmp = new Bitmap(texture.Texture2D.Width, texture.Texture2D.Height);
+                var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
                 var g = Graphics.FromImage(tempBmp);
-                g.DrawImage(texture.Texture2D, 0, 0);
+                g.DrawImage(gdiTexture.Bmp, 0, 0);
                 g.FillRectangle(new SolidBrush(color.ToWin32Color()),
-                                new System.Drawing.Rectangle(0, 0, texture.Texture2D.Width, texture.Texture2D.Height));
+                                new System.Drawing.Rectangle(0, 0, gdiTexture.Width, gdiTexture.Height));
                 g.Dispose();
                 _buffergraphics.DrawImage(tempBmp, position.ToPoint());
                 tempBmp.Dispose();
             }
             else
             {
-                _buffergraphics.DrawImage(texture.Texture2D, position.ToPoint());
+                _buffergraphics.DrawImage(gdiTexture.Bmp, position.ToPoint());
             }
         }
 

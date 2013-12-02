@@ -44,20 +44,6 @@ namespace SharpexGL.Framework.Rendering
         /// </summary>
         void Close();
         /// <summary>
-        /// Draws a Texture.
-        /// </summary>
-        /// <param name="texture">The Texture.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="color">The Color.</param>
-        void DrawTexture(Texture texture, Rectangle rectangle, Color color);
-        /// <summary>
-        /// Draws a Texture.
-        /// </summary>
-        /// <param name="texture">The Texture.</param>
-        /// <param name="position">The Position.</param>
-        /// <param name="color">The Color.</param>
-        void DrawTexture(Texture texture, Vector2 position, Color color);
-        /// <summary>
         /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
@@ -65,5 +51,19 @@ namespace SharpexGL.Framework.Rendering
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
         void DrawString(string text, IFont font, Vector2 position, Color color);
+        /// <summary>
+        /// Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="position">The Position.</param>
+        /// <param name="color">The Color.</param>
+        void DrawTexture(ITexture texture, Vector2 position, Color color);
+        /// <summary>
+        /// Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="color">The Color.</param>
+        void DrawTexture(ITexture texture, Rectangle rectangle, Color color);
     }
 }
