@@ -93,81 +93,101 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <summary>
         /// Draws a Rectangle.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public void DrawRectangle(Color color, Rectangle rectangle)
+        public void DrawRectangle(IPen pen, Rectangle rectangle)
         {
             CheckDisposed();
 
-            _buffergraphics.DrawRectangle(new Pen(new SolidBrush(color.ToWin32Color())),
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
+            _buffergraphics.DrawRectangle(gdiPen.GetPen(),
                 new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
         }
         /// <summary>
         /// Draws a Line between two points.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
         /// <param name="target">The Targetpoint.</param>
-        public void DrawLine(Color color, Vector2 start, Vector2 target)
+        public void DrawLine(IPen pen, Vector2 start, Vector2 target)
         {
             CheckDisposed();
 
-            _buffergraphics.DrawLine(new Pen(new SolidBrush(color.ToWin32Color())), start.X, start.Y, target.X, target.Y);
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
+            _buffergraphics.DrawLine(gdiPen.GetPen(), start.X, start.Y, target.X, target.Y);
         }
         /// <summary>
         /// Draws a Ellipse.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public void DrawEllipse(Color color, Rectangle rectangle)
+        public void DrawEllipse(IPen pen, Rectangle rectangle)
         {
             CheckDisposed();
 
-            _buffergraphics.DrawEllipse(new Pen(new SolidBrush(color.ToWin32Color())),
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
+            _buffergraphics.DrawEllipse(gdiPen.GetPen(),
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height));
         }
         /// <summary>
         /// Draws an Arc.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="startAngle">The StartAngle.</param>
         /// <param name="sweepAngle">The SweepAngle.</param>
-        public void DrawArc(Color color, Rectangle rectangle, float startAngle, float sweepAngle)
+        public void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
             CheckDisposed();
 
-            _buffergraphics.DrawArc(new Pen(new SolidBrush(color.ToWin32Color())),
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
+            _buffergraphics.DrawArc(gdiPen.GetPen(),
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height), startAngle, sweepAngle);
         }
         /// <summary>
         /// Draws a Polygon.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="points">The Points.</param>
-        public void DrawPolygon(Color color, Vector2[] points)
+        public void DrawPolygon(IPen pen, Vector2[] points)
         {
             CheckDisposed();
 
-            _buffergraphics.DrawPolygon(new Pen(new SolidBrush(color.ToWin32Color())), points.ToPoints());
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
+            _buffergraphics.DrawPolygon(gdiPen.GetPen(), points.ToPoints());
         }
         /// <summary>
         /// Draws a corner-rounded Rectangle.
         /// </summary>
-        /// <param name="color">The Color.</param>
+        /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="radius">The Radius.</param>
-        public void DrawRoundedRectangle(Color color, Rectangle rectangle, int radius)
+        public void DrawRoundedRectangle(IPen pen, Rectangle rectangle, int radius)
         {
+            CheckDisposed();
+
+            var gdiPen = pen as GdiPen;
+            if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
+
             var gfxPath = new GraphicsPath();
             gfxPath.AddArc(rectangle.X, rectangle.Y, radius, radius, 180, 90);
             gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y, radius, radius, 270, 90);
             gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius, radius, 0, 90);
             gfxPath.AddArc(rectangle.X, rectangle.Y + rectangle.Height - radius, radius, radius, 90, 90);
             gfxPath.CloseAllFigures();
-            _buffergraphics.DrawPath(new Pen(new SolidBrush(color.ToWin32Color())), gfxPath);
+            _buffergraphics.DrawPath(gdiPen.GetPen(), gfxPath);
         }
         /// <summary>
         /// Fills a Rectangle.
