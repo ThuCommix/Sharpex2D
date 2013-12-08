@@ -49,7 +49,7 @@ Dokumentation/
 Properties/
 x64/
 build/
-[Bb]in/
+[Dd]ebug/
 [Oo]bj/
 
 # MSTest test Results
