@@ -30,16 +30,6 @@ namespace SharpexGL.Framework.Rendering.GDI
             set;
         }
         /// <summary>
-        /// Current Framerate.
-        /// </summary>
-        public int FramesPerSecond
-        {
-            get
-            {
-                return _drawInfo.FramesPerSecond;
-            }
-        }
-        /// <summary>
         /// Current GraphicsDevice.
         /// </summary>
         public GraphicsDevice GraphicsDevice
@@ -52,12 +42,12 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         public bool VSync { set; get; }
         /// <summary>
-        /// Determines if the renderer is disposed.
+        /// A value indicating whether the renderer is disposed.
         /// </summary>
         public bool IsDisposed
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
@@ -68,6 +58,7 @@ namespace SharpexGL.Framework.Rendering.GDI
             if (!IsBegin)
             {
                 IsBegin = true;
+                _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
             }
         }
         /// <summary>
@@ -79,7 +70,6 @@ namespace SharpexGL.Framework.Rendering.GDI
             {
                 IsBegin = false;
                 Renderer();
-                _drawInfo.AddDraw();
             }
         }
         /// <summary>
@@ -308,9 +298,9 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Fonr.</param>
-        /// <param name="position">The Position.</param>
+        /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, IFont font, Vector2 position, Color color)
+        public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
         {
             CheckDisposed();
 
@@ -319,7 +309,11 @@ namespace SharpexGL.Framework.Rendering.GDI
             {
                 throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
             }
-            TextRenderer.DrawText(_buffergraphics, text, gdifont.GetFont(), position.ToPoint(), color.ToWin32Color(), TextFormatFlags.Default);
+
+            TextRenderer.DrawText(_buffergraphics, text, gdifont.GetFont(),
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height),
+                color.ToWin32Color(), TextFormatFlags.WordBreak);
         }
 
         /// <summary>
@@ -351,11 +345,10 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         public GdiRenderer()
         {
-            _drawInfo.Start();
+            _quality = new GdiQuality(GdiQualityMode.High);
         }
 
         private Bitmap _buffer;
-        private readonly AccurateFpsCounter _drawInfo = new AccurateFpsCounter();
         private Graphics _buffergraphics;
         private GdiQuality _quality;
 
@@ -392,7 +385,6 @@ namespace SharpexGL.Framework.Rendering.GDI
                 GdiNative.DeleteObject(intPtr);
                 graphics.ReleaseHdc(hdc);
             }
-            _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
         }
 
         /// <summary>

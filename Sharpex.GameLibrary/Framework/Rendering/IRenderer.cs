@@ -17,19 +17,11 @@ namespace SharpexGL.Framework.Rendering
             set;
         }
         /// <summary>
-        /// Sets or gets the Frames per second.
-        /// </summary>
-        int FramesPerSecond
-        {
-            get;
-        }
-        /// <summary>
         /// Sets or gets whether the renderer is disposed.
         /// </summary>
         bool IsDisposed
         {
             get;
-            set;
         }
         /// <summary>
         /// A value indicating whether VSync is enabled.
@@ -48,9 +40,9 @@ namespace SharpexGL.Framework.Rendering
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
-        /// <param name="position">The Position.</param>
+        /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        void DrawString(string text, IFont font, Vector2 position, Color color);
+        void DrawString(string text, IFont font, Rectangle rectangle, Color color);
         /// <summary>
         /// Draws a Texture.
         /// </summary>
