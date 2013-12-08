@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 using SharpexGL.Framework.Math;
+using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Surface
 {
@@ -19,7 +19,7 @@ namespace SharpexGL.Framework.Surface
             {
                 _surface.Text = value;
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace SharpexGL.Framework.Surface
             {
                 _surface.Icon = icon;
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
         }
 
         /// <summary>
@@ -42,11 +42,13 @@ namespace SharpexGL.Framework.Surface
         /// <param name="height">The Height.</param>
         public void SetSize(int width, int height)
         {
+            FreeWindow();
             MethodInvoker br = delegate
             {
                 _surface.ClientSize = new Size(width, height);
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
+            FixWindow();
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace SharpexGL.Framework.Surface
             {
                 _surface.Location = new Point(x, y);
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
         }
 
         /// <summary>
@@ -86,7 +88,7 @@ namespace SharpexGL.Framework.Surface
                           (Screen.PrimaryScreen.WorkingArea.Height - _surface.Height) / 2);
                 }
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
         }
 
         /// <summary>
@@ -116,7 +118,7 @@ namespace SharpexGL.Framework.Surface
                 _surface.MinimizeBox = surfaceLayout.CanMinimize;
                 _surface.ControlBox = surfaceLayout.CanClose;
             };
-            _surface.BeginInvoke(br);
+            _surface.Invoke(br);
         }
 
         /// <summary>
@@ -158,6 +160,29 @@ namespace SharpexGL.Framework.Surface
         {
             e.Cancel = true;
             SGL.Shutdown();
+        }
+
+        /// <summary>
+        /// Fixes the size of the window.
+        /// </summary>
+        private void FixWindow()
+        {
+            MethodInvoker br = delegate
+            {
+                _surface.MaximumSize = _surface.Size;
+            };
+            _surface.Invoke(br);
+        }
+        /// <summary>
+        /// Frees the window size.
+        /// </summary>
+        private void FreeWindow()
+        {
+            MethodInvoker br = delegate
+            {
+                _surface.MaximumSize = new Size(0, 0);
+            };
+            _surface.Invoke(br);
         }
 
         private readonly Form _surface;
