@@ -116,6 +116,8 @@ namespace SharpexGL.Framework.Game.Timing
             var targetTime = 1000 / TargetFramesPerSecond;
             TargetFrameTime = targetTime;
             TargetUpdateTime = targetTime;
+            SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
+
             //publish event
             SGL.Components.Get<EventManager>()
                 .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, targetTime));
