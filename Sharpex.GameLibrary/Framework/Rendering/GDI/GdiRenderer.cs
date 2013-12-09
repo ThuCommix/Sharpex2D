@@ -310,10 +310,8 @@ namespace SharpexGL.Framework.Rendering.GDI
                 throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
             }
 
-            TextRenderer.DrawText(_buffergraphics, text, gdifont.GetFont(),
-                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
-                    (int) rectangle.Height),
-                color.ToWin32Color(), TextFormatFlags.WordBreak);
+            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
+                new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
         }
 
         /// <summary>
@@ -357,7 +355,6 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// </summary>
         private void Renderer()
         {
-            _buffergraphics.ResetTransform();
             Present();
         }
         /// <summary>
@@ -396,7 +393,7 @@ namespace SharpexGL.Framework.Rendering.GDI
             _quality = quality;
             if (_buffergraphics != null)
             {
-                _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.AntiAlias : SmoothingMode.HighSpeed;
+                _buffergraphics.SmoothingMode = _quality.AntiAlias ? SmoothingMode.HighQuality : SmoothingMode.HighSpeed;
                 _buffergraphics.InterpolationMode = _quality.Interpolation
                     ? InterpolationMode.HighQualityBicubic
                     : InterpolationMode.Low;
