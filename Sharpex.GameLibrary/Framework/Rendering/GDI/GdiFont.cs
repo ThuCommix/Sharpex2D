@@ -34,7 +34,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <param name="familyName">The FamilyName.</param>
         /// <param name="size">The Size.</param>
         /// <param name="style">The Style.</param>
-        public GdiFont(string familyName, int size, TypefaceStyle style)
+        public GdiFont(string familyName, float size, TypefaceStyle style)
         {
             Typeface = new Typeface {FamilyName = familyName, Size = size, Style = style};
         }
