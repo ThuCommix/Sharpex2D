@@ -67,6 +67,11 @@ namespace SharpexGL.Framework.Rendering
         public Color ClearColor { set; get; }
 
         /// <summary>
+        /// Gets the RefreshRate.
+        /// </summary>
+        public float RefreshRate { internal set; get; }
+
+        /// <summary>
         /// Disposes the GraphicsDevice.
         /// </summary>
         public void Dispose()
