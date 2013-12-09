@@ -194,11 +194,18 @@ namespace SharpexGL.Framework.Rendering.DirectX
                 Usage = Usage.RenderTargetOutput,
                 OutputHandle = SGL.Components.Get<RenderTarget>().Handle,
                 IsWindowed = true,
-                ModeDescription = new ModeDescription(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, new Rational(60, 1), Format.R8G8B8A8_UNorm),
+                ModeDescription = new ModeDescription(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, new Rational((int)SGL.Components.Get<GraphicsDevice>().RefreshRate, 1), Format.R8G8B8A8_UNorm),
                 SampleDescription = new SampleDescription(1, 0),
                 Flags = SwapChainFlags.AllowModeSwitch,
                 SwapEffect = SwapEffect.Discard
             };
+
+            if (VSync)
+            {
+                swapChainDesc.ModeDescription.RefreshRate = new Rational(60, 1);
+            }
+
+            swapChainDesc.ModeDescription.Scaling = GraphicsDevice.DisplayMode.Scaling ? DisplayModeScaling.Stretched : DisplayModeScaling.Unspecified;
 
             Device device;
             SwapChain swapChain;
@@ -238,6 +245,8 @@ namespace SharpexGL.Framework.Rendering.DirectX
         {
             CheckDisposed();
 
+            _swapChain.ResizeBuffers(2, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height,
+                Format.R8G8B8A8_UNorm, SwapChainFlags.AllowModeSwitch);
             DirectXHelper.RenderTarget.BeginDraw();
             DirectXHelper.RenderTarget.Transform = Matrix3x2.Identity;
             DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(GraphicsDevice.ClearColor));
@@ -334,7 +343,7 @@ namespace SharpexGL.Framework.Rendering.DirectX
         {
             if (IsDisposed)
             {
-                throw new ObjectDisposedException("GdiRenderer");
+                throw new ObjectDisposedException("DirectXRenderer");
             }
         }
 
