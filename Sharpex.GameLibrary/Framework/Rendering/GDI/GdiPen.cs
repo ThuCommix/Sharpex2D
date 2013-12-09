@@ -44,6 +44,16 @@ namespace SharpexGL.Framework.Rendering.GDI
         }
 
         /// <summary>
+        /// Initializes a new GdiPen class.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="width">The Width.</param>
+        public GdiPen(Color color, float width)
+        {
+            _pen = new Pen(new SolidBrush(color.ToWin32Color()), width);
+        }
+
+        /// <summary>
         /// Gets the Pen.
         /// </summary>
         /// <returns>Pen</returns>
