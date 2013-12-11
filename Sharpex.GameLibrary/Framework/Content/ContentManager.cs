@@ -7,7 +7,6 @@ using SharpexGL.Framework.Content.Serialization;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering.Font;
 using SharpexGL.Framework.Rendering.GDI;
-using SharpexGL.Framework.Rendering.Sprites.GDI;
 
 namespace SharpexGL.Framework.Content
 {
@@ -101,24 +100,6 @@ namespace SharpexGL.Framework.Content
                 {
                     return (T)(Object)SGL.Implementations.Get<TypefaceSerializer>().Read(new BinaryReader(fileStream));
                 }
-            }
-            //spritesheet
-            if (typeof (T) == typeof (SpriteSheet))
-            {
-                using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
-                {
-                    var spriteSheet = SGL.Implementations.Get<SpriteSheetSerializer>().Read(new BinaryReader(fileStream));
-                    return (T)(Object)spriteSheet;
-                }
-            }
-            //animation
-            if (typeof (T) == typeof (Animation))
-            {
-                using (var fileStream = FileSystem.Open(FileSystem.ConnectPath(ContentPath, asset)))
-                {
-                    var animation = SGL.Implementations.Get<AnimationSerializer>().Read(new BinaryReader(fileStream));
-                    return (T)(Object)animation;
-                }               
             }
             //sound
             if (typeof(T) == typeof(Sound))

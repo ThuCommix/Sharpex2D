@@ -89,8 +89,6 @@ namespace SharpexGL.Framework.Implementation
             AddImplementation(new TypefaceSerializer());
             AddImplementation(new StringSerializer());
             AddImplementation(new Vector2Serializer());
-            AddImplementation(new SpriteSheetSerializer());
-            AddImplementation(new AnimationSerializer());
             AddImplementation(new GameSettingsSerializer());
             AddImplementation(new GamerSerializer());
             AddImplementation(new GdiTextureSerializer());
