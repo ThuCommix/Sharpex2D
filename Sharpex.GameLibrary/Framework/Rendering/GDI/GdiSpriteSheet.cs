@@ -12,7 +12,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         public ITexture Texture { get; private set; }
 
         /// <summary>
-        /// Gets a textzre based on location and size.
+        /// Gets a texture based on location and size.
         /// </summary>
         /// <param name="x">The X-Coord.</param>
         /// <param name="y">The Y-Coord.</param>
@@ -22,7 +22,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         public ITexture GetSprite(int x, int y, int width, int height)
         {
             var gdiTexture = Texture as GdiTexture;
-            if (gdiTexture == null) throw new ArgumentException("GdiSpriteBuffer expects a GdiTexture as resource.");
+            if (gdiTexture == null) throw new ArgumentException("GdiSpriteSheet expects a GdiTexture as resource.");
 
             if (_buffer.IsBuffered(x, y, width, height))
             {
@@ -47,7 +47,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         public GdiSpriteSheet(ITexture texture)
         {
             var gdiTexture = texture as GdiTexture;
-            if (gdiTexture == null) throw new ArgumentException("GdiSpriteBuffer expects a GdiTexture as resource.");
+            if (gdiTexture == null) throw new ArgumentException("GdiSpriteSheet expects a GdiTexture as resource.");
 
             Texture = gdiTexture;
             _bmp = (Bitmap) gdiTexture.Bmp.Clone();
