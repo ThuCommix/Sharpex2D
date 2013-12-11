@@ -36,6 +36,14 @@ namespace SharpexGL.Framework.Rendering.GDI
         [DllImport("gdi32.dll")]
         public static extern bool DeleteObject(IntPtr hObject);
 
+        /// <summary>
+        /// Deletes the specified device context (DC).
+        /// </summary>
+        /// <param name="hdc">A handle to the device context.</param>
+        /// <returns>If the function succeeds, the return value is <c>true</c>. If the function fails, the return value is <c>false</c>.</returns>
+        [DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
+        public static extern bool DeleteDC([In] IntPtr hdc);
+
         [DllImport("gdi32.dll")]
         public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hObjSource, int nXSrc, int nYSrc, GdiRasterOperations dwRop);
 

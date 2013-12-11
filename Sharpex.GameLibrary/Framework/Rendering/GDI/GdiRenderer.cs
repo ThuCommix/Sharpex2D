@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using SharpexGL.Framework.Common.Extensions;
+using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
 using Rectangle = SharpexGL.Framework.Math.Rectangle;
@@ -333,6 +334,9 @@ namespace SharpexGL.Framework.Rendering.GDI
             GraphicsDevice.ClearColor = Color.CornflowerBlue;
             _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
             _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+
+            //add extensions:
+            SGL.Components.Get<ContentManager>().Extend(new GdiSpriteLoader());
         }
 
         #endregion
@@ -379,8 +383,9 @@ namespace SharpexGL.Framework.Rendering.GDI
                 GdiNative.SelectObject(intPtr, hbitmap);
                 GdiNative.StretchBlt(hdc, 0, 0, width, height, intPtr, 0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, GdiNative.GdiRasterOperations.SRCCOPY);
                 GdiNative.DeleteObject(hbitmap);
-                GdiNative.DeleteObject(intPtr);
+                GdiNative.DeleteDC(intPtr);
                 graphics.ReleaseHdc(hdc);
+                graphics.Dispose();
             }
         }
 
@@ -418,7 +423,6 @@ namespace SharpexGL.Framework.Rendering.GDI
                 throw new ObjectDisposedException("GdiRenderer");
             }
         }
-
         #endregion
     }
 }
