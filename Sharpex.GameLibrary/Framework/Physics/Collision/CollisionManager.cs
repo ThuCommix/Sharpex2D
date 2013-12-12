@@ -1,5 +1,6 @@
 ﻿using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
+using SharpexGL.Framework.Physics.Shapes;
 using Circle = SharpexGL.Framework.Physics.Shapes.Circle;
 using Rectangle = SharpexGL.Framework.Physics.Shapes.Rectangle;
 
@@ -109,7 +110,26 @@ namespace SharpexGL.Framework.Physics.Collision
             var rect = (Rectangle) particle1.Shape;
             var circle = (Circle) particle2.Shape;
 
-            var circleDistance = Vector2.Abs(particle2.Position - new Vector2(particle1.Position.X + rect.Width * 0.5f, particle1.Position.Y + rect.Height * 0.5f));
+            var textureCircle = circle as TextureBasedCircle;
+            Vector2 circleDistance;
+
+            if (textureCircle == null)
+            {
+                circleDistance =
+                    Vector2.Abs(particle2.Position -
+                                new Vector2(particle1.Position.X + rect.Width*0.5f,
+                                    particle1.Position.Y + rect.Height*0.5f));
+            }
+            else
+            {
+                var txCenter = new Vector2(particle2.Position.X + ((float) textureCircle.Texture.Width / 2),
+                    particle2.Position.Y + ((float) textureCircle.Texture.Height/2));
+
+                circleDistance =
+                    Vector2.Abs(txCenter -
+                                new Vector2(particle1.Position.X + rect.Width*0.5f,
+                                    particle1.Position.Y + rect.Height*0.5f));
+            }
             var boxSize = new Vector2(rect.Width, rect.Height) / 2f;
 
             if (circleDistance.X > boxSize.X + circle.Radius ||
@@ -132,6 +152,37 @@ namespace SharpexGL.Framework.Physics.Collision
         {
             var circle1 = (Circle) particle1.Shape;
             var circle2 = (Circle) particle2.Shape;
+
+            var txCircle1 = circle1 as TextureBasedCircle;
+            var txCircle2 = circle2 as TextureBasedCircle;
+
+            if (txCircle1 != null && txCircle2 == null)
+            {
+                var pos = new Vector2(particle1.Position.X + ((float) txCircle1.Texture.Width/2),
+                    particle1.Position.Y + ((float) txCircle1.Texture.Height/2));
+                return (pos - particle2.Position).Length <
+                       (circle1.Radius + circle2.Radius);
+            }
+
+            if (txCircle2 != null && txCircle1 == null)
+            {
+                var pos = new Vector2(particle2.Position.X + ((float)txCircle2.Texture.Width / 2),
+                    particle2.Position.Y + ((float)txCircle2.Texture.Height / 2));
+                return (particle1.Position - pos).Length <
+                       (circle1.Radius + circle2.Radius);
+            }
+
+            if (txCircle1 != null)
+            {
+                var pos1 = new Vector2(particle1.Position.X + ((float) txCircle1.Texture.Width/2),
+                    particle1.Position.Y + ((float) txCircle1.Texture.Height/2));
+
+                var pos2 = new Vector2(particle2.Position.X + ((float)txCircle2.Texture.Width / 2),
+                    particle2.Position.Y + ((float)txCircle2.Texture.Height / 2));
+
+                return (pos1 - pos2).Length <
+                       (circle1.Radius + circle2.Radius);
+            }
 
             return (particle1.Position - particle2.Position).Length <
                    (circle1.Radius + circle2.Radius);
