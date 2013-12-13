@@ -170,6 +170,7 @@ namespace SharpexGL.Framework.Surface
             MethodInvoker br = delegate
             {
                 _surface.MaximumSize = _surface.Size;
+                _surface.MinimumSize = _surface.Size;
             };
             _surface.Invoke(br);
         }
@@ -181,6 +182,7 @@ namespace SharpexGL.Framework.Surface
             MethodInvoker br = delegate
             {
                 _surface.MaximumSize = new Size(0, 0);
+                _surface.MinimumSize = new Size(0, 0);
             };
             _surface.Invoke(br);
         }
