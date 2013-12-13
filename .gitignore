@@ -40,7 +40,6 @@ local.properties
 *.user
 *.sln.docstates
 *.sln
-*.csproj
 
 # Build results
 
