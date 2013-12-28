@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+
 namespace SharpexGL.Framework.Components
 {
     public class ComponentManager : IConstructable
@@ -65,6 +67,16 @@ namespace SharpexGL.Framework.Components
                     return (T)component;
                 }
             }
+
+            //if not found query interfaces 
+            foreach (var component in _internalComponents)
+            {
+                if (QueryInterface(component.GetType(), typeof (T)))
+                {
+                    return (T) component;
+                }
+            }
+
             throw new InvalidOperationException("Component not found (" + typeof(T).FullName + ").");
         }
         /// <summary>
@@ -81,6 +93,16 @@ namespace SharpexGL.Framework.Components
                 }
             }
             _alreadyCalledConstruct = true;
+        }
+        /// <summary>
+        /// Queries a type.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <param name="target">The TargetType.</param>
+        /// <returns>True on success</returns>
+        private bool QueryInterface(Type type, Type target)
+        {
+            return type.GetInterfaces().Any(implementation => implementation == target);
         }
     }
 }
