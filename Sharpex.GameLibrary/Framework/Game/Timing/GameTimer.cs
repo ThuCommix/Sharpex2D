@@ -136,7 +136,7 @@ namespace SharpexGL.Framework.Game.Timing
 
             if (UpdateMode == UpdateMode.OnGameTick)
             {
-                SGL.Components.Get<GameLoop>().Subscribe(this);
+                SGL.Components.Get<IGameLoop>().Subscribe(this);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace SharpexGL.Framework.Game.Timing
         {
             if (UpdateMode == UpdateMode.OnGameTick)
             {
-                SGL.Components.Get<GameLoop>().Unsubscribe(this);
+                SGL.Components.Get<IGameLoop>().Unsubscribe(this);
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using SharpexGL.Framework.Game;
+using SharpexGL.Framework.Game.Timing;
 
 namespace SharpexGL
 {
@@ -14,6 +15,7 @@ namespace SharpexGL
             Height = 480;
             GameInstance = null;
             TargetFramesPerSecond = 60;
+            GameLoop = new DualThreadGameLoop();
         }
         /// <summary>
         /// Initialize SGLInitializer.
@@ -27,6 +29,7 @@ namespace SharpexGL
             GameInstance = gameInstance;
             TargetHandle = targetHandle;
             TargetFramesPerSecond = 60;
+            GameLoop = new DualThreadGameLoop();
         }
         /// <summary>
         /// Gets or sets the Width.
@@ -48,5 +51,9 @@ namespace SharpexGL
         /// Sets or gets the TargetHandle.
         /// </summary>
         public IntPtr TargetHandle { get; set; }
+        /// <summary>
+        /// Sets or gets the GameLoop.
+        /// </summary>
+        public IGameLoop GameLoop { set; get; }
     }
 }

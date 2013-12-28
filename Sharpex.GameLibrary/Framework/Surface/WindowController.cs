@@ -1,7 +1,6 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
 using SharpexGL.Framework.Math;
-using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Surface
 {

@@ -62,7 +62,7 @@ namespace SharpexGL.Framework.Input.Devices
         /// </summary>
         public void Construct()
         {
-            SGL.Components.Get<GameLoop>().Subscribe(this);
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
 
         #endregion

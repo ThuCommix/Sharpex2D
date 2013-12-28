@@ -80,17 +80,15 @@ namespace SharpexGL
             };
             initializer.GameInstance.Content = new ContentManager();
             initializer.GameInstance.SceneManager = new SceneManager();
-            Components.AddComponent(new GameLoop
-            {
-                TargetFramesPerSecond = initializer.TargetFramesPerSecond
-            });
+            initializer.GameLoop.TargetFramesPerSecond = initializer.TargetFramesPerSecond;
+            Components.AddComponent(initializer.GameLoop);
             Components.AddComponent(Implementations);
             Components.AddComponent(initializer.GameInstance.Content);
             Components.AddComponent(GraphicsDevice);
             Components.AddComponent(initializer.GameInstance);
             Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
-            Components.Get<GameLoop>().Subscribe(_gameInstance);
+            Components.Get<IGameLoop>().Subscribe(_gameInstance);
         }
 
         #endregion
@@ -118,7 +116,7 @@ namespace SharpexGL
             Components.Construct();
             _gameInstance.OnInitialize();
             _gameInstance.OnLoadContent();
-            Components.Get<GameLoop>().Start();
+            Components.Get<IGameLoop>().Start();
         }
 
         /// <summary>
@@ -126,7 +124,7 @@ namespace SharpexGL
         /// </summary>
         public static void Shutdown()
         {
-            Components.Get<GameLoop>().Stop();
+            Components.Get<IGameLoop>().Stop();
             _gameInstance.OnUnload();
             _gameInstance.OnClose();
             System.Diagnostics.Process.GetCurrentProcess().Kill();

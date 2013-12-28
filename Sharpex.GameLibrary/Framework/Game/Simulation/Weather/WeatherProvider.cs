@@ -14,7 +14,7 @@ namespace SharpexGL.Framework.Game.Simulation.Weather
         /// </summary>
         public void Construct()
         {
-            SGL.Components.Get<GameLoop>().Subscribe(this);
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
         /// <summary>
         /// Processes a Game tick.

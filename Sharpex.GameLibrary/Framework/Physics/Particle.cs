@@ -14,6 +14,20 @@ namespace SharpexGL.Framework.Physics
         public IShape Shape { set; get; }
         #endregion
 
+        /// <summary>
+        /// Initializes a new Particle.
+        /// </summary>
+        public Particle()
+        {
+            Position = new Vector2(0, 0);
+            Shape = new Shapes.Rectangle();
+            Gravity = true;
+        }
+
+        /// <summary>
+        /// Initializes a new Particle.
+        /// </summary>
+        /// <param name="physicProvider">The PhysicProvider.</param>
         public Particle(IPhysicProvider physicProvider)
         {
             _physicProvider = physicProvider;

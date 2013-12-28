@@ -2,7 +2,7 @@
 
 namespace SharpexGL.Framework.Game.Timing
 {
-    public interface IGameLoop<in T> : IComponent
+    public interface IGameLoop : IComponent
     {
         /// <summary>
         /// Starts the GameLoop.
@@ -32,11 +32,11 @@ namespace SharpexGL.Framework.Game.Timing
         /// Subscribes a T GameHandler to the IGameLoop.
         /// </summary>
         /// <param name="gameHandler">The GameHandler</param>
-        void Subscribe(T gameHandler);
+        void Subscribe(IGameHandler gameHandler);
         /// <summary>
         /// Unsubscribes a T GameHandler from the IGameLoop.
         /// </summary>
         /// <param name="gameHandler">The GameHandler</param>
-        void Unsubscribe(T gameHandler);
+        void Unsubscribe(IGameHandler gameHandler);
     }
 }

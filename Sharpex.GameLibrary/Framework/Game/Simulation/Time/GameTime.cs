@@ -12,7 +12,7 @@ namespace SharpexGL.Framework.Game.Simulation.Time
         /// </summary>
         public void Construct()
         {
-            SGL.Components.Get<GameLoop>().Subscribe(this);
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
         #endregion
 

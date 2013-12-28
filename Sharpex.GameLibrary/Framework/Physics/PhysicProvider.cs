@@ -109,7 +109,7 @@ namespace SharpexGL.Framework.Physics
             Gravity = PhysicalConstants.Gravitation;
             CollisionManager = new CollisionManager();
             _referenceProvider = new ReferenceProvider();
-            SGL.Components.Get<GameLoop>().Subscribe(this);
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
             SGL.Components.AddComponent(this);
         }
 
