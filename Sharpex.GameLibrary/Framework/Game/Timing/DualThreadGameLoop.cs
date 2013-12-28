@@ -5,7 +5,7 @@ using SharpexGL.Framework.Game.Timing.Events;
 
 namespace SharpexGL.Framework.Game.Timing
 {
-    public class GameLoop : IGameLoop<IGameHandler>
+    public class DualThreadGameLoop : IGameLoop
     {
         #region IGameLoop Implementation
 
@@ -13,10 +13,12 @@ namespace SharpexGL.Framework.Game.Timing
         /// Gets the TargetFrameTime.
         /// </summary>
         public float TargetFrameTime { get; private set; }
+
         /// <summary>
         /// Gets the TargetUpdateTime.
         /// </summary>
         public float TargetUpdateTime { get; private set; }
+
         /// <summary>
         /// Indicates whether the GameLoop is running.
         /// </summary>
@@ -29,6 +31,7 @@ namespace SharpexGL.Framework.Game.Timing
                 return (_renderTask.Status == TaskStatus.Running) & (_updateTask.Status == TaskStatus.Running);
             }
         }
+
         /// <summary>
         /// Gets or sets the Target FPS.
         /// </summary>
@@ -42,10 +45,12 @@ namespace SharpexGL.Framework.Game.Timing
 
             }
         }
+
         /// <summary>
         /// Sets or gets the RenderMode.
         /// </summary>
         public RenderMode RenderMode { set; get; }
+
         /// <summary>
         /// Starts the GameLoop.
         /// </summary>
@@ -59,6 +64,7 @@ namespace SharpexGL.Framework.Game.Timing
             _renderTask = Task.Factory.StartNew(InternalRenderingLoop);
             _updateTask = Task.Factory.StartNew(InternalUpdateLoop);
         }
+
         /// <summary>
         /// Stops the GameLoop.
         /// </summary>
@@ -66,6 +72,7 @@ namespace SharpexGL.Framework.Game.Timing
         {
             _cancelFlag = true;
         }
+
         /// <summary>
         /// Subscribes a GameHandler to the IGameLoop.
         /// </summary>
@@ -74,6 +81,7 @@ namespace SharpexGL.Framework.Game.Timing
         {
             _subscribers.Add(gameHandler);
         }
+
         /// <summary>
         /// Unsubscribes a GameHandler from the IGameLoop.
         /// </summary>
@@ -97,23 +105,23 @@ namespace SharpexGL.Framework.Game.Timing
         private float _targetFramesPerSecond;
         private float _renderTime;
         private float _unprocessedTicks;
-        private bool _suppressRender;
         private readonly List<IGameHandler> _subscribers = new List<IGameHandler>();
 
         #endregion
 
         #region Internal
 
-        public GameLoop()
+        public DualThreadGameLoop()
         {
-            RenderMode = RenderMode.Limited;  
+            RenderMode = RenderMode.Limited;
         }
+
         /// <summary>
         /// Called if the FPS changed.
         /// </summary>
         private void OnFpsChanged()
         {
-            var targetTime = 1000 / TargetFramesPerSecond;
+            var targetTime = 1000/TargetFramesPerSecond;
             TargetFrameTime = targetTime;
             TargetUpdateTime = targetTime;
             SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
@@ -122,6 +130,7 @@ namespace SharpexGL.Framework.Game.Timing
             SGL.Components.Get<EventManager>()
                 .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, targetTime));
         }
+
         /// <summary>
         /// Handles the update loop.
         /// </summary>
@@ -133,7 +142,6 @@ namespace SharpexGL.Framework.Game.Timing
                 //Check unprocessedTicks, if they fill a Frame suppress render and update
                 if (_unprocessedTicks > TargetUpdateTime)
                 {
-                    _suppressRender = true;
                     var lostFrames = (int) (_unprocessedTicks/TargetUpdateTime);
                     for (var i = 1; i <= lostFrames; i++)
                     {
@@ -141,21 +149,27 @@ namespace SharpexGL.Framework.Game.Timing
                         for (int index = 0; index < _subscribers.Count; index++)
                         {
                             var subscriber = _subscribers[index];
-                            subscriber.Tick(_updateTime);
+                            lock (subscriber)
+                            {
+                                subscriber.Tick(_updateTime);
+                            }
                         }
                     }
-                    //Unlock the render
-                    _suppressRender = false;
                     //Reset the unprocessedTicks
                     _unprocessedTicks = 0;
                 }
+
                 sw.Start();
                 //Process a tick in every subscriber
                 for (var index = 0; index < _subscribers.Count; index++)
                 {
                     var subscriber = _subscribers[index];
-                    subscriber.Tick(_updateTime);
+                    lock (subscriber)
+                    {
+                        subscriber.Tick(_updateTime);
+                    }
                 }
+
                 sw.Stop();
                 _updateTime = sw.ElapsedMilliseconds;
                 sw.Reset();
@@ -173,6 +187,7 @@ namespace SharpexGL.Framework.Game.Timing
                 }
             }
         }
+
         /// <summary>
         /// Handles the rendering loop.
         /// </summary>
@@ -182,20 +197,17 @@ namespace SharpexGL.Framework.Game.Timing
             while (!_cancelFlag)
             {
                 sw.Start();
-                //Only render, if the rendering is not suppressed
-                if (!_suppressRender)
+
+                //Process a render in every subscriber
+                for (int index = 0; index < _subscribers.Count; index++)
                 {
-                    //Process a render in every subscriber
-                    for (int index = 0; index < _subscribers.Count; index++)
-                    {
-                        var subscriber = _subscribers[index];
-                        subscriber.Render(SGL.CurrentRenderer, _renderTime);
-                    }
+                    var subscriber = _subscribers[index];
+                    subscriber.Render(SGL.CurrentRenderer, _renderTime);
                 }
                 if (SGL.CurrentRenderer.VSync)
                 {
                     if (sw.ElapsedMilliseconds < 15)
-                        _renderTask.Wait(15 - (int)sw.ElapsedMilliseconds);
+                        _renderTask.Wait(15 - (int) sw.ElapsedMilliseconds);
                     while (sw.ElapsedMilliseconds < TargetFrameTime)
                     {
                     }
