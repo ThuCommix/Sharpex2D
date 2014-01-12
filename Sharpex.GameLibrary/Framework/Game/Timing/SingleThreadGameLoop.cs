@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game.Timing.Events;
 
@@ -93,7 +92,12 @@ namespace SharpexGL.Framework.Game.Timing
             while (IsRunning)
             {
                 sw.Start();
-                Parallel.ForEach(_subscribers, ProcessTick);
+
+                for (var index = 0; index <= _subscribers.Count - 1; index++)
+                {
+                    ProcessTick(_subscribers[index]);
+                }
+
                 for (var index = 0; index < _subscribers.Count; index++)
                 {
                     var subscriber = _subscribers[index];
