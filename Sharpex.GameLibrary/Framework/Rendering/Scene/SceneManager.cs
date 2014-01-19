@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpexGL.Framework.Content;
+using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game;
-using SharpexGL.Framework.Game.Timing;
+using SharpexGL.Framework.Rendering.Scene.Events;
 
 namespace SharpexGL.Framework.Rendering.Scene
 {
@@ -15,7 +16,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// </summary>
         public void Construct()
         {
-         
+            _eventManager = SGL.Components.Get<EventManager>();
         }
 
         /// <summary>
@@ -66,6 +67,7 @@ namespace SharpexGL.Framework.Rendering.Scene
         }
 
         private readonly List<IScene> _scenes;
+        private EventManager _eventManager;
 
         /// <summary>
         /// Gets the ActiveScene.
@@ -96,7 +98,20 @@ namespace SharpexGL.Framework.Rendering.Scene
         /// <param name="scene">The Scene.</param>
         public void SetScene(IScene scene)
         {
+            if (_eventManager != null && ActiveScene != null)
+            {
+                //publish event
+                _eventManager.Publish(new BeforeSceneChangedEvent(ActiveScene));
+            }
+
             ActiveScene = scene;
+
+            if (_eventManager != null && ActiveScene != null)
+            {
+                //publish event
+                _eventManager.Publish(new AfterSceneChangedEvent(ActiveScene));
+            }
+
         }
 
         /// <summary>
