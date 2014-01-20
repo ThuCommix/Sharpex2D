@@ -6,11 +6,15 @@ namespace SharpexGL.Framework.Media.Sound
     public class SoundManager : IComponent,  ICloneable
     {
         private readonly ISoundProvider _soundProvider;
+        private bool _muted;
+        private float _vBeforeMute;
 
         public SoundManager(ISoundInitializer soundInitializer)
         {
             if (soundInitializer == null) return;
             _soundProvider = soundInitializer.CreateProvider();
+            _vBeforeMute = 0.5f;
+            Volume = 0.5f;
         }
         /// <summary>
         /// Plays the sound.
@@ -182,6 +186,28 @@ namespace SharpexGL.Framework.Media.Sound
                 }
                 throw new SoundProviderNotInitializedException();
             }
+        }
+
+        /// <summary>
+        /// A value indicating whether the sound is muted.
+        /// </summary>
+        public bool Muted
+        {
+            set
+            {
+                if (value)
+                {
+                    _vBeforeMute = Volume;
+                    Volume = 0;
+                }
+                else
+                {
+                    Volume = _vBeforeMute;
+                }
+
+                _muted = value;
+            }
+            get { return _muted; }
         }
 
         public object Clone()
