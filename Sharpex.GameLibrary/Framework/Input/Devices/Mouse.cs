@@ -2,13 +2,44 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using SharpexGL.Framework.Events;
+using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Input.Events;
 using SharpexGL.Framework.Math;
+using SharpexGL.Framework.Rendering;
 
 namespace SharpexGL.Framework.Input.Devices
 {
     public class Mouse : IMouse
     {
+        #region IGameHandler Implementation
+
+        /// <summary>
+        /// Constructs the Element.
+        /// </summary>
+        public void Construct()
+        {
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
+        }
+        /// <summary>
+        /// Processes a Game tick.
+        /// </summary>
+        /// <param name="elapsed">The Elapsed.</param>
+        public void Tick(float elapsed)
+        {
+            _mousestate.Clear();
+        }
+        /// <summary>
+        /// Processes a Render.
+        /// </summary>
+        /// <param name="renderer">The GraphicRenderer.</param>
+        /// <param name="elapsed">The Elapsed.</param>
+        public void Render(IRenderer renderer, float elapsed)
+        {
+            
+        }
+
+        #endregion
+
         #region IDevice Implementation
 
         /// <summary>
@@ -77,6 +108,7 @@ namespace SharpexGL.Framework.Input.Devices
         }
 
         private readonly Dictionary<MouseButtons, bool> _mousestate;
+        private bool _flag;
 
         /// <summary>
         /// Represents the surface handle.
@@ -115,5 +147,6 @@ namespace SharpexGL.Framework.Input.Devices
             Position = new Vector2(e.Location.X * SGL.GraphicsDevice.Scale.X, e.Location.Y * SGL.GraphicsDevice.Scale.Y);
             SGL.Components.Get<EventManager>().Publish(new MouseLocationChangedEvent(Position));
         }
+
     }
 }

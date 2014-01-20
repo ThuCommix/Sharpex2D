@@ -16,6 +16,7 @@ namespace SharpexGL.Framework.Input
         public void Construct()
         {
             Keyboard.Construct();
+            Mouse.Construct();
         }
 
         /// <summary>
@@ -77,6 +78,7 @@ namespace SharpexGL.Framework.Input
         public void SetStandardMouse(IMouse mouse)
         {
             Mouse = mouse;
+            Mouse.Construct();
         }
 
         /// <summary>

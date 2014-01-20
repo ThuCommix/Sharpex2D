@@ -1,9 +1,9 @@
-﻿using System.Windows.Forms;
+﻿using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Math;
 
 namespace SharpexGL.Framework.Input
 {
-    public interface IMouse : IDevice
+    public interface IMouse : IDevice, IGameHandler
     {
         /// <summary>
         /// Gets the current MousePosition.
