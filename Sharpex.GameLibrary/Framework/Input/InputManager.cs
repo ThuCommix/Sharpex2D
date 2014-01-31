@@ -25,7 +25,7 @@ namespace SharpexGL.Framework.Input
         /// <param name="elapsed">The Elapsed</param>
         public void Tick(float elapsed)
         {
-            Keyboard.Tick(elapsed);
+            
         }
         /// <summary>
         /// Processes a Render.
