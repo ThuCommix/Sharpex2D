@@ -108,7 +108,6 @@ namespace SharpexGL.Framework.Input.Devices
         }
 
         private readonly Dictionary<MouseButtons, bool> _mousestate;
-        private bool _flag;
 
         /// <summary>
         /// Represents the surface handle.
