@@ -1,12 +1,13 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Reflection;
 
-namespace SharpexGL.Framework.Assemblys
+namespace SharpexGL.Framework.Plugin
 {
-    public class AssemblyLoader
+    public class PluginLoader
     {
         /// <summary>
-        /// Loads a assembly into SGL.
+        /// Loads a plugin into SGL.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="path">The Path.</param>
@@ -18,11 +19,13 @@ namespace SharpexGL.Framework.Assemblys
                 throw new FileNotFoundException("The given resource could not be located.");
             }
             var assembly = Assembly.LoadFrom(path);
-            if (assembly.GetType() == typeof(T))
+
+            if (assembly.GetTypes().Any(type => type == typeof (T)))
             {
                 return (T)((object)assembly);
             }
-            throw new AssemblyException("The resource is not a valid " + typeof(T).FullName + ".");
+
+            throw new PluginException("The resource is not a valid " + typeof(T).FullName + ".");
         }
     }
 }

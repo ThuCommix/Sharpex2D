@@ -1,39 +1,39 @@
 ﻿using System;
 
-namespace SharpexGL.Framework.Assemblys
+namespace SharpexGL.Framework.Plugin
 {
     [Serializable]
-    public class AssemblyException : Exception
+    public class PluginException : Exception
     {
         private readonly string _message = "";
+
         public override string Message
         {
-            get
-            {
-                return _message;
-            }
+            get { return _message; }
         }
+
         /// <summary>
-        /// Initializes a new AssemblyException.
+        /// Initializes a new PluginException class.
         /// </summary>
-        public AssemblyException()
+        public PluginException()
         {
         }
+
         /// <summary>
-        /// Initializes a new AssemblyException.
+        /// Initializes a new PluginException class.
         /// </summary>
         /// <param name="message">The Message.</param>
-        public AssemblyException(string message)
+        public PluginException(string message)
         {
             _message = message;
         }
 
-                /// <summary>
-        /// Initializes a new AssemblyException class.
+        /// <summary>
+        /// Initializes a new PluginException class.
         /// </summary>
         /// <param name="info">The SerializationInfo.</param>
         /// <param name="context">The SerializationContext.</param>
-        protected AssemblyException(System.Runtime.Serialization.SerializationInfo info,
+        protected PluginException(System.Runtime.Serialization.SerializationInfo info,
             System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
