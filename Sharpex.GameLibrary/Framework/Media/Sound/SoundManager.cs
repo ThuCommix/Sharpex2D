@@ -1,4 +1,5 @@
 ﻿using System;
+using SharpexGL.Framework.Common.Collections;
 using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Media.Sound
@@ -15,7 +16,14 @@ namespace SharpexGL.Framework.Media.Sound
             _soundProvider = soundInitializer.CreateProvider();
             _vBeforeMute = 0.5f;
             Volume = 0.5f;
+            SoundEffects = new BufferedCollection<SoundEffect>();
         }
+
+        /// <summary>
+        /// Sets or gets the SoundEffects.
+        /// </summary>
+        public BufferedCollection<SoundEffect> SoundEffects { set; get; } 
+
         /// <summary>
         /// Plays the sound.
         /// </summary>
