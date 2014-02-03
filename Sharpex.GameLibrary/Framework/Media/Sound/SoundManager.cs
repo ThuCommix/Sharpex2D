@@ -203,6 +203,11 @@ namespace SharpexGL.Framework.Media.Sound
         {
             set
             {
+                if ((value && Muted) | (!value && !Muted))
+                {
+                    return;
+                }
+
                 if (value)
                 {
                     _vBeforeMute = Volume;

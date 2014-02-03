@@ -17,6 +17,7 @@ namespace SharpexGL.Framework.Media.Sound
         {
             _soundProvider = (SoundManager) SGL.Components.Get<SoundManager>().Clone();
             Volume = 0.5f;
+            _vBeforeMute = 0.5f;
         }
 
         /// <summary>
@@ -28,6 +29,7 @@ namespace SharpexGL.Framework.Media.Sound
             _soundProvider = (SoundManager) SGL.Components.Get<SoundManager>().Clone();
             _sound = sound;
             Volume = 0.5f;
+            _vBeforeMute = 0.5f;
         }
 
         /// <summary>
@@ -85,6 +87,11 @@ namespace SharpexGL.Framework.Media.Sound
         {
             set
             {
+                if ((value && Muted) | (!value && !Muted))
+                {
+                    return;
+                }
+
                 if (value)
                 {
                     _vBeforeMute = Volume;
