@@ -9,6 +9,18 @@ namespace SharpexGL.Framework.Rendering.Scene
 {
     public class SceneManager : IDisposable, IGameHandler
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("00C8ED49-0C1B-47A8-B990-C71F5C4CB09E"); }
+        }
+
+        #endregion
+
         #region IGameHandler Implementation
 
         /// <summary>

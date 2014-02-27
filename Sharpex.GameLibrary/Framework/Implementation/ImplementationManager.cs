@@ -9,6 +9,18 @@ namespace SharpexGL.Framework.Implementation
 {
     public class ImplementationManager : IComponent
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("5268CFC3-11DB-4DA8-AA55-9FAB307CBA70"); }
+        }
+
+        #endregion
+
         /// <summary>
         /// Initializes a new ImplementationProvider
         /// </summary>

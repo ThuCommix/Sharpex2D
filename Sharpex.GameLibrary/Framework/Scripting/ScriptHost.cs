@@ -10,6 +10,17 @@ namespace SharpexGL.Framework.Scripting
 {
     public class ScriptHost : IComponent
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("076AE512-8E9C-44B9-BB91-CF8289BCEDC1"); }
+        }
+
+        #endregion
 
         private readonly Dictionary<string, MethodInfo> _methods;
         private readonly IScriptEvaluator _evaluator;

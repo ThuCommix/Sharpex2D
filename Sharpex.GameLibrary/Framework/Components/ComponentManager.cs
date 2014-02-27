@@ -6,6 +6,18 @@ namespace SharpexGL.Framework.Components
 {
     public class ComponentManager : IConstructable
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("6A3D114D-6DF4-429E-82ED-F7CD0AE29CF8"); }
+        }
+
+        #endregion
+
         public delegate void ComponentChangedEventHandler(object sender, EventArgs e);
         private List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;

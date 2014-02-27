@@ -8,6 +8,18 @@ namespace SharpexGL.Framework.Game.Simulation.Weather
 {
     public class WeatherProvider : IGameHandler, IWeather
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("B0C7C972-2C6F-4A8F-8BC6-9ABFADE5AF90"); }
+        }
+
+        #endregion
+
         #region IGameHandler Implementation
         /// <summary>
         /// Constructs the Component

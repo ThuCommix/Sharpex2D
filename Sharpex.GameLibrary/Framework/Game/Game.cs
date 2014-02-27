@@ -1,6 +1,6 @@
-﻿using SharpexGL.Framework.Components;
+﻿using System;
+using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
-using SharpexGL.Framework.Entities;
 using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering;
@@ -10,6 +10,18 @@ namespace SharpexGL.Framework.Game
 {
     public abstract class Game : IGameHandler
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("6782E502-BE99-4030-9472-C295E822881B"); }
+        }
+
+        #endregion
+
         /// <summary>
         /// The current InputManager.
         /// </summary>

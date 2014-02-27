@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using SharpexGL.Framework.Events;
@@ -72,6 +73,18 @@ namespace SharpexGL.Framework.Game.Timing
         {
             IsRunning = false;
         }
+        #endregion
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("70D99C53-7AF1-4098-A853-FCA94422F6B6"); }
+        }
+
         #endregion
 
         private readonly List<IGameHandler> _subscribers;

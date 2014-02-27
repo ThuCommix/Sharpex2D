@@ -1,4 +1,5 @@
-﻿using SharpexGL.Framework.Components;
+﻿using System;
+using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Physics.Shapes;
 using Circle = SharpexGL.Framework.Physics.Shapes.Circle;
@@ -8,6 +9,18 @@ namespace SharpexGL.Framework.Physics.Collision
 {
     public class CollisionManager : ICollision, IComponent
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("8B822A26-67AC-456E-BA37-0978C9F9697B"); }
+        }
+
+        #endregion
+
         #region ICollision Implementation
         /// <summary>
         /// Indicates whether the particles intersect with each other.

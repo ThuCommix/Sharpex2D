@@ -155,6 +155,18 @@ namespace SharpexGL.Framework.Media.Sound.Wave
 
         #endregion
 
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("E0A6D82A-9841-4E99-A170-6691805043DC"); }
+        }
+
+        #endregion
+
         private readonly IThreadInvoker _threadInvoker;
         private MediaPlayer _soundPlayer;
         private PlayMode _playMode;

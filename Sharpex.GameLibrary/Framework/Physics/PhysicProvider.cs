@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Physics.Collision;
@@ -8,6 +9,18 @@ namespace SharpexGL.Framework.Physics
 {
     public class PhysicProvider : IPhysicProvider
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("5C5C22FE-85F3-4FBE-A567-E201C40AEF82"); }
+        }
+
+        #endregion
+
         #region IGameHandler Implementation
         /// <summary>
         /// Constructs the Component

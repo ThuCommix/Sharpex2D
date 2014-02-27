@@ -8,6 +8,17 @@ namespace SharpexGL.Framework.Input
 {
     public class InputManager : IGameHandler
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("EA75A88F-C5C3-48B4-ACA1-3366B579CA57"); }
+        }
+
+        #endregion
 
         #region IGameHandler Implementation
         /// <summary>

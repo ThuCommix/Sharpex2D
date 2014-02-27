@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game.Timing.Events;
@@ -7,6 +8,18 @@ namespace SharpexGL.Framework.Game.Timing
 {
     public class DualThreadGameLoop : IGameLoop
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("545D6C69-9340-46BE-A102-5F9E283DE04B"); }
+        }
+
+        #endregion
+
         #region IGameLoop Implementation
 
         /// <summary>

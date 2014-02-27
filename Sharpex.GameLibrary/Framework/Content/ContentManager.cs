@@ -12,6 +12,18 @@ namespace SharpexGL.Framework.Content
 {
     public class ContentManager : IConstructable
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("0DD94218-396E-4EBA-9B3C-EAD05420A375"); }
+        }
+
+        #endregion
+
         private string _internalContentPath = "";
         /// <summary>
         /// Sets or gets the base ContentPath.

@@ -12,6 +12,17 @@ namespace SharpexGL.Framework.Rendering.GDI
 {
     public class GdiRenderer : IRenderer
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("A18634EE-B48C-4705-866F-ADFA5F4630ED"); }
+        }
+
+        #endregion
 
         #region IRendererImplementation
 

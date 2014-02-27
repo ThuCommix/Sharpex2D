@@ -6,6 +6,18 @@ namespace SharpexGL.Framework.Media.Sound
 {
     public class SoundManager : IComponent,  ICloneable
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("CFC1385E-27C0-4EC1-9EF9-5580C8F1CDE9"); }
+        }
+
+        #endregion
+
         private readonly ISoundProvider _soundProvider;
         private bool _muted;
         private float _vBeforeMute;

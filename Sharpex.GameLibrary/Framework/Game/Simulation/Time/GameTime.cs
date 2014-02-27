@@ -6,6 +6,18 @@ namespace SharpexGL.Framework.Game.Simulation.Time
 {
     public class GameTime : IGameHandler
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("292905FD-1B09-4D01-95D0-8D701A1C03FE"); }
+        }
+
+        #endregion
+
         #region IConstructable Implementation
         /// <summary>
         /// Constructs the Component.

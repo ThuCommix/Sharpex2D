@@ -8,6 +8,18 @@ namespace SharpexGL.Framework.Rendering
 {
     public class GraphicsDevice : IComponent, IDisposable
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("9360F0CF-F712-499D-912A-891B1E35876C"); }
+        }
+
+        #endregion
+
         /// <summary>
         /// Determines if the graphics device is disposed.
         /// </summary>

@@ -6,6 +6,18 @@ namespace SharpexGL.Framework.Game.Timing
 {
     public class GameTimer : ITimeable, IGameHandler
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("953618E5-A313-4607-BFD1-E668C1CD7DB7"); }
+        }
+
+        #endregion
+
         #region ITimeable Implemenation
 
         private float _intervall;

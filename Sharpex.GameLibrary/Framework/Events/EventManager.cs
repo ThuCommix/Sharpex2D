@@ -7,6 +7,18 @@ namespace SharpexGL.Framework.Events
 {
     public class EventManager : IComponent, IObservable<IEvent>
     {
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("CF0AEB96-141D-4D2B-8C28-0A64BFDFE277"); }
+        }
+
+        #endregion
+
         public EventManager()
         {
             _observers = new LinkedList<IObserver<IEvent>>();
