@@ -92,6 +92,23 @@ namespace SharpexGL.Framework.Components
             throw new InvalidOperationException("Component not found (" + typeof(T).FullName + ").");
         }
         /// <summary>
+        /// Gets the Component by Guid.
+        /// </summary>
+        /// <param name="guid">The Guid.</param>
+        /// <returns>IComponent</returns>
+        public IComponent GetByGuid(Guid guid)
+        {
+            foreach (var component in _internalComponents)
+            {
+                if (component.Guid == guid)
+                {
+                    return component;
+                }
+            }
+
+            throw new InvalidOperationException("Component with guid " + guid + " not found.");
+        }
+        /// <summary>
         /// Initializes all Components.
         /// </summary>
         public void Construct()
