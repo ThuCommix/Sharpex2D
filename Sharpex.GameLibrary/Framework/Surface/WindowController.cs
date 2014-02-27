@@ -185,6 +185,14 @@ namespace SharpexGL.Framework.Surface
             };
             _surface.Invoke(br);
         }
+        /// <summary>
+        /// Indicating whether the surface is running in fullscreen.
+        /// </summary>
+        /// <returns>True if fullscreen is activated</returns>
+        internal bool IsFullscreen()
+        {
+            return Screen.PrimaryScreen.Bounds.Width == (int)GetSize().X && Screen.PrimaryScreen.Bounds.Height == (int)GetSize().Y;
+        }
 
         private readonly Form _surface;
     }
