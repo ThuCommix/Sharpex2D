@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using SharpexGL.Framework.Components;
 
@@ -15,6 +16,19 @@ namespace SharpexGL.Framework.Surface
         {
             get { return new Guid("0F73D6D0-7CE8-4A77-A184-BE93E77E86B5"); }
         }
+
+        #endregion
+
+        #region WinApi
+
+        /// <summary>
+        /// A value indicating whether the Window is valid.
+        /// </summary>
+        /// <param name="hWnd">The Handle.</param>
+        /// <returns>True if window is valid</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool IsWindow(IntPtr hWnd);
 
         #endregion
 
@@ -44,6 +58,13 @@ namespace SharpexGL.Framework.Surface
             get { return ((WindowController) SurfaceControl).IsFullscreen(); }
         }
         /// <summary>
+        /// A value indicating whether the RenderTarget is valid.
+        /// </summary>
+        public bool IsValid
+        {
+            get { return IsWindow(Handle); }
+        }
+        /// <summary>
         /// Create a new RenderTarget from a specified handle.
         /// </summary>
         /// <param name="handle">The Handle.</param>
@@ -56,6 +77,21 @@ namespace SharpexGL.Framework.Surface
             }
 
             throw new InvalidOperationException("The given Handle is not a window.");
+        }
+        /// <summary>
+        /// Gets the RenderTarget associated with the current process.
+        /// </summary>
+        /// <returns>RenderTarget</returns>
+        public static RenderTarget GetDefault()
+        {
+            var handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
+
+            if (Control.FromHandle(handle) is Form)
+            {
+                return new RenderTarget(handle);
+            }
+
+            throw new InvalidOperationException("Could not get the handle associated with the current process.");
         }
     }
 }
