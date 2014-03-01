@@ -1,6 +1,7 @@
 ﻿using System;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
+using SharpexGL.Framework.Surface;
 
 namespace SharpexGL
 {
@@ -9,25 +10,14 @@ namespace SharpexGL
         /// <summary>
         /// Initialize SGLInitializer.
         /// </summary>
-        public SGLInitializer()
-        {
-            Width = 640;
-            Height = 480;
-            GameInstance = null;
-            TargetFramesPerSecond = 60;
-            GameLoop = new DualThreadGameLoop();
-        }
-        /// <summary>
-        /// Initialize SGLInitializer.
-        /// </summary>
         /// <param name="gameInstance">The Game.</param>
-        /// <param name="targetHandle">The SurfaceTargetHandle.</param>
-        public SGLInitializer(Game gameInstance, IntPtr targetHandle)
+        /// <param name="renderTarget">The RenderTarget.</param>
+        public SGLInitializer(Game gameInstance, RenderTarget renderTarget)
         {
             Width = 640;
             Height = 480;
             GameInstance = gameInstance;
-            TargetHandle = targetHandle;
+            RenderTarget = renderTarget;
             TargetFramesPerSecond = 60;
             GameLoop = new DualThreadGameLoop();
         }
@@ -50,7 +40,7 @@ namespace SharpexGL
         /// <summary>
         /// Sets or gets the TargetHandle.
         /// </summary>
-        public IntPtr TargetHandle { get; set; }
+        public RenderTarget RenderTarget { get; set; }
         /// <summary>
         /// Sets or gets the GameLoop.
         /// </summary>

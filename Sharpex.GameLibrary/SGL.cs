@@ -69,12 +69,11 @@ namespace SharpexGL
             Components = new ComponentManager();
             Implementations = new ImplementationManager();
             _gameInstance = initializer.GameInstance;
-            var renderTarget = new RenderTarget(initializer.TargetHandle);
-            Components.AddComponent(renderTarget);
+            Components.AddComponent(initializer.RenderTarget);
             Components.AddComponent(new EventManager());
-            renderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
-            initializer.GameInstance.Input = new InputManager(renderTarget.Handle);
-            GraphicsDevice = new GraphicsDevice(renderTarget)
+            initializer.RenderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
+            initializer.GameInstance.Input = new InputManager(initializer.RenderTarget.Handle);
+            GraphicsDevice = new GraphicsDevice(initializer.RenderTarget)
             {
                 DisplayMode = new DisplayMode(initializer.Width, initializer.Height)
             };
