@@ -3,19 +3,18 @@ using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Exceptions;
 using SharpexGL.Framework.Game;
+using SharpexGL.Framework.Game.Services.Achievements;
 using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Implementation;
 using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Scene;
-using SharpexGL.Framework.Surface;
 
 namespace SharpexGL
 {
     public static class SGL
     {
-        #region Private Fields
         /// <summary>
         /// Current Game Instance.
         /// </summary>
@@ -36,9 +35,7 @@ namespace SharpexGL
         /// The Current Renderer.
         /// </summary>
         internal static IRenderer CurrentRenderer { set; get; }
-        #endregion
 
-        #region Public Fields
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
@@ -55,9 +52,7 @@ namespace SharpexGL
         /// ImplementationManager Instance.
         /// </summary>
         public static ImplementationManager Implementations { private set; get; }
-        #endregion
 
-        #region ctor
         /// <summary>
         /// Initializes SGL.
         /// </summary>
@@ -88,11 +83,11 @@ namespace SharpexGL
             Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
             Components.Get<IGameLoop>().Subscribe(_gameInstance);
+
+            //prepare game services
+
+            Components.AddComponent(new AchievementProvider());
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Runs SGL based on the specific initialized options.
@@ -121,13 +116,12 @@ namespace SharpexGL
         /// <summary>
         /// Closes the current session.
         /// </summary>
-        public static void Shutdown()
+        internal static void Shutdown()
         {
             Components.Get<IGameLoop>().Stop();
             _gameInstance.OnUnload();
             _gameInstance.OnClose();
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
-        #endregion
     }
 }
