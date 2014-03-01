@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
 using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Surface
@@ -71,7 +70,7 @@ namespace SharpexGL.Framework.Surface
         /// <returns>RenderTarget</returns>
         public static RenderTarget FromHandle(IntPtr handle)
         {
-            if (Control.FromHandle(handle) is Form)
+            if (IsWindow(handle))
             {
                 return new RenderTarget(handle);
             }
@@ -86,7 +85,7 @@ namespace SharpexGL.Framework.Surface
         {
             var handle = System.Diagnostics.Process.GetCurrentProcess().MainWindowHandle;
 
-            if (Control.FromHandle(handle) is Form)
+            if (IsWindow(handle))
             {
                 return new RenderTarget(handle);
             }
