@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Surface
@@ -21,7 +22,7 @@ namespace SharpexGL.Framework.Surface
         /// Initializes a new RenderTarget class.
         /// </summary>
         /// <param name="handle">The WindowHandle.</param>
-        public RenderTarget(IntPtr handle)
+        internal RenderTarget(IntPtr handle)
         {
             Handle = handle;
             SurfaceControl = new WindowController(this);
@@ -41,6 +42,20 @@ namespace SharpexGL.Framework.Surface
         public bool IsFullscreen
         {
             get { return ((WindowController) SurfaceControl).IsFullscreen(); }
+        }
+        /// <summary>
+        /// Create a new RenderTarget from a specified handle.
+        /// </summary>
+        /// <param name="handle">The Handle.</param>
+        /// <returns>RenderTarget</returns>
+        public static RenderTarget FromHandle(IntPtr handle)
+        {
+            if (Control.FromHandle(handle) is Form)
+            {
+                return new RenderTarget(handle);
+            }
+
+            throw new InvalidOperationException("The given Handle is not a window.");
         }
     }
 }
