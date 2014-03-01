@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SharpexGL.Framework.Game.Services
+namespace SharpexGL.Framework.Game.Services.Availability
 {
     public class GameUpdateRequiredException : Exception
     {

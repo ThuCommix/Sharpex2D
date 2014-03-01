@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using SharpexGL.Framework.Game.Services;
+using SharpexGL.Framework.Game.Services.Settings;
 
 namespace SharpexGL.Framework.Content.Serialization
 {

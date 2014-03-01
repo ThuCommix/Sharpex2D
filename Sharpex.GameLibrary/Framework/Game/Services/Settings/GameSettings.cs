@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using SharpexGL.Framework.Content.Serialization;
 
-namespace SharpexGL.Framework.Game.Services
+namespace SharpexGL.Framework.Game.Services.Settings
 {
     [Serializable]
     public class GameSettings
