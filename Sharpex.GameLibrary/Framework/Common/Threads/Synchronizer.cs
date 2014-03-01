@@ -6,14 +6,14 @@ namespace SharpexGL.Framework.Common.Threads
     internal class Synchronizer
     {
 
-        private readonly List<SynchronizeObject> _objects; 
+        private readonly List<Locker> _objects; 
 
         /// <summary>
         /// Initializes a new Synchronizer class.
         /// </summary>
         public Synchronizer()
         {
-            _objects = new List<SynchronizeObject>();
+            _objects = new List<Locker>();
         }
 
         /// <summary>
@@ -44,9 +44,9 @@ namespace SharpexGL.Framework.Common.Threads
         /// Synchronizes into the Synchronizer.
         /// </summary>
         /// <returns>SynchronizeObject</returns>
-        public SynchronizeObject Synchronize()
+        public Locker Synchronize()
         {
-            var syncobject = new SynchronizeObject(Guid.NewGuid());
+            var syncobject = new Locker(Guid.NewGuid());
             _objects.Add(syncobject);
             return syncobject;
         }
@@ -54,7 +54,7 @@ namespace SharpexGL.Framework.Common.Threads
         /// Asynchronizes from the Synchronizer.
         /// </summary>
         /// <param name="syncObject">The SynchronizeObject</param>
-        public void Asynchron(SynchronizeObject syncObject)
+        public void Asynchron(Locker syncObject)
         {
             if (_objects.Contains(syncObject))
             {
@@ -62,13 +62,13 @@ namespace SharpexGL.Framework.Common.Threads
             }
         }
 
-        internal class SynchronizeObject
+        internal class Locker
         {
             /// <summary>
             /// Initializes a new SynchronizeObject class.
             /// </summary>
             /// <param name="guid">The Guid.</param>
-            internal SynchronizeObject(Guid guid)
+            internal Locker(Guid guid)
             {
                 Guid = guid;
                 Synced = true;
