@@ -9,7 +9,7 @@ namespace SharpexGL.Framework.Game.Services
         /// </summary>
         public GameUpdateRequiredException()
         {
-            
+            _message = "The game needs to be updated.";
         }
         /// <summary>
         /// Initializes a new GameUpdateRequiredException class.
