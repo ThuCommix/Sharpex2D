@@ -48,7 +48,6 @@ Dokumentation/
 Properties/
 x64/
 build/
-[Dd]ebug/
 [Oo]bj/
 
 # MSTest test Results
@@ -71,12 +70,10 @@ build/
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
 *.vspscc
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # Visual C++ cache files
