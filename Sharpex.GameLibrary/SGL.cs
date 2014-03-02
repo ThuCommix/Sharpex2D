@@ -1,7 +1,7 @@
-﻿using SharpexGL.Framework.Components;
+﻿using System;
+using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Events;
-using SharpexGL.Framework.Exceptions;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Services.Achievements;
 using SharpexGL.Framework.Game.Timing;
@@ -39,7 +39,7 @@ namespace SharpexGL
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.711"; } }
+        public static string Version { get { return "0.1.887"; } }
         /// <summary>
         /// Determines, if SGL is initialized.
         /// </summary>
@@ -97,7 +97,7 @@ namespace SharpexGL
         public static void Run(IRenderer graphicRenderer, ISoundInitializer soundInitializer)
         {
             if (!IsInitialized)
-                throw new SGLNotInitializedException("SGL must be initialized in the first place.");
+                throw new InvalidOperationException("SGL must be initialized in the first place.");
 
             if (_isRunning) return;
 
