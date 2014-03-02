@@ -47,5 +47,10 @@ namespace SharpexGL.Framework.Surface
         /// </summary>
         /// <param name="state">The State.</param>
         void SetCursorVisibility(bool state);
+        /// <summary>
+        /// Sets the Cursor icon.
+        /// </summary>
+        /// <param name="iconPath">The IconPath.</param>
+        void SetCursorIcon(string iconPath);
     }
 }

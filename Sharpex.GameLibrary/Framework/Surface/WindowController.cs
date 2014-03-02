@@ -135,6 +135,18 @@ namespace SharpexGL.Framework.Surface
                 Cursor.Hide();
             }
         }
+        /// <summary>
+        /// Sets the Cursor icon.
+        /// </summary>
+        /// <param name="iconPath">The IconPath.</param>
+        public void SetCursorIcon(string iconPath)
+        {
+            MethodInvoker br = delegate
+            {
+                Cursor.Current = new Cursor(iconPath);
+            };
+            _surface.Invoke(br);
+        }
 
         #endregion
 
