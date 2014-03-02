@@ -10,7 +10,7 @@ namespace SharpexGL
         /// <summary>
         /// Initialize SGLInitializer.
         /// </summary>
-        /// <param name="gameInstance">The Game.</param>
+        /// <param name="gameInstance">The GameInstance.</param>
         /// <param name="renderTarget">The RenderTarget.</param>
         public SGLInitializer(Game gameInstance, RenderTarget renderTarget)
         {
@@ -20,6 +20,11 @@ namespace SharpexGL
             RenderTarget = renderTarget;
             TargetFramesPerSecond = 60;
             GameLoop = new DualThreadGameLoop();
+
+            if (!renderTarget.IsValid)
+            {
+                throw new InvalidOperationException("RenderTarget is not valid.");
+            }
         }
         /// <summary>
         /// Gets or sets the Width.
@@ -45,5 +50,15 @@ namespace SharpexGL
         /// Sets or gets the GameLoop.
         /// </summary>
         public IGameLoop GameLoop { set; get; }
+
+        /// <summary>
+        /// Gets the default initializer.
+        /// </summary>
+        /// <param name="gameInstance">The GameInstance.</param>
+        /// <returns>SGLInitializer</returns>
+        public static SGLInitializer Default(Game gameInstance)
+        {
+            return new SGLInitializer(gameInstance, RenderTarget.GetDefault());
+        }
     }
 }
