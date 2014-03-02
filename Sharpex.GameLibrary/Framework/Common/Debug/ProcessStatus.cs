@@ -41,6 +41,7 @@ namespace SharpexGL.Framework.Common.Debug
         public ProcessStatus()
         {
             SGL.Components.AddComponent(this);
+            _cproc = Process.GetCurrentProcess();
             _perf = new PerformanceCounter("Process", "% Processor Time", _cproc.ProcessName);
             new Thread(RefreshValues) {IsBackground = true, Priority = ThreadPriority.Lowest}.Start();
         }
@@ -49,8 +50,6 @@ namespace SharpexGL.Framework.Common.Debug
         /// </summary>
         private void RefreshValues()
         {
-            _cproc = Process.GetCurrentProcess();
-
             while (!_cancel)
             {
                 _cproc.Refresh();
@@ -62,7 +61,7 @@ namespace SharpexGL.Framework.Common.Debug
                 _perf.NextValue();
                 Thread.Sleep(1000);
 
-                CpuUsage = (int)System.Math.Round(_perf.NextValue(), 0);
+                CpuUsage = (int)System.Math.Round(_perf.NextValue() / Environment.ProcessorCount, 0);
 
                 Thread.Sleep(5000);
             }
