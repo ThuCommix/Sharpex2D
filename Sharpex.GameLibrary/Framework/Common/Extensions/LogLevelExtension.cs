@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpexGL.Framework.Common.Debug;
+using SharpexGL.Framework.Debug;
 
 namespace SharpexGL.Framework.Common.Extensions
 {
