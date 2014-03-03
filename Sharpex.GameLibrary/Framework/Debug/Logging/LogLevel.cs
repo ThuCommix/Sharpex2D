@@ -1,5 +1,5 @@
 ﻿
-namespace SharpexGL.Framework.Debug
+namespace SharpexGL.Framework.Debug.Logging
 {
     public enum LogLevel
     {

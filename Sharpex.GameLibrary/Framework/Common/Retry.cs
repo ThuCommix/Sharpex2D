@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading;
-using SharpexGL.Framework.Debug;
+using SharpexGL.Framework.Debug.Logging;
 
 namespace SharpexGL.Framework.Common
 {

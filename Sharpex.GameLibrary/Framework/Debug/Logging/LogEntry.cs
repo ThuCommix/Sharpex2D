@@ -1,7 +1,6 @@
-﻿
-using System;
+﻿using System;
 
-namespace SharpexGL.Framework.Debug
+namespace SharpexGL.Framework.Debug.Logging
 {
     public class LogEntry
     {

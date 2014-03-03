@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using SharpexGL.Framework.Common.Extensions;
-using LogLevel = SharpexGL.Framework.Debug.LogLevel;
+using LogLevel = SharpexGL.Framework.Debug.Logging.LogLevel;
 
-namespace SharpexGL.Framework.Debug
+namespace SharpexGL.Framework.Debug.Logging
 {
     public static class Log
     {
