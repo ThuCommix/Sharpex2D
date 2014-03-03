@@ -1,65 +1,101 @@
 ﻿using System.IO;
 
-namespace SharpexGL.Framework.Common.FileSystem
+namespace SharpexGL.Framework.Content.FileSystem
 {
-    public interface IFileSystem
+    public class Win32FileSystem : IFileSystem
     {
         /// <summary>
         /// Opens an existing file.
         /// </summary>
         /// <param name="file">The FilePath.</param>
         /// <returns>FileStream</returns>
-        FileStream Open(string file);
+        public FileStream Open(string file)
+        {
+            return new FileStream(file, FileMode.Open, FileAccess.ReadWrite);
+        }
         /// <summary>
         /// Creates a new file.
         /// </summary>
         /// <param name="file">The File.</param>
         /// <returns>FileStream</returns>
-        FileStream Create(string file);
+        public FileStream Create(string file)
+        {
+            return new FileStream(file, FileMode.Create, FileAccess.ReadWrite);
+        }
         /// <summary>
         /// Deletes a file.
         /// </summary>
         /// <param name="file">The FilePath.</param>
-        void Delete(string file);
+        public void Delete(string file)
+        {
+            File.Delete(file);
+        }
         /// <summary>
         /// Creates a Directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
-        void CreateDirectory(string directoryPath);
+        public void CreateDirectory(string directoryPath)
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
         /// <summary>
         /// Deletes a Directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
-        void DeleteDirectory(string directoryPath);
+        public void DeleteDirectory(string directoryPath)
+        {
+            Directory.Delete(directoryPath);
+        }
         /// <summary>
         /// Determines, if a file exists.
         /// </summary>
         /// <param name="file">The FilePath.</param>
         /// <returns>True if exists</returns>
-        bool FileExists(string file);
+        public bool FileExists(string file)
+        {
+            return File.Exists(file);
+        }
         /// <summary>
         /// Determines, if a directory exists.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
         /// <returns>True if exists</returns>
-        bool DirectoryExists(string directoryPath);
+        public bool DirectoryExists(string directoryPath)
+        {
+            return Directory.Exists(directoryPath);
+        }
         /// <summary>
         /// Gets all files in the given directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
         /// <returns>String[] FileCollection</returns>
-        string[] GetFiles(string directoryPath);
+        public string[] GetFiles(string directoryPath)
+        {
+            return Directory.GetFiles(directoryPath, "*", SearchOption.TopDirectoryOnly);
+        }
         /// <summary>
         /// Gets all Directories in the given directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
         /// <returns>String[] DirectoryCollection</returns>
-        string[] GetDirectories(string directoryPath);
+        public string[] GetDirectories(string directoryPath)
+        {
+            return Directory.GetDirectories(directoryPath, "*", SearchOption.TopDirectoryOnly);
+        }
         /// <summary>
         /// Connects the given FilePaths.
         /// </summary>
         /// <param name="fileparts">The FilePaths.</param>
         /// <returns>PathString</returns>
-        string ConnectPath(params string[] fileparts);
+        public string ConnectPath(params string[] fileparts)
+        {
+            var result = "";
+            if (fileparts.Length == 1) return fileparts[0];
+            for (var i = 0; i <= fileparts.Length - 1; i++)
+            {
+                result = Path.Combine(result, fileparts[i]);
+            }
+            return result;
+        }
     }
 }

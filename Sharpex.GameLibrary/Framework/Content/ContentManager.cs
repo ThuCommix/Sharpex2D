@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using SharpexGL.Framework.Common.FileSystem;
+using SharpexGL.Framework.Content.FileSystem;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content.Serialization;
 using SharpexGL.Framework.Media.Sound;
