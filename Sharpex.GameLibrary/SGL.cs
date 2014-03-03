@@ -1,6 +1,7 @@
 ﻿using System;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
+using SharpexGL.Framework.Debug;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Services.Achievements;
@@ -19,18 +20,12 @@ namespace SharpexGL
         /// Current Game Instance.
         /// </summary>
         private static Game _gameInstance;
+
         /// <summary>
         /// Current GraphicsDevice.
         /// </summary>
-        internal static GraphicsDevice GraphicsDevice
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// A value indicating whether SGL is running.
-        /// </summary>
-        private static bool _isRunning;
+        internal static GraphicsDevice GraphicsDevice { get; set; }
+
         /// <summary>
         /// The Current Renderer.
         /// </summary>
@@ -39,19 +34,33 @@ namespace SharpexGL
         /// <summary>
         /// Gets the Version of SGL.
         /// </summary>
-        public static string Version { get { return "0.1.887"; } }
+        public static string Version
+        {
+            get { return "0.1.887"; }
+        }
+
         /// <summary>
-        /// Determines, if SGL is initialized.
+        /// Gets the current state.
         /// </summary>
-        public static bool IsInitialized { set; get; }
+        public static SGLState State { private set; get; }
+
         /// <summary>
         /// ComponentManager Instance.
         /// </summary>
         public static ComponentManager Components { private set; get; }
+
         /// <summary>
         /// ImplementationManager Instance.
         /// </summary>
         public static ImplementationManager Implementations { private set; get; }
+
+        /// <summary>
+        /// Initializes a new SGL class.
+        /// </summary>
+        static SGL()
+        {
+            State = SGLState.NotInitialized;
+        }
 
         /// <summary>
         /// Initializes SGL.
@@ -59,8 +68,11 @@ namespace SharpexGL
         /// <param name="initializer">The Initializer.</param>
         public static void Initialize(SGLInitializer initializer)
         {
-            if (IsInitialized) return;
-            IsInitialized = true;
+            if (State != SGLState.NotInitialized)
+            {
+                return;
+            }
+            State = SGLState.Initializing;
             Components = new ComponentManager();
             Implementations = new ImplementationManager();
             _gameInstance = initializer.GameInstance;
@@ -87,6 +99,9 @@ namespace SharpexGL
             //prepare game services
 
             Components.AddComponent(new AchievementProvider());
+            Components.AddComponent(new ExceptionHandler());
+
+            State = SGLState.Initialized;
         }
 
         /// <summary>
@@ -96,12 +111,11 @@ namespace SharpexGL
         /// <param name="soundInitializer">The SoundInitializer</param>
         public static void Run(IRenderer graphicRenderer, ISoundInitializer soundInitializer)
         {
-            if (!IsInitialized)
+            if (State != SGLState.Initialized)
                 throw new InvalidOperationException("SGL must be initialized in the first place.");
 
-            if (_isRunning) return;
+            if (State == SGLState.Running) return;
 
-            _isRunning = true;
             CurrentRenderer = graphicRenderer;
             CurrentRenderer.GraphicsDevice = GraphicsDevice;
             _gameInstance.SoundManager = new SoundManager(soundInitializer);
@@ -111,6 +125,8 @@ namespace SharpexGL
             _gameInstance.OnInitialize();
             _gameInstance.OnLoadContent();
             Components.Get<IGameLoop>().Start();
+
+            State = SGLState.Running;
         }
 
         /// <summary>
