@@ -2,6 +2,7 @@
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Debug;
+using SharpexGL.Framework.Debug.Logging;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Services.Achievements;
@@ -125,6 +126,8 @@ namespace SharpexGL
             _gameInstance.OnInitialize();
             _gameInstance.OnLoadContent();
             Components.Get<IGameLoop>().Start();
+
+            Log.Next("SGL is sucessfully running.", LogLevel.Info, LogMode.StandardOut);
 
             State = SGLState.Running;
         }
