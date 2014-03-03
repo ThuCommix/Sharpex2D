@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace SharpexGL.Framework.Common.Debug
+namespace SharpexGL.Framework.Debug
 {
     public class LogEntry
     {

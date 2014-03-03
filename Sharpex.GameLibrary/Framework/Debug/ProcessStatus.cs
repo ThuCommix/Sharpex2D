@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Threading;
 using SharpexGL.Framework.Components;
 
-namespace SharpexGL.Framework.Common.Debug
+namespace SharpexGL.Framework.Debug
 {
     public class ProcessStatus : IComponent
     {

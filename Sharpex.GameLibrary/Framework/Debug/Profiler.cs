@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace SharpexGL.Framework.Common.Debug
+namespace SharpexGL.Framework.Debug
 {
     public class Profiler
     {

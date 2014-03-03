@@ -1,5 +1,5 @@
 ﻿
-namespace SharpexGL.Framework.Common.Debug
+namespace SharpexGL.Framework.Debug
 {
     public enum LogMode
     {
