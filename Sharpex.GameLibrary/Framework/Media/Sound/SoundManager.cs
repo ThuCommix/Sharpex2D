@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpexGL.Framework.Common.Collections;
+using SharpexGL.Framework.Collections;
 using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Media.Sound

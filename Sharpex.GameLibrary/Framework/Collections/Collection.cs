@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SharpexGL.Framework.Common.Collections
+namespace SharpexGL.Framework.Collections
 {
-    public class BufferedCollection<T>
+    public class Collection<T>
     {
         /// <summary>
-        /// Initializes a new BufferedCollection class.
+        /// Initializes a new Collection class.
         /// </summary>
-        public BufferedCollection()
+        public Collection()
         {
             _elements = new List<T>();
         }
 
         private readonly List<T> _elements;
-        private T _buffer;
 
         /// <summary>
         /// Adds a new Element to the collection.
@@ -60,17 +59,11 @@ namespace SharpexGL.Framework.Common.Collections
         /// <returns>Element</returns>
         public TE Get<TE>()
         {
-            if (typeof (TE) == _buffer.GetType())
+            for (var i = 0; i < _elements.Count -1; i++)
             {
-                return (TE)(object)_buffer;
-            }
-
-            for (var i = 0; i < _elements.Count - 1; i++)
-            {
-                if (_elements[i].GetType() == typeof(TE))
+                if (_elements[i].GetType() == typeof (TE))
                 {
-                    _buffer = _elements[i];
-                    return (TE)(object)_elements[i];
+                    return (TE)(object) _elements[i];
                 }
             }
 

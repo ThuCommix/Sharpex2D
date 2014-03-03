@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpexGL.Framework.Common.Collections;
+using SharpexGL.Framework.Collections;
 
 namespace SharpexGL.Framework.Plugin
 {
