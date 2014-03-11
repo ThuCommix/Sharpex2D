@@ -8,20 +8,20 @@ namespace SharpexGL.Framework.Game.Timing
     {
         #region ITimeable Implemenation
 
-        private float _intervall;
+        private float _interval;
         /// <summary>
         /// Sets or gets the Intervall.
         /// </summary>
-        public float Intervall
+        public float Interval
         {
-            get { return _intervall; }
+            get { return _interval; }
             set
             {
                 if (value <= 0f)
                 {
                     throw new ArgumentException("Value must be greater than 0.");
                 }
-                _intervall = value;
+                _interval = value;
             }
         }
 
@@ -48,15 +48,15 @@ namespace SharpexGL.Framework.Game.Timing
         /// </summary>
         public PrecisionTimer()
         {
-            Intervall = 100;
+            Interval = 100;
         }
         /// <summary>
         /// Initializes a new PrecisionTimer class.
         /// </summary>
-        /// <param name="intervall">The Intervall.</param>
-        public PrecisionTimer(float intervall)
+        /// <param name="interval">The Interval.</param>
+        public PrecisionTimer(float interval)
         {
-            Intervall = intervall;
+            Interval = interval;
         }
 
         public void Start()
@@ -69,12 +69,12 @@ namespace SharpexGL.Framework.Game.Timing
             {
                 var sw = new Stopwatch();
                 sw.Start();
-                if (Intervall - 1 > 1)
+                if (Interval - 1 > 1)
                 {
                     //wait full miliseconds
-                    Thread.Sleep((int) _intervall - 1);
+                    Thread.Sleep((int) _interval - 1);
                 }
-                while (!_abort && sw.ElapsedMilliseconds < _intervall)
+                while (!_abort && sw.ElapsedMilliseconds < _interval)
                 {
                     
                 }

@@ -1,11 +1,20 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using SharpexGL.Framework.Components;
 
 namespace SharpexGL.Framework.Plugin
 {
-    public class PluginLoader
+    public class PluginLoader : IComponent
     {
+        #region IComponent Implementation
+        /// <summary>
+        /// Gets the guid.
+        /// </summary>
+        public Guid Guid { get { return new Guid("520649BC-EAF2-48D4-9938-C240502E8681"); } }
+        #endregion
+
         /// <summary>
         /// Loads a plugin into SGL.
         /// </summary>

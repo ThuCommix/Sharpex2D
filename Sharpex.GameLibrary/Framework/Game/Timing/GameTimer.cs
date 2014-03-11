@@ -20,20 +20,20 @@ namespace SharpexGL.Framework.Game.Timing
 
         #region ITimeable Implemenation
 
-        private float _intervall;
+        private float _interval;
         /// <summary>
         /// Sets or gets the Intervall.
         /// </summary>
-        public float Intervall
+        public float Interval
         {
-            get { return _intervall; }
+            get { return _interval; }
             set
             {
                 if (value <= 0f)
                 {
                     throw new ArgumentException("Value must be greater than 0.");
                 }
-                _intervall = value;
+                _interval = value;
             }
         }
         
@@ -93,7 +93,7 @@ namespace SharpexGL.Framework.Game.Timing
         /// </summary>
         public GameTimer()
         {
-            Intervall = 100;
+            Interval = 100;
             UpdateMode = UpdateMode.OnGameTick;
         }
         /// <summary>
@@ -102,17 +102,17 @@ namespace SharpexGL.Framework.Game.Timing
         /// <param name="updateMode">The UpdateMode.</param>
         public GameTimer(UpdateMode updateMode)
         {
-            Intervall = 100;
+            Interval = 100;
             UpdateMode = updateMode;
         }
         /// <summary>
         /// Initializes a new GameTimer class.
         /// </summary>
-        /// <param name="intervall">The Intervall.</param>
+        /// <param name="interval">The Interval.</param>
         /// <param name="updateMode">The UpdateMode.</param>
-        public GameTimer(float intervall, UpdateMode updateMode)
+        public GameTimer(float interval, UpdateMode updateMode)
         {
-            Intervall = intervall;
+            Interval = interval;
             UpdateMode = updateMode;
         }
 
@@ -123,7 +123,7 @@ namespace SharpexGL.Framework.Game.Timing
         private void Update(float elapsed)
         {
             _totalElapsed += elapsed;
-            if (_totalElapsed >= Intervall)
+            if (_totalElapsed >= Interval)
             {
                 Stop();
                 IsCompleted = true;
