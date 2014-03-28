@@ -23,7 +23,9 @@ namespace SharpexGL.Framework.Media.Sound
             get;
             private set;
         }
-
+        /// <summary>
+        /// Gets the Factory.
+        /// </summary>
         public static SoundFactory Factory { private set; get; }
 
         /// <summary>
@@ -41,17 +43,15 @@ namespace SharpexGL.Framework.Media.Sound
         {
             if (!File.Exists(file))
             {
-                throw new FileNotFoundException("The soundresource could not be located");
+                throw new FileNotFoundException("The sound resource could not be located");
             }
-            if (file.ToLower().EndsWith("mp3") | file.ToLower().EndsWith("wav") | file.ToLower().EndsWith("wma") | file.ToLower().EndsWith("flac"))
-            {
-                ResourcePath = file;
-                IsInitialized = true;
-                return;
-            }
-            throw new FormatException("Could not read format, allowed: mp3, wav, wma, flac");
-        }
 
+            ResourcePath = file;
+            IsInitialized = true;
+        }
+        /// <summary>
+        /// Initializes a new Sound class.
+        /// </summary>
         static Sound()
         {
             Factory = new SoundFactory();
