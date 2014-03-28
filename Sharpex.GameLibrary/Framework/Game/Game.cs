@@ -3,6 +3,7 @@ using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Input;
 using SharpexGL.Framework.Media.Sound;
+using SharpexGL.Framework.Media.Video;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Scene;
 
@@ -36,7 +37,13 @@ namespace SharpexGL.Framework.Game
         public SoundManager SoundManager
         {
             get;
-            set;
+            internal set;
+        }
+
+        public VideoManager VideoManager
+        {
+            get;
+            internal set;
         }
         /// <summary>
         /// The Current ContentManager.
