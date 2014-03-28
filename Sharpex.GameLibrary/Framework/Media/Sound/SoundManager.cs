@@ -18,6 +18,17 @@ namespace SharpexGL.Framework.Media.Sound
 
         #endregion
 
+        #region ICloneable Implementation
+        /// <summary>
+        /// Clones the Object.
+        /// </summary>
+        /// <returns>SoundManager.</returns>
+        public object Clone()
+        {
+            return MemberwiseClone();
+        }
+        #endregion
+
         private readonly ISoundProvider _soundProvider;
         private bool _muted;
         private float _vBeforeMute;
@@ -44,6 +55,11 @@ namespace SharpexGL.Framework.Media.Sound
         {
             if (_soundProvider != null)
             {
+                if (!sound.IsInitialized)
+                {
+                    throw new ArgumentException("The sound is not initialized.");
+                }
+
                 _soundProvider.Play(sound, PlayMode.None);
             }
             else
@@ -60,6 +76,11 @@ namespace SharpexGL.Framework.Media.Sound
         {
             if (_soundProvider != null)
             {
+                if (!sound.IsInitialized)
+                {
+                    throw new ArgumentException("The sound is not initialized.");
+                }
+
                 _soundProvider.Play(sound, playMode);
             }
             else
@@ -233,11 +254,6 @@ namespace SharpexGL.Framework.Media.Sound
                 _muted = value;
             }
             get { return _muted; }
-        }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
         }
     }
 }
