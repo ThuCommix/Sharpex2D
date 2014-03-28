@@ -9,7 +9,9 @@ using SharpexGL.Framework.Game.Services.Achievements;
 using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Implementation;
 using SharpexGL.Framework.Input;
+using SharpexGL.Framework.Media;
 using SharpexGL.Framework.Media.Sound;
+using SharpexGL.Framework.Media.Video;
 using SharpexGL.Framework.Rendering;
 using SharpexGL.Framework.Rendering.Scene;
 
@@ -109,8 +111,8 @@ namespace SharpexGL
         /// Runs SGL based on the specific initialized options.
         /// </summary>
         /// <param name="graphicRenderer">The GraphicRenderer.</param>
-        /// <param name="soundInitializer">The SoundInitializer</param>
-        public static void Run(IRenderer graphicRenderer, ISoundInitializer soundInitializer)
+        /// <param name="mediaInitializer">The MediaInitializer.</param>
+        public static void Run(IRenderer graphicRenderer, MediaInitializer mediaInitializer)
         {
             if (State != SGLState.Initialized)
                 throw new InvalidOperationException("SGL must be initialized in the first place.");
@@ -119,9 +121,11 @@ namespace SharpexGL
 
             CurrentRenderer = graphicRenderer;
             CurrentRenderer.GraphicsDevice = GraphicsDevice;
-            _gameInstance.SoundManager = new SoundManager(soundInitializer);
+            _gameInstance.SoundManager = new SoundManager(mediaInitializer.SoundInitializer);
+            _gameInstance.VideoManager = new VideoManager(mediaInitializer.VideoInitializer);
             Components.AddComponent(graphicRenderer);
             Components.AddComponent(_gameInstance.SoundManager);
+            Components.AddComponent(_gameInstance.VideoManager);
             Components.Construct();
             _gameInstance.OnInitialize();
             _gameInstance.OnLoadContent();
