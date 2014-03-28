@@ -39,7 +39,7 @@ namespace SharpexGL
         /// </summary>
         public static string Version
         {
-            get { return "0.1.887"; }
+            get { return "0.2.028"; }
         }
 
         /// <summary>
