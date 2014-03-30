@@ -33,7 +33,7 @@ namespace SharpexGL.Framework.Scripting.CSharp
         {
             if (script.GetType() != typeof(CSharpScript))
             {
-                throw new ScriptException("The given script does not match the SharpScript sheme.");
+                throw new ScriptException("The given script does not match the CSharpScript sheme.");
             }
 
             var sharpScript = script as CSharpScript;
