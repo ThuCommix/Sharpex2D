@@ -4,6 +4,7 @@ using System.IO;
 using SharpexGL.Framework.Content.FileSystem;
 using SharpexGL.Framework.Components;
 using SharpexGL.Framework.Content.Serialization;
+using SharpexGL.Framework.Debug.Logging;
 using SharpexGL.Framework.Media.Sound;
 using SharpexGL.Framework.Rendering.Font;
 using SharpexGL.Framework.Rendering.GDI;
@@ -123,7 +124,7 @@ namespace SharpexGL.Framework.Content
             {
                 if (_extensions[i].ContentType == null) continue;
                 if (_extensions[i].ContentType != typeof (T)) continue;
-                System.Diagnostics.Debug.WriteLine("Loaded content with IContentExtension: {0}.", _extensions[i].Guid);
+                Log.Next(string.Format("Loaded content with IContentExtension: {0}.", _extensions[i].Guid), LogLevel.Info, LogMode.StandardOut);
                 return (T) _extensions[i].Create(FileSystem.ConnectPath(ContentPath, asset));
             }
 
