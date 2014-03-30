@@ -6,7 +6,7 @@ using SharpexGL.Framework.Debug.Logging;
 
 namespace SharpexGL.Framework.Scripting.CSharp
 {
-    public static class CSharpScriptCompiler
+    internal static class CSharpScriptCompiler
     {
         /// <summary>
         /// Compiles the source to assembly.
@@ -30,12 +30,12 @@ namespace SharpexGL.Framework.Scripting.CSharp
             {
                 if (error.IsWarning)
                 {
-                    Log.Next("SharpScript ["+ script.Guid +"] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Warning,
+                    Log.Next("CSharpScript ["+ script.Guid +"] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Warning,
                         LogMode.StandardOut);
                 }
                 else
                 {
-                    Log.Next("SharpScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Critical, LogMode.StandardOut);
+                    Log.Next("CSharpScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Critical, LogMode.StandardOut);
                     flag = true;
                 }
 
