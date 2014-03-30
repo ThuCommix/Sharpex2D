@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace SharpexGL.Framework.Scripting.SharpScript
+namespace SharpexGL.Framework.Scripting.CSharp
 {
     public class ScriptStorageBuffer
     {

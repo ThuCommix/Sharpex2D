@@ -2,9 +2,9 @@
 using System.IO;
 using SharpexGL.Framework.Content;
 
-namespace SharpexGL.Framework.Scripting.SharpScript
+namespace SharpexGL.Framework.Scripting.CSharp
 {
-    public class SharpScriptLoader : IContentExtension
+    public class CSharpScriptLoader : IContentExtension
     {
         /// <summary>
         /// Gets the Guid.
@@ -13,7 +13,7 @@ namespace SharpexGL.Framework.Scripting.SharpScript
         /// <summary>
         /// Gets the ContentType.
         /// </summary>
-        public Type ContentType { get { return typeof (SharpScript); } }
+        public Type ContentType { get { return typeof (CSharpScript); } }
         /// <summary>
         /// Creates the Content.
         /// </summary>
@@ -26,7 +26,7 @@ namespace SharpexGL.Framework.Scripting.SharpScript
                 throw new FileNotFoundException(path);
             }
 
-            return new SharpScript {Content = File.ReadAllText(path)};
+            return new CSharpScript {Content = File.ReadAllText(path)};
         }
     }
 }

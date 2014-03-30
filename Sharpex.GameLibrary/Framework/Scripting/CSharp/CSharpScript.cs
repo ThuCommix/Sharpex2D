@@ -1,9 +1,9 @@
 ﻿using System;
 using SharpexGL.Framework.Content;
 
-namespace SharpexGL.Framework.Scripting.SharpScript
+namespace SharpexGL.Framework.Scripting.CSharp
 {
-    public class SharpScript : IScript, IContent
+    public class CSharpScript : IScript, IContent
     {
         #region IScript Implementation
         /// <summary>

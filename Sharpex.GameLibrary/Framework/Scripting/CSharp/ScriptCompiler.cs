@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Microsoft.CSharp;
 using SharpexGL.Framework.Debug.Logging;
 
-namespace SharpexGL.Framework.Scripting.SharpScript
+namespace SharpexGL.Framework.Scripting.CSharp
 {
     public static class ScriptCompiler
     {
@@ -13,7 +13,7 @@ namespace SharpexGL.Framework.Scripting.SharpScript
         /// </summary>
         /// <param name="script">The SharpScript.</param>
         /// <returns>Assembly.</returns>
-        public static Assembly CompileToAssembly(SharpScript script)
+        public static Assembly CompileToAssembly(CSharpScript script)
         {
             var cdProvider = new CSharpCodeProvider();
             var param = new CompilerParameters();

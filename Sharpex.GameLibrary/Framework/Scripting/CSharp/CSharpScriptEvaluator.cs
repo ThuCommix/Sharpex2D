@@ -2,9 +2,9 @@
 using SharpexGL.Framework.Content;
 using SharpexGL.Framework.Debug.Logging;
 
-namespace SharpexGL.Framework.Scripting.SharpScript
+namespace SharpexGL.Framework.Scripting.CSharp
 {
-    public class SharpScriptEvaluator : IScriptEvaluator
+    public class CSharpScriptEvaluator : IScriptEvaluator
     {
         private readonly ScriptStorageBuffer _storageBuffer;
 
@@ -16,11 +16,11 @@ namespace SharpexGL.Framework.Scripting.SharpScript
         /// <summary>
         /// Initializes a new SharpScriptEvaluator.
         /// </summary>
-        public SharpScriptEvaluator()
+        public CSharpScriptEvaluator()
         {
             //Register loading technique
 
-            SGL.Components.Get<ContentManager>().Extend(new SharpScriptLoader());
+            SGL.Components.Get<ContentManager>().Extend(new CSharpScriptLoader());
             _storageBuffer = new ScriptStorageBuffer();
         }
 
@@ -31,12 +31,12 @@ namespace SharpexGL.Framework.Scripting.SharpScript
         /// <param name="objects">The Objects.</param>
         public void Evaluate(IScript script, params object[] objects)
         {
-            if (script.GetType() != typeof(SharpScript))
+            if (script.GetType() != typeof(CSharpScript))
             {
                 throw new ScriptException("The given script does not match the SharpScript sheme.");
             }
 
-            var sharpScript = script as SharpScript;
+            var sharpScript = script as CSharpScript;
 
             //check if the script was compiled previously
 
