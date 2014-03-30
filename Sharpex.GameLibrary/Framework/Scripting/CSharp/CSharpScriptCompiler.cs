@@ -6,7 +6,7 @@ using SharpexGL.Framework.Debug.Logging;
 
 namespace SharpexGL.Framework.Scripting.CSharp
 {
-    public static class ScriptCompiler
+    public static class CSharpScriptCompiler
     {
         /// <summary>
         /// Compiles the source to assembly.

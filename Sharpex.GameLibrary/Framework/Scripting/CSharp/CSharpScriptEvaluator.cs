@@ -51,7 +51,7 @@ namespace SharpexGL.Framework.Scripting.CSharp
                 }
                 else
                 {
-                    assembly = ScriptCompiler.CompileToAssembly(sharpScript);
+                    assembly = CSharpScriptCompiler.CompileToAssembly(sharpScript);
                     if (!_storageBuffer.Exists(script.Guid))
                     {
                         _storageBuffer.Add(script.Guid, assembly);
@@ -60,7 +60,7 @@ namespace SharpexGL.Framework.Scripting.CSharp
             }
             else
             {
-                assembly = ScriptCompiler.CompileToAssembly(sharpScript);
+                assembly = CSharpScriptCompiler.CompileToAssembly(sharpScript);
             }
 
             var fType = assembly.GetTypes()[0];
