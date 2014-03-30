@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace SharpexGL.Framework.Scripting.CSharp
+namespace SharpexGL.Framework.Scripting
 {
-    public class ScriptStorageBuffer
+    internal class ScriptStorageBuffer
     {
         /// <summary>
         /// Initializes a new ScriptStorageBuffer class.
