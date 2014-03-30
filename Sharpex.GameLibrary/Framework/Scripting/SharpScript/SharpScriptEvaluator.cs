@@ -9,6 +9,11 @@ namespace SharpexGL.Framework.Scripting.SharpScript
         private readonly ScriptStorageBuffer _storageBuffer;
 
         /// <summary>
+        /// A value indicating whether the compiled scripts gets buffered.
+        /// </summary>
+        public bool Buffering { set; get; }
+
+        /// <summary>
         /// Initializes a new SharpScriptEvaluator.
         /// </summary>
         public SharpScriptEvaluator()
@@ -37,18 +42,25 @@ namespace SharpexGL.Framework.Scripting.SharpScript
 
             Assembly assembly;
 
-            if (_storageBuffer.Exists(script.Guid))
+            if (Buffering)
             {
-                assembly = _storageBuffer[script.Guid];
-                Log.Next("Used previously compiled script.", LogLevel.Info, LogMode.StandardOut);
+                if (_storageBuffer.Exists(script.Guid))
+                {
+                    assembly = _storageBuffer[script.Guid];
+                    Log.Next("Used previously compiled script.", LogLevel.Info, LogMode.StandardOut);
+                }
+                else
+                {
+                    assembly = ScriptCompiler.CompileToAssembly(sharpScript);
+                    if (!_storageBuffer.Exists(script.Guid))
+                    {
+                        _storageBuffer.Add(script.Guid, assembly);
+                    }
+                }
             }
             else
             {
                 assembly = ScriptCompiler.CompileToAssembly(sharpScript);
-                if (!_storageBuffer.Exists(script.Guid))
-                {
-                    _storageBuffer.Add(script.Guid, assembly);
-                }
             }
 
             var fType = assembly.GetTypes()[0];
