@@ -37,6 +37,7 @@ namespace SharpexGL.Framework.Input.Devices
                 _isInitilized = true;
                 SGL.Components.Get<IGameLoop>().Subscribe(this);
                 _eventManager = SGL.Components.Get<EventManager>();
+                UpdateState();
             }
         }
         #endregion
