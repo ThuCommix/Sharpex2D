@@ -16,5 +16,9 @@ namespace SharpexGL.Framework.Input
         /// Gets the device description.
         /// </summary>
         string Description { get; }
+        /// <summary>
+        /// Initializes the Device.
+        /// </summary>
+        void InitializeDevice();
     }
 }

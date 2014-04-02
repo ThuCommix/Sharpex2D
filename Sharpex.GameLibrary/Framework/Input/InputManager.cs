@@ -107,6 +107,7 @@ namespace SharpexGL.Framework.Input
         /// <param name="device">The Device.</param>
         public void Add(IDevice device)
         {
+            device.InitializeDevice();
             _devices.Add(device);
         }
 

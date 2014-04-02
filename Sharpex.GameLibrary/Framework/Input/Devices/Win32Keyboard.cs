@@ -28,6 +28,14 @@ namespace SharpexGL.Framework.Input.Devices
         /// </summary>
         public string Description { get; private set; }
 
+        /// <summary>
+        /// Initializes the Device.
+        /// </summary>
+        public void InitializeDevice()
+        {
+
+        }
+
         #endregion
 
         #region IGameHandler Implementation
