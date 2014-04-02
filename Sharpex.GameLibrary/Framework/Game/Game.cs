@@ -77,7 +77,7 @@ namespace SharpexGL.Framework.Game
         #region IConstructable Implementation
         void IConstructable.Construct()
         {
-            OnInitialize();
+
         }
         #endregion
 
