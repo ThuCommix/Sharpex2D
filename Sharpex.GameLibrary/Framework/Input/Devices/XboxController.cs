@@ -342,13 +342,13 @@ namespace SharpexGL.Framework.Input.Devices
         /// <param name="leftMotor">The LeftMotor.</param>
         /// <param name="rightMotor">The RightMotor.</param>
         /// <param name="length">The Length.</param>
-        public void Vibrate(double leftMotor, double rightMotor, TimeSpan length)
+        public void Vibrate(double leftMotor, double rightMotor, float length)
         {
             leftMotor = System.Math.Max(0d, System.Math.Min(1d, leftMotor));
             rightMotor = System.Math.Max(0d, System.Math.Min(1d, rightMotor));
 
             var vibration = new XInputVibration { LeftMotorSpeed = (ushort)(65535d * leftMotor), RightMotorSpeed = (ushort)(65535d * rightMotor) };
-            Vibrate(vibration, length);
+            Vibrate(vibration, TimeSpan.FromMilliseconds(length));
         }
         
         /// <summary>
