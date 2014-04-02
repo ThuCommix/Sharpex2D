@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using SharpexGL.Framework.Debug.Logging;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
 using SharpexGL.Framework.Rendering;
@@ -44,6 +45,7 @@ namespace SharpexGL.Framework.Input.Devices
                 {
                     _lastkeystate.Add(current.Key, current.Value);
                 }
+                _keystate.Clear();
             }
         }
 
@@ -126,6 +128,13 @@ namespace SharpexGL.Framework.Input.Devices
         {
             if (!IsEnabled) return;
             SetKeyState((Keys)e.KeyCode, false);
+
+            if (e.Modifiers == System.Windows.Forms.Keys.None)
+            {
+                SetKeyState(Keys.Alt, false);
+                SetKeyState(Keys.Control, false);
+                SetKeyState(Keys.Shift, false);
+            }
         }
 
         /// <summary>
@@ -137,6 +146,7 @@ namespace SharpexGL.Framework.Input.Devices
         {
             if (!IsEnabled) return;
             SetKeyState((Keys)e.KeyCode, true);
+            SetKeyState((Keys) e.Modifiers, true);
         }
 
         /// <summary>
