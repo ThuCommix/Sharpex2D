@@ -57,5 +57,21 @@ namespace SharpexGL.Framework.Rendering
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
         void DrawTexture(ITexture texture, Rectangle rectangle, Color color);
+        /// <summary>
+        /// Measures the string.
+        /// </summary>
+        /// <param name="text">The String.</param>
+        /// <param name="font">The Font.</param>
+        /// <returns>Vector2.</returns>
+        Vector2 MeasureString(string text, IFont font);
+        /// <summary>
+        /// Sets the Transform.
+        /// </summary>
+        /// <param name="matrix">The Matrix.</param>
+        void SetTransform(Matrix2x3 matrix);
+        /// <summary>
+        /// Resets the Transform.
+        /// </summary>
+        void ResetTransform();
     }
 }

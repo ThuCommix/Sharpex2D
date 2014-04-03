@@ -17,9 +17,13 @@ namespace SharpexGL.Framework.Math
         /// </summary>
         public const float Log2E = 1.442695f;
         /// <summary>
-        /// π
+        /// π.
         /// </summary>
         public const float Pi = (float)System.Math.PI;
+        /// <summary>
+        /// ε.
+        /// </summary>
+        public const float Epsilon = 5.960464E-8f;
         /// <summary>
         /// π divided by 2.
         /// </summary>
