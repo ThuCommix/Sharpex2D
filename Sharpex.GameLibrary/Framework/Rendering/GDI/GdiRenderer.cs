@@ -325,6 +325,46 @@ namespace SharpexGL.Framework.Rendering.GDI
             _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
         }
+        /// <summary>
+        /// Measures the string.
+        /// </summary>
+        /// <param name="text">The Text.</param>
+        /// <param name="font">The Font.</param>
+        /// <returns>Vector2.</returns>
+        public Vector2 MeasureString(string text, IFont font)
+        {
+            CheckDisposed();
+
+            var gdifont = font as GdiFont;
+            if (gdifont == null)
+            {
+                throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
+            }
+
+            var result = _buffergraphics.MeasureString(text, gdifont.GetFont());
+
+            return new Vector2(result.Width, result.Height);
+        }
+        /// <summary>
+        /// Sets the Transform.
+        /// </summary>
+        /// <param name="matrix">The Matrix.</param>
+        public void SetTransform(Matrix2x3 matrix)
+        {
+            CheckDisposed();
+
+            _buffergraphics.Transform = new System.Drawing.Drawing2D.Matrix(matrix[0, 0], matrix[1, 0], matrix[0, 1],
+                matrix[1, 1], matrix.OffsetX, matrix.OffsetY);
+        }
+        /// <summary>
+        /// Resets the Transform.
+        /// </summary>
+        public void ResetTransform()
+        {
+            CheckDisposed();
+
+            _buffergraphics.ResetTransform();
+        }
 
         /// <summary>
         /// Constructs the Component.
