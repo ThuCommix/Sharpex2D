@@ -3,8 +3,8 @@ using System.Globalization;
 using SharpexGL.Framework.Events;
 using SharpexGL.Framework.Game;
 using SharpexGL.Framework.Game.Timing;
-using SharpexGL.Framework.Input.DirectInput;
 using SharpexGL.Framework.Input.Events;
+using SharpexGL.Framework.Input.XInput;
 using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering;
 

@@ -1,5 +1,5 @@
 ﻿
-namespace SharpexGL.Framework.Input.DirectInput
+namespace SharpexGL.Framework.Input.XInput
 {
     public enum BatteryLevel : byte
     {

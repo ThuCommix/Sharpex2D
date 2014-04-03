@@ -1,5 +1,5 @@
 ﻿using SharpexGL.Framework.Events;
-using SharpexGL.Framework.Input.DirectInput;
+using SharpexGL.Framework.Input.XInput;
 
 namespace SharpexGL.Framework.Input.Events
 {

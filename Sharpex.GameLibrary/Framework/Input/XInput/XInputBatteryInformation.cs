@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace SharpexGL.Framework.Input.DirectInput
+namespace SharpexGL.Framework.Input.XInput
 {
     [StructLayout(LayoutKind.Explicit)]
     public struct XInputBatteryInformation
