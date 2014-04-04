@@ -118,7 +118,7 @@ namespace SharpexGL.Framework.Math
         public Vector2[] ApplyTo(Vector2[] points)
         {
             var result = new Vector2[points.Length];
-            for (int i = 0; i < points.Length; i++)
+            for (var i = 0; i < points.Length; i++)
                 result[i] = ApplyTo(points[i]);
             return result;
         }
