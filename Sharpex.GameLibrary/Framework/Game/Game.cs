@@ -108,5 +108,12 @@ namespace SharpexGL.Framework.Game
         /// Processes the Game close.
         /// </summary>
         public abstract void OnClose();
+        /// <summary>
+        /// Exits the game.
+        /// </summary>
+        public void ExitGame()
+        {
+            SGL.Shutdown();
+        }
     }
 }
