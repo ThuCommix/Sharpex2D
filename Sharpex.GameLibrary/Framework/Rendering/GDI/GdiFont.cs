@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Windows.Forms;
-using SharpexGL.Framework.Math;
 using SharpexGL.Framework.Rendering.Font;
 
 namespace SharpexGL.Framework.Rendering.GDI
@@ -10,16 +8,6 @@ namespace SharpexGL.Framework.Rendering.GDI
     {
 
         #region IFont Implementation
-        /// <summary>
-        /// Measures the text.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <returns>Vector2</returns>
-        public Vector2 MeasureString(string text)
-        {
-            var result = TextRenderer.MeasureText(text, GetFont(Typeface));
-            return new Vector2(result.Width, result.Height);
-        }
 
         /// <summary>
         /// Sets or gets the Typeface.
@@ -47,18 +35,6 @@ namespace SharpexGL.Framework.Rendering.GDI
             if (typeface == null) throw new ArgumentNullException("typeface");
 
             Typeface = typeface;
-        }
-
-        /// <summary>
-        /// Measures the Text with the given Typeface.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <param name="typeface">The Typeface.</param>
-        /// <returns>Vector2</returns>
-        public static Vector2 MeasureString(string text, Typeface typeface)
-        {
-            var result = TextRenderer.MeasureText(text, GetFont(typeface));
-            return new Vector2(result.Width, result.Height);
         }
 
         /// <summary>
