@@ -53,7 +53,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// <returns>Font</returns>
         private static System.Drawing.Font GetFont(Typeface typeface)
         {
-            return new System.Drawing.Font(typeface.FamilyName, typeface.Size, GetFontStyle(typeface.Style));
+            return new System.Drawing.Font(typeface.FamilyName, typeface.Size, GetFontStyle(typeface.Style), GraphicsUnit.Pixel);
         }
 
         /// <summary>

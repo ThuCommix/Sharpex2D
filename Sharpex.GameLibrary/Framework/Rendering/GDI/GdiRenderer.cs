@@ -321,7 +321,6 @@ namespace SharpexGL.Framework.Rendering.GDI
             {
                 throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
             }
-
             _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
         }
@@ -386,6 +385,7 @@ namespace SharpexGL.Framework.Rendering.GDI
             _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
             _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
+            _buffergraphics.PageUnit = GraphicsUnit.Pixel;
             //add extensions:
             SGL.Components.Get<ContentManager>().Extend(new GdiSpriteLoader());
         }
