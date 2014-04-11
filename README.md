@@ -28,7 +28,7 @@ Sharpex2D comes "out of the box" which means it runs fully without third-party.
 
 <h3>Documentations</h3>
 
-For code documentations see: <a href="https://github.com/ThuCommix/Sharpex.GameLibrary/tree/master/Sharpex.GameLibrary">source</a> <br />
+For code documentations see: <a href="https://github.com/ThuCommix/Sharpex2D/tree/master/Sharpex2D">source</a> <br />
 For examples (german only) see: <a href="http://www.vb-paradise.de/sonstiges/weitere-programmiersprachen/97492-sharpex-gamelibrary-tutorialuebersicht/"> tutorial overview</a>
 
 
