@@ -23,7 +23,7 @@ All required game objects find place in the central ComponentManager including G
 The GameLoop is highly configurable and almost all classes (specific classes which uses the IGameHandler interface) are
 able to subscribe to the GameLoop.
 
-Sharpex.GameLibrary comes "out of the box" which means it runs fully without third-party.
+Sharpex2D comes "out of the box" which means it runs fully without third-party.
 
 
 <h3>Documentations</h3>
