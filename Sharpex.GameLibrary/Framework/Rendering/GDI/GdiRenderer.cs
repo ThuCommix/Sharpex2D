@@ -309,7 +309,7 @@ namespace SharpexGL.Framework.Rendering.GDI
         /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
-        /// <param name="font">The Fonr.</param>
+        /// <param name="font">The Font.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
         public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
@@ -323,6 +323,26 @@ namespace SharpexGL.Framework.Rendering.GDI
             }
             _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
+        }
+        /// <summary>
+        /// Draws a string.
+        /// </summary>
+        /// <param name="text">The Text.</param>
+        /// <param name="font">The Font.</param>
+        /// <param name="position">The Position.</param>
+        /// <param name="color">The Color.</param>
+        public void DrawString(string text, IFont font, Vector2 position, Color color)
+        {
+            CheckDisposed();
+
+            var gdifont = font as GdiFont;
+            if (gdifont == null)
+            {
+                throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
+            }
+
+            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
+                position.ToPointF());
         }
         /// <summary>
         /// Measures the string.

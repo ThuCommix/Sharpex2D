@@ -44,6 +44,14 @@ namespace SharpexGL.Framework.Rendering
         /// <param name="color">The Color.</param>
         void DrawString(string text, IFont font, Rectangle rectangle, Color color);
         /// <summary>
+        /// Draws a string.
+        /// </summary>
+        /// <param name="text">The Text.</param>
+        /// <param name="font">The Font.</param>
+        /// <param name="position">The Position.</param>
+        /// <param name="color">The Color.</param>
+        void DrawString(string text, IFont font, Vector2 position, Color color);
+        /// <summary>
         /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
