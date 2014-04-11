@@ -1,9 +1,9 @@
-Sharpex.GameLibrary
+Sharpex2D
 ===================
 
-<h3>What is Sharpex.GameLibrary?</h3>
+<h3>What is Sharpex2D?</h3>
 
-Sharpex.GameLibrary or short SGL is a 2D component based GameEngine for .NET developers.
+Sharpex2D or short SGL is a 2D component based GameEngine for .NET developers.
 It offers various build-in components such as physic, sound, rendering, content managing, networkservices and much more.
 
 
