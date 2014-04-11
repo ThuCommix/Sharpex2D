@@ -1,0 +1,88 @@
+﻿using System.Reflection;
+using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Debug.Logging;
+
+namespace Sharpex2D.Framework.Scripting.VB
+{
+    public class VBScriptEvaluator : IScriptEvaluator
+    {
+        private readonly ScriptStorageBuffer _storageBuffer;
+
+        /// <summary>
+        /// A value indicating whether the compiled scripts gets buffered.
+        /// </summary>
+        public bool Buffering { set; get; }
+
+        /// <summary>
+        /// Initializes a new SharpScriptEvaluator.
+        /// </summary>
+        public VBScriptEvaluator()
+        {
+            //Register loading technique
+
+            SGL.Components.Get<ContentManager>().Extend(new VBScriptLoader());
+            _storageBuffer = new ScriptStorageBuffer();
+        }
+
+        /// <summary>
+        /// Evaluate the script content.
+        /// </summary>
+        /// <param name="script">The Script.</param>
+        /// <param name="objects">The Objects.</param>
+        public void Evaluate(IScript script, params object[] objects)
+        {
+            if (script.GetType() != typeof (VBScript))
+            {
+                throw new ScriptException("The given script does not match the VBScript sheme.");
+            }
+
+            var sharpScript = script as VBScript;
+
+            //check if the script was compiled previously
+
+            Assembly assembly;
+
+            if (Buffering)
+            {
+                if (_storageBuffer.Exists(script.Guid))
+                {
+                    assembly = _storageBuffer[script.Guid];
+                    Log.Next("Used previously compiled script.", LogLevel.Info, LogMode.StandardOut);
+                }
+                else
+                {
+                    assembly = VBScriptCompiler.CompileToAssembly(sharpScript);
+                    if (!_storageBuffer.Exists(script.Guid))
+                    {
+                        _storageBuffer.Add(script.Guid, assembly);
+                    }
+                }
+            }
+            else
+            {
+                assembly = VBScriptCompiler.CompileToAssembly(sharpScript);
+            }
+
+            var fType = assembly.GetTypes()[0];
+            var iType = fType.GetInterface("IScriptEntry");
+
+            if (iType != null)
+            {
+                var scriptbase = (IScriptEntry) assembly.CreateInstance(fType.FullName);
+                if (scriptbase != null)
+                {
+                    scriptbase.Main(objects);
+
+                }
+                else
+                {
+                    throw new ScriptException("IScriptEntry interface not found.");
+                }
+            }
+            else
+            {
+                throw new ScriptException("IScriptEntry interface not found.");
+            }
+        }
+    }
+}
