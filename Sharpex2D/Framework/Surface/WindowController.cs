@@ -8,6 +8,8 @@ namespace Sharpex2D.Framework.Surface
     {
         #region ISurfaceControl Implementation
 
+        private bool _isFullscreen;
+
         /// <summary>
         /// Sets the Title of the GameWindow.
         /// </summary>
@@ -70,6 +72,7 @@ namespace Sharpex2D.Framework.Surface
         /// <param name="style">The WindowStyle.</param>
         public void SetWindowStyle(SurfaceStyle style)
         {
+            FreeWindow();
             MethodInvoker br = delegate
             {
                 if (style == SurfaceStyle.Fullscreen)
@@ -77,6 +80,7 @@ namespace Sharpex2D.Framework.Surface
                     _surface.FormBorderStyle = FormBorderStyle.None;
                     _surface.Location = new Point(0, 0);
                     _surface.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+                    _isFullscreen = true;
                 }
                 else
                 {
@@ -85,9 +89,11 @@ namespace Sharpex2D.Framework.Surface
                         SGL.GraphicsDevice.DisplayMode.Height);
                     _surface.Location = new Point((Screen.PrimaryScreen.WorkingArea.Width - _surface.Width) / 2,
                           (Screen.PrimaryScreen.WorkingArea.Height - _surface.Height) / 2);
+                    _isFullscreen = false;
                 }
             };
             _surface.Invoke(br);
+            FixWindow();
         }
 
         /// <summary>
@@ -201,9 +207,9 @@ namespace Sharpex2D.Framework.Surface
         /// Indicating whether the surface is running in fullscreen.
         /// </summary>
         /// <returns>True if fullscreen is activated</returns>
-        internal bool IsFullscreen()
+        public bool IsFullscreen()
         {
-            return Screen.PrimaryScreen.Bounds.Width == (int)GetSize().X && Screen.PrimaryScreen.Bounds.Height == (int)GetSize().Y;
+            return _isFullscreen;
         }
 
         private readonly Form _surface;

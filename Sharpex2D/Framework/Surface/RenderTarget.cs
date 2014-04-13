@@ -54,7 +54,7 @@ namespace Sharpex2D.Framework.Surface
         /// </summary>
         public bool IsFullscreen
         {
-            get { return ((WindowController) SurfaceControl).IsFullscreen(); }
+            get { return SurfaceControl.IsFullscreen(); }
         }
         /// <summary>
         /// A value indicating whether the RenderTarget is valid.

@@ -52,5 +52,10 @@ namespace Sharpex2D.Framework.Surface
         /// </summary>
         /// <param name="iconPath">The IconPath.</param>
         void SetCursorIcon(string iconPath);
+        /// <summary>
+        /// Indicating whether the surface is running in fullscreen.
+        /// </summary>
+        /// <returns>True if fullscreen is activated</returns>
+        bool IsFullscreen();
     }
 }
