@@ -214,12 +214,14 @@ namespace Sharpex2D.Framework.Rendering.DirectX
                 SwapEffect = SwapEffect.Discard
             };
 
+            _swapChainDesc = swapChainDesc;
+
             if (VSync)
             {
                 swapChainDesc.ModeDescription.RefreshRate = new Rational(60, 1);
             }
 
-            swapChainDesc.ModeDescription.Scaling = GraphicsDevice.DisplayMode.Scaling ? DisplayModeScaling.Stretched : DisplayModeScaling.Unspecified;
+            swapChainDesc.ModeDescription.Scaling = GraphicsDevice.DisplayMode.Scaling ? DisplayModeScaling.Stretched : DisplayModeScaling.Centered;
 
             Device device;
             SwapChain swapChain;
@@ -229,7 +231,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
             // Get back buffer in a Direct2D-compatible format (DXGI surface)
             var backBuffer = SharpDX.DXGI.Surface.FromSwapChain(swapChain, 0);
 
-            var renderTarget = new SharpDX.Direct2D1.RenderTarget(d2DFactory, backBuffer, new RenderTargetProperties
+            var renderTarget = new RenderTarget(d2DFactory, backBuffer, new RenderTargetProperties
             {
                 DpiX = dpi.Width,
                 DpiY = dpi.Height,
@@ -259,6 +261,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
         {
             CheckDisposed();
 
+            _swapChainDesc.ModeDescription.Scaling = GraphicsDevice.DisplayMode.Scaling ? DisplayModeScaling.Stretched : DisplayModeScaling.Centered;
             DirectXHelper.RenderTarget.BeginDraw();
             DirectXHelper.RenderTarget.Transform = Matrix3x2.Identity;
             DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(GraphicsDevice.ClearColor));
@@ -437,5 +440,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
         {
             Dispose();
         }
+
+        private SwapChainDescription _swapChainDesc;
     }
 }
