@@ -227,6 +227,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
             SwapChain swapChain;
             Device.CreateWithSwapChain(DriverType.Hardware, DeviceCreationFlags.BgraSupport, swapChainDesc, out device, out swapChain);
             _swapChain = swapChain;
+            
 
             // Get back buffer in a Direct2D-compatible format (DXGI surface)
             var backBuffer = SharpDX.DXGI.Surface.FromSwapChain(swapChain, 0);
@@ -264,7 +265,11 @@ namespace Sharpex2D.Framework.Rendering.DirectX
             _swapChainDesc.ModeDescription.Scaling = GraphicsDevice.DisplayMode.Scaling ? DisplayModeScaling.Stretched : DisplayModeScaling.Centered;
             DirectXHelper.RenderTarget.BeginDraw();
             DirectXHelper.RenderTarget.Transform = Matrix3x2.Identity;
-            DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(GraphicsDevice.ClearColor));
+
+            if (ClearBackBuffer)
+            {
+                DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(GraphicsDevice.ClearColor));
+            }
         }
         /// <summary>
         /// Flushes the buffer.
@@ -409,6 +414,11 @@ namespace Sharpex2D.Framework.Rendering.DirectX
 
         #endregion
 
+        /// <summary>
+        /// A value indicating whether the back buffer should be cleared.
+        /// </summary>
+        public bool ClearBackBuffer { set; get; }
+
         private SwapChain _swapChain;
 
         /// <summary>
@@ -420,6 +430,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
             SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectXTextureSerializer());
             SGL.Components.Get<ContentManager>().Extend(new DirectXTextureLoader());
             SGL.Components.Get<ContentManager>().Extend(new DirectXSpriteLoader());
+            ClearBackBuffer = true;
         }
 
         /// <summary>
