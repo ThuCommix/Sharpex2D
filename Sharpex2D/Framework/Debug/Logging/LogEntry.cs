@@ -9,10 +9,12 @@ namespace Sharpex2D.Framework.Debug.Logging
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="level">The Level.</param>
-        public LogEntry(string message, LogLevel level)
+        /// <param name="time">The Time.</param>
+        public LogEntry(string message, LogLevel level, DateTime time)
         {
             Message = message;
             Level = level;
+            Time = time;
         }
         /// <summary>
         /// Gets the Message.
@@ -22,10 +24,6 @@ namespace Sharpex2D.Framework.Debug.Logging
         /// Gets the LogLevel.
         /// </summary>
         public LogLevel Level { get; private set; }
-        /// <summary>
-        /// Gets or sets the LogMode.
-        /// </summary>
-        internal LogMode Mode { set; get; }
         /// <summary>
         /// Gets or sets the Time.
         /// </summary>

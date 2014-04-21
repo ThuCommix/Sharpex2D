@@ -24,7 +24,7 @@ namespace Sharpex2D.Framework.Debug.Logging
         /// <param name="mode">The Mode.</param>
         public static void Next(string message, LogLevel level, LogMode mode)
         {
-            Entries.Add(new LogEntry(message, level) {Mode = mode, Time = DateTime.Now});
+            Entries.Add(new LogEntry(message, level, DateTime.Now));
 
             if (mode == LogMode.StandardOut)
             {
