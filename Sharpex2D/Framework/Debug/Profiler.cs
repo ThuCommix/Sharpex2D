@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Diagnostics;
+using Log = Sharpex2D.Framework.Debug.Logging.Log;
 
 namespace Sharpex2D.Framework.Debug
 {
     public class Profiler
     {
         /// <summary>
-        /// Initializes a new Profiler class.
-        /// </summary>
-        public Profiler()
-        {
-            
-        }
-
-        /// <summary>
         /// Profiles an action.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <param name="action">The Action.</param>
-        public void Profile(Guid guid, Action action)
+        public static void Profile(Guid guid, Action action)
         {
             var sw = new Stopwatch();
-            Console.WriteLine(@"Profiling: " + guid);
+            Log.Next(@"Profiling: " + guid, Logging.LogLevel.Info, Logging.LogMode.StandardOut);
             sw.Start();
             action.Invoke();
             sw.Stop();
-            Console.WriteLine(@"End profiling: " + guid + @" Time: " + sw.ElapsedMilliseconds + @"ms");
+            Log.Next(@"End profiling: " + guid + @" Time: " + sw.ElapsedMilliseconds + @"ms", Logging.LogLevel.Info, Logging.LogMode.StandardOut);
             sw.Reset();
         }
     }
