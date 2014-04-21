@@ -44,7 +44,7 @@ namespace Sharpex2D.Framework.Content
         /// <summary>
         /// Sets or gets the FileSystem.
         /// </summary>
-        public IFileSystem FileSystem { set; get; }
+        public IFileSystem FileSystem {private set; get; }
         /// <summary>
         /// Gets the ContentVerifier.
         /// </summary>
