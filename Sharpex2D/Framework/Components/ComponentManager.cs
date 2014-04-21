@@ -18,26 +18,16 @@ namespace Sharpex2D.Framework.Components
 
         #endregion
 
-        public delegate void ComponentChangedEventHandler(object sender, EventArgs e);
-        private List<IComponent> _internalComponents = new List<IComponent>();
+        private readonly List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;
-        public event ComponentChangedEventHandler ComponentChanged;
         /// <summary>
         /// Access to the Components enumeration.
         /// </summary>
-        public List<IComponent> Components
+        private List<IComponent> Components
         {
             get
             {
                 return _internalComponents;
-            }
-            set
-            {
-                _internalComponents = value;
-                if (ComponentChanged != null)
-                {
-                    ComponentChanged(this, new EventArgs());
-                }
             }
         }
         /// <summary>
