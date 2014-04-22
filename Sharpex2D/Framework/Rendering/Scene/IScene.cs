@@ -14,9 +14,9 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// <summary>
         /// Called if the scene should be rendered.
         /// </summary>
-        /// <param name="graphicRenderer">The GraphicRenderer.</param>
+        /// <param name="renderer">The Renderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        void Render(IRenderer graphicRenderer, float elapsed);
+        void Render(IRenderer renderer, float elapsed);
 
         /// <summary>
         /// Called if the scene should be initialized.
