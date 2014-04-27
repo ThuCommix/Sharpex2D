@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Windows.Forms;
 using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Game.Timing;
@@ -49,7 +49,7 @@ namespace Sharpex2D.Framework.Input.Devices
                 _lastkeystate.Clear();
                 foreach (var current in _keystate)
                 {
-                    _lastkeystate.Add(current.Key, current.Value);
+                    _lastkeystate.GetOrAdd(current.Key, current.Value);
                 }
                 _keystate.Clear();
             }
@@ -107,8 +107,8 @@ namespace Sharpex2D.Framework.Input.Devices
 
         #endregion
 
-        private readonly Dictionary<Keys, bool> _keystate;
-        private readonly Dictionary<Keys, bool> _lastkeystate;
+        private readonly ConcurrentDictionary<Keys, bool> _keystate;
+        private readonly ConcurrentDictionary<Keys, bool> _lastkeystate;
 
         /// <summary>
         /// Initializes a new FluentKeyboard class.
@@ -119,8 +119,8 @@ namespace Sharpex2D.Framework.Input.Devices
             Guid = new Guid("55DDC560-40B5-487F-A47B-A265707E495D");
             Description = "Keyboard based on the surface events";
             var surface = (Form) Control.FromHandle(surfaceHandle);
-            _lastkeystate = new Dictionary<Keys, bool>();
-            _keystate = new Dictionary<Keys, bool>();
+            _lastkeystate = new ConcurrentDictionary<Keys, bool>();
+            _keystate = new ConcurrentDictionary<Keys, bool>();
             surface.KeyDown += _surface_KeyDown;
             surface.KeyUp += _surface_KeyUp;
         }
@@ -164,7 +164,7 @@ namespace Sharpex2D.Framework.Input.Devices
         {
             if (!_keystate.ContainsKey(key))
             {
-                _keystate.Add(key, state);
+                _keystate.GetOrAdd(key, state);
             }
             _keystate[key] = state;
         }
