@@ -1,4 +1,5 @@
 ﻿using Sharpex2D.Framework.Media.Sound;
+using Sharpex2D.Framework.Media.Sound.Wave;
 using Sharpex2D.Framework.Media.Video;
 
 namespace Sharpex2D.Framework.Media
@@ -49,5 +50,22 @@ namespace Sharpex2D.Framework.Media
         /// Gets the VideoInitializer.
         /// </summary>
         public IVideoInitializer VideoInitializer { private set; get; }
+
+        /// <summary>
+        /// Gets the default MediaInitializer.
+        /// </summary>
+        /// <returns>MediaInitializer</returns>
+        public static MediaInitializer Default()
+        {
+            return new MediaInitializer(new WaveSoundInitializer(), null);
+        }
+        /// <summary>
+        /// Gets an emtpy MediaInitializer.
+        /// </summary>
+        /// <returns>MediaInitializer</returns>
+        public static MediaInitializer Empty()
+        {
+            return new MediaInitializer();
+        }
     }
 }
