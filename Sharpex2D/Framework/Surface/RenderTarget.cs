@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 using Sharpex2D.Framework.Components;
 
 namespace Sharpex2D.Framework.Surface
@@ -91,6 +93,28 @@ namespace Sharpex2D.Framework.Surface
             }
 
             throw new InvalidOperationException("Could not get the handle associated with the current process.");
+        }
+        /// <summary>
+        /// Creates a new RenderTarget.
+        /// </summary>
+        /// <returns>RenderTarget</returns>
+        public static RenderTarget Create()
+        {
+            var surface = new Form();
+            
+            new Thread(() => Application.Run(surface)).Start();
+
+            while (!surface.IsHandleCreated) { }
+
+            var handle = IntPtr.Zero;
+
+            MethodInvoker br = delegate
+            {
+                handle = surface.Handle;
+            };
+            surface.Invoke(br);
+
+            return new RenderTarget(handle);
         }
     }
 }
