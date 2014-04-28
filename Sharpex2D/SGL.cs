@@ -14,6 +14,7 @@ using Sharpex2D.Framework.Media.Sound;
 using Sharpex2D.Framework.Media.Video;
 using Sharpex2D.Framework.Rendering;
 using Sharpex2D.Framework.Rendering.Scene;
+using Sharpex2D.Framework.UI;
 
 namespace Sharpex2D
 {
@@ -97,6 +98,7 @@ namespace Sharpex2D
             Components.AddComponent(initializer.GameInstance);
             Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
+            Components.AddComponent(new UIManager());
             Components.Get<IGameLoop>().Subscribe(_gameInstance);
 
             //prepare game services

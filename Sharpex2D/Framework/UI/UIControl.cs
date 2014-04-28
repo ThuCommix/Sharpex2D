@@ -112,7 +112,12 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Gets the childs of the UIControl.
         /// </summary>
-        public List<UIControl> Childs { internal set; get; } 
+        public List<UIControl> Childs { internal set; get; }
+
+        /// <summary>
+        /// Sets or gets the UIManager.
+        /// </summary>
+        internal UIManager UIManager { set; get; }
 
         #endregion
 
@@ -159,6 +164,7 @@ namespace Sharpex2D.Framework.UI
             Enable = true;
             _parent = null;
             Childs = new List<UIControl>();
+            UIManager = SGL.Components.Get<UIManager>();
             UIManager.Add(this);
         }
 

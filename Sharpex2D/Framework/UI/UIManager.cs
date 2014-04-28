@@ -1,37 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.UI
 {
-    public static class UIManager
+    public class UIManager : IComponent
     {
+        #region IComponent Implementation
+        /// <summary>
+        /// Gets the Guid.
+        /// </summary>
+        public Guid Guid { get { return new Guid("7FE0E5C1-1289-4A56-828A-264D010682DE"); } }
+
+        #endregion
+
         /// <summary>
         /// Initializes a new UICollection class.
         /// </summary>
-        static UIManager()
+        internal UIManager()
         {
-            Controls = new List<UIControl>();
+            _controls = new List<UIControl>();
         }
 
-        private static readonly List<UIControl> Controls;
+        private readonly List<UIControl> _controls;
 
         /// <summary>
         /// Adds a new UIControl to the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
-        public static void Add(UIControl control)
+        public void Add(UIControl control)
         {
-            Controls.Add(control);
+            _controls.Add(control);
         }
 
         /// <summary>
         /// Removes a new UIControl from the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
-        public static void Remove(UIControl control)
+        public void Remove(UIControl control)
         {
-            Controls.Remove(control);
+            _controls.Remove(control);
         }
 
         /// <summary>
@@ -39,13 +48,13 @@ namespace Sharpex2D.Framework.UI
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>UIControl</returns>
-        public static T Get<T>() where T : UIControl
+        public T Get<T>() where T : UIControl
         {
-            for (var i = 0; i <= Controls.Count - 1; i++)
+            for (var i = 0; i <= _controls.Count - 1; i++)
             {
-                if (typeof (T) == Controls[i].GetType())
+                if (typeof (T) == _controls[i].GetType())
                 {
-                    return (T)Controls[i];
+                    return (T)_controls[i];
                 }
             }
 
@@ -57,13 +66,13 @@ namespace Sharpex2D.Framework.UI
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>UIControl</returns>
-        public static UIControl Get(Guid guid)
+        public UIControl Get(Guid guid)
         {
-            for (var i = 0; i <= Controls.Count - 1; i++)
+            for (var i = 0; i <= _controls.Count - 1; i++)
             {
-                if (guid == Controls[i].Guid)
+                if (guid == _controls[i].Guid)
                 {
-                    return Controls[i];
+                    return _controls[i];
                 }
             }
 
@@ -74,22 +83,22 @@ namespace Sharpex2D.Framework.UI
         /// Gets all UIControls.
         /// </summary>
         /// <returns>UIControl Array</returns>
-        public static UIControl[] GetAll()
+        public UIControl[] GetAll()
         {
-            return Controls.ToArray();
+            return _controls.ToArray();
         }
 
         /// <summary>
         /// Processes a Tick.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
-        public static void Tick(float elapsed)
+        public void Tick(float elapsed)
         {
-            for (var i = 0; i <= Controls.Count - 1; i++)
+            for (var i = 0; i <= _controls.Count - 1; i++)
             {
-                if (Controls[i].Enable)
+                if (_controls[i].Enable)
                 {
-                    Controls[i].OnTick(elapsed);
+                    _controls[i].OnTick(elapsed);
                 }
             }
         }
@@ -99,13 +108,13 @@ namespace Sharpex2D.Framework.UI
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="elapsed">The Elapsed.</param>
-        public static void Render(IRenderer renderer, float elapsed)
+        public void Render(IRenderer renderer, float elapsed)
         {
-            for (var i = 0; i <= Controls.Count - 1; i++)
+            for (var i = 0; i <= _controls.Count - 1; i++)
             {
-                if (Controls[i].Visible)
+                if (_controls[i].Visible)
                 {
-                    Controls[i].OnTick(elapsed);
+                    _controls[i].OnTick(elapsed);
                 }
             }
         }
