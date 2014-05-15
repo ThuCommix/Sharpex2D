@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sharpex2D.Framework.Content
+namespace Sharpex2D.Framework.Content.Storage
 {
     public static class ContentStorage
     {
