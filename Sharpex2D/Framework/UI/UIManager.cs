@@ -98,7 +98,7 @@ namespace Sharpex2D.Framework.UI
             {
                 if (_controls[i].Enable)
                 {
-                    _controls[i].OnTick(elapsed);
+                    _controls[i].Tick(elapsed);
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace Sharpex2D.Framework.UI
             {
                 if (_controls[i].Visible)
                 {
-                    _controls[i].OnTick(elapsed);
+                    _controls[i].OnRender(renderer);
                 }
             }
         }
