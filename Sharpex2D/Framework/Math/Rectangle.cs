@@ -28,8 +28,8 @@ namespace Sharpex2D.Framework.Math
         {
             _x = a.X;
             _y = a.Y;
-            _width = MathHelper.Abs(a.X - b.X);
-            _height = MathHelper.Abs(a.Y - b.Y);
+            _width = b.X;
+            _height = b.Y;
         }
         #endregion
 
