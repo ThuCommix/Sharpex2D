@@ -222,7 +222,7 @@ namespace Sharpex2D.Framework.UI
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed down</returns>
-        public bool IsKeyDown(Input.Keys key)
+        public bool IsKeyDown(Keys key)
         {
             return HasFocus && Enable && _inputManager.Keyboard.IsKeyDown(key);
         }
@@ -232,7 +232,7 @@ namespace Sharpex2D.Framework.UI
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed</returns>
-        public bool IsKeyPressed(Input.Keys key)
+        public bool IsKeyPressed(Keys key)
         {
             return HasFocus && Enable && _inputManager.Keyboard.IsKeyPressed(key);
         }
