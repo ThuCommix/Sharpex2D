@@ -31,8 +31,11 @@ namespace Sharpex2D.Framework.Content.Storage
         /// <summary>
         /// Disposes the object.
         /// </summary>
+        /// <remarks>Use Close() instead of dispose to terminate the temporary file.</remarks>
         public void Dispose()
         {
+            if (_isDisposed) return;
+
             Stream.Close();
             Stream.Dispose();
 
@@ -48,11 +51,7 @@ namespace Sharpex2D.Framework.Content.Storage
         /// </summary>
         public void Close()
         {
-            if (!_isDisposed)
-            {
-                Dispose();
-            }
-
+            Dispose();
         }
 
         /// <summary>
