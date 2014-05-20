@@ -40,12 +40,10 @@ local.properties
 *.user
 *.sln.docstates
 *.sln
-*.csproj
 
 # Build results
 
 Dokumentation/
-Properties/
 x64/
 build/
 [Oo]bj/
