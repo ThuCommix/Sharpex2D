@@ -40,7 +40,7 @@ namespace Sharpex2D
         /// </summary>
         public static string Version
         {
-            get { return "0.2.170"; }
+            get { return "0.2.200"; }
         }
 
         /// <summary>
