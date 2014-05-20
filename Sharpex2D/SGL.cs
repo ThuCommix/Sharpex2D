@@ -147,6 +147,7 @@ namespace Sharpex2D
             Components.Get<IGameLoop>().Stop();
             _gameInstance.OnUnload();
             _gameInstance.OnClose();
+            GC.Collect();
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
     }
