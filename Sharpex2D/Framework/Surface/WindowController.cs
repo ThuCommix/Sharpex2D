@@ -156,6 +156,18 @@ namespace Sharpex2D.Framework.Surface
 
         #endregion
 
+        #region IDisposable Implementation
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            MethodInvoker br = () => _surface.Close();
+            _surface.Invoke(br);
+        }
+
+        #endregion
+
         /// <summary>
         /// Initializes a new WindowContoller class.
         /// </summary>

@@ -1,9 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using Sharpex2D.Framework.Math;
 
 namespace Sharpex2D.Framework.Surface
 {
-    public interface ISurfaceControl
+    public interface ISurfaceControl : IDisposable
     {
         /// <summary>
         /// Sets the Title of the GameWindow.

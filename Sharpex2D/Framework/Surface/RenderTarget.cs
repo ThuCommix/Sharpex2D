@@ -6,7 +6,7 @@ using Sharpex2D.Framework.Components;
 
 namespace Sharpex2D.Framework.Surface
 {
-    public class RenderTarget : IComponent
+    public class RenderTarget : IComponent, IDisposable
     {
         #region IComponent Implementation
 
@@ -30,6 +30,17 @@ namespace Sharpex2D.Framework.Surface
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool IsWindow(IntPtr hWnd);
+
+        #endregion
+
+        #region IDisposable Implementation
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            SurfaceControl.Dispose();
+        }
 
         #endregion
 
