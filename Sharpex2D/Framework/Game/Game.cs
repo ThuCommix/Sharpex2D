@@ -6,6 +6,7 @@ using Sharpex2D.Framework.Media.Sound;
 using Sharpex2D.Framework.Media.Video;
 using Sharpex2D.Framework.Rendering;
 using Sharpex2D.Framework.Rendering.Scene;
+using Sharpex2D.Framework.UI;
 
 namespace Sharpex2D.Framework.Game
 {
@@ -61,6 +62,10 @@ namespace Sharpex2D.Framework.Game
             get;
             set;
         }
+        /// <summary>
+        /// The Current UIManager.
+        /// </summary>
+        public UIManager UIManager { get; set; }
 
         #region IGameHandler Implementation
         void IGameHandler.Tick(float elapsed)
