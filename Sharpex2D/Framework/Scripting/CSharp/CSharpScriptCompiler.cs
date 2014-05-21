@@ -18,7 +18,7 @@ namespace Sharpex2D.Framework.Scripting.CSharp
             var cdProvider = new CSharpCodeProvider();
             var param = new CompilerParameters();
             param.ReferencedAssemblies.Add("System.dll");
-            param.ReferencedAssemblies.Add("Sharpex.GameLibrary.dll");
+            param.ReferencedAssemblies.Add("Sharpex2D.dll");
             param.ReferencedAssemblies.Add(Application.ExecutablePath);
             param.GenerateExecutable = false;
 
