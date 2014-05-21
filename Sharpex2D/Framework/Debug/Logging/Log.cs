@@ -28,14 +28,32 @@ namespace Sharpex2D.Framework.Debug.Logging
 
             if (mode == LogMode.StandardOut)
             {
-                Console.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
-                                  level.ToFriendlyString() + @"]: " + message);
+                if (level == LogLevel.Critical)
+                {
+                    Console.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
+                                      level.ToFriendlyString() + @"]: " + message + Environment.NewLine +
+                                      @"Stacktrace: " + Environment.NewLine + Environment.StackTrace);
+                }
+                else
+                {
+                    Console.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
+                                      level.ToFriendlyString() + @"]: " + message);
+                }
             }
 
             if (mode == LogMode.StandardError)
             {
-                Console.Error.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
-                                        level.ToFriendlyString() + @"]: " + message);
+                if (level == LogLevel.Critical)
+                {
+                    Console.Error.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
+                                      level.ToFriendlyString() + @"]: " + message + Environment.NewLine +
+                                      @"Stacktrace: " + Environment.NewLine + Environment.StackTrace);
+                }
+                else
+                {
+                    Console.Error.WriteLine(Entries[Entries.Count - 1].Time.ToLongTimeString() + @" [" +
+                                            level.ToFriendlyString() + @"]: " + message);
+                }
             }
         }
 
