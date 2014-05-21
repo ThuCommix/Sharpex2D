@@ -4,7 +4,7 @@ using Sharpex2D.Framework.UI;
 
 namespace Sharpex2D.Framework.Rendering.Scene
 {
-    public abstract class Scene : IScene
+    public abstract class Scene
     {
         /// <summary>
         /// Processes a Tick.

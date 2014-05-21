@@ -325,7 +325,6 @@
     <Compile Include="Framework\Rendering\GraphicsDevice.cs" />
     <Compile Include="Framework\Rendering\IRenderer.cs" />
     <Compile Include="Framework\Rendering\RenderInitializeException.cs" />
-    <Compile Include="Framework\Rendering\Scene\IScene.cs" />
     <Compile Include="Framework\Rendering\Scene\SceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

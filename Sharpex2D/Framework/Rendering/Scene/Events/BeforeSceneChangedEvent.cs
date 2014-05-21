@@ -8,13 +8,13 @@ namespace Sharpex2D.Framework.Rendering.Scene.Events
         /// Initializes a new BeforeSceneChangedEvent class.
         /// </summary>
         /// <param name="scene">The Scene.</param>
-        internal BeforeSceneChangedEvent(IScene scene)
+        internal BeforeSceneChangedEvent(Scene scene)
         {
             CurrentScene = scene;
         }
         /// <summary>
         /// Gets the CurrentScene.
         /// </summary>
-        public IScene CurrentScene { private set; get; }
+        public Scene CurrentScene { private set; get; }
     }
 }
