@@ -152,7 +152,8 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Initializes a new UIControl class.
         /// </summary>
-        protected UIControl()
+        /// <param name="assignedUIManager">The assigned UIManager.</param>
+        protected UIControl(UIManager assignedUIManager)
         {
             _position = new Vector2(0, 0);
             _size = new UISize(0, 0);
@@ -164,7 +165,7 @@ namespace Sharpex2D.Framework.UI
             Enable = true;
             _parent = null;
             Childs = new List<UIControl>();
-            UIManager = SGL.Components.Get<UIManager>();
+            UIManager = assignedUIManager;
             UIManager.Add(this);
         }
 

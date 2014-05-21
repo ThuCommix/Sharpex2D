@@ -62,10 +62,6 @@ namespace Sharpex2D.Framework.Game
             get;
             set;
         }
-        /// <summary>
-        /// The Current UIManager.
-        /// </summary>
-        public UIManager UIManager { get; set; }
 
         #region IGameHandler Implementation
         void IGameHandler.Tick(float elapsed)

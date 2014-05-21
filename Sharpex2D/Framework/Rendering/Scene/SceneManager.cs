@@ -75,23 +75,23 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// </summary>
         public SceneManager()
         {
-            _scenes = new List<IScene>();
+            _scenes = new List<Scene>();
         }
 
-        private readonly List<IScene> _scenes;
+        private readonly List<Scene> _scenes;
         private EventManager _eventManager;
 
         /// <summary>
         /// Gets the ActiveScene.
         /// </summary>
-        public IScene ActiveScene { get; private set; }
+        public Scene ActiveScene { get; private set; }
 
         /// <summary>
         /// Gets a specified scene.
         /// </summary>
         /// <typeparam name="T">The Scene.</typeparam>
         /// <returns>Scene.</returns>
-        public T Get<T>() where T : IScene
+        public T Get<T>() where T : Scene
         {
             for (var i = 0; i <= _scenes.Count - 1; i++)
             {
@@ -108,7 +108,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// Sets the ActiveScene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
-        public void SetScene(IScene scene)
+        public void SetScene(Scene scene)
         {
             if (_eventManager != null && ActiveScene != null)
             {
@@ -130,7 +130,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// Adds a new Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
-        public void AddScene(IScene scene)
+        public void AddScene(Scene scene)
         {
             scene.Initialize();
             scene.LoadContent(SGL.Components.Get<ContentManager>());
@@ -141,7 +141,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// Removes a Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
-        public void RemoveScene(IScene scene)
+        public void RemoveScene(Scene scene)
         {
             _scenes.Remove(scene);
         }

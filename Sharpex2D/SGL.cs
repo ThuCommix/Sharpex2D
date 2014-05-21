@@ -98,8 +98,6 @@ namespace Sharpex2D
             Components.AddComponent(initializer.GameInstance);
             Components.AddComponent(initializer.GameInstance.SceneManager);
             Components.AddComponent(initializer.GameInstance.Input);
-            _gameInstance.UIManager = new UIManager();
-            Components.AddComponent(_gameInstance.UIManager);
             Components.Get<IGameLoop>().Subscribe(_gameInstance);
 
             //prepare game services

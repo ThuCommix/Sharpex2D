@@ -278,6 +278,7 @@
     <Compile Include="Framework\Rendering\Keyframe.cs" />
     <Compile Include="Framework\Rendering\Scene\Events\AfterSceneChangedEvent.cs" />
     <Compile Include="Framework\Rendering\Scene\Events\BeforeSceneChangedEvent.cs" />
+    <Compile Include="Framework\Rendering\Scene\Scene.cs" />
     <Compile Include="Framework\Scripting\Events\ScriptCompletedEvent.cs" />
     <Compile Include="Framework\Scripting\Events\ScriptRunningEvent.cs" />
     <Compile Include="Framework\Scripting\IScript.cs" />

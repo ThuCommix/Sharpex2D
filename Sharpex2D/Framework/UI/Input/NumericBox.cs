@@ -14,7 +14,8 @@ namespace Sharpex2D.Framework.UI.Input
         /// Initializes a new NumericBox.
         /// </summary>
         /// <param name="mode">The NumericMode.</param>
-        protected NumericBox(NumericMode mode)
+        /// <param name="assignedUIManager">The assigned UIManager.</param>
+        protected NumericBox(NumericMode mode, UIManager assignedUIManager) : base(assignedUIManager)
         {
             Mode = mode;
         }

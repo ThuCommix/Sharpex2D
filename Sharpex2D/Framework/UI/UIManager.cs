@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.UI
 {
-    public class UIManager : IComponent
+    public class UIManager
     {
-        #region IComponent Implementation
         /// <summary>
-        /// Gets the Guid.
+        /// Sets or gets the Description.
         /// </summary>
-        public Guid Guid { get { return new Guid("7FE0E5C1-1289-4A56-828A-264D010682DE"); } }
-
-        #endregion
+        public string Description { set; get; }
 
         /// <summary>
         /// Initializes a new UICollection class.
