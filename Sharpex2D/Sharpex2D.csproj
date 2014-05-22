@@ -58,6 +58,7 @@
     <Compile Include="Framework\Common\Delay.cs" />
     <Compile Include="Framework\Common\Retry.cs" />
     <Compile Include="Framework\Common\Singleton.cs" />
+    <Compile Include="Framework\Content\AsyncAssetLoader.cs" />
     <Compile Include="Framework\Content\Factory\VideoFactory.cs" />
     <Compile Include="Framework\Content\Storage\TemporaryFile.cs" />
     <Compile Include="Framework\Debug\ExceptionHandler.cs" />
