@@ -10,17 +10,21 @@ namespace Sharpex2D.Framework.Content
 
         private readonly Dictionary<string, string> _queue;
         private readonly ContentManager _contentManager;
+        private readonly ContentStorage _storage;
 
         /// <summary>
         /// Initializes a new AssetLoader class.
         /// </summary>
+        /// <param name="storage">The ContentStorage which will be used to store the data.</param>
         /// <param name="contentManager">The ContentManager.</param>
-        public AsyncAssetLoader(ContentManager contentManager)
+        public AsyncAssetLoader(ContentStorage storage, ContentManager contentManager)
         {
+            _storage = storage;
             ProgressPercentage = 0;
             _contentManager = contentManager;
             _queue = new Dictionary<string, string>();
         }
+
         /// <summary>
         /// Gets the ProgressPercentage.
         /// </summary>
@@ -62,7 +66,7 @@ namespace Sharpex2D.Framework.Content
 
             foreach (var asset in _queue)
             {
-                ContentStorage.Add(asset.Key, _contentManager.Load<T>(asset.Value));
+                _storage.Add(asset.Key, _contentManager.Load<T>(asset.Value));
                 processedAssets++;
                 ProgressPercentage = 100*processedAssets/assetCount;
             }
