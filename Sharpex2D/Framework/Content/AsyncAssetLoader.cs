@@ -44,7 +44,7 @@ namespace Sharpex2D.Framework.Content
             {
                 throw new ArgumentException("The name already exists.");
             }
-
+ 
             _queue.Add(name, assetpath);
         }
         /// <summary>
