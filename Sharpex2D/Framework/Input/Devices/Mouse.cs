@@ -150,7 +150,7 @@ namespace Sharpex2D.Framework.Input.Devices
         }
         private void surface_MouseMove(object sender, MouseEventArgs e)
         {
-            Position = new Vector2(e.Location.X * SGL.GraphicsDevice.Scale.X, e.Location.Y * SGL.GraphicsDevice.Scale.Y);
+            Position = new Vector2(e.Location.X / SGL.GraphicsDevice.Scale.X, e.Location.Y / SGL.GraphicsDevice.Scale.Y);
             SGL.Components.Get<EventManager>().Publish(new MouseLocationChangedEvent(Position));
         }
 
