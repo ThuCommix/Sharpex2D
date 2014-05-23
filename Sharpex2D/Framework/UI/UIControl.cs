@@ -36,6 +36,26 @@ namespace Sharpex2D.Framework.UI
 
         #region Properties
 
+        private Vector2 _lastRelativeMousePostion;
+
+        /// <summary>
+        /// Gets the relative mouse position.
+        /// </summary>
+        public Vector2 RelativeMousePosition
+        {
+            get
+            {
+                if (!IsMouseHoverState)
+                {
+                    return _lastRelativeMousePostion;
+                }
+
+                _lastRelativeMousePostion = _inputManager.Mouse.Position - Position;
+
+                return _lastRelativeMousePostion;
+            }
+        }
+
         /// <summary>
         /// Gets the Bounds of the UIControl.
         /// </summary>
@@ -110,9 +130,9 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Gets the childs of the UIControl.
+        /// Gets the children of the UIControl.
         /// </summary>
-        public List<UIControl> Childs { internal set; get; }
+        public List<UIControl> Children { internal set; get; }
 
         /// <summary>
         /// Sets or gets the UIManager.
@@ -139,7 +159,7 @@ namespace Sharpex2D.Framework.UI
         {
             if (parent != null)
             {
-                parent.Childs.Add(this);
+                parent.Children.Add(this);
                 _parent = parent;
             }
             else
@@ -164,7 +184,8 @@ namespace Sharpex2D.Framework.UI
             CanGetFocus = true;
             Enable = true;
             _parent = null;
-            Childs = new List<UIControl>();
+            _lastRelativeMousePostion = new Vector2(0, 0);
+            Children = new List<UIControl>();
             UIManager = assignedUIManager;
             UIManager.Add(this);
         }
@@ -193,9 +214,9 @@ namespace Sharpex2D.Framework.UI
         /// <param name="control">The UIControl.</param>
         public void RemoveChild(UIControl control)
         {
-            if (Childs.Contains(control))
+            if (Children.Contains(control))
             {
-                Childs.Remove(control);
+                Children.Remove(control);
             }
         }
 
