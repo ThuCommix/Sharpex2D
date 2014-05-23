@@ -1,6 +1,7 @@
 ﻿using System;
 using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Content.Storage;
 using Sharpex2D.Framework.Debug;
 using Sharpex2D.Framework.Debug.Logging;
 using Sharpex2D.Framework.Events;
@@ -104,6 +105,7 @@ namespace Sharpex2D
 
             Components.AddComponent(new AchievementProvider());
             Components.AddComponent(new ExceptionHandler());
+            Components.AddComponent(new ContentStorage());
 
             State = SGLState.Initialized;
         }
