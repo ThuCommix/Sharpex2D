@@ -95,6 +95,8 @@ namespace Sharpex2D.Framework.Input.Devices
 
         #endregion
 
+        private readonly EventManager _eventManager;
+        
         /// <summary>
         /// Initializes a new Mouse class.
         /// </summary>
@@ -112,6 +114,7 @@ namespace Sharpex2D.Framework.Input.Devices
             control.MouseDown += surface_MouseDown;
             control.MouseUp += surface_MouseUp;
             Handle = handle;
+            _eventManager = SGL.Components.Get<EventManager>();
         }
 
         private readonly Dictionary<MouseButtons, bool> _mousestate;
@@ -151,7 +154,7 @@ namespace Sharpex2D.Framework.Input.Devices
         private void surface_MouseMove(object sender, MouseEventArgs e)
         {
             Position = new Vector2(e.Location.X / SGL.GraphicsDevice.Scale.X, e.Location.Y / SGL.GraphicsDevice.Scale.Y);
-            SGL.Components.Get<EventManager>().Publish(new MouseLocationChangedEvent(Position));
+            _eventManager.Publish(new MouseLocationChangedEvent(Position));
         }
 
     }
