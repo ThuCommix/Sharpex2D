@@ -142,7 +142,7 @@ namespace Sharpex2D.Framework.Math
                 value.X >= X &&
                 value.Y >= Y &&
                 value.X + value.Width <= Right &&
-                value.Y + Height <= Bottom;
+                value.Y + value.Height <= Bottom;
         }
         /// <summary>
         /// Determines whether this instance contains the specified vector.
