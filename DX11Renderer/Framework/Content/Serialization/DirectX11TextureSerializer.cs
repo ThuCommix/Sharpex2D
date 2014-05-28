@@ -1,11 +1,11 @@
 ﻿using System.Drawing;
 using System.IO;
 using Sharpex2D.Framework.Common.Extensions;
-using Sharpex2D.Framework.Rendering.DirectX;
+using Sharpex2D.Framework.Rendering.DirectX11;
 
 namespace Sharpex2D.Framework.Content.Serialization
 {
-    public class DirectXTextureSerializer : ContentSerializer<DirectXTexture>
+    public class DirectX11TextureSerializer : ContentSerializer<DirectXTexture>
     {
         public override DirectXTexture Read(BinaryReader reader)
         {

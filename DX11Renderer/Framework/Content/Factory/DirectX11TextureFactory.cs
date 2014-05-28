@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using Sharpex2D.Framework.Rendering.DirectX;
+using Sharpex2D.Framework.Rendering.DirectX11;
 
 namespace Sharpex2D.Framework.Content.Factory
 {
-    public class DirectXTextureFactory : IFactory<DirectXTexture>
+    public class DirectX11TextureFactory : IFactory<DirectXTexture>
     {
         /// <summary>
         /// Gets the Type.

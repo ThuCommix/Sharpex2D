@@ -1,8 +1,7 @@
-﻿using System;
-using SharpDX;
+﻿using SharpDX;
 using SharpDX.Direct2D1;
 
-namespace Sharpex2D.Framework.Rendering.DirectX
+namespace Sharpex2D.Framework.Rendering.DirectX11
 {
     internal static class DirectXHelper
     {

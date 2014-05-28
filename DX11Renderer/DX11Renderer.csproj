@@ -52,18 +52,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Content\DirectXTextureLoader.cs" />
-    <Compile Include="Framework\Content\Factory\DirectXTextureFactory.cs" />
-    <Compile Include="Framework\Content\Serialization\DirectXTextureSerializer.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXAnimation.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXHelper.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXPen.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXRenderer.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXSpriteBuffer.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXSpriteLoader.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXSpriteSheet.cs" />
-    <Compile Include="Framework\Rendering\DirectX\DirectXTexture.cs" />
-    <Compile Include="Framework\Rendering\DirectX\Font\DirectXFont.cs" />
+    <Compile Include="Framework\Content\DirectX11TextureLoader.cs" />
+    <Compile Include="Framework\Content\Factory\DirectX11TextureFactory.cs" />
+    <Compile Include="Framework\Content\Serialization\DirectX11TextureSerializer.cs" />
+    <Compile Include="Framework\Rendering\DirectX11\DirectXHelper.cs" />
+    <Compile Include="Framework\Rendering\DirectX11\DirectXPen.cs" />
+    <Compile Include="Framework\Rendering\DirectX11\DirectXRenderer.cs" />
+    <Compile Include="Framework\Rendering\DirectX11\DirectXTexture.cs" />
+    <Compile Include="Framework\Rendering\DirectX11\Font\DirectXFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -7,16 +7,15 @@ using SharpDX.DirectWrite;
 using SharpDX.DXGI;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Content.Serialization;
-using Sharpex2D.Framework.Rendering.DirectX.Font;
+using Sharpex2D.Framework.Rendering.DirectX11.Font;
 using Sharpex2D.Framework.Rendering.Font;
-using AlphaMode = SharpDX.Direct2D1.AlphaMode;
 using Device = SharpDX.Direct3D11.Device;
 using Factory = SharpDX.Direct2D1.Factory;
 using FactoryType = SharpDX.Direct2D1.FactoryType;
 using Rectangle = Sharpex2D.Framework.Math.Rectangle;
 using Vector2 = Sharpex2D.Framework.Math.Vector2;
 
-namespace Sharpex2D.Framework.Rendering.DirectX
+namespace Sharpex2D.Framework.Rendering.DirectX11
 {
     public class DirectXRenderer : IRenderer
     {
@@ -427,9 +426,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX
         public DirectXRenderer()
         {
             DirectXHelper.DirectWriteFactory = new SharpDX.DirectWrite.Factory();
-            SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectXTextureSerializer());
-            SGL.Components.Get<ContentManager>().Extend(new DirectXTextureLoader());
-            SGL.Components.Get<ContentManager>().Extend(new DirectXSpriteLoader());
+            SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectX11TextureSerializer());
+            SGL.Components.Get<ContentManager>().Extend(new DirectX11TextureLoader());
             ClearBackBuffer = true;
         }
 

@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
@@ -7,7 +6,7 @@ using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Content.Factory;
 using Bitmap = System.Drawing.Bitmap;
 
-namespace Sharpex2D.Framework.Rendering.DirectX
+namespace Sharpex2D.Framework.Rendering.DirectX11
 {
     public class DirectXTexture : ITexture, IContent
     {
@@ -26,7 +25,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
         /// <summary>
         /// Gets the Factory.
         /// </summary>
-        public static DirectXTextureFactory Factory { private set; get; }
+        public static DirectX11TextureFactory Factory { private set; get; }
 
         private readonly SharpDX.Direct2D1.Bitmap _bmp;
 
@@ -87,7 +86,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX
         /// </summary>
         static DirectXTexture()
         {
-            Factory = new DirectXTextureFactory();
+            Factory = new DirectX11TextureFactory();
         }
     }
 }

@@ -2,7 +2,7 @@
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Rendering.Font;
 
-namespace Sharpex2D.Framework.Rendering.DirectX.Font
+namespace Sharpex2D.Framework.Rendering.DirectX11.Font
 {
     public class DirectXFont : IFont, IContent
     {

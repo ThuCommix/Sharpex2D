@@ -1,6 +1,6 @@
 ﻿using SharpDX.Direct2D1;
 
-namespace Sharpex2D.Framework.Rendering.DirectX
+namespace Sharpex2D.Framework.Rendering.DirectX11
 {
     public class DirectXPen : IPen
     {
