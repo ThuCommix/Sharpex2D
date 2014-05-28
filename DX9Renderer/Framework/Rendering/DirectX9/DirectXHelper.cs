@@ -1,4 +1,5 @@
-﻿using SlimDX;
+﻿using System.Collections.Generic;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9
@@ -51,5 +52,21 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             return new Vector3(vector2.X, vector2.Y, 0);
         }
 
+        /// <summary>
+        /// Converts the vertex into DXVertex3.
+        /// </summary>
+        /// <param name="vertex">The Vertex.</param>
+        /// <returns>Vector2 Array.</returns>
+        public static Vector2[] ConvertToVertex(params Math.Vector2[] vertex)
+        {
+            var vertexList = new List<Vector2>();
+
+            foreach (var vector in vertex)
+            {
+                vertexList.Add(new Vector2(vector.X, vector.Y));
+            }
+
+            return vertexList.ToArray();
+        }
     }
 }

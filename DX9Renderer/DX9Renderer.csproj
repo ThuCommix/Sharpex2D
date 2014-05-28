@@ -52,6 +52,7 @@
     <Compile Include="Framework\Content\Factory\DirectX9TextureFactory.cs" />
     <Compile Include="Framework\Content\Serialization\DirectX9TextureSerializer.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXHelper.cs" />
+    <Compile Include="Framework\Rendering\DirectX9\DirectXPen.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXRenderer.cs" />
     <Compile Include="Framework\Rendering\DirectX9\Font\DirectXFont.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXTexture.cs" />

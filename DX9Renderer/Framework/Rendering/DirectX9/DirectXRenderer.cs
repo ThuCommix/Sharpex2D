@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Content.Serialization;
 using Sharpex2D.Framework.Math;
@@ -64,7 +65,33 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="rectangle">The Rectangle.</param>
         public void DrawRectangle(IPen pen, Rectangle rectangle)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            var dxPen = pen as DirectXPen;
+            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+
+            var line = new Line(_direct3D9Device) { Antialias = true, Width = dxPen.Width };
+            line.Begin();
+
+            line.Draw(
+                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Y),
+                    new Vector2(rectangle.X + rectangle.Width, rectangle.Y)), DirectXHelper.ConvertColor(dxPen.Color));
+
+            line.Draw(
+                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Y + rectangle.Height),
+                    new Vector2(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height)), DirectXHelper.ConvertColor(dxPen.Color));
+
+            line.Draw(
+                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Y),
+                    new Vector2(rectangle.X, rectangle.Y + rectangle.Height)),
+                DirectXHelper.ConvertColor(dxPen.Color));
+
+            line.Draw(
+                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X + rectangle.Width, rectangle.Y),
+                    new Vector2(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height)),
+                DirectXHelper.ConvertColor(dxPen.Color));
+
+            line.End();
         }
         /// <summary>
         /// Draws a Line between two points.
@@ -74,16 +101,43 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="target">The Targetpoint.</param>
         public void DrawLine(IPen pen, Vector2 start, Vector2 target)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            var dxPen = pen as DirectXPen;
+            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+
+            var line = new Line(_direct3D9Device) {Antialias = true, Width = dxPen.Width};
+            line.Begin();
+            line.Draw(DirectXHelper.ConvertToVertex(start, target), DirectXHelper.ConvertColor(dxPen.Color));
+            line.End();
         }
         /// <summary>
         /// Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
+        /// <remarks>Different radii are not in calculation.</remarks>
         public void DrawEllipse(IPen pen, Rectangle rectangle)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            var dxPen = pen as DirectXPen;
+            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+
+            var radius = rectangle.Height/2;
+
+            var vertexList = new List<Vector2>();
+
+            /*/for (var i = 0; i <= radius; i++)
+            {
+                vertexList.Add(new Vector2(rectangle.X * MathHelper.Cos(2*MathHelper.Pi*i/radius),
+                    rectangle.Y * MathHelper.Sin(2*MathHelper.Pi*i/radius)));
+            }
+
+            var line = new Line(_direct3D9Device) { Antialias = true, Width = dxPen.Width };
+            line.Begin();
+            line.Draw(DirectXHelper.ConvertToVertex(vertexList.ToArray()), DirectXHelper.ConvertColor(dxPen.Color));
+            line.End();/*/
         }
         /// <summary>
         /// Draws an Arc.
@@ -103,7 +157,15 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="points">The Points.</param>
         public void DrawPolygon(IPen pen, Vector2[] points)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            var dxPen = pen as DirectXPen;
+            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+
+            var line = new Line(_direct3D9Device) { Antialias = true, Width = dxPen.Width };
+            line.Begin();
+            line.Draw(DirectXHelper.ConvertToVertex(points), DirectXHelper.ConvertColor(dxPen.Color));
+            line.End();
         }
         /// <summary>
         /// Draws a corner-rounded Rectangle.
