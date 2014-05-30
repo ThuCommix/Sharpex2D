@@ -76,6 +76,14 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
+        /// Clears the UIManager.
+        /// </summary>
+        public void Clear()
+        {
+            _controls.Clear();
+        }
+
+        /// <summary>
         /// Gets all UIControls.
         /// </summary>
         /// <returns>UIControl Array</returns>
