@@ -39,11 +39,11 @@ namespace Sharpex2D.Framework.Math
         /// <summary>
         /// 180 divided by π.
         /// </summary>
-        private const double OneEightyOverPi = 180.0 / System.Math.PI;
+        public const double OneEightyOverPi = 180.0 / System.Math.PI;
         /// <summary>
         /// π divided by 180.
         /// </summary>
-        private const double PiOverOneEighty = System.Math.PI / 180.0;
+        public const double PiOverOneEighty = System.Math.PI / 180.0;
         #endregion
 
         #region Methods
