@@ -207,7 +207,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
                 Usage = Usage.RenderTargetOutput,
                 OutputHandle = SGL.Components.Get<Surface.RenderTarget>().Handle,
                 IsWindowed = true,
-                ModeDescription = new ModeDescription(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, new Rational((int)SGL.Components.Get<GraphicsDevice>().RefreshRate, 1), Format.R8G8B8A8_UNorm),
+                ModeDescription = new ModeDescription(GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, new Rational(60, 1), Format.R8G8B8A8_UNorm),
                 SampleDescription = new SampleDescription(1, 0),
                 Flags = SwapChainFlags.AllowModeSwitch,
                 SwapEffect = SwapEffect.Discard
@@ -278,7 +278,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
             CheckDisposed();
 
             DirectXHelper.RenderTarget.EndDraw();
-            _swapChain.Present(0, PresentFlags.None);
+            _swapChain.Present(VSync ? 60 : 0, PresentFlags.None);
         }
         /// <summary>
         /// Draws a string.
