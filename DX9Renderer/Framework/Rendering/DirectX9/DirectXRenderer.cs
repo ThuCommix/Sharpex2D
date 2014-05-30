@@ -74,8 +74,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             line.Begin();
 
             line.Draw(
-                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Y),
-                    new Vector2(rectangle.X + rectangle.Width, rectangle.Y)), DirectXHelper.ConvertColor(dxPen.Color));
+                DirectXHelper.ConvertToVertex(new Vector2(0, 100),
+                    new Vector2(100, 100)), DirectXHelper.ConvertColor(dxPen.Color));
 
             line.Draw(
                 DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Y + rectangle.Height),
@@ -111,6 +111,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             line.Draw(DirectXHelper.ConvertToVertex(start, target), DirectXHelper.ConvertColor(dxPen.Color));
             line.End();
         }
+
         /// <summary>
         /// Draws a Ellipse.
         /// </summary>
@@ -124,21 +125,27 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             var dxPen = pen as DirectXPen;
             if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
 
-            var radius = rectangle.Height/2;
+            var whalfellipse = rectangle.Width/2;
+            var hhalfellipse = rectangle.Height / 2;
 
             var vertexList = new List<Vector2>();
 
-            /*/for (var i = 0; i <= radius; i++)
+            for (var i = 1; i <= 360; i++)
             {
-                vertexList.Add(new Vector2(rectangle.X * MathHelper.Cos(2*MathHelper.Pi*i/radius),
-                    rectangle.Y * MathHelper.Sin(2*MathHelper.Pi*i/radius)));
+                vertexList.Add(
+                    new Vector2(whalfellipse*MathHelper.Cos(i*(float)MathHelper.PiOverOneEighty) + rectangle.Center.X,
+                        hhalfellipse * MathHelper.Sin(i * (float)MathHelper.PiOverOneEighty) + rectangle.Center.Y));
             }
 
-            var line = new Line(_direct3D9Device) { Antialias = true, Width = dxPen.Width };
+
+            var line = new Line(_direct3D9Device) {Antialias = true, Width = dxPen.Width};
             line.Begin();
+
             line.Draw(DirectXHelper.ConvertToVertex(vertexList.ToArray()), DirectXHelper.ConvertColor(dxPen.Color));
-            line.End();/*/
+
+            line.End();
         }
+
         /// <summary>
         /// Draws an Arc.
         /// </summary>
@@ -148,7 +155,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="sweepAngle">The SweepAngle.</param>
         public void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            throw new NotSupportedException("DrawArc is not supported by DirectXRenderer");
         }
         /// <summary>
         /// Draws a Polygon.
@@ -175,7 +184,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="radius">The Radius.</param>
         public void DrawRoundedRectangle(IPen pen, Rectangle rectangle, int radius)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            throw new NotSupportedException("DrawRoundedRectangle is not supported by DirectXRenderer");
         }
         /// <summary>
         /// Fills a Rectangle.
@@ -184,7 +195,15 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="rectangle">The Rectangle.</param>
         public void FillRectangle(Color color, Rectangle rectangle)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            var line = new Line(_direct3D9Device) { Antialias = true, Width = rectangle.Height };
+            line.Begin();
+            line.Draw(
+                DirectXHelper.ConvertToVertex(new Vector2(rectangle.X, rectangle.Center.Y),
+                    new Vector2(rectangle.X + rectangle.Width, rectangle.Center.Y)),
+                DirectXHelper.ConvertColor(color));
+            line.End();
         }
         /// <summary>
         /// Fills a Ellipse.
@@ -193,7 +212,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="rectangle">The Rectangle.</param>
         public void FillEllipse(Color color, Rectangle rectangle)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            throw new NotSupportedException("FillEllipse is not supported by DirectXRenderer");
         }
         /// <summary>
         /// Fills a Polygon.
@@ -202,7 +223,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="points">The Points.</param>
         public void FillPolygon(Color color, Vector2[] points)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            throw new NotSupportedException("FillPolygon is not supported by DirectXRenderer");
         }
         /// <summary>
         /// Fills a corner-rounded Rectangle.
@@ -212,7 +235,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="radius">The Radius.</param>
         public void FillRoundedRectangle(Color color, Rectangle rectangle, int radius)
         {
-            throw new NotImplementedException();
+            CheckDisposed();
+
+            throw new NotSupportedException("FillRoundedRectangle is not supported by DirectXRenderer");
         }
 
         /// <summary>
