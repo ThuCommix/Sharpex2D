@@ -217,7 +217,31 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             CheckDisposed();
 
-            throw new NotSupportedException("FillEllipse is not supported by DirectXRenderer");
+            var whalfellipse = rectangle.Width / 2;
+            var hhalfellipse = rectangle.Height / 2;
+
+            var vertexList = new List<Vector2>();
+
+            while (whalfellipse > 0 || hhalfellipse > 0)
+            {
+                for (var i = 1; i <= 360; i++)
+                {
+                    vertexList.Add(
+                        new Vector2(
+                            whalfellipse*MathHelper.Cos(i*(float) MathHelper.PiOverOneEighty) + rectangle.Center.X,
+                            hhalfellipse*MathHelper.Sin(i*(float) MathHelper.PiOverOneEighty) + rectangle.Center.Y));
+                }
+                whalfellipse -= 1f;
+                hhalfellipse -= 1f;
+            }
+
+
+            var line = new Line(_direct3D9Device) { Antialias = false, Width = 2 };
+            line.Begin();
+
+            line.Draw(DirectXHelper.ConvertToVertex(vertexList.ToArray()), DirectXHelper.ConvertColor(color));
+
+            line.End();
         }
         /// <summary>
         /// Fills a Polygon.
@@ -378,20 +402,34 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
 
             return new Vector2(result.Width, result.Width);
         }
+
         /// <summary>
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
         public void SetTransform(Matrix2x3 matrix)
         {
-            throw new NotImplementedException();
+            var m = SlimDX.Matrix.Identity;
+
+            m.M12 = matrix[1, 0];
+            m.M21 = matrix[0, 1];
+            m.M11 = matrix[0, 0];
+            m.M22 = matrix[1, 1];
+            m.M33 = 1f;
+            m.M41 = matrix.OffsetX;
+            m.M42 = matrix.OffsetY;
+            m.M43 = 0;
+
+            _sprite.Transform = m;
+
         }
+
         /// <summary>
         /// Resets the Transform.
         /// </summary>
         public void ResetTransform()
         {
-            throw new NotImplementedException();
+            _sprite.Transform = SlimDX.Matrix.Identity;
         }
 
         #endregion
