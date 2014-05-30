@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("ThuCommix")]
 [assembly: AssemblyProduct("DX9Renderer")]
 [assembly: AssemblyCopyright("Copyright ©ThuCommix  2014")]
-[assembly: AssemblyTrademark("www.thucommix.de")]
+[assembly: AssemblyTrademark("www.sharpex2d.de")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 

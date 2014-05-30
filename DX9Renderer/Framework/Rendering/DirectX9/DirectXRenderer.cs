@@ -43,8 +43,11 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
                 SwapEffect = SwapEffect.Discard,
                 Windowed = true,
                 BackBufferFormat = Format.A8R8G8B8,
-                PresentationInterval = PresentInterval.Immediate,
             };
+
+            SetHighestMultisampleType(presentationParameters);
+
+            presentationParameters.PresentationInterval = VSync ? PresentInterval.One : PresentInterval.Immediate;
 
             _direct3D9Device = new Device(_direct3D, primaryAdaptor.Adapter, DeviceType.Hardware, GraphicsDevice.RenderTarget.Handle,
                 CreateFlags.HardwareVertexProcessing, presentationParameters);
@@ -411,6 +414,48 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             {
                 throw new ObjectDisposedException("DirectXRenderer");
             }
+        }
+        /// <summary>
+        /// Sets the highest MultisampleType.
+        /// </summary>
+        /// <param name="presentParameters">The PresentParameters.</param>
+        private void SetHighestMultisampleType(PresentParameters presentParameters)
+        {
+            var possibleMultisampleTypes = new List<MultisampleType>
+            {
+                MultisampleType.None,
+                MultisampleType.NonMaskable,
+                MultisampleType.TwoSamples,
+                MultisampleType.ThreeSamples,
+                MultisampleType.FourSamples,
+                MultisampleType.FiveSamples,
+                MultisampleType.SixSamples,
+                MultisampleType.SevenSamples,
+                MultisampleType.EightSamples,
+                MultisampleType.NineSamples,
+                MultisampleType.TenSamples,
+                MultisampleType.ElevenSamples,
+                MultisampleType.TwelveSamples,
+                MultisampleType.ThirteenSamples,
+                MultisampleType.FourteenSamples,
+                MultisampleType.FifteenSamples,
+                MultisampleType.SixteenSamples
+            };
+
+            var highestSample = MultisampleType.None;
+            var qualityLevel = 0;
+
+            foreach (var sampleType in possibleMultisampleTypes)
+            {
+                if (_direct3D.CheckDeviceMultisampleType(_direct3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware,
+                    Format.A8R8G8B8, true, sampleType, out qualityLevel))
+                {
+                    highestSample = sampleType;
+                }
+            }
+
+            presentParameters.Multisample = highestSample;
+            presentParameters.MultisampleQuality = qualityLevel;
         }
 
         /// <summary>
