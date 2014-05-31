@@ -150,6 +150,7 @@
     <Compile Include="Framework\Game\Timing\Events\TargetFrameTimeChangedEvent.cs" />
     <Compile Include="Framework\Game\Timing\DualThreadGameLoop.cs" />
     <Compile Include="Framework\Game\Simulation\Time\GameTime.cs" />
+    <Compile Include="Framework\Game\Timing\Gameloop.cs" />
     <Compile Include="Framework\Game\Timing\SingleThreadGameLoop.cs" />
     <Compile Include="Framework\Game\Timing\GameTimer.cs" />
     <Compile Include="Framework\Game\Timing\IGameLoop.cs" />
