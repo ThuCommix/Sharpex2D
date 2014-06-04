@@ -3,10 +3,14 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Sharpex2D.Framework.Math;
+using Rectangle = Sharpex2D.Framework.Math.Rectangle;
 
 namespace Sharpex2D.Framework.Rendering.GDI
 {
-    public static class GdiNative
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public static class NativeMethods
     {
         public enum GdiRasterOperations
         {
@@ -26,72 +30,86 @@ namespace Sharpex2D.Framework.Rendering.GDI
             BLACKNESS = 66,
             WHITENESS = 16711778
         }
+
         #region GDI Methods
-        [DllImport("gdi32.dll")]
-        public static extern IntPtr CreateCompatibleDC(IntPtr hDC);
 
         [DllImport("gdi32.dll")]
-        public static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+        internal static extern IntPtr CreateCompatibleDC(IntPtr hDC);
 
         [DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
+        internal static extern IntPtr SelectObject(IntPtr hDC, IntPtr hObject);
+
+        [DllImport("gdi32.dll")]
+        internal static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
-        /// Deletes the specified device context (DC).
+        ///     Deletes the specified device context (DC).
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
-        /// <returns>If the function succeeds, the return value is <c>true</c>. If the function fails, the return value is <c>false</c>.</returns>
+        /// <returns>
+        ///     If the function succeeds, the return value is <c>true</c>. If the function fails, the return value is
+        ///     <c>false</c>.
+        /// </returns>
         [DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
-        public static extern bool DeleteDC([In] IntPtr hdc);
+        internal static extern bool DeleteDC([In] IntPtr hdc);
 
         [DllImport("gdi32.dll")]
-        public static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest, int nWidth, int nHeight, IntPtr hObjSource, int nXSrc, int nYSrc, GdiRasterOperations dwRop);
+        internal static extern bool BitBlt(IntPtr hObject, int nXDest, int nYDest, int nWidth, int nHeight,
+            IntPtr hObjSource, int nXSrc, int nYSrc, GdiRasterOperations dwRop);
 
         [DllImport("gdi32.dll")]
-        public static extern bool StretchBlt(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, GdiRasterOperations dwRop);
+        internal static extern bool StretchBlt(IntPtr hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest,
+            int nHeightDest, IntPtr hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc,
+            GdiRasterOperations dwRop);
+
         #endregion
 
         #region Methods
+
         /// <summary>
-        /// Converts the specified color.
+        ///     Converts the specified color.
         /// </summary>
         /// <param name="color">The color.</param>
         public static Color Convert(Color color)
         {
             return Color.FromArgb(color.A, color.R, color.G, color.B);
         }
+
         /// <summary>
-        /// Converts the specified rectangle.
+        ///     Converts the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <returns></returns>
-        public static Math.Rectangle Convert(Math.Rectangle rectangle)
+        public static Rectangle Convert(Rectangle rectangle)
         {
-            return new Math.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height);
+            return new Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width, (int) rectangle.Height);
         }
+
         /// <summary>
-        /// Converts the specified vertices.
+        ///     Converts the specified vertices.
         /// </summary>
         /// <param name="vertices">The vertices.</param>
         public static Point[] Convert(Vector2[] vertices)
         {
-            Point[] points = new Point[vertices.Length];
+            var points = new Point[vertices.Length];
             for (int i = 0; i < vertices.Length; i++)
             {
-                points[i] = new Point((int)vertices[i].X, (int)vertices[i].Y);
+                points[i] = new Point((int) vertices[i].X, (int) vertices[i].Y);
             }
 
             return points;
         }
+
         /// <summary>
-        /// Converts the specified vertices.
+        ///     Converts the specified vertices.
         /// </summary>
         /// <param name="vertices">The vertices.</param>
         /// <param name="offset">The offset.</param>
         public static Point[] Convert(Vector2[] vertices, Vector2 offset)
         {
-            return GdiNative.Convert(vertices.Select(v => v + offset).ToArray());
+            return Convert(vertices.Select(v => v + offset).ToArray());
         }
+
         #endregion
     }
 }
