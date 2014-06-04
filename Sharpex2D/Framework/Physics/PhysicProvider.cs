@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Physics.Collision;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Physics
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class PhysicProvider : IPhysicProvider
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -21,73 +24,73 @@ namespace Sharpex2D.Framework.Physics
 
         #endregion
 
-        #region IGameHandler Implementation
+        #region IUpdateable Implementation
+
         /// <summary>
-        /// Constructs the Component
+        ///     Processes a Game tick.
         /// </summary>
-        public void Construct()
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
-        }
-        /// <summary>
-        /// Processes a Game tick.
-        /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
-        {
-            foreach (var particle in _particles)
+            foreach (Particle particle in _particles)
             {
-                UpdateParticles(particle, elapsed);
+                UpdateParticles(particle, gameTime);
             }
             //Clear the references
             _referenceProvider.ClearReferences();
         }
+
         /// <summary>
-        /// Processes a Render.
+        ///     Constructs the Component
         /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
+        public void Construct()
         {
-            
         }
 
         #endregion
 
         #region IPhysicProvider Implementation
+
         /// <summary>
-        /// Subscribes a particle to the current PhysicProvider class.
+        ///     Subscribes a particle to the current PhysicProvider class.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         public void Subscribe(Particle particle)
         {
             _particles.Add(particle);
         }
+
         /// <summary>
-        /// Unsubscribes a particle from the current PhysicProvider class.
+        ///     Unsubscribes a particle from the current PhysicProvider class.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         public void Unsubscribe(Particle particle)
         {
             _particles.Remove(particle);
         }
+
         /// <summary>
-        /// Sets or gets the lower bound.
+        ///     Sets or gets the lower bound.
         /// </summary>
         public float LowerBound { get; set; }
+
         /// <summary>
-        /// Sets or gets the upper bound.
+        ///     Sets or gets the upper bound.
         /// </summary>
         public float UpperBound { get; set; }
+
         /// <summary>
-        /// Sets or gets the left bound.
+        ///     Sets or gets the left bound.
         /// </summary>
         public float BoundLeft { get; set; }
+
         /// <summary>
-        /// Sets or gets the right bound.
+        ///     Sets or gets the right bound.
         /// </summary>
         public float BoundRight { get; set; }
+
         /// <summary>
-        /// Sets the velocity of the particle.
+        ///     Sets the velocity of the particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <param name="velocity">The Velocity.</param>
@@ -97,7 +100,7 @@ namespace Sharpex2D.Framework.Physics
         }
 
         /// <summary>
-        /// Sets the velocity of the particle.
+        ///     Sets the velocity of the particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <param name="velocity">The Velocity.</param>
@@ -109,8 +112,12 @@ namespace Sharpex2D.Framework.Physics
         #endregion
 
         #region PhysicProvider
+
+        private readonly List<Particle> _particles;
+        private readonly ReferenceProvider _referenceProvider;
+
         /// <summary>
-        /// Initializes a new PhysicProvider class.
+        ///     Initializes a new PhysicProvider class.
         /// </summary>
         public PhysicProvider()
         {
@@ -126,44 +133,44 @@ namespace Sharpex2D.Framework.Physics
             SGL.Components.AddComponent(this);
         }
 
-        private readonly List<Particle> _particles;
-        private readonly ReferenceProvider _referenceProvider;
-
         /// <summary>
-        /// Indicating whether the gravity should be emulated.
+        ///     Indicating whether the gravity should be emulated.
         /// </summary>
         public bool EnableGravity { set; get; }
+
         /// <summary>
-        /// Sets or gets the custom gravity.
+        ///     Sets or gets the custom gravity.
         /// </summary>
         public float Gravity { set; get; }
+
         /// <summary>
-        /// Gets the current CollisionManager.
+        ///     Gets the current CollisionManager.
         /// </summary>
         public ICollision CollisionManager { private set; get; }
+
         /// <summary>
-        /// Updates the given particle.
+        ///     Updates the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        private void UpdateParticles(Particle particle, float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        private void UpdateParticles(Particle particle, GameTime gameTime)
         {
             //Check if the gravity should be used for our particle.
             //Do not apply if our position is already on the lower bound
             if (EnableGravity && particle.Gravity)
             {
-                var particleVelocity = VelocityOfFall(elapsed);
+                float particleVelocity = VelocityOfFall(gameTime.ElapsedGameTime);
                 particle.Velocity = new Vector2(particle.Velocity.X, particle.Velocity.Y + particleVelocity);
             }
 
             //save the current position
-            var posBeforUpdate = particle.Position;
+            Vector2 posBeforUpdate = particle.Position;
 
             //Apply damping, we need something to brake the particle
             particle.Velocity = ParticleDamping(particle.Velocity, particle.Damping);
 
             //After all Vigours update our position.
-            var calibratedPosition = particle.Position + particle.Velocity;
+            Vector2 calibratedPosition = particle.Position + particle.Velocity;
 
             //After setting the position we should check out the world bounds
             //Below the basic world collision
@@ -178,7 +185,7 @@ namespace Sharpex2D.Framework.Physics
                 //but also we should apply ealstic impact or non elastic impact:
                 if (System.Math.Abs(particle.Elasticity) < 0.01f)
                 {
-                    var energy = Ekin(particle);
+                    float energy = Ekin(particle);
                     particle.Velocity = new Vector2(0, 0);
                     particle.OnPenetration(new PenetrationParams
                     {
@@ -188,7 +195,7 @@ namespace Sharpex2D.Framework.Physics
                 }
                 else
                 {
-                    var callback = ElasticImpact(particle,
+                    Vector2[] callback = ElasticImpact(particle,
                         new Particle(null) {Mass = 99999f, Elasticity = 1f, Velocity = new Vector2(0, 0)});
                     particle.Velocity = callback[0];
                     particle.OnRecoil(new RecoilParams {InvolvedParticles = new[] {particle}});
@@ -214,9 +221,11 @@ namespace Sharpex2D.Framework.Physics
             }
 
             //apply calibratedPosition:
-            particle.Position = LowerBound - calibratedPosition.Y < 0.2f ? new Vector2(calibratedPosition.X, LowerBound) : calibratedPosition;
+            particle.Position = LowerBound - calibratedPosition.Y < 0.2f
+                ? new Vector2(calibratedPosition.X, LowerBound)
+                : calibratedPosition;
 
-            for (var i = 0; i <= _particles.Count - 1; i++)
+            for (int i = 0; i <= _particles.Count - 1; i++)
             {
                 if (_particles[i] != particle)
                 {
@@ -232,9 +241,9 @@ namespace Sharpex2D.Framework.Physics
                                 System.Math.Abs(_particles[i].Elasticity) < 0.01f)
                             {
                                 //Compute non elastic, and apply new velocities
-                                var ekinParticle = MathHelper.Abs(Ekin(particle) + Ekin(_particles[i]));
-                                var callback = NonElasticImpact(particle, _particles[i]);
-                                var ekinParticleAfter = Ekin(particle);
+                                float ekinParticle = MathHelper.Abs(Ekin(particle) + Ekin(_particles[i]));
+                                Vector2 callback = NonElasticImpact(particle, _particles[i]);
+                                float ekinParticleAfter = Ekin(particle);
                                 var param = new PenetrationParams
                                 {
                                     InvolvedParticles = new[] {particle, _particles[i]},
@@ -249,7 +258,7 @@ namespace Sharpex2D.Framework.Physics
                             else
                             {
                                 //compute elastic impact and apply new velocities
-                                var callback = ElasticImpact(particle, _particles[i]);
+                                Vector2[] callback = ElasticImpact(particle, _particles[i]);
                                 var param = new RecoilParams {InvolvedParticles = new[] {particle, _particles[i]}};
                                 particle.Velocity = callback[0];
                                 _particles[i].Velocity = callback[1];
@@ -267,7 +276,7 @@ namespace Sharpex2D.Framework.Physics
         #region Vigours
 
         /// <summary>
-        /// Gets the velocity of fall of the object.
+        ///     Gets the velocity of fall of the object.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         /// <returns>Velocity in meter per second</returns>
@@ -280,15 +289,15 @@ namespace Sharpex2D.Framework.Physics
              * t = elapsed time in seconds
             /*/
 
-            var tSecond = elapsed/1000f;
-            var gravity = Gravity;
+            float tSecond = elapsed/1000f;
+            float gravity = Gravity;
 
-            var velocity = gravity*tSecond;
+            float velocity = gravity*tSecond;
             return velocity;
         }
 
         /// <summary>
-        /// Returns the damped velocity of the object.
+        ///     Returns the damped velocity of the object.
         /// </summary>
         /// <param name="velocity">The Velocity.</param>
         /// <param name="damping">The Damping.</param>
@@ -297,7 +306,7 @@ namespace Sharpex2D.Framework.Physics
         {
             float xDamped;
             float yDamped;
-            var dampingValue = damping / 15;
+            float dampingValue = damping/15;
             if (velocity.X > 0)
             {
                 xDamped = velocity.X - dampingValue >= 0 ? velocity.X - dampingValue : 0;
@@ -317,19 +326,20 @@ namespace Sharpex2D.Framework.Physics
 
             return new Vector2(xDamped, yDamped);
         }
+
         /// <summary>
-        /// Damps the particle on impact.
+        ///     Damps the particle on impact.
         /// </summary>
         /// <param name="originVelocity">The Velocity.</param>
         /// <returns>Damped Velocity</returns>
         private Vector2 DampOnImpact(Vector2 originVelocity)
         {
             // lets say we loos 20% of power after impact
-            return new Vector2(originVelocity.X * 80 / 100, originVelocity.Y * 80 / 100);
+            return new Vector2(originVelocity.X*80/100, originVelocity.Y*80/100);
         }
 
         /// <summary>
-        /// Returns the new velocity of two particles after an elastic impact.
+        ///     Returns the new velocity of two particles after an elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -367,7 +377,7 @@ namespace Sharpex2D.Framework.Physics
             }
 
             //get min elasticity
-            var elasticity = MathHelper.Min(particle1.Elasticity, particle2.Elasticity);
+            float elasticity = MathHelper.Min(particle1.Elasticity, particle2.Elasticity);
 
 
             //check if obj2.velocity = 0 and the mass of both objects are the same
@@ -376,19 +386,19 @@ namespace Sharpex2D.Framework.Physics
             {
                 return new[] {new Vector2(0, 0), particle1.Velocity};
             }
-            var u1 = particle1.Velocity*particle1.Mass +
-                     (particle2.Velocity*2 - particle1.Velocity)*particle2.Mass/
-                     (particle1.Mass + particle2.Mass);
-            var u2 = particle2.Velocity*particle2.Mass +
-                     (particle1.Velocity*2 - particle2.Velocity)*particle1.Mass/
-                     (particle1.Mass + particle2.Mass);
-            var velocity1 = DampOnImpact(u1*elasticity);
-            var velocity2 = DampOnImpact(u2*elasticity);
+            Vector2 u1 = particle1.Velocity*particle1.Mass +
+                         (particle2.Velocity*2 - particle1.Velocity)*particle2.Mass/
+                         (particle1.Mass + particle2.Mass);
+            Vector2 u2 = particle2.Velocity*particle2.Mass +
+                         (particle1.Velocity*2 - particle2.Velocity)*particle1.Mass/
+                         (particle1.Mass + particle2.Mass);
+            Vector2 velocity1 = DampOnImpact(u1*elasticity);
+            Vector2 velocity2 = DampOnImpact(u2*elasticity);
             return new[] {velocity1, velocity2};
         }
 
         /// <summary>
-        /// Returns the new velocity after a non elastic impact.
+        ///     Returns the new velocity after a non elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -404,13 +414,14 @@ namespace Sharpex2D.Framework.Physics
              * v2 = velocity of obj2
             /*/
 
-            var v2 = particle1.Velocity*particle1.Mass +
-                     particle2.Velocity*particle2.Mass/(particle1.Mass + particle2.Mass);
+            Vector2 v2 = particle1.Velocity*particle1.Mass +
+                         particle2.Velocity*particle2.Mass/(particle1.Mass + particle2.Mass);
 
             return v2;
         }
+
         /// <summary>
-        /// Returns the kinetic energy of the given particle.
+        ///     Returns the kinetic energy of the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Ekin</returns>
@@ -423,8 +434,9 @@ namespace Sharpex2D.Framework.Physics
         #endregion
 
         #region Public Methods
+
         /// <summary>
-        /// Returns the kinetic energy of the given particle.
+        ///     Returns the kinetic energy of the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Ekin</returns>
@@ -432,8 +444,9 @@ namespace Sharpex2D.Framework.Physics
         {
             return Ekin(particle);
         }
+
         /// <summary>
-        /// Gets the velocity of fall of the object.
+        ///     Gets the velocity of fall of the object.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         /// <returns>Velocity in meter per second</returns>
@@ -441,8 +454,9 @@ namespace Sharpex2D.Framework.Physics
         {
             return VelocityOfFall(elapsed);
         }
+
         /// <summary>
-        /// Returns the damped velocity of the object.
+        ///     Returns the damped velocity of the object.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Damped Velocity</returns>
@@ -450,8 +464,9 @@ namespace Sharpex2D.Framework.Physics
         {
             return ParticleDamping(particle.Velocity, particle.Damping);
         }
+
         /// <summary>
-        /// Returns the new velocity of two particles after an elastic impact.
+        ///     Returns the new velocity of two particles after an elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -460,8 +475,9 @@ namespace Sharpex2D.Framework.Physics
         {
             return ElasticImpact(particle1, particle2);
         }
+
         /// <summary>
-        /// Returns the new velocity after a non elastic impact.
+        ///     Returns the new velocity after a non elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>

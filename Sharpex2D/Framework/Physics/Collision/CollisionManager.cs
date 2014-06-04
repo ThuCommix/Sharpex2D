@@ -7,12 +7,15 @@ using Rectangle = Sharpex2D.Framework.Physics.Shapes.Rectangle;
 
 namespace Sharpex2D.Framework.Physics.Collision
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class CollisionManager : ICollision, IComponent
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -22,8 +25,9 @@ namespace Sharpex2D.Framework.Physics.Collision
         #endregion
 
         #region ICollision Implementation
+
         /// <summary>
-        /// Indicates whether the particles intersect with each other.
+        ///     Indicates whether the particles intersect with each other.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -31,18 +35,21 @@ namespace Sharpex2D.Framework.Physics.Collision
         {
             return InternalIsIntersecting(particle1, particle2);
         }
+
         #endregion
 
         #region CollisionManager Internal
+
         /// <summary>
-        /// Initializes a new CollisionManager class.
+        ///     Initializes a new CollisionManager class.
         /// </summary>
         public CollisionManager()
         {
             SGL.Components.AddComponent(this);
         }
+
         /// <summary>
-        /// Destructor.
+        ///     Destructor.
         /// </summary>
         ~CollisionManager()
         {
@@ -50,7 +57,7 @@ namespace Sharpex2D.Framework.Physics.Collision
         }
 
         /// <summary>
-        /// Indicates whether the particles intersect with each other.
+        ///     Indicates whether the particles intersect with each other.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -93,7 +100,7 @@ namespace Sharpex2D.Framework.Physics.Collision
         }
 
         /// <summary>
-        /// Indicates whether the rectangle intersects with another rectangle.
+        ///     Indicates whether the rectangle intersects with another rectangle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -104,16 +111,16 @@ namespace Sharpex2D.Framework.Physics.Collision
                RectA.Y1 < RectB.Y2 && RectA.Y2 > RectB.Y1/*/
 
             var rect1 = (Rectangle) particle1.Shape;
-            var rect2 = (Rectangle)particle2.Shape;
+            var rect2 = (Rectangle) particle2.Shape;
 
             return particle1.Position.X < (particle2.Position.X + rect2.Width) &&
                    (particle1.Position.X + rect1.Width) > particle2.Position.X &&
                    particle1.Position.Y < (particle2.Position.Y + rect2.Height) &&
                    (particle1.Position.Y + rect1.Height) > particle2.Position.Y;
-
         }
+
         /// <summary>
-        /// Indicates whether the rectangle intersects with a circle.
+        ///     Indicates whether the rectangle intersects with a circle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -135,7 +142,7 @@ namespace Sharpex2D.Framework.Physics.Collision
             }
             else
             {
-                var txCenter = new Vector2(particle2.Position.X + ((float) textureCircle.Texture.Width / 2),
+                var txCenter = new Vector2(particle2.Position.X + ((float) textureCircle.Texture.Width/2),
                     particle2.Position.Y + ((float) textureCircle.Texture.Height/2));
 
                 circleDistance =
@@ -143,7 +150,7 @@ namespace Sharpex2D.Framework.Physics.Collision
                                 new Vector2(particle1.Position.X + rect.Width*0.5f,
                                     particle1.Position.Y + rect.Height*0.5f));
             }
-            var boxSize = new Vector2(rect.Width, rect.Height) / 2f;
+            Vector2 boxSize = new Vector2(rect.Width, rect.Height)/2f;
 
             if (circleDistance.X > boxSize.X + circle.Radius ||
                 circleDistance.Y > boxSize.Y + circle.Radius)
@@ -153,10 +160,11 @@ namespace Sharpex2D.Framework.Physics.Collision
                 circleDistance.Y <= boxSize.Y)
                 return true;
 
-            return (circleDistance - boxSize).LengthSquared <= circle.Radius * circle.Radius;
+            return (circleDistance - boxSize).LengthSquared <= circle.Radius*circle.Radius;
         }
+
         /// <summary>
-        /// Indicates whether the circle intersects with a circle.
+        ///     Indicates whether the circle intersects with a circle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -179,8 +187,8 @@ namespace Sharpex2D.Framework.Physics.Collision
 
             if (txCircle2 != null && txCircle1 == null)
             {
-                var pos = new Vector2(particle2.Position.X + ((float)txCircle2.Texture.Width / 2),
-                    particle2.Position.Y + ((float)txCircle2.Texture.Height / 2));
+                var pos = new Vector2(particle2.Position.X + ((float) txCircle2.Texture.Width/2),
+                    particle2.Position.Y + ((float) txCircle2.Texture.Height/2));
                 return (particle1.Position - pos).Length <
                        (circle1.Radius + circle2.Radius);
             }
@@ -190,8 +198,8 @@ namespace Sharpex2D.Framework.Physics.Collision
                 var pos1 = new Vector2(particle1.Position.X + ((float) txCircle1.Texture.Width/2),
                     particle1.Position.Y + ((float) txCircle1.Texture.Height/2));
 
-                var pos2 = new Vector2(particle2.Position.X + ((float)txCircle2.Texture.Width / 2),
-                    particle2.Position.Y + ((float)txCircle2.Texture.Height / 2));
+                var pos2 = new Vector2(particle2.Position.X + ((float) txCircle2.Texture.Width/2),
+                    particle2.Position.Y + ((float) txCircle2.Texture.Height/2));
 
                 return (pos1 - pos2).Length <
                        (circle1.Radius + circle2.Radius);
