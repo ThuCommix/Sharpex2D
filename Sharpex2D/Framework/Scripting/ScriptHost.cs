@@ -8,12 +8,15 @@ using Sharpex2D.Framework.Scripting.Events;
 
 namespace Sharpex2D.Framework.Scripting
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class ScriptHost : IComponent
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -22,11 +25,11 @@ namespace Sharpex2D.Framework.Scripting
 
         #endregion
 
-        private readonly Dictionary<string, MethodInfo> _methods;
         private readonly IScriptEvaluator _evaluator;
+        private readonly Dictionary<string, MethodInfo> _methods;
 
         /// <summary>
-        /// Initializes a new ScriptHost class.
+        ///     Initializes a new ScriptHost class.
         /// </summary>
         /// <param name="evaluator">The ScriptEvaluator.</param>
         public ScriptHost(IScriptEvaluator evaluator)
@@ -37,7 +40,7 @@ namespace Sharpex2D.Framework.Scripting
         }
 
         /// <summary>
-        /// Executes the script.
+        ///     Executes the script.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
@@ -51,7 +54,7 @@ namespace Sharpex2D.Framework.Scripting
         }
 
         /// <summary>
-        /// Adds a method to the list.
+        ///     Adds a method to the list.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         /// <param name="methodInfo">The MethodInfo.</param>
@@ -66,7 +69,7 @@ namespace Sharpex2D.Framework.Scripting
         }
 
         /// <summary>
-        /// Removes a method from the list.
+        ///     Removes a method from the list.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         public void RemoveMethod(string key)
@@ -80,7 +83,7 @@ namespace Sharpex2D.Framework.Scripting
         }
 
         /// <summary>
-        /// Invokes a method.
+        ///     Invokes a method.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         /// <param name="parameters">The Parameters.</param>

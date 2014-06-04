@@ -6,10 +6,13 @@ using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Scripting.VB
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     internal static class VBScriptCompiler
     {
         /// <summary>
-        /// Compiles the source to assembly.
+        ///     Compiles the source to assembly.
         /// </summary>
         /// <param name="script">The SharpScript.</param>
         /// <returns>Assembly.</returns>
@@ -22,23 +25,24 @@ namespace Sharpex2D.Framework.Scripting.VB
             param.ReferencedAssemblies.Add(Application.ExecutablePath);
             param.GenerateExecutable = false;
 
-            var result = cdProvider.CompileAssemblyFromSource(param, script.Content);
+            CompilerResults result = cdProvider.CompileAssemblyFromSource(param, script.Content);
 
-            var flag = false;
+            bool flag = false;
 
             foreach (CompilerError error in result.Errors)
             {
                 if (error.IsWarning)
                 {
-                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Warning,
+                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
+                        LogLevel.Warning,
                         LogMode.StandardOut);
                 }
                 else
                 {
-                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")", LogLevel.Critical, LogMode.StandardOut);
+                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
+                        LogLevel.Critical, LogMode.StandardOut);
                     flag = true;
                 }
-
             }
 
             if (flag)

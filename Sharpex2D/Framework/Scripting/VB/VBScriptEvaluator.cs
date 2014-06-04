@@ -1,31 +1,33 @@
-﻿using System.Reflection;
-using Sharpex2D.Framework.Content;
+﻿using System;
+using System.Reflection;
 using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Scripting.VB
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class VBScriptEvaluator : IScriptEvaluator
     {
         private readonly ScriptStorageBuffer _storageBuffer;
 
         /// <summary>
-        /// A value indicating whether the compiled scripts gets buffered.
-        /// </summary>
-        public bool Buffering { set; get; }
-
-        /// <summary>
-        /// Initializes a new SharpScriptEvaluator.
+        ///     Initializes a new SharpScriptEvaluator.
         /// </summary>
         public VBScriptEvaluator()
         {
             //Register loading technique
 
-            SGL.Components.Get<ContentManager>().Extend(new VBScriptLoader());
             _storageBuffer = new ScriptStorageBuffer();
         }
 
         /// <summary>
-        /// Evaluate the script content.
+        ///     A value indicating whether the compiled scripts gets buffered.
+        /// </summary>
+        public bool Buffering { set; get; }
+
+        /// <summary>
+        ///     Evaluate the script content.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
@@ -63,8 +65,8 @@ namespace Sharpex2D.Framework.Scripting.VB
                 assembly = VBScriptCompiler.CompileToAssembly(sharpScript);
             }
 
-            var fType = assembly.GetTypes()[0];
-            var iType = fType.GetInterface("IScriptEntry");
+            Type fType = assembly.GetTypes()[0];
+            Type iType = fType.GetInterface("IScriptEntry");
 
             if (iType != null)
             {
@@ -72,7 +74,6 @@ namespace Sharpex2D.Framework.Scripting.VB
                 if (scriptbase != null)
                 {
                     scriptbase.Main(objects);
-
                 }
                 else
                 {

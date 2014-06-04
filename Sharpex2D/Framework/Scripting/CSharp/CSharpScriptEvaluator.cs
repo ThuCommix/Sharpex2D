@@ -1,37 +1,39 @@
-﻿using System.Reflection;
-using Sharpex2D.Framework.Content;
+﻿using System;
+using System.Reflection;
 using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Scripting.CSharp
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class CSharpScriptEvaluator : IScriptEvaluator
     {
         private readonly ScriptStorageBuffer _storageBuffer;
 
         /// <summary>
-        /// A value indicating whether the compiled scripts gets buffered.
-        /// </summary>
-        public bool Buffering { set; get; }
-
-        /// <summary>
-        /// Initializes a new SharpScriptEvaluator.
+        ///     Initializes a new SharpScriptEvaluator.
         /// </summary>
         public CSharpScriptEvaluator()
         {
             //Register loading technique
 
-            SGL.Components.Get<ContentManager>().Extend(new CSharpScriptLoader());
             _storageBuffer = new ScriptStorageBuffer();
         }
 
         /// <summary>
-        /// Evaluate the script content.
+        ///     A value indicating whether the compiled scripts gets buffered.
+        /// </summary>
+        public bool Buffering { set; get; }
+
+        /// <summary>
+        ///     Evaluate the script content.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
         public void Evaluate(IScript script, params object[] objects)
         {
-            if (script.GetType() != typeof(CSharpScript))
+            if (script.GetType() != typeof (CSharpScript))
             {
                 throw new ScriptException("The given script does not match the CSharpScript sheme.");
             }
@@ -63,16 +65,15 @@ namespace Sharpex2D.Framework.Scripting.CSharp
                 assembly = CSharpScriptCompiler.CompileToAssembly(sharpScript);
             }
 
-            var fType = assembly.GetTypes()[0];
-            var iType = fType.GetInterface("IScriptEntry");
+            Type fType = assembly.GetTypes()[0];
+            Type iType = fType.GetInterface("IScriptEntry");
 
             if (iType != null)
             {
-                var scriptbase = (IScriptEntry)assembly.CreateInstance(fType.FullName);
+                var scriptbase = (IScriptEntry) assembly.CreateInstance(fType.FullName);
                 if (scriptbase != null)
                 {
                     scriptbase.Main(objects);
-
                 }
                 else
                 {
