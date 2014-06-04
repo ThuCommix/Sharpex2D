@@ -4,19 +4,24 @@ using Sharpex2D.Framework.Common.Threads;
 
 namespace Sharpex2D.Framework.Media.Sound.Wave
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class WaveSoundProvider : ISoundProvider
     {
         #region ISoundProvider Implementation
 
         /// <summary>
-        /// Disposes the WaveSoundProvider class.
+        ///     Disposes the WaveSoundProvider class.
         /// </summary>
         public void Dispose()
         {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Clonses the WaveSoundProvider class.
+        ///     Clonses the WaveSoundProvider class.
         /// </summary>
         /// <returns></returns>
         public object Clone()
@@ -25,7 +30,7 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         }
 
         /// <summary>
-        /// Plays the sound.
+        ///     Plays the sound.
         /// </summary>
         /// <param name="soundFile">The Soundfile.</param>
         /// <param name="playMode">The PlayMode.</param>
@@ -42,7 +47,7 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         }
 
         /// <summary>
-        /// Resumes a sound.
+        ///     Resumes a sound.
         /// </summary>
         public void Resume()
         {
@@ -51,7 +56,7 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         }
 
         /// <summary>
-        /// Pause a sound.
+        ///     Pause a sound.
         /// </summary>
         public void Pause()
         {
@@ -60,97 +65,85 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         }
 
         /// <summary>
-        /// Seeks a sound to a specified position.
+        ///     Seeks a sound to a specified position.
         /// </summary>
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            _threadInvoker.Invoke(() => _soundPlayer.Position = new TimeSpan(0, 0, 0, 0, (int)position));
+            _threadInvoker.Invoke(() => _soundPlayer.Position = new TimeSpan(0, 0, 0, 0, (int) position));
         }
 
         /// <summary>
-        /// Sets or gets the Balance.
+        ///     Sets or gets the Balance.
         /// </summary>
         public float Balance
         {
             get
             {
-                var balance = 0f;
-                _threadInvoker.Invoke(() =>
-                {
-                    balance = (float)_soundPlayer.Balance;
-                });
+                float balance = 0f;
+                _threadInvoker.Invoke(() => { balance = (float) _soundPlayer.Balance; });
 
                 return balance;
             }
-            set
-            {
-                _threadInvoker.Invoke(() => _soundPlayer.Balance = value);
-            }
+            set { _threadInvoker.Invoke(() => _soundPlayer.Balance = value); }
         }
 
         /// <summary>
-        /// Sets or gets the Volume.
+        ///     Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
             get
             {
-                var volume = 0f;
-                _threadInvoker.Invoke(() =>
-                {
-                    volume = (float)_soundPlayer.Volume;
-                });
+                float volume = 0f;
+                _threadInvoker.Invoke(() => { volume = (float) _soundPlayer.Volume; });
 
                 return volume;
             }
-            set
-            {
-                _threadInvoker.Invoke(() => _soundPlayer.Volume = value);
-            }
+            set { _threadInvoker.Invoke(() => _soundPlayer.Volume = value); }
         }
 
         /// <summary>
-        /// Sets or gets the Position.
+        ///     Sets or gets the Position.
         /// </summary>
         public long Position
         {
             get
             {
                 long position = 0;
-                _threadInvoker.Invoke(() =>
-                {
-                    position = (long)_soundPlayer.Position.TotalMilliseconds;
-                });
+                _threadInvoker.Invoke(() => { position = (long) _soundPlayer.Position.TotalMilliseconds; });
 
                 return position;
             }
-            set
-            {
-                Seek(value);
-            }
+            set { Seek(value); }
         }
 
         /// <summary>
-        /// A value indicating whether the SoundProvider is playing.
+        ///     A value indicating whether the SoundProvider is playing.
         /// </summary>
         public bool IsPlaying { get; set; }
 
         /// <summary>
-        /// Gets the sound length.
+        ///     Gets the sound length.
         /// </summary>
         public long Length
         {
             get
             {
                 long length = 0;
-                _threadInvoker.Invoke(() =>
-                {
-                    length = (long) _soundPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
-                });
+                _threadInvoker.Invoke(() => { length = (long) _soundPlayer.NaturalDuration.TimeSpan.TotalMilliseconds; });
 
                 return length;
             }
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            //this class do not have any disposable resources
         }
 
         #endregion
@@ -158,7 +151,7 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -168,12 +161,12 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         #endregion
 
         private readonly IThreadInvoker _threadInvoker;
-        private MediaPlayer _soundPlayer;
         private PlayMode _playMode;
         private Sound _sound;
+        private MediaPlayer _soundPlayer;
 
         /// <summary>
-        /// Initialize a new WaveSoundProvider class.
+        ///     Initialize a new WaveSoundProvider class.
         /// </summary>
         internal WaveSoundProvider()
         {
@@ -195,7 +188,7 @@ namespace Sharpex2D.Framework.Media.Sound.Wave
         }
 
         /// <summary>
-        /// Plays the sound.
+        ///     Plays the sound.
         /// </summary>
         public void Play(Sound sound)
         {

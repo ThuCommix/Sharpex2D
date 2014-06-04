@@ -1,31 +1,24 @@
 ﻿using System.IO;
-using Sharpex2D.Framework.Content.Factory;
+using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Content.Pipeline;
 
 namespace Sharpex2D.Framework.Media.Video
 {
-    public class Video
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("Video")]
+    public class Video : IContent
     {
         /// <summary>
-        /// Sets or gets the ResourcePath.
-        /// </summary>
-        public string ResourcePath { get; private set; }
-        /// <summary>
-        /// A value indicating whether the Video is initialized.
-        /// </summary>
-        public bool IsInitialized { get; private set; }
-        /// <summary>
-        /// Gets the Factory.
-        /// </summary>
-        public static VideoFactory Factory { get; private set; }
-        /// <summary>
-        /// Initializes a new Video class.
+        ///     Initializes a new Video class.
         /// </summary>
         internal Video()
         {
-            
         }
+
         /// <summary>
-        /// Initializes a new Video class.
+        ///     Initializes a new Video class.
         /// </summary>
         /// <param name="file">The File.</param>
         internal Video(string file)
@@ -38,12 +31,15 @@ namespace Sharpex2D.Framework.Media.Video
             IsInitialized = true;
             ResourcePath = file;
         }
+
         /// <summary>
-        /// Initializes a new Video class.
+        ///     Sets or gets the ResourcePath.
         /// </summary>
-        static Video()
-        {
-            Factory = new VideoFactory();
-        }
+        public string ResourcePath { get; private set; }
+
+        /// <summary>
+        ///     A value indicating whether the Video is initialized.
+        /// </summary>
+        public bool IsInitialized { get; private set; }
     }
 }

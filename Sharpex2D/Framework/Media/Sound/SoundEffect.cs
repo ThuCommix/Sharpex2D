@@ -2,16 +2,18 @@
 
 namespace Sharpex2D.Framework.Media.Sound
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class SoundEffect
     {
-
         private readonly SoundManager _soundProvider;
-        private Sound _sound;
         private bool _muted;
+        private Sound _sound;
         private float _vBeforeMute;
 
         /// <summary>
-        /// Initializes a new SoundEffect.
+        ///     Initializes a new SoundEffect.
         /// </summary>
         public SoundEffect()
         {
@@ -21,7 +23,7 @@ namespace Sharpex2D.Framework.Media.Sound
         }
 
         /// <summary>
-        /// Initializes a new SoundEffect.
+        ///     Initializes a new SoundEffect.
         /// </summary>
         /// <param name="sound">The Sound.</param>
         public SoundEffect(Sound sound)
@@ -33,22 +35,7 @@ namespace Sharpex2D.Framework.Media.Sound
         }
 
         /// <summary>
-        /// Plays the SoundEffect.
-        /// </summary>
-        public void Play()
-        {
-            if (_sound != null)
-            {
-                _soundProvider.Play(_sound, PlayMode.None);
-            }
-            else
-            {
-                throw new NullReferenceException("Sound can not be null.");
-            }
-        }
-
-        /// <summary>
-        /// Sets or gets the Balance.
+        ///     Sets or gets the Balance.
         /// </summary>
         public float Balance
         {
@@ -57,7 +44,7 @@ namespace Sharpex2D.Framework.Media.Sound
         }
 
         /// <summary>
-        /// Sets or gets the Volume.
+        ///     Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
@@ -66,22 +53,16 @@ namespace Sharpex2D.Framework.Media.Sound
         }
 
         /// <summary>
-        /// Sets or gets the Sound.
+        ///     Sets or gets the Sound.
         /// </summary>
         public Sound Sound
         {
-            set
-            {
-                _sound = value;
-            }
-            get
-            {
-                return _sound;
-            }
+            set { _sound = value; }
+            get { return _sound; }
         }
 
         /// <summary>
-        /// A value indicating whether the sound is muted.
+        ///     A value indicating whether the sound is muted.
         /// </summary>
         public bool Muted
         {
@@ -105,6 +86,21 @@ namespace Sharpex2D.Framework.Media.Sound
                 _muted = value;
             }
             get { return _muted; }
+        }
+
+        /// <summary>
+        ///     Plays the SoundEffect.
+        /// </summary>
+        public void Play()
+        {
+            if (_sound != null)
+            {
+                _soundProvider.Play(_sound, PlayMode.None);
+            }
+            else
+            {
+                throw new NullReferenceException("Sound can not be null.");
+            }
         }
     }
 }
