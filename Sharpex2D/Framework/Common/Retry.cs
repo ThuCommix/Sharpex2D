@@ -4,15 +4,18 @@ using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Common
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public static class Retry
     {
         /// <summary>
-        /// Sets or gets the EnableErrorReport.
+        ///     Sets or gets the EnableErrorReport.
         /// </summary>
         public static bool EnableErrorReport { set; get; }
 
         /// <summary>
-        /// Executes an action with unlimited retries.
+        ///     Executes an action with unlimited retries.
         /// </summary>
         /// <param name="timeout">The Timeout.</param>
         /// <param name="action">The Action.</param>
@@ -26,7 +29,7 @@ namespace Sharpex2D.Framework.Common
         }
 
         /// <summary>
-        /// Executes a function with unlimited retries.
+        ///     Executes a function with unlimited retries.
         /// </summary>
         /// <param name="timeout">The Timeout.</param>
         /// <param name="func">The Function.</param>
@@ -50,7 +53,7 @@ namespace Sharpex2D.Framework.Common
         }
 
         /// <summary>
-        /// >Executes an action with limited retries.
+        ///     >Executes an action with limited retries.
         /// </summary>
         /// <param name="iterations">The Retries.</param>
         /// <param name="timeout">The Timeout.</param>
@@ -65,7 +68,7 @@ namespace Sharpex2D.Framework.Common
         }
 
         /// <summary>
-        /// >Executes a function with limited retries.
+        ///     >Executes a function with limited retries.
         /// </summary>
         /// <param name="iterations">The Retries.</param>
         /// <param name="timeout">The Timeout.</param>
@@ -74,7 +77,7 @@ namespace Sharpex2D.Framework.Common
         {
             if (iterations < 1) throw new ArgumentOutOfRangeException("iterations");
 
-            for (var i = 1; i <= iterations; i++)
+            for (int i = 1; i <= iterations; i++)
             {
                 try
                 {

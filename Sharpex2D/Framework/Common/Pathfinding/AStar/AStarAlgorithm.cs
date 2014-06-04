@@ -2,10 +2,13 @@
 
 namespace Sharpex2D.Framework.Common.Pathfinding.AStar
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class AStarAlgorithm : IAlgorithm
     {
         /// <summary>
-        /// Trys to solve a path.
+        ///     Trys to solve a path.
         /// </summary>
         /// <param name="startField">The Startfield.</param>
         /// <param name="targetField">The Targetfield.</param>
@@ -26,13 +29,13 @@ namespace Sharpex2D.Framework.Common.Pathfinding.AStar
 
             do
             {
-                var currentNode = openList[0];
+                GridField currentNode = openList[0];
                 openList.RemoveAt(0);
 
                 if (currentNode == targetField)
                 {
                     path = new Stack<GridField>();
-                    var node = currentNode;
+                    GridField node = currentNode;
                     while (node != null)
                     {
                         path.Push(node);
@@ -44,9 +47,9 @@ namespace Sharpex2D.Framework.Common.Pathfinding.AStar
 
                 closedList.Add(currentNode);
 
-                foreach (var t in currentNode.Neighbors)
+                foreach (Neighbor t in currentNode.Neighbors)
                 {
-                    var neighbor = grid.GetGridField(t.X, t.Y);
+                    GridField neighbor = grid.GetGridField(t.X, t.Y);
 
                     if (!neighbor.IsWalkable || closedList.Contains(neighbor))
                         continue;

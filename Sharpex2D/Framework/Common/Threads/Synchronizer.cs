@@ -3,13 +3,15 @@ using System.Collections.Generic;
 
 namespace Sharpex2D.Framework.Common.Threads
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     internal class Synchronizer
     {
-
-        private readonly List<Locker> _objects; 
+        private readonly List<Locker> _objects;
 
         /// <summary>
-        /// Initializes a new Synchronizer class.
+        ///     Initializes a new Synchronizer class.
         /// </summary>
         public Synchronizer()
         {
@@ -17,19 +19,20 @@ namespace Sharpex2D.Framework.Common.Threads
         }
 
         /// <summary>
-        /// A value indicating whether the two Objects are synced.
+        ///     A value indicating whether the two Objects are synced.
         /// </summary>
-        public bool IsSynced {
+        public bool IsSynced
+        {
             get { return InternalIsSynced(); }
         }
 
         /// <summary>
-        /// InternalIsSynced.
+        ///     InternalIsSynced.
         /// </summary>
         /// <returns>True if synced.</returns>
         private bool InternalIsSynced()
         {
-            for (var i = 0; i <= _objects.Count - 1; i++)
+            for (int i = 0; i <= _objects.Count - 1; i++)
             {
                 if (!_objects[i].Synced)
                 {
@@ -41,7 +44,7 @@ namespace Sharpex2D.Framework.Common.Threads
         }
 
         /// <summary>
-        /// Synchronizes into the Synchronizer.
+        ///     Synchronizes into the Synchronizer.
         /// </summary>
         /// <returns>SynchronizeObject</returns>
         public Locker Synchronize()
@@ -50,8 +53,9 @@ namespace Sharpex2D.Framework.Common.Threads
             _objects.Add(syncobject);
             return syncobject;
         }
+
         /// <summary>
-        /// Asynchronizes from the Synchronizer.
+        ///     Asynchronizes from the Synchronizer.
         /// </summary>
         /// <param name="syncObject">The SynchronizeObject</param>
         public void Asynchron(Locker syncObject)
@@ -65,7 +69,7 @@ namespace Sharpex2D.Framework.Common.Threads
         internal class Locker
         {
             /// <summary>
-            /// Initializes a new SynchronizeObject class.
+            ///     Initializes a new SynchronizeObject class.
             /// </summary>
             /// <param name="guid">The Guid.</param>
             internal Locker(Guid guid)
@@ -75,11 +79,12 @@ namespace Sharpex2D.Framework.Common.Threads
             }
 
             /// <summary>
-            /// A value indicating whether the SynchronizeObject is synced.
+            ///     A value indicating whether the SynchronizeObject is synced.
             /// </summary>
             public bool Synced { set; get; }
+
             /// <summary>
-            /// Gets the Guid.
+            ///     Gets the Guid.
             /// </summary>
             public Guid Guid { private set; get; }
         }

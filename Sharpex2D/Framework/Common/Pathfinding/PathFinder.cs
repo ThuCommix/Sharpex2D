@@ -2,10 +2,13 @@
 
 namespace Sharpex2D.Framework.Common.Pathfinding
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public static class PathFinder
     {
         /// <summary>
-        /// Trys to solve a path.
+        ///     Trys to solve a path.
         /// </summary>
         /// <param name="startField">The Startfield.</param>
         /// <param name="targetField">The Targetfield.</param>

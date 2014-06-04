@@ -3,10 +3,15 @@ using Sharpex2D.Framework.Math;
 
 namespace Sharpex2D.Framework.Common.Pathfinding
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class Grid
     {
+        private readonly GridField[,] _fields;
+
         /// <summary>
-        /// Initializes a new Grid class.
+        ///     Initializes a new Grid class.
         /// </summary>
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
@@ -15,9 +20,9 @@ namespace Sharpex2D.Framework.Common.Pathfinding
             _fields = new GridField[width, height];
             GridWidth = width;
             GridHeight = height;
-            for (var x = 0; x <= width - 1; x++)
+            for (int x = 0; x <= width - 1; x++)
             {
-                for (var y = 0; y <= height - 1; y++)
+                for (int y = 0; y <= height - 1; y++)
                 {
                     //detect neighbors
                     var gridField = new GridField {Neighbors = GetNeighbors(x, y), Position = new Vector2(x, y)};
@@ -28,10 +33,9 @@ namespace Sharpex2D.Framework.Common.Pathfinding
 
         public int GridWidth { private set; get; }
         public int GridHeight { private set; get; }
-        private readonly GridField[,] _fields;
 
         /// <summary>
-        /// Returns all Neighbors of a field.
+        ///     Returns all Neighbors of a field.
         /// </summary>
         /// <param name="x">The X-Coord of the field.</param>
         /// <param name="y">The Y-Coord of the field.</param>
@@ -72,7 +76,7 @@ namespace Sharpex2D.Framework.Common.Pathfinding
         }
 
         /// <summary>
-        /// Returns a GridField on the specific position.
+        ///     Returns a GridField on the specific position.
         /// </summary>
         /// <param name="x">The X-Coord.</param>
         /// <param name="y">The Y-Coord.</param>
@@ -83,16 +87,16 @@ namespace Sharpex2D.Framework.Common.Pathfinding
         }
 
         /// <summary>
-        /// Gets the distance between two GridFields.
+        ///     Gets the distance between two GridFields.
         /// </summary>
         /// <param name="first">The first GridField.</param>
         /// <param name="second">The second GridField.</param>
         /// <returns>Int32</returns>
         public int GetDistance(GridField first, GridField second)
         {
-            var dX = (int)first.Position.X - (int)second.Position.X;
-            var dY = (int)first.Position.Y - (int)second.Position.Y;
-            return (int)MathHelper.Sqrt(dX * dX + dY * dY);
+            int dX = (int) first.Position.X - (int) second.Position.X;
+            int dY = (int) first.Position.Y - (int) second.Position.Y;
+            return (int) MathHelper.Sqrt(dX*dX + dY*dY);
         }
     }
 }
