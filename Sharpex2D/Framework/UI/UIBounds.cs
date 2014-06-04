@@ -1,10 +1,12 @@
-﻿
-namespace Sharpex2D.Framework.UI
+﻿namespace Sharpex2D.Framework.UI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class UIBounds
     {
         /// <summary>
-        /// Initializes a new UIBounds class.
+        ///     Initializes a new UIBounds class.
         /// </summary>
         public UIBounds()
         {
@@ -13,7 +15,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Initializes a new UIBounds class.
+        ///     Initializes a new UIBounds class.
         /// </summary>
         /// <param name="x">The X-Coord.</param>
         /// <param name="y">The Y-Coord.</param>
@@ -28,22 +30,22 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Sets or gets the Width.
+        ///     Sets or gets the Width.
         /// </summary>
         public int Width { set; get; }
 
         /// <summary>
-        /// Sets or gets the Height.
+        ///     Sets or gets the Height.
         /// </summary>
         public int Height { set; get; }
 
         /// <summary>
-        /// Sets or gets the X-Coord.
+        ///     Sets or gets the X-Coord.
         /// </summary>
         public int X { set; get; }
 
         /// <summary>
-        /// Sets or gets the Y-Coord.
+        ///     Sets or gets the Y-Coord.
         /// </summary>
         public int Y { set; get; }
     }

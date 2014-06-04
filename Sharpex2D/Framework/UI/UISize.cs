@@ -2,17 +2,23 @@
 
 namespace Sharpex2D.Framework.UI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class UISize
     {
+        private readonly Vector2 _size;
+
         /// <summary>
-        /// Initializes a new UISize class.
+        ///     Initializes a new UISize class.
         /// </summary>
         public UISize()
         {
             _size = new Vector2(0, 0);
         }
+
         /// <summary>
-        /// Initializes a new UISize class.
+        ///     Initializes a new UISize class.
         /// </summary>
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
@@ -21,19 +27,20 @@ namespace Sharpex2D.Framework.UI
             _size = new Vector2(width, height);
         }
 
-        private readonly Vector2 _size;
-
         /// <summary>
-        /// Gets the Width.
+        ///     Gets the Width.
         /// </summary>
-        public int Width{
+        public int Width
+        {
             get { return (int) _size.X; }
         }
+
         /// <summary>
-        /// Gets the Height.
+        ///     Gets the Height.
         /// </summary>
-        public int Height{
-            get { return (int) _size.Y; } 
+        public int Height
+        {
+            get { return (int) _size.Y; }
         }
     }
 }
