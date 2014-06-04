@@ -6,7 +6,7 @@ using SharpDX.Direct3D11;
 using SharpDX.DirectWrite;
 using SharpDX.DXGI;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Content.Serialization;
+using Sharpex2D.Framework.Content.Pipeline.Processors;
 using Sharpex2D.Framework.Rendering.DirectX11.Font;
 using Sharpex2D.Framework.Rendering.Font;
 using Device = SharpDX.Direct3D11.Device;
@@ -17,6 +17,9 @@ using Vector2 = Sharpex2D.Framework.Math.Vector2;
 
 namespace Sharpex2D.Framework.Rendering.DirectX11
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class DirectXRenderer : IRenderer
     {
         #region IComponent Implementation
@@ -32,6 +35,12 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         #endregion
 
         #region IRenderer Implementation
+        /// <summary>
+        /// A value indicating whether the current renderer is supported.
+        /// </summary>
+        public bool IsSupported {
+            get { return IsDeviceSupported(); }
+        }
         /// <summary>
         /// Draws a Rectangle.
         /// </summary>
@@ -320,15 +329,16 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Vector2 position, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
             var dxBmp = dxTexture.GetBitmap();
-            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, new RectangleF(position.X, position.Y, texture.Width, texture.Height), 1,
-                BitmapInterpolationMode.Linear);
+            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, opacity, BitmapInterpolationMode.Linear,
+                new RectangleF(position.X, position.Y, texture.Width, texture.Height));
         }
         /// <summary>
         /// Draws a Texture.
@@ -336,15 +346,16 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
             var dxBmp = dxTexture.GetBitmap();
-            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangle(rectangle), 1,
-                BitmapInterpolationMode.Linear);
+            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, opacity, BitmapInterpolationMode.Linear,
+                DirectXHelper.ConvertRectangle(rectangle));
         }
         /// <summary>
         /// Measures the string.
@@ -425,9 +436,17 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// </summary>
         public DirectXRenderer()
         {
-            DirectXHelper.DirectWriteFactory = new SharpDX.DirectWrite.Factory();
-            SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectX11TextureSerializer());
-            SGL.Components.Get<ContentManager>().Extend(new DirectX11TextureLoader());
+            if (!IsSupported)
+            {
+                throw new RenderInitializeException("DirectX11 is not supported.");
+            }
+
+            var contentManager = SGL.Components.Get<ContentManager>();
+
+            contentManager.ContentProcessor.Add(new DirectXFontContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXPenContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXTextureContentProcessor());
+
             ClearBackBuffer = true;
         }
 
@@ -440,6 +459,14 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
             {
                 throw new ObjectDisposedException("DirectXRenderer");
             }
+        }
+        /// <summary>
+        /// A value indicating whether the device is supported.
+        /// </summary>
+        /// <returns>True if the device is supported.</returns>
+        private bool IsDeviceSupported()
+        {
+            return Device.IsSupportedFeatureLevel(SharpDX.Direct3D.FeatureLevel.Level_11_0);
         }
 
         /// <summary>
