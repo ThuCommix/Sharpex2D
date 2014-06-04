@@ -2,63 +2,79 @@
 
 namespace Sharpex2D.Framework.Input.XInput
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     [Flags]
-    public enum ButtonFlags : int
+    public enum ButtonFlags
     {
         /// <summary>
-        /// D-Pad Up.
+        ///     D-Pad Up.
         /// </summary>
         XINPUT_GAMEPAD_DPAD_UP = 0x0001,
+
         /// <summary>
-        /// D-Pad Down.
+        ///     D-Pad Down.
         /// </summary>
         XINPUT_GAMEPAD_DPAD_DOWN = 0x0002,
+
         /// <summary>
-        /// D-Pad Left.
+        ///     D-Pad Left.
         /// </summary>
         XINPUT_GAMEPAD_DPAD_LEFT = 0x0004,
+
         /// <summary>
-        /// D-Pad Right.
+        ///     D-Pad Right.
         /// </summary>
         XINPUT_GAMEPAD_DPAD_RIGHT = 0x0008,
+
         /// <summary>
-        /// Start.
+        ///     Start.
         /// </summary>
         XINPUT_GAMEPAD_START = 0x0010,
+
         /// <summary>
-        /// Back.
+        ///     Back.
         /// </summary>
         XINPUT_GAMEPAD_BACK = 0x0020,
+
         /// <summary>
-        /// Left Thumb.
+        ///     Left Thumb.
         /// </summary>
         XINPUT_GAMEPAD_LEFT_THUMB = 0x0040,
+
         /// <summary>
-        /// Right Thumb.
+        ///     Right Thumb.
         /// </summary>
         XINPUT_GAMEPAD_RIGHT_THUMB = 0x0080,
+
         /// <summary>
-        /// Left Shoulder.
+        ///     Left Shoulder.
         /// </summary>
         XINPUT_GAMEPAD_LEFT_SHOULDER = 0x0100,
+
         /// <summary>
-        /// Right Shoulder.
+        ///     Right Shoulder.
         /// </summary>
         XINPUT_GAMEPAD_RIGHT_SHOULDER = 0x0200,
+
         /// <summary>
-        /// A.
+        ///     A.
         /// </summary>
         XINPUT_GAMEPAD_A = 0x1000,
+
         /// <summary>
-        /// B.
+        ///     B.
         /// </summary>
         XINPUT_GAMEPAD_B = 0x2000,
+
         /// <summary>
-        /// X.
+        ///     X.
         /// </summary>
         XINPUT_GAMEPAD_X = 0x4000,
+
         /// <summary>
-        /// Y.
+        ///     Y.
         /// </summary>
         XINPUT_GAMEPAD_Y = 0x8000,
     };

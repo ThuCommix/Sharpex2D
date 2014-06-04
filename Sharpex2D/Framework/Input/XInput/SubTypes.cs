@@ -2,48 +2,59 @@
 
 namespace Sharpex2D.Framework.Input.XInput
 {
-
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     [Flags]
     public enum Subtypes
     {
         /// <summary>
-        /// Unknown.
+        ///     Unknown.
         /// </summary>
         XINPUT_DEVSUBTYPE_UNKNOWN = 0x00,
+
         /// <summary>
-        /// Wheel.
+        ///     Wheel.
         /// </summary>
         XINPUT_DEVSUBTYPE_WHEEL = 0x02,
+
         /// <summary>
-        /// Arcade stick.
+        ///     Arcade stick.
         /// </summary>
         XINPUT_DEVSUBTYPE_ARCADE_STICK = 0x03,
+
         /// <summary>
-        /// Flight stick.
+        ///     Flight stick.
         /// </summary>
         XINPUT_DEVSUBTYPE_FLIGHT_STICK = 0x04,
+
         /// <summary>
-        /// Dance pad.
+        ///     Dance pad.
         /// </summary>
         XINPUT_DEVSUBTYPE_DANCE_PAD = 0x05,
+
         /// <summary>
-        /// Guitar.
+        ///     Guitar.
         /// </summary>
         XINPUT_DEVSUBTYPE_GUITAR = 0x06,
+
         /// <summary>
-        /// Guitar alternate.
+        ///     Guitar alternate.
         /// </summary>
         XINPUT_DEVSUBTYPE_GUITAR_ALTERNATE = 0x07,
+
         /// <summary>
-        /// Drum kit.
+        ///     Drum kit.
         /// </summary>
         XINPUT_DEVSUBTYPE_DRUM_KIT = 0x08,
+
         /// <summary>
-        /// Guitar bass.
+        ///     Guitar bass.
         /// </summary>
         XINPUT_DEVSUBTYPE_GUITAR_BASS = 0x0B,
+
         /// <summary>
-        /// Arcade pad.
+        ///     Arcade pad.
         /// </summary>
         XINPUT_DEVSUBTYPE_ARCADE_PAD = 0x13
     };
