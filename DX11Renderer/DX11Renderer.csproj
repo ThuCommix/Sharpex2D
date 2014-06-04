@@ -52,9 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Content\DirectX11TextureLoader.cs" />
-    <Compile Include="Framework\Content\Factory\DirectX11TextureFactory.cs" />
-    <Compile Include="Framework\Content\Serialization\DirectX11TextureSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXFontContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXPenContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXTextureContentProcessor.cs" />
     <Compile Include="Framework\Rendering\DirectX11\DirectXHelper.cs" />
     <Compile Include="Framework\Rendering\DirectX11\DirectXPen.cs" />
     <Compile Include="Framework\Rendering\DirectX11\DirectXRenderer.cs" />
