@@ -2,62 +2,60 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Sharpex2D.Framework.Events;
+using Sharpex2D.Framework.Game.Timing.Events;
 
 namespace Sharpex2D.Framework.Game.Timing
 {
-    public class Gameloop : IGameLoop
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class GameLoop : IGameLoop, IDisposable
     {
         #region IComponent Implementation
+
         /// <summary>
-        /// Gets the Guid.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
-        public Guid Guid { get { return new Guid("C3966A60-F83F-400C-8F28-9928975F4908"); } }
+        public Guid Guid
+        {
+            get { return new Guid("545D6C69-9340-46BE-A102-5F9E283DE04B"); }
+        }
+
         #endregion
 
         #region IGameLoop Implementation
 
         /// <summary>
-        /// Starts the GameLoop.
+        ///     Sets or gets the RenderMode.
         /// </summary>
-        public void Start()
-        {
-            var renderTask = new Task(Rendering);
-            var updateTask = new Task(Update);
-            var waitTasks = new Task(WaitTasks, TaskCreationOptions.LongRunning);
+        public RenderMode RenderMode { set; get; }
 
-            _taskpool.Add(renderTask);
-            _taskpool.Add(updateTask);
-
-            _renewTasks = true;
-
-            updateTask.Start();
-            renderTask.Start();
-            waitTasks.Start();
-        }
         /// <summary>
-        /// Stops the GameLoop.
-        /// </summary>
-        public void Stop()
-        {
-            _renewTasks = false;
-        }
-        /// <summary>
-        /// Gets the TargetFrameTime.
+        ///     Gets the TargetFrameTime.
         /// </summary>
         public float TargetFrameTime { get; private set; }
+
         /// <summary>
-        /// Gets the TargetUpdateTime.
+        ///     Gets the TargetUpdateTime.
         /// </summary>
         public float TargetUpdateTime { get; private set; }
+
         /// <summary>
-        /// Indicates whether the GameLoop is running.
+        ///     Indicates whether the GameLoop is running.
         /// </summary>
-        public bool IsRunning {
-            get { return _renewTasks; }
+        public bool IsRunning
+        {
+            get
+            {
+                if (_updateTask == null) return false;
+                if (_renderTask == null) return false;
+                return (_renderTask.Status == TaskStatus.Running) & (_updateTask.Status == TaskStatus.Running);
+            }
         }
 
         /// <summary>
-        /// Gets or sets the Target FPS.
+        ///     Gets or sets the Target FPS.
         /// </summary>
         public float TargetFramesPerSecond
         {
@@ -65,137 +63,293 @@ namespace Sharpex2D.Framework.Game.Timing
             set
             {
                 _targetFramesPerSecond = value;
-                UpdateProperties();
+                OnFpsChanged();
             }
         }
 
         /// <summary>
-        /// Subscribes a T GameHandler to the IGameLoop.
+        ///     Starts the GameLoop.
         /// </summary>
-        /// <param name="gameHandler">The GameHandler</param>
-        public void Subscribe(IGameHandler gameHandler)
+        public void Start()
         {
-            _subscribers.Add(gameHandler);
+            //Calculating the TargetTime
+            float targetTime = 1000/TargetFramesPerSecond;
+            TargetFrameTime = targetTime;
+            TargetUpdateTime = targetTime;
+            _cancelFlag = false;
+            _renderTask = Task.Factory.StartNew(InternalRenderingLoop);
+            _updateTask = Task.Factory.StartNew(InternalUpdateLoop);
+            _totalGameTimeTask.Start();
         }
+
         /// <summary>
-        /// Unsubscribes a T GameHandler from the IGameLoop.
+        ///     Stops the GameLoop.
         /// </summary>
-        /// <param name="gameHandler">The GameHandler</param>
-        public void Unsubscribe(IGameHandler gameHandler)
+        public void Stop()
         {
-            if (_subscribers.Contains(gameHandler))
+            _cancelFlag = true;
+        }
+
+        /// <summary>
+        ///     Subscribes a IDrawable to the game loop.
+        /// </summary>
+        /// <param name="drawable">The IDrawable.</param>
+        public void Subscribe(IDrawable drawable)
+        {
+            if (!_drawables.Contains(drawable))
             {
-                lock (_subscribers)
+                _drawables.Add(drawable);
+            }
+        }
+
+        /// <summary>
+        ///     Unsubscribes a IDrawable from the game loop.
+        /// </summary>
+        /// <param name="drawable">The IDrawable.</param>
+        public void Unsubscribe(IDrawable drawable)
+        {
+            if (_drawables.Contains(drawable))
+            {
+                _drawables.Remove(drawable);
+            }
+        }
+
+        /// <summary>
+        ///     Subscribes a IUpdateable to the game loop.
+        /// </summary>
+        /// <param name="updateable">The IDrawable.</param>
+        public void Subscribe(IUpdateable updateable)
+        {
+            if (!_updateables.Contains(updateable))
+            {
+                _updateables.Add(updateable);
+            }
+        }
+
+        /// <summary>
+        ///     Unsubscribes a IUpdateable from the game loop.
+        /// </summary>
+        /// <param name="updateable">The IUpdateable.</param>
+        public void Unsubscribe(IUpdateable updateable)
+        {
+            if (_updateables.Contains(updateable))
+            {
+                _updateables.Remove(updateable);
+            }
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
                 {
-                    _subscribers.Remove(gameHandler);
+                    _updateTask.Dispose();
+                    _totalGameTimeTask.Dispose();
+                    _renderTask.Dispose();
                 }
             }
         }
 
         #endregion
 
-        private readonly List<IGameHandler> _subscribers;
-        private readonly List<Task> _taskpool;
+        #region Fields
+
+        private readonly List<IDrawable> _drawables;
+        private readonly GameTime _renderGameTime;
+        private readonly Task _totalGameTimeTask;
+        private readonly GameTime _updateGameTime;
+        private readonly List<IUpdateable> _updateables;
+        private bool _cancelFlag;
+        private Task _renderTask;
+        private float _renderTime;
         private float _targetFramesPerSecond;
-        private bool _renewTasks;
-        private readonly Stopwatch _swRender;
-        private readonly Stopwatch _swUpdate;
-        private float _lastRenderTime = 16.6f;
-        private float _lastUpdateTime = 16.6f;
+        private TimeSpan _totalGameTime;
+        private float _unprocessedTicks;
+        private Task _updateTask;
+        private float _updateTime;
+
+        #endregion
+
+        #region Internal
 
         /// <summary>
-        /// Initializes a new Gameloop class.
+        ///     Initializes a new GameLoop class.
         /// </summary>
-        public Gameloop()
+        public GameLoop()
         {
-            _subscribers = new List<IGameHandler>();
-            _taskpool = new List<Task>();
-
-            _swRender = new Stopwatch();
-            _swUpdate = new Stopwatch();
-        }
-
-        private void UpdateProperties()
-        {
-            TargetFrameTime = 1000/TargetFramesPerSecond;
-            TargetUpdateTime = 1000/TargetFramesPerSecond;
-        }
-
-        /// <summary>
-        /// The RenderingLoop.
-        /// </summary>
-        private void Rendering()
-        {
-            _swRender.Start();
-
-            for (var i = 0; i <= _subscribers.Count - 1; i++)
+            RenderMode = RenderMode.Limited;
+            _drawables = new List<IDrawable>();
+            _updateables = new List<IUpdateable>();
+            _totalGameTime = TimeSpan.FromSeconds(0);
+            _updateGameTime = new GameTime
             {
-                var subsriber = _subscribers[i] as Game;
-                if (subsriber != null)
+                ElapsedGameTime = TargetUpdateTime,
+                IsRunningSlowly = false,
+                TotalGameTime = _totalGameTime
+            };
+            _renderGameTime = new GameTime
+            {
+                ElapsedGameTime = TargetFrameTime,
+                IsRunningSlowly = false,
+                TotalGameTime = _totalGameTime
+            };
+            _totalGameTimeTask = new Task(TotalGameTime, TaskCreationOptions.LongRunning);
+        }
+
+        /// <summary>
+        ///     Called if the FPS changed.
+        /// </summary>
+        private void OnFpsChanged()
+        {
+            float targetTime = 1000/TargetFramesPerSecond;
+            TargetFrameTime = targetTime;
+            TargetUpdateTime = targetTime;
+            SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
+
+            //publish event
+            SGL.Components.Get<EventManager>()
+                .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, targetTime));
+        }
+
+        /// <summary>
+        ///     Updates the total game time.
+        /// </summary>
+        private void TotalGameTime()
+        {
+            while (!_cancelFlag)
+            {
+                _totalGameTimeTask.Wait((int) TargetUpdateTime);
+                _totalGameTime = _totalGameTime.Add(TimeSpan.FromMilliseconds((int) TargetUpdateTime));
+
+                _updateGameTime.TotalGameTime = _totalGameTime;
+                _renderGameTime.TotalGameTime = _totalGameTime;
+            }
+        }
+
+        /// <summary>
+        ///     Handles the update loop.
+        /// </summary>
+        private void InternalUpdateLoop()
+        {
+            var sw = new Stopwatch();
+            while (!_cancelFlag)
+            {
+                //Check unprocessedTicks, if they fill a Frame suppress render and update
+                if (_unprocessedTicks > TargetUpdateTime)
                 {
-                    lock (subsriber)
+                    var lostFrames = (int) (_unprocessedTicks/TargetUpdateTime);
+                    for (int i = 1; i <= lostFrames; i++)
                     {
-                        subsriber.OnRendering(SGL.CurrentRenderer, _lastRenderTime);
+                        //Process a tick in every subscriber
+                        for (int index = 0; index < _updateables.Count; index++)
+                        {
+                            IUpdateable updateable = _updateables[index];
+                            lock (updateable)
+                            {
+                                updateable.Tick(_updateGameTime);
+                            }
+                        }
+                    }
+                    //Reset the unprocessedTicks
+                    _unprocessedTicks = 0;
+                }
+
+                sw.Start();
+                //Process a tick in every subscriber
+                for (int index = 0; index < _updateables.Count; index++)
+                {
+                    IUpdateable updateable = _updateables[index];
+                    lock (updateable)
+                    {
+                        updateable.Tick(_updateGameTime);
                     }
                 }
-            }
 
-            var waitFlag = false;
-
-            while (_swRender.ElapsedMilliseconds < TargetFrameTime)
-            {
-                waitFlag = true;
-            }
-
-            _swRender.Stop();
-            _lastRenderTime = waitFlag ? TargetFrameTime : _swUpdate.ElapsedMilliseconds;
-            _swRender.Reset();
-        }
-        /// <summary>
-        /// The UpdateLoop.
-        /// </summary>
-        private void Update()
-        {
-            _swUpdate.Start();
-
-            for (var i = 0; i <= _subscribers.Count - 1; i++)
-            {
-                var subsriber = _subscribers[i];
-                lock (subsriber)
+                sw.Stop();
+                _updateTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                //Check if the update was shorter than the TargetUpdateTime
+                if (_updateTime < TargetUpdateTime)
                 {
-                    subsriber.Tick(_lastUpdateTime);
+                    //Wait to sync
+                    _updateTask.Wait((int) (TargetUpdateTime - _updateTime));
+                    _updateTime = TargetUpdateTime;
+                    _updateGameTime.IsRunningSlowly = false;
                 }
+                else
+                {
+                    //The UpdateTask takes to long
+                    _unprocessedTicks += (_updateTime - TargetUpdateTime);
+                    _updateGameTime.IsRunningSlowly = true;
+                }
+
+                _updateGameTime.ElapsedGameTime = _updateTime;
             }
-
-            var waitFlag = false;
-
-            while (_swUpdate.ElapsedMilliseconds < TargetUpdateTime)
-            {
-                waitFlag = true;
-            }
-
-            _swUpdate.Stop();
-            _lastUpdateTime = waitFlag ? TargetUpdateTime : _swUpdate.ElapsedMilliseconds;
-            _swUpdate.Reset();
         }
+
         /// <summary>
-        /// Waits for the loops to complete.
+        ///     Handles the rendering loop.
         /// </summary>
-        private void WaitTasks()
+        private void InternalRenderingLoop()
         {
-            while (_renewTasks)
+            var sw = new Stopwatch();
+            while (!_cancelFlag)
             {
-                Task.WaitAll(_taskpool.ToArray());
+                sw.Start();
 
-                _taskpool.Clear();
+                //Process a render in every subscriber
+                for (int index = 0; index < _drawables.Count; index++)
+                {
+                    IDrawable drawable = _drawables[index];
+                    drawable.Render(SGL.CurrentRenderer, _renderGameTime);
+                }
 
-                var renderTask = new Task(Rendering);
-                var updateTask = new Task(Update);
-                _taskpool.Add(renderTask);
-                _taskpool.Add(updateTask);
-                updateTask.Start();
-                renderTask.Start();
+                sw.Stop();
+                _renderTime = sw.ElapsedMilliseconds;
+                sw.Reset();
+                //only limit render thread if rendermode is limited
+                if (RenderMode == RenderMode.Limited)
+                {
+                    //Check if the render was shorter than TargetFrameTime
+                    if (_renderTime < TargetFrameTime)
+                    {
+                        //Wait to sync
+                        _renderTask.Wait((int) (TargetFrameTime - _renderTime));
+                        _renderTime = TargetFrameTime;
+                        _renderGameTime.IsRunningSlowly = false;
+                    }
+                    else
+                    {
+                        //If the RenderTask takes to long, there is no solution, we can't make the system better as it is
+                        _renderGameTime.IsRunningSlowly = true;
+                    }
+                }
+
+                _renderGameTime.ElapsedGameTime = _renderTime;
             }
         }
+
+        #endregion
     }
 }
