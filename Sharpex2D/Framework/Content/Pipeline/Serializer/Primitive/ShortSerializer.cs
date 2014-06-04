@@ -1,12 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Framework.Content.Serialization
+namespace Sharpex2D.Framework.Content.Pipeline.Serializer.Primitive
 {
-    public class ShortSerializer : ContentSerializer<Int16>
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [ComVisible(false)]
+    public class ShortSerializer : PrimitiveSerializer<Int16>
     {
         /// <summary>
-        /// Reads a value from the given Reader.
+        ///     Reads a value from the given Reader.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns></returns>
@@ -14,8 +19,9 @@ namespace Sharpex2D.Framework.Content.Serialization
         {
             return reader.ReadInt16();
         }
+
         /// <summary>
-        /// Writes a specified value.
+        ///     Writes a specified value.
         /// </summary>
         /// <param name="writer">The BinaryWriter.</param>
         /// <param name="value">The Value.</param>
