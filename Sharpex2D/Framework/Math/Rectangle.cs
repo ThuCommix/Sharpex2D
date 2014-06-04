@@ -2,11 +2,15 @@
 
 namespace Sharpex2D.Framework.Math
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public struct Rectangle
     {
         #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> struct.
+        ///     Initializes a new instance of the <see cref="Rectangle" /> struct.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -19,8 +23,9 @@ namespace Sharpex2D.Framework.Math
             _width = width;
             _height = height;
         }
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Rectangle"/> struct.
+        ///     Initializes a new instance of the <see cref="Rectangle" /> struct.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -31,109 +36,128 @@ namespace Sharpex2D.Framework.Math
             _width = b.X;
             _height = b.Y;
         }
+
         #endregion
 
         #region Fields
+
+        private float _height;
+        private float _width;
         private float _x;
         private float _y;
-        private float _width;
-        private float _height;
+
         #endregion
 
         #region Coordinates and Size
+
         /// <summary>
-        /// Gets or sets the X-coordinate.
+        ///     Gets or sets the X-coordinate.
         /// </summary>
         public float X
         {
             get { return _x; }
             set { _x = value; }
         }
+
         /// <summary>
-        /// Gets or sets the Y-coordinate.
+        ///     Gets or sets the Y-coordinate.
         /// </summary>
         public float Y
         {
             get { return _y; }
             set { _y = value; }
         }
+
         /// <summary>
-        /// Gets or sets the width.
+        ///     Gets or sets the width.
         /// </summary>
         public float Width
         {
             get { return _width; }
             set { _width = value; }
         }
+
         /// <summary>
-        /// Gets or sets the height.
+        ///     Gets or sets the height.
         /// </summary>
         public float Height
         {
             get { return _height; }
             set { _height = value; }
         }
+
         #endregion
 
         #region Properties
+
         /// <summary>
-        /// Gets the left.
+        ///     Gets the left.
         /// </summary>
         public float Left
         {
             get { return X; }
         }
+
         /// <summary>
-        /// Gets the right.
+        ///     Gets the right.
         /// </summary>
         public float Right
         {
             get { return X + Width; }
         }
+
         /// <summary>
-        /// Gets the top.
+        ///     Gets the top.
         /// </summary>
         public float Top
         {
             get { return Y; }
         }
+
         /// <summary>
-        /// Gets the bottom.
+        ///     Gets the bottom.
         /// </summary>
         public float Bottom
         {
             get { return Y + Height; }
         }
+
         /// <summary>
-        /// Gets the location.
+        ///     Gets the location.
         /// </summary>
         public Vector2 Location
         {
             get { return new Vector2(X, Y); }
         }
+
         /// <summary>
-        /// Gets the center.
+        ///     Gets the center.
         /// </summary>
         public Vector2 Center
         {
-            get { return new Vector2(X + Width * 0.5f, Y + Height * 0.5f); }
+            get { return new Vector2(X + Width*0.5f, Y + Height*0.5f); }
         }
+
         #endregion
 
         #region Empty Rectangle
-        private static readonly Rectangle _empty = new Rectangle(0, 0, 0, 0);
+
+        private static readonly Rectangle EmptyRectangle = new Rectangle(0, 0, 0, 0);
+
         /// <summary>
-        /// Gets an empty rectangle instance.
+        ///     Gets an empty rectangle instance.
         /// </summary>
         public static Rectangle Empty
         {
-            get { return _empty; }
+            get { return EmptyRectangle; }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
-        /// Determines whether this instance contains the specified rectangle.
+        ///     Determines whether this instance contains the specified rectangle.
         /// </summary>
         /// <param name="value">The value.</param>
         public bool Contains(Rectangle value)
@@ -144,8 +168,9 @@ namespace Sharpex2D.Framework.Math
                 value.X + value.Width <= Right &&
                 value.Y + value.Height <= Bottom;
         }
+
         /// <summary>
-        /// Determines whether this instance contains the specified vector.
+        ///     Determines whether this instance contains the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         public bool Contains(Vector2 vector)
@@ -155,20 +180,22 @@ namespace Sharpex2D.Framework.Math
                    vector.Y > Y &&
                    vector.Y < Bottom;
         }
+
         /// <summary>
-        /// Intersectses the specified rectangle.
+        ///     Intersectses the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         public bool Intersects(Rectangle rectangle)
         {
             return
                 !(Left > rectangle.Right ||
-                Right < rectangle.Left ||
-                Top > rectangle.Bottom ||
-                Bottom < rectangle.Top);
+                  Right < rectangle.Left ||
+                  Top > rectangle.Bottom ||
+                  Bottom < rectangle.Top);
         }
+
         /// <summary>
-        /// Intersects the specified rectangle.
+        ///     Intersects the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         public Rectangle Intersect(Rectangle rectangle)
@@ -178,8 +205,8 @@ namespace Sharpex2D.Framework.Math
                 return Empty;
             }
 
-            float[] horizontal = { Left, Right, rectangle.Left, rectangle.Right };
-            float[] vertical = { Bottom, Top, rectangle.Bottom, rectangle.Top };
+            float[] horizontal = {Left, Right, rectangle.Left, rectangle.Right};
+            float[] vertical = {Bottom, Top, rectangle.Bottom, rectangle.Top};
 
             Array.Sort(horizontal);
             Array.Sort(vertical);
@@ -191,19 +218,22 @@ namespace Sharpex2D.Framework.Math
 
             return new Rectangle(left, top, right - left, bottom - top);
         }
+
         /// <summary>
-        /// Converts the Rectangle to a string.
+        ///     Converts the Rectangle to a string.
         /// </summary>
         /// <returns>String</returns>
         public override string ToString()
         {
             return X + ";" + Y + ";" + Width + ";" + Height;
         }
+
         #endregion
 
         #region Operators
+
         /// <summary>
-        /// Implements the operator +.
+        ///     Implements the operator +.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -214,8 +244,9 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         /// <summary>
-        /// Implements the operator -.
+        ///     Implements the operator -.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -226,8 +257,9 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         /// <summary>
-        /// Implements the operator *.
+        ///     Implements the operator *.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -240,8 +272,9 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         /// <summary>
-        /// Implements the operator *.
+        ///     Implements the operator *.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="scale">The scale.</param>
@@ -254,8 +287,9 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         /// <summary>
-        /// Implements the operator /.
+        ///     Implements the operator /.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -268,8 +302,9 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         /// <summary>
-        /// Implements the operator /.
+        ///     Implements the operator /.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="scale">The scale.</param>
@@ -282,6 +317,7 @@ namespace Sharpex2D.Framework.Math
 
             return rectangle;
         }
+
         #endregion
     }
 }
