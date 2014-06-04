@@ -4,22 +4,22 @@ using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Debug
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class ExceptionHandler : IComponent
     {
         #region IComponent Implementation
-        /// <summary>
-        /// Gets the guid.
-        /// </summary>
-        public Guid Guid { get { return new Guid("4FE0400B-0520-4B43-ADAD-B588B13C38D8"); } }
-        #endregion
 
         /// <summary>
-        /// Initializes a new ExceptionHandler class.
+        ///     Gets the guid.
         /// </summary>
-        public ExceptionHandler()
+        public Guid Guid
         {
-            
+            get { return new Guid("4FE0400B-0520-4B43-ADAD-B588B13C38D8"); }
         }
+
+        #endregion
 
         private bool _enabled;
 
@@ -30,7 +30,6 @@ namespace Sharpex2D.Framework.Debug
             {
                 if ((value && _enabled) || (!value && !_enabled))
                 {
-
                 }
                 else
                 {
@@ -49,7 +48,7 @@ namespace Sharpex2D.Framework.Debug
         }
 
         /// <summary>
-        /// Logs the unhandled exceptions.
+        ///     Logs the unhandled exceptions.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>

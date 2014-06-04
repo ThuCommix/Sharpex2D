@@ -2,10 +2,13 @@
 
 namespace Sharpex2D.Framework.Debug.Logging
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class LogEntry
     {
         /// <summary>
-        /// Initializes a new LogEntry class.
+        ///     Initializes a new LogEntry class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="level">The Level.</param>
@@ -16,17 +19,20 @@ namespace Sharpex2D.Framework.Debug.Logging
             Level = level;
             Time = time;
         }
+
         /// <summary>
-        /// Gets the Message.
+        ///     Gets the Message.
         /// </summary>
         public string Message { get; private set; }
+
         /// <summary>
-        /// Gets the LogLevel.
+        ///     Gets the LogLevel.
         /// </summary>
         public LogLevel Level { get; private set; }
+
         /// <summary>
-        /// Gets or sets the Time.
+        ///     Gets or sets the Time.
         /// </summary>
         public DateTime Time { set; get; }
     }
-} 
+}

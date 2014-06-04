@@ -5,38 +5,59 @@ using Sharpex2D.Framework.Components;
 
 namespace Sharpex2D.Framework.Debug
 {
-    public class ProcessStatus : IComponent
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class ProcessStatus : IComponent, IDisposable
     {
         #region IComponent Implementation
+
         /// <summary>
-        /// Gets the guid.
+        ///     Gets the guid.
         /// </summary>
-        public Guid Guid {
-            get
-            {
-                return new Guid("493FA7A2-5B9A-485A-A7C1-3E8F6C2B55C8"); 
-        } }
+        public Guid Guid
+        {
+            get { return new Guid("493FA7A2-5B9A-485A-A7C1-3E8F6C2B55C8"); }
+        }
+
         #endregion
 
-        private Process _cproc;
-        private bool _cancel;
+        #region IDisposable Implementation
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _perf.Dispose();
+                }
+            }
+        }
+
+        #endregion
+
+        private readonly Process _cproc;
         private readonly PerformanceCounter _perf;
+        private bool _cancel;
+        private bool _isDisposed;
 
         /// <summary>
-        /// Gets the memory usage in bytes.
-        /// </summary>
-        public long MemoryUsage { get; private set; }
-        /// <summary>
-        /// Gets the amount of threads.
-        /// </summary>
-        public int TotalThreads { get; private set; }
-        /// <summary>
-        /// Gets the cpu usage.
-        /// </summary>
-        public int CpuUsage { get; private set; }
-
-        /// <summary>
-        /// Initializes a new ProcessStatus class.
+        ///     Initializes a new ProcessStatus class.
         /// </summary>
         public ProcessStatus()
         {
@@ -45,8 +66,24 @@ namespace Sharpex2D.Framework.Debug
             _perf = new PerformanceCounter("Process", "% Processor Time", _cproc.ProcessName);
             new Thread(RefreshValues) {IsBackground = true, Priority = ThreadPriority.Lowest}.Start();
         }
+
         /// <summary>
-        /// Refreshes all values.
+        ///     Gets the memory usage in bytes.
+        /// </summary>
+        public long MemoryUsage { get; private set; }
+
+        /// <summary>
+        ///     Gets the amount of threads.
+        /// </summary>
+        public int TotalThreads { get; private set; }
+
+        /// <summary>
+        ///     Gets the cpu usage.
+        /// </summary>
+        public int CpuUsage { get; private set; }
+
+        /// <summary>
+        ///     Refreshes all values.
         /// </summary>
         private void RefreshValues()
         {
@@ -61,16 +98,19 @@ namespace Sharpex2D.Framework.Debug
                 _perf.NextValue();
                 Thread.Sleep(1000);
 
-                CpuUsage = (int)System.Math.Round(_perf.NextValue() / Environment.ProcessorCount, 0);
+                CpuUsage = (int) System.Math.Round(_perf.NextValue()/Environment.ProcessorCount, 0);
 
                 Thread.Sleep(5000);
             }
         }
+
         /// <summary>
-        /// Cancels the service.
+        ///     Cancels the service.
         /// </summary>
-        /// <remarks>If cancel is called, there is no possibility to restart this service.
-        /// You need to initialize a new instance of ProcessStatus.</remarks>
+        /// <remarks>
+        ///     If cancel is called, there is no possibility to restart this service.
+        ///     You need to initialize a new instance of ProcessStatus.
+        /// </remarks>
         public void Cancel()
         {
             _cancel = true;
