@@ -1,38 +1,42 @@
 ﻿using System;
-using Sharpex2D.Framework.Content;
+using System.IO;
 using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Plugin
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class PluginCatalog<T>
     {
         /// <summary>
-        /// Sets or gets the WorkingDirectory.
-        /// </summary>
-        public string WorkingDirectory { set; get; }
-
-        /// <summary>
-        /// Initializes a new PluginCatalog class.
+        ///     Initializes a new PluginCatalog class.
         /// </summary>
         public PluginCatalog() : this(Environment.CurrentDirectory)
         {
-            
         }
+
         /// <summary>
-        /// Initializes a new PluginCatalog class.
+        ///     Initializes a new PluginCatalog class.
         /// </summary>
         /// <param name="workingDirectory">The WorkingDirectory.</param>
         public PluginCatalog(string workingDirectory)
         {
             WorkingDirectory = workingDirectory;
         }
+
         /// <summary>
-        /// Compose the plugins.
+        ///     Sets or gets the WorkingDirectory.
+        /// </summary>
+        public string WorkingDirectory { set; get; }
+
+        /// <summary>
+        ///     Compose the plugins.
         /// </summary>
         /// <returns>PluginContainer with type T.</returns>
         public PluginContainer<T> Compose()
         {
-            var resultfiles = SGL.Components.Get<ContentManager>().FileSystem.GetFiles(WorkingDirectory);
+            var resultfiles = Directory.GetFiles(WorkingDirectory, "*.dll");
 
             var pluginContainer = new PluginContainer<T>
             {
@@ -40,11 +44,11 @@ namespace Sharpex2D.Framework.Plugin
                 Description = "PluginContainer with type " + typeof (T).Name + " composed by PluginCatalog."
             };
 
-            foreach (var file in resultfiles)
+            foreach (string file in resultfiles)
             {
                 try
                 {
-                    pluginContainer.Add(PluginLoader.Load<T>(file));
+                    pluginContainer.Add(PluginActivator.CreateInstance<T>(file));
                 }
                 catch (PluginException ex)
                 {
