@@ -4,12 +4,15 @@ using System.Linq;
 
 namespace Sharpex2D.Framework.Components
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class ComponentManager : IConstructable
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -20,18 +23,33 @@ namespace Sharpex2D.Framework.Components
 
         private readonly List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;
+
         /// <summary>
-        /// Access to the Components enumeration.
+        ///     Access to the Components enumeration.
         /// </summary>
         private List<IComponent> Components
         {
-            get
-            {
-                return _internalComponents;
-            }
+            get { return _internalComponents; }
         }
+
         /// <summary>
-        /// Adds a new Component to the enumeration.
+        ///     Initializes all Components.
+        /// </summary>
+        public void Construct()
+        {
+            for (int i = 0; i <= _internalComponents.Count - 1; i++)
+            {
+                var com = _internalComponents[i] as IConstructable;
+                if (com != null)
+                {
+                    com.Construct();
+                }
+            }
+            _alreadyCalledConstruct = true;
+        }
+
+        /// <summary>
+        ///     Adds a new Component to the enumeration.
         /// </summary>
         /// <param name="component">The Component.</param>
         public void AddComponent(IComponent component)
@@ -47,49 +65,55 @@ namespace Sharpex2D.Framework.Components
                 }
             }
         }
+
         /// <summary>
-        /// Removes a Component from the enumeration.
+        ///     Removes a Component from the enumeration.
         /// </summary>
         /// <param name="component">The Component.</param>
         public void RemoveComponent(IComponent component)
         {
             Components.Remove(component);
         }
+
         /// <summary>
-        /// Returns a specific component if exists. 
+        ///     Returns a specific component if exists.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Component</returns>
         public T Get<T>()
         {
-            foreach (var component in _internalComponents)
+            foreach (IComponent component in _internalComponents)
             {
-                if (component.GetType() == typeof(T))
+                if (component == null) continue;
+                if (component.GetType() == typeof (T))
                 {
-                    return (T)component;
+                    return (T) component;
                 }
             }
 
             //if not found query interfaces 
-            foreach (var component in _internalComponents)
+            foreach (IComponent component in _internalComponents)
             {
+                if (component == null) continue;
                 if (QueryInterface(component.GetType(), typeof (T)))
                 {
                     return (T) component;
                 }
             }
 
-            throw new InvalidOperationException("Component not found (" + typeof(T).FullName + ").");
+            throw new InvalidOperationException("Component not found (" + typeof (T).FullName + ").");
         }
+
         /// <summary>
-        /// Gets the Component by Guid.
+        ///     Gets the Component by Guid.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>IComponent</returns>
         public IComponent GetByGuid(Guid guid)
         {
-            foreach (var component in _internalComponents)
+            foreach (IComponent component in _internalComponents)
             {
+                if (component == null) continue;
                 if (component.Guid == guid)
                 {
                     return component;
@@ -98,23 +122,9 @@ namespace Sharpex2D.Framework.Components
 
             throw new InvalidOperationException("Component with guid " + guid + " not found.");
         }
+
         /// <summary>
-        /// Initializes all Components.
-        /// </summary>
-        public void Construct()
-        {
-            for (var i = 0; i<= _internalComponents.Count -1; i++)
-            {
-                var com = _internalComponents[i] as IConstructable;
-                if (com != null)
-                {
-                    com.Construct();
-                }
-            }
-            _alreadyCalledConstruct = true;
-        }
-        /// <summary>
-        /// Queries a type.
+        ///     Queries a type.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <param name="target">The TargetType.</param>
