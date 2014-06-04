@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Entities
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class EntityEnvironment
     {
+        private readonly Dictionary<int, Entity> _entities;
+
         /// <summary>
-        /// Initializes a new EntityManager class.
+        ///     Initializes a new EntityManager class.
         /// </summary>
         public EntityEnvironment()
         {
             _entities = new Dictionary<int, Entity>();
         }
 
-        private readonly Dictionary<int, Entity> _entities;
-
         /// <summary>
-        /// Adds a new Entity to the Container.
+        ///     Adds a new Entity to the Container.
         /// </summary>
         /// <param name="entity">The Entity.</param>
         public void Add(Entity entity)
@@ -33,7 +37,7 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Removes a Entity from the Container.
+        ///     Removes a Entity from the Container.
         /// </summary>
         /// <param name="entity">The Entity.</param>
         public void Remove(Entity entity)
@@ -45,7 +49,7 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Gets all Entities.
+        ///     Gets all Entities.
         /// </summary>
         /// <returns>Entity Array</returns>
         public Entity[] GetEntities()
@@ -56,13 +60,13 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Gets a special Entity.
+        ///     Gets a special Entity.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Entity</returns>
         public T Get<T>() where T : Entity
         {
-            for (var i = 0; i <= _entities.Count - 1; i++)
+            for (int i = 0; i <= _entities.Count - 1; i++)
             {
                 if (_entities[i].GetType() == typeof (T))
                 {
@@ -74,13 +78,13 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Gets a special Entity.
+        ///     Gets a special Entity.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>Entity.</returns>
         public Entity GetEntityById(int id)
         {
-            for (var i = 0; i <= _entities.Count - 1; i++)
+            for (int i = 0; i <= _entities.Count - 1; i++)
             {
                 if (_entities[i].Id == id)
                 {
@@ -92,7 +96,7 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Clears all Entities.
+        ///     Clears all Entities.
         /// </summary>
         public void Clear()
         {
@@ -100,12 +104,12 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        /// Processes a Tick.
+        ///     Processes a Tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
-            foreach (var entity in GetEntities())
+            foreach (Entity entity in GetEntities())
             {
                 if (entity.IsDestroyed)
                 {
@@ -116,23 +120,23 @@ namespace Sharpex2D.Framework.Entities
                 }
                 else
                 {
-                    entity.Tick(elapsed);
+                    entity.Tick(gameTime);
                 }
             }
         }
 
         /// <summary>
-        /// Processes a Render.
+        ///     Processes a Render.
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Render(IRenderer renderer, GameTime gameTime)
         {
-            foreach (var entity in GetEntities())
+            foreach (Entity entity in GetEntities())
             {
                 if (!entity.IsDestroyed)
                 {
-                    entity.Render(renderer, elapsed);
+                    entity.Render(renderer, gameTime);
                 }
             }
         }
