@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Sharpex2D.Framework.Content.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Sharpex2D.Framework.Game.Services.Settings
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     [Serializable]
-    public class GameSettings
+    public class GameSettings : IGameService
     {
+        internal readonly Dictionary<string, object> Settings;
+
         /// <summary>
-        /// Initializes a new GameSettings class.
+        ///     Initializes a new GameSettings class.
         /// </summary>
         public GameSettings()
         {
             Settings = new Dictionary<string, object>();
         }
 
-        internal readonly Dictionary<string, object> Settings;
-
         /// <summary>
-        /// Adds a new Setting to the GameSettings class.
+        ///     Adds a new Setting to the GameSettings class.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="value">The Value.</param>
@@ -35,7 +38,7 @@ namespace Sharpex2D.Framework.Game.Services.Settings
         }
 
         /// <summary>
-        /// Returns a SettingValue.
+        ///     Returns a SettingValue.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <returns>Object</returns>
@@ -50,7 +53,23 @@ namespace Sharpex2D.Framework.Game.Services.Settings
         }
 
         /// <summary>
-        /// Sets a new value of a setting.
+        ///     Returns a SettingValue.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <param name="name">The Name.</param>
+        /// <returns>T.</returns>
+        public T GetSetting<T>(string name)
+        {
+            if (Settings.ContainsKey(name))
+            {
+                return (T) Settings[name];
+            }
+
+            throw new ArgumentException("The setting does not exist.");
+        }
+
+        /// <summary>
+        ///     Sets a new value of a setting.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="value">The Value.</param>
@@ -66,24 +85,28 @@ namespace Sharpex2D.Framework.Game.Services.Settings
         }
 
         /// <summary>
-        /// Loads the GameSettings from a specific path.
+        ///     Loads the GameSettings from a specific path.
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>GameSettings</returns>
         public static GameSettings LoadFrom(string path)
         {
-            var deserializer = SGL.Implementations.Get<GameSettingsSerializer>();
-            return deserializer.Read(new BinaryReader(new FileStream(path, FileMode.Open, FileAccess.Read)));
+            using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                return (GameSettings) new BinaryFormatter().Deserialize(fileStream);
+            }
         }
 
         /// <summary>
-        /// Saves the setting to a specific path.
+        ///     Saves the setting to a specific path.
         /// </summary>
         /// <param name="path">The Path.</param>
         public void Save(string path)
         {
-            var deserializer = SGL.Implementations.Get<GameSettingsSerializer>();
-            deserializer.Write(new BinaryWriter(new FileStream(path, FileMode.Create, FileAccess.ReadWrite)), this);
+            using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                new BinaryFormatter().Serialize(fileStream, this);
+            }
         }
     }
 }
