@@ -5,21 +5,26 @@ using System.Threading;
 
 namespace Sharpex2D.Framework.Network.Protocols.Udp
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     internal class UdpConnectionManager
     {
+        public delegate void PingTimedOutEventHandler(object sender, IPAddress ipAddress);
+
+        private readonly List<UdpPingRequest> _pingRequests;
+        private bool _isRunning;
+
         /// <summary>
-        /// Initializes a new UdpConnectionManager class.
+        ///     Initializes a new UdpConnectionManager class.
         /// </summary>
         public UdpConnectionManager()
         {
             _pingRequests = new List<UdpPingRequest>();
         }
 
-        private readonly List<UdpPingRequest> _pingRequests;
-        private bool _isRunning;
-
         /// <summary>
-        /// Adds a PingRequest to check.
+        ///     Adds a PingRequest to check.
         /// </summary>
         /// <param name="pingRequest"></param>
         public void AddPingRequest(UdpPingRequest pingRequest)
@@ -28,12 +33,12 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Removes a PingRequest by ip.
+        ///     Removes a PingRequest by ip.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
         public void RemoveByIP(IPAddress ipAddress)
         {
-            for (var i = 0; i <= _pingRequests.Count - 1; i++)
+            for (int i = 0; i <= _pingRequests.Count - 1; i++)
             {
                 if (Equals(_pingRequests[i].IP, ipAddress))
                 {
@@ -44,7 +49,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Starts checking.
+        ///     Starts checking.
         /// </summary>
         public void Start()
         {
@@ -54,7 +59,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Stops checking.
+        ///     Stops checking.
         /// </summary>
         public void Stop()
         {
@@ -71,8 +76,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
 
             while (_isRunning)
             {
-
-                for (var i = 0; i <= _pingRequests.Count - 1; i++)
+                for (int i = 0; i <= _pingRequests.Count - 1; i++)
                 {
                     if (DateTime.Now - _pingRequests[i].Timestamp > timeSpan)
                     {
@@ -87,7 +91,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
 
                 //remove timed out entries
 
-                foreach (var item in removeList)
+                foreach (UdpPingRequest item in removeList)
                 {
                     _pingRequests.Remove(item);
                 }
@@ -98,10 +102,8 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
             }
         }
 
-        public delegate void PingTimedOutEventHandler(object sender, IPAddress ipAddress);
-
         /// <summary>
-        /// Called if a PingRequest timed out.
+        ///     Called if a PingRequest timed out.
         /// </summary>
         public event PingTimedOutEventHandler PingTimedOut;
     }
