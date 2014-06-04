@@ -1,9 +1,13 @@
-﻿using Sharpex2D.Framework.Content;
+﻿using Sharpex2D.Framework.Content.Pipeline;
 using Sharpex2D.Framework.Rendering.Font;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9.Font
 {
-    public class DirectXFont : IFont, IContent
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("DirectX9 Font")]
+    public class DirectXFont : IFont
     {
         #region IFont Implementation
         /// <summary>

@@ -1,10 +1,14 @@
 ﻿using System.Drawing;
 using System.IO;
-using Sharpex2D.Framework.Content.Factory;
+using Sharpex2D.Framework.Content.Pipeline;
 using SlimDX.Direct3D9;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("DirectX9 Texture")]
     public class DirectXTexture : ITexture
     {
         #region ITexture Implementation
@@ -20,10 +24,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
 
         #endregion
 
-        /// <summary>
-        /// Gets the Factory.
-        /// </summary>
-        public static DirectX9TextureFactory Factory { private set; get; }
 
         private readonly Texture _texture;
 
@@ -98,14 +98,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         internal Texture GetTexture()
         {
             return _texture;
-        }
-
-        /// <summary>
-        /// Static DirectTexture class.
-        /// </summary>
-        static DirectXTexture()
-        {
-            Factory = new DirectX9TextureFactory();
         }
     }
 }
