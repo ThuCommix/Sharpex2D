@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Sharpex2D.Framework.Common.Extensions;
 using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Content.Pipeline.Processor;
 using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Rendering.Font;
+using Matrix = System.Drawing.Drawing2D.Matrix;
 using Rectangle = Sharpex2D.Framework.Math.Rectangle;
 
 namespace Sharpex2D.Framework.Rendering.GDI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class GdiRenderer : IRenderer
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -27,43 +35,36 @@ namespace Sharpex2D.Framework.Rendering.GDI
         #region IRendererImplementation
 
         /// <summary>
-        /// Sets or gets the GDIQuality.
+        ///     Sets or gets the GDIQuality.
         /// </summary>
-        public GdiQuality Quality{
+        public GdiQuality Quality
+        {
             get { return _quality; }
             set { ChangedQuality(value); }
         }
-        /// <summary>
-        /// Determines, if the buffer is open for draw operations.
-        /// </summary>
-        private bool IsBegin
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// Current GraphicsDevice.
-        /// </summary>
-        public GraphicsDevice GraphicsDevice
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// A value indicating whether VSync is enabled.
-        /// </summary>
-        public bool VSync { set; get; }
-        /// <summary>
-        /// A value indicating whether the renderer is disposed.
-        /// </summary>
-        public bool IsDisposed
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
-        /// Opens the buffer for draw operations.
+        ///     Determines, if the buffer is open for draw operations.
+        /// </summary>
+        private bool IsBegin { get; set; }
+
+        /// <summary>
+        ///     Current GraphicsDevice.
+        /// </summary>
+        public GraphicsDevice GraphicsDevice { get; set; }
+
+        /// <summary>
+        ///     A value indicating whether VSync is enabled.
+        /// </summary>
+        public bool VSync { set; get; }
+
+        /// <summary>
+        ///     A value indicating whether the renderer is disposed.
+        /// </summary>
+        public bool IsDisposed { get; private set; }
+
+        /// <summary>
+        ///     Opens the buffer for draw operations.
         /// </summary>
         public void Begin()
         {
@@ -73,8 +74,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
             }
         }
+
         /// <summary>
-        /// Flushes the buffer.
+        ///     Flushes the buffer.
         /// </summary>
         public void Close()
         {
@@ -84,16 +86,18 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 Renderer();
             }
         }
+
         /// <summary>
-        /// Disposes the renderer.
+        ///     Disposes the renderer.
         /// </summary>
         public void Dispose()
         {
-            IsDisposed = true;
-            GraphicsDevice = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
         /// <summary>
-        /// Draws a Rectangle.
+        ///     Draws a Rectangle.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -105,10 +109,12 @@ namespace Sharpex2D.Framework.Rendering.GDI
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawRectangle(gdiPen.GetPen(),
-                new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height));
         }
+
         /// <summary>
-        /// Draws a Line between two points.
+        ///     Draws a Line between two points.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
@@ -122,8 +128,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
 
             _buffergraphics.DrawLine(gdiPen.GetPen(), start.X, start.Y, target.X, target.Y);
         }
+
         /// <summary>
-        /// Draws a Ellipse.
+        ///     Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -138,8 +145,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height));
         }
+
         /// <summary>
-        /// Draws an Arc.
+        ///     Draws an Arc.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -156,8 +164,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height), startAngle, sweepAngle);
         }
+
         /// <summary>
-        /// Draws a Polygon.
+        ///     Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="points">The Points.</param>
@@ -170,8 +179,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
 
             _buffergraphics.DrawPolygon(gdiPen.GetPen(), points.ToPoints());
         }
+
         /// <summary>
-        /// Draws a corner-rounded Rectangle.
+        ///     Draws a corner-rounded Rectangle.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -186,13 +196,15 @@ namespace Sharpex2D.Framework.Rendering.GDI
             var gfxPath = new GraphicsPath();
             gfxPath.AddArc(rectangle.X, rectangle.Y, radius, radius, 180, 90);
             gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y, radius, radius, 270, 90);
-            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius, radius, 0, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius,
+                radius, 0, 90);
             gfxPath.AddArc(rectangle.X, rectangle.Y + rectangle.Height - radius, radius, radius, 90, 90);
             gfxPath.CloseAllFigures();
             _buffergraphics.DrawPath(gdiPen.GetPen(), gfxPath);
         }
+
         /// <summary>
-        /// Fills a Rectangle.
+        ///     Fills a Rectangle.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -204,8 +216,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height));
         }
+
         /// <summary>
-        /// Fills a Ellipse.
+        ///     Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -214,11 +227,12 @@ namespace Sharpex2D.Framework.Rendering.GDI
             CheckDisposed();
 
             _buffergraphics.FillEllipse(new SolidBrush(color.ToWin32Color()),
-                new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width,
-                    (int)rectangle.Height));
+                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                    (int) rectangle.Height));
         }
+
         /// <summary>
-        /// Fills a Polygon.
+        ///     Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="points">The Points.</param>
@@ -228,8 +242,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
 
             _buffergraphics.FillPolygon(new SolidBrush(color.ToWin32Color()), points.ToPoints());
         }
+
         /// <summary>
-        /// Draws a corner-rounded Rectangle.
+        ///     Draws a corner-rounded Rectangle.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="rectangle">The Rectangle.</param>
@@ -239,74 +254,91 @@ namespace Sharpex2D.Framework.Rendering.GDI
             var gfxPath = new GraphicsPath();
             gfxPath.AddArc(rectangle.X, rectangle.Y, radius, radius, 180, 90);
             gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y, radius, radius, 270, 90);
-            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius, radius, 0, 90);
+            gfxPath.AddArc(rectangle.X + rectangle.Width - radius, rectangle.Y + rectangle.Height - radius, radius,
+                radius, 0, 90);
             gfxPath.AddArc(rectangle.X, rectangle.Y + rectangle.Height - radius, radius, radius, 90, 90);
             gfxPath.CloseAllFigures();
             _buffergraphics.FillPath(new SolidBrush(color.ToWin32Color()), gfxPath);
         }
 
         /// <summary>
-        /// Draws a Texture.
+        ///     Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
             var gdiTexture = texture as GdiTexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
 
+            var matrix = new ColorMatrix {Matrix33 = opacity};
+            var attributes = new ImageAttributes();
+
+            attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
             if (color != Color.White)
             {
                 var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
                 var g = Graphics.FromImage(tempBmp);
-                g.DrawImage(gdiTexture.Bmp, 0, 0);
-                g.FillRectangle(new SolidBrush(color.ToWin32Color()),
-                                new System.Drawing.Rectangle(0, 0, gdiTexture.Width, gdiTexture.Height));
+                g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
                 g.Dispose();
-                _buffergraphics.DrawImage(tempBmp, new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
+                _buffergraphics.DrawImage(tempBmp,
+                    new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height), 0, 0,
+                    tempBmp.Width, tempBmp.Height, GraphicsUnit.Pixel, attributes);
                 tempBmp.Dispose();
             }
             else
             {
-                _buffergraphics.DrawImage(gdiTexture.Bmp, new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height));
+                _buffergraphics.DrawImage(gdiTexture.Bmp,
+                    new System.Drawing.Rectangle((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Width, (int)rectangle.Height), 0, 0,
+                    gdiTexture.Bmp.Width, gdiTexture.Bmp.Height, GraphicsUnit.Pixel, attributes);
             }
         }
 
         /// <summary>
-        /// Draws a Texture.
+        ///     Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
+        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Vector2 position, Color color)
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
             var gdiTexture = texture as GdiTexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
 
+            var matrix = new ColorMatrix { Matrix33 = opacity };
+            var attributes = new ImageAttributes();
+
+            attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
             if (color != Color.White)
             {
                 var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
                 var g = Graphics.FromImage(tempBmp);
-                g.DrawImage(gdiTexture.Bmp, 0, 0);
-                g.FillRectangle(new SolidBrush(color.ToWin32Color()),
-                                new System.Drawing.Rectangle(0, 0, gdiTexture.Width, gdiTexture.Height));
-                g.Dispose();
-                _buffergraphics.DrawImage(tempBmp, position.ToPoint());
+                g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
+
+                _buffergraphics.DrawImage(tempBmp,
+                    new System.Drawing.Rectangle((int)position.X, (int)position.Y, tempBmp.Width, tempBmp.Height), 0, 0,
+                    tempBmp.Width, tempBmp.Height, GraphicsUnit.Pixel, attributes);
                 tempBmp.Dispose();
             }
             else
             {
-                _buffergraphics.DrawImage(gdiTexture.Bmp, position.ToPoint());
+                _buffergraphics.DrawImage(gdiTexture.Bmp,
+                    new System.Drawing.Rectangle((int)position.X, (int)position.Y, gdiTexture.Bmp.Width, gdiTexture.Bmp.Height), 0, 0,
+                    gdiTexture.Bmp.Width, gdiTexture.Bmp.Height, GraphicsUnit.Pixel, attributes);
             }
         }
 
         /// <summary>
-        /// Draws a string.
+        ///     Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
@@ -324,8 +356,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
             _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
         }
+
         /// <summary>
-        /// Draws a string.
+        ///     Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
@@ -344,8 +377,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
             _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
                 position.ToPointF());
         }
+
         /// <summary>
-        /// Measures the string.
+        ///     Measures the string.
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
@@ -360,23 +394,25 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
             }
 
-            var result = _buffergraphics.MeasureString(text, gdifont.GetFont());
+            SizeF result = _buffergraphics.MeasureString(text, gdifont.GetFont());
 
             return new Vector2(result.Width, result.Height);
         }
+
         /// <summary>
-        /// Sets the Transform.
+        ///     Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
         public void SetTransform(Matrix2x3 matrix)
         {
             CheckDisposed();
 
-            _buffergraphics.Transform = new System.Drawing.Drawing2D.Matrix(matrix[0, 0], matrix[1, 0], matrix[0, 1],
+            _buffergraphics.Transform = new Matrix(matrix[0, 0], matrix[1, 0], matrix[0, 1],
                 matrix[1, 1], matrix.OffsetX, matrix.OffsetY);
         }
+
         /// <summary>
-        /// Resets the Transform.
+        ///     Resets the Transform.
         /// </summary>
         public void ResetTransform()
         {
@@ -386,7 +422,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
-        /// Constructs the Component.
+        ///     Constructs the Component.
         /// </summary>
         public void Construct()
         {
@@ -397,51 +433,75 @@ namespace Sharpex2D.Framework.Rendering.GDI
             _buffergraphics.InterpolationMode = _quality.Interpolation
                 ? InterpolationMode.High
                 : InterpolationMode.NearestNeighbor;
-            _buffergraphics.CompositingQuality = _quality.Compositing ? CompositingQuality.HighQuality : CompositingQuality.AssumeLinear;
+            _buffergraphics.CompositingQuality = _quality.Compositing
+                ? CompositingQuality.HighQuality
+                : CompositingQuality.AssumeLinear;
             _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
                 ? PixelOffsetMode.HighQuality
                 : PixelOffsetMode.HighSpeed;
             GraphicsDevice.ClearColor = Color.CornflowerBlue;
             _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
-            _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+            _buffergraphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
 
             _buffergraphics.PageUnit = GraphicsUnit.Pixel;
-            //add extensions:
-            SGL.Components.Get<ContentManager>().Extend(new GdiSpriteLoader());
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!IsDisposed)
+            {
+                IsDisposed = true;
+                if (disposing)
+                {
+                    _buffer.Dispose();
+                }
+            }
         }
 
         #endregion
 
         #region GDIRenderer
-        /// <summary>
-        /// Initializes a new GdiRenderer.
-        /// </summary>
-        public GdiRenderer()
-        {
-            _quality = new GdiQuality(GdiQualityMode.High);
-        }
 
         private Bitmap _buffer;
         private Graphics _buffergraphics;
         private GdiQuality _quality;
 
         /// <summary>
-        /// Starts the rendering pipe.
+        ///     Initializes a new GdiRenderer.
+        /// </summary>
+        public GdiRenderer()
+        {
+            _quality = new GdiQuality(GdiQualityMode.High);
+
+            var contentManager = SGL.Components.Get<ContentManager>();
+
+            contentManager.ContentProcessor.Add(new GdiTextureContentProcessor());
+            contentManager.ContentProcessor.Add(new GdiFontContentProcessor());
+            contentManager.ContentProcessor.Add(new GdiPenContentProcessor());
+        }
+
+        /// <summary>
+        ///     Starts the rendering pipe.
         /// </summary>
         private void Renderer()
         {
             Present();
         }
+
         /// <summary>
-        /// Releases the frame.
+        ///     Releases the frame.
         /// </summary>
         private void Present()
         {
-            var control = Control.FromHandle(GraphicsDevice.RenderTarget.Handle);
+            Control control = Control.FromHandle(GraphicsDevice.RenderTarget.Handle);
             if (control != null)
             {
-                var width = control.Width;
-                var height = control.Height;
+                int width = control.Width;
+                int height = control.Height;
                 if (!GraphicsDevice.DisplayMode.Scaling)
                 {
                     width = GraphicsDevice.DisplayMode.Width;
@@ -449,19 +509,20 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 }
                 var graphics = control.CreateGraphics();
                 var hdc = graphics.GetHdc();
-                var intPtr = GdiNative.CreateCompatibleDC(hdc);
+                var intPtr = NativeMethods.CreateCompatibleDC(hdc);
                 var hbitmap = _buffer.GetHbitmap();
-                GdiNative.SelectObject(intPtr, hbitmap);
-                GdiNative.StretchBlt(hdc, 0, 0, width, height, intPtr, 0, 0, GraphicsDevice.DisplayMode.Width, GraphicsDevice.DisplayMode.Height, GdiNative.GdiRasterOperations.SRCCOPY);
-                GdiNative.DeleteObject(hbitmap);
-                GdiNative.DeleteDC(intPtr);
+                NativeMethods.SelectObject(intPtr, hbitmap);
+                NativeMethods.StretchBlt(hdc, 0, 0, width, height, intPtr, 0, 0, GraphicsDevice.DisplayMode.Width,
+                    GraphicsDevice.DisplayMode.Height, NativeMethods.GdiRasterOperations.SRCCOPY);
+                NativeMethods.DeleteObject(hbitmap);
+                NativeMethods.DeleteDC(intPtr);
                 graphics.ReleaseHdc(hdc);
                 graphics.Dispose();
             }
         }
 
         /// <summary>
-        /// Changes the current Quality.
+        ///     Changes the current Quality.
         /// </summary>
         /// <param name="quality">The GDIQuality.</param>
         private void ChangedQuality(GdiQuality quality)
@@ -479,13 +540,13 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 _buffergraphics.PixelOffsetMode = _quality.HighQualityPixelOffset
                     ? PixelOffsetMode.HighQuality
                     : PixelOffsetMode.HighSpeed;
-                _buffergraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
+                _buffergraphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                 _buffergraphics.CompositingMode = CompositingMode.SourceOver;
             }
         }
 
         /// <summary>
-        /// Checks if the GDIRenderer is disposed.
+        ///     Checks if the GDIRenderer is disposed.
         /// </summary>
         private void CheckDisposed()
         {
@@ -494,6 +555,70 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 throw new ObjectDisposedException("GdiRenderer");
             }
         }
+        /// <summary>
+        /// Tints the Bitmap.
+        /// </summary>
+        /// <param name="sourceBitmap">The SourceBitmap.</param>
+        /// <param name="blueTint">The BlueTint.</param>
+        /// <param name="greenTint">The GreenTint.</param>
+        /// <param name="redTint">The RedTint.</param>
+        /// <returns>The Bitmap.</returns>
+        private Bitmap ColorTint(Bitmap sourceBitmap, float blueTint, float greenTint, float redTint)
+        {
+            var sourceData = sourceBitmap.LockBits(new System.Drawing.Rectangle(0, 0,
+                                    sourceBitmap.Width, sourceBitmap.Height),
+                                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+
+            var pixelBuffer = new byte[sourceData.Stride * sourceData.Height];
+
+
+            Marshal.Copy(sourceData.Scan0, pixelBuffer, 0, pixelBuffer.Length);
+
+            sourceBitmap.UnlockBits(sourceData);
+
+            for (var k = 0; k + 4 < pixelBuffer.Length; k += 4)
+            {
+                var blue = pixelBuffer[k] + (255 - pixelBuffer[k]) * blueTint;
+                var green = pixelBuffer[k + 1] + (255 - pixelBuffer[k + 1]) * greenTint;
+                var red = pixelBuffer[k + 2] + (255 - pixelBuffer[k + 2]) * redTint;
+
+
+                if (blue > 255)
+                { blue = 255; }
+
+
+                if (green > 255)
+                { green = 255; }
+
+
+                if (red > 255)
+                { red = 255; }
+
+
+                pixelBuffer[k] = (byte)blue;
+                pixelBuffer[k + 1] = (byte)green;
+                pixelBuffer[k + 2] = (byte)red;
+
+
+            }
+
+
+            var resultBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height);
+
+
+            var resultData = resultBitmap.LockBits(new System.Drawing.Rectangle(0, 0,
+                                    resultBitmap.Width, resultBitmap.Height),
+                                    ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+
+            Marshal.Copy(pixelBuffer, 0, resultData.Scan0, pixelBuffer.Length);
+            resultBitmap.UnlockBits(resultData);
+
+
+            return resultBitmap;
+        } 
+
         #endregion
     }
 }
