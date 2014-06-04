@@ -4,10 +4,13 @@ using System.Xml.Serialization;
 
 namespace Sharpex2D.Framework.Localization
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class LanguageSerializer
     {
         /// <summary>
-        /// Serializes the given Language.
+        ///     Serializes the given Language.
         /// </summary>
         /// <param name="path">The Filepath.</param>
         /// <param name="language">The Language.</param>
@@ -20,15 +23,15 @@ namespace Sharpex2D.Framework.Localization
         }
 
         /// <summary>
-        /// Deserializes a Language.
+        ///     Deserializes a Language.
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>Language</returns>
         public static Language Deserialize(string path)
         {
-            var serializer = new XmlSerializer(typeof(Language));
+            var serializer = new XmlSerializer(typeof (Language));
             var xmlReader = new StreamReader(path, Encoding.UTF8);
-            var language = (Language)serializer.Deserialize(xmlReader);
+            var language = (Language) serializer.Deserialize(xmlReader);
             xmlReader.Close();
             return language;
         }

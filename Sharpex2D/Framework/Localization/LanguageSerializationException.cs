@@ -1,45 +1,45 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Sharpex2D.Framework.Localization
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     [Serializable]
     public class LanguageSerializationException : Exception
     {
         /// <summary>
-        /// Creates a new LanguageSerializationException.
+        ///     Initializes a new LanguageSerializationException class.
         /// </summary>
         public LanguageSerializationException()
         {
-
         }
 
         /// <summary>
-        /// Creates a new LanguageSerializationException.
+        ///     Initializes a new LanguageSerializationException class.
         /// </summary>
         /// <param name="message">The Message.</param>
-        public LanguageSerializationException(string message)
+        public LanguageSerializationException(string message) : base(message)
         {
-            _message = message;
-        }
-
-        private string _message = "";
-
-        public override string Message
-        {
-            get
-            {
-                return _message;
-            }
         }
 
         /// <summary>
-        /// Initializes a new LanguageSerializationException class.
+        ///     Initializes a new LanguageSerializationException class.
         /// </summary>
-        /// <param name="info">The SerializationInfo.</param>
-        /// <param name="context">The SerializationContext.</param>
-        protected LanguageSerializationException(System.Runtime.Serialization.SerializationInfo info,
-            System.Runtime.Serialization.StreamingContext context)
-            : base(info, context)
+        /// <param name="message">The Message.</param>
+        /// <param name="inner">The InnerException.</param>
+        public LanguageSerializationException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new LanguageSerializationException class.
+        /// </summary>
+        /// <param name="serializationInfo">The SerializationInfo.</param>
+        /// <param name="context">The StreamContext.</param>
+        public LanguageSerializationException(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context)
         {
         }
     }

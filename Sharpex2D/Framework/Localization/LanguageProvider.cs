@@ -1,29 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Events;
 using Sharpex2D.Framework.Localization.Events;
 
 namespace Sharpex2D.Framework.Localization
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class LanguageProvider
     {
+        private readonly List<Language> _languages;
+        private Language _currentLanguage;
+
         public LanguageProvider()
         {
             _languages = new List<Language>();
         }
 
-        private readonly List<Language> _languages;
-        private Language _currentLanguage;
-
         /// <summary>
-        /// Changes the current language.
+        ///     Changes the current language.
         /// </summary>
         /// <param name="guid">The LanguageGuide.</param>
         public void ChangeLanguage(Guid guid)
         {
-            var lang = _languages.FirstOrDefault(language => language.Guid == guid);
+            Language lang = _languages.FirstOrDefault(language => language.Guid == guid);
             if (lang != null)
             {
                 _currentLanguage = lang;
@@ -36,7 +39,7 @@ namespace Sharpex2D.Framework.Localization
         }
 
         /// <summary>
-        /// Gets the LocalizedString from the current Language.
+        ///     Gets the LocalizedString from the current Language.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>String</returns>
@@ -46,18 +49,15 @@ namespace Sharpex2D.Framework.Localization
                 throw new InvalidOperationException(
                     "Unable to get localizedString due there is no language selected. Use ChangeLanguage() before.");
 
-            foreach (var localized in _currentLanguage.LocalizedValues)
+            foreach (var localized in _currentLanguage.LocalizedValues.Where(localized => localized.Id == id))
             {
-                if (localized.Id == id)
-                {
-                    return localized.LocalizedString;
-                }
+                return localized.LocalizedString;
             }
             throw new InvalidOperationException("LocalizedString Id not found in " + _currentLanguage.Guid);
         }
 
         /// <summary>
-        /// Loads a language based on the Path.
+        ///     Loads a language based on the Path.
         /// </summary>
         /// <param name="path">The Filepath.</param>
         public void LoadLanguage(string path)
@@ -73,19 +73,19 @@ namespace Sharpex2D.Framework.Localization
         }
 
         /// <summary>
-        /// Loads a languages in the given Directory.
+        ///     Loads a languages in the given Directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
         public void LoadLanguagesFromDirectory(string directoryPath)
         {
-            var files = SGL.Components.Get<ContentManager>().FileSystem.GetFiles(directoryPath);
+            var files = Directory.GetFiles(directoryPath);
             foreach (var file in files)
             {
                 try
                 {
                     _languages.Add(LanguageSerializer.Deserialize(file));
                 }
-                catch(Exception)
+                catch (Exception)
                 {
                     throw new LanguageSerializationException("Error while deserializing " + file);
                 }
