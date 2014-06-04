@@ -2,13 +2,16 @@
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
-using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Content.Factory;
+using Sharpex2D.Framework.Content.Pipeline;
 using Bitmap = System.Drawing.Bitmap;
 
 namespace Sharpex2D.Framework.Rendering.DirectX11
 {
-    public class DirectXTexture : ITexture, IContent
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("DirectX11 Texture")]
+    public class DirectXTexture : ITexture
     {
         #region ITexture Implementation
         /// <summary>
@@ -22,10 +25,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
 
         #endregion
 
-        /// <summary>
-        /// Gets the Factory.
-        /// </summary>
-        public static DirectX11TextureFactory Factory { private set; get; }
 
         private readonly SharpDX.Direct2D1.Bitmap _bmp;
 
@@ -80,13 +79,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         public SharpDX.Direct2D1.Bitmap GetBitmap()
         {
             return _bmp;
-        }
-        /// <summary>
-        /// Initializes a new DirectXTexture class.
-        /// </summary>
-        static DirectXTexture()
-        {
-            Factory = new DirectX11TextureFactory();
         }
     }
 }

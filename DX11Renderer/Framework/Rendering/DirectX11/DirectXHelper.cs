@@ -3,6 +3,9 @@ using SharpDX.Direct2D1;
 
 namespace Sharpex2D.Framework.Rendering.DirectX11
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     internal static class DirectXHelper
     {
         /// <summary>
