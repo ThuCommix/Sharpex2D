@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Content.Serialization;
+using Sharpex2D.Framework.Content.Pipeline.Processors;
 using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Rendering.DirectX9.Font;
 using Sharpex2D.Framework.Rendering.Font;
@@ -10,6 +10,9 @@ using Vector2 = Sharpex2D.Framework.Math.Vector2;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class DirectXRenderer : IRenderer
     {
         #region IComponent Implementation
@@ -350,7 +353,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Vector2 position, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
@@ -366,7 +370,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
@@ -439,8 +444,11 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         public DirectXRenderer()
         {
-            SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectX9TextureSerializer());
-            SGL.Components.Get<ContentManager>().Extend(new DirectX9TextureLoader());
+            var contentManager = SGL.Components.Get<ContentManager>();
+
+            contentManager.ContentProcessor.Add(new DirectXFontContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXPenContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXTextureContentProcessor());
         }
 
         /// <summary>
