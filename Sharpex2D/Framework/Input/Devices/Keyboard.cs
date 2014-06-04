@@ -3,46 +3,47 @@ using System.Collections.Concurrent;
 using System.Windows.Forms;
 using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Game.Timing;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Input.Devices
 {
-    public class Keyboard : IKeyboard, IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class Keyboard : IKeyboard
     {
         #region IDevice Implementation
 
         /// <summary>
-        /// A value indicating whether the device is enabled.
+        ///     A value indicating whether the device is enabled.
         /// </summary>
-        public bool IsEnabled
-        {
-            set;
-            get;
-        }
+        public bool IsEnabled { set; get; }
+
         /// <summary>
-        /// Gets the Guid-Identifer of the device.
+        ///     Gets the Guid-Identifer of the device.
         /// </summary>
         public Guid Guid { get; private set; }
+
         /// <summary>
-        /// Gets the device description.
+        ///     Gets the device description.
         /// </summary>
         public string Description { get; private set; }
+
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
-            
         }
 
         #endregion
 
         #region IGameHandler Implementation
+
         /// <summary>
-        /// Called if the component should get updated.
+        ///     Called if the component should get updated.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             if (IsEnabled)
             {
@@ -56,17 +57,7 @@ namespace Sharpex2D.Framework.Input.Devices
         }
 
         /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-
-        }
-
-        /// <summary>
-        /// Called if the component get initialized.
+        ///     Called if the component get initialized.
         /// </summary>
         public void Construct()
         {
@@ -78,7 +69,7 @@ namespace Sharpex2D.Framework.Input.Devices
         #region IKeyboard Implementation
 
         /// <summary>
-        /// Determines, if a specific key is pressed down.
+        ///     Determines, if a specific key is pressed down.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>Boolean</returns>
@@ -86,8 +77,9 @@ namespace Sharpex2D.Framework.Input.Devices
         {
             return _keystate.ContainsKey(key) && _keystate[key];
         }
+
         /// <summary>
-        /// Determines, if a specific key is pushed up.
+        ///     Determines, if a specific key is pushed up.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>Boolean</returns>
@@ -95,14 +87,16 @@ namespace Sharpex2D.Framework.Input.Devices
         {
             return !_keystate.ContainsKey(key) || !_keystate[key];
         }
+
         /// <summary>
-        /// Determines, if a specific key is pressed.
+        ///     Determines, if a specific key is pressed.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>Boolean</returns>
         public bool IsKeyPressed(Keys key)
         {
-            return (!_lastkeystate.ContainsKey(key) || !_lastkeystate[key]) && _keystate.ContainsKey(key) && _keystate[key];
+            return (!_lastkeystate.ContainsKey(key) || !_lastkeystate[key]) && _keystate.ContainsKey(key) &&
+                   _keystate[key];
         }
 
         #endregion
@@ -111,7 +105,7 @@ namespace Sharpex2D.Framework.Input.Devices
         private readonly ConcurrentDictionary<Keys, bool> _lastkeystate;
 
         /// <summary>
-        /// Initializes a new FluentKeyboard class.
+        ///     Initializes a new FluentKeyboard class.
         /// </summary>
         /// <param name="surfaceHandle">The SurfaceHandle.</param>
         public Keyboard(IntPtr surfaceHandle)
@@ -126,14 +120,14 @@ namespace Sharpex2D.Framework.Input.Devices
         }
 
         /// <summary>
-        /// The KeyUp Event.
+        ///     The KeyUp Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
-        void _surface_KeyUp(object sender, KeyEventArgs e)
+        private void _surface_KeyUp(object sender, KeyEventArgs e)
         {
             if (!IsEnabled) return;
-            SetKeyState((Keys)e.KeyCode, false);
+            SetKeyState((Keys) e.KeyCode, false);
 
             if (e.Modifiers == System.Windows.Forms.Keys.None)
             {
@@ -144,19 +138,19 @@ namespace Sharpex2D.Framework.Input.Devices
         }
 
         /// <summary>
-        /// The KeyDown Event.
+        ///     The KeyDown Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
-        void _surface_KeyDown(object sender, KeyEventArgs e)
+        private void _surface_KeyDown(object sender, KeyEventArgs e)
         {
             if (!IsEnabled) return;
-            SetKeyState((Keys)e.KeyCode, true);
+            SetKeyState((Keys) e.KeyCode, true);
             SetKeyState((Keys) e.Modifiers, true);
         }
 
         /// <summary>
-        /// Sets the internal KeyState.
+        ///     Sets the internal KeyState.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <param name="state">The State.</param>

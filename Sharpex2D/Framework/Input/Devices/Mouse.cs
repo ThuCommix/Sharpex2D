@@ -2,40 +2,35 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Sharpex2D.Framework.Events;
+using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Input.Events;
 using Sharpex2D.Framework.Math;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Input.Devices
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class Mouse : IMouse
     {
         #region IGameHandler Implementation
 
         /// <summary>
-        /// Constructs the Element.
+        ///     Constructs the Element.
         /// </summary>
         public void Construct()
         {
             SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
+
         /// <summary>
-        /// Processes a Game tick.
+        ///     Processes a Game tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             _mousestate.Clear();
-        }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-            
         }
 
         #endregion
@@ -43,23 +38,25 @@ namespace Sharpex2D.Framework.Input.Devices
         #region IDevice Implementation
 
         /// <summary>
-        /// A value indicating whether the device is enabled.
+        ///     A value indicating whether the device is enabled.
         /// </summary>
         public bool IsEnabled { get; set; }
+
         /// <summary>
-        /// Gets the Guid-Identifer of the device.
+        ///     Gets the Guid-Identifer of the device.
         /// </summary>
         public Guid Guid { get; private set; }
+
         /// <summary>
-        /// Gets the device description.
+        ///     Gets the device description.
         /// </summary>
         public string Description { get; private set; }
+
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
-
         }
 
         #endregion
@@ -67,15 +64,12 @@ namespace Sharpex2D.Framework.Input.Devices
         #region IMouse Implementation
 
         /// <summary>
-        /// Gets the current MousePosition.
+        ///     Gets the current MousePosition.
         /// </summary>
-        public Vector2 Position
-        {
-            get;
-            private set;
-        }
+        public Vector2 Position { get; private set; }
+
         /// <summary>
-        /// Determines, if a specific button is pressed.
+        ///     Determines, if a specific button is pressed.
         /// </summary>
         /// <param name="button">The Button.</param>
         /// <returns>Boolean</returns>
@@ -83,8 +77,9 @@ namespace Sharpex2D.Framework.Input.Devices
         {
             return _mousestate.ContainsKey(button) && _mousestate[button];
         }
+
         /// <summary>
-        /// Determines, if a specific button is released.
+        ///     Determines, if a specific button is released.
         /// </summary>
         /// <param name="button">The Button.</param>
         /// <returns>Boolean</returns>
@@ -96,9 +91,11 @@ namespace Sharpex2D.Framework.Input.Devices
         #endregion
 
         private readonly EventManager _eventManager;
-        
+
+        private readonly Dictionary<MouseButtons, bool> _mousestate;
+
         /// <summary>
-        /// Initializes a new Mouse class.
+        ///     Initializes a new Mouse class.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         public Mouse(IntPtr handle)
@@ -108,7 +105,7 @@ namespace Sharpex2D.Framework.Input.Devices
             IsEnabled = true;
 
             Position = new Vector2(0f, 0f);
-            var control = Control.FromHandle(handle);
+            Control control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();
             control.MouseMove += surface_MouseMove;
             control.MouseDown += surface_MouseDown;
@@ -117,15 +114,13 @@ namespace Sharpex2D.Framework.Input.Devices
             _eventManager = SGL.Components.Get<EventManager>();
         }
 
-        private readonly Dictionary<MouseButtons, bool> _mousestate;
-
         /// <summary>
-        /// Represents the surface handle.
+        ///     Represents the surface handle.
         /// </summary>
         public IntPtr Handle { private set; get; }
 
         /// <summary>
-        /// Sets the internal button state.
+        ///     Sets the internal button state.
         /// </summary>
         /// <param name="button">The Button.</param>
         /// <param name="state">The State.</param>
@@ -137,25 +132,27 @@ namespace Sharpex2D.Framework.Input.Devices
             }
             _mousestate[button] = state;
         }
+
         private void surface_MouseUp(object sender, MouseEventArgs e)
         {
             if (IsEnabled)
             {
-                SetButtonState((MouseButtons)e.Button, false);
+                SetButtonState((MouseButtons) e.Button, false);
             }
         }
+
         private void surface_MouseDown(object sender, MouseEventArgs e)
         {
             if (IsEnabled)
             {
-                SetButtonState((MouseButtons)e.Button, true);
+                SetButtonState((MouseButtons) e.Button, true);
             }
         }
+
         private void surface_MouseMove(object sender, MouseEventArgs e)
         {
-            Position = new Vector2(e.Location.X / SGL.GraphicsDevice.Scale.X, e.Location.Y / SGL.GraphicsDevice.Scale.Y);
+            Position = new Vector2(e.Location.X/SGL.GraphicsDevice.Scale.X, e.Location.Y/SGL.GraphicsDevice.Scale.Y);
             _eventManager.Publish(new MouseLocationChangedEvent(Position));
         }
-
     }
 }

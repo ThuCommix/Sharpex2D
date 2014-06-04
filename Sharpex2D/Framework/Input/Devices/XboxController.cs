@@ -6,29 +6,39 @@ using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Input.Events;
 using Sharpex2D.Framework.Input.XInput;
 using Sharpex2D.Framework.Math;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Input.Devices
 {
-    public class XboxController : IDevice, IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class XboxController : IDevice, IUpdateable
     {
-
         #region IDevice Implementation
+
         /// <summary>
-        /// A value indicating whether the device is enabled.
+        ///     A value indicating whether the device is enabled.
         /// </summary>
         public bool IsEnabled { get; set; }
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid { get { return new Guid("CB9F0F16-F1A0-4022-B50E-82BA1C2D4D5E"); } }
 
         /// <summary>
-        /// Gets the Description.
+        ///     Gets the Guid.
         /// </summary>
-        public string Description { get { return "XBOX360 Controller support via XInput"; } }
+        public Guid Guid
+        {
+            get { return new Guid("CB9F0F16-F1A0-4022-B50E-82BA1C2D4D5E"); }
+        }
+
         /// <summary>
-        /// Initializes the Device.
+        ///     Gets the Description.
+        /// </summary>
+        public string Description
+        {
+            get { return "XBOX360 Controller support via XInput"; }
+        }
+
+        /// <summary>
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -40,85 +50,64 @@ namespace Sharpex2D.Framework.Input.Devices
                 UpdateState();
             }
         }
+
         #endregion
 
-        #region IGameHandler Implementation
-        /// <summary>
-        /// Constructs the component.
-        /// </summary>
-        public void Construct()
-        {
+        #region IUpdateable Implementation
 
-        }
         /// <summary>
-        /// Processes a Tick.
+        ///     Processes a Tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             if (IsEnabled)
             {
                 UpdateState();
             }
         }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
 
+        /// <summary>
+        ///     Constructs the component.
+        /// </summary>
+        public void Construct()
+        {
         }
 
         #endregion
 
-        private readonly int _playerIndex;
-        private bool _isInitilized;
-        private bool _stopMotorTimerActive;
-        private EventManager _eventManager;
-        private DateTime _stopMotorTime;
-        private XInputBatteryInformation _batteryInformationGamepad;
-        private XInputBatteryInformation _batterInformationHeadset;
-
-        private XInputState _gamepadStatePrev = new XInputState();
-        private XInputState _gamepadStateCurrent;
-
         /// <summary>
-        /// Gets the Gamepad BatteryInformation.
-        /// </summary>
-        public XInputBatteryInformation BatteryInformationGamepad
-        {
-            get { return _batteryInformationGamepad; }
-            internal set  {  _batteryInformationGamepad = value;   }
-        }
-        /// <summary>
-        /// Gets the Headset BatteryInformation.
-        /// </summary>
-        public XInputBatteryInformation BatteryInformationHeadset
-        {
-            get { return _batterInformationHeadset; }
-            internal set  {  _batterInformationHeadset = value;   }
-        }
-        /// <summary>
-        /// Maximum Controller input.
+        ///     Maximum Controller input.
         /// </summary>
         internal const int MaxControllerCount = 4;
+
         /// <summary>
-        /// StartIndex.
+        ///     StartIndex.
         /// </summary>
         internal const int FirstControllerIndex = 0;
+
         /// <summary>
-        /// LastIndex.
+        ///     LastIndex.
         /// </summary>
         internal const int LastControllerIndex = MaxControllerCount - 1;
+
         /// <summary>
-        /// Gets the Available Controllers.
+        ///     Gets the Available Controllers.
         /// </summary>
-        static readonly XboxController[] Controllers;
-        
+        private static readonly XboxController[] Controllers;
+
+        private readonly int _playerIndex;
+        private XInputBatteryInformation _batterInformationHeadset;
+        private XInputBatteryInformation _batteryInformationGamepad;
+        private EventManager _eventManager;
+        private XInputState _gamepadStateCurrent;
+        private XInputState _gamepadStatePrev = new XInputState();
+        private bool _isInitilized;
+        private DateTime _stopMotorTime;
+        private bool _stopMotorTimerActive;
+
         /// <summary>
-        /// Initializes a new XboxController class.
+        ///     Initializes a new XboxController class.
         /// </summary>
         static XboxController()
         {
@@ -128,17 +117,9 @@ namespace Sharpex2D.Framework.Input.Devices
                 Controllers[i] = new XboxController(i);
             }
         }
+
         /// <summary>
-        /// Retrieves the XBoxController.
-        /// </summary>
-        /// <param name="index">The Index.</param>
-        /// <returns>XboxController.</returns>
-        public static XboxController Retrieve(int index)
-        {
-            return Controllers[index];
-        }
-        /// <summary>
-        /// Initializes a new XboxController class.
+        ///     Initializes a new XboxController class.
         /// </summary>
         /// <param name="playerIndex">The Index.</param>
         private XboxController(int playerIndex)
@@ -146,151 +127,158 @@ namespace Sharpex2D.Framework.Input.Devices
             _playerIndex = playerIndex;
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
         }
-        /// <summary>
-        /// Updates the BatteryState.
-        /// </summary>
-        internal void UpdateBatteryState()
-        {
-            XInputBatteryInformation headset = new XInputBatteryInformation(),
-            gamepad = new XInputBatteryInformation();
 
-            XInputAPI.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceType.BATTERY_DEVTYPE_GAMEPAD, ref gamepad);
-            XInputAPI.XInputGetBatteryInformation(_playerIndex, (byte)BatteryDeviceType.BATTERY_DEVTYPE_HEADSET, ref headset);
+        /// <summary>
+        ///     Gets the Gamepad BatteryInformation.
+        /// </summary>
+        public XInputBatteryInformation BatteryInformationGamepad
+        {
+            get { return _batteryInformationGamepad; }
+            internal set { _batteryInformationGamepad = value; }
+        }
 
-            BatteryInformationHeadset = headset;
-            BatteryInformationGamepad = gamepad;
-        }
         /// <summary>
-        /// Triggers the events.
+        ///     Gets the Headset BatteryInformation.
         /// </summary>
-        protected void OnStateChanged()
+        public XInputBatteryInformation BatteryInformationHeadset
         {
-            _eventManager.Publish(new XboxControllerStateChangedEventArgs { CurrentInputState = _gamepadStateCurrent, PreviousInputState = _gamepadStatePrev });
+            get { return _batterInformationHeadset; }
+            internal set { _batterInformationHeadset = value; }
         }
+
         /// <summary>
-        /// Gets the Capabilities.
-        /// </summary>
-        /// <returns></returns>
-        public XInputCapabilities GetCapabilities()
-        {
-            var capabilities = new XInputCapabilities();
-            XInputAPI.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
-            return capabilities;
-        }
-        /// <summary>
-        /// A value indicating whether the D-Pad up is pressed.
+        ///     A value indicating whether the D-Pad up is pressed.
         /// </summary>
         public bool IsDPadUpPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_DPAD_UP); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_UP); }
         }
+
         /// <summary>
-        /// A value indicating whether the D-Pad down is pressed.
+        ///     A value indicating whether the D-Pad down is pressed.
         /// </summary>
         public bool IsDPadDownPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_DPAD_DOWN); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_DOWN); }
         }
+
         /// <summary>
-        /// A value indicating whether the D-Pad left is pressed.
+        ///     A value indicating whether the D-Pad left is pressed.
         /// </summary>
         public bool IsDPadLeftPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_DPAD_LEFT); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_LEFT); }
         }
+
         /// <summary>
-        /// A value indicating whether the D-Pad right is pressed.
+        ///     A value indicating whether the D-Pad right is pressed.
         /// </summary>
         public bool IsDPadRightPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_DPAD_RIGHT); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_DPAD_RIGHT); }
         }
+
         /// <summary>
-        /// A value indicating whether A is pressed.
+        ///     A value indicating whether A is pressed.
         /// </summary>
         public bool IsAPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_A); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_A); }
         }
+
         /// <summary>
-        /// A value indicating whether B is pressed.
+        ///     A value indicating whether B is pressed.
         /// </summary>
         public bool IsBPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_B); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_B); }
         }
+
         /// <summary>
-        /// A value indicating whether X is pressed.
+        ///     A value indicating whether X is pressed.
         /// </summary>
         public bool IsXPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_X); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_X); }
         }
+
         /// <summary>
-        /// A value indicating whether Y is pressed.
+        ///     A value indicating whether Y is pressed.
         /// </summary>
         public bool IsYPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_Y); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_Y); }
         }
+
         /// <summary>
-        /// A value indicating whether back is pressed.
+        ///     A value indicating whether back is pressed.
         /// </summary>
         public bool IsBackPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_BACK); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_BACK); }
         }
+
         /// <summary>
-        /// A value indicating whether start is pressed.
+        ///     A value indicating whether start is pressed.
         /// </summary>
         public bool IsStartPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_START); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_START); }
         }
+
         /// <summary>
-        /// A value indicating whether left-shoulder is pressed.
+        ///     A value indicating whether left-shoulder is pressed.
         /// </summary>
         public bool IsLeftShoulderPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_LEFT_SHOULDER); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_LEFT_SHOULDER); }
         }
+
         /// <summary>
-        /// A value indicating whether right-shoulder is pressed.
+        ///     A value indicating whether right-shoulder is pressed.
         /// </summary>
         public bool IsRightShoulderPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_RIGHT_SHOULDER); }
+            get
+            {
+                return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_SHOULDER);
+            }
         }
+
         /// <summary>
-        /// A value indicating whether left-stick is pressed.
+        ///     A value indicating whether left-stick is pressed.
         /// </summary>
         public bool IsLeftStickPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_LEFT_THUMB); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_LEFT_THUMB); }
         }
+
         /// <summary>
-        /// A value indicating whether right-stick is pressed.
+        ///     A value indicating whether right-stick is pressed.
         /// </summary>
         public bool IsRightStickPressed
         {
-            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int)ButtonFlags.XINPUT_GAMEPAD_RIGHT_THUMB); }
+            get { return _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_THUMB); }
         }
+
         /// <summary>
-        /// A value indicating whether left-trigger is pressed.
+        ///     A value indicating whether left-trigger is pressed.
         /// </summary>
         public int LeftTrigger
         {
-            get { return _gamepadStateCurrent.Gamepad.bLeftTrigger;  }
+            get { return _gamepadStateCurrent.Gamepad.bLeftTrigger; }
         }
+
         /// <summary>
-        /// A value indicating whether right-trigger is pressed.
+        ///     A value indicating whether right-trigger is pressed.
         /// </summary>
         public int RightTrigger
         {
-            get  {  return _gamepadStateCurrent.Gamepad.bRightTrigger; }
+            get { return _gamepadStateCurrent.Gamepad.bRightTrigger; }
         }
+
         /// <summary>
-        /// Gets the LeftThumbStick.
+        ///     Gets the LeftThumbStick.
         /// </summary>
         public Vector2 LeftThumbStick
         {
@@ -300,8 +288,9 @@ namespace Sharpex2D.Framework.Input.Devices
                 return vec2;
             }
         }
+
         /// <summary>
-        /// Gets the RightThumbStick.
+        ///     Gets the RightThumbStick.
         /// </summary>
         public Vector2 RightThumbStick
         {
@@ -311,20 +300,72 @@ namespace Sharpex2D.Framework.Input.Devices
                 return vec2;
             }
         }
+
         /// <summary>
-        /// A value indicating whether the Controller is Connected.
+        ///     A value indicating whether the Controller is Connected.
         /// </summary>
         public bool IsConnected { get; internal set; }
+
         /// <summary>
-        /// Updates the Controller state.
+        ///     Retrieves the XBoxController.
+        /// </summary>
+        /// <param name="index">The Index.</param>
+        /// <returns>XboxController.</returns>
+        public static XboxController Retrieve(int index)
+        {
+            return Controllers[index];
+        }
+
+        /// <summary>
+        ///     Updates the BatteryState.
+        /// </summary>
+        internal void UpdateBatteryState()
+        {
+            XInputBatteryInformation headset = new XInputBatteryInformation(),
+                gamepad = new XInputBatteryInformation();
+
+            XInputAPI.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceType.BATTERY_DEVTYPE_GAMEPAD,
+                ref gamepad);
+            XInputAPI.XInputGetBatteryInformation(_playerIndex, (byte) BatteryDeviceType.BATTERY_DEVTYPE_HEADSET,
+                ref headset);
+
+            BatteryInformationHeadset = headset;
+            BatteryInformationGamepad = gamepad;
+        }
+
+        /// <summary>
+        ///     Triggers the events.
+        /// </summary>
+        protected void OnStateChanged()
+        {
+            _eventManager.Publish(new XboxControllerStateChangedEventArgs
+            {
+                CurrentInputState = _gamepadStateCurrent,
+                PreviousInputState = _gamepadStatePrev
+            });
+        }
+
+        /// <summary>
+        ///     Gets the Capabilities.
+        /// </summary>
+        /// <returns></returns>
+        public XInputCapabilities GetCapabilities()
+        {
+            var capabilities = new XInputCapabilities();
+            XInputAPI.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
+            return capabilities;
+        }
+
+        /// <summary>
+        ///     Updates the Controller state.
         /// </summary>
         internal void UpdateState()
         {
-            var result = XInputAPI.XInputGetState(_playerIndex, ref _gamepadStateCurrent);
+            int result = XInputAPI.XInputGetState(_playerIndex, ref _gamepadStateCurrent);
             IsConnected = (result == 0);
-            
+
             UpdateBatteryState();
-            if (_gamepadStateCurrent.PacketNumber!=_gamepadStatePrev.PacketNumber)
+            if (_gamepadStateCurrent.PacketNumber != _gamepadStatePrev.PacketNumber)
             {
                 OnStateChanged();
             }
@@ -332,12 +373,13 @@ namespace Sharpex2D.Framework.Input.Devices
 
             if (_stopMotorTimerActive && (DateTime.Now >= _stopMotorTime))
             {
-                var stopStrength = new XInputVibration { LeftMotorSpeed = 0, RightMotorSpeed = 0 };
+                var stopStrength = new XInputVibration {LeftMotorSpeed = 0, RightMotorSpeed = 0};
                 XInputAPI.XInputSetState(_playerIndex, ref stopStrength);
             }
         }
+
         /// <summary>
-        /// Vibrates the controller.
+        ///     Vibrates the controller.
         /// </summary>
         /// <param name="leftMotor">The LeftMotor.</param>
         /// <param name="rightMotor">The RightMotor.</param>
@@ -347,12 +389,16 @@ namespace Sharpex2D.Framework.Input.Devices
             leftMotor = System.Math.Max(0d, System.Math.Min(1d, leftMotor));
             rightMotor = System.Math.Max(0d, System.Math.Min(1d, rightMotor));
 
-            var vibration = new XInputVibration { LeftMotorSpeed = (ushort)(65535d * leftMotor), RightMotorSpeed = (ushort)(65535d * rightMotor) };
+            var vibration = new XInputVibration
+            {
+                LeftMotorSpeed = (ushort) (65535d*leftMotor),
+                RightMotorSpeed = (ushort) (65535d*rightMotor)
+            };
             Vibrate(vibration, TimeSpan.FromMilliseconds(length));
         }
-        
+
         /// <summary>
-        /// Vibrates the controller.
+        ///     Vibrates the controller.
         /// </summary>
         /// <param name="strength">The Strength.</param>
         /// <param name="length">The Length.</param>
@@ -365,8 +411,9 @@ namespace Sharpex2D.Framework.Input.Devices
                 _stopMotorTimerActive = true;
             }
         }
+
         /// <summary>
-        /// Converts the object to string.
+        ///     Converts the object to string.
         /// </summary>
         /// <returns>String.</returns>
         public override string ToString()

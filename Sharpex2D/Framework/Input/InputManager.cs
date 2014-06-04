@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Game;
+using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Input.Devices;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Input
 {
-    public class InputManager : IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class InputManager : IConstructable
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -20,9 +22,10 @@ namespace Sharpex2D.Framework.Input
 
         #endregion
 
-        #region IGameHandler Implementation
+        #region IConstructable Implementation
+
         /// <summary>
-        /// Constructs the Component.
+        ///     Constructs the Component.
         /// </summary>
         public void Construct()
         {
@@ -30,50 +33,34 @@ namespace Sharpex2D.Framework.Input
             Mouse.Construct();
         }
 
-        /// <summary>
-        /// Called if the component should get updated.
-        /// </summary>
-        /// <param name="elapsed">The Elapsed</param>
-        public void Tick(float elapsed)
-        {
-            
-        }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-
-        }
         #endregion
 
-        /// <summary>
-        /// Gets the KeyboardListener.
-        /// </summary>
-        public IKeyboard Keyboard { get; private set; }
-        /// <summary>
-        /// Gets the MouseListener.
-        /// </summary>
-        public IMouse Mouse { get; private set; }
+        private readonly List<IDevice> _devices;
 
         /// <summary>
-        /// Initializes a new InputManager Instance.
+        ///     Initializes a new InputManager Instance.
         /// </summary>
         /// <param name="handle">The GameWindowHandle.</param>
         public InputManager(IntPtr handle)
         {
             Mouse = new Mouse(handle);
-            var fluentKeyboard = new Keyboard(handle){IsEnabled=true};
+            var fluentKeyboard = new Keyboard(handle) {IsEnabled = true};
             Keyboard = fluentKeyboard;
             _devices = new List<IDevice> {fluentKeyboard, Mouse};
         }
 
-        private readonly List<IDevice> _devices;
+        /// <summary>
+        ///     Gets the KeyboardListener.
+        /// </summary>
+        public IKeyboard Keyboard { get; private set; }
 
         /// <summary>
-        /// Sets the standard keyboard.
+        ///     Gets the MouseListener.
+        /// </summary>
+        public IMouse Mouse { get; private set; }
+
+        /// <summary>
+        ///     Sets the standard keyboard.
         /// </summary>
         /// <param name="keyboard">The Keyboard.</param>
         public void SetStandardKeyboard(IKeyboard keyboard)
@@ -83,7 +70,7 @@ namespace Sharpex2D.Framework.Input
         }
 
         /// <summary>
-        /// Sets the standard mouse.
+        ///     Sets the standard mouse.
         /// </summary>
         /// <param name="mouse">The Mouse.</param>
         public void SetStandardMouse(IMouse mouse)
@@ -93,7 +80,7 @@ namespace Sharpex2D.Framework.Input
         }
 
         /// <summary>
-        /// Gets all Devices.
+        ///     Gets all Devices.
         /// </summary>
         /// <returns>IDevice Array</returns>
         public IDevice[] GetDevices()
@@ -102,7 +89,7 @@ namespace Sharpex2D.Framework.Input
         }
 
         /// <summary>
-        /// Adds a new device to the InputManager.
+        ///     Adds a new device to the InputManager.
         /// </summary>
         /// <param name="device">The Device.</param>
         public void Add(IDevice device)
@@ -112,7 +99,7 @@ namespace Sharpex2D.Framework.Input
         }
 
         /// <summary>
-        /// Removes a device from the InputManager.
+        ///     Removes a device from the InputManager.
         /// </summary>
         /// <param name="device">The Device.</param>
         public void Remove(IDevice device)
@@ -122,22 +109,23 @@ namespace Sharpex2D.Framework.Input
                 _devices.Remove(device);
             }
         }
+
         /// <summary>
-        /// Gets a special device.
+        ///     Gets a special device.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Device</returns>
         public T Get<T>() where T : IDevice
         {
-            for (var i = 0; i <= _devices.Count - 1; i++)
+            for (int i = 0; i <= _devices.Count - 1; i++)
             {
                 if (_devices[i].GetType() == typeof (T))
                 {
-                    return (T)_devices[i];
+                    return (T) _devices[i];
                 }
             }
 
-            throw new InvalidOperationException("Device not found (" + typeof(T).FullName + ").");
+            throw new InvalidOperationException("Device not found (" + typeof (T).FullName + ").");
         }
     }
 }
