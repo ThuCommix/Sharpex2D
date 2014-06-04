@@ -5,12 +5,15 @@ using Sharpex2D.Framework.Components;
 
 namespace Sharpex2D.Framework.Events
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class EventManager : IComponent, IObservable<IEvent>
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -19,15 +22,15 @@ namespace Sharpex2D.Framework.Events
 
         #endregion
 
+        private readonly LinkedList<IObserver<IEvent>> _observers;
+
         public EventManager()
         {
             _observers = new LinkedList<IObserver<IEvent>>();
         }
 
-        private readonly LinkedList<IObserver<IEvent>> _observers;
-
         /// <summary>
-        /// Subscribes to a special event.
+        ///     Subscribes to a special event.
         /// </summary>
         /// <param name="observer">The Observer.</param>
         /// <returns>Unsubscriber</returns>
@@ -38,7 +41,7 @@ namespace Sharpex2D.Framework.Events
         }
 
         /// <summary>
-        /// Gets the observer of a special event.
+        ///     Gets the observer of a special event.
         /// </summary>
         /// <returns></returns>
         public IEnumerable<IObserver<IEvent>> GetObservers<T>()
@@ -47,13 +50,13 @@ namespace Sharpex2D.Framework.Events
         }
 
         /// <summary>
-        /// Publishs a Event to all observers.
+        ///     Publishs a Event to all observers.
         /// </summary>
         /// <typeparam name="TEvent">The Event.</typeparam>
         /// <param name="e">The Event.</param>
         public void Publish<TEvent>(TEvent e) where TEvent : IEvent
         {
-            foreach (IObserver<TEvent> observer in GetObservers<TEvent>())
+            foreach (var observer in GetObservers<TEvent>().Cast<IObserver<TEvent>>())
             {
                 observer.OnNext(e);
             }
@@ -62,16 +65,18 @@ namespace Sharpex2D.Framework.Events
         private class Unsubscriber : IDisposable
         {
             private readonly LinkedListNode<IObserver<IEvent>> _observer;
+
             /// <summary>
-            /// Initializes a new Unsubscriber instance.
+            ///     Initializes a new Unsubscriber instance.
             /// </summary>
             /// <param name="observer">The Observer.</param>
             public Unsubscriber(LinkedListNode<IObserver<IEvent>> observer)
             {
                 _observer = observer;
             }
+
             /// <summary>
-            /// Removes the Observer.
+            ///     Removes the Observer.
             /// </summary>
             public void Dispose()
             {
