@@ -3,18 +3,27 @@ using Sharpex2D.Framework.Components;
 
 namespace Sharpex2D.Framework.Media.Video
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class VideoManager : IComponent, ICloneable
     {
         #region IComponent Implementation
+
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid { get { return new Guid("19F51529-39CC-4119-B115-85E0CD2B71C7"); } }
+        public Guid Guid
+        {
+            get { return new Guid("19F51529-39CC-4119-B115-85E0CD2B71C7"); }
+        }
+
         #endregion
 
         #region ICloneable Implementation
+
         /// <summary>
-        /// Clones the Object.
+        ///     Clones the Object.
         /// </summary>
         /// <returns>VideoManager</returns>
         public object Clone()
@@ -29,150 +38,53 @@ namespace Sharpex2D.Framework.Media.Video
         private float _vBeforeMute;
 
         /// <summary>
-        /// Initializes a new VideoManager class.
+        ///     Initializes a new VideoManager class.
         /// </summary>
         /// <param name="videoInitializer">The VideoInitializer.</param>
         public VideoManager(IVideoInitializer videoInitializer)
         {
-            if (videoInitializer == null) return;
             _videoProvider = videoInitializer.CreateProvider();
 
             Volume = 0.5f;
             _vBeforeMute = 0.5f;
         }
-        /// <summary>
-        /// Plays the video.
-        /// </summary>
-        /// <param name="video">The VideoFile.</param>
-        public void Play(Video video)
-        {
-            if (_videoProvider == null)
-            {
-                throw new VideoProviderNotInitializedException();
-            }
-
-            if (!video.IsInitialized)
-            {
-                throw new ArgumentException("The video is not initialized.");
-            }
-
-            _videoProvider.Play(video);
-        }
-        /// <summary>
-        /// Pause a video.
-        /// </summary>
-        public void Pause()
-        {
-            if (_videoProvider == null)
-            {
-                throw new VideoProviderNotInitializedException();
-            }
-
-            _videoProvider.Pause();
-        }
-        /// <summary>
-        /// Resumes a video.
-        /// </summary>
-        public void Resume()
-        {
-            if (_videoProvider == null)
-            {
-                throw new VideoProviderNotInitializedException();
-            }
-
-            _videoProvider.Resume();
-        }
-        /// <summary>
-        /// Seeks a video to a specified position.
-        /// </summary>
-        /// <param name="position">The Position.</param>
-        public void Seek(long position)
-        {
-            if (_videoProvider == null)
-            {
-                throw new VideoProviderNotInitializedException();
-            }
-
-            _videoProvider.Seek(position);
-        }
 
         /// <summary>
-        /// Sets or gets the Volume.
+        ///     Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
-            get
-            {
-                if (_videoProvider != null)
-                {
-                    return _videoProvider.Volume;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
-            set
-            {
-                if (_videoProvider != null)
-                {
-                    _videoProvider.Volume = value;
-                    return;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
-        }
-        /// <summary>
-        /// Sets or gets the Position.
-        /// </summary>
-        public long Position
-        {
-            get
-            {
-                if (_videoProvider != null)
-                {
-                    return _videoProvider.Position;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
-            set
-            {
-                if (_videoProvider != null)
-                {
-                    _videoProvider.Position = value;
-                    return;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
-        }
-        /// <summary>
-        /// A value indicating whether the SoundProvider is playing.
-        /// </summary>
-        public bool IsPlaying
-        {
-            get
-            {
-                if (_videoProvider != null)
-                {
-                    return _videoProvider.IsPlaying;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
-        }
-        /// <summary>
-        /// Gets the sound length.
-        /// </summary>
-        public long Length
-        {
-            get
-            {
-                if (_videoProvider != null)
-                {
-                    return _videoProvider.Length;
-                }
-                throw new VideoProviderNotInitializedException();
-            }
+            get { return _videoProvider.Volume; }
+            set { _videoProvider.Volume = value; }
         }
 
         /// <summary>
-        /// A value indicating whether the video is muted.
+        ///     Sets or gets the Position.
+        /// </summary>
+        public long Position
+        {
+            get { return _videoProvider.Position; }
+            set { _videoProvider.Position = value; }
+        }
+
+        /// <summary>
+        ///     A value indicating whether the SoundProvider is playing.
+        /// </summary>
+        public bool IsPlaying
+        {
+            get { return _videoProvider.IsPlaying; }
+        }
+
+        /// <summary>
+        ///     Gets the sound length.
+        /// </summary>
+        public long Length
+        {
+            get { return _videoProvider.Length; }
+        }
+
+        /// <summary>
+        ///     A value indicating whether the video is muted.
         /// </summary>
         public bool Muted
         {
@@ -196,6 +108,45 @@ namespace Sharpex2D.Framework.Media.Video
                 _muted = value;
             }
             get { return _muted; }
+        }
+
+        /// <summary>
+        ///     Plays the video.
+        /// </summary>
+        /// <param name="video">The VideoFile.</param>
+        public void Play(Video video)
+        {
+            if (!video.IsInitialized)
+            {
+                throw new ArgumentException("The video is not initialized.");
+            }
+
+            _videoProvider.Play(video);
+        }
+
+        /// <summary>
+        ///     Pause a video.
+        /// </summary>
+        public void Pause()
+        {
+            _videoProvider.Pause();
+        }
+
+        /// <summary>
+        ///     Resumes a video.
+        /// </summary>
+        public void Resume()
+        {
+            _videoProvider.Resume();
+        }
+
+        /// <summary>
+        ///     Seeks a video to a specified position.
+        /// </summary>
+        /// <param name="position">The Position.</param>
+        public void Seek(long position)
+        {
+            _videoProvider.Seek(position);
         }
     }
 }
