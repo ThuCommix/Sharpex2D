@@ -2,36 +2,45 @@
 using System.Collections.Generic;
 using Sharpex2D.Framework.Components;
 
-namespace Sharpex2D.Framework.Content.Storage
+namespace Sharpex2D.Framework.Content
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class ContentStorage : IComponent
     {
-
         #region IComponent Implementation
+
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid { get { return new Guid("8729597F-B800-47BA-83AB-A259460ABB60"); } }
+        public Guid Guid
+        {
+            get { return new Guid("8729597F-B800-47BA-83AB-A259460ABB60"); }
+        }
 
         #endregion
 
+        private readonly Dictionary<string, IContent> _storage;
+
         /// <summary>
-        /// Initializes a new ContentStorage class.
+        ///     Initializes a new ContentStorage class.
         /// </summary>
         public ContentStorage()
         {
             _storage = new Dictionary<string, IContent>();
         }
 
-        private readonly Dictionary<string, IContent> _storage;
-
         /// <summary>
-        /// Gets the amount of stored content.
+        ///     Gets the amount of stored content.
         /// </summary>
-        public int ContentCount { get { return _storage.Count; } }
+        public int ContentCount
+        {
+            get { return _storage.Count; }
+        }
 
         /// <summary>
-        /// Adds a new IContent with a specific key to the storage.
+        ///     Adds a new IContent with a specific key to the storage.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <param name="content">The Content.</param>
@@ -48,7 +57,7 @@ namespace Sharpex2D.Framework.Content.Storage
         }
 
         /// <summary>
-        /// Removes the Content with the specific key.
+        ///     Removes the Content with the specific key.
         /// </summary>
         /// <param name="key">The Key.</param>
         public void Remove(string key)
@@ -62,7 +71,7 @@ namespace Sharpex2D.Framework.Content.Storage
         }
 
         /// <summary>
-        /// Clears the storage.
+        ///     Clears the storage.
         /// </summary>
         public void Clear()
         {
@@ -70,7 +79,7 @@ namespace Sharpex2D.Framework.Content.Storage
         }
 
         /// <summary>
-        /// Gets the Content and removes it from the storage.
+        ///     Gets the Content and removes it from the storage.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>IContent</returns>
@@ -81,13 +90,13 @@ namespace Sharpex2D.Framework.Content.Storage
                 throw new ArgumentException("The key was not found.");
             }
 
-            var content = _storage[key];
+            IContent content = _storage[key];
             _storage.Remove(key);
             return content;
         }
 
         /// <summary>
-        /// Gets the Content.
+        ///     Gets the Content.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>IContent</returns>
