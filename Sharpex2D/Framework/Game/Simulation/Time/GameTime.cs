@@ -1,15 +1,17 @@
 ﻿using System;
 using Sharpex2D.Framework.Game.Timing;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Game.Simulation.Time
 {
-    public class GameTime : IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class GameTime : IUpdateable
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -19,21 +21,24 @@ namespace Sharpex2D.Framework.Game.Simulation.Time
         #endregion
 
         #region IConstructable Implementation
+
         /// <summary>
-        /// Constructs the Component.
+        ///     Constructs the Component.
         /// </summary>
         public void Construct()
         {
             SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
+
         #endregion
 
         #region IGameHandler Implementation
+
         /// <summary>
-        /// Processes a game tick.
+        ///     Processes a game tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(Framework.Game.GameTime gameTime)
         {
             if (Mode == TimeMode.RealTime)
             {
@@ -41,23 +46,16 @@ namespace Sharpex2D.Framework.Game.Simulation.Time
             }
             else
             {
-                DayTime += TimeSpan.FromMilliseconds(elapsed/DayLength.TotalMilliseconds);
+                DayTime += TimeSpan.FromMilliseconds(gameTime.ElapsedGameTime/DayLength.TotalMilliseconds);
             }
         }
-        /// <summary>
-        /// Processes a render.
-        /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-        }
+
         #endregion
 
         #region GameTime Members
 
         /// <summary>
-        /// Creates a new GameTime.
+        ///     Creates a new GameTime.
         /// </summary>
         public GameTime()
         {
@@ -66,15 +64,17 @@ namespace Sharpex2D.Framework.Game.Simulation.Time
         }
 
         /// <summary>
-        /// Gets or sets the length of the simulated game day.
+        ///     Gets or sets the length of the simulated game day.
         /// </summary>
         public TimeSpan DayLength { set; get; }
+
         /// <summary>
-        /// Gets the current time of the game day.
+        ///     Gets the current time of the game day.
         /// </summary>
         public DateTime DayTime { private set; get; }
+
         /// <summary>
-        /// Indicates whether the time should be simulated or real.
+        ///     Indicates whether the time should be simulated or real.
         /// </summary>
         public TimeMode Mode { set; get; }
 

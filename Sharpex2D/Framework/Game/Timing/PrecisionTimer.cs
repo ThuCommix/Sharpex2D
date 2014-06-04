@@ -4,13 +4,17 @@ using System.Threading;
 
 namespace Sharpex2D.Framework.Game.Timing
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class PrecisionTimer : ITimeable
     {
         #region ITimeable Implemenation
 
         private float _interval;
+
         /// <summary>
-        /// Sets or gets the Intervall.
+        ///     Sets or gets the Intervall.
         /// </summary>
         public float Interval
         {
@@ -25,39 +29,41 @@ namespace Sharpex2D.Framework.Game.Timing
             }
         }
 
-
         #endregion
-
-        /// <summary>
-        /// A value indicating whether the GameTimer is running.
-        /// </summary>
-        public bool IsRunning { get; private set; }
-        /// <summary>
-        /// A value indicating whether the GameTimer is completed.
-        /// </summary>
-        public bool IsCompleted { private set; get; }
-        /// <summary>
-        /// Sets or gets the Action, which get called after the GameTimer is completed.
-        /// </summary>
-        public Action Action { set; get; }
 
         private bool _abort;
 
         /// <summary>
-        /// Initializes a new PrecisionTimer class.
+        ///     Initializes a new PrecisionTimer class.
         /// </summary>
         public PrecisionTimer()
         {
             Interval = 100;
         }
+
         /// <summary>
-        /// Initializes a new PrecisionTimer class.
+        ///     Initializes a new PrecisionTimer class.
         /// </summary>
         /// <param name="interval">The Interval.</param>
         public PrecisionTimer(float interval)
         {
             Interval = interval;
         }
+
+        /// <summary>
+        ///     A value indicating whether the GameTimer is running.
+        /// </summary>
+        public bool IsRunning { get; private set; }
+
+        /// <summary>
+        ///     A value indicating whether the GameTimer is completed.
+        /// </summary>
+        public bool IsCompleted { private set; get; }
+
+        /// <summary>
+        ///     Sets or gets the Action, which get called after the GameTimer is completed.
+        /// </summary>
+        public Action Action { set; get; }
 
         public void Start()
         {
@@ -76,7 +82,6 @@ namespace Sharpex2D.Framework.Game.Timing
                 }
                 while (!_abort && sw.ElapsedMilliseconds < _interval)
                 {
-                    
                 }
                 sw.Stop();
 
@@ -90,7 +95,6 @@ namespace Sharpex2D.Framework.Game.Timing
                         Action.Invoke();
                     }
                 }
-
             }) {IsBackground = true}.Start();
         }
 

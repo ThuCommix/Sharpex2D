@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Threading;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Game.Timing
 {
-    public class GameTimer : ITimeable, IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
+    public class GameTimer : ITimeable, IUpdateable
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -21,8 +23,9 @@ namespace Sharpex2D.Framework.Game.Timing
         #region ITimeable Implemenation
 
         private float _interval;
+
         /// <summary>
-        /// Sets or gets the Intervall.
+        ///     Sets or gets the Intervall.
         /// </summary>
         public float Interval
         {
@@ -36,68 +39,43 @@ namespace Sharpex2D.Framework.Game.Timing
                 _interval = value;
             }
         }
-        
 
         #endregion
 
-        #region IGameHandler Implementation
+        #region IUpdateable Implementation
+
         /// <summary>
-        /// Constructs the Component
+        ///     Processes a Game tick.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
+        {
+            Update(gameTime.ElapsedGameTime);
+        }
+
+        /// <summary>
+        ///     Constructs the Component
         /// </summary>
         public void Construct()
         {
-   
-        }
-        /// <summary>
-        /// Processes a Game tick.
-        /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
-        {
-            Update(elapsed);
-        }
-        /// <summary>
-        /// Processes a Render.
-        /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
-        {
-    
         }
 
         #endregion
 
-        /// <summary>
-        /// A value indicating whether the GameTimer is running.
-        /// </summary>
-        public bool IsRunning { get; private set; }
-        /// <summary>
-        /// Gets the UpdateMode.
-        /// </summary>
-        public UpdateMode UpdateMode { private set; get; }
-        /// <summary>
-        /// A value indicating whether the GameTimer is completed.
-        /// </summary>
-        public bool IsCompleted { private set; get; }
-        /// <summary>
-        /// Sets or gets the Action, which get called after the GameTimer is completed.
-        /// </summary>
-        public Action Action { set; get; }
-
-        private float _totalElapsed;
         private bool _abort;
+        private float _totalElapsed;
 
         /// <summary>
-        /// Initializes a new GameTimer class.
+        ///     Initializes a new GameTimer class.
         /// </summary>
         public GameTimer()
         {
             Interval = 100;
             UpdateMode = UpdateMode.OnGameTick;
         }
+
         /// <summary>
-        /// Initializes a new GameTimer class.
+        ///     Initializes a new GameTimer class.
         /// </summary>
         /// <param name="updateMode">The UpdateMode.</param>
         public GameTimer(UpdateMode updateMode)
@@ -105,8 +83,9 @@ namespace Sharpex2D.Framework.Game.Timing
             Interval = 100;
             UpdateMode = updateMode;
         }
+
         /// <summary>
-        /// Initializes a new GameTimer class.
+        ///     Initializes a new GameTimer class.
         /// </summary>
         /// <param name="interval">The Interval.</param>
         /// <param name="updateMode">The UpdateMode.</param>
@@ -117,7 +96,27 @@ namespace Sharpex2D.Framework.Game.Timing
         }
 
         /// <summary>
-        /// Updates the GameTimer.
+        ///     A value indicating whether the GameTimer is running.
+        /// </summary>
+        public bool IsRunning { get; private set; }
+
+        /// <summary>
+        ///     Gets the UpdateMode.
+        /// </summary>
+        public UpdateMode UpdateMode { private set; get; }
+
+        /// <summary>
+        ///     A value indicating whether the GameTimer is completed.
+        /// </summary>
+        public bool IsCompleted { private set; get; }
+
+        /// <summary>
+        ///     Sets or gets the Action, which get called after the GameTimer is completed.
+        /// </summary>
+        public Action Action { set; get; }
+
+        /// <summary>
+        ///     Updates the GameTimer.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         private void Update(float elapsed)
@@ -135,7 +134,7 @@ namespace Sharpex2D.Framework.Game.Timing
         }
 
         /// <summary>
-        /// Starts the GameTimer.
+        ///     Starts the GameTimer.
         /// </summary>
         public void Start()
         {

@@ -1,17 +1,19 @@
 ﻿using System;
 using Sharpex2D.Framework.Common.Randomization;
-using Sharpex2D.Framework.Game.Simulation.Time;
+using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Game.Timing;
-using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Game.Simulation.Weather
 {
-    public class WeatherProvider : IGameHandler, IWeather
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
+    public class WeatherProvider : IUpdateable, IWeather, IComponent
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -21,58 +23,52 @@ namespace Sharpex2D.Framework.Game.Simulation.Weather
         #endregion
 
         #region IGameHandler Implementation
+
         /// <summary>
-        /// Constructs the Component
+        ///     Processes a Game tick.
         /// </summary>
-        public void Construct()
-        {
-            SGL.Components.Get<IGameLoop>().Subscribe(this);
-        }
-        /// <summary>
-        /// Processes a Game tick.
-        /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             //Only update after 5 seconds to save cpu.
-            _passedTime += elapsed;
+            _passedTime += gameTime.ElapsedGameTime;
             if (_passedTime > 5000)
             {
                 UpdateWeather();
                 _passedTime = 0f;
             }
         }
+
         /// <summary>
-        /// Processes a Render.
+        ///     Constructs the Component
         /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
+        public void Construct()
         {
-           
+            SGL.Components.Get<IGameLoop>().Subscribe(this);
         }
+
         #endregion
 
         #region IWeather Implementation
 
         /// <summary>
-        /// Gets the current weather.
+        ///     Gets the current weather.
         /// </summary>
         public WeatherType CurrentWeather { get; private set; }
 
         #endregion
 
-        private readonly GameTime _gameTime;
-        private DateTime _lastDateTime;
         private readonly GameRandom _gRandom;
+        private readonly Time.GameTime _gameTime;
+        private DateTime _lastDateTime;
         private float _passedTime;
 
         /// <summary>
-        /// Initializes a new WeatherProvider class.
+        ///     Initializes a new WeatherProvider class.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         /// <param name="initialWeather">The initial Weather.</param>
-        public WeatherProvider(GameTime gameTime, WeatherType initialWeather = WeatherType.Dry)
+        public WeatherProvider(Time.GameTime gameTime, WeatherType initialWeather = WeatherType.Dry)
         {
             _gameTime = gameTime;
             _gRandom = new GameRandom();
@@ -82,11 +78,11 @@ namespace Sharpex2D.Framework.Game.Simulation.Weather
         }
 
         /// <summary>
-        /// Updates the weather.
+        ///     Updates the weather.
         /// </summary>
         private void UpdateWeather()
         {
-            var timeDifference = _gameTime.DayTime - _lastDateTime;
+            TimeSpan timeDifference = _gameTime.DayTime - _lastDateTime;
             //Update th weather every 2 game hours
             if (timeDifference >= new TimeSpan(2, 0, 0))
             {
