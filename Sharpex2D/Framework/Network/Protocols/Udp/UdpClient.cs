@@ -9,11 +9,15 @@ using Sharpex2D.Framework.Network.Packages.System;
 
 namespace Sharpex2D.Framework.Network.Protocols.Udp
 {
-    public class UdpClient : IClient
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
+    public class UdpClient : IClient, IDisposable
     {
         #region IClient Implemenation
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -24,8 +28,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
             }
         }
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -38,16 +43,18 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
             }
         }
+
         /// <summary>
-        /// Receives a package.
+        ///     Receives a package.
         /// </summary>
         public void BeginReceive()
         {
-            var beginHandle = new Thread(InternalBeginReceive) { IsBackground = true };
+            var beginHandle = new Thread(InternalBeginReceive) {IsBackground = true};
             beginHandle.Start();
         }
+
         /// <summary>
-        /// Connects to the local server.
+        ///     Connects to the local server.
         /// </summary>
         /// <param name="ip">The Serverip.</param>
         public void Connect(IPAddress ip)
@@ -60,8 +67,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 _connected = true;
             }
         }
+
         /// <summary>
-        /// Disconnect from the local server.
+        ///     Disconnect from the local server.
         /// </summary>
         public void Disconnect()
         {
@@ -73,32 +81,36 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
             }
             _udpClient.Close();
         }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
         {
             _packageListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IClientListener subscriber)
         {
             _clientListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
         {
             _packageListeners.Remove(unsubscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IClientListener unsubscriber)
@@ -108,18 +120,48 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
 
         #endregion
 
+        #region IDisposable Implementation
 
-        private readonly System.Net.Sockets.UdpClient _udpClient;
-        private IPAddress _ip;
-        private bool _connected;
-        private int _idleTimeout;
-        private const int IdleMax = 30;
-        private int _currentIdle;
-        private readonly List<IClientListener> _clientListeners;
-        private readonly List<IPackageListener> _packageListeners;
+        private bool _isDisposed;
 
         /// <summary>
-        /// Initializes a new UdpClient class.
+        ///     Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _udpClient.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        private const int IdleMax = 30;
+        private readonly List<IClientListener> _clientListeners;
+        private readonly List<IPackageListener> _packageListeners;
+        private readonly System.Net.Sockets.UdpClient _udpClient;
+        private bool _connected;
+        private int _currentIdle;
+        private int _idleTimeout;
+        private IPAddress _ip;
+
+        /// <summary>
+        ///     Initializes a new UdpClient class.
         /// </summary>
         public UdpClient()
         {
@@ -129,7 +171,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Receives data.
+        ///     Receives data.
         /// </summary>
         private void InternalBeginReceive()
         {
@@ -138,16 +180,16 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 if (_udpClient.Available > 0)
                 {
                     var serverIpEndPoint = new IPEndPoint(IPAddress.Any, 2565);
-                    var receivedData = _udpClient.Receive(ref serverIpEndPoint);
+                    byte[] receivedData = _udpClient.Receive(ref serverIpEndPoint);
                     using (var mStream = new MemoryStream(receivedData))
                     {
-                        var package = PackageSerializer.Deserialize(mStream);
+                        IBasePackage package = PackageSerializer.Deserialize(mStream);
 
                         var binaryPackage = package as BinaryPackage;
                         if (binaryPackage != null)
                         {
                             //binary package
-                            foreach (var subscriber in GetPackageSubscriber(binaryPackage.OriginType))
+                            foreach (IPackageListener subscriber in GetPackageSubscriber(binaryPackage.OriginType))
                             {
                                 subscriber.OnPackageReceived(binaryPackage);
                             }
@@ -161,31 +203,31 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                             switch (systemPackage.Mode)
                             {
                                 case NotificationMode.ClientJoined:
-                                    for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                    for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                     {
                                         _clientListeners[i].OnClientJoined(systemPackage.Connection[0]);
                                     }
                                     break;
                                 case NotificationMode.ClientExited:
-                                    for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                    for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                     {
                                         _clientListeners[i].OnClientExited(systemPackage.Connection[0]);
                                     }
                                     break;
                                 case NotificationMode.ClientList:
-                                    for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                    for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                     {
                                         _clientListeners[i].OnClientListing(systemPackage.Connection);
                                     }
                                     break;
                                 case NotificationMode.TimeOut:
-                                    for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                    for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                     {
                                         _clientListeners[i].OnClientTimedOut();
                                     }
                                     break;
                                 case NotificationMode.ServerShutdown:
-                                    for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                    for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                     {
                                         _clientListeners[i].OnServerShutdown();
                                     }
@@ -211,14 +253,14 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Gets a list of all matching package listeners.
+        ///     Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
         private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
         {
             var listenerContext = new List<IPackageListener>();
-            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            for (int i = 0; i <= _packageListeners.Count - 1; i++)
             {
                 //if listener type is null go to next
                 if (_packageListeners[i].ListenerType == null)
@@ -235,7 +277,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Idles the thread.
+        ///     Idles the thread.
         /// </summary>
         private void Idle()
         {

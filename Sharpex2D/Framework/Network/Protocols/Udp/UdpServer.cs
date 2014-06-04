@@ -11,11 +11,15 @@ using Sharpex2D.Framework.Network.Packages.System;
 
 namespace Sharpex2D.Framework.Network.Protocols.Udp
 {
-    public class UdpServer : IServer
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
+    public class UdpServer : IServer, IDisposable
     {
         #region IServer Implementation
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -26,13 +30,14 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 PackageSerializer.Serialize(package, mStream);
                 result = mStream.ToArray();
             }
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
                 _listener.Client.SendTo(result, new IPEndPoint(_connections[i].IPAddress, 2565));
             }
         }
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -46,20 +51,23 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
             }
             _listener.Client.SendTo(result, new IPEndPoint(receiver, 2565));
         }
+
         /// <summary>
-        /// A value indicating whether the server is active.
+        ///     A value indicating whether the server is active.
         /// </summary>
         public bool IsActive { get; private set; }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
         {
             _packageListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
@@ -69,21 +77,47 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
 
         #endregion
 
-        private readonly System.Net.Sockets.UdpClient _listener;
-        private readonly List<IConnection> _connections;
-        private readonly List<IPackageListener> _packageListeners;
-        private int _idleTimeout;
-        private const int IdleMax = 30;
-        private int _currentIdle;
-        private readonly UdpConnectionManager _connectionManager;
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
 
         /// <summary>
-        /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be disconnected.
+        ///     Disposes the object.
         /// </summary>
-        public float TimeOutLatency { set; get; }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
-        /// Initializes a new UdpServer class.
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _listener.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        private const int IdleMax = 30;
+        private readonly UdpConnectionManager _connectionManager;
+        private readonly List<IConnection> _connections;
+        private readonly System.Net.Sockets.UdpClient _listener;
+        private readonly List<IPackageListener> _packageListeners;
+        private int _currentIdle;
+        private int _idleTimeout;
+
+        /// <summary>
+        ///     Initializes a new UdpServer class.
         /// </summary>
         public UdpServer()
         {
@@ -100,26 +134,34 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
             beginHandle.Start();
             pingHandle.Start();
         }
+
         /// <summary>
-        /// Called if a PingRequest timed out.
+        ///     Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
+        ///     disconnected.
         /// </summary>
-        void _connectionManager_PingTimedOut(object sender, IPAddress ipAddress)
+        public float TimeOutLatency { set; get; }
+
+        /// <summary>
+        ///     Called if a PingRequest timed out.
+        /// </summary>
+        private void _connectionManager_PingTimedOut(object sender, IPAddress ipAddress)
         {
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
                 if (Equals(_connections[i].IPAddress, ipAddress))
                 {
                     //remove the connection
                     _connections.RemoveAt(i);
                     //notify clients
-                    SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { SerializableConnection.FromIConnection(_connections[i]) });
+                    SendNotificationPackage(NotificationMode.TimeOut,
+                        new IConnection[] {SerializableConnection.FromIConnection(_connections[i])});
                     break;
                 }
             }
         }
 
         /// <summary>
-        /// Accepts clients if available.
+        ///     Accepts clients if available.
         /// </summary>
         private void BeginAcceptConnections()
         {
@@ -131,10 +173,10 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                 {
                     if (_listener.Available > 0)
                     {
-                        var receivedData = _listener.Receive(ref incommingConnection);
+                        byte[] receivedData = _listener.Receive(ref incommingConnection);
                         using (var mStream = new MemoryStream(receivedData))
                         {
-                            var package = PackageSerializer.Deserialize(mStream);
+                            IBasePackage package = PackageSerializer.Deserialize(mStream);
                             var udpPackage = package as UdpPackage;
                             if (udpPackage != null)
                             {
@@ -153,7 +195,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                                     //notify
                                     SendNotificationPackage(NotificationMode.ClientExited, _connections.ToArray());
                                     //remove connection
-                                    var udpConnection = GetConnection(incommingConnection.Address);
+                                    UdpConnection udpConnection = GetConnection(incommingConnection.Address);
                                     if (udpConnection != null)
                                     {
                                         _connections.Remove(udpConnection);
@@ -167,7 +209,6 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
                                 //any other package handle in new void
                                 HandlePackage(package);
                             }
-
                         }
                     }
                     else
@@ -185,7 +226,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Handles the given package.
+        ///     Handles the given package.
         /// </summary>
         /// <param name="package">The Package.</param>
         private void HandlePackage(IBasePackage package)
@@ -194,7 +235,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
             if (binaryPackage != null)
             {
                 //notify package listeners
-                foreach (var subscriber in GetPackageSubscriber(binaryPackage.OriginType))
+                foreach (IPackageListener subscriber in GetPackageSubscriber(binaryPackage.OriginType))
                 {
                     subscriber.OnPackageReceived(binaryPackage);
                 }
@@ -221,54 +262,55 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Sets the latency of a connection.
+        ///     Sets the latency of a connection.
         /// </summary>
         /// <param name="pingPackage">The PingPackage.</param>
         private void SetLatency(PingPackage pingPackage)
         {
-            var timeNow = DateTime.Now;
-            var dif = timeNow - pingPackage.TimeStamp;
-            var connection = GetConnection(pingPackage.Receiver);
-            connection.Latency = (float)dif.TotalMilliseconds;
-            
+            DateTime timeNow = DateTime.Now;
+            TimeSpan dif = timeNow - pingPackage.TimeStamp;
+            UdpConnection connection = GetConnection(pingPackage.Receiver);
+            connection.Latency = (float) dif.TotalMilliseconds;
+
             //alert the connectionmanager
             _connectionManager.RemoveByIP(pingPackage.Receiver);
 
             //Kick the client if the latency is to high
             if (!(connection.Latency > TimeOutLatency)) return;
-            SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { SerializableConnection.FromIConnection(connection) });
+            SendNotificationPackage(NotificationMode.TimeOut,
+                new IConnection[] {SerializableConnection.FromIConnection(connection)});
             _connections.Remove(connection);
         }
 
         /// <summary>
-        /// Gets the UpdConnection by the specified IPAddress.
+        ///     Gets the UpdConnection by the specified IPAddress.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
         /// <returns>UpdConnection</returns>
         private UdpConnection GetConnection(IPAddress ipAddress)
         {
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
                 if (Equals(_connections[i].IPAddress, ipAddress))
                 {
-                    return (UdpConnection)_connections[i];
+                    return (UdpConnection) _connections[i];
                 }
             }
             return null;
         }
 
         /// <summary>
-        /// Sending a ping request every 30 seconds to all clients.
+        ///     Sending a ping request every 30 seconds to all clients.
         /// </summary>
         private void PingRequestLoop()
         {
             while (IsActive)
             {
-                var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+                IConnection[] connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
                 //Send a ping request to all clients
-                for (var i = 0; i <= _connections.Count - 1; i++)
+                for (int i = 0; i <= _connections.Count - 1; i++)
                 {
-                    var pingPackage = new PingPackage { Receiver = _connections[i].IPAddress };
+                    var pingPackage = new PingPackage {Receiver = _connections[i].IPAddress};
                     Send(pingPackage, _connections[i].IPAddress);
                     //add the ping request to the connection manager.
                     _connectionManager.AddPingRequest(new UdpPingRequest(_connections[i].IPAddress,
@@ -283,7 +325,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Sends a NotificationPackage to all clients.
+        ///     Sends a NotificationPackage to all clients.
         /// </summary>
         /// <param name="mode">The Mode.</param>
         /// <param name="connections">The ConnectionParams.</param>
@@ -294,7 +336,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Idles the thread.
+        ///     Idles the thread.
         /// </summary>
         private void Idle()
         {
@@ -316,14 +358,14 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Gets a list of all matching package listeners.
+        ///     Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
         private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
         {
             var listenerContext = new List<IPackageListener>();
-            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            for (int i = 0; i <= _packageListeners.Count - 1; i++)
             {
                 //if listener type is null go to next
                 if (_packageListeners[i].ListenerType == null)
@@ -340,7 +382,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Udp
         }
 
         /// <summary>
-        /// Closes the server.
+        ///     Closes the server.
         /// </summary>
         public void Close()
         {

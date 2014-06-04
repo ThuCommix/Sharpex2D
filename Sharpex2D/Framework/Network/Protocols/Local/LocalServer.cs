@@ -9,20 +9,24 @@ using Sharpex2D.Framework.Network.Packages.System;
 
 namespace Sharpex2D.Framework.Network.Protocols.Local
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
     public class LocalServer : IServer
     {
-
         #region IServer Implementation
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
         {
             SendToAllClients(package);
         }
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -30,20 +34,23 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         {
             SendTo(package, receiver);
         }
+
         /// <summary>
-        /// A value indicating whether the server is active.
+        ///     A value indicating whether the server is active.
         /// </summary>
         public bool IsActive { get; private set; }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
         {
             _packageListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
@@ -53,19 +60,15 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
 
         #endregion
 
-
+        private const int IdleMax = 30;
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
         private readonly List<IPackageListener> _packageListeners;
-        private int _idleTimeout;
-        private const int IdleMax = 30;
         private int _currentIdle;
+        private int _idleTimeout;
+
         /// <summary>
-        /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be disconnected.
-        /// </summary>
-        public float TimeOutLatency { set; get; }
-        /// <summary>
-        /// Initializes a new LocalServer class.
+        ///     Initializes a new LocalServer class.
         /// </summary>
         public LocalServer()
         {
@@ -83,13 +86,19 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Accepts clients if available.
+        ///     Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
+        ///     disconnected.
+        /// </summary>
+        public float TimeOutLatency { set; get; }
+
+        /// <summary>
+        ///     Accepts clients if available.
         /// </summary>
         private void BeginAcceptConnections()
         {
             while (IsActive)
             {
-                var tcpClient = _localListener.AcceptTcpClient();
+                TcpClient tcpClient = _localListener.AcceptTcpClient();
                 //Reset idle
                 _idleTimeout = 0;
                 _currentIdle = 0;
@@ -98,7 +107,8 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 //Handle connection.
                 var pts = new ParameterizedThreadStart(HandleClient);
                 var handleClient = new Thread(pts) {IsBackground = true};
-                SendNotificationPackage(NotificationMode.ClientJoined, new IConnection[] { SerializableConnection.FromIConnection(localConnection) });
+                SendNotificationPackage(NotificationMode.ClientJoined,
+                    new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
                 var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
                 SendNotificationPackage(NotificationMode.ClientList, connectionList);
                 handleClient.Start(localConnection);
@@ -106,13 +116,13 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Handles a connection.
+        ///     Handles a connection.
         /// </summary>
         /// <param name="objConnection">The Connection.</param>
         private void HandleClient(object objConnection)
         {
             var localConnection = (LocalConnection) objConnection;
-            var networkStream = localConnection.Client.GetStream();
+            NetworkStream networkStream = localConnection.Client.GetStream();
             while (localConnection.Connected)
             {
                 if (localConnection.Client.Available > 0)
@@ -146,7 +156,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
 
                     //system package with type of pingpackage
                     var pingPackage = package as PingPackage;
-                    if(pingPackage != null)
+                    if (pingPackage != null)
                     {
                         SetLatency(pingPackage);
                         return;
@@ -159,7 +169,8 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
             }
 
             //Client exited.
-            SendNotificationPackage(NotificationMode.ClientExited, new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
+            SendNotificationPackage(NotificationMode.ClientExited,
+                new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
             _connections.Remove(localConnection);
 
             var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
@@ -167,7 +178,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Sets the latency of a connection.
+        ///     Sets the latency of a connection.
         /// </summary>
         /// <param name="pingPackage">The PingPackage.</param>
         private void SetLatency(PingPackage pingPackage)
@@ -175,23 +186,24 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
             var timeNow = DateTime.Now;
             var dif = timeNow - pingPackage.TimeStamp;
             var connection = GetConnection(pingPackage.Receiver);
-            connection.Latency = (float)dif.TotalMilliseconds;
+            connection.Latency = (float) dif.TotalMilliseconds;
 
             //Kick the client if the latency is to high
             if (!(connection.Latency > TimeOutLatency)) return;
-            SendNotificationPackage(NotificationMode.TimeOut, new IConnection[] { SerializableConnection.FromIConnection(connection) });
+            SendNotificationPackage(NotificationMode.TimeOut,
+                new IConnection[] {SerializableConnection.FromIConnection(connection)});
             connection.Client.Close();
             _connections.Remove(connection);
         }
 
         /// <summary>
-        /// Gets the connection.
+        ///     Gets the connection.
         /// </summary>
         /// <param name="address">The IPAddress.</param>
         /// <returns>LocalConnection</returns>
         private LocalConnection GetConnection(IPAddress address)
         {
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
                 if (Equals(_connections[i].IPAddress, address))
                 {
@@ -202,14 +214,14 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Sends a package to all clients.
+        ///     Sends a package to all clients.
         /// </summary>
         /// <param name="package">The Package.</param>
         private void SendToAllClients(IBasePackage package)
         {
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
-                var networkStream = _connections[i].Client.GetStream();
+                NetworkStream networkStream = _connections[i].Client.GetStream();
                 PackageSerializer.Serialize(package, networkStream);
                 //May not be neccessary
                 networkStream.Flush();
@@ -217,13 +229,13 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Sends a package to a specified client.
+        ///     Sends a package to a specified client.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="connection">The Connection</param>
         private void SendTo(IBasePackage package, IPAddress connection)
         {
-            var localConnection = GetConnection(connection);
+            LocalConnection localConnection = GetConnection(connection);
             if (localConnection != null)
             {
                 PackageSerializer.Serialize(package, localConnection.Client.GetStream());
@@ -231,18 +243,18 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Sending a ping request every 30 seconds to all clients.
+        ///     Sending a ping request every 30 seconds to all clients.
         /// </summary>
         private void PingRequestLoop()
         {
             while (IsActive)
             {
-                var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+                IConnection[] connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
                 //Send a ping request to all clients
-                for (var i = 0; i <= _connections.Count - 1; i++)
+                for (int i = 0; i <= _connections.Count - 1; i++)
                 {
                     var pingPackage = new PingPackage {Receiver = _connections[i].IPAddress};
-                    var networkStream = _connections[i].Client.GetStream();
+                    NetworkStream networkStream = _connections[i].Client.GetStream();
                     PackageSerializer.Serialize(pingPackage, networkStream);
                     //May not be neccessary
                     networkStream.Flush();
@@ -256,16 +268,16 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Sends a NotificationPackage to all clients.
+        ///     Sends a NotificationPackage to all clients.
         /// </summary>
         /// <param name="mode">The Mode.</param>
         /// <param name="connections">The ConnectionParams.</param>
         private void SendNotificationPackage(NotificationMode mode, IConnection[] connections)
         {
             var notificationPackage = new NotificationPackage(connections, mode);
-            for (var i = 0; i <= _connections.Count - 1; i++)
+            for (int i = 0; i <= _connections.Count - 1; i++)
             {
-                var networkStream = _connections[i].Client.GetStream();
+                NetworkStream networkStream = _connections[i].Client.GetStream();
                 PackageSerializer.Serialize(notificationPackage, networkStream);
                 //May not be neccessary
                 networkStream.Flush();
@@ -273,7 +285,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Idles the thread.
+        ///     Idles the thread.
         /// </summary>
         private void Idle()
         {
@@ -293,8 +305,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 _idleTimeout++;
             }
         }
+
         /// <summary>
-        /// Closes the server.
+        ///     Closes the server.
         /// </summary>
         public void Close()
         {
@@ -303,14 +316,14 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Gets a list of all matching package listeners.
+        ///     Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
         private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
         {
             var listenerContext = new List<IPackageListener>();
-            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            for (int i = 0; i <= _packageListeners.Count - 1; i++)
             {
                 //if listener type is null go to next
                 if (_packageListeners[i].ListenerType == null)

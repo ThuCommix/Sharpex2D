@@ -12,11 +12,15 @@ using Sharpex2D.Framework.Network.Packages.System;
 
 namespace Sharpex2D.Framework.Network.Protocols.Local
 {
-    public class LocalClient : IClient
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Untested)]
+    public class LocalClient : IClient, IDisposable
     {
         #region IClient Implementation
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -32,8 +36,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 SGL.Components.Get<EventManager>().Publish(new PackageSentExceptionEvent(ex.Message));
             }
         }
+
         /// <summary>
-        /// Sends a package to the given receivers.
+        ///     Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -51,8 +56,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 SGL.Components.Get<EventManager>().Publish(new PackageSentExceptionEvent(ex.Message));
             }
         }
+
         /// <summary>
-        /// Receives a package.
+        ///     Receives a package.
         /// </summary>
         public void BeginReceive()
         {
@@ -60,8 +66,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
             var beginReceiveHandler = new Thread(InternalBeginReceive) {IsBackground = true};
             beginReceiveHandler.Start();
         }
+
         /// <summary>
-        /// Connects to the local server.
+        ///     Connects to the local server.
         /// </summary>
         /// <param name="ip">The Serverip.</param>
         public void Connect(IPAddress ip)
@@ -79,8 +86,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 }
             });
         }
+
         /// <summary>
-        /// Disconnect from the local server.
+        ///     Disconnect from the local server.
         /// </summary>
         public void Disconnect()
         {
@@ -89,32 +97,36 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 _tcpClient.Close();
             }
         }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
         {
             _packageListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Subscribes to a Client.
+        ///     Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IClientListener subscriber)
         {
             _clientListeners.Add(subscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
         {
             _packageListeners.Remove(unsubscriber);
         }
+
         /// <summary>
-        /// Unsubscribes from a Client.
+        ///     Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IClientListener unsubscriber)
@@ -124,23 +136,47 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
 
         #endregion
 
-        private readonly TcpClient _tcpClient;
-        private NetworkStream _nStream;
-        private readonly List<IPackageListener> _packageListeners;
-        private readonly List<IClientListener> _clientListeners;
-        private int _idleTimeout;
-        private const int IdleMax = 30;
-        private int _currentIdle;
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
 
         /// <summary>
-        /// A value indicating whether the client is connected.
+        ///     Disposes the object.
         /// </summary>
-        public bool Connected{
-            get { return _tcpClient != null && _tcpClient.Connected; }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Initializes a new LocalClient class.
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _tcpClient.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        private const int IdleMax = 30;
+        private readonly List<IClientListener> _clientListeners;
+        private readonly List<IPackageListener> _packageListeners;
+        private readonly TcpClient _tcpClient;
+        private int _currentIdle;
+        private int _idleTimeout;
+        private NetworkStream _nStream;
+
+        /// <summary>
+        ///     Initializes a new LocalClient class.
         /// </summary>
         public LocalClient()
         {
@@ -150,14 +186,22 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Gets a list of all matching package listeners.
+        ///     A value indicating whether the client is connected.
+        /// </summary>
+        public bool Connected
+        {
+            get { return _tcpClient != null && _tcpClient.Connected; }
+        }
+
+        /// <summary>
+        ///     Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
         private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
         {
             var listenerContext = new List<IPackageListener>();
-            for (var i = 0; i <= _packageListeners.Count - 1; i++)
+            for (int i = 0; i <= _packageListeners.Count - 1; i++)
             {
                 //if listener type is null go to next
                 if (_packageListeners[i].ListenerType == null)
@@ -174,7 +218,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         }
 
         /// <summary>
-        /// Starts receiving data.
+        ///     Starts receiving data.
         /// </summary>
         private void InternalBeginReceive()
         {
@@ -182,7 +226,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
             {
                 try
                 {
-                    var package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+                    IBasePackage package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
                     if (package == null)
                     {
                         //Idle the client.
@@ -194,8 +238,8 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                     {
                         //binary package
                         //Gets the subscriber list with the matching origin type
-                        var subscribers = GetPackageSubscriber(binaryPackage.OriginType);
-                        foreach (var subscriber in subscribers)
+                        IEnumerable<IPackageListener> subscribers = GetPackageSubscriber(binaryPackage.OriginType);
+                        foreach (IPackageListener subscriber in subscribers)
                         {
                             subscriber.OnPackageReceived(binaryPackage);
                         }
@@ -211,38 +255,38 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
 
                         switch (notificationPackage.Mode)
                         {
-                            //client joined
+                                //client joined
                             case NotificationMode.ClientJoined:
-                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
                                 }
                                 break;
-                            //client exited
+                                //client exited
                             case NotificationMode.ClientExited:
-                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
                                 }
                                 break;
-                            //client listing
+                                //client listing
                             case NotificationMode.ClientList:
-                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientListing(notificationPackage.Connection);
                                 }
                                 break;
-                            //server shutdown
+                                //server shutdown
                             case NotificationMode.ServerShutdown:
-                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnServerShutdown();
                                     _tcpClient.Close();
                                 }
                                 break;
-                            //we timed out.
+                                //we timed out.
                             case NotificationMode.TimeOut:
-                                for (var i = 0; i <= _clientListeners.Count - 1; i++)
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientTimedOut();
                                 }
@@ -271,8 +315,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 }
             }
         }
+
         /// <summary>
-        /// Idles the thread.
+        ///     Idles the thread.
         /// </summary>
         private void Idle()
         {
