@@ -1,29 +1,14 @@
-﻿
-namespace Sharpex2D.Framework.Rendering.GDI
+﻿namespace Sharpex2D.Framework.Rendering.GDI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class GdiQuality
     {
         /// <summary>
-        /// A value indicating whether AntiAlias should be used.
+        ///     Initializes a new GdiQuality class.
         /// </summary>
-        public bool AntiAlias { set; get; }
-        /// <summary>
-        /// A value indicating whether Interpolation should be used.
-        /// </summary>
-        public bool Interpolation { set; get; }
-        /// <summary>
-        /// A value indicating whether Compositing should be used.
-        /// </summary>
-        public bool Compositing { set; get; }
-        /// <summary>
-        /// A value indicating whether high quality PixelOffset should be used.
-        /// </summary>
-        public bool HighQualityPixelOffset { set; get; }
-
-        /// <summary>
-        /// Initializes a new GdiQuality class.
-        /// </summary>
-        public GdiQuality() 
+        public GdiQuality()
         {
             AntiAlias = true;
             Interpolation = true;
@@ -32,7 +17,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
-        /// Initializes a new GdiQuality class.
+        ///     Initializes a new GdiQuality class.
         /// </summary>
         /// <param name="qualityMode"></param>
         public GdiQuality(GdiQualityMode qualityMode)
@@ -65,5 +50,25 @@ namespace Sharpex2D.Framework.Rendering.GDI
                     break;
             }
         }
+
+        /// <summary>
+        ///     A value indicating whether AntiAlias should be used.
+        /// </summary>
+        public bool AntiAlias { set; get; }
+
+        /// <summary>
+        ///     A value indicating whether Interpolation should be used.
+        /// </summary>
+        public bool Interpolation { set; get; }
+
+        /// <summary>
+        ///     A value indicating whether Compositing should be used.
+        /// </summary>
+        public bool Compositing { set; get; }
+
+        /// <summary>
+        ///     A value indicating whether high quality PixelOffset should be used.
+        /// </summary>
+        public bool HighQualityPixelOffset { set; get; }
     }
 }

@@ -1,22 +1,27 @@
-﻿
-namespace Sharpex2D.Framework.Rendering.GDI
+﻿namespace Sharpex2D.Framework.Rendering.GDI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public enum GdiQualityMode
     {
         /// <summary>
-        /// Low Graphics.
+        ///     Low Graphics.
         /// </summary>
         Low,
+
         /// <summary>
-        /// Middle Graphics.
+        ///     Middle Graphics.
         /// </summary>
         Middle,
+
         /// <summary>
-        /// High Graphics.
+        ///     High Graphics.
         /// </summary>
         High,
+
         /// <summary>
-        /// Ultra Graphics.
+        ///     Ultra Graphics.
         /// </summary>
         Ultra
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Events;
 using Sharpex2D.Framework.Game;
@@ -7,12 +8,15 @@ using Sharpex2D.Framework.Rendering.Scene.Events;
 
 namespace Sharpex2D.Framework.Rendering.Scene
 {
-    public class SceneManager : IDisposable, IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class SceneManager : IUpdateable, IConstructable
     {
         #region IComponent Implementation
 
         /// <summary>
-        /// Sets or gets the Guid of the Component.
+        ///     Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -24,7 +28,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         #region IGameHandler Implementation
 
         /// <summary>
-        /// Called if the SceneManager should get initialized.
+        ///     Called if the SceneManager should get initialized.
         /// </summary>
         public void Construct()
         {
@@ -32,72 +36,60 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        /// Processes a Tick.
+        ///     Processes a Tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             if (ActiveScene != null)
             {
-                ActiveScene.Tick(elapsed);
+                ActiveScene.Tick(gameTime);
             }
         }
 
         /// <summary>
-        /// Processes a Render.
+        ///     Processes a Render.
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Render(IRenderer renderer, GameTime gameTime)
         {
             if (ActiveScene != null)
             {
-                ActiveScene.Render(renderer, elapsed);
+                ActiveScene.Render(renderer, gameTime);
             }
         }
 
         #endregion
 
-        #region IDisposable Implementation
+        private readonly List<Scene> _scenes;
+        private EventManager _eventManager;
 
         /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            _scenes.Clear();
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Initializes a new SceneManager class.
+        ///     Initializes a new SceneManager class.
         /// </summary>
         public SceneManager()
         {
             _scenes = new List<Scene>();
         }
 
-        private readonly List<Scene> _scenes;
-        private EventManager _eventManager;
-
         /// <summary>
-        /// Gets the ActiveScene.
+        ///     Gets the ActiveScene.
         /// </summary>
         public Scene ActiveScene { get; private set; }
 
         /// <summary>
-        /// Gets a specified scene.
+        ///     Gets a specified scene.
         /// </summary>
         /// <typeparam name="T">The Scene.</typeparam>
         /// <returns>Scene.</returns>
         public T Get<T>() where T : Scene
         {
-            for (var i = 0; i <= _scenes.Count - 1; i++)
+            for (int i = 0; i <= _scenes.Count - 1; i++)
             {
                 if (_scenes[i].GetType() == typeof (T))
                 {
-                    return (T)_scenes[i];
+                    return (T) _scenes[i];
                 }
             }
 
@@ -105,7 +97,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        /// Sets the ActiveScene.
+        ///     Sets the ActiveScene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         public void SetScene(Scene scene)
@@ -123,11 +115,10 @@ namespace Sharpex2D.Framework.Rendering.Scene
                 //publish event
                 _eventManager.Publish(new AfterSceneChangedEvent(ActiveScene));
             }
-
         }
 
         /// <summary>
-        /// Adds a new Scene.
+        ///     Adds a new Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         public void AddScene(Scene scene)
@@ -138,7 +129,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        /// Removes a Scene.
+        ///     Removes a Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         public void RemoveScene(Scene scene)
@@ -147,7 +138,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        /// Removes all Scenes.
+        ///     Removes all Scenes.
         /// </summary>
         public void ClearScenes()
         {

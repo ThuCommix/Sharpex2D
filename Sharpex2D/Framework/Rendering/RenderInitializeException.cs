@@ -1,27 +1,46 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Sharpex2D.Framework.Rendering
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Serializable]
     public class RenderInitializeException : Exception
     {
-        public RenderInitializeException(string message)
-        {
-            _message = message;
-        }
-
+        /// <summary>
+        ///     Initializes a new RenderInitializeException class.
+        /// </summary>
         public RenderInitializeException()
         {
-            
         }
 
-        private string _message = "";
-
-        public override string Message
+        /// <summary>
+        ///     Initializes a new RenderInitializeException class.
+        /// </summary>
+        /// <param name="message">The Message.</param>
+        public RenderInitializeException(string message) : base(message)
         {
-            get
-            {
-                return _message;
-            }
+        }
+
+        /// <summary>
+        ///     Initializes a new RenderInitializeException class.
+        /// </summary>
+        /// <param name="message">The Message.</param>
+        /// <param name="inner">The InnerException.</param>
+        public RenderInitializeException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new RenderInitializeException class.
+        /// </summary>
+        /// <param name="serializationInfo">The SerializationInfo.</param>
+        /// <param name="context">The StreamContext.</param>
+        public RenderInitializeException(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context)
+        {
         }
     }
 }

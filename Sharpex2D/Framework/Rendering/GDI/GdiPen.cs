@@ -1,29 +1,72 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using Sharpex2D.Framework.Content.Pipeline;
 
 namespace Sharpex2D.Framework.Rendering.GDI
 {
-    public class GdiPen : IPen
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("Graphics Device Interface Pen")]
+    public class GdiPen : IPen, IDisposable
     {
         #region IPen Implementation
 
         /// <summary>
-        /// Sets or gets the Size of the Pen.
+        ///     Sets or gets the Size of the Pen.
         /// </summary>
         public float Width
         {
             get { return _width; }
-            set { _width = value;
+            set
+            {
+                _width = value;
                 _pen.Width = value;
             }
         }
 
         /// <summary>
-        /// Sets or gets the Color of the Pen.
+        ///     Sets or gets the Color of the Pen.
         /// </summary>
         public Color Color
         {
             get { return _color; }
-            set { _color = value; _pen.Brush = new SolidBrush(value.ToWin32Color()); }
+            set
+            {
+                _color = value;
+                _pen.Brush = new SolidBrush(value.ToWin32Color());
+            }
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _pen.Dispose();
+                }
+            }
         }
 
         #endregion
@@ -33,7 +76,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         private float _width;
 
         /// <summary>
-        /// Initializes a new GdiPen class.
+        ///     Initializes a new GdiPen class.
         /// </summary>
         public GdiPen()
         {
@@ -44,7 +87,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
-        /// Initializes a new GdiPen class.
+        ///     Initializes a new GdiPen class.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
@@ -54,7 +97,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
-        /// Gets the Pen.
+        ///     Gets the Pen.
         /// </summary>
         /// <returns>Pen</returns>
         internal Pen GetPen()

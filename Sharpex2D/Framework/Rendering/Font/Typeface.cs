@@ -1,21 +1,16 @@
 ﻿using System;
-using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Content.Factory;
 
 namespace Sharpex2D.Framework.Rendering.Font
 {
-    public class Typeface : IContent
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class Typeface
     {
-
-        /// <summary>
-        /// Gets the Factory.
-        /// </summary>
-        public static TypefaceFactory Factory { private set; get; }
-
         private float _fontSize;
 
         /// <summary>
-        /// Initializes a new Typeface class.
+        ///     Initializes a new Typeface class.
         /// </summary>
         public Typeface()
         {
@@ -25,20 +20,12 @@ namespace Sharpex2D.Framework.Rendering.Font
         }
 
         /// <summary>
-        /// Initializes a new Typeface class.
-        /// </summary>
-        static Typeface()
-        {
-            Factory = new TypefaceFactory();
-        }
-
-        /// <summary>
-        /// Sets or gets the FontFamily.
+        ///     Sets or gets the FontFamily.
         /// </summary>
         public string FamilyName { set; get; }
 
         /// <summary>
-        /// Sets or gets the FontSize.
+        ///     Sets or gets the FontSize.
         /// </summary>
         public float Size
         {
@@ -51,17 +38,14 @@ namespace Sharpex2D.Framework.Rendering.Font
                 }
                 else
                 {
-                    throw new ArgumentOutOfRangeException(paramName: "value");
+                    throw new ArgumentOutOfRangeException("value");
                 }
             }
-            get
-            {
-                return _fontSize;
-            }
+            get { return _fontSize; }
         }
 
         /// <summary>
-        /// Sets or gets the FontStyle.
+        ///     Sets or gets the FontStyle.
         /// </summary>
         public TypefaceStyle Style { set; get; }
     }

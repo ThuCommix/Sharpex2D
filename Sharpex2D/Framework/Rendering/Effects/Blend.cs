@@ -1,42 +1,53 @@
 ﻿using System;
 using System.Threading;
 using Sharpex2D.Framework.Game;
+using Sharpex2D.Framework.Math;
 
 namespace Sharpex2D.Framework.Rendering.Effects
 {
-    public class Blend : IEffect, IGameHandler
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    public class Blend : IEffect
     {
         #region IEffect Implementation
 
         /// <summary>
-        /// Gets the Guid-Identifer.
+        ///     Gets the Guid-Identifer.
         /// </summary>
-        public Guid Guid { get { return new Guid("199266BF-94EA-4B1C-BF2B-117B3B13FCAB"); } }
+        public Guid Guid
+        {
+            get { return new Guid("199266BF-94EA-4B1C-BF2B-117B3B13FCAB"); }
+        }
+
         /// <summary>
-        /// Sets or gets the Duration.
+        ///     Sets or gets the Duration.
         /// </summary>
         public float Duration { get; set; }
+
         /// <summary>
-        /// Starts the Effect.
+        ///     Starts the Effect.
         /// </summary>
         public void Start()
         {
             if (!_issubscribed)
             {
-                _scaling = 255 / Duration;
-                _drawingRect = new Math.Rectangle(-8, -5, SGL.GraphicsDevice.DisplayMode.Width + 20,
+                _scaling = 255/Duration;
+                _drawingRect = new Rectangle(-8, -5, SGL.GraphicsDevice.DisplayMode.Width + 20,
                     SGL.GraphicsDevice.DisplayMode.Height + 20);
                 _finished = false;
                 Completed = false;
                 _issubscribed = true;
             }
         }
+
         /// <summary>
-        /// A value indicating whether the Effect is completed.
+        ///     A value indicating whether the Effect is completed.
         /// </summary>
         public bool Completed { private set; get; }
+
         /// <summary>
-        /// Gets the Callback action.
+        ///     Gets the Callback action.
         /// </summary>
         public Action Callback { private set; get; }
 
@@ -45,18 +56,17 @@ namespace Sharpex2D.Framework.Rendering.Effects
         #region IGameHandler Implementation
 
         /// <summary>
-        /// Constructs the Component
+        ///     Constructs the Component
         /// </summary>
         public void Construct()
         {
-
         }
 
         /// <summary>
-        /// Processes a Game tick.
+        ///     Processes a Game tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             if (_finished)
             {
@@ -75,7 +85,7 @@ namespace Sharpex2D.Framework.Rendering.Effects
             else
             {
                 if (!_issubscribed) return;
-                var deltaA = _scaling*elapsed;
+                float deltaA = _scaling*gameTime.ElapsedGameTime;
                 if (_blendMode == BlendMode.FadeIn)
                 {
                     if (_alpha - deltaA > 0)
@@ -101,16 +111,17 @@ namespace Sharpex2D.Framework.Rendering.Effects
                         _alpha = 255;
                         _finished = true;
                     }
-                    _color.A = (byte)_alpha;
+                    _color.A = (byte) _alpha;
                 }
             }
         }
+
         /// <summary>
-        /// Processes a Render.
+        ///     Processes a Render.
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Render(IRenderer renderer, float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Render(IRenderer renderer, GameTime gameTime)
         {
             /*/renderer.DrawTexture(_overlay,
                 _drawingRect,
@@ -121,8 +132,17 @@ namespace Sharpex2D.Framework.Rendering.Effects
 
         #endregion
 
+        private readonly BlendMode _blendMode;
+        private float _alpha;
+        private Color _color;
+        private Rectangle _drawingRect;
+        private bool _finishFired;
+        private bool _finished;
+        private bool _issubscribed;
+        private float _scaling;
+
         /// <summary>
-        /// Initializes a new Blend class.
+        ///     Initializes a new Blend class.
         /// </summary>
         /// <param name="callback">The Callback Action.</param>
         /// <param name="blendMode">The BlendMode.</param>
@@ -131,21 +151,11 @@ namespace Sharpex2D.Framework.Rendering.Effects
             //var bmp = new Bitmap(100, 100);
             //_overlay = new Texture {Texture2D = bmp};
             _color = Color.Black;
-            _color.A = blendMode == BlendMode.FadeIn ? (byte)255 : (byte)0;
+            _color.A = blendMode == BlendMode.FadeIn ? (byte) 255 : (byte) 0;
             _alpha = blendMode == BlendMode.FadeIn ? 255 : 0;
             _finished = false;
             Callback = callback;
             _blendMode = blendMode;
         }
-
-        //private readonly Texture _overlay;
-        private bool _finished;
-        private bool _issubscribed;
-        private Color _color;
-        private readonly BlendMode _blendMode;
-        private float _alpha;
-        private float _scaling;
-        private bool _finishFired;
-        private Math.Rectangle _drawingRect;
     }
 }
