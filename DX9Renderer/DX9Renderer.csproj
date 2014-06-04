@@ -48,9 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Content\DirectX9TextureLoader.cs" />
-    <Compile Include="Framework\Content\Factory\DirectX9TextureFactory.cs" />
-    <Compile Include="Framework\Content\Serialization\DirectX9TextureSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXFontContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXPenContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processors\DirectXTextureContentProcessor.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXHelper.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXPen.cs" />
     <Compile Include="Framework\Rendering\DirectX9\DirectXRenderer.cs" />
