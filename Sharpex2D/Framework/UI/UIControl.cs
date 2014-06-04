@@ -1,20 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sharpex2D.Framework.Common.Extensions;
+using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Input;
 using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.UI
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public abstract class UIControl
     {
         #region IGameHandler Implementation
+
         /// <summary>
-        /// Processes a Game tick.
+        ///     Processes a Game tick.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public void Tick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public void Tick(GameTime gameTime)
         {
             _mouseRectangle.X = _inputManager.Mouse.Position.X;
             _mouseRectangle.Y = _inputManager.Mouse.Position.Y;
@@ -27,7 +32,7 @@ namespace Sharpex2D.Framework.UI
                 SetFocus();
             }
 
-            OnTick(elapsed);
+            OnTick(gameTime);
         }
 
         #endregion
@@ -39,7 +44,7 @@ namespace Sharpex2D.Framework.UI
         private Vector2 _lastRelativeMousePostion;
 
         /// <summary>
-        /// Gets the relative mouse position.
+        ///     Gets the relative mouse position.
         /// </summary>
         public Vector2 RelativeMousePosition
         {
@@ -57,12 +62,12 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Gets the Bounds of the UIControl.
+        ///     Gets the Bounds of the UIControl.
         /// </summary>
         public UIBounds Bounds { private set; get; }
 
         /// <summary>
-        /// Sets or gets the Position of the UIControl.
+        ///     Sets or gets the Position of the UIControl.
         /// </summary>
         public Vector2 Position
         {
@@ -75,22 +80,22 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// A value indicating whether the UIControl is visible.
+        ///     A value indicating whether the UIControl is visible.
         /// </summary>
         public bool Visible { set; get; }
 
         /// <summary>
-        /// A value indicating whether the UIConrol is enabled.
+        ///     A value indicating whether the UIConrol is enabled.
         /// </summary>
         public bool Enable { set; get; }
 
         /// <summary>
-        /// A value indicating whether the UIControl is available to get the focus.
+        ///     A value indicating whether the UIControl is available to get the focus.
         /// </summary>
         public bool CanGetFocus { set; get; }
 
         /// <summary>
-        /// Sets or gets the Size of the UIControl.
+        ///     Sets or gets the Size of the UIControl.
         /// </summary>
         public UISize Size
         {
@@ -103,39 +108,36 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// A value indicating whether the mouse is hovering the UIControl.
+        ///     A value indicating whether the mouse is hovering the UIControl.
         /// </summary>
         public bool IsMouseHoverState { private set; get; }
 
         /// <summary>
-        /// A value indicating whether the UIControl has focus.
+        ///     A value indicating whether the UIControl has focus.
         /// </summary>
         public bool HasFocus { internal set; get; }
 
         /// <summary>
-        /// Gets the Guid-Identifer.
+        ///     Gets the Guid-Identifer.
         /// </summary>
         public Guid Guid { private set; get; }
 
         /// <summary>
-        /// Sets or gets the Parent UIControl.
+        ///     Sets or gets the Parent UIControl.
         /// </summary>
         public UIControl Parent
         {
             set { SetParent(value); }
-            get
-            {
-                return _parent;
-            }
+            get { return _parent; }
         }
 
         /// <summary>
-        /// Gets the children of the UIControl.
+        ///     Gets the children of the UIControl.
         /// </summary>
         public List<UIControl> Children { internal set; get; }
 
         /// <summary>
-        /// Sets or gets the UIManager.
+        ///     Sets or gets the UIManager.
         /// </summary>
         internal UIManager UIManager { set; get; }
 
@@ -144,7 +146,29 @@ namespace Sharpex2D.Framework.UI
         #region Methods
 
         /// <summary>
-        /// Updates the Bounds of the UIControl.
+        ///     Initializes a new UIControl class.
+        /// </summary>
+        /// <param name="assignedUIManager">The assigned UIManager.</param>
+        protected UIControl(UIManager assignedUIManager)
+        {
+            _position = new Vector2(0, 0);
+            _size = new UISize(0, 0);
+            UpdateBounds();
+            _mouseRectangle = new Rectangle {Width = 1, Height = 1};
+            Guid = Guid.NewGuid();
+            _inputManager = SGL.Components.Get<InputManager>();
+            CanGetFocus = true;
+            Enable = true;
+            Visible = true;
+            _parent = null;
+            _lastRelativeMousePostion = new Vector2(0, 0);
+            Children = new List<UIControl>();
+            UIManager = assignedUIManager;
+            UIManager.Add(this);
+        }
+
+        /// <summary>
+        ///     Updates the Bounds of the UIControl.
         /// </summary>
         internal void UpdateBounds()
         {
@@ -152,7 +176,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Sets the Parent.
+        ///     Sets the Parent.
         /// </summary>
         /// <param name="parent">The Parent.</param>
         internal void SetParent(UIControl parent)
@@ -170,28 +194,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Initializes a new UIControl class.
-        /// </summary>
-        /// <param name="assignedUIManager">The assigned UIManager.</param>
-        protected UIControl(UIManager assignedUIManager)
-        {
-            _position = new Vector2(0, 0);
-            _size = new UISize(0, 0);
-            UpdateBounds();
-            _mouseRectangle = new Rectangle {Width = 1, Height = 1};
-            Guid = Guid.NewGuid();
-            _inputManager = SGL.Components.Get<InputManager>();
-            CanGetFocus = true;
-            Enable = true;
-            _parent = null;
-            _lastRelativeMousePostion = new Vector2(0, 0);
-            Children = new List<UIControl>();
-            UIManager = assignedUIManager;
-            UIManager.Add(this);
-        }
-
-        /// <summary>
-        /// Sets the Focus for this UIControl.
+        ///     Sets the Focus for this UIControl.
         /// </summary>
         public void SetFocus()
         {
@@ -200,7 +203,7 @@ namespace Sharpex2D.Framework.UI
             if (!CanGetFocus || !Enable) return;
 
             // unset the last focused element
-            foreach (var ctrl in UIManager.GetAll())
+            foreach (UIControl ctrl in UIManager.GetAll())
             {
                 ctrl.HasFocus = false;
             }
@@ -209,7 +212,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Removes a UIControl from the Childs.
+        ///     Removes a UIControl from the Childs.
         /// </summary>
         /// <param name="control">The UIControl.</param>
         public void RemoveChild(UIControl control)
@@ -221,7 +224,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Removes the Focus of the UIControl.
+        ///     Removes the Focus of the UIControl.
         /// </summary>
         public void RemoveFocus()
         {
@@ -229,7 +232,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Determines, if a MouseButton was pressed.
+        ///     Determines, if a MouseButton was pressed.
         /// </summary>
         /// <param name="mouseButton">The MouseButton.</param>
         /// <returns>True if pressed</returns>
@@ -240,7 +243,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Determines, if a Key was pressed down.
+        ///     Determines, if a Key was pressed down.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed down</returns>
@@ -250,7 +253,7 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        /// Determines, if a Key was pressed.
+        ///     Determines, if a Key was pressed.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed</returns>
@@ -263,29 +266,28 @@ namespace Sharpex2D.Framework.UI
 
         #region Private Fields
 
-        private Vector2 _position;
-        private UISize _size;
         private readonly InputManager _inputManager;
         private Rectangle _mouseRectangle;
         private UIControl _parent;
+        private Vector2 _position;
+        private UISize _size;
 
         #endregion
 
         #region Abstract
 
         /// <summary>
-        /// Processes a Render call.
+        ///     Processes a Render call.
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         public abstract void OnRender(IRenderer renderer);
 
         /// <summary>
-        /// Processes a Tick call.
+        ///     Processes a Tick call.
         /// </summary>
-        /// <param name="elapsed">The Elapsed.</param>
-        public virtual void OnTick(float elapsed)
+        /// <param name="gameTime">The GameTime.</param>
+        public virtual void OnTick(GameTime gameTime)
         {
-            
         }
 
         #endregion
