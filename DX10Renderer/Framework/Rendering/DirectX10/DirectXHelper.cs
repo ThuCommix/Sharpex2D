@@ -7,6 +7,9 @@ using Vector2 = Sharpex2D.Framework.Math.Vector2;
 
 namespace Sharpex2D.Framework.Rendering.DirectX10
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class DirectXHelper
     {
         /// <summary>

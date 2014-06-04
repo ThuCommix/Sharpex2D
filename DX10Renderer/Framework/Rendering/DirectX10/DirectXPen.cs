@@ -1,7 +1,12 @@
-﻿using SlimDX.Direct2D;
+﻿using Sharpex2D.Framework.Content.Pipeline;
+using SlimDX.Direct2D;
 
 namespace Sharpex2D.Framework.Rendering.DirectX10
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("DirectX10 Pen")]
     public class DirectXPen : IPen
     {
         #region IPen Implementation

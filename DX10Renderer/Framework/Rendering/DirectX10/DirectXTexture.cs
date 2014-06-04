@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 using System.Runtime.InteropServices;
-using Sharpex2D.Framework.Content.Factory;
+using Sharpex2D.Framework.Content.Pipeline;
 using SlimDX;
 using SlimDX.Direct2D;
 using SlimDX.DXGI;
@@ -8,6 +8,10 @@ using Bitmap = System.Drawing.Bitmap;
 
 namespace Sharpex2D.Framework.Rendering.DirectX10
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
+    [Content("DirectX10 Texture")]
     public class DirectXTexture : ITexture
     {
         #region ITexture Implementation
@@ -21,11 +25,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         public int Height { get; private set; }
 
         #endregion
-
-        /// <summary>
-        /// Gets the Factory.
-        /// </summary>
-        public static DirectX10TextureFactory Factory { private set; get; }
 
         private readonly SlimDX.Direct2D.Bitmap _bmp;
 
@@ -85,13 +84,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         public SlimDX.Direct2D.Bitmap GetBitmap()
         {
             return _bmp;
-        }
-        /// <summary>
-        /// Initializes a new DirectXTexture class.
-        /// </summary>
-        static DirectXTexture()
-        {
-            Factory = new DirectX10TextureFactory();
         }
     }
 }
