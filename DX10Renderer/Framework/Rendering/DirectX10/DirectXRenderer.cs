@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Content.Serialization;
+using Sharpex2D.Framework.Content.Pipeline.Processors;
 using Sharpex2D.Framework.Rendering.DirectX10.Font;
 using SlimDX;
 using SlimDX.Direct2D;
@@ -16,6 +16,9 @@ using Rectangle = Sharpex2D.Framework.Math.Rectangle;
 
 namespace Sharpex2D.Framework.Rendering.DirectX10
 {
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [Copyright("©Sharpex2D 2013 - 2014")]
+    [TestState(TestState.Tested)]
     public class DirectXRenderer : IRenderer
     {
 
@@ -88,6 +91,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         #endregion
 
         #region IRenderer Implementation
+
         /// <summary>
         /// Draws a Rectangle.
         /// </summary>
@@ -333,7 +337,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Vector2 position, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
@@ -341,7 +346,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
             if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
             var dxBmp = dxTexture.GetBitmap();
             _renderTarget.DrawBitmap(dxBmp,
-                new RectangleF(position.X, position.Y, texture.Width, texture.Height), 1, InterpolationMode.Linear);
+                new RectangleF(position.X, position.Y, texture.Width, texture.Height), opacity, InterpolationMode.Linear);
         }
         /// <summary>
         /// Draws a Texture.
@@ -349,14 +354,15 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
             CheckDisposed();
 
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
             var dxBmp = dxTexture.GetBitmap();
-            _renderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangle(rectangle), 1,
+            _renderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangle(rectangle), opacity,
                 InterpolationMode.Linear);
         }
         /// <summary>
@@ -423,8 +429,12 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         {
             DirectXHelper.Direct2DFactory = new SlimDX.Direct2D.Factory(FactoryType.Multithreaded);
             DirectXHelper.DirectWriteFactory = new SlimDX.DirectWrite.Factory(SlimDX.DirectWrite.FactoryType.Shared);
-            SGL.Components.Get<Implementation.ImplementationManager>().AddImplementation(new DirectX10TextureSerializer());
-            SGL.Components.Get<ContentManager>().Extend(new DirectX10TextureLoader());
+            
+            var contentManager = SGL.Components.Get<ContentManager>();
+
+            contentManager.ContentProcessor.Add(new DirectXFontContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXPenContentProcessor());
+            contentManager.ContentProcessor.Add(new DirectXTextureContentProcessor());
         }
 
         /// <summary>
