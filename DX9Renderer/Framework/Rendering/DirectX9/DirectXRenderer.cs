@@ -122,32 +122,18 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <remarks>Different radii are not in calculation.</remarks>
-        public void DrawEllipse(IPen pen, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void DrawEllipse(IPen pen, Ellipse ellipse)
         {
             CheckDisposed();
 
             var dxPen = pen as DirectXPen;
             if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
 
-            var whalfellipse = rectangle.Width/2;
-            var hhalfellipse = rectangle.Height / 2;
-
-            var vertexList = new List<Vector2>();
-
-            for (var i = 1; i <= 360; i++)
-            {
-                vertexList.Add(
-                    new Vector2(whalfellipse*MathHelper.Cos(i*(float)MathHelper.PiOverOneEighty) + rectangle.Center.X,
-                        hhalfellipse * MathHelper.Sin(i * (float)MathHelper.PiOverOneEighty) + rectangle.Center.Y));
-            }
-
-
             var line = new Line(_direct3D9Device) {Antialias = true, Width = dxPen.Width};
             line.Begin();
 
-            line.Draw(DirectXHelper.ConvertToVertex(vertexList.ToArray()), DirectXHelper.ConvertColor(dxPen.Color));
+            line.Draw(DirectXHelper.ConvertToVertex(ellipse.Points), DirectXHelper.ConvertColor(dxPen.Color));
 
             line.End();
         }
@@ -169,8 +155,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="points">The Points.</param>
-        public void DrawPolygon(IPen pen, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
             CheckDisposed();
 
@@ -179,7 +165,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
 
             var line = new Line(_direct3D9Device) { Antialias = true, Width = dxPen.Width };
             line.Begin();
-            line.Draw(DirectXHelper.ConvertToVertex(points), DirectXHelper.ConvertColor(dxPen.Color));
+            line.Draw(DirectXHelper.ConvertToVertex(polygon.Points), DirectXHelper.ConvertColor(dxPen.Color));
             line.End();
         }
         /// <summary>
@@ -215,13 +201,13 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void FillEllipse(Color color, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void FillEllipse(Color color, Ellipse ellipse)
         {
             CheckDisposed();
 
-            var whalfellipse = rectangle.Width / 2;
-            var hhalfellipse = rectangle.Height / 2;
+            var whalfellipse = ellipse.RadiusX;
+            var hhalfellipse = ellipse.RadiusY;
 
             var vertexList = new List<Vector2>();
 
@@ -231,8 +217,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
                 {
                     vertexList.Add(
                         new Vector2(
-                            whalfellipse*MathHelper.Cos(i*(float) MathHelper.PiOverOneEighty) + rectangle.Center.X,
-                            hhalfellipse*MathHelper.Sin(i*(float) MathHelper.PiOverOneEighty) + rectangle.Center.Y));
+                            whalfellipse * MathHelper.Cos(i * (float)MathHelper.PiOverOneEighty) + ellipse.Position.X,
+                            hhalfellipse * MathHelper.Sin(i * (float)MathHelper.PiOverOneEighty) + ellipse.Position.Y));
                 }
                 whalfellipse -= 1f;
                 hhalfellipse -= 1f;
@@ -250,8 +236,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="points">The Points.</param>
-        public void FillPolygon(Color color, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void FillPolygon(Color color, Polygon polygon)
         {
             CheckDisposed();
 

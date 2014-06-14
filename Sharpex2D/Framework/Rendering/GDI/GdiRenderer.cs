@@ -133,8 +133,8 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void DrawEllipse(IPen pen, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void DrawEllipse(IPen pen, Ellipse ellipse)
         {
             CheckDisposed();
 
@@ -142,8 +142,8 @@ namespace Sharpex2D.Framework.Rendering.GDI
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawEllipse(gdiPen.GetPen(),
-                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
-                    (int) rectangle.Height));
+                new System.Drawing.Rectangle((int)ellipse.Position.X, (int)ellipse.Position.Y, (int)ellipse.RadiusX*2,
+                    (int) ellipse.RadiusY*2));
         }
 
         /// <summary>
@@ -169,15 +169,15 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="points">The Points.</param>
-        public void DrawPolygon(IPen pen, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
             CheckDisposed();
 
             var gdiPen = pen as GdiPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
-            _buffergraphics.DrawPolygon(gdiPen.GetPen(), points.ToPoints());
+            _buffergraphics.DrawPolygon(gdiPen.GetPen(), polygon.Points.ToPoints());
         }
 
         /// <summary>
@@ -221,26 +221,26 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void FillEllipse(Color color, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void FillEllipse(Color color, Ellipse ellipse)
         {
             CheckDisposed();
 
             _buffergraphics.FillEllipse(new SolidBrush(color.ToWin32Color()),
-                new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
-                    (int) rectangle.Height));
+                 new System.Drawing.Rectangle((int)ellipse.Position.X, (int)ellipse.Position.Y, (int)ellipse.RadiusX * 2,
+                    (int)ellipse.RadiusY * 2));
         }
 
         /// <summary>
         ///     Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="points">The Points.</param>
-        public void FillPolygon(Color color, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void FillPolygon(Color color, Polygon polygon)
         {
             CheckDisposed();
 
-            _buffergraphics.FillPolygon(new SolidBrush(color.ToWin32Color()), points.ToPoints());
+            _buffergraphics.FillPolygon(new SolidBrush(color.ToWin32Color()), polygon.Points.ToPoints());
         }
 
         /// <summary>

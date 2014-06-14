@@ -59,17 +59,17 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// <summary>
         /// Converts a Rectangle into a Ellipse.
         /// </summary>
-        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="ellipse">The Ellipse.</param>
         /// <returns>Ellipse</returns>
-        public static Ellipse ConvertEllipse(Math.Rectangle rectangle)
+        public static Ellipse ConvertEllipse(Math.Ellipse ellipse)
         {
-            var ellipse = new Ellipse
+            var ellipseDx = new Ellipse
             {
-                Point = ConvertVector(rectangle.Center),
-                RadiusX = rectangle.Width/2,
-                RadiusY = rectangle.Height/2
+                Point = ConvertVector(ellipse.Position),
+                RadiusX = ellipse.RadiusX,
+                RadiusY = ellipse.RadiusY
             };
-            return ellipse;
+            return ellipseDx;
         }
     }
 }

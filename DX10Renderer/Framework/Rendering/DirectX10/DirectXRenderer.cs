@@ -126,15 +126,15 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void DrawEllipse(IPen pen, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void DrawEllipse(IPen pen, Math.Ellipse ellipse)
         {
             CheckDisposed();
 
             var dxPen = pen as DirectXPen;
             if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
 
-            _renderTarget.DrawEllipse(dxPen.GetPen(), DirectXHelper.ConvertEllipse(rectangle));
+            _renderTarget.DrawEllipse(dxPen.GetPen(), DirectXHelper.ConvertEllipse(ellipse));
         }
         /// <summary>
         /// Draws an Arc.
@@ -153,8 +153,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="points">The Points.</param>
-        public void DrawPolygon(IPen pen, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
             CheckDisposed();
 
@@ -164,10 +164,10 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
             var geometry = new PathGeometry(DirectXHelper.Direct2DFactory);
             using (var sink = geometry.Open())
             {
-                sink.BeginFigure(DirectXHelper.ConvertVector(points[0]), FigureBegin.Hollow);
+                sink.BeginFigure(DirectXHelper.ConvertVector(polygon.Points[0]), FigureBegin.Hollow);
 
-                for (var i = 1; i < points.Length; i++)
-                    sink.AddLine(DirectXHelper.ConvertVector(points[i]));
+                for (var i = 1; i < polygon.Points.Length; i++)
+                    sink.AddLine(DirectXHelper.ConvertVector(polygon.Points[i]));
 
                 sink.EndFigure(FigureEnd.Closed);
                 sink.Close();
@@ -206,30 +206,30 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void FillEllipse(Color color, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void FillEllipse(Color color, Math.Ellipse ellipse)
         {
             CheckDisposed();
 
             _renderTarget.FillEllipse(new SolidColorBrush(_renderTarget, DirectXHelper.ConvertColor(color)),
-                DirectXHelper.ConvertEllipse(rectangle));
+                DirectXHelper.ConvertEllipse(ellipse));
         }
         /// <summary>
         /// Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="points">The Points.</param>
-        public void FillPolygon(Color color, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void FillPolygon(Color color, Polygon polygon)
         {
             CheckDisposed();
 
             var geometry = new PathGeometry(DirectXHelper.Direct2DFactory);
             using (var sink = geometry.Open())
             {
-                sink.BeginFigure(DirectXHelper.ConvertVector(points[0]), FigureBegin.Filled);
+                sink.BeginFigure(DirectXHelper.ConvertVector(polygon.Points[0]), FigureBegin.Filled);
 
-                for (var i = 1; i < points.Length; i++)
-                    sink.AddLine(DirectXHelper.ConvertVector(points[i]));
+                for (var i = 1; i < polygon.Points.Length; i++)
+                    sink.AddLine(DirectXHelper.ConvertVector(polygon.Points[i]));
 
                 sink.EndFigure(FigureEnd.Closed);
                 sink.Close();

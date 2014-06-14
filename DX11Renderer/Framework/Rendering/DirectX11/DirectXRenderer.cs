@@ -7,6 +7,7 @@ using SharpDX.DirectWrite;
 using SharpDX.DXGI;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Content.Pipeline.Processors;
+using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Rendering.DirectX11.Font;
 using Sharpex2D.Framework.Rendering.Font;
 using Device = SharpDX.Direct3D11.Device;
@@ -75,14 +76,14 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void DrawEllipse(IPen pen, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void DrawEllipse(IPen pen, Math.Ellipse ellipse)
         {
             CheckDisposed();
 
             var dxPen = pen as DirectXPen;
             if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
-            DirectXHelper.RenderTarget.DrawEllipse(DirectXHelper.ConvertEllipse(rectangle), dxPen.GetPen(), dxPen.Width);
+            DirectXHelper.RenderTarget.DrawEllipse(DirectXHelper.ConvertEllipse(ellipse), dxPen.GetPen(), dxPen.Width);
         }
         /// <summary>
         /// Draws an Arc.
@@ -101,8 +102,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
-        /// <param name="points">The Points.</param>
-        public void DrawPolygon(IPen pen, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
             CheckDisposed();
 
@@ -112,10 +113,10 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
             var geometry = new PathGeometry(DirectXHelper.D2DFactory);
             using (var sink = geometry.Open())
             {
-                sink.BeginFigure(DirectXHelper.ConvertVector(points[0]), FigureBegin.Hollow);
+                sink.BeginFigure(DirectXHelper.ConvertVector(polygon.Points[0]), FigureBegin.Hollow);
 
-                for (var i = 1; i < points.Length; i++)
-                    sink.AddLine(DirectXHelper.ConvertVector(points[i]));
+                for (var i = 1; i < polygon.Points.Length; i++)
+                    sink.AddLine(DirectXHelper.ConvertVector(polygon.Points[i]));
 
                 sink.EndFigure(FigureEnd.Closed);
                 sink.Close();
@@ -153,30 +154,30 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
         /// Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void FillEllipse(Color color, Rectangle rectangle)
+        /// <param name="ellipse">The Ellipse.</param>
+        public void FillEllipse(Color color, Math.Ellipse ellipse)
         {
             CheckDisposed();
 
-            DirectXHelper.RenderTarget.FillEllipse(DirectXHelper.ConvertEllipse(rectangle),
+            DirectXHelper.RenderTarget.FillEllipse(DirectXHelper.ConvertEllipse(ellipse),
                 new SolidColorBrush(DirectXHelper.RenderTarget, DirectXHelper.ConvertColor(color)));
         }
         /// <summary>
         /// Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <param name="points">The Points.</param>
-        public void FillPolygon(Color color, Vector2[] points)
+        /// <param name="polygon">The Polygon.</param>
+        public void FillPolygon(Color color, Polygon polygon)
         {
             CheckDisposed();
 
             var geometry = new PathGeometry(DirectXHelper.D2DFactory);
             using (var sink = geometry.Open())
             {
-                sink.BeginFigure(DirectXHelper.ConvertVector(points[0]), FigureBegin.Filled);
+                sink.BeginFigure(DirectXHelper.ConvertVector(polygon.Points[0]), FigureBegin.Filled);
 
-                for (var i = 1; i < points.Length; i++)
-                    sink.AddLine(DirectXHelper.ConvertVector(points[i]));
+                for (var i = 1; i < polygon.Points.Length; i++)
+                    sink.AddLine(DirectXHelper.ConvertVector(polygon.Points[i]));
 
                 sink.EndFigure(FigureEnd.Closed);
                 sink.Close();

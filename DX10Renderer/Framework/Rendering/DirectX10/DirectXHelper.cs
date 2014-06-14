@@ -52,18 +52,18 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         /// <summary>
         /// Converts the Rectangle.
         /// </summary>
-        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="ellipse">The Ellipse.</param>
         /// <returns>Ellipse.</returns>
-        public static Ellipse ConvertEllipse(Rectangle rectangle)
+        public static Ellipse ConvertEllipse(Math.Ellipse ellipse)
         {
-            var ellipse = new Ellipse
+            var ellipseX = new Ellipse
             {
-                Center = ConvertPointF(rectangle.Center),
-                RadiusX = rectangle.Width/2,
-                RadiusY = rectangle.Height/2
+                Center = ConvertPointF(ellipse.Position),
+                RadiusX = ellipse.RadiusX,
+                RadiusY = ellipse.RadiusY
             };
 
-            return ellipse;
+            return ellipseX;
         }
         /// <summary>
         /// Converts the Vector2.
