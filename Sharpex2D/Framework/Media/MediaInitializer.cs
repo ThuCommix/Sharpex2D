@@ -62,19 +62,17 @@ namespace Sharpex2D.Framework.Media
         /// <summary>
         ///     Gets the default MediaInitializer.
         /// </summary>
-        /// <returns>MediaInitializer</returns>
-        public static MediaInitializer Default()
+        public static MediaInitializer Default
         {
-            return new MediaInitializer(new WaveSoundInitializer(), null);
+            get { return new MediaInitializer(new WaveSoundInitializer(), null); }
         }
 
         /// <summary>
         ///     Gets an emtpy MediaInitializer.
         /// </summary>
-        /// <returns>MediaInitializer</returns>
-        public static MediaInitializer Empty()
+        public static MediaInitializer Empty
         {
-            return new MediaInitializer();
+            get { return new MediaInitializer(); }
         }
     }
 }
