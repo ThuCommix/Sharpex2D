@@ -108,16 +108,16 @@ namespace Sharpex2D.Framework.Entities
         }
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void Tick(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (_componentsEnabled)
             {
                 foreach (Entity entity in EntityContainer.GetEntities())
                 {
-                    entity.Tick(gameTime);
+                    entity.Update(gameTime);
                 }
             }
 

@@ -56,10 +56,10 @@ namespace Sharpex2D.Framework.Input.Devices
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (IsEnabled)
             {

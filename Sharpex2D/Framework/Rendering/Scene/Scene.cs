@@ -30,10 +30,10 @@ namespace Sharpex2D.Framework.Rendering.Scene
         public UIManager UIManager { set; get; }
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void Tick(GameTime gameTime);
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
         ///     Processes a Render.

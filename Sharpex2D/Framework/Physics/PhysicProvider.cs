@@ -27,10 +27,10 @@ namespace Sharpex2D.Framework.Physics
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Processes a Game tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             foreach (Particle particle in _particles)
             {

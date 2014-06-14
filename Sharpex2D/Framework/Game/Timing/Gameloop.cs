@@ -267,7 +267,7 @@ namespace Sharpex2D.Framework.Game.Timing
                             IUpdateable updateable = _updateables[index];
                             lock (updateable)
                             {
-                                updateable.Tick(_updateGameTime);
+                                updateable.Update(_updateGameTime);
                             }
                         }
                     }
@@ -282,7 +282,7 @@ namespace Sharpex2D.Framework.Game.Timing
                     IUpdateable updateable = _updateables[index];
                     lock (updateable)
                     {
-                        updateable.Tick(_updateGameTime);
+                        updateable.Update(_updateGameTime);
                     }
                 }
 

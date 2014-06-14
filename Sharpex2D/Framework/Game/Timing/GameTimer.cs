@@ -48,7 +48,7 @@ namespace Sharpex2D.Framework.Game.Timing
         ///     Processes a Game tick.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             Update(gameTime.ElapsedGameTime);
         }
@@ -71,7 +71,7 @@ namespace Sharpex2D.Framework.Game.Timing
         public GameTimer()
         {
             Interval = 100;
-            UpdateMode = UpdateMode.OnGameTick;
+            UpdateMode = UpdateMode.OnGameUpdate;
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Sharpex2D.Framework.Game.Timing
             IsRunning = true;
             _abort = false;
 
-            if (UpdateMode == UpdateMode.OnGameTick)
+            if (UpdateMode == UpdateMode.OnGameUpdate)
             {
                 SGL.Components.Get<IGameLoop>().Subscribe(this);
             }
@@ -165,7 +165,7 @@ namespace Sharpex2D.Framework.Game.Timing
 
         public void Stop()
         {
-            if (UpdateMode == UpdateMode.OnGameTick)
+            if (UpdateMode == UpdateMode.OnGameUpdate)
             {
                 SGL.Components.Get<IGameLoop>().Unsubscribe(this);
             }

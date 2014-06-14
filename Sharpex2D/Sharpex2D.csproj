@@ -191,8 +191,12 @@
     <Compile Include="Framework\Localization\LanguageSerializer.cs" />
     <Compile Include="Framework\Localization\LocalizedValue.cs" />
     <Compile Include="Framework\Math\Circle.cs" />
+    <Compile Include="Framework\Math\Ellipse.cs" />
+    <Compile Include="Framework\Math\IGeometry.cs" />
     <Compile Include="Framework\Math\Matrix.cs" />
     <Compile Include="Framework\Math\Matrix2x3.cs" />
+    <Compile Include="Framework\Math\Polygon.cs" />
+    <Compile Include="Framework\Math\PolygonCollisionResult.cs" />
     <Compile Include="Framework\Math\Rectangle.cs" />
     <Compile Include="Framework\Media\MediaInitializer.cs" />
     <Compile Include="Framework\Media\Sound\Processors\CircleSoundProcessor.cs" />
@@ -264,7 +268,6 @@
     <Compile Include="Framework\Rendering\GDI\GdiQuality.cs" />
     <Compile Include="Framework\Rendering\GDI\GdiQualityMode.cs" />
     <Compile Include="Framework\Rendering\GDI\GdiTexture.cs" />
-    <Compile Include="Framework\Rendering\Geometry\IGeometryRenderer.cs" />
     <Compile Include="Framework\Rendering\IPen.cs" />
     <Compile Include="Framework\Rendering\ITexture.cs" />
     <Compile Include="Framework\Rendering\RenderInitializeException.cs" />

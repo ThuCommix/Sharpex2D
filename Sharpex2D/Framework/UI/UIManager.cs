@@ -97,16 +97,16 @@ namespace Sharpex2D.Framework.UI
         }
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             for (int i = 0; i <= _controls.Count - 1; i++)
             {
                 if (_controls[i].Enable)
                 {
-                    _controls[i].Tick(gameTime);
+                    _controls[i].Update(gameTime);
                 }
             }
         }

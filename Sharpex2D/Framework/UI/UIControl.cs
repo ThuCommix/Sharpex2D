@@ -16,10 +16,10 @@ namespace Sharpex2D.Framework.UI
         #region IGameHandler Implementation
 
         /// <summary>
-        ///     Processes a Game tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             _mouseRectangle.X = _inputManager.Mouse.Position.X;
             _mouseRectangle.Y = _inputManager.Mouse.Position.Y;
@@ -32,7 +32,7 @@ namespace Sharpex2D.Framework.UI
                 SetFocus();
             }
 
-            OnTick(gameTime);
+            OnUpdate(gameTime);
         }
 
         #endregion
@@ -283,10 +283,10 @@ namespace Sharpex2D.Framework.UI
         public abstract void OnRender(IRenderer renderer);
 
         /// <summary>
-        ///     Processes a Tick call.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void OnTick(GameTime gameTime)
+        public virtual void OnUpdate(GameTime gameTime)
         {
         }
 

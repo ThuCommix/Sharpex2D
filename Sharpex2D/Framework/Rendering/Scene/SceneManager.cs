@@ -36,14 +36,14 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             if (ActiveScene != null)
             {
-                ActiveScene.Tick(gameTime);
+                ActiveScene.Update(gameTime);
             }
         }
 

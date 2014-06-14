@@ -25,10 +25,10 @@ namespace Sharpex2D.Framework.Game.Simulation.Weather
         #region IGameHandler Implementation
 
         /// <summary>
-        ///     Processes a Game tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             //Only update after 5 seconds to save cpu.
             _passedTime += gameTime.ElapsedGameTime;

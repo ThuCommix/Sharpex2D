@@ -8,6 +8,6 @@
         ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        void Tick(GameTime gameTime);
+        void Update(GameTime gameTime);
     }
 }

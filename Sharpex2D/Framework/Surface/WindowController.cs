@@ -230,7 +230,7 @@ namespace Sharpex2D.Framework.Surface
         /// <param name="e">The EventArgs.</param>
         private void _surface_Deactivate(object sender, EventArgs e)
         {
-            SGL.GameInstance.OnDeactivated();
+            SGL.GameInstance.OnDeactivation();
         }
 
         /// <summary>
@@ -240,7 +240,7 @@ namespace Sharpex2D.Framework.Surface
         /// <param name="e">The EventArgs.</param>
         private void _surface_Activated(object sender, EventArgs e)
         {
-            SGL.GameInstance.OnActivated();
+            SGL.GameInstance.OnActivation();
         }
 
 

@@ -39,7 +39,9 @@ namespace Sharpex2D.Framework.Game
         ///     The Current SoundPlayer.
         /// </summary>
         public SoundManager SoundManager { get; internal set; }
-
+        /// <summary>
+        ///     The Current VideoManager.
+        /// </summary>
         public VideoManager VideoManager { get; internal set; }
 
         /// <summary>
@@ -68,12 +70,12 @@ namespace Sharpex2D.Framework.Game
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        void IUpdateable.Tick(GameTime gameTime)
+        void IUpdateable.Update(GameTime gameTime)
         {
-            OnTick(gameTime);
+            OnUpdate(gameTime);
         }
 
         #endregion
@@ -105,10 +107,10 @@ namespace Sharpex2D.Framework.Game
         #endregion
 
         /// <summary>
-        ///     Processes a Game tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void OnTick(GameTime gameTime);
+        public abstract void OnUpdate(GameTime gameTime);
 
         /// <summary>
         ///     Processes a Render.
@@ -140,14 +142,14 @@ namespace Sharpex2D.Framework.Game
         /// <summary>
         ///     Processes if the surface is activated.
         /// </summary>
-        public virtual void OnActivated()
+        public virtual void OnActivation()
         {
         }
 
         /// <summary>
         ///     Processes if the surface is deactivated.
         /// </summary>
-        public virtual void OnDeactivated()
+        public virtual void OnDeactivation()
         {
         }
 

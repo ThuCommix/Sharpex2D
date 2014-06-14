@@ -3,7 +3,7 @@
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public struct Circle
+    public struct Circle : IGeometry
     {
         /// <summary>
         ///     Creates a new Circle.

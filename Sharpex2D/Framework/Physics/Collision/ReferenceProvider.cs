@@ -27,7 +27,7 @@ namespace Sharpex2D.Framework.Physics.Collision
         }
 
         /// <summary>
-        ///     Clears the current References, this should be called at the end of a tick.
+        ///     Clears the current References, this should be called at the end of an update.
         /// </summary>
         public void ClearReferences()
         {

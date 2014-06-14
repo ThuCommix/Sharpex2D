@@ -35,10 +35,10 @@ namespace Sharpex2D.Framework.Game.Simulation.Time
         #region IGameHandler Implementation
 
         /// <summary>
-        ///     Processes a game tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Tick(Framework.Game.GameTime gameTime)
+        public void Update(Framework.Game.GameTime gameTime)
         {
             if (Mode == TimeMode.RealTime)
             {

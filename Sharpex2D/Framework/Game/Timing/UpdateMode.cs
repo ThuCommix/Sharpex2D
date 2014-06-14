@@ -8,11 +8,11 @@
         /// <summary>
         ///     Updates the timer via GameLoop.
         /// </summary>
-        OnGameTick,
+        OnGameUpdate,
 
         /// <summary>
         ///     Updates the timer in a new thread.
         /// </summary>
-        OnThreadTick
+        OnThreadUpdate
     }
 }

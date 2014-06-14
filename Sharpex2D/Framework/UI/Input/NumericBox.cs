@@ -64,10 +64,10 @@ namespace Sharpex2D.Framework.UI.Input
         public NumericMode Mode { set; get; }
 
         /// <summary>
-        ///     Processes a Tick.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public override void OnTick(GameTime gameTime)
+        public override void OnUpdate(GameTime gameTime)
         {
             //back
             if (IsKeyPressed(Keys.Back))
@@ -142,7 +142,7 @@ namespace Sharpex2D.Framework.UI.Input
             }
 
             ConvertBuffer();
-            base.OnTick(gameTime);
+            base.OnUpdate(gameTime);
         }
 
         /// <summary>
