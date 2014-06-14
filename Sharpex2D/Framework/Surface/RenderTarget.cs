@@ -108,17 +108,19 @@ namespace Sharpex2D.Framework.Surface
         /// <summary>
         ///     Gets the RenderTarget associated with the current process.
         /// </summary>
-        /// <returns>RenderTarget</returns>
-        public static RenderTarget GetDefault()
+        public static RenderTarget Default
         {
-            IntPtr handle = Process.GetCurrentProcess().MainWindowHandle;
-
-            if (NativeMethods.IsWindow(handle))
+            get
             {
-                return new RenderTarget(handle);
-            }
+                var handle = Process.GetCurrentProcess().MainWindowHandle;
 
-            throw new InvalidOperationException("Could not get the handle associated with the current process.");
+                if (NativeMethods.IsWindow(handle))
+                {
+                    return new RenderTarget(handle);
+                }
+
+                throw new InvalidOperationException("Could not get the handle associated with the current process.");
+            }
         }
 
         /// <summary>
