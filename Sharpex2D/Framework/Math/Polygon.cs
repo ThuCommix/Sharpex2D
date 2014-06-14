@@ -10,7 +10,7 @@ namespace Sharpex2D.Framework.Math
         private readonly List<Vector2> _points;
         private readonly List<Vector2> _originalPoints;
         private readonly List<Vector2> _edges;
-        private Vector2 _position;
+        private Vector2 _offset;
         /// <summary>
         /// Gets the Center of the Polygon.
         /// </summary>
@@ -40,12 +40,14 @@ namespace Sharpex2D.Framework.Math
         /// <summary>
         ///     Sets or gets the Position.
         /// </summary>
-        public Vector2 Position
+        public Vector2 Offset
         {
-            set { _position = value;
+            set
+            {
+                _offset = value;
                 UpdatePoints();
             }
-            get { return _position; }
+            get { return _offset; }
         }
         /// <summary>
         /// Gets the Edges.
@@ -59,32 +61,7 @@ namespace Sharpex2D.Framework.Math
             _points = new List<Vector2>();
             _edges = new List<Vector2>();
             _originalPoints = new List<Vector2>();
-            Position = new Vector2(0, 0);
-        }
-        /// <summary>
-        ///     Gets the Polygon structure of the specified rectangle.
-        /// </summary>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <returns>Polygon.</returns>
-        public static Polygon FromRectangle(Rectangle rectangle)
-        {
-            var polygon = new Polygon();
-            polygon.Add(new Vector2(rectangle.X, rectangle.Y), new Vector2(rectangle.X + rectangle.Width, rectangle.Y),
-                new Vector2(rectangle.X, rectangle.Y + rectangle.Height),
-                new Vector2(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height));
-
-            return polygon;
-        }
-        /// <summary>
-        ///     Gets the Polygon strucutr of the specified ellipse.
-        /// </summary>
-        /// <param name="ellipse">The Ellipse.</param>
-        /// <returns>Polygon.</returns>
-        public static Polygon FromEllipse(Ellipse ellipse)
-        {
-            var polygon = new Polygon();
-            polygon.Add(ellipse.Points);
-            return polygon;
+            _offset = new Vector2(0, 0);
         }
         /// <summary>
         ///     Adds a Vector to the Polygon.
@@ -139,7 +116,7 @@ namespace Sharpex2D.Framework.Math
 
             foreach (var p in _originalPoints)
             {
-                _points.Add(new Vector2(p.X + Position.X, p.Y + Position.Y));
+                _points.Add(new Vector2(p.X + _offset.X, p.Y + _offset.Y));
             }
         }
 
@@ -279,5 +256,29 @@ namespace Sharpex2D.Framework.Math
 			
 			return result;
 		}
+        /// <summary>
+        ///     Creates a new Polygon from rectangle.
+        /// </summary>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <returns>Polygon.</returns>
+        public static Polygon FromRectangle(Rectangle rectangle)
+        {
+            var polygon = new Polygon {Offset = new Vector2(0, 0)};
+            polygon.Add(new Vector2(rectangle.X, rectangle.Y), new Vector2(rectangle.X + rectangle.Width, rectangle.Y),
+                new Vector2(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height),
+                new Vector2(rectangle.X, rectangle.Y + rectangle.Height));
+            return polygon;
+        }
+        /// <summary>
+        ///     Creates a new Polygon from ellipse.
+        /// </summary>
+        /// <param name="ellipse">The Ellipse.</param>
+        /// <returns>Polygon.</returns>
+        public static Polygon FromEllipse(Ellipse ellipse)
+        {
+            var polygon = new Polygon {Offset = new Vector2(0, 0)};
+            polygon.Add(ellipse.Points);
+            return polygon;
+        }
     }
 }
