@@ -66,12 +66,12 @@ namespace Sharpex2D.Framework.Content
                 throw new ContentLoadException("Asset not found.");
             }
 
-            var processor = ContentProcessor.Select<T>();
-            var resourceName = typeof (T).Name;
+            IContentProcessor processor = ContentProcessor.Select<T>();
+            string resourceName = typeof (T).Name;
 
             try
             {
-                resourceName = ContentProcessorHelper.GetAttribute<ContentAttribute>(typeof (T)).DisplayName;
+                resourceName = AttributeHelper.GetAttribute<ContentAttribute>(typeof (T)).DisplayName;
             }
             catch (Exception)
             {
@@ -84,7 +84,7 @@ namespace Sharpex2D.Framework.Content
                 LogLevel.Engine, LogMode.StandardOut);
 
 
-            return processor.ReadData(Path.Combine(RootPath, asset));
+            return (T) processor.ReadData(Path.Combine(RootPath, asset));
         }
     }
 }
