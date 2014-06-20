@@ -6,7 +6,7 @@ namespace Sharpex2D.Framework.Content
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public class ContentVerifier
     {
         /// <summary>
