@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sharpex2D.Framework.Debug.Logging
+﻿namespace Sharpex2D.Framework.Debug.Logging
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]

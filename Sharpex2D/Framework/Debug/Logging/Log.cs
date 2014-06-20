@@ -69,6 +69,7 @@ namespace Sharpex2D.Framework.Debug.Logging
         {
             Next(message, level, LogMode.StandardOut);
         }
+
         /// <summary>
         ///     Writes a new log entry.
         /// </summary>
@@ -80,6 +81,7 @@ namespace Sharpex2D.Framework.Debug.Logging
         {
             Next(string.Format(format, args), level, mode);
         }
+
         /// <summary>
         ///     Writes a new log entry.
         /// </summary>
