@@ -8,14 +8,14 @@ namespace Sharpex2D.Framework.Game.Timing
     public interface IGameLoop : IComponent
     {
         /// <summary>
-        ///     Gets the TargetFrameTime.
+        ///     Gets or sets the TargetFrameTime.
         /// </summary>
-        float TargetFrameTime { get; }
+        float TargetFrameTime { get; set; }
 
         /// <summary>
-        ///     Gets the TargetUpdateTime.
+        ///     Gets or sets the TargetUpdateTime.
         /// </summary>
-        float TargetUpdateTime { get; }
+        float TargetUpdateTime { get; set; }
 
         /// <summary>
         ///     Indicates whether the GameLoop is running.
@@ -23,9 +23,9 @@ namespace Sharpex2D.Framework.Game.Timing
         bool IsRunning { get; }
 
         /// <summary>
-        ///     Gets or sets the Target FPS.
+        ///     Gets the Target FPS.
         /// </summary>
-        float TargetFramesPerSecond { set; get; }
+        float TargetFramesPerSecond { get; }
 
         /// <summary>
         ///     Starts the GameLoop.
