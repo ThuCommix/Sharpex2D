@@ -34,12 +34,28 @@ namespace Sharpex2D.Framework.Game.Timing
         /// <summary>
         ///     Gets the TargetFrameTime.
         /// </summary>
-        public float TargetFrameTime { get; private set; }
+        public float TargetFrameTime
+        {
+            get { return _targetFrameTime; }
+            set
+            {
+                _targetFrameTime = value;
+                OnFpsChanged();
+            }
+        }
 
         /// <summary>
         ///     Gets the TargetUpdateTime.
         /// </summary>
-        public float TargetUpdateTime { get; private set; }
+        public float TargetUpdateTime
+        {
+            get { return _targetUpdateTime; }
+            set
+            {
+                _targetUpdateTime = value;
+                OnFpsChanged();
+            }
+        }
 
         /// <summary>
         ///     Indicates whether the GameLoop is running.
@@ -57,15 +73,7 @@ namespace Sharpex2D.Framework.Game.Timing
         /// <summary>
         ///     Gets or sets the Target FPS.
         /// </summary>
-        public float TargetFramesPerSecond
-        {
-            get { return _targetFramesPerSecond; }
-            set
-            {
-                _targetFramesPerSecond = value;
-                OnFpsChanged();
-            }
-        }
+        public float TargetFramesPerSecond { get; private set; }
 
         /// <summary>
         ///     Starts the GameLoop.
@@ -183,7 +191,8 @@ namespace Sharpex2D.Framework.Game.Timing
         private bool _cancelFlag;
         private Task _renderTask;
         private float _renderTime;
-        private float _targetFramesPerSecond;
+        private float _targetFrameTime;
+        private float _targetUpdateTime;
         private TimeSpan _totalGameTime;
         private float _unprocessedTicks;
         private Task _updateTask;
@@ -202,6 +211,8 @@ namespace Sharpex2D.Framework.Game.Timing
             _drawables = new List<IDrawable>();
             _updateables = new List<IUpdateable>();
             _totalGameTime = TimeSpan.FromSeconds(0);
+            TargetFrameTime = 16.666f;
+            TargetUpdateTime = 16.666f;
             _updateGameTime = new GameTime
             {
                 ElapsedGameTime = TargetUpdateTime,
@@ -222,14 +233,16 @@ namespace Sharpex2D.Framework.Game.Timing
         /// </summary>
         private void OnFpsChanged()
         {
-            float targetTime = 1000/TargetFramesPerSecond;
-            TargetFrameTime = targetTime;
-            TargetUpdateTime = targetTime;
-            SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
+            TargetFramesPerSecond = 1000/TargetFrameTime;
 
-            //publish event
-            SGL.Components.Get<EventManager>()
-                .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, targetTime));
+            if (SGL.State == SGLState.Running)
+            {
+                SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
+
+                //publish event
+                SGL.Components.Get<EventManager>()
+                    .Publish(new TargetFrameTimeChangedEvent(TargetFramesPerSecond, TargetFrameTime));
+            }
         }
 
         /// <summary>
@@ -322,7 +335,7 @@ namespace Sharpex2D.Framework.Game.Timing
                 for (int index = 0; index < _drawables.Count; index++)
                 {
                     IDrawable drawable = _drawables[index];
-                    drawable.Render(SGL.CurrentRenderer, _renderGameTime);
+                    drawable.Render(SGL.RenderDevice, _renderGameTime);
                 }
 
                 sw.Stop();
