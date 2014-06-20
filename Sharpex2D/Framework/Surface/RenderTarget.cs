@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Surface
                 _isDisposed = true;
                 if (disposing)
                 {
-                    SurfaceControl.Dispose();
+                    Window.Dispose();
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace Sharpex2D.Framework.Surface
         internal RenderTarget(IntPtr handle)
         {
             Handle = handle;
-            SurfaceControl = new WindowController(this);
+            Window = new GameWindow(handle);
         }
 
         /// <summary>
@@ -72,14 +72,14 @@ namespace Sharpex2D.Framework.Surface
         /// <summary>
         ///     Gets the ISurfaceControl.
         /// </summary>
-        public ISurfaceControl SurfaceControl { private set; get; }
+        public GameWindow Window { private set; get; }
 
         /// <summary>
         ///     A value indicating whether the surface is running in fullscreen.
         /// </summary>
         public bool IsFullscreen
         {
-            get { return SurfaceControl.IsFullscreen(); }
+            get { return Window.IsFullscreen; }
         }
 
         /// <summary>
@@ -88,6 +88,24 @@ namespace Sharpex2D.Framework.Surface
         public bool IsValid
         {
             get { return NativeMethods.IsWindow(Handle); }
+        }
+
+        /// <summary>
+        ///     Gets the RenderTarget associated with the current process.
+        /// </summary>
+        public static RenderTarget Default
+        {
+            get
+            {
+                IntPtr handle = Process.GetCurrentProcess().MainWindowHandle;
+
+                if (NativeMethods.IsWindow(handle))
+                {
+                    return new RenderTarget(handle);
+                }
+
+                throw new InvalidOperationException("Could not get the handle associated with the current process.");
+            }
         }
 
         /// <summary>
@@ -103,24 +121,6 @@ namespace Sharpex2D.Framework.Surface
             }
 
             throw new InvalidOperationException("The given Handle is not a window.");
-        }
-
-        /// <summary>
-        ///     Gets the RenderTarget associated with the current process.
-        /// </summary>
-        public static RenderTarget Default
-        {
-            get
-            {
-                var handle = Process.GetCurrentProcess().MainWindowHandle;
-
-                if (NativeMethods.IsWindow(handle))
-                {
-                    return new RenderTarget(handle);
-                }
-
-                throw new InvalidOperationException("Could not get the handle associated with the current process.");
-            }
         }
 
         /// <summary>
