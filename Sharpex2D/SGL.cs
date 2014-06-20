@@ -11,11 +11,14 @@ using Sharpex2D.Framework.Game.Services.Achievements;
 using Sharpex2D.Framework.Game.Services.Availability;
 using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Input;
+using Sharpex2D.Framework.Math;
 using Sharpex2D.Framework.Media;
 using Sharpex2D.Framework.Media.Sound;
 using Sharpex2D.Framework.Media.Video;
 using Sharpex2D.Framework.Rendering;
+using Sharpex2D.Framework.Rendering.Devices;
 using Sharpex2D.Framework.Rendering.Scene;
+using Sharpex2D.Framework.Surface;
 
 namespace Sharpex2D
 {
@@ -45,14 +48,14 @@ namespace Sharpex2D
         /// <summary>
         ///     The Current Renderer.
         /// </summary>
-        internal static IRenderer CurrentRenderer { set; get; }
+        internal static RenderDevice RenderDevice { set; get; }
 
         /// <summary>
         ///     Gets the Version of SGL.
         /// </summary>
         public static string Version
         {
-            get { return "0.2.410"; }
+            get { return "0.5.840"; }
         }
 
         /// <summary>
@@ -64,6 +67,28 @@ namespace Sharpex2D
         ///     ComponentManager Instance.
         /// </summary>
         public static ComponentManager Components { private set; get; }
+
+        /// <summary>
+        ///     Initializes SGL.
+        /// </summary>
+        public static void Initialize()
+        {
+            Game gameInstance = InitializeHelper.GetGameClass();
+            RenderTarget renderTarget;
+
+            try
+            {
+                renderTarget = RenderTarget.Default;
+            }
+            catch (InvalidOperationException)
+            {
+                renderTarget = RenderTarget.Create();
+            }
+
+            var sglInitializer = new SGLInitializer(gameInstance, renderTarget);
+
+            Initialize(sglInitializer);
+        }
 
         /// <summary>
         ///     Initializes SGL.
@@ -81,16 +106,16 @@ namespace Sharpex2D
             GameInstance = initializer.GameInstance;
             Components.AddComponent(initializer.RenderTarget);
             Components.AddComponent(new EventManager());
-            initializer.RenderTarget.SurfaceControl.SetSize(initializer.Width, initializer.Height);
+            initializer.RenderTarget.Window.Size = new Vector2(initializer.Width, initializer.Height);
             initializer.GameInstance.Input = new InputManager(initializer.RenderTarget.Handle);
             GraphicsDevice = new GraphicsDevice(initializer.RenderTarget)
             {
-                DisplayMode = new DisplayMode(initializer.Width, initializer.Height)
+                BackBuffer = new BackBuffer(initializer.Width, initializer.Height)
             };
             initializer.GameInstance.Content = new ContentManager();
             initializer.GameInstance.SceneManager = new SceneManager();
-            initializer.GameLoop.TargetFramesPerSecond = initializer.TargetFramesPerSecond;
             Components.AddComponent(initializer.GameLoop);
+            GraphicsDevice.RefreshRate = initializer.GameLoop.TargetFramesPerSecond;
             Components.AddComponent(initializer.GameInstance.Content);
             Components.AddComponent(GraphicsDevice);
             Components.AddComponent(initializer.GameInstance);
@@ -113,22 +138,28 @@ namespace Sharpex2D
             Components.AddComponent(new ContentStorage());
 
             State = SGLState.Initialized;
+
+            EngineConfiguration engineConfiguration =
+                GameInstance.OnInitialize(GameInstance.GameServices.GetService<LaunchParameters>());
+
+            Run(engineConfiguration.Renderer, engineConfiguration.MediaInitializer);
         }
 
         /// <summary>
         ///     Runs SGL based on the specific initialized options.
         /// </summary>
-        /// <param name="graphicRenderer">The GraphicRenderer.</param>
+        /// <param name="renderDevice">The RenderDevice.</param>
         /// <param name="mediaInitializer">The MediaInitializer.</param>
-        public static void Run(IRenderer graphicRenderer, MediaInitializer mediaInitializer)
+        private static void Run(RenderDevice renderDevice, MediaInitializer mediaInitializer)
         {
             if (State != SGLState.Initialized)
                 throw new InvalidOperationException("SGL must be initialized in the first place.");
 
             if (State == SGLState.Running) return;
 
-            CurrentRenderer = graphicRenderer;
-            CurrentRenderer.GraphicsDevice = GraphicsDevice;
+            RenderDevice = renderDevice;
+            RenderDevice.GraphicsDevice = GraphicsDevice;
+            RenderDevice.InitializeDevice();
             if (mediaInitializer != null)
             {
                 GameInstance.SoundManager = mediaInitializer.SoundInitializer == null
@@ -138,11 +169,10 @@ namespace Sharpex2D
                     ? null
                     : new VideoManager(mediaInitializer.VideoInitializer);
             }
-            Components.AddComponent(graphicRenderer);
+            Components.AddComponent(renderDevice);
             Components.AddComponent(GameInstance.SoundManager);
             Components.AddComponent(GameInstance.VideoManager);
             Components.Construct();
-            GameInstance.OnInitialize();
             GameInstance.OnLoadContent();
             Components.Get<IGameLoop>().Start();
 
@@ -161,7 +191,6 @@ namespace Sharpex2D
 
             Components.Get<IGameLoop>().Stop();
             GameInstance.OnUnload();
-            GameInstance.OnClose();
             GC.Collect();
             Process.GetCurrentProcess().Kill();
         }
