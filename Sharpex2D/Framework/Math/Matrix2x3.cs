@@ -105,7 +105,7 @@ namespace Sharpex2D.Framework.Math
         {
             fixed (float* values = _values)
             {
-                var result = default(Vector2);
+                Vector2 result = default(Vector2);
                 result.X = point.X*values[0] + point.Y*values[1] + values[2];
                 result.Y = point.X*values[3] + point.Y*values[4] + values[5];
                 return result;

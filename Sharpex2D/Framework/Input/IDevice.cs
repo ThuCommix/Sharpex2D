@@ -1,5 +1,4 @@
-﻿
-namespace Sharpex2D.Framework.Input
+﻿namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]

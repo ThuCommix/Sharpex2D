@@ -12,9 +12,9 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [ComVisible(false)]
-    public class GdiTextureContentProcessor : ContentProcessor<GdiTexture>
+    public class GDITextureContentProcessor : ContentProcessor<GDITexture>
     {
-        public GdiTextureContentProcessor()
+        public GDITextureContentProcessor()
             : base(new Guid("E36EBED0-81E6-47D1-9AC7-CE7210360989"))
         {
         }
@@ -24,7 +24,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>GdiTexture.</returns>
-        public override GdiTexture ReadData(string filepath)
+        public override GDITexture ReadData(string filepath)
         {
             using (var fileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read))
             {
@@ -36,7 +36,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
                 {
                     using (var memoryStream = new MemoryStream(content))
                     {
-                        return new GdiTexture((Bitmap) Image.FromStream(memoryStream));
+                        return new GDITexture((Bitmap) Image.FromStream(memoryStream));
                     }
                 }
                 catch (Exception ex)
@@ -51,7 +51,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>
-        public override void WriteData(GdiTexture data, string destinationpath)
+        public override void WriteData(GDITexture data, string destinationpath)
         {
             using (var fileStream = new FileStream(destinationpath, FileMode.Create, FileAccess.Write))
             {

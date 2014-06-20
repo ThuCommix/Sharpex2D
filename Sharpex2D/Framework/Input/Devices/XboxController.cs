@@ -17,17 +17,17 @@ namespace Sharpex2D.Framework.Input.Devices
         #region IDevice Implementation
 
         /// <summary>
-        ///     A value indicating whether the device is enabled.
-        /// </summary>
-        public bool IsEnabled { get; set; }
-
-        /// <summary>
         ///     Gets the Guid.
         /// </summary>
         public Guid Guid
         {
             get { return new Guid("CB9F0F16-F1A0-4022-B50E-82BA1C2D4D5E"); }
         }
+
+        /// <summary>
+        ///     A value indicating whether the device is enabled.
+        /// </summary>
+        public bool IsEnabled { get; set; }
 
         /// <summary>
         ///     Gets the Description.

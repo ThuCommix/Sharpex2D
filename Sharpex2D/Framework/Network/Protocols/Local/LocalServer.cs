@@ -109,7 +109,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 var handleClient = new Thread(pts) {IsBackground = true};
                 SendNotificationPackage(NotificationMode.ClientJoined,
                     new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
-                var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+                IConnection[] connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
                 SendNotificationPackage(NotificationMode.ClientList, connectionList);
                 handleClient.Start(localConnection);
             }
@@ -130,12 +130,12 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                     //Reset idle
                     _idleTimeout = 0;
                     _currentIdle = 0;
-                    var package = PackageSerializer.Deserialize(networkStream);
+                    IBasePackage package = PackageSerializer.Deserialize(networkStream);
                     var binaryPackage = package as BinaryPackage;
                     if (binaryPackage != null)
                     {
                         //notify package listeners
-                        foreach (var subscriber in GetPackageSubscriber(binaryPackage.OriginType))
+                        foreach (IPackageListener subscriber in GetPackageSubscriber(binaryPackage.OriginType))
                         {
                             subscriber.OnPackageReceived(binaryPackage);
                         }
@@ -173,7 +173,7 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
                 new IConnection[] {SerializableConnection.FromIConnection(localConnection)});
             _connections.Remove(localConnection);
 
-            var connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
+            IConnection[] connectionList = SerializableConnection.FromIConnection(_connections.ToArray());
             SendNotificationPackage(NotificationMode.ClientList, connectionList);
         }
 
@@ -183,9 +183,9 @@ namespace Sharpex2D.Framework.Network.Protocols.Local
         /// <param name="pingPackage">The PingPackage.</param>
         private void SetLatency(PingPackage pingPackage)
         {
-            var timeNow = DateTime.Now;
-            var dif = timeNow - pingPackage.TimeStamp;
-            var connection = GetConnection(pingPackage.Receiver);
+            DateTime timeNow = DateTime.Now;
+            TimeSpan dif = timeNow - pingPackage.TimeStamp;
+            LocalConnection connection = GetConnection(pingPackage.Receiver);
             connection.Latency = (float) dif.TotalMilliseconds;
 
             //Kick the client if the latency is to high

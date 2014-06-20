@@ -49,7 +49,8 @@ namespace Sharpex2D.Framework.Localization
                 throw new InvalidOperationException(
                     "Unable to get localizedString due there is no language selected. Use ChangeLanguage() before.");
 
-            foreach (var localized in _currentLanguage.LocalizedValues.Where(localized => localized.Id == id))
+            foreach (LocalizedValue localized in _currentLanguage.LocalizedValues.Where(localized => localized.Id == id)
+                )
             {
                 return localized.LocalizedString;
             }
@@ -78,8 +79,8 @@ namespace Sharpex2D.Framework.Localization
         /// <param name="directoryPath">The DirectoryPath.</param>
         public void LoadLanguagesFromDirectory(string directoryPath)
         {
-            var files = Directory.GetFiles(directoryPath);
-            foreach (var file in files)
+            string[] files = Directory.GetFiles(directoryPath);
+            foreach (string file in files)
             {
                 try
                 {

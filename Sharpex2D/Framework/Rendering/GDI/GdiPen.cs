@@ -8,7 +8,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [Content("Graphics Device Interface Pen")]
-    public class GdiPen : IPen, IDisposable
+    public class GDIPen : IPen, IDisposable
     {
         #region IPen Implementation
 
@@ -71,16 +71,16 @@ namespace Sharpex2D.Framework.Rendering.GDI
 
         #endregion
 
-        private readonly Pen _pen;
+        private readonly System.Drawing.Pen _pen;
         private Color _color;
         private float _width;
 
         /// <summary>
         ///     Initializes a new GdiPen class.
         /// </summary>
-        public GdiPen()
+        public GDIPen()
         {
-            _pen = new Pen(Brushes.Black);
+            _pen = new System.Drawing.Pen(Brushes.Black);
             Color = Color.Black;
             Width = 1;
             _pen.Width = 1;
@@ -91,16 +91,16 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
-        public GdiPen(Color color, float width)
+        public GDIPen(Color color, float width)
         {
-            _pen = new Pen(new SolidBrush(color.ToWin32Color()), width);
+            _pen = new System.Drawing.Pen(new SolidBrush(color.ToWin32Color()), width);
         }
 
         /// <summary>
         ///     Gets the Pen.
         /// </summary>
         /// <returns>Pen</returns>
-        internal Pen GetPen()
+        internal System.Drawing.Pen GetPen()
         {
             return _pen;
         }

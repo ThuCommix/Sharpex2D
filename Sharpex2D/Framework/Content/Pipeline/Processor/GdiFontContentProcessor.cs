@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Sharpex2D.Framework.Rendering.Font;
-using Sharpex2D.Framework.Rendering.GDI;
+using Sharpex2D.Framework.Rendering.Fonts;
+using Sharpex2D.Framework.Rendering.GDI.Fonts;
 
 namespace Sharpex2D.Framework.Content.Pipeline.Processor
 {
@@ -10,9 +10,9 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [ComVisible(false)]
-    public class GdiFontContentProcessor : ContentProcessor<GdiFont>
+    public class GDIFontContentProcessor : ContentProcessor<GDIFont>
     {
-        public GdiFontContentProcessor()
+        public GDIFontContentProcessor()
             : base(new Guid("CF086145-883B-49F4-B76E-655793B9C543"))
         {
         }
@@ -22,7 +22,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>GdiFont.</returns>
-        public override GdiFont ReadData(string filepath)
+        public override GDIFont ReadData(string filepath)
         {
             if (!filepath.EndsWith(".s2d"))
             {
@@ -33,7 +33,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
             {
                 var binaryreader = new BinaryReader(fileStream);
                 if (typeof (Typeface).FullName != binaryreader.ReadString() ||
-                    typeof (GdiFont).FullName != binaryreader.ReadString())
+                    typeof (GDIFont).FullName != binaryreader.ReadString())
                 {
                     throw new FormatException("[GdiFontContentProcessor] Unable to read file format.");
                 }
@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
                         Style = (TypefaceStyle) binaryreader.ReadInt32()
                     };
 
-                    return new GdiFont(typeface);
+                    return new GDIFont(typeface);
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +61,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>
-        public override void WriteData(GdiFont data, string destinationpath)
+        public override void WriteData(GDIFont data, string destinationpath)
         {
             using (var fileStream = new FileStream(destinationpath, FileMode.Create, FileAccess.Write))
             {

@@ -5,7 +5,7 @@ namespace Sharpex2D
     public class Platform
     {
         /// <summary>
-        /// Gets the current CLR runtime.
+        ///     Gets the current CLR runtime.
         /// </summary>
         /// <returns>PlatformType.</returns>
         public static bool IsMonoRuntime()

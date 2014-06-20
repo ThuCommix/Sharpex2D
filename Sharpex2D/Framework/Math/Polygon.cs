@@ -7,12 +7,24 @@ namespace Sharpex2D.Framework.Math
     [TestState(TestState.Tested)]
     public class Polygon : IGeometry
     {
-        private readonly List<Vector2> _points;
-        private readonly List<Vector2> _originalPoints;
         private readonly List<Vector2> _edges;
+        private readonly List<Vector2> _originalPoints;
+        private readonly List<Vector2> _points;
         private Vector2 _offset;
+
         /// <summary>
-        /// Gets the Center of the Polygon.
+        ///     Initializes a new Polygon class.
+        /// </summary>
+        public Polygon()
+        {
+            _points = new List<Vector2>();
+            _edges = new List<Vector2>();
+            _originalPoints = new List<Vector2>();
+            _offset = new Vector2(0, 0);
+        }
+
+        /// <summary>
+        ///     Gets the Center of the Polygon.
         /// </summary>
         public Vector2 Center
         {
@@ -20,23 +32,32 @@ namespace Sharpex2D.Framework.Math
             {
                 float totalX = 0;
                 float totalY = 0;
-                foreach (var t in _points)
+                foreach (Vector2 t in _points)
                 {
                     totalX += t.X;
                     totalY += t.Y;
                 }
 
-                return new Vector2(totalX / _points.Count, totalY / _points.Count);
+                return new Vector2(totalX/_points.Count, totalY/_points.Count);
             }
         }
+
         /// <summary>
-        /// A value indicating whether the Polygon is valid.
+        ///     A value indicating whether the Polygon is valid.
         /// </summary>
-        public bool IsValid { get { return _points.Count > 2; } }
+        public bool IsValid
+        {
+            get { return _points.Count > 2; }
+        }
+
         /// <summary>
-        ///      Gets the coordinates of the Polygon.
+        ///     Gets the coordinates of the Polygon.
         /// </summary>
-        public Vector2[] Points { get { return _points.ToArray(); } }
+        public Vector2[] Points
+        {
+            get { return _points.ToArray(); }
+        }
+
         /// <summary>
         ///     Sets or gets the Position.
         /// </summary>
@@ -49,20 +70,15 @@ namespace Sharpex2D.Framework.Math
             }
             get { return _offset; }
         }
+
         /// <summary>
-        /// Gets the Edges.
+        ///     Gets the Edges.
         /// </summary>
-        public List<Vector2> Edges { get { return _edges; } }
-        /// <summary>
-        ///     Initializes a new Polygon class.
-        /// </summary>
-        public Polygon()
+        public List<Vector2> Edges
         {
-            _points = new List<Vector2>();
-            _edges = new List<Vector2>();
-            _originalPoints = new List<Vector2>();
-            _offset = new Vector2(0, 0);
+            get { return _edges; }
         }
+
         /// <summary>
         ///     Adds a Vector to the Polygon.
         /// </summary>
@@ -73,6 +89,7 @@ namespace Sharpex2D.Framework.Math
             UpdatePoints();
             UpdateEdges();
         }
+
         /// <summary>
         ///     Adds a array of Vector to the Polygon.
         /// </summary>
@@ -83,6 +100,7 @@ namespace Sharpex2D.Framework.Math
             UpdatePoints();
             UpdateEdges();
         }
+
         /// <summary>
         ///     Resets the Polygon.
         /// </summary>
@@ -92,6 +110,7 @@ namespace Sharpex2D.Framework.Math
             _originalPoints.Clear();
             _edges.Clear();
         }
+
         /// <summary>
         ///     Updates the edges.
         /// </summary>
@@ -100,13 +119,14 @@ namespace Sharpex2D.Framework.Math
             if (!IsValid) return;
 
             _edges.Clear();
-            for (var i = 0; i < _points.Count; i++)
+            for (int i = 0; i < _points.Count; i++)
             {
-                var p1 = _points[i];
-                var p2 = i + 1 >= _points.Count ? _points[0] : _points[i + 1];
+                Vector2 p1 = _points[i];
+                Vector2 p2 = i + 1 >= _points.Count ? _points[0] : _points[i + 1];
                 _edges.Add(p2 - p1);
             }
         }
+
         /// <summary>
         ///     Updates the points.
         /// </summary>
@@ -114,7 +134,7 @@ namespace Sharpex2D.Framework.Math
         {
             _points.Clear();
 
-            foreach (var p in _originalPoints)
+            foreach (Vector2 p in _originalPoints)
             {
                 _points.Add(new Vector2(p.X + _offset.X, p.Y + _offset.Y));
             }
@@ -129,6 +149,7 @@ namespace Sharpex2D.Framework.Math
         {
             return PolygonCollision(this, otherPolygon, Vector2.Zero).Intersect;
         }
+
         /// <summary>
         ///     Gets the collision result between two polygons.
         /// </summary>
@@ -138,6 +159,7 @@ namespace Sharpex2D.Framework.Math
         {
             return PolygonCollision(this, otherPolygon, new Vector2(0, 0));
         }
+
         /// <summary>
         ///     Gets the collision result between two polygons.
         /// </summary>
@@ -148,6 +170,7 @@ namespace Sharpex2D.Framework.Math
         {
             return PolygonCollision(this, otherPolygon, velocity);
         }
+
         /// <summary>
         ///     Gets the interval distance.
         /// </summary>
@@ -175,10 +198,10 @@ namespace Sharpex2D.Framework.Math
         /// <param name="max">The Maximum.</param>
         private static void ProjectPolygon(Vector2 axis, Polygon polygon, out float min, out float max)
         {
-            var d = polygon.Points[0].Length;
+            float d = polygon.Points[0].Length;
             min = d;
             max = d;
-            foreach (var t in polygon.Points)
+            foreach (Vector2 t in polygon.Points)
             {
                 d = Vector2.Dot(t, axis);
                 if (d < min)
@@ -194,6 +217,7 @@ namespace Sharpex2D.Framework.Math
                 }
             }
         }
+
         /// <summary>
         ///     Calculates the Polygon collision.
         /// </summary>
@@ -203,59 +227,65 @@ namespace Sharpex2D.Framework.Math
         /// <returns>PolygonCollisionResult.</returns>
         private static PolygonCollisionResult PolygonCollision(Polygon polygonA, Polygon polygonB, Vector2 velocity)
         {
+            var result = new PolygonCollisionResult {Intersect = true, WillIntersect = true};
 
-			var result = new PolygonCollisionResult {Intersect = true, WillIntersect = true};
+            int edgeCountA = polygonA.Edges.Count;
+            int edgeCountB = polygonB.Edges.Count;
+            float minIntervalDistance = float.PositiveInfinity;
+            Vector2 translationAxis = Vector2.Zero;
 
-            var edgeCountA = polygonA.Edges.Count;
-			var edgeCountB = polygonB.Edges.Count;
-			var minIntervalDistance = float.PositiveInfinity;
-			var translationAxis = Vector2.Zero;
-
-			for (var edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++)
+            for (int edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++)
             {
-			    var edge = edgeIndex < edgeCountA ? polygonA.Edges[edgeIndex] : polygonB.Edges[edgeIndex - edgeCountA];
+                Vector2 edge = edgeIndex < edgeCountA
+                    ? polygonA.Edges[edgeIndex]
+                    : polygonB.Edges[edgeIndex - edgeCountA];
 
-				var axis = new Vector2(-edge.Y, edge.X);
-				axis.Normalize();
+                var axis = new Vector2(-edge.Y, edge.X);
+                axis.Normalize();
 
-				float minA;
-                float minB; 
+                float minA;
+                float minB;
                 float maxA;
                 float maxB;
 
-				ProjectPolygon(axis, polygonA, out minA, out maxA);
-				ProjectPolygon(axis, polygonB, out minB, out maxB);
+                ProjectPolygon(axis, polygonA, out minA, out maxA);
+                ProjectPolygon(axis, polygonB, out minB, out maxB);
 
-				if (IntervalDistance(minA, maxA, minB, maxB) > 0) result.Intersect = false;
+                if (IntervalDistance(minA, maxA, minB, maxB) > 0) result.Intersect = false;
 
 
-			    var velocityProjection = Vector2.Dot(axis, velocity);
+                float velocityProjection = Vector2.Dot(axis, velocity);
 
-				if (velocityProjection < 0) {
-					minA += velocityProjection;
-				} else {
-					maxA += velocityProjection;
-				}
+                if (velocityProjection < 0)
+                {
+                    minA += velocityProjection;
+                }
+                else
+                {
+                    maxA += velocityProjection;
+                }
 
-				var intervalDistance = IntervalDistance(minA, maxA, minB, maxB);
-				if (intervalDistance > 0) result.WillIntersect = false;
+                float intervalDistance = IntervalDistance(minA, maxA, minB, maxB);
+                if (intervalDistance > 0) result.WillIntersect = false;
 
-				if (!result.Intersect && !result.WillIntersect) break;
+                if (!result.Intersect && !result.WillIntersect) break;
 
-				intervalDistance = MathHelper.Abs(intervalDistance);
-				if (intervalDistance < minIntervalDistance) {
-					minIntervalDistance = intervalDistance;
-					translationAxis = axis;
+                intervalDistance = MathHelper.Abs(intervalDistance);
+                if (intervalDistance < minIntervalDistance)
+                {
+                    minIntervalDistance = intervalDistance;
+                    translationAxis = axis;
 
-					var d = polygonA.Center - polygonB.Center;
-					if (Vector2.Dot(d, translationAxis) < 0) translationAxis = -translationAxis;
-				}
-			}
+                    Vector2 d = polygonA.Center - polygonB.Center;
+                    if (Vector2.Dot(d, translationAxis) < 0) translationAxis = -translationAxis;
+                }
+            }
 
-			if (result.WillIntersect) result.MinimumTranslationVector = translationAxis * minIntervalDistance;
-			
-			return result;
-		}
+            if (result.WillIntersect) result.MinimumTranslationVector = translationAxis*minIntervalDistance;
+
+            return result;
+        }
+
         /// <summary>
         ///     Creates a new Polygon from rectangle.
         /// </summary>
@@ -269,6 +299,7 @@ namespace Sharpex2D.Framework.Math
                 new Vector2(rectangle.X, rectangle.Y + rectangle.Height));
             return polygon;
         }
+
         /// <summary>
         ///     Creates a new Polygon from ellipse.
         /// </summary>

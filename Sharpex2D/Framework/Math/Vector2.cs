@@ -159,7 +159,7 @@ namespace Sharpex2D.Framework.Math
             if (a.LengthSquared == 0)
                 return Zero;
 
-            var divider = 1.0f/a.Length;
+            float divider = 1.0f/a.Length;
             return new Vector2(
                 a.X*divider,
                 a.Y*divider);

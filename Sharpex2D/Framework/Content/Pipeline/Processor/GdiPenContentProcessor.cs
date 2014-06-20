@@ -10,12 +10,12 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [ComVisible(false)]
-    public class GdiPenContentProcessor : ContentProcessor<GdiPen>
+    public class GDIPenContentProcessor : ContentProcessor<GDIPen>
     {
         /// <summary>
         ///     Initializes a new GdiPenContentProcessor class.
         /// </summary>
-        public GdiPenContentProcessor()
+        public GDIPenContentProcessor()
             : base(new Guid("B28CF4D2-9F85-4CB1-878E-F7D274026E60"))
         {
         }
@@ -25,7 +25,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>GdiPen.</returns>
-        public override GdiPen ReadData(string filepath)
+        public override GDIPen ReadData(string filepath)
         {
             if (!filepath.EndsWith(".s2d"))
             {
@@ -35,14 +35,14 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
             using (var fileStream = new FileStream(filepath, FileMode.Open, FileAccess.Read))
             {
                 var binaryreader = new BinaryReader(fileStream);
-                if (typeof (GdiPen).FullName != binaryreader.ReadString())
+                if (typeof (GDIPen).FullName != binaryreader.ReadString())
                 {
                     throw new FormatException("[GdiPenContentProcessor] Unable to read file format.");
                 }
 
                 try
                 {
-                    var gdiPen = new GdiPen
+                    var gdiPen = new GDIPen
                     {
                         Width = binaryreader.ReadSingle(),
                         Color = Color.FromArgb(binaryreader.ReadByte(), binaryreader.ReadByte(),
@@ -63,7 +63,7 @@ namespace Sharpex2D.Framework.Content.Pipeline.Processor
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>
-        public override void WriteData(GdiPen data, string destinationpath)
+        public override void WriteData(GDIPen data, string destinationpath)
         {
             using (var fileStream = new FileStream(destinationpath, FileMode.Create, FileAccess.Write))
             {

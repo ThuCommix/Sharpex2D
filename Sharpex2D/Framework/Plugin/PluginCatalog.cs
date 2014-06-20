@@ -36,7 +36,7 @@ namespace Sharpex2D.Framework.Plugin
         /// <returns>PluginContainer with type T.</returns>
         public PluginContainer<T> Compose()
         {
-            var resultfiles = Directory.GetFiles(WorkingDirectory, "*.dll");
+            string[] resultfiles = Directory.GetFiles(WorkingDirectory, "*.dll");
 
             var pluginContainer = new PluginContainer<T>
             {
