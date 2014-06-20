@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sharpex2D</RootNamespace>
-    <AssemblyName>Sharpex2DSoundLib</AssemblyName>
+    <AssemblyName>Sharpex2D.CSCore</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

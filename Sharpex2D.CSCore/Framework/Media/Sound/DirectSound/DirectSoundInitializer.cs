@@ -1,18 +1,17 @@
-﻿
-namespace Sharpex2D.Framework.Media.Sound.WaveOut
+﻿namespace Sharpex2D.Framework.Media.Sound.DirectSound
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public class WaveOutSoundInitializer : ISoundInitializer
+    public class DirectSoundInitializer : ISoundInitializer
     {
         /// <summary>
-        /// Creates a new SoundProvider.
+        ///     Creates the ISoundProvider.
         /// </summary>
-        /// <returns>SoundProvider</returns>
+        /// <returns>ISoundProvider</returns>
         public ISoundProvider CreateProvider()
         {
-            return new WaveOutSoundProvider();
+            return new DirectSoundProvider();
         }
     }
 }
