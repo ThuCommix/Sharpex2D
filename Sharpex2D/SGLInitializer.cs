@@ -67,7 +67,7 @@ namespace Sharpex2D
         /// <returns>SGLInitializer</returns>
         public static SGLInitializer Default(Game gameInstance)
         {
-            return new SGLInitializer(gameInstance, RenderTarget.GetDefault());
+            return new SGLInitializer(gameInstance, RenderTarget.Default);
         }
     }
 }
