@@ -42,7 +42,7 @@ namespace Sharpex2D.Framework.Media.Sound
         {
             _soundProvider = soundInitializer.CreateProvider();
             _vBeforeMute = 0.5f;
-            Volume = 0.5f;
+            //Volume = 0.5f;
             SoundEffects = new BufferedCollection<SoundEffect>();
         }
 
