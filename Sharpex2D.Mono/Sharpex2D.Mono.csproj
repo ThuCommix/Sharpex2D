@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EB9B32BD-2DDE-4C2F-8532-963AEE62B440}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sharpex2D</RootNamespace>
+    <AssemblyName>Sharpex2D.Mono</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;Mono</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Development\AttributeHelper.cs" />
+    <Compile Include="Development\CopyrightAttribute.cs" />
+    <Compile Include="Development\DeveloperAttribute.cs" />
+    <Compile Include="Development\Platform.cs" />
+    <Compile Include="Development\ReflectionHelper.cs" />
+    <Compile Include="Development\TestState.cs" />
+    <Compile Include="Development\TestStateAttribute.cs" />
+    <Compile Include="EngineConfiguration.cs" />
+    <Compile Include="Framework\Collections\BufferedCollection.cs" />
+    <Compile Include="Framework\Collections\Collection.cs" />
+    <Compile Include="Framework\Common\Delay.cs" />
+    <Compile Include="Framework\Common\Retry.cs" />
+    <Compile Include="Framework\Common\Singleton.cs" />
+    <Compile Include="Framework\Common\Threads\TaskWorker.cs" />
+    <Compile Include="Framework\Content\ContentLoadException.cs" />
+    <Compile Include="Framework\Content\Pipeline\ContentAttribute.cs" />
+    <Compile Include="Framework\Content\Pipeline\ContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\ContentProcessorException.cs" />
+    <Compile Include="Framework\Content\Pipeline\ContentProcessorSelector.cs" />
+    <Compile Include="Framework\Content\Pipeline\IContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processor\CSharpScriptContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processor\GamerContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processor\SoundContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processor\VBScriptContentProcessor.cs" />
+    <Compile Include="Framework\Content\Pipeline\Processor\VideoContentProcessor.cs" />
+    <Compile Include="Framework\Debug\ExceptionHandler.cs" />
+    <Compile Include="Framework\Debug\Logging\Log.cs" />
+    <Compile Include="Framework\Debug\Logging\LogEntry.cs" />
+    <Compile Include="Framework\Debug\Logging\LogLevel.cs" />
+    <Compile Include="Framework\Debug\Logging\LogMode.cs" />
+    <Compile Include="Framework\Debug\ProcessStatus.cs" />
+    <Compile Include="Framework\Common\Extensions\BinaryReaderExtension.cs" />
+    <Compile Include="Framework\Common\Extensions\LogLevelExtension.cs" />
+    <Compile Include="Framework\Common\Extensions\UIBoundsExtension.cs" />
+    <Compile Include="Framework\Common\Extensions\VectorExtension.cs" />
+    <Compile Include="Framework\Common\Pathfinding\AStar\AStarAlgorithm.cs" />
+    <Compile Include="Framework\Common\Pathfinding\Grid.cs" />
+    <Compile Include="Framework\Common\Pathfinding\GridField.cs" />
+    <Compile Include="Framework\Common\Pathfinding\IAlgorithm.cs" />
+    <Compile Include="Framework\Common\Pathfinding\Neighbor.cs" />
+    <Compile Include="Framework\Common\Pathfinding\PathFinder.cs" />
+    <Compile Include="Framework\Common\Threads\IThreadInvoker.cs" />
+    <Compile Include="Framework\Debug\Profiler.cs" />
+    <Compile Include="Framework\Common\Randomization\GameRandom.cs" />
+    <Compile Include="Framework\Common\Threads\ThreadInvoker.cs" />
+    <Compile Include="Framework\Components\ComponentManager.cs" />
+    <Compile Include="Framework\Components\IComponent.cs" />
+    <Compile Include="Framework\Components\IConstructable.cs" />
+    <Compile Include="Framework\Content\ContentManager.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\PrimitiveSerializer.cs" />
+    <Compile Include="Framework\Content\ContentStorage.cs" />
+    <Compile Include="Framework\Content\ContentVerifier.cs" />
+    <Compile Include="Framework\Content\IContent.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\IPrimitiveSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\BooleanSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\ByteArraySerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\ByteSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\CharSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\ColorSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\DoubleSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\FloatSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\IntegerSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\LongSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\ShortSerializer.cs" />
+    <Compile Include="Framework\Content\Pipeline\Serializer\Primitive\StringSerializer.cs" />
+    <Compile Include="Framework\Entities\Entity.cs" />
+    <Compile Include="Framework\Entities\EntityContainer.cs" />
+    <Compile Include="Framework\Entities\EntityEnvironment.cs" />
+    <Compile Include="Framework\Entities\Events\EntityDestroyedEvent.cs" />
+    <Compile Include="Framework\Entities\Events\EntityPositionChangedEvent.cs" />
+    <Compile Include="Framework\Events\EventManager.cs" />
+    <Compile Include="Framework\Events\EventObserver.cs" />
+    <Compile Include="Framework\Events\IEvent.cs" />
+    <Compile Include="Framework\Game\GameComponentManager.cs" />
+    <Compile Include="Framework\Game\GameTime.cs" />
+    <Compile Include="Framework\Game\IDrawable.cs" />
+    <Compile Include="Framework\Game\Game.cs" />
+    <Compile Include="Framework\Game\IGameComponent.cs" />
+    <Compile Include="Framework\Game\IUpdateable.cs" />
+    <Compile Include="Framework\Game\Services\LaunchParameter.cs" />
+    <Compile Include="Framework\Game\Services\LaunchParameters.cs" />
+    <Compile Include="Framework\Game\Services\Achievements\Achievement.cs" />
+    <Compile Include="Framework\Game\Services\Achievements\AchievementProvider.cs" />
+    <Compile Include="Framework\Game\Services\Gamer.cs" />
+    <Compile Include="Framework\Game\Services\GameServiceContainer.cs" />
+    <Compile Include="Framework\Game\Services\IGameService.cs" />
+    <Compile Include="Framework\Game\Services\Settings\GameSettings.cs" />
+    <Compile Include="Framework\Game\Services\Availability\GameUpdateRequiredException.cs" />
+    <Compile Include="Framework\Game\Services\Availability\NetworkNotAvailableException.cs" />
+    <Compile Include="Framework\Game\Services\Availability\AvailabilityProvider.cs" />
+    <Compile Include="Framework\Game\Simulation\Weather\IWeather.cs" />
+    <Compile Include="Framework\Game\Simulation\Weather\WeatherProvider.cs" />
+    <Compile Include="Framework\Game\Simulation\Weather\WeatherType.cs" />
+    <Compile Include="Framework\Game\Timing\Events\TargetFrameTimeChangedEvent.cs" />
+    <Compile Include="Framework\Game\Timing\GameLoop.cs" />
+    <Compile Include="Framework\Game\Simulation\Time\GameTime.cs" />
+    <Compile Include="Framework\Game\Timing\GameTimer.cs" />
+    <Compile Include="Framework\Game\Timing\IGameLoop.cs" />
+    <Compile Include="Framework\Game\Timing\ITimeable.cs" />
+    <Compile Include="Framework\Game\Timing\PrecisionTimer.cs" />
+    <Compile Include="Framework\Game\Timing\RenderMode.cs" />
+    <Compile Include="Framework\Game\Simulation\Time\TimeMode.cs" />
+    <Compile Include="Framework\Common\Threads\Synchronizer.cs" />
+    <Compile Include="Framework\Game\Timing\UpdateMode.cs" />
+    <Compile Include="Framework\Input\Devices\Keyboard.cs" />
+    <Compile Include="Framework\Input\Devices\Mouse.cs" />
+    <Compile Include="Framework\Input\Events\MouseLocationChangedEvent.cs" />
+    <Compile Include="Framework\Input\IDevice.cs" />
+    <Compile Include="Framework\Input\IKeyboard.cs" />
+    <Compile Include="Framework\Input\IMouse.cs" />
+    <Compile Include="Framework\Input\InputManager.cs" />
+    <Compile Include="Framework\Input\Keys.cs" />
+    <Compile Include="Framework\Input\MouseButtons.cs" />
+    <Compile Include="Framework\Localization\Events\LanguageChangedEvent.cs" />
+    <Compile Include="Framework\Localization\Language.cs" />
+    <Compile Include="Framework\Localization\LanguageProvider.cs" />
+    <Compile Include="Framework\Localization\LanguageSerializationException.cs" />
+    <Compile Include="Framework\Localization\LanguageSerializer.cs" />
+    <Compile Include="Framework\Localization\LocalizedValue.cs" />
+    <Compile Include="Framework\Math\Circle.cs" />
+    <Compile Include="Framework\Math\Ellipse.cs" />
+    <Compile Include="Framework\Math\IGeometry.cs" />
+    <Compile Include="Framework\Math\Matrix.cs" />
+    <Compile Include="Framework\Math\Matrix2x3.cs" />
+    <Compile Include="Framework\Math\Polygon.cs" />
+    <Compile Include="Framework\Math\PolygonCollisionResult.cs" />
+    <Compile Include="Framework\Math\PolygonContainer.cs" />
+    <Compile Include="Framework\Math\Rectangle.cs" />
+    <Compile Include="Framework\Media\MediaInitializer.cs" />
+    <Compile Include="Framework\Media\Sound\Processors\CircleSoundProcessor.cs" />
+    <Compile Include="Framework\Media\Sound\ISoundProcessor.cs" />
+    <Compile Include="Framework\Media\Sound\Processors\TunnelSoundProcessor.cs" />
+    <Compile Include="Framework\Media\Sound\SoundEffect.cs" />
+    <Compile Include="Framework\Media\Video\IVideoInitializer.cs" />
+    <Compile Include="Framework\Media\Video\IVideoProvider.cs" />
+    <Compile Include="Framework\Media\Video\Video.cs" />
+    <Compile Include="Framework\Media\Video\VideoManager.cs" />
+    <Compile Include="Framework\Media\Video\VideoProviderNotInitializedException.cs" />
+    <Compile Include="Framework\Network\Logic\IClientListener.cs" />
+    <Compile Include="Framework\Network\Packages\System\UdpNotify.cs" />
+    <Compile Include="Framework\Network\Packages\System\UdpPackage.cs" />
+    <Compile Include="Framework\Network\Protocols\Udp\UdpClient.cs" />
+    <Compile Include="Framework\Network\Protocols\Udp\UdpConnection.cs" />
+    <Compile Include="Framework\Network\Protocols\Udp\UdpConnectionManager.cs" />
+    <Compile Include="Framework\Network\Protocols\Udp\UdpPingRequest.cs" />
+    <Compile Include="Framework\Network\Protocols\Udp\UdpServer.cs" />
+    <Compile Include="Framework\Network\SerializableConnection.cs" />
+    <Compile Include="Framework\Network\Events\PackageReceiveExceptionEvent.cs" />
+    <Compile Include="Framework\Network\Events\PackageSentExceptionEvent.cs" />
+    <Compile Include="Framework\Network\Events\SocketExceptionEvent.cs" />
+    <Compile Include="Framework\Network\Events\UnknownPackageExceptionEvent.cs" />
+    <Compile Include="Framework\Network\IConnection.cs" />
+    <Compile Include="Framework\Network\IReceiver.cs" />
+    <Compile Include="Framework\Network\ISender.cs" />
+    <Compile Include="Framework\Network\Logic\IPackageListener.cs" />
+    <Compile Include="Framework\Network\Packages\BasePackage.cs" />
+    <Compile Include="Framework\Network\Packages\BinaryPackage.cs" />
+    <Compile Include="Framework\Network\Packages\IBasePackage.cs" />
+    <Compile Include="Framework\Network\Packages\PackageSerializer.cs" />
+    <Compile Include="Framework\Network\Packages\System\NotificationMode.cs" />
+    <Compile Include="Framework\Network\Packages\System\NotificationPackage.cs" />
+    <Compile Include="Framework\Network\Packages\System\PingPackage.cs" />
+    <Compile Include="Framework\Network\Protocols\IClient.cs" />
+    <Compile Include="Framework\Network\Protocols\IServer.cs" />
+    <Compile Include="Framework\Network\Protocols\Local\LocalClient.cs" />
+    <Compile Include="Framework\Network\Protocols\Local\LocalConnection.cs" />
+    <Compile Include="Framework\Network\Protocols\Local\LocalServer.cs" />
+    <Compile Include="Framework\Physics\Collision\CollisionManager.cs" />
+    <Compile Include="Framework\Physics\Collision\CollisionReference.cs" />
+    <Compile Include="Framework\Physics\Collision\ReferenceProvider.cs" />
+    <Compile Include="Framework\Physics\Collision\ICollision.cs" />
+    <Compile Include="Framework\Physics\Collision\PenetrationParams.cs" />
+    <Compile Include="Framework\Physics\Collision\RecoilParams.cs" />
+    <Compile Include="Framework\Physics\Collision\UnknownShapeException.cs" />
+    <Compile Include="Framework\Physics\IPhysicProvider.cs" />
+    <Compile Include="Framework\Physics\Particle.cs" />
+    <Compile Include="Framework\Physics\PhysicalConstants.cs" />
+    <Compile Include="Framework\Physics\PhysicProvider.cs" />
+    <Compile Include="Framework\Physics\Shapes\Circle.cs" />
+    <Compile Include="Framework\Physics\Shapes\IShape.cs" />
+    <Compile Include="Framework\Physics\Shapes\Rectangle.cs" />
+    <Compile Include="Framework\Plugin\PluginCatalog.cs" />
+    <Compile Include="Framework\Plugin\PluginContainer.cs" />
+    <Compile Include="Framework\Plugin\PluginActivator.cs" />
+    <Compile Include="Framework\Physics\Shapes\TextureBasedCircle.cs" />
+    <Compile Include="Framework\Rendering\Devices\DeviceAttribute.cs" />
+    <Compile Include="Framework\Rendering\Devices\RenderDevice.cs" />
+    <Compile Include="Framework\Rendering\Devices\RenderDeviceException.cs" />
+    <Compile Include="Framework\Rendering\Devices\ResourceManager.cs" />
+    <Compile Include="Framework\Rendering\Devices\DeviceSelector.cs" />
+    <Compile Include="Framework\Rendering\Fonts\Font.cs" />
+    <Compile Include="Framework\Rendering\Fonts\IFont.cs" />
+    <Compile Include="Framework\Rendering\InterpolationMode.cs" />
+    <Compile Include="Framework\Rendering\Devices\IDeviceResource.cs" />
+    <Compile Include="Framework\Rendering\Fonts\Typeface.cs" />
+    <Compile Include="Framework\Rendering\Fonts\TypefaceStyle.cs" />
+    <Compile Include="Framework\Rendering\IPen.cs" />
+    <Compile Include="Framework\Rendering\Pen.cs" />
+    <Compile Include="Framework\Rendering\Scene\Events\AfterSceneChangedEvent.cs" />
+    <Compile Include="Framework\Rendering\Scene\Events\BeforeSceneChangedEvent.cs" />
+    <Compile Include="Framework\Rendering\Scene\Scene.cs" />
+    <Compile Include="Framework\Rendering\SmoothingMode.cs" />
+    <Compile Include="Framework\Rendering\Texture2D.cs" />
+    <Compile Include="Framework\Scripting\Events\ScriptCompletedEvent.cs" />
+    <Compile Include="Framework\Scripting\Events\ScriptRunningEvent.cs" />
+    <Compile Include="Framework\Scripting\IScript.cs" />
+    <Compile Include="Framework\Scripting\IScriptEvaluator.cs" />
+    <Compile Include="Framework\Scripting\ScriptException.cs" />
+    <Compile Include="Framework\Scripting\ScriptHost.cs" />
+    <Compile Include="Framework\Scripting\IScriptEntry.cs" />
+    <Compile Include="Framework\Scripting\CSharp\CSharpScriptCompiler.cs" />
+    <Compile Include="Framework\Scripting\ScriptStorageBuffer.cs" />
+    <Compile Include="Framework\Scripting\CSharp\CSharpScript.cs" />
+    <Compile Include="Framework\Scripting\CSharp\CSharpScriptEvaluator.cs" />
+    <Compile Include="Framework\Scripting\VB\VBScript.cs" />
+    <Compile Include="Framework\Scripting\VB\VBScriptCompiler.cs" />
+    <Compile Include="Framework\Scripting\VB\VBScriptEvaluator.cs" />
+    <Compile Include="Framework\Common\Security\IsolatedAssemblySource.cs" />
+    <Compile Include="Framework\Common\Security\ProxySource.cs" />
+    <Compile Include="Framework\Surface\GameWindow.cs" />
+    <Compile Include="Framework\Surface\SurfaceLayout.cs" />
+    <Compile Include="Framework\UI\Input\NumericBox.cs" />
+    <Compile Include="Framework\UI\Input\NumericMode.cs" />
+    <Compile Include="Framework\UI\UIBounds.cs" />
+    <Compile Include="Framework\UI\UIManager.cs" />
+    <Compile Include="Framework\UI\UIControl.cs" />
+    <Compile Include="Framework\UI\UISize.cs" />
+    <Compile Include="Framework\Surface\RenderTarget.cs" />
+    <Compile Include="Framework\Surface\SurfaceStyle.cs" />
+    <Compile Include="Development\GlobalSuppressions.cs" />
+    <Compile Include="InitializeHelper.cs" />
+    <Compile Include="SGLInitializer.cs" />
+    <Compile Include="Framework\Math\MathHelper.cs" />
+    <Compile Include="Framework\Math\Vector2.cs" />
+    <Compile Include="Framework\Media\Sound\ISoundInitializer.cs" />
+    <Compile Include="Framework\Media\Sound\ISoundProvider.cs" />
+    <Compile Include="Framework\Media\Sound\Sound.cs" />
+    <Compile Include="Framework\Media\Sound\PlayMode.cs" />
+    <Compile Include="Framework\Media\Sound\SoundManager.cs" />
+    <Compile Include="Framework\Media\Sound\SoundProviderNotInitializedException.cs" />
+    <Compile Include="Framework\Plugin\PluginException.cs" />
+    <Compile Include="Framework\Rendering\Color.cs" />
+    <Compile Include="Framework\Rendering\BackBuffer.cs" />
+    <Compile Include="Framework\Rendering\GraphicsDevice.cs" />
+    <Compile Include="Framework\Rendering\Scene\SceneManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SGL.cs" />
+    <Compile Include="SGLState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
