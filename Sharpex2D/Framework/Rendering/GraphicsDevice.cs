@@ -40,7 +40,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         ///     Sets or gets the graphic resolution.
         /// </summary>
-        public DisplayMode DisplayMode { get; set; }
+        public BackBuffer BackBuffer { get; set; }
 
         /// <summary>
         ///     Sets or gets the RenderTarget.
@@ -60,8 +60,8 @@ namespace Sharpex2D.Framework.Rendering
                     return new Vector2(1, 1);
                 }
 
-                float x = control.ClientSize.Width/(float) DisplayMode.Width;
-                float y = control.ClientSize.Height/(float) DisplayMode.Height;
+                float x = control.ClientSize.Width/(float) BackBuffer.Width;
+                float y = control.ClientSize.Height/(float) BackBuffer.Height;
 
                 return new Vector2(x, y);
             }
