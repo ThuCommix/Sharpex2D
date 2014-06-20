@@ -111,5 +111,13 @@ namespace Sharpex2D.Framework.Collections
 
             throw new InvalidOperationException("Element not found (" + typeof (T).FullName + ").");
         }
+
+        /// <summary>
+        ///     Clears the collection.
+        /// </summary>
+        public void Clear()
+        {
+            _elements.Clear();
+        }
     }
 }
