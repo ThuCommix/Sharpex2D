@@ -33,6 +33,26 @@ namespace Sharpex2D.Framework.Content.Pipeline
         ///     Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
+        /// <returns>Object.</returns>
+        object IContentProcessor.ReadData(string filepath)
+        {
+            return ReadData(filepath);
+        }
+
+        /// <summary>
+        ///     Writes the data.
+        /// </summary>
+        /// <param name="data">The Data.</param>
+        /// <param name="destinationpath">The DestinationPath.</param>
+        void IContentProcessor.WriteData(object data, string destinationpath)
+        {
+            WriteData((T) data, destinationpath);
+        }
+
+        /// <summary>
+        ///     Reads the data.
+        /// </summary>
+        /// <param name="filepath">The FilePath.</param>
         /// <returns>T.</returns>
         public abstract T ReadData(string filepath);
 
