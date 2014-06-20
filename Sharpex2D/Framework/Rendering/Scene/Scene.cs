@@ -1,6 +1,7 @@
 ﻿using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Entities;
 using Sharpex2D.Framework.Game;
+using Sharpex2D.Framework.Rendering.Devices;
 using Sharpex2D.Framework.UI;
 
 namespace Sharpex2D.Framework.Rendering.Scene
@@ -40,7 +41,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void Render(IRenderer renderer, GameTime gameTime);
+        public abstract void Render(RenderDevice renderer, GameTime gameTime);
 
         /// <summary>
         ///     Initializes the scene.

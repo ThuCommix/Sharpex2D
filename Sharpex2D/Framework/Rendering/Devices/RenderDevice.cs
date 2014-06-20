@@ -1,39 +1,78 @@
 ﻿using System;
 using Sharpex2D.Framework.Components;
+using Sharpex2D.Framework.Content.Pipeline;
 using Sharpex2D.Framework.Math;
-using Sharpex2D.Framework.Rendering.Font;
+using Sharpex2D.Framework.Rendering.Fonts;
 
-namespace Sharpex2D.Framework.Rendering
+namespace Sharpex2D.Framework.Rendering.Devices
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public interface IRenderer : IConstructable, IDisposable
+    public abstract class RenderDevice : IComponent
     {
         /// <summary>
-        ///     Sets or gets the GraphicsDevice.
+        ///     Initializes a new RenderDevice class.
         /// </summary>
-        GraphicsDevice GraphicsDevice { get; set; }
+        /// <param name="guid">The Guid.</param>
+        /// <param name="resourceManager">The ResourceManager.</param>
+        protected RenderDevice(ResourceManager resourceManager, Guid guid)
+        {
+            Guid = guid;
+            ResourceManager = resourceManager;
+        }
 
         /// <summary>
-        ///     Sets or gets whether the renderer is disposed.
+        ///     Gets the required PlatformVersion.
         /// </summary>
-        bool IsDisposed { get; }
+        public abstract Version PlatformVersion { get; }
 
         /// <summary>
-        ///     A value indicating whether VSync is enabled.
+        ///     A value indicating whether the current platform is supported.
         /// </summary>
-        bool VSync { set; get; }
+        public bool IsPlatformSupported
+        {
+            get { return Environment.OSVersion.Version >= PlatformVersion; }
+        }
+
+        /// <summary>
+        ///     Gets the ContentProcessors.
+        /// </summary>
+        public abstract IContentProcessor[] ContentProcessors { get; }
+
+        /// <summary>
+        ///     Gets or sets the GraphicsDevice.
+        /// </summary>
+        public GraphicsDevice GraphicsDevice { set; get; }
+
+        /// <summary>
+        ///     Gets the ResourceManager.
+        /// </summary>
+        public ResourceManager ResourceManager { private set; get; }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        ///     Gets the Guid.
+        /// </summary>
+        public Guid Guid { private set; get; }
+
+        #endregion
+
+        /// <summary>
+        ///     Initializes the Device.
+        /// </summary>
+        public abstract void InitializeDevice();
 
         /// <summary>
         ///     Begins the draw operation.
         /// </summary>
-        void Begin();
+        public abstract void Begin();
 
         /// <summary>
-        ///     Flushes the buffer.
+        ///     Ends the draw operation.
         /// </summary>
-        void Close();
+        public abstract void End();
 
         /// <summary>
         ///     Draws a string.
@@ -42,7 +81,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="font">The Font.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        void DrawString(string text, IFont font, Rectangle rectangle, Color color);
+        public abstract void DrawString(string text, Font font, Rectangle rectangle, Color color);
 
         /// <summary>
         ///     Draws a string.
@@ -51,7 +90,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="font">The Font.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        void DrawString(string text, IFont font, Vector2 position, Color color);
+        public abstract void DrawString(string text, Font font, Vector2 position, Color color);
 
         /// <summary>
         ///     Draws a Texture.
@@ -60,7 +99,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="position">The Position.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f);
+        public abstract void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1f);
 
         /// <summary>
         ///     Draws a Texture.
@@ -69,7 +108,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f);
+        public abstract void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1f);
 
         /// <summary>
         ///     Measures the string.
@@ -77,25 +116,25 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="text">The String.</param>
         /// <param name="font">The Font.</param>
         /// <returns>Vector2.</returns>
-        Vector2 MeasureString(string text, IFont font);
+        public abstract Vector2 MeasureString(string text, Font font);
 
         /// <summary>
         ///     Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        void SetTransform(Matrix2x3 matrix);
+        public abstract void SetTransform(Matrix2x3 matrix);
 
         /// <summary>
         ///     Resets the Transform.
         /// </summary>
-        void ResetTransform();
+        public abstract void ResetTransform();
 
         /// <summary>
         ///     Draws a Rectangle.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        void DrawRectangle(IPen pen, Rectangle rectangle);
+        public abstract void DrawRectangle(Pen pen, Rectangle rectangle);
 
         /// <summary>
         ///     Draws a Line between two points.
@@ -103,14 +142,14 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
         /// <param name="target">The Targetpoint.</param>
-        void DrawLine(IPen pen, Vector2 start, Vector2 target);
+        public abstract void DrawLine(Pen pen, Vector2 start, Vector2 target);
 
         /// <summary>
         ///     Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        void DrawEllipse(IPen pen, Ellipse ellipse);
+        public abstract void DrawEllipse(Pen pen, Ellipse ellipse);
 
         /// <summary>
         ///     Draws an Arc.
@@ -119,50 +158,34 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="startAngle">The StartAngle.</param>
         /// <param name="sweepAngle">The SweepAngle.</param>
-        void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle);
+        public abstract void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle);
 
         /// <summary>
         ///     Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="polygon">The Polygon.</param>
-        void DrawPolygon(IPen pen, Polygon polygon);
-
-        /// <summary>
-        ///     Draws a corner-rounded Rectangle.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="radius">The Radius.</param>
-        void DrawRoundedRectangle(IPen pen, Rectangle rectangle, int radius);
+        public abstract void DrawPolygon(Pen pen, Polygon polygon);
 
         /// <summary>
         ///     Fills a Rectangle.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        void FillRectangle(Color color, Rectangle rectangle);
+        public abstract void FillRectangle(Color color, Rectangle rectangle);
 
         /// <summary>
         ///     Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        void FillEllipse(Color color, Ellipse ellipse);
+        public abstract void FillEllipse(Color color, Ellipse ellipse);
 
         /// <summary>
         ///     Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="polygon">The Polygon.</param>
-        void FillPolygon(Color color, Polygon polygon);
-
-        /// <summary>
-        ///     Fills a corner-rounded Rectangle.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="radius">The Radius.</param>
-        void FillRoundedRectangle(Color color, Rectangle rectangle, int radius);
+        public abstract void FillPolygon(Color color, Polygon polygon);
     }
 }

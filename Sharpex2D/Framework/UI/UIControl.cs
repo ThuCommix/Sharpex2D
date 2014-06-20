@@ -4,7 +4,7 @@ using Sharpex2D.Framework.Common.Extensions;
 using Sharpex2D.Framework.Game;
 using Sharpex2D.Framework.Input;
 using Sharpex2D.Framework.Math;
-using Sharpex2D.Framework.Rendering;
+using Sharpex2D.Framework.Rendering.Devices;
 
 namespace Sharpex2D.Framework.UI
 {
@@ -280,7 +280,7 @@ namespace Sharpex2D.Framework.UI
         ///     Processes a Render call.
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
-        public abstract void OnRender(IRenderer renderer);
+        public abstract void OnRender(RenderDevice renderer);
 
         /// <summary>
         ///     Updates the object.

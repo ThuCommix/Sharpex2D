@@ -4,6 +4,7 @@ using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Events;
 using Sharpex2D.Framework.Game;
+using Sharpex2D.Framework.Rendering.Devices;
 using Sharpex2D.Framework.Rendering.Scene.Events;
 
 namespace Sharpex2D.Framework.Rendering.Scene
@@ -11,7 +12,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public class SceneManager : IUpdateable, IConstructable
+    public class SceneManager : IGameComponent, IConstructable
     {
         #region IComponent Implementation
 
@@ -22,6 +23,15 @@ namespace Sharpex2D.Framework.Rendering.Scene
         {
             get { return new Guid("00C8ED49-0C1B-47A8-B990-C71F5C4CB09E"); }
         }
+
+        #endregion
+
+        #region IGameComponent Implementation
+
+        /// <summary>
+        ///     Gets the Order.
+        /// </summary>
+        public int Order { get; private set; }
 
         #endregion
 
@@ -52,7 +62,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(IRenderer renderer, GameTime gameTime)
+        public void Render(RenderDevice renderer, GameTime gameTime)
         {
             if (ActiveScene != null)
             {
@@ -71,6 +81,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
         public SceneManager()
         {
             _scenes = new List<Scene>();
+            Order = 0;
         }
 
         /// <summary>

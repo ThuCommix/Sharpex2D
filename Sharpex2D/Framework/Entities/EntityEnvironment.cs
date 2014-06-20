@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sharpex2D.Framework.Game;
-using Sharpex2D.Framework.Rendering;
+using Sharpex2D.Framework.Rendering.Devices;
 
 namespace Sharpex2D.Framework.Entities
 {
@@ -130,7 +130,7 @@ namespace Sharpex2D.Framework.Entities
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(IRenderer renderer, GameTime gameTime)
+        public void Render(RenderDevice renderer, GameTime gameTime)
         {
             foreach (Entity entity in GetEntities())
             {
