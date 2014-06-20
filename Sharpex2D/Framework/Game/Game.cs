@@ -2,10 +2,11 @@
 using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Game.Services;
+using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Input;
 using Sharpex2D.Framework.Media.Sound;
 using Sharpex2D.Framework.Media.Video;
-using Sharpex2D.Framework.Rendering;
+using Sharpex2D.Framework.Rendering.Devices;
 using Sharpex2D.Framework.Rendering.Scene;
 using Sharpex2D.Framework.Surface;
 
@@ -31,6 +32,19 @@ namespace Sharpex2D.Framework.Game
         internal RenderTarget RenderTarget;
 
         /// <summary>
+        ///     Initializes a new Game class.
+        /// </summary>
+        protected Game()
+        {
+            GameComponentManager = new GameComponentManager();
+        }
+
+        /// <summary>
+        ///     Gets the GameComponentManager.
+        /// </summary>
+        public GameComponentManager GameComponentManager { private set; get; }
+
+        /// <summary>
         ///     The current InputManager.
         /// </summary>
         public InputManager Input { get; set; }
@@ -39,6 +53,7 @@ namespace Sharpex2D.Framework.Game
         ///     The Current SoundPlayer.
         /// </summary>
         public SoundManager SoundManager { get; internal set; }
+
         /// <summary>
         ///     The Current VideoManager.
         /// </summary>
@@ -55,16 +70,34 @@ namespace Sharpex2D.Framework.Game
         public SceneManager SceneManager { get; set; }
 
         /// <summary>
-        ///     The Current GameServices
+        ///     The Current GameServices.
         /// </summary>
         public GameServiceContainer GameServices { set; get; }
+
+        /// <summary>
+        ///     Sets or gets the TargetFrameTime.
+        /// </summary>
+        public float TargetFrameTime
+        {
+            get { return SGL.Components.Get<IGameLoop>().TargetFrameTime; }
+            set { SGL.Components.Get<IGameLoop>().TargetFrameTime = value; }
+        }
+
+        /// <summary>
+        ///     Sets or gets the TargetUpdateTime.
+        /// </summary>
+        public float TargetUpdateTime
+        {
+            get { return SGL.Components.Get<IGameLoop>().TargetUpdateTime; }
+            set { SGL.Components.Get<IGameLoop>().TargetUpdateTime = value; }
+        }
 
         /// <summary>
         ///     A value indicating whether the surface is active.
         /// </summary>
         public bool IsActive
         {
-            get { return RenderTarget.SurfaceControl.IsActive(); }
+            get { return RenderTarget.Window.IsActive; }
         }
 
         #region IUpdateable Implementation
@@ -87,7 +120,7 @@ namespace Sharpex2D.Framework.Game
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
         /// <param name="gameTime">The GameTime.</param>
-        void IDrawable.Render(IRenderer renderer, GameTime gameTime)
+        void IDrawable.Render(RenderDevice renderer, GameTime gameTime)
         {
             OnRendering(renderer, gameTime);
         }
@@ -110,19 +143,32 @@ namespace Sharpex2D.Framework.Game
         ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void OnUpdate(GameTime gameTime);
+        public virtual void OnUpdate(GameTime gameTime)
+        {
+            foreach (IGameComponent gameComponent in GameComponentManager)
+            {
+                gameComponent.Update(gameTime);
+            }
+        }
 
         /// <summary>
         ///     Processes a Render.
         /// </summary>
         /// <param name="renderer">The GraphicRenderer.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void OnRendering(IRenderer renderer, GameTime gameTime);
+        public virtual void OnRendering(RenderDevice renderer, GameTime gameTime)
+        {
+            foreach (IGameComponent gameComponent in GameComponentManager)
+            {
+                gameComponent.Render(renderer, gameTime);
+            }
+        }
 
         /// <summary>
         ///     Processes the Game initialization.
         /// </summary>
-        public abstract void OnInitialize();
+        /// <param name="launchParameters">The LaunchParameters.</param>
+        public abstract EngineConfiguration OnInitialize(LaunchParameters launchParameters);
 
         /// <summary>
         ///     Processes the Game load.
@@ -132,12 +178,9 @@ namespace Sharpex2D.Framework.Game
         /// <summary>
         ///     Processes the Game unload.
         /// </summary>
-        public abstract void OnUnload();
-
-        /// <summary>
-        ///     Processes the Game close.
-        /// </summary>
-        public abstract void OnClose();
+        public virtual void OnUnload()
+        {
+        }
 
         /// <summary>
         ///     Processes if the surface is activated.
@@ -156,7 +199,7 @@ namespace Sharpex2D.Framework.Game
         /// <summary>
         ///     Exits the game.
         /// </summary>
-        public void ExitGame()
+        public void Exit()
         {
             SGL.Shutdown();
         }
