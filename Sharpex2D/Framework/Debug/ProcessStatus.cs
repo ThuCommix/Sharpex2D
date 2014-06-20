@@ -91,7 +91,7 @@ namespace Sharpex2D.Framework.Debug
             {
                 _cproc.Refresh();
 
-                MemoryUsage = _cproc.PrivateMemorySize64;
+                MemoryUsage = GC.GetTotalMemory(false)/1024;
                 TotalThreads = _cproc.Threads.Count;
 
                 //start measureing
