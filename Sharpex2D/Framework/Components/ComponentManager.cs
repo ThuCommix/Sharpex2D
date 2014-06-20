@@ -85,7 +85,7 @@ namespace Sharpex2D.Framework.Components
             foreach (IComponent component in _internalComponents)
             {
                 if (component == null) continue;
-                if (component.GetType() == typeof (T))
+                if (component.GetType() == typeof (T) || component.GetType().BaseType == typeof(T))
                 {
                     return (T) component;
                 }
