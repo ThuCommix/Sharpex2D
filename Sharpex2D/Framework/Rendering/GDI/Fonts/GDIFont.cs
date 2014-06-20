@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Drawing;
 using Sharpex2D.Framework.Content.Pipeline;
-using Sharpex2D.Framework.Rendering.Font;
+using Sharpex2D.Framework.Rendering.Fonts;
+using Font = System.Drawing.Font;
 
-namespace Sharpex2D.Framework.Rendering.GDI
+namespace Sharpex2D.Framework.Rendering.GDI.Fonts
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [Content("Graphics Device Interface Font")]
-    public class GdiFont : IFont
+    public class GDIFont : IFont
     {
         #region IFont Implementation
 
@@ -26,7 +27,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// <param name="familyName">The FamilyName.</param>
         /// <param name="size">The Size.</param>
         /// <param name="style">The Style.</param>
-        public GdiFont(string familyName, float size, TypefaceStyle style)
+        public GDIFont(string familyName, float size, TypefaceStyle style)
         {
             Typeface = new Typeface {FamilyName = familyName, Size = size, Style = style};
         }
@@ -35,7 +36,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Initializes a new GdiFont class.
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
-        public GdiFont(Typeface typeface)
+        public GDIFont(Typeface typeface)
         {
             if (typeface == null) throw new ArgumentNullException("typeface");
 
@@ -46,7 +47,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Gets the Font.
         /// </summary>
         /// <returns></returns>
-        public System.Drawing.Font GetFont()
+        public Font GetFont()
         {
             return GetFont(Typeface);
         }
@@ -56,9 +57,9 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
         /// <returns>Font</returns>
-        private static System.Drawing.Font GetFont(Typeface typeface)
+        private static Font GetFont(Typeface typeface)
         {
-            return new System.Drawing.Font(typeface.FamilyName, typeface.Size, GetFontStyle(typeface.Style),
+            return new Font(typeface.FamilyName, typeface.Size, GetFontStyle(typeface.Style),
                 GraphicsUnit.Pixel);
         }
 
