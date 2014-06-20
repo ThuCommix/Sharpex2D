@@ -7,19 +7,28 @@ namespace Sharpex2D.Framework.Rendering.GDI
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [Content("Graphics Device Interface Texture")]
-    public class GdiTexture : ITexture
+    public class GDITexture : Texture2D
     {
-        #region ITexture Implementation
+        #region Texture2D Implementation
+
+        private readonly int _height;
+        private readonly int _width;
 
         /// <summary>
         ///     Gets the Width.
         /// </summary>
-        public int Width { get; private set; }
+        public override int Width
+        {
+            get { return _width; }
+        }
 
         /// <summary>
         ///     Gets the Height.
         /// </summary>
-        public int Height { get; private set; }
+        public override int Height
+        {
+            get { return _height; }
+        }
 
         #endregion
 
@@ -27,11 +36,11 @@ namespace Sharpex2D.Framework.Rendering.GDI
         ///     Initializes a new GdiTexture class.
         /// </summary>
         /// <param name="bitmap">The Bitmap.</param>
-        internal GdiTexture(Bitmap bitmap)
+        internal GDITexture(Bitmap bitmap)
         {
             Bmp = bitmap;
-            Width = Bmp.Width;
-            Height = Bmp.Height;
+            _width = Bmp.Width;
+            _height = Bmp.Height;
         }
 
         /// <summary>
