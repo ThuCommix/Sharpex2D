@@ -20,13 +20,25 @@ namespace Sharpex2D.Framework.Rendering.Fonts
         #endregion
 
         /// <summary>
-        ///     Initializes a new Typeface.
+        ///     Initializes a new Font class.
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
         public Font(Typeface typeface)
         {
             RenderDevice rendererInstance = SGL.RenderDevice;
             Instance = rendererInstance.ResourceManager.CreateResource(typeface);
+        }
+
+        /// <summary>
+        ///     Initializes a new Font class.
+        /// </summary>
+        /// <param name="familyName">The FamilyName.</param>
+        /// <param name="size">The Size.</param>
+        /// <param name="style">The Style.</param>
+        public Font(string familyName, float size, TypefaceStyle style)
+            : this(new Typeface {FamilyName = familyName, Size = size, Style = style})
+        {
+
         }
 
         /// <summary>
