@@ -117,7 +117,7 @@ namespace Sharpex2D.Framework.Surface
                 FixWindow();
 
                 //notify the GraphicsDevice
-                SGL.Components.Get<GraphicsDevice>().BackBuffer = new BackBuffer(value);
+                SGL.GraphicsDevice.BackBuffer = new BackBuffer(value);
             }
             get
             {
