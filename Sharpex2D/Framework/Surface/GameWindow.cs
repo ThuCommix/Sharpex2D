@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Sharpex2D.Framework.Math;
+using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Surface
 {
@@ -114,6 +115,9 @@ namespace Sharpex2D.Framework.Surface
                 MethodInvoker br = delegate { _surface.ClientSize = new Size((int) value.X, (int) value.Y); };
                 _surface.Invoke(br);
                 FixWindow();
+
+                //notify the GraphicsDevice
+                SGL.Components.Get<GraphicsDevice>().BackBuffer = new BackBuffer(value);
             }
             get
             {
