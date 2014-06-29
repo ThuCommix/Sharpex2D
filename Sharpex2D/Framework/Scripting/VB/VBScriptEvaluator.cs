@@ -49,7 +49,7 @@ namespace Sharpex2D.Framework.Scripting.VB
                 if (_storageBuffer.Exists(script.Guid))
                 {
                     assembly = _storageBuffer[script.Guid];
-                    Log.Next("Used previously compiled script.", LogLevel.Info, LogMode.StandardOut);
+                    LogManager.GetClassLogger().Info("Used previously compiled script.");
                 }
                 else
                 {

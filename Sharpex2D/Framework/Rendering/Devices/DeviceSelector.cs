@@ -28,6 +28,16 @@ namespace Sharpex2D.Framework.Rendering.Devices
             Generic
         }
 
+        private static readonly Logger Logger;
+
+        /// <summary>
+        /// Initializes a new DeviceSelector class.
+        /// </summary>
+        static DeviceSelector()
+        {
+            Logger = LogManager.GetClassLogger();
+        }
+
         /// <summary>
         ///     Gets the renderer based on the SelectorMode.
         /// </summary>
@@ -65,7 +75,7 @@ namespace Sharpex2D.Framework.Rendering.Devices
                 DeviceAttribute device;
                 if (AttributeHelper.TryGetAttribute(result, out device))
                 {
-                    Log.Next("Selected Device: {0}", LogLevel.Engine, device.FriendlyName);
+                    Logger.Engine("Selected Device: {0}", device.FriendlyName);
                 }
 
                 return result;
@@ -99,7 +109,7 @@ namespace Sharpex2D.Framework.Rendering.Devices
                 DeviceAttribute device;
                 if (AttributeHelper.TryGetAttribute(result, out device))
                 {
-                    Log.Next("Selected Device: {0}", LogLevel.Engine, device.FriendlyName);
+                    Logger.Engine("Selected Device: {0}", device.FriendlyName);
                 }
 
                 return result;
@@ -112,7 +122,7 @@ namespace Sharpex2D.Framework.Rendering.Devices
                     DeviceAttribute device;
                     if (AttributeHelper.TryGetAttribute(renderer, out device))
                     {
-                        Log.Next("Selected Device: {0}", LogLevel.Engine, device.FriendlyName);
+                        Logger.Engine("Selected Device: {0}", device.FriendlyName);
                     }
 
                     return renderer;
@@ -124,7 +134,7 @@ namespace Sharpex2D.Framework.Rendering.Devices
                 DeviceAttribute device;
                 if (AttributeHelper.TryGetAttribute(typeof (GDIRenderDevice), out device))
                 {
-                    Log.Next("Selected Device: {0}", LogLevel.Engine, device.FriendlyName);
+                    Logger.Engine("Selected Device: {0}", device.FriendlyName);
                 }
                 return new GDIRenderDevice(InterpolationMode.Linear, SmoothingMode.AntiAlias);
             }

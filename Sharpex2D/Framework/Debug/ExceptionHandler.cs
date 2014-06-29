@@ -54,7 +54,7 @@ namespace Sharpex2D.Framework.Debug
         /// <param name="e">The EventArgs.</param>
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            Log.Next(((Exception) e.ExceptionObject).Message, LogLevel.Critical, LogMode.StandardOut);
+            LogManager.GetClassLogger().Critical(((Exception) e.ExceptionObject).Message);
         }
     }
 }

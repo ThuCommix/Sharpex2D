@@ -11,6 +11,16 @@ namespace Sharpex2D.Framework.Scripting.VB
     [TestState(TestState.Untested)]
     internal static class VBScriptCompiler
     {
+        private static readonly Logger Logger;
+
+        /// <summary>
+        /// Initializes a new VBScriptCompiler class.
+        /// </summary>
+        static VBScriptCompiler()
+        {
+            Logger = LogManager.GetClassLogger();
+        }
+
         /// <summary>
         ///     Compiles the source to assembly.
         /// </summary>
@@ -33,14 +43,11 @@ namespace Sharpex2D.Framework.Scripting.VB
             {
                 if (error.IsWarning)
                 {
-                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
-                        LogLevel.Warning,
-                        LogMode.StandardOut);
+                    Logger.Warn("{0} -> {1} (Line {2})", script.Guid, error.ErrorText, error.Line);
                 }
                 else
                 {
-                    Log.Next("VBScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
-                        LogLevel.Critical, LogMode.StandardOut);
+                    Logger.Critical("{0} -> {1} (Line {2})", script.Guid, error.ErrorText, error.Line);
                     flag = true;
                 }
             }

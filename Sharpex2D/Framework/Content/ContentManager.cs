@@ -23,6 +23,8 @@ namespace Sharpex2D.Framework.Content
 
         #endregion
 
+        private Logger _logger;
+
         /// <summary>
         ///     Initializes a new ContentManager.
         /// </summary>
@@ -31,6 +33,8 @@ namespace Sharpex2D.Framework.Content
             RootPath = Path.Combine(Environment.CurrentDirectory, "Content");
             ContentVerifier = new ContentVerifier();
             ContentProcessor = new ContentProcessorSelector();
+
+            _logger = LogManager.GetClassLogger();
 
             if (!Directory.Exists(RootPath))
             {
@@ -75,13 +79,11 @@ namespace Sharpex2D.Framework.Content
             }
             catch (Exception)
             {
-                Log.Next("Unable to read the ContentAttribute.", LogLevel.Warning, LogMode.StandardOut);
+                _logger.Warn("Unable to read the ContentAttribute.");
             }
 
-            Log.Next(
-                "Loaded " + resourceName + " with " + processor.GetType().Name + " (" + processor.Guid +
-                ")",
-                LogLevel.Engine, LogMode.StandardOut);
+            _logger.Engine(
+                "Loaded {0} with {1} ({2}).", resourceName, processor.GetType().Name, processor.Guid);
 
 
             return (T) processor.ReadData(Path.Combine(RootPath, asset));

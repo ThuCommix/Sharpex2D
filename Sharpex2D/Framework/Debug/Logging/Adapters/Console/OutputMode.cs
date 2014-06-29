@@ -1,23 +1,18 @@
-﻿namespace Sharpex2D.Framework.Debug.Logging
+﻿namespace Sharpex2D.Framework.Debug.Logging.Adapters.Console
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public enum LogMode
+    public enum OutputMode
     {
-        /// <summary>
-        ///     None.
-        /// </summary>
-        None = 0,
-
         /// <summary>
         ///     StandardOut stream.
         /// </summary>
-        StandardOut = 1,
+        Standard = 0,
 
         /// <summary>
         ///     StandardError stream.
         /// </summary>
-        StandardError = 2,
+        Error = 1
     }
 }

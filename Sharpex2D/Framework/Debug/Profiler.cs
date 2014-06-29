@@ -9,6 +9,16 @@ namespace Sharpex2D.Framework.Debug
     [TestState(TestState.Tested)]
     public class Profiler
     {
+        private static readonly Logger Logger;
+
+        /// <summary>
+        /// Initializes a  new Profiler class.
+        /// </summary>
+        static Profiler()
+        {
+            Logger = LogManager.GetClassLogger();
+        }
+
         /// <summary>
         ///     Profiles an action.
         /// </summary>
@@ -17,12 +27,11 @@ namespace Sharpex2D.Framework.Debug
         public static void Profile(Guid guid, Action action)
         {
             var sw = new Stopwatch();
-            Log.Next(@"Profiling: " + guid, LogLevel.Info, LogMode.StandardOut);
+            Logger.Info("Profiling: {0}.", guid);
             sw.Start();
             action.Invoke();
             sw.Stop();
-            Log.Next(@"End profiling: " + guid + @" Time: " + sw.ElapsedMilliseconds + @"ms", LogLevel.Info,
-                LogMode.StandardOut);
+            Logger.Info("End profiling: {0}, Time: {1}ms", guid, sw.ElapsedMilliseconds);
             sw.Reset();
         }
     }

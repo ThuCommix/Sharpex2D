@@ -32,12 +32,15 @@ namespace Sharpex2D
         /// </summary>
         public static Game GameInstance;
 
+        private static readonly Logger Logger;
+
         /// <summary>
         ///     Initializes a new SGL class.
         /// </summary>
         static SGL()
         {
             State = SGLState.NotInitialized;
+            Logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -106,12 +109,12 @@ namespace Sharpex2D
             GameInstance = initializer.GameInstance;
             Components.AddComponent(initializer.RenderTarget);
             Components.AddComponent(new EventManager());
-            initializer.RenderTarget.Window.Size = new Vector2(initializer.Width, initializer.Height);
-            initializer.GameInstance.Input = new InputManager(initializer.RenderTarget.Handle);
             GraphicsDevice = new GraphicsDevice(initializer.RenderTarget)
             {
                 BackBuffer = new BackBuffer(initializer.Width, initializer.Height)
             };
+            initializer.RenderTarget.Window.Size = new Vector2(initializer.Width, initializer.Height);
+            initializer.GameInstance.Input = new InputManager(initializer.RenderTarget.Handle);
             initializer.GameInstance.Content = new ContentManager();
             initializer.GameInstance.SceneManager = new SceneManager();
             Components.AddComponent(initializer.GameLoop);
@@ -176,8 +179,8 @@ namespace Sharpex2D
             GameInstance.OnLoadContent();
             Components.Get<IGameLoop>().Start();
 
-            Log.Next("SGL ({0}) is sucessfully running.", LogLevel.Engine, Version);
-            Log.Next("CLR: {0}", LogLevel.Engine, Platform.IsMonoRuntime() ? "Mono" : "Windows");
+            Logger.Engine("SGL ({0}) is sucessfully running.", Version);
+            Logger.Engine("CLR: {0}.", Platform.IsMonoRuntime() ? "Mono" : "Windows");
 
             State = SGLState.Running;
         }
@@ -219,7 +222,7 @@ namespace Sharpex2D
             }
             catch (Exception)
             {
-                Log.Next("Failed to restart the process.", LogLevel.Engine);
+                Logger.Engine("Failed to restart the process.");
             }
         }
     }

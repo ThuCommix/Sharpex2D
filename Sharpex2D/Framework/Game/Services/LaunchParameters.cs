@@ -61,7 +61,7 @@ namespace Sharpex2D.Framework.Game.Services
                     }
                     else
                     {
-                        Log.Next("Invalid launch parameter (" + value[i] + ").", LogLevel.Warning, LogMode.StandardOut);
+                        LogManager.GetClassLogger().Warn("Invalid launch parameter ({0}).", value[i]);
                     }
                 }
             }

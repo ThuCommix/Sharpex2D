@@ -11,6 +11,16 @@ namespace Sharpex2D.Framework.Scripting.CSharp
     [TestState(TestState.Untested)]
     internal static class CSharpScriptCompiler
     {
+        private static readonly Logger Logger;
+
+        /// <summary>
+        /// Initializes a new CSharpScriptCompiler class.
+        /// </summary>
+        static CSharpScriptCompiler()
+        {
+            Logger = LogManager.GetClassLogger();
+        }
+
         /// <summary>
         ///     Compiles the source to assembly.
         /// </summary>
@@ -33,14 +43,11 @@ namespace Sharpex2D.Framework.Scripting.CSharp
             {
                 if (error.IsWarning)
                 {
-                    Log.Next("CSharpScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
-                        LogLevel.Warning,
-                        LogMode.StandardOut);
+                    Logger.Warn("{0} -> {1} (Line {2})", script.Guid, error.ErrorText, error.Line);
                 }
                 else
                 {
-                    Log.Next("CSharpScript [" + script.Guid + "] -> " + error.ErrorText + "(Line " + error.Line + ")",
-                        LogLevel.Critical, LogMode.StandardOut);
+                    Logger.Critical("{0} -> {1} (Line {2})", script.Guid, error.ErrorText, error.Line);
                     flag = true;
                 }
             }

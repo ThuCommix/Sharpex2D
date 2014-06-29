@@ -27,9 +27,9 @@ namespace Sharpex2D
                 }
                 catch (Exception ex)
                 {
-                    Log.Next(
+                    LogManager.GetClassLogger().Error(
                         "Failed to initialize constructor of {0}. Parameters at constructor are not supported.",
-                        LogLevel.Error, LogMode.StandardOut, type.Name);
+                        type.Name);
 
                     throw new TargetInvocationException(ex);
                 }

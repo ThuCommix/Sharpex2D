@@ -52,7 +52,7 @@ namespace Sharpex2D.Framework.Plugin
                 }
                 catch (PluginException ex)
                 {
-                    Log.Next("PluginCatalog: " + ex.Message, LogLevel.Warning, LogMode.StandardOut);
+                    LogManager.GetClassLogger().Warn(ex.Message);
                 }
             }
 

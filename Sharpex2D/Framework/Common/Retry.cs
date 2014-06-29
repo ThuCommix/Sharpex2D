@@ -45,7 +45,7 @@ namespace Sharpex2D.Framework.Common
                 {
                     if (EnableErrorReport)
                     {
-                        Log.Next(ex.Message, LogLevel.Warning, LogMode.StandardOut);
+                        LogManager.GetClassLogger().Warn(ex.Message);
                     }
                     Thread.Sleep(timeout);
                 }
@@ -87,7 +87,7 @@ namespace Sharpex2D.Framework.Common
                 {
                     if (EnableErrorReport)
                     {
-                        Log.Next(ex.Message, LogLevel.Warning, LogMode.StandardOut);
+                        LogManager.GetClassLogger().Warn(ex.Message);
                     }
                     Thread.Sleep(timeout);
                 }

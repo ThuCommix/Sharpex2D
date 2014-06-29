@@ -31,8 +31,7 @@ namespace Sharpex2D.Framework.Content.Pipeline
         public void Add(IContentProcessor contentProcessor)
         {
             _contentProcessors.Add(contentProcessor);
-            Log.Next("Registered ContentProcessor: " + contentProcessor.Type.Name + ".", LogLevel.Engine,
-                LogMode.StandardOut);
+            LogManager.GetClassLogger().Engine("Registered ContentProcessor: {0}.", contentProcessor.Type.Name);
         }
 
         /// <summary>
