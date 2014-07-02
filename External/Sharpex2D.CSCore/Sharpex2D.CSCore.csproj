@@ -42,12 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Media\Sound\DirectSound\DirectSoundInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\DirectSound\DirectSoundProvider.cs" />
-    <Compile Include="Framework\Media\Sound\Wasapi\WasapiSoundInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\Wasapi\WasapiSoundProvider.cs" />
-    <Compile Include="Framework\Media\Sound\WaveOut\WaveOutSoundInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\WaveOut\WaveOutSoundProvider.cs" />
+    <Compile Include="Framework\Audio\DirectSound\DirectSoundInitializer.cs" />
+    <Compile Include="Framework\Audio\DirectSound\DirectSoundProvider.cs" />
+    <Compile Include="Framework\Audio\Wasapi\WasapiSoundInitializer.cs" />
+    <Compile Include="Framework\Audio\Wasapi\WasapiSoundProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
