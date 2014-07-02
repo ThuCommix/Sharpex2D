@@ -9,7 +9,11 @@ It offers various build-in components such as physic, sound, rendering, content 
 
 <h3>Compatibility</h3>
 
-Windows based systems with .NET Framework 4.0 or higher.
+Windows XP
+Windows Vista
+Windows 7
+Windows 8
+Mono supported platforms
 
 
 
