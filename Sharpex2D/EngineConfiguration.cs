@@ -1,10 +1,29 @@
-﻿using Sharpex2D.Framework.Media;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Rendering.Devices;
 
 namespace Sharpex2D
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     public class EngineConfiguration
     {
@@ -12,11 +31,11 @@ namespace Sharpex2D
         ///     Initializes a new EngineConfiguration class.
         /// </summary>
         /// <param name="renderer">The Renderer.</param>
-        /// <param name="mediaInitializer">The MediaInitializer.</param>
-        public EngineConfiguration(RenderDevice renderer, MediaInitializer mediaInitializer)
+        /// <param name="soundInitializer">The SoundInitializer.</param>
+        public EngineConfiguration(RenderDevice renderer, ISoundInitializer soundInitializer)
         {
             Renderer = renderer;
-            MediaInitializer = mediaInitializer;
+            SoundInitializer = soundInitializer;
         }
 
         /// <summary>
@@ -25,8 +44,8 @@ namespace Sharpex2D
         internal RenderDevice Renderer { private set; get; }
 
         /// <summary>
-        ///     Gets the MediaInitializer.
+        ///     Gets the SoundInitializer.
         /// </summary>
-        internal MediaInitializer MediaInitializer { private set; get; }
+        internal ISoundInitializer SoundInitializer { private set; get; }
     }
 }

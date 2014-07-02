@@ -1,11 +1,30 @@
-﻿using System;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
+using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Game.Services;
 using Sharpex2D.Framework.Game.Timing;
 using Sharpex2D.Framework.Input;
-using Sharpex2D.Framework.Media.Sound;
-using Sharpex2D.Framework.Media.Video;
 using Sharpex2D.Framework.Rendering.Devices;
 using Sharpex2D.Framework.Rendering.Scene;
 using Sharpex2D.Framework.Surface;
@@ -13,7 +32,6 @@ using Sharpex2D.Framework.Surface;
 namespace Sharpex2D.Framework.Game
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     public abstract class Game : IUpdateable, IDrawable, IConstructable
     {
@@ -29,7 +47,7 @@ namespace Sharpex2D.Framework.Game
 
         #endregion
 
-        internal RenderTarget RenderTarget;
+        private RenderTarget _renderTarget;
 
         /// <summary>
         ///     Initializes a new Game class.
@@ -53,11 +71,6 @@ namespace Sharpex2D.Framework.Game
         ///     The Current SoundPlayer.
         /// </summary>
         public SoundManager SoundManager { get; internal set; }
-
-        /// <summary>
-        ///     The Current VideoManager.
-        /// </summary>
-        public VideoManager VideoManager { get; internal set; }
 
         /// <summary>
         ///     The Current ContentManager.
@@ -97,7 +110,7 @@ namespace Sharpex2D.Framework.Game
         /// </summary>
         public bool IsActive
         {
-            get { return RenderTarget.Window.IsActive; }
+            get { return _renderTarget.Window.IsActive; }
         }
 
         #region IUpdateable Implementation
@@ -134,7 +147,7 @@ namespace Sharpex2D.Framework.Game
         /// </summary>
         void IConstructable.Construct()
         {
-            RenderTarget = SGL.Components.Get<RenderTarget>();
+            _renderTarget = SGL.Components.Get<RenderTarget>();
         }
 
         #endregion
@@ -187,6 +200,7 @@ namespace Sharpex2D.Framework.Game
         /// </summary>
         public virtual void OnActivation()
         {
+            SGL.Components.Get<IGameLoop>().Idle = false;
         }
 
         /// <summary>
@@ -194,7 +208,9 @@ namespace Sharpex2D.Framework.Game
         /// </summary>
         public virtual void OnDeactivation()
         {
+            SGL.Components.Get<IGameLoop>().Idle = true;
         }
+
 
         /// <summary>
         ///     Exits the game.

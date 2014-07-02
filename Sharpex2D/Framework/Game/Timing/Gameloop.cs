@@ -1,4 +1,24 @@
-﻿using System;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -8,7 +28,6 @@ using Sharpex2D.Framework.Game.Timing.Events;
 namespace Sharpex2D.Framework.Game.Timing
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     public class GameLoop : IGameLoop, IDisposable
     {
@@ -69,6 +88,16 @@ namespace Sharpex2D.Framework.Game.Timing
                 return (_renderTask.Status == TaskStatus.Running) & (_updateTask.Status == TaskStatus.Running);
             }
         }
+
+        /// <summary>
+        ///     A value indicating whether the game loop should idle.
+        /// </summary>
+        public bool Idle { set; get; }
+
+        /// <summary>
+        ///     Gets or sets the IdleDuration.
+        /// </summary>
+        public float IdleDuration { set; get; }
 
         /// <summary>
         ///     Gets or sets the Target FPS.
@@ -213,6 +242,7 @@ namespace Sharpex2D.Framework.Game.Timing
             _totalGameTime = TimeSpan.FromSeconds(0);
             TargetFrameTime = 16.666f;
             TargetUpdateTime = 16.666f;
+            IdleDuration = 500;
             _updateGameTime = new GameTime
             {
                 ElapsedGameTime = TargetUpdateTime,
@@ -235,7 +265,7 @@ namespace Sharpex2D.Framework.Game.Timing
         {
             TargetFramesPerSecond = 1000/TargetFrameTime;
 
-            if (SGL.State == SGLState.Running)
+            if (SGL.State == EngineState.Running)
             {
                 SGL.GraphicsDevice.RefreshRate = TargetFramesPerSecond;
 
@@ -257,6 +287,11 @@ namespace Sharpex2D.Framework.Game.Timing
 
                 _updateGameTime.TotalGameTime = _totalGameTime;
                 _renderGameTime.TotalGameTime = _totalGameTime;
+
+                if (Idle)
+                {
+                    _totalGameTimeTask.Wait((int) IdleDuration);
+                }
             }
         }
 
@@ -318,6 +353,11 @@ namespace Sharpex2D.Framework.Game.Timing
                 }
 
                 _updateGameTime.ElapsedGameTime = _updateTime;
+
+                if (Idle)
+                {
+                    _updateTask.Wait((int) IdleDuration);
+                }
             }
         }
 
@@ -360,6 +400,11 @@ namespace Sharpex2D.Framework.Game.Timing
                 }
 
                 _renderGameTime.ElapsedGameTime = _renderTime;
+
+                if (Idle)
+                {
+                    _renderTask.Wait((int) IdleDuration);
+                }
             }
         }
 

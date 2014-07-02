@@ -20,18 +20,18 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;Windows</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,9 +40,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -55,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Development\AttributeHelper.cs" />
-    <Compile Include="Development\CopyrightAttribute.cs" />
     <Compile Include="Development\DeveloperAttribute.cs" />
     <Compile Include="Development\NativeMethods.cs" />
     <Compile Include="Development\Platform.cs" />
@@ -63,6 +60,10 @@
     <Compile Include="Development\TestState.cs" />
     <Compile Include="Development\TestStateAttribute.cs" />
     <Compile Include="EngineConfiguration.cs" />
+    <Compile Include="Framework\Audio\WaveOut\AudioDevice.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveCapsFormats.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveCapsSupported.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutCaps.cs" />
     <Compile Include="Framework\Collections\BufferedCollection.cs" />
     <Compile Include="Framework\Collections\Collection.cs" />
     <Compile Include="Framework\Common\Delay.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Framework\Content\Pipeline\Processor\SoundContentProcessor.cs" />
     <Compile Include="Framework\Content\Pipeline\Processor\GDIFontContentProcessor.cs" />
     <Compile Include="Framework\Content\Pipeline\Processor\VBScriptContentProcessor.cs" />
-    <Compile Include="Framework\Content\Pipeline\Processor\VideoContentProcessor.cs" />
     <Compile Include="Framework\Debug\DebugConsole.cs" />
     <Compile Include="Framework\Debug\ExceptionHandler.cs" />
     <Compile Include="Framework\Debug\Logging\Adapters\Console\ConsoleAdapter.cs" />
@@ -114,7 +114,6 @@
     <Compile Include="Framework\Components\IConstructable.cs" />
     <Compile Include="Framework\Content\ContentManager.cs" />
     <Compile Include="Framework\Content\Pipeline\Serializer\PrimitiveSerializer.cs" />
-    <Compile Include="Framework\Content\ContentStorage.cs" />
     <Compile Include="Framework\Content\ContentVerifier.cs" />
     <Compile Include="Framework\Content\IContent.cs" />
     <Compile Include="Framework\Content\Pipeline\Serializer\IPrimitiveSerializer.cs" />
@@ -193,6 +192,7 @@
     <Compile Include="Framework\Input\InputManager.cs" />
     <Compile Include="Framework\Input\Keys.cs" />
     <Compile Include="Framework\Input\MouseButtons.cs" />
+    <Compile Include="Framework\Audio\ISoundEffectProcessor.cs" />
     <Compile Include="Framework\Localization\Events\LanguageChangedEvent.cs" />
     <Compile Include="Framework\Localization\Language.cs" />
     <Compile Include="Framework\Localization\LanguageProvider.cs" />
@@ -208,18 +208,16 @@
     <Compile Include="Framework\Math\PolygonCollisionResult.cs" />
     <Compile Include="Framework\Math\PolygonContainer.cs" />
     <Compile Include="Framework\Math\Rectangle.cs" />
-    <Compile Include="Framework\Media\MediaInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\Processors\CircleSoundProcessor.cs" />
-    <Compile Include="Framework\Media\Sound\ISoundProcessor.cs" />
-    <Compile Include="Framework\Media\Sound\Processors\TunnelSoundProcessor.cs" />
-    <Compile Include="Framework\Media\Sound\SoundEffect.cs" />
-    <Compile Include="Framework\Media\Sound\Wave\WaveSoundInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\Wave\WaveSoundProvider.cs" />
-    <Compile Include="Framework\Media\Video\IVideoInitializer.cs" />
-    <Compile Include="Framework\Media\Video\IVideoProvider.cs" />
-    <Compile Include="Framework\Media\Video\Video.cs" />
-    <Compile Include="Framework\Media\Video\VideoManager.cs" />
-    <Compile Include="Framework\Media\Video\VideoProviderNotInitializedException.cs" />
+    <Compile Include="Framework\Audio\SoundEffect.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveFormat.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveFormats.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveHdr.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOut.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutBuffer.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutInitializer.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutSoundProvider.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutResult.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveStream.cs" />
     <Compile Include="Framework\Network\Logic\IClientListener.cs" />
     <Compile Include="Framework\Network\Packages\System\UdpNotify.cs" />
     <Compile Include="Framework\Network\Packages\System\UdpPackage.cs" />
@@ -267,6 +265,7 @@
     <Compile Include="Framework\Plugin\PluginContainer.cs" />
     <Compile Include="Framework\Plugin\PluginActivator.cs" />
     <Compile Include="Framework\Physics\Shapes\TextureBasedCircle.cs" />
+    <Compile Include="Framework\Rendering\AnimatedSpriteSheet.cs" />
     <Compile Include="Framework\Rendering\Devices\DeviceAttribute.cs" />
     <Compile Include="Framework\Rendering\Devices\RenderDevice.cs" />
     <Compile Include="Framework\Rendering\Devices\RenderDeviceException.cs" />
@@ -274,6 +273,7 @@
     <Compile Include="Framework\Rendering\Devices\DeviceSelector.cs" />
     <Compile Include="Framework\Rendering\Fonts\Font.cs" />
     <Compile Include="Framework\Rendering\Fonts\IFont.cs" />
+    <Compile Include="Framework\Rendering\GDI\GDIHelper.cs" />
     <Compile Include="Framework\Rendering\GDI\GDIRenderDevice.cs" />
     <Compile Include="Framework\Rendering\GDI\GDIResourceManager.cs" />
     <Compile Include="Framework\Rendering\InterpolationMode.cs" />
@@ -284,11 +284,13 @@
     <Compile Include="Framework\Rendering\GDI\GDIPen.cs" />
     <Compile Include="Framework\Rendering\GDI\GDITexture.cs" />
     <Compile Include="Framework\Rendering\IPen.cs" />
+    <Compile Include="Framework\Rendering\Keyframe.cs" />
     <Compile Include="Framework\Rendering\Pen.cs" />
     <Compile Include="Framework\Rendering\Scene\Events\AfterSceneChangedEvent.cs" />
     <Compile Include="Framework\Rendering\Scene\Events\BeforeSceneChangedEvent.cs" />
     <Compile Include="Framework\Rendering\Scene\Scene.cs" />
     <Compile Include="Framework\Rendering\SmoothingMode.cs" />
+    <Compile Include="Framework\Rendering\SpriteSheet.cs" />
     <Compile Include="Framework\Rendering\Texture2D.cs" />
     <Compile Include="Framework\Scripting\Events\ScriptCompletedEvent.cs" />
     <Compile Include="Framework\Scripting\Events\ScriptRunningEvent.cs" />
@@ -317,16 +319,17 @@
     <Compile Include="Framework\Surface\RenderTarget.cs" />
     <Compile Include="Framework\Surface\SurfaceStyle.cs" />
     <Compile Include="Development\GlobalSuppressions.cs" />
+    <Compile Include="IConfigurator.cs" />
     <Compile Include="InitializeHelper.cs" />
-    <Compile Include="SGLInitializer.cs" />
+    <Compile Include="Configurator.cs" />
     <Compile Include="Framework\Math\MathHelper.cs" />
     <Compile Include="Framework\Math\Vector2.cs" />
-    <Compile Include="Framework\Media\Sound\ISoundInitializer.cs" />
-    <Compile Include="Framework\Media\Sound\ISoundProvider.cs" />
-    <Compile Include="Framework\Media\Sound\Sound.cs" />
-    <Compile Include="Framework\Media\Sound\PlayMode.cs" />
-    <Compile Include="Framework\Media\Sound\SoundManager.cs" />
-    <Compile Include="Framework\Media\Sound\SoundProviderNotInitializedException.cs" />
+    <Compile Include="Framework\Audio\ISoundInitializer.cs" />
+    <Compile Include="Framework\Audio\ISoundProvider.cs" />
+    <Compile Include="Framework\Audio\Sound.cs" />
+    <Compile Include="Framework\Audio\PlayMode.cs" />
+    <Compile Include="Framework\Audio\SoundManager.cs" />
+    <Compile Include="Framework\Audio\SoundProviderNotInitializedException.cs" />
     <Compile Include="Framework\Plugin\PluginException.cs" />
     <Compile Include="Framework\Rendering\Color.cs" />
     <Compile Include="Framework\Rendering\BackBuffer.cs" />
@@ -339,7 +342,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SGL.cs" />
-    <Compile Include="SGLState.cs" />
+    <Compile Include="EngineState.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -347,7 +350,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Framework\Audio\EffectProcessors\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

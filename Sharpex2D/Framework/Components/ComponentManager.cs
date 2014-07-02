@@ -1,13 +1,33 @@
-﻿using System;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Sharpex2D.Framework.Components
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
-    public class ComponentManager : IConstructable
+    public class ComponentManager : IConstructable, IEnumerable<IComponent>
     {
         #region IComponent Implementation
 
@@ -17,6 +37,28 @@ namespace Sharpex2D.Framework.Components
         public Guid Guid
         {
             get { return new Guid("6A3D114D-6DF4-429E-82ED-F7CD0AE29CF8"); }
+        }
+
+        #endregion
+
+        #region IEnumerable Implementation
+
+        /// <summary>
+        ///     Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<IComponent> GetEnumerator()
+        {
+            return _internalComponents.GetEnumerator();
+        }
+
+        /// <summary>
+        ///     Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         #endregion
@@ -82,23 +124,9 @@ namespace Sharpex2D.Framework.Components
         /// <returns>Component</returns>
         public T Get<T>()
         {
-            foreach (IComponent component in _internalComponents)
+            foreach (T component in _internalComponents.Where(component => component != null).OfType<T>())
             {
-                if (component == null) continue;
-                if (component.GetType() == typeof (T) || component.GetType().BaseType == typeof(T))
-                {
-                    return (T) component;
-                }
-            }
-
-            //if not found query interfaces 
-            foreach (IComponent component in _internalComponents)
-            {
-                if (component == null) continue;
-                if (QueryInterface(component.GetType(), typeof (T)))
-                {
-                    return (T) component;
-                }
+                return component;
             }
 
             throw new InvalidOperationException("Component not found (" + typeof (T).FullName + ").");
@@ -121,17 +149,6 @@ namespace Sharpex2D.Framework.Components
             }
 
             throw new InvalidOperationException("Component with guid " + guid + " not found.");
-        }
-
-        /// <summary>
-        ///     Queries a type.
-        /// </summary>
-        /// <param name="type">The Type.</param>
-        /// <param name="target">The TargetType.</param>
-        /// <returns>True on success</returns>
-        private bool QueryInterface(Type type, Type target)
-        {
-            return type.GetInterfaces().Any(implementation => implementation == target);
         }
     }
 }

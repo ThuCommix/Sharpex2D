@@ -1,4 +1,24 @@
-﻿using System;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -17,8 +37,9 @@ using Rectangle = Sharpex2D.Framework.Math.Rectangle;
 
 namespace Sharpex2D.Framework.Rendering.GDI
 {
+#if Windows
+
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [Copyright("©Sharpex2D 2013 - 2014")]
     [TestState(TestState.Tested)]
     [Device("Graphics Device Interface")]
     public class GDIRenderDevice : RenderDevice
@@ -96,7 +117,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
 
             GraphicsDevice.ClearColor = Color.CornflowerBlue;
 
-            _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
+            _buffergraphics.Clear(GDIHelper.ConvertColor(GraphicsDevice.ClearColor));
         }
 
         /// <summary>
@@ -109,7 +130,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 throw new RenderDeviceException("Begin is already called.");
             }
             _isBegin = true;
-            _buffergraphics.Clear(GraphicsDevice.ClearColor.ToWin32Color());
+            _buffergraphics.Clear(GDIHelper.ConvertColor(GraphicsDevice.ClearColor));
         }
 
         /// <summary>
@@ -140,7 +161,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
             {
                 throw new RenderDeviceException("GdiRenderer needs a GdiFont resource.");
             }
-            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
+            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(GDIHelper.ConvertColor(color)),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height));
         }
 
@@ -159,8 +180,8 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 throw new RenderDeviceException("GdiRenderer needs a GdiFont resource.");
             }
 
-            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(color.ToWin32Color()),
-                position.ToPointF());
+            _buffergraphics.DrawString(text, gdifont.GetFont(), new SolidBrush(GDIHelper.ConvertColor(color)),
+                GDIHelper.ConvertPointF(position));
         }
 
         /// <summary>
@@ -224,18 +245,92 @@ namespace Sharpex2D.Framework.Rendering.GDI
                 Graphics g = Graphics.FromImage(tempBmp);
                 g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
                 g.Dispose();
-                _buffergraphics.DrawImage(tempBmp,
-                    new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
-                        (int) rectangle.Height), 0, 0,
+                _buffergraphics.DrawImage(tempBmp, GDIHelper.ConvertRectangle(rectangle), 0, 0,
                     tempBmp.Width, tempBmp.Height, GraphicsUnit.Pixel, attributes);
                 tempBmp.Dispose();
             }
             else
             {
+                _buffergraphics.DrawImage(gdiTexture.Bmp, GDIHelper.ConvertRectangle(rectangle), 0, 0,
+                    gdiTexture.Bmp.Width, gdiTexture.Bmp.Height, GraphicsUnit.Pixel, attributes);
+            }
+        }
+
+        /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="spriteSheet">The SpriteSheet.</param>
+        /// <param name="position">The Position.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1)
+        {
+            var gdiTexture = spriteSheet.Texture2D as GDITexture;
+            if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
+
+            var matrix = new ColorMatrix {Matrix33 = opacity};
+            var attributes = new ImageAttributes();
+
+            attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+            if (color != Color.White)
+            {
+                var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
+                Graphics g = Graphics.FromImage(tempBmp);
+                g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
+                g.Dispose();
+                _buffergraphics.DrawImage(tempBmp,
+                    new System.Drawing.Rectangle((int) position.X, (int) position.Y, (int) spriteSheet.Rectangle.Width,
+                        (int) spriteSheet.Rectangle.Height),
+                    spriteSheet.Rectangle.X, spriteSheet.Rectangle.Y, spriteSheet.Rectangle.Width,
+                    spriteSheet.Rectangle.Height, GraphicsUnit.Pixel, attributes);
+            }
+            else
+            {
+                _buffergraphics.DrawImage(gdiTexture.Bmp,
+                    new System.Drawing.Rectangle((int) position.X, (int) position.Y, (int) spriteSheet.Rectangle.Width,
+                        (int) spriteSheet.Rectangle.Height),
+                    spriteSheet.Rectangle.X, spriteSheet.Rectangle.Y, spriteSheet.Rectangle.Width,
+                    spriteSheet.Rectangle.Height, GraphicsUnit.Pixel, attributes);
+            }
+        }
+
+        /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="spriteSheet">The SpriteSheet.</param>
+        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
+        {
+            var gdiTexture = spriteSheet.Texture2D as GDITexture;
+            if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
+
+            var matrix = new ColorMatrix {Matrix33 = opacity};
+            var attributes = new ImageAttributes();
+
+            attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+
+            if (color != Color.White)
+            {
+                var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
+                Graphics g = Graphics.FromImage(tempBmp);
+                g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
+                g.Dispose();
+                _buffergraphics.DrawImage(tempBmp,
+                    new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+                        (int) rectangle.Height),
+                    spriteSheet.Rectangle.X, spriteSheet.Rectangle.Y, spriteSheet.Rectangle.Width,
+                    spriteSheet.Rectangle.Height, GraphicsUnit.Pixel, attributes);
+            }
+            else
+            {
                 _buffergraphics.DrawImage(gdiTexture.Bmp,
                     new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
-                        (int) rectangle.Height), 0, 0,
-                    gdiTexture.Bmp.Width, gdiTexture.Bmp.Height, GraphicsUnit.Pixel, attributes);
+                        (int) rectangle.Height),
+                    spriteSheet.Rectangle.X, spriteSheet.Rectangle.Y, spriteSheet.Rectangle.Width,
+                    spriteSheet.Rectangle.Height, GraphicsUnit.Pixel, attributes);
             }
         }
 
@@ -357,7 +452,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// <param name="rectangle">The Rectangle.</param>
         public override void FillRectangle(Color color, Rectangle rectangle)
         {
-            _buffergraphics.FillRectangle(new SolidBrush(color.ToWin32Color()),
+            _buffergraphics.FillRectangle(new SolidBrush(GDIHelper.ConvertColor(color)),
                 new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                     (int) rectangle.Height));
         }
@@ -369,7 +464,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// <param name="ellipse">The Ellipse.</param>
         public override void FillEllipse(Color color, Ellipse ellipse)
         {
-            _buffergraphics.FillEllipse(new SolidBrush(color.ToWin32Color()),
+            _buffergraphics.FillEllipse(new SolidBrush(GDIHelper.ConvertColor(color)),
                 new System.Drawing.Rectangle((int) ellipse.Position.X, (int) ellipse.Position.Y, (int) ellipse.RadiusX*2,
                     (int) ellipse.RadiusY*2));
         }
@@ -381,7 +476,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
         /// <param name="polygon">The Polygon.</param>
         public override void FillPolygon(Color color, Polygon polygon)
         {
-            _buffergraphics.FillPolygon(new SolidBrush(color.ToWin32Color()), polygon.Points.ToPoints());
+            _buffergraphics.FillPolygon(new SolidBrush(GDIHelper.ConvertColor(color)), polygon.Points.ToPoints());
         }
 
         /// <summary>
@@ -481,4 +576,6 @@ namespace Sharpex2D.Framework.Rendering.GDI
             return resultBitmap;
         }
     }
+
+#endif
 }
