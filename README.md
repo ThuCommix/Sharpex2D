@@ -9,11 +9,11 @@ It offers various build-in components such as physic, sound, rendering, content 
 
 <h3>Compatibility</h3>
 
-Windows XP
-Windows Vista
-Windows 7
-Windows 8
-Mono supported platforms
+Windows XP <br />
+Windows Vista <br />
+Windows 7 <br />
+Windows 8 <br />
+Mono supported platforms <br />
 
 
 
