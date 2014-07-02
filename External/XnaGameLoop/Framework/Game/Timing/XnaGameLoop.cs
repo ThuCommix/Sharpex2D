@@ -1,4 +1,24 @@
-﻿using System;
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the 'Software'), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -9,8 +29,42 @@ namespace Sharpex2D.Framework.Game.Timing
 {
     public class XnaGameLoop : IGameLoop
     {
+        private readonly List<IDrawable> _drawables;
+        private readonly GameTime _gameTime;
+        private readonly Task _loopTask;
+        private readonly Stopwatch _sw;
+        private readonly List<IUpdateable> _updateables;
+        private bool _cancel;
+        private RenderDevice _device;
+        private float _lostms;
+        private bool _skipRender;
+        private float _targetFrameTime;
+        private float _targetUpdateTime;
+        private float _totalTime;
+
         /// <summary>
-        /// Gets the Guid.
+        ///     Initializes a new XnaGameLoop class.
+        /// </summary>
+        public XnaGameLoop()
+        {
+            TargetUpdateTime = 16.666f;
+            TargetFrameTime = 16.666f;
+            _drawables = new List<IDrawable>();
+            _updateables = new List<IUpdateable>();
+            IdleDuration = 500;
+            Guid = new Guid("3D6DBB92-CED9-4EE9-8674-94BEF0F34103");
+            _gameTime = new GameTime
+            {
+                ElapsedGameTime = 16.6f,
+                IsRunningSlowly = false,
+                TotalGameTime = TimeSpan.FromSeconds(0)
+            };
+            _sw = new Stopwatch();
+            _loopTask = new Task(XnaLoop);
+        }
+
+        /// <summary>
+        ///     Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
@@ -20,7 +74,9 @@ namespace Sharpex2D.Framework.Game.Timing
         public float TargetFrameTime
         {
             get { return _targetFrameTime; }
-            set { _targetFrameTime = value;
+            set
+            {
+                _targetFrameTime = value;
                 _targetUpdateTime = value;
             }
         }
@@ -31,7 +87,9 @@ namespace Sharpex2D.Framework.Game.Timing
         public float TargetUpdateTime
         {
             get { return _targetUpdateTime; }
-            set { _targetUpdateTime = value;
+            set
+            {
+                _targetUpdateTime = value;
                 _targetFrameTime = value;
             }
         }
@@ -42,9 +100,22 @@ namespace Sharpex2D.Framework.Game.Timing
         public bool IsRunning { get; private set; }
 
         /// <summary>
+        ///     A value indicating whether the game loop should idle.
+        /// </summary>
+        public bool Idle { set; get; }
+
+        /// <summary>
+        ///     Gets or sets the IdleDuration.
+        /// </summary>
+        public float IdleDuration { set; get; }
+
+        /// <summary>
         ///     Gets the Target FPS.
         /// </summary>
-        public float TargetFramesPerSecond { get { return 1000/TargetFrameTime; } }
+        public float TargetFramesPerSecond
+        {
+            get { return 1000/TargetFrameTime; }
+        }
 
         /// <summary>
         ///     Starts the GameLoop.
@@ -53,7 +124,7 @@ namespace Sharpex2D.Framework.Game.Timing
         {
             if (IsRunning)
             {
-                Log.Next("It has been tried to start a already running game loop.", LogLevel.Warning);
+                LogManager.GetClassLogger().Warn("It has been tried to start a already running game loop.");
                 return;
             }
 
@@ -121,40 +192,6 @@ namespace Sharpex2D.Framework.Game.Timing
             }
         }
 
-        private readonly List<IUpdateable> _updateables;
-        private readonly List<IDrawable> _drawables;
-        private bool _cancel;
-        private readonly GameTime _gameTime;
-        private readonly Stopwatch _sw;
-        private bool _skipRender;
-        private float _totalTime;
-        private readonly Task _loopTask;
-        private float _targetUpdateTime;
-        private float _targetFrameTime;
-        private RenderDevice _device;
-        private float _lostms;
-
-        /// <summary>
-        ///     Initializes a new XnaGameLoop class.
-        /// </summary>
-        /// <param name="targetFrameTime">The TargetFrameTime.</param>
-        public XnaGameLoop(float targetFrameTime)
-        {
-            TargetUpdateTime = targetFrameTime;
-            TargetFrameTime = targetFrameTime;
-            _drawables = new List<IDrawable>();
-            _updateables = new List<IUpdateable>();
-            Guid = new Guid("3D6DBB92-CED9-4EE9-8674-94BEF0F34103");
-            _gameTime = new GameTime
-            {
-                ElapsedGameTime = targetFrameTime,
-                IsRunningSlowly = false,
-                TotalGameTime = TimeSpan.FromSeconds(0)
-            };
-            _sw = new Stopwatch();
-            _loopTask = new Task(XnaLoop);
-        }
-
         /// <summary>
         ///     The XnaLoop.
         /// </summary>
@@ -164,14 +201,14 @@ namespace Sharpex2D.Framework.Game.Timing
             {
                 _sw.Start();
 
-                foreach (var updateable in _updateables)
+                foreach (IUpdateable updateable in _updateables)
                 {
                     updateable.Update(_gameTime);
                 }
 
                 if (!_skipRender)
                 {
-                    foreach (var drawable in _drawables)
+                    foreach (IDrawable drawable in _drawables)
                     {
                         drawable.Render(_device, _gameTime);
                     }
@@ -179,7 +216,7 @@ namespace Sharpex2D.Framework.Game.Timing
                 else
                 {
                     // do another update
-                    foreach (var updateable in _updateables)
+                    foreach (IUpdateable updateable in _updateables)
                     {
                         updateable.Update(_gameTime);
                     }
@@ -205,7 +242,7 @@ namespace Sharpex2D.Framework.Game.Timing
                 {
                     _skipRender = false;
                     _gameTime.IsRunningSlowly = false;
-                    var waitTime = (int)(TargetFrameTime - _sw.ElapsedMilliseconds);
+                    var waitTime = (int) (TargetFrameTime - _sw.ElapsedMilliseconds);
                     if (waitTime > 0)
                     {
                         _loopTask.Wait(waitTime);
@@ -214,6 +251,11 @@ namespace Sharpex2D.Framework.Game.Timing
                 }
 
                 _sw.Reset();
+
+                if (Idle)
+                {
+                    _loopTask.Wait((int) IdleDuration);
+                }
             }
         }
     }
