@@ -154,9 +154,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
             renderTarget.AntialiasMode = _smoothingMode == SmoothingMode.AntiAlias
                 ? AntialiasMode.Aliased
                 : AntialiasMode.PerPrimitive;
-            renderTarget.TextAntialiasMode = _smoothingMode == SmoothingMode.AntiAlias
-                ? TextAntialiasMode.Aliased
-                : TextAntialiasMode.Default;
+            renderTarget.TextAntialiasMode = TextAntialiasMode.ClearType;
 
             _renderTarget = renderTarget;
             DirectXHelper.RenderTarget = _renderTarget;
