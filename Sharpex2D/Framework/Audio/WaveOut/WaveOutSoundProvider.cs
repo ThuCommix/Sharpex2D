@@ -22,6 +22,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
@@ -190,6 +191,15 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             if (devices.Length == 0)
                 throw new InvalidOperationException("There is not existing WavOut device available.");
             CurrentDevice = devices[0];
+
+            //check device features
+
+            if (!CurrentDevice.IsSupported(WaveCapsSupported.WAVECAPS_LRVOLUME) ||
+                !CurrentDevice.IsSupported(WaveCapsSupported.WAVECAPS_VOLUME))
+            {
+                var logger = LogManager.GetClassLogger();
+                logger.Warn("The current device does not support all required features.");
+            }
         }
 
         /// <summary>
@@ -271,7 +281,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             {
                 _waveStream.Position = 0;
                 IsPlaying = true;
-                _waveOut = new WaveOut(CurrentDevice.Handle, _currentFormat, 16384, 3, Filler);
+                _waveOut = new WaveOut(CurrentDevice.DeviceId, _currentFormat, 16384, 3, Filler);
             }
         }
 

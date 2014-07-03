@@ -103,8 +103,8 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             for (var i = 0; i < devices.Length; i++)
             {
                 var caps = new WaveOutCaps();
-                NativeMethods.waveOutGetDevCaps((IntPtr) i, out caps, (uint) Marshal.SizeOf(caps));
-                devices[i] = new AudioDevice((IntPtr) i, caps);
+                NativeMethods.waveOutGetDevCaps((uint)i, out caps, (uint) Marshal.SizeOf(caps));
+                devices[i] = new AudioDevice((uint)i, caps);
             }
             return devices;
         }
@@ -117,7 +117,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <param name="bufferSize">The BufferSize.</param>
         /// <param name="bufferCount">The BufferCount.</param>
         /// <param name="fillProc">The FillProc.</param>
-        public WaveOut(IntPtr device, WaveFormat format, int bufferSize, int bufferCount,
+        public WaveOut(uint device, WaveFormat format, int bufferSize, int bufferCount,
             WaveOutBuffer.BufferFillEventHandler fillProc)
         {
             _zero = format.wBitsPerSample == 8 ? (byte) 128 : (byte) 0;

@@ -28,9 +28,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
     public class AudioDevice
     {
         /// <summary>
-        /// Gets the Handle.
+        /// Gets the DeviceId.
         /// </summary>
-        public IntPtr Handle { private set; get; }
+        public uint DeviceId { private set; get; }
 
         /// <summary>
         /// Gets the Name.
@@ -85,15 +85,15 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Initializes a new AudioDevice class.
         /// </summary>
-        /// <param name="deviceHandle">The DeviceHandle.</param>
+        /// <param name="deviceId">The DeviceId.</param>
         /// <param name="waveOutCaps">The WaveOutCaps.</param>
-        internal AudioDevice(IntPtr deviceHandle, WaveOutCaps waveOutCaps)
+        internal AudioDevice(uint deviceId, WaveOutCaps waveOutCaps)
         {
             _supportedfeatures = waveOutCaps.dwSupport;
             Name = waveOutCaps.szPname;
             Channels = waveOutCaps.wChannels;
             DriverVersion = waveOutCaps.vDriverVersion.ToString(CultureInfo.InvariantCulture);
-            Handle = deviceHandle;
+            DeviceId = deviceId;
             ProductId = waveOutCaps.wPid;
             Manufacturer = waveOutCaps.wMid;
             Format = waveOutCaps.dwFormats;

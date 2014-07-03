@@ -195,7 +195,7 @@ namespace Sharpex2D
         /// <param name="cbwaveOutCaps">The Size.</param>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        public static extern int waveOutGetDevCaps(IntPtr deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
+        public static extern int waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
 
         /// <summary>
         ///     Prepares the header.
@@ -238,7 +238,7 @@ namespace Sharpex2D
         /// <param name="dwFlags">The Flags.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutOpen(out IntPtr hWaveOut, IntPtr uDeviceID, WaveFormat lpFormat,
+        internal static extern int waveOutOpen(out IntPtr hWaveOut, uint uDeviceID, WaveFormat lpFormat,
             WaveDelegate dwCallback, IntPtr dwInstance, uint dwFlags);
 
         /// <summary>
