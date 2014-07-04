@@ -188,7 +188,7 @@ namespace Sharpex2D
         internal static extern int waveOutGetNumDevs();
 
         /// <summary>
-        /// Gets the dev caps.
+        ///     Gets the dev caps.
         /// </summary>
         /// <param name="deviceID">The DeviceId.</param>
         /// <param name="waveOutCaps">The WaveOutCaps.</param>
@@ -308,11 +308,6 @@ namespace Sharpex2D
         /// <returns></returns>
         [DllImport("winmm.dll")]
         internal static extern int waveOutSetPitch(IntPtr hWaveOut, int dwPitch);
-
-        /// <summary>
-        ///     No Error.
-        /// </summary>
-        internal const int MMSYSERR_NOERROR = 0;
 
         /// <summary>
         ///     Open.

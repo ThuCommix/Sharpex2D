@@ -24,9 +24,11 @@ using System.Text;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
+#if Windows
+
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class WaveStream : Stream
+    internal class WaveStream : Stream, IDisposable
     {
         #region Stream Implementation
 
@@ -76,26 +78,11 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public override void Close()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///     Disposes the object.
-        /// </summary>
-        /// <param name="disposing">The Disposing State.</param>
-        protected override void Dispose(bool disposing)
-        {
             Dispose();
-
-            if (disposing)
-            {
-                _stream.Dispose();
-            }
         }
 
         /// <summary>
-        ///     Flushs the Stream.
+        ///     Flushs the stream.
         /// </summary>
         public override void Flush()
         {
@@ -111,11 +98,11 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Seeks the Stream.
+        ///     Seeks the Stream
         /// </summary>
         /// <param name="position">The Position.</param>
-        /// <param name="origin">The SeekOrigin.</param>
-        /// <returns>Long.</returns>
+        /// <param name="origin">The Origin.</param>
+        /// <returns>Int64.</returns>
         public override long Seek(long position, SeekOrigin origin)
         {
             switch (origin)
@@ -130,17 +117,16 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                     _stream.Position = _position + _length - position;
                     break;
             }
-
             return Position;
         }
 
         /// <summary>
-        ///     Reads from the Stream.
+        ///     Reads the stream.
         /// </summary>
         /// <param name="buffer">The Buffer.</param>
         /// <param name="offset">The Offset.</param>
         /// <param name="count">The Count.</param>
-        /// <returns>Int.</returns>
+        /// <returns>Int32.</returns>
         public override int Read(byte[] buffer, int offset, int count)
         {
             var toread = (int) System.Math.Min(count, _length - Position);
@@ -148,7 +134,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Writes into the Stream.
+        ///     Writes into the stream.
         /// </summary>
         /// <param name="buffer">The Buffer.</param>
         /// <param name="offset">The Offset.</param>
@@ -167,36 +153,53 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         ///     Initializes a new WaveStream class.
         /// </summary>
-        /// <param name="path">The Path.</param>
-        public WaveStream(string path) : this(new FileStream(path, FileMode.Open, FileAccess.Read))
+        /// <param name="file">The File.</param>
+        public WaveStream(string file) : this(new FileStream(file, FileMode.Open, FileAccess.Read))
         {
         }
 
         /// <summary>
         ///     Initializes a new WaveStream class.
         /// </summary>
-        /// <param name="stream">The Stream.</param>
+        /// <param name="stream">The BaseStream.</param>
         public WaveStream(Stream stream)
         {
-            if (!stream.CanRead)
-            {
-                throw new InvalidOperationException("The given stream restricts reading.");
-            }
-
             _stream = stream;
+
+            if (!_stream.CanRead)
+            {
+                throw new InvalidOperationException("The specified stream can not be read.");
+            }
 
             ReadHeader();
         }
 
+        public WaveFormat Format { private set; get; }
+
         /// <summary>
-        ///     Gets the WaveFormat.
+        ///     Disposes the object.
         /// </summary>
-        public WaveFormat WaveFormat { private set; get; }
+        public new void Dispose()
+        {
+            if (_stream != null)
+            {
+                _stream.Close();
+                GC.SuppressFinalize(this);
+            }
+        }
+
+        /// <summary>
+        ///     Deconstructs the WaveStream class.
+        /// </summary>
+        ~WaveStream()
+        {
+            Dispose();
+        }
 
         /// <summary>
         ///     Reads a chunk.
         /// </summary>
-        /// <param name="reader">The BinaryReader.</param>
+        /// <param name="reader">The Reader.</param>
         /// <returns>String.</returns>
         private string ReadChunk(BinaryReader reader)
         {
@@ -212,21 +215,29 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         {
             var reader = new BinaryReader(_stream);
             if (ReadChunk(reader) != "RIFF")
-                throw new InvalidOperationException("Invalid file format.");
+            {
+                throw new Exception("Invalid file format.");
+            }
 
             reader.ReadInt32();
 
             if (ReadChunk(reader) != "WAVE")
-                throw new InvalidOperationException("Invalid file format.");
+            {
+                throw new Exception("Invalid file format.");
+            }
 
             if (ReadChunk(reader) != "fmt ")
-                throw new InvalidOperationException("Invalid file format.");
+            {
+                throw new Exception("Invalid file format.");
+            }
 
             int len = reader.ReadInt32();
             if (len < 16)
-                throw new InvalidOperationException("Invalid file format.");
+            {
+                throw new Exception("Invalid file format.");
+            }
 
-            WaveFormat = new WaveFormat(22050, 16, 2)
+            Format = new WaveFormat(22050, 16, 2)
             {
                 wFormatTag = reader.ReadInt16(),
                 nChannels = reader.ReadInt16(),
@@ -248,12 +259,24 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             }
 
             if (_stream.Position >= _stream.Length)
-                throw new InvalidOperationException("Invalid file format.");
+                throw new Exception("Invalid file format.");
 
             _length = reader.ReadInt32();
             _position = _stream.Position;
 
+            if (_length <= 0)
+            {
+                throw new Exception("Invalid WAV file.");
+            }
+
+            if (Format.wFormatTag != (short) WaveFormats.Pcm && Format.wFormatTag != (short) WaveFormats.Float)
+            {
+                throw new Exception("Only PCM files are supported.");
+            }
+
             Position = 0;
         }
     }
+
+#endif
 }

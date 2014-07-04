@@ -25,30 +25,35 @@ namespace Sharpex2D.Framework.Audio.WaveOut
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [Flags]
-    public enum WaveCapsSupported 
+    public enum WaveCapsSupported
     {
         /// <summary>
-        /// Pitch is supported.
+        ///     Pitch is supported.
         /// </summary>
         WAVECAPS_PITCH = 1,
+
         /// <summary>
-        /// Playbackrate is supported.
+        ///     Playbackrate is supported.
         /// </summary>
         WAVECAPS_PLAYBACKRATE = 2,
+
         /// <summary>
-        /// Volume control supported.
+        ///     Volume control supported.
         /// </summary>
         WAVECAPS_VOLUME = 4,
+
         /// <summary>
-        /// Balancing is supported.
+        ///     Balancing is supported.
         /// </summary>
         WAVECAPS_LRVOLUME = 8,
+
         /// <summary>
-        /// The driver is synced.
+        ///     The driver is synced.
         /// </summary>
         WAVECAPS_SYNC = 16,
+
         /// <summary>
-        /// Accurate position information supported.
+        ///     Accurate position information supported.
         /// </summary>
         WAVECAPS_SAMPLEACCURATE = 32,
     }

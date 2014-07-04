@@ -20,29 +20,29 @@
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class WaveOutInitializer : ISoundInitializer
+    internal class WaveOutBufferDescription
     {
         /// <summary>
-        ///     Creates the Provider.
+        ///     Initializes a new WaveOutBufferDescription class.
         /// </summary>
-        /// <returns>ISoundProvider.</returns>
-        public ISoundProvider CreateProvider()
+        /// <param name="size">The Size.</param>
+        /// <param name="count">The Count.</param>
+        public WaveOutBufferDescription(int size, int count)
         {
-            return new WaveOutSoundProvider(this);
+            Size = size;
+            Count = count;
         }
 
         /// <summary>
-        ///     A value indicating whether the WaveOutSoundProvider is supported.
+        ///     Gets the Size.
         /// </summary>
-        public bool IsSupported
-        {
-            get { return NativeMethods.waveOutGetNumDevs() > 0; }
-        }
-    }
+        public int Size { private set; get; }
 
-#endif
+        /// <summary>
+        ///     Gets the Count.
+        /// </summary>
+        public int Count { private set; get; }
+    }
 }

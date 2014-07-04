@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>bin\Debug\Sharpex2D.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -60,13 +61,22 @@
     <Compile Include="Development\TestState.cs" />
     <Compile Include="Development\TestStateAttribute.cs" />
     <Compile Include="EngineConfiguration.cs" />
-    <Compile Include="Framework\Audio\WaveOut\AudioDevice.cs" />
+    <Compile Include="Framework\Audio\IAudioDevice.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutDevice.cs" />
+    <Compile Include="Framework\Audio\WaveOut\MMResult.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveCapsFormats.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveCapsSupported.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOut.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutBuffer.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutBufferDescription.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveOutCaps.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutInitializer.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveOutSoundProvider.cs" />
+    <Compile Include="Framework\Audio\WaveOut\WaveStream.cs" />
     <Compile Include="Framework\Collections\BufferedCollection.cs" />
     <Compile Include="Framework\Collections\Collection.cs" />
     <Compile Include="Framework\Common\Delay.cs" />
+    <Compile Include="Framework\Common\Extensions\SoundExtensions.cs" />
     <Compile Include="Framework\Common\Retry.cs" />
     <Compile Include="Framework\Common\Singleton.cs" />
     <Compile Include="Framework\Common\Threads\TaskWorker.cs" />
@@ -212,12 +222,7 @@
     <Compile Include="Framework\Audio\WaveOut\WaveFormat.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveFormats.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveHdr.cs" />
-    <Compile Include="Framework\Audio\WaveOut\WaveOut.cs" />
-    <Compile Include="Framework\Audio\WaveOut\WaveOutBuffer.cs" />
-    <Compile Include="Framework\Audio\WaveOut\WaveOutInitializer.cs" />
-    <Compile Include="Framework\Audio\WaveOut\WaveOutSoundProvider.cs" />
     <Compile Include="Framework\Audio\WaveOut\WaveOutResult.cs" />
-    <Compile Include="Framework\Audio\WaveOut\WaveStream.cs" />
     <Compile Include="Framework\Network\Logic\IClientListener.cs" />
     <Compile Include="Framework\Network\Packages\System\UdpNotify.cs" />
     <Compile Include="Framework\Network\Packages\System\UdpPackage.cs" />

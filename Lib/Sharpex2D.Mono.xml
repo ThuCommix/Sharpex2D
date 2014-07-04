@@ -116,248 +116,335 @@
                 Gets the SoundInitializer.
             </summary>
         </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.IsSupported(Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported)">
+        <member name="P:Sharpex2D.Framework.Audio.IAudioDevice.Name">
             <summary>
-            A value indicating whether the feature is supported.
-            </summary>
-            <param name="feature">The WaveCapsSupported.</param>
-            <returns>True if supported.</returns>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.#ctor(System.IntPtr,Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps)">
-            <summary>
-            Initializes a new AudioDevice class.
-            </summary>
-            <param name="deviceHandle">The DeviceHandle.</param>
-            <param name="waveOutCaps">The WaveOutCaps.</param>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.Handle">
-            <summary>
-            Gets the Handle.
+                Gets the Name.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.Name">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NOERROR">
             <summary>
-            Gets the Name.
+                No error.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.DriverVersion">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_ERROR">
             <summary>
-            Gets the DriverVersion.
+                Error.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.Channels">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_BADDEVICEID">
             <summary>
-            Gets the Channels.
+                Device not available.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.StereoSupport">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NOTENABLED">
             <summary>
-            A value indicating whether the device supports stereo.
+                WaveOut is disabled.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.Manufacturer">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_ALLOCATED">
             <summary>
-            Gets the Manufacturer.
+                Allocated.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.ProductId">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_INVALHANDLE">
             <summary>
-            Gets the ProductId.
+                The Handle is invalid.
             </summary>
         </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.AudioDevice.Format">
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NODRIVER">
             <summary>
-            Gets the Format.
+                No driver available.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NOMEM">
+            <summary>
+                Out of memory.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NOTSUPPORTED">
+            <summary>
+                Not supported.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_BADERRNUM">
+            <summary>
+                Bad error number.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_INVALFLAG">
+            <summary>
+                Invalid flag.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_INVALPARAM">
+            <summary>
+                Invalid parameter.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_HANDLEBUSY">
+            <summary>
+                WaveOut currently bussy.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_INVALIDALIAS">
+            <summary>
+                Invalid alias.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_BADDB">
+            <summary>
+                ???.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_KEYNOTFOUND">
+            <summary>
+                Key not found.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_READERROR">
+            <summary>
+                Read error.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_WRITEERROR">
+            <summary>
+                Write error.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_DELETEERROR">
+            <summary>
+                Delete error.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_VALNOTFOUND">
+            <summary>
+                Value not found.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.MMSYSERR_NODRIVERCB">
+            <summary>
+                No driver cb.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.WAVERR_BADFORMAT">
+            <summary>
+                Bad format.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.WAVERR_STILLPLAYING">
+            <summary>
+                WaveOut still playing.
+            </summary>
+        </member>
+        <member name="F:Sharpex2D.Framework.Audio.WaveOut.MMResult.WAVERR_UNPREPARED">
+            <summary>
+                The header is not prepared.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_1M08">
             <summary>
-            11. 025 kHz, Mono, 8-bit
+                11. 025 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_1S08">
             <summary>
-            11. 025 kHz, Stereo, 8-bit
+                11. 025 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_1M16">
             <summary>
-            11. 025 kHz, Mono, 16-bit
+                11. 025 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_1S16">
             <summary>
-            11. 025 kHz, Stereo, 16-bit
+                11. 025 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_2M08">
             <summary>
-            22. 05 kHz, Mono, 8-bit
+                22. 05 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_2S08">
             <summary>
-            22. 05 kHz, Stereo, 8-bit
+                22. 05 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_2M16">
             <summary>
-            22. 05 kHz, Mono, 16-bit
+                22. 05 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_2S16">
             <summary>
-            22. 05 kHz, Stereo, 16-bit
+                22. 05 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_4M08">
             <summary>
-            44. 1 kHz, Mono, 8-bit
+                44. 1 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_4S08">
             <summary>
-            44. 1 kHz, Stereo, 8-bit
+                44. 1 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_4M16">
             <summary>
-            44. 1 kHz, Mono, 16-bit
+                44. 1 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_4S16">
             <summary>
-            44. 1 kHz, Stereo, 16-bit
+                44. 1 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_44M08">
             <summary>
-            44. 1 kHz, Mono, 8-bit
+                44. 1 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_44S08">
             <summary>
-            44. 1 kHz, Stereo, 8-bit
+                44. 1 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_44M16">
             <summary>
-            44. 1 kHz, Mono, 16-bit
+                44. 1 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_44S16">
             <summary>
-            44. 1 kHz, Stereo, 16-bit
+                44. 1 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_48M08">
             <summary>
-            48 kHz, Mono, 8-bit
+                48 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_48S08">
             <summary>
-            48 kHz, Stereo, 8-bit
+                48 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_48M16">
             <summary>
-            48 kHz, Mono, 16-bit
+                48 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_48S16">
             <summary>
-            48 kHz, Stereo, 16-bit
+                48 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_96M08">
             <summary>
-            96 kHz, Mono, 8-bit
+                96 kHz, Mono, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_96S08">
             <summary>
-            96 kHz, Stereo, 8-bit
+                96 kHz, Stereo, 8-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_96M16">
             <summary>
-            96 kHz, Mono, 16-bit
+                96 kHz, Mono, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsFormats.WAVE_FORMAT_96S16">
             <summary>
-            96 kHz, Stereo, 16-bit
+                96 kHz, Stereo, 16-bit
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_PITCH">
             <summary>
-            Pitch is supported.
+                Pitch is supported.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_PLAYBACKRATE">
             <summary>
-            Playbackrate is supported.
+                Playbackrate is supported.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_VOLUME">
             <summary>
-            Volume control supported.
+                Volume control supported.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_LRVOLUME">
             <summary>
-            Balancing is supported.
+                Balancing is supported.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_SYNC">
             <summary>
-            The driver is synced.
+                The driver is synced.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveCapsSupported.WAVECAPS_SAMPLEACCURATE">
             <summary>
-            Accurate position information supported.
+                Accurate position information supported.
+            </summary>
+        </member>
+        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveOutBufferDescription.#ctor(System.Int32,System.Int32)">
+            <summary>
+                Initializes a new WaveOutBufferDescription class.
+            </summary>
+            <param name="size">The Size.</param>
+            <param name="count">The Count.</param>
+        </member>
+        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveOutBufferDescription.Size">
+            <summary>
+                Gets the Size.
+            </summary>
+        </member>
+        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveOutBufferDescription.Count">
+            <summary>
+                Gets the Count.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.wMid">
             <summary>
-            The Manufacturer.
+                The Manufacturer.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.wPid">
             <summary>
-            The ProductId.
+                The ProductId.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.vDriverVersion">
             <summary>
-            The DriverVersion.
+                The DriverVersion.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.szPname">
             <summary>
-            The Devicename.
+                The Devicename.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.dwFormats">
             <summary>
-            Supported formats.
+                Supported formats.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.wChannels">
             <summary>
-            Amount of supported channels.
+                Amount of supported channels.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.wReserved1">
             <summary>
-            Driver reserved.
+                Driver reserved.
             </summary>
         </member>
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveOutCaps.dwSupport">
             <summary>
-            
             </summary>
         </member>
         <member name="M:Sharpex2D.Framework.Collections.BufferedCollection`1.#ctor">
@@ -4374,11 +4461,6 @@
                 Gets an empty rectangle instance.
             </summary>
         </member>
-        <member name="M:Sharpex2D.Framework.Audio.SoundEffect.#ctor">
-            <summary>
-                Initializes a new SoundEffect.
-            </summary>
-        </member>
         <member name="M:Sharpex2D.Framework.Audio.SoundEffect.#ctor(Sharpex2D.Framework.Audio.Sound)">
             <summary>
                 Initializes a new SoundEffect.
@@ -4501,107 +4583,6 @@
         <member name="F:Sharpex2D.Framework.Audio.WaveOut.WaveHdr.reserved">
             <summary>
                 Reserved.
-            </summary>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Close">
-            <summary>
-                Closes the Stream.
-            </summary>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Dispose(System.Boolean)">
-            <summary>
-                Disposes the object.
-            </summary>
-            <param name="disposing">The Disposing State.</param>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Flush">
-            <summary>
-                Flushs the Stream.
-            </summary>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.SetLength(System.Int64)">
-            <summary>
-                Sets the Length.
-            </summary>
-            <param name="length">The Length.</param>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Seek(System.Int64,System.IO.SeekOrigin)">
-            <summary>
-                Seeks the Stream.
-            </summary>
-            <param name="position">The Position.</param>
-            <param name="origin">The SeekOrigin.</param>
-            <returns>Long.</returns>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Read(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-                Reads from the Stream.
-            </summary>
-            <param name="buffer">The Buffer.</param>
-            <param name="offset">The Offset.</param>
-            <param name="count">The Count.</param>
-            <returns>Int.</returns>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Write(System.Byte[],System.Int32,System.Int32)">
-            <summary>
-                Writes into the Stream.
-            </summary>
-            <param name="buffer">The Buffer.</param>
-            <param name="offset">The Offset.</param>
-            <param name="count">The Count.</param>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.#ctor(System.String)">
-            <summary>
-                Initializes a new WaveStream class.
-            </summary>
-            <param name="path">The Path.</param>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.#ctor(System.IO.Stream)">
-            <summary>
-                Initializes a new WaveStream class.
-            </summary>
-            <param name="stream">The Stream.</param>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.ReadChunk(System.IO.BinaryReader)">
-            <summary>
-                Reads a chunk.
-            </summary>
-            <param name="reader">The BinaryReader.</param>
-            <returns>String.</returns>
-        </member>
-        <member name="M:Sharpex2D.Framework.Audio.WaveOut.WaveStream.ReadHeader">
-            <summary>
-                Reads the Header.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.CanRead">
-            <summary>
-                A value indicating whether the stream can read.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.CanSeek">
-            <summary>
-                A value indicating whether the stream can seek.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.CanWrite">
-            <summary>
-                A value indicating whether the stream can write.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Length">
-            <summary>
-                Gets the Length.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.Position">
-            <summary>
-                Gets the Position.
-            </summary>
-        </member>
-        <member name="P:Sharpex2D.Framework.Audio.WaveOut.WaveStream.WaveFormat">
-            <summary>
-                Gets the WaveFormat.
             </summary>
         </member>
         <member name="M:Sharpex2D.Framework.Network.Logic.IClientListener.OnClientJoined(Sharpex2D.Framework.Network.IConnection)">
@@ -6369,35 +6350,35 @@
         </member>
         <member name="M:Sharpex2D.Framework.Rendering.GDI.GDIHelper.ConvertColor(Sharpex2D.Framework.Rendering.Color)">
             <summary>
-            Converts the Color.
+                Converts the Color.
             </summary>
             <param name="color">The Color.</param>
             <returns>GDI Color.</returns>
         </member>
         <member name="M:Sharpex2D.Framework.Rendering.GDI.GDIHelper.ConvertPoint(Sharpex2D.Framework.Math.Vector2)">
             <summary>
-            Converts the Point.
+                Converts the Point.
             </summary>
             <param name="vector">The Vector2.</param>
             <returns>Point.</returns>
         </member>
         <member name="M:Sharpex2D.Framework.Rendering.GDI.GDIHelper.ConvertPointF(Sharpex2D.Framework.Math.Vector2)">
             <summary>
-            Converts the PointF.
+                Converts the PointF.
             </summary>
             <param name="vector">The Vector2.</param>
             <returns>PointF.</returns>
         </member>
         <member name="M:Sharpex2D.Framework.Rendering.GDI.GDIHelper.ConvertRectangle(Sharpex2D.Framework.Math.Rectangle)">
             <summary>
-            Converts the Rectangle.
+                Converts the Rectangle.
             </summary>
             <param name="rectangle">The Rectangle.</param>
             <returns>Rectangle.</returns>
         </member>
         <member name="M:Sharpex2D.Framework.Rendering.GDI.GDIHelper.ConvertRectangleF(Sharpex2D.Framework.Math.Rectangle)">
             <summary>
-            Converts the RectangleF.
+                Converts the RectangleF.
             </summary>
             <param name="rectangle">The Rectangle.</param>
             <returns>RectangleF.</returns>
@@ -8098,7 +8079,7 @@
         </member>
         <member name="M:Sharpex2D.Framework.Audio.Sound.Dispose(System.Boolean)">
             <summary>
-                 Disposes the object.
+                Disposes the object.
             </summary>
             <param name="disposing">The Disposing State.</param>
         </member>

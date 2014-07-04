@@ -18,131 +18,130 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public enum WaveCapsFormats
+    internal enum MMResult
     {
         /// <summary>
-        ///     11. 025 kHz, Mono, 8-bit
+        ///     No error.
         /// </summary>
-        WAVE_FORMAT_1M08 = 0x00000001,
+        MMSYSERR_NOERROR = 0,
 
         /// <summary>
-        ///     11. 025 kHz, Stereo, 8-bit
+        ///     Error.
         /// </summary>
-        WAVE_FORMAT_1S08 = 0x00000002,
+        MMSYSERR_ERROR = 1,
 
         /// <summary>
-        ///     11. 025 kHz, Mono, 16-bit
+        ///     Device not available.
         /// </summary>
-        WAVE_FORMAT_1M16 = 0x00000004,
+        MMSYSERR_BADDEVICEID = 2,
 
         /// <summary>
-        ///     11. 025 kHz, Stereo, 16-bit
+        ///     WaveOut is disabled.
         /// </summary>
-        WAVE_FORMAT_1S16 = 0x00000008,
+        MMSYSERR_NOTENABLED = 3,
 
         /// <summary>
-        ///     22. 05 kHz, Mono, 8-bit
+        ///     Allocated.
         /// </summary>
-        WAVE_FORMAT_2M08 = 0x00000010,
+        MMSYSERR_ALLOCATED = 4,
 
         /// <summary>
-        ///     22. 05 kHz, Stereo, 8-bit
+        ///     The Handle is invalid.
         /// </summary>
-        WAVE_FORMAT_2S08 = 0x00000020,
+        MMSYSERR_INVALHANDLE = 5,
 
         /// <summary>
-        ///     22. 05 kHz, Mono, 16-bit
+        ///     No driver available.
         /// </summary>
-        WAVE_FORMAT_2M16 = 0x00000040,
+        MMSYSERR_NODRIVER = 6,
 
         /// <summary>
-        ///     22. 05 kHz, Stereo, 16-bit
+        ///     Out of memory.
         /// </summary>
-        WAVE_FORMAT_2S16 = 0x00000080,
+        MMSYSERR_NOMEM = 7,
 
         /// <summary>
-        ///     44. 1 kHz, Mono, 8-bit
+        ///     Not supported.
         /// </summary>
-        WAVE_FORMAT_4M08 = 0x00000100,
+        MMSYSERR_NOTSUPPORTED = 8,
 
         /// <summary>
-        ///     44. 1 kHz, Stereo, 8-bit
+        ///     Bad error number.
         /// </summary>
-        WAVE_FORMAT_4S08 = 0x00000200,
+        MMSYSERR_BADERRNUM = 9,
 
         /// <summary>
-        ///     44. 1 kHz, Mono, 16-bit
+        ///     Invalid flag.
         /// </summary>
-        WAVE_FORMAT_4M16 = 0x00000400,
+        MMSYSERR_INVALFLAG = 10,
 
         /// <summary>
-        ///     44. 1 kHz, Stereo, 16-bit
+        ///     Invalid parameter.
         /// </summary>
-        WAVE_FORMAT_4S16 = 0x00000800,
+        MMSYSERR_INVALPARAM = 11,
 
         /// <summary>
-        ///     44. 1 kHz, Mono, 8-bit
+        ///     WaveOut currently bussy.
         /// </summary>
-        WAVE_FORMAT_44M08 = 0x00000100,
+        MMSYSERR_HANDLEBUSY = 12,
 
         /// <summary>
-        ///     44. 1 kHz, Stereo, 8-bit
+        ///     Invalid alias.
         /// </summary>
-        WAVE_FORMAT_44S08 = 0x00000200,
+        MMSYSERR_INVALIDALIAS = 13,
 
         /// <summary>
-        ///     44. 1 kHz, Mono, 16-bit
+        ///     ???.
         /// </summary>
-        WAVE_FORMAT_44M16 = 0x00000400,
+        MMSYSERR_BADDB = 14,
 
         /// <summary>
-        ///     44. 1 kHz, Stereo, 16-bit
+        ///     Key not found.
         /// </summary>
-        WAVE_FORMAT_44S16 = 0x00000800,
+        MMSYSERR_KEYNOTFOUND = 15,
 
         /// <summary>
-        ///     48 kHz, Mono, 8-bit
+        ///     Read error.
         /// </summary>
-        WAVE_FORMAT_48M08 = 0x00001000,
+        MMSYSERR_READERROR = 16,
 
         /// <summary>
-        ///     48 kHz, Stereo, 8-bit
+        ///     Write error.
         /// </summary>
-        WAVE_FORMAT_48S08 = 0x00002000,
+        MMSYSERR_WRITEERROR = 17,
 
         /// <summary>
-        ///     48 kHz, Mono, 16-bit
+        ///     Delete error.
         /// </summary>
-        WAVE_FORMAT_48M16 = 0x00004000,
+        MMSYSERR_DELETEERROR = 18,
 
         /// <summary>
-        ///     48 kHz, Stereo, 16-bit
+        ///     Value not found.
         /// </summary>
-        WAVE_FORMAT_48S16 = 0x00008000,
+        MMSYSERR_VALNOTFOUND = 19,
 
         /// <summary>
-        ///     96 kHz, Mono, 8-bit
+        ///     No driver cb.
         /// </summary>
-        WAVE_FORMAT_96M08 = 0x00010000,
+        MMSYSERR_NODRIVERCB = 20,
 
         /// <summary>
-        ///     96 kHz, Stereo, 8-bit
+        ///     Bad format.
         /// </summary>
-        WAVE_FORMAT_96S08 = 0x00020000,
+        WAVERR_BADFORMAT = 32,
 
         /// <summary>
-        ///     96 kHz, Mono, 16-bit
+        ///     WaveOut still playing.
         /// </summary>
-        WAVE_FORMAT_96M16 = 0x00040000,
+        WAVERR_STILLPLAYING = 33,
 
         /// <summary>
-        ///     96 kHz, Stereo, 16-bit
+        ///     The header is not prepared.
         /// </summary>
-        WAVE_FORMAT_96S16 = 0x00080000,
+        WAVERR_UNPREPARED = 34
     }
 }

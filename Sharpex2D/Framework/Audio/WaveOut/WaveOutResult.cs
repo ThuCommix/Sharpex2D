@@ -19,7 +19,6 @@
 // THE SOFTWARE.
 
 using System;
-using System.Globalization;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
@@ -35,9 +34,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <param name="result">The Result.</param>
         public static void Try(int result)
         {
-            if (result != NativeMethods.MMSYSERR_NOERROR)
+            if (result != (int) MMResult.MMSYSERR_NOERROR)
             {
-                throw new InvalidOperationException(result.ToString(CultureInfo.InvariantCulture));
+                throw new InvalidOperationException(((MMResult) result).ToString());
             }
         }
 
