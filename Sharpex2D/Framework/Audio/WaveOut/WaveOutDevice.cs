@@ -18,76 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Globalization;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
+#if Windows
+
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class AudioDevice
+    public class WaveOutDevice : IAudioDevice
     {
-        /// <summary>
-        /// Gets the DeviceId.
-        /// </summary>
-        public uint DeviceId { private set; get; }
-
-        /// <summary>
-        /// Gets the Name.
-        /// </summary>
-        public string Name { private set; get; }
-
-        /// <summary>
-        /// Gets the DriverVersion.
-        /// </summary>
-        public string DriverVersion { private set; get; }
-
-        /// <summary>
-        /// Gets the Channels.
-        /// </summary>
-        public int Channels { private set; get; }
-
-        /// <summary>
-        /// A value indicating whether the device supports stereo.
-        /// </summary>
-        public bool StereoSupport
-        {
-            get { return Channels >= 2; }
-        }
-
-        /// <summary>
-        /// Gets the Manufacturer.
-        /// </summary>
-        public short Manufacturer { private set; get; }
-
-        /// <summary>
-        /// Gets the ProductId.
-        /// </summary>
-        public short ProductId { private set; get; }
-
-        /// <summary>
-        /// A value indicating whether the feature is supported.
-        /// </summary>
-        /// <param name="feature">The WaveCapsSupported.</param>
-        /// <returns>True if supported.</returns>
-        public bool IsSupported(WaveCapsSupported feature)
-        {
-            return _supportedfeatures.HasFlag(feature);
-        }
-
-        /// <summary>
-        /// Gets the Format.
-        /// </summary>
-        public WaveCapsFormats Format { private set; get; }
-
         private readonly WaveCapsSupported _supportedfeatures;
 
         /// <summary>
-        /// Initializes a new AudioDevice class.
+        ///     Initializes a new AudioDevice class.
         /// </summary>
         /// <param name="deviceId">The DeviceId.</param>
         /// <param name="waveOutCaps">The WaveOutCaps.</param>
-        internal AudioDevice(uint deviceId, WaveOutCaps waveOutCaps)
+        internal WaveOutDevice(uint deviceId, WaveOutCaps waveOutCaps)
         {
             _supportedfeatures = waveOutCaps.dwSupport;
             Name = waveOutCaps.szPname;
@@ -98,5 +46,60 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             Manufacturer = waveOutCaps.wMid;
             Format = waveOutCaps.dwFormats;
         }
+
+        /// <summary>
+        ///     Gets the DeviceId.
+        /// </summary>
+        public uint DeviceId { private set; get; }
+
+        /// <summary>
+        ///     Gets the DriverVersion.
+        /// </summary>
+        public string DriverVersion { private set; get; }
+
+        /// <summary>
+        ///     Gets the Channels.
+        /// </summary>
+        public int Channels { private set; get; }
+
+        /// <summary>
+        ///     A value indicating whether the device supports stereo.
+        /// </summary>
+        public bool StereoSupport
+        {
+            get { return Channels >= 2; }
+        }
+
+        /// <summary>
+        ///     Gets the Manufacturer.
+        /// </summary>
+        public short Manufacturer { private set; get; }
+
+        /// <summary>
+        ///     Gets the ProductId.
+        /// </summary>
+        public short ProductId { private set; get; }
+
+        /// <summary>
+        ///     Gets the Format.
+        /// </summary>
+        public WaveCapsFormats Format { private set; get; }
+
+        /// <summary>
+        ///     Gets the Name.
+        /// </summary>
+        public string Name { private set; get; }
+
+        /// <summary>
+        ///     A value indicating whether the feature is supported.
+        /// </summary>
+        /// <param name="feature">The WaveCapsSupported.</param>
+        /// <returns>True if supported.</returns>
+        public bool IsSupported(WaveCapsSupported feature)
+        {
+            return _supportedfeatures.HasFlag(feature);
+        }
     }
+
+#endif
 }
