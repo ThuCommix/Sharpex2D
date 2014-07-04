@@ -26,18 +26,10 @@ namespace Sharpex2D.Framework.Audio
     [TestState(TestState.Tested)]
     public class SoundEffect
     {
+        private readonly Sound _sound;
         private readonly SoundManager _soundProvider;
         private bool _muted;
-        private Sound _sound;
         private float _vBeforeMute;
-
-        /// <summary>
-        ///     Initializes a new SoundEffect.
-        /// </summary>
-        public SoundEffect()
-        {
-            _soundProvider = SGL.Components.Get<SoundManager>().CreateNew();
-        }
 
         /// <summary>
         ///     Initializes a new SoundEffect.
@@ -72,7 +64,6 @@ namespace Sharpex2D.Framework.Audio
         /// </summary>
         public Sound Sound
         {
-            set { _sound = value; }
             get { return _sound; }
         }
 
