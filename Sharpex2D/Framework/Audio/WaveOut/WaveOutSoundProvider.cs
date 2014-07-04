@@ -145,8 +145,11 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             CloseWaveOutSession();
             new Task(() =>
             {
-                _currentWaveOut = new WaveOut(_audioDevice, soundFile.GetStream(),
-                    new WaveOutBufferDescription(16384, 3));
+                lock (_lockObj)
+                {
+                    _currentWaveOut = new WaveOut(_audioDevice, soundFile.GetStream(),
+                        new WaveOutBufferDescription(16384, 3));
+                }
             }).Start();
         }
 
@@ -226,8 +229,11 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             {
                 if (_currentWaveOut != null)
                 {
-                    _currentWaveOut.Dispose();
-                    _currentWaveOut = null;
+                    lock (_lockObj)
+                    {
+                        _currentWaveOut.Dispose();
+                        _currentWaveOut = null;
+                    }
                 }
             }).Start();
         }

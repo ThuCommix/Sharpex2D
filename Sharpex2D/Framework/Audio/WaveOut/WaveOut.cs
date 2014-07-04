@@ -62,7 +62,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
 
             AllocateBuffers(bufferDescription.Size, bufferDescription.Count);
 
-            _thread = new Task(FillBuffers);
+            _thread = new Task(CopyData);
             _thread.Start();
         }
 
@@ -99,7 +99,6 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                             WaveOutResult.Try(NativeMethods.waveOutClose(_waveOutHandle));
                         }
                     }
-
                     lock (LockObj)
                     {
                         _waveStream.Close();
@@ -144,9 +143,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Fills the buffers.
+        ///     Copies the data.
         /// </summary>
-        private void FillBuffers()
+        private void CopyData()
         {
             while (!_finished)
             {
@@ -187,7 +186,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                         int got = _waveStream.Read(b, pos, toget);
                         if (got < toget)
                         {
-                            //end
+                            _finished = true;
                         }
                         pos += got;
                     }
