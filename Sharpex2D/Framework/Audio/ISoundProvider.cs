@@ -45,7 +45,7 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         ///     A value indicating whether the SoundProvider is playing.
         /// </summary>
-        bool IsPlaying { set; get; }
+        bool IsPlaying { get; }
 
         /// <summary>
         ///     Gets the sound length.
