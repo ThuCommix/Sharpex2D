@@ -80,10 +80,7 @@ namespace Sharpex2D.Framework.Surface
             _surface.Activated += _surface_Activated;
             _surface.Deactivate += _surface_Deactivate;
 
-            MethodInvoker br = delegate
-            {
-                _surface.KeyPreview = true;
-            };
+            MethodInvoker br = delegate { _surface.KeyPreview = true; };
             _surface.Invoke(br);
         }
 

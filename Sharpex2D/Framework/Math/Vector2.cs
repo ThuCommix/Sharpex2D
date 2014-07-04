@@ -19,7 +19,6 @@
 // THE SOFTWARE.
 
 using System;
-using System.Drawing;
 
 namespace Sharpex2D.Framework.Math
 {

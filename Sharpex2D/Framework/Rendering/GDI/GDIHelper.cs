@@ -18,7 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Drawing;
 using Sharpex2D.Framework.Math;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Sharpex2D.Framework.Rendering.GDI
 {
@@ -27,7 +29,7 @@ namespace Sharpex2D.Framework.Rendering.GDI
     public static class GDIHelper
     {
         /// <summary>
-        /// Converts the Color.
+        ///     Converts the Color.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>GDI Color.</returns>
@@ -37,44 +39,44 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
-        /// Converts the Point.
+        ///     Converts the Point.
         /// </summary>
         /// <param name="vector">The Vector2.</param>
         /// <returns>Point.</returns>
-        public static System.Drawing.Point ConvertPoint(Vector2 vector)
+        public static Point ConvertPoint(Vector2 vector)
         {
-            return new System.Drawing.Point((int) vector.X, (int) vector.Y);
+            return new Point((int) vector.X, (int) vector.Y);
         }
 
         /// <summary>
-        /// Converts the PointF.
+        ///     Converts the PointF.
         /// </summary>
         /// <param name="vector">The Vector2.</param>
         /// <returns>PointF.</returns>
-        public static System.Drawing.PointF ConvertPointF(Vector2 vector)
+        public static PointF ConvertPointF(Vector2 vector)
         {
-            return new System.Drawing.PointF(vector.X, vector.Y);
+            return new PointF(vector.X, vector.Y);
         }
 
         /// <summary>
-        /// Converts the Rectangle.
+        ///     Converts the Rectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>Rectangle.</returns>
-        public static System.Drawing.Rectangle ConvertRectangle(Rectangle rectangle)
+        public static Rectangle ConvertRectangle(Math.Rectangle rectangle)
         {
-            return new System.Drawing.Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
+            return new Rectangle((int) rectangle.X, (int) rectangle.Y, (int) rectangle.Width,
                 (int) rectangle.Height);
         }
 
         /// <summary>
-        /// Converts the RectangleF.
+        ///     Converts the RectangleF.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>RectangleF.</returns>
-        public static System.Drawing.RectangleF ConvertRectangleF(Rectangle rectangle)
+        public static RectangleF ConvertRectangleF(Math.Rectangle rectangle)
         {
-            return new System.Drawing.RectangleF(rectangle.X, rectangle.Y, rectangle.Width,
+            return new RectangleF(rectangle.X, rectangle.Y, rectangle.Width,
                 rectangle.Height);
         }
     }

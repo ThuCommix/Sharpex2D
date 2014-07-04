@@ -42,7 +42,7 @@ namespace Sharpex2D.Framework.Audio
         }
 
         /// <summary>
-        ///      Disposes the object.
+        ///     Disposes the object.
         /// </summary>
         /// <param name="disposing">The Disposing State.</param>
         public virtual void Dispose(bool disposing)
@@ -53,6 +53,7 @@ namespace Sharpex2D.Framework.Audio
                 IsInitialized = false;
             }
         }
+
         #endregion
 
         /// <summary>
