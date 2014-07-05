@@ -159,10 +159,10 @@ namespace Sharpex2D
 
             Components.AddComponent(new ExceptionHandler());
 
-            State = EngineState.Initialized;
-
             EngineConfiguration engineConfiguration =
                 GameInstance.OnInitialize(GameInstance.GameServices.GetService<LaunchParameters>());
+
+            State = EngineState.Initialized;
 
             Run(engineConfiguration.Renderer, engineConfiguration.SoundInitializer);
         }
@@ -175,7 +175,9 @@ namespace Sharpex2D
         private static void Run(RenderDevice renderDevice, ISoundInitializer soundInitializer)
         {
             if (State != EngineState.Initialized)
-                throw new InvalidOperationException("SGL must be initialized in the first place.");
+            {
+                throw new InvalidOperationException(string.Format("SGL must be initialized in order to run. Current state {0}", State));
+            }
 
             if (State == EngineState.Running) return;
 
@@ -234,6 +236,43 @@ namespace Sharpex2D
             {
                 Logger.Engine("Failed to restart the process.");
             }
+        }
+
+        /// <summary>
+        /// Queries a resource from the ContentManager content cache.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <param name="assetname">The Asset (Path loaded with the ContentManager).</param>
+        /// <returns>T.</returns>
+        public static T QueryResource<T>(string assetname) where T : IContent
+        {
+            if (State == EngineState.Running)
+            {
+                throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
+            }
+
+            T data;
+            if (Components.Get<ContentManager>().QueryCache<T>(assetname, out data))
+            {
+                return data;
+            }
+
+            throw new InvalidOperationException("The specified resource was not found.");
+        }
+
+        /// <summary>
+        /// Queries the ComponentManager.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <returns>T.</returns>
+        public static T QueryComponents<T>() where T : IComponent
+        {
+            if (State == EngineState.Running)
+            {
+                throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
+            }
+
+            return Components.Get<T>();
         }
     }
 }
