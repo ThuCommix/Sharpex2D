@@ -19,10 +19,10 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Sharpex2D.Framework.Components;
 using Sharpex2D.Framework.Content.Pipeline;
-using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Content
 {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Framework.Content
 
         #endregion
 
-        private readonly Logger _logger;
+        private readonly Dictionary<string, IContent> _contentCache;
 
         /// <summary>
         ///     Initializes a new ContentManager.
@@ -53,12 +53,12 @@ namespace Sharpex2D.Framework.Content
             ContentVerifier = new ContentVerifier();
             ContentProcessor = new ContentProcessorSelector();
 
-            _logger = LogManager.GetClassLogger();
-
             if (!Directory.Exists(RootPath))
             {
                 Directory.CreateDirectory(RootPath);
             }
+
+            _contentCache = new Dictionary<string, IContent>();
         }
 
         /// <summary>
@@ -84,28 +84,59 @@ namespace Sharpex2D.Framework.Content
         /// <returns>T.</returns>
         public T Load<T>(string asset) where T : IContent
         {
+            //query content cache first.
+            T data;
+            if (QueryCache(asset, out data))
+            {
+                return data;
+            }
+
             if (!File.Exists(Path.Combine(RootPath, asset)))
             {
                 throw new ContentLoadException("Asset not found.");
             }
 
             IContentProcessor processor = ContentProcessor.Select<T>();
-            string resourceName = typeof (T).Name;
+            var contentData = (T)processor.ReadData(Path.Combine(RootPath, asset));
 
-            try
+            ApplyCache(asset, contentData);
+
+            return contentData;
+        }
+
+        /// <summary>
+        /// Apply the cache.
+        /// </summary>
+        /// <param name="asset">The Asset.</param>
+        /// <param name="data">The Data.</param>
+        private void ApplyCache(string asset, IContent data)
+        {
+            if (!_contentCache.ContainsKey(asset))
             {
-                resourceName = AttributeHelper.GetAttribute<ContentAttribute>(typeof (T)).DisplayName;
+                _contentCache.Add(asset, data);
             }
-            catch (Exception)
+        }
+
+        /// <summary>
+        /// Queries the cache.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <param name="asset">The Asset.</param>
+        /// <param name="contentData">The ContentData.</param>
+        /// <returns>True on success.</returns>
+        internal bool QueryCache<T>(string asset, out T contentData) where T : IContent
+        {
+            foreach (var data in _contentCache)
             {
-                _logger.Warn("Unable to read the ContentAttribute.");
+                if (data.Value is T && data.Key == asset)
+                {
+                    contentData = (T)data.Value;
+                    return true;
+                }
             }
 
-            _logger.Engine(
-                "Loaded {0} with {1} ({2}).", resourceName, processor.GetType().Name, processor.Guid);
-
-
-            return (T) processor.ReadData(Path.Combine(RootPath, asset));
+            contentData = default(T);
+            return false;
         }
     }
 }
