@@ -122,7 +122,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         {
             int deviceNum = NativeMethods.waveOutGetNumDevs();
             var devices = new WaveOutDevice[deviceNum];
-            for (int i = 0; i < deviceNum - 1; i++)
+            for (int i = 0; i <= deviceNum - 1; i++)
             {
                 var caps = new WaveOutCaps();
                 int result = NativeMethods.waveOutGetDevCaps((uint) i, out caps, (uint) Marshal.SizeOf(caps));
