@@ -212,7 +212,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
 
             _sprite.Draw(dxTexture.GetTexture(), null,
-                DirectXHelper.ConvertVector2(new Vector2(rectangle.X, rectangle.Y)),
+                DirectXHelper.ConvertVector2(new Vector2(rectangle.X / scaleX, rectangle.Y / scaleY)),
                 DirectXHelper.ConvertColor(color));
 
             _sprite.Transform = Matrix.Identity;
