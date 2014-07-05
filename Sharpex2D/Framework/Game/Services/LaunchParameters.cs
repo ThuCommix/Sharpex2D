@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sharpex2D.Framework.Debug.Logging;
 
 namespace Sharpex2D.Framework.Game.Services
@@ -102,12 +103,7 @@ namespace Sharpex2D.Framework.Game.Services
         /// <returns>String.</returns>
         public override string ToString()
         {
-            string result = "";
-
-            foreach (var parameter in _parameters)
-            {
-                result = parameter.Key + " " + parameter.Value + " ";
-            }
+            string result = _parameters.Aggregate("", (current, parameter) => current + parameter.Key + " " + parameter.Value + " ");
 
             result = result.TrimEnd(' ');
 
