@@ -93,6 +93,7 @@ namespace Sharpex2D.Framework.Rendering.Scene
 
         private readonly List<Scene> _scenes;
         private EventManager _eventManager;
+        private Scene _activeScene;
 
         /// <summary>
         ///     Initializes a new SceneManager class.
@@ -106,7 +107,16 @@ namespace Sharpex2D.Framework.Rendering.Scene
         /// <summary>
         ///     Gets the ActiveScene.
         /// </summary>
-        public Scene ActiveScene { get; private set; }
+        public Scene ActiveScene
+        {
+            get { return _activeScene; }
+            set
+            {
+                BeforeSceneChanged();
+                _activeScene = value;
+                AfterSceneChanged();
+            }
+        }
 
         /// <summary>
         ///     Gets a specified scene.
@@ -127,19 +137,22 @@ namespace Sharpex2D.Framework.Rendering.Scene
         }
 
         /// <summary>
-        ///     Sets the ActiveScene.
+        ///     BeforeSceneChanged.
         /// </summary>
-        /// <param name="scene">The Scene.</param>
-        public void SetScene(Scene scene)
+        private void BeforeSceneChanged()
         {
             if (_eventManager != null && ActiveScene != null)
             {
                 //publish event
                 _eventManager.Publish(new BeforeSceneChangedEvent(ActiveScene));
             }
+        }
 
-            ActiveScene = scene;
-
+        /// <summary>
+        ///     AfterSceneChanged.
+        /// </summary>
+        private void AfterSceneChanged()
+        {
             if (_eventManager != null && ActiveScene != null)
             {
                 //publish event
@@ -156,6 +169,19 @@ namespace Sharpex2D.Framework.Rendering.Scene
             scene.Initialize();
             scene.LoadContent(SGL.Components.Get<ContentManager>());
             _scenes.Add(scene);
+        }
+
+        /// <summary>
+        ///     Adds a new Scene fluently.
+        /// </summary>
+        /// <param name="scene">The Scene.</param>
+        /// <returns>The specified scene.</returns>
+        public Scene AddSceneFluently(Scene scene)
+        {
+            scene.Initialize();
+            scene.LoadContent(SGL.Components.Get<ContentManager>());
+            _scenes.Add(scene);
+            return scene;
         }
 
         /// <summary>
