@@ -246,13 +246,13 @@ namespace Sharpex2D
         /// <returns>T.</returns>
         public static T QueryResource<T>(string assetname) where T : IContent
         {
-            if (State == EngineState.Running)
+            if (State != EngineState.Running)
             {
                 throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
             }
 
             T data;
-            if (Components.Get<ContentManager>().QueryCache<T>(assetname, out data))
+            if (QueryComponents<ContentManager>().QueryCache<T>(assetname, out data))
             {
                 return data;
             }
@@ -267,7 +267,7 @@ namespace Sharpex2D
         /// <returns>T.</returns>
         public static T QueryComponents<T>() where T : IComponent
         {
-            if (State == EngineState.Running)
+            if (State != EngineState.Running)
             {
                 throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
             }
