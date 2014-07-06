@@ -42,8 +42,9 @@ namespace Sharpex2D.Framework.Audio.DirectSound
 
         #endregion
 
-        private DirectSoundOutExtended _directSoundOut;
+        private DirectSoundOut _directSoundOut;
         private bool _disposed;
+        private PanSource _panSource;
 
         /// <summary>
         ///     Initializes a new CSCoreSoundProvider class.
@@ -51,7 +52,7 @@ namespace Sharpex2D.Framework.Audio.DirectSound
         /// <param name="soundInitializer">The SoundInitializer.</param>
         internal DirectSoundProvider(ISoundInitializer soundInitializer)
         {
-            _directSoundOut = new DirectSoundOutExtended();
+            _directSoundOut = new DirectSoundOut();
             SoundInitializer = soundInitializer;
         }
 
@@ -127,8 +128,8 @@ namespace Sharpex2D.Framework.Audio.DirectSound
         /// </summary>
         public float Balance
         {
-            get { return _directSoundOut.Pan; }
-            set { _directSoundOut.Pan = value; }
+            get { return _panSource.Pan; }
+            set { _panSource.Pan = value; }
         }
 
         /// <summary>
@@ -163,8 +164,12 @@ namespace Sharpex2D.Framework.Audio.DirectSound
         {
             Stop();
             if (playMode == PlayMode.Loop)
+            {
                 source = new LoopStream(source);
-            _directSoundOut.Initialize(source);
+            }
+            var panSource = new PanSource(source);
+            _panSource = panSource;
+            _directSoundOut.Initialize(panSource.ToWaveSource());
             _directSoundOut.Play();
             IsPlaying = true;
         }
