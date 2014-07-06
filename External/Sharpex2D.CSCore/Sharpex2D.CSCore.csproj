@@ -30,8 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CSCore">
-      <HintPath>..\..\..\CSCore\CSCore.dll</HintPath>
+    <Reference Include="CSCore, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\CSCore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,6 +47,8 @@
     <Compile Include="Framework\Audio\DirectSound\DirectSoundProvider.cs" />
     <Compile Include="Framework\Audio\Wasapi\WasapiSoundInitializer.cs" />
     <Compile Include="Framework\Audio\Wasapi\WasapiSoundProvider.cs" />
+    <Compile Include="Framework\Audio\XAudio2\XAudio2Initializer.cs" />
+    <Compile Include="Framework\Audio\XAudio2\XAudio2SoundProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
