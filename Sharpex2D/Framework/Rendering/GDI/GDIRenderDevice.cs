@@ -335,6 +335,41 @@ namespace Sharpex2D.Framework.Rendering.GDI
         }
 
         /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color, float opacity = 1)
+        {
+            var gdiTexture = texture as GDITexture;
+            if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
+            var matrix = new ColorMatrix {Matrix33 = opacity};
+            var attributes = new ImageAttributes();
+            attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+            if (color != Color.White)
+            {
+                var tempBmp = new Bitmap(gdiTexture.Width, gdiTexture.Height);
+                Graphics g = Graphics.FromImage(tempBmp);
+                g.DrawImage(ColorTint(gdiTexture.Bmp, color.B, color.G, color.R), 0, 0);
+                g.Dispose();
+                _buffergraphics.DrawImage(tempBmp,
+                    new System.Drawing.Rectangle((int) destination.X, (int) destination.Y, (int) destination.Width,
+                        (int) destination.Height), (int) source.X, (int) source.Y,
+                    (int) source.Width, (int) source.Height, GraphicsUnit.Pixel, attributes);
+            }
+            else
+            {
+                _buffergraphics.DrawImage(gdiTexture.Bmp,
+                    new System.Drawing.Rectangle((int) destination.X, (int) destination.Y, (int) destination.Width,
+                        (int) destination.Height), (int) source.X, (int) source.Y,
+                    (int) source.Width, (int) source.Height, GraphicsUnit.Pixel, attributes);
+            }
+        }
+
+        /// <summary>
         ///     Measures the string.
         /// </summary>
         /// <param name="text">The String.</param>

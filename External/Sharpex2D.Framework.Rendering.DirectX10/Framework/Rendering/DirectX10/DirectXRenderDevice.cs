@@ -295,6 +295,26 @@ namespace Sharpex2D.Framework.Rendering.DirectX10
         }
 
         /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color, float opacity = 1)
+        {
+            var dxTexture = texture as DirectXTexture;
+            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            Bitmap dxBmp = dxTexture.GetBitmap();
+
+            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangleF(destination), opacity,
+                _interpolationMode == InterpolationMode.Linear
+                    ? SlimDX.Direct2D.InterpolationMode.Linear
+                    : SlimDX.Direct2D.InterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangleF(source));
+        }
+
+        /// <summary>
         ///     Measures the string.
         /// </summary>
         /// <param name="text">The String.</param>

@@ -192,6 +192,28 @@ namespace Sharpex2D.Framework.Rendering.Devices
         }
 
         /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public abstract void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color, float opacity = 1f);
+
+        /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public virtual void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, float opacity = 1f)
+        {
+            DrawTexture(texture, source, destination, Color.White, opacity);
+        }
+
+        /// <summary>
         ///     Measures the string.
         /// </summary>
         /// <param name="text">The String.</param>

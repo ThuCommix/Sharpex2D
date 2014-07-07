@@ -70,7 +70,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
             _width = bmp.Width;
             _height = bmp.Height;
             var sourceArea = new Rectangle(0, 0, bmp.Width, bmp.Height);
-            var bitmapProperties = new BitmapProperties(new PixelFormat(Format.R8G8B8A8_UNorm, AlphaMode.Premultiplied));
+            var bitmapProperties = new BitmapProperties(new PixelFormat(Format.R8G8B8A8_UNorm, AlphaMode.Premultiplied), 96, 96);
             var size = new Size2(bmp.Width, bmp.Height);
 
             int stride = bmp.Width*sizeof (int);

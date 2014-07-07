@@ -261,6 +261,33 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         }
 
         /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color, float opacity = 1)
+        {
+            var dxTexture = texture as DirectXTexture;
+            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+
+            //calc percentages for scaling
+
+            float scaleX = destination.Width/source.Width;
+            float scaleY = destination.Height/source.Height;
+
+            _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
+
+            _sprite.Draw(dxTexture.GetTexture(), DirectXHelper.ConvertToWinRectangle(source), null,
+                DirectXHelper.ConvertVector3(new Vector2(destination.X/scaleX, destination.Y/scaleY)),
+                DirectXHelper.ConvertColor(color));
+
+            _sprite.Transform = Matrix.Identity;
+        }
+
+        /// <summary>
         ///     Measures the string.
         /// </summary>
         /// <param name="text">The String.</param>

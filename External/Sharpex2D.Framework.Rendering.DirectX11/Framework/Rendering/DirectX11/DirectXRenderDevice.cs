@@ -242,7 +242,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
             if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp,
-                new RectangleF(rectangle.X, rectangle.Y, texture.Width, texture.Height), opacity,
+                new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height), opacity,
                 _interpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor);
@@ -288,6 +288,26 @@ namespace Sharpex2D.Framework.Rendering.DirectX11
                 _interpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangle(spriteSheet.Rectangle));
+        }
+
+        /// <summary>
+        ///     Draws a Texture.
+        /// </summary>
+        /// <param name="texture">The Texture.</param>
+        /// <param name="source">The SourceRectangle.</param>
+        /// <param name="destination">The DestinationRectangle.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="opacity">The Opacity.</param>
+        public override void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color, float opacity = 1)
+        {
+            var dxTexture = texture as DirectXTexture;
+            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            Bitmap dxBmp = dxTexture.GetBitmap();
+
+            DirectXHelper.RenderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangle(destination), opacity,
+                _interpolationMode == InterpolationMode.Linear
+                    ? BitmapInterpolationMode.Linear
+                    : BitmapInterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangle(source));
         }
 
         /// <summary>
