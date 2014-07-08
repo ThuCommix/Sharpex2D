@@ -26,7 +26,7 @@ namespace Sharpex2D.Framework.Scripting.VB
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class VBScriptEvaluator : IScriptEvaluator
+    public class VBScriptEvaluator : IScriptEvaluator<VBScript>
     {
         private readonly ScriptStorageBuffer _storageBuffer;
 
@@ -50,15 +50,8 @@ namespace Sharpex2D.Framework.Scripting.VB
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
-        public void Evaluate(IScript script, params object[] objects)
+        public void Evaluate(VBScript script, params object[] objects)
         {
-            if (script.GetType() != typeof (VBScript))
-            {
-                throw new ScriptException("The given script does not match the VBScript sheme.");
-            }
-
-            var sharpScript = script as VBScript;
-
             //check if the script was compiled previously
 
             Assembly assembly;
@@ -72,7 +65,7 @@ namespace Sharpex2D.Framework.Scripting.VB
                 }
                 else
                 {
-                    assembly = VBScriptCompiler.CompileToAssembly(sharpScript);
+                    assembly = VBScriptCompiler.CompileToAssembly(script);
                     if (!_storageBuffer.Exists(script.Guid))
                     {
                         _storageBuffer.Add(script.Guid, assembly);
@@ -81,7 +74,7 @@ namespace Sharpex2D.Framework.Scripting.VB
             }
             else
             {
-                assembly = VBScriptCompiler.CompileToAssembly(sharpScript);
+                assembly = VBScriptCompiler.CompileToAssembly(script);
             }
 
             Type fType = assembly.GetTypes()[0];

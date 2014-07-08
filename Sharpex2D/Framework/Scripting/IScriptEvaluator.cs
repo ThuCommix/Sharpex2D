@@ -22,13 +22,13 @@ namespace Sharpex2D.Framework.Scripting
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface IScriptEvaluator
+    public interface IScriptEvaluator<in T> where T : IScript
     {
         /// <summary>
         ///     Evaluate the script content.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
-        void Evaluate(IScript script, params object[] objects);
+        void Evaluate(T script, params object[] objects);
     }
 }

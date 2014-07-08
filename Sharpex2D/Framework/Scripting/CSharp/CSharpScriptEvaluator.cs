@@ -26,7 +26,7 @@ namespace Sharpex2D.Framework.Scripting.CSharp
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class CSharpScriptEvaluator : IScriptEvaluator
+    public class CSharpScriptEvaluator : IScriptEvaluator<CSharpScript>
     {
         private readonly ScriptStorageBuffer _storageBuffer;
 
@@ -50,15 +50,8 @@ namespace Sharpex2D.Framework.Scripting.CSharp
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
-        public void Evaluate(IScript script, params object[] objects)
+        public void Evaluate(CSharpScript script, params object[] objects)
         {
-            if (script.GetType() != typeof (CSharpScript))
-            {
-                throw new ScriptException("The given script does not match the CSharpScript sheme.");
-            }
-
-            var sharpScript = script as CSharpScript;
-
             //check if the script was compiled previously
 
             Assembly assembly;
@@ -72,7 +65,7 @@ namespace Sharpex2D.Framework.Scripting.CSharp
                 }
                 else
                 {
-                    assembly = CSharpScriptCompiler.CompileToAssembly(sharpScript);
+                    assembly = CSharpScriptCompiler.CompileToAssembly(script);
                     if (!_storageBuffer.Exists(script.Guid))
                     {
                         _storageBuffer.Add(script.Guid, assembly);
@@ -81,7 +74,7 @@ namespace Sharpex2D.Framework.Scripting.CSharp
             }
             else
             {
-                assembly = CSharpScriptCompiler.CompileToAssembly(sharpScript);
+                assembly = CSharpScriptCompiler.CompileToAssembly(script);
             }
 
             Type fType = assembly.GetTypes()[0];

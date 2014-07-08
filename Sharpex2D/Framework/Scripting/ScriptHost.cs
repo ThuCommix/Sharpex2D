@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Scripting
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class ScriptHost : IComponent
+    public class ScriptHost<T> : IComponent where T : IScript
     {
         #region IComponent Implementation
 
@@ -44,14 +44,14 @@ namespace Sharpex2D.Framework.Scripting
 
         #endregion
 
-        private readonly IScriptEvaluator _evaluator;
+        private readonly IScriptEvaluator<T> _evaluator;
         private readonly Dictionary<string, MethodInfo> _methods;
 
         /// <summary>
         ///     Initializes a new ScriptHost class.
         /// </summary>
         /// <param name="evaluator">The ScriptEvaluator.</param>
-        public ScriptHost(IScriptEvaluator evaluator)
+        public ScriptHost(IScriptEvaluator<T> evaluator)
         {
             _methods = new Dictionary<string, MethodInfo>();
             _evaluator = evaluator;
@@ -63,7 +63,7 @@ namespace Sharpex2D.Framework.Scripting
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
-        public void Execute(IScript script, params object[] objects)
+        public void Execute(T script, params object[] objects)
         {
             script.IsActive = true;
             SGL.Components.Get<EventManager>().Publish(new ScriptRunningEvent(script.Guid));
