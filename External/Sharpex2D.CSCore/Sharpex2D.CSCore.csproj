@@ -43,12 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\Audio\DirectSound\DirectSoundInitializer.cs" />
-    <Compile Include="Framework\Audio\DirectSound\DirectSoundProvider.cs" />
-    <Compile Include="Framework\Audio\Wasapi\WasapiSoundInitializer.cs" />
-    <Compile Include="Framework\Audio\Wasapi\WasapiSoundProvider.cs" />
-    <Compile Include="Framework\Audio\XAudio2\XAudio2Initializer.cs" />
-    <Compile Include="Framework\Audio\XAudio2\XAudio2SoundProvider.cs" />
+    <Compile Include="Audio\DirectSound\DirectSoundInitializer.cs" />
+    <Compile Include="Audio\DirectSound\DirectSoundProvider.cs" />
+    <Compile Include="Audio\Wasapi\WasapiSoundInitializer.cs" />
+    <Compile Include="Audio\Wasapi\WasapiSoundProvider.cs" />
+    <Compile Include="Audio\XAudio2\XAudio2Initializer.cs" />
+    <Compile Include="Audio\XAudio2\XAudio2SoundProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

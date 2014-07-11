@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A71D6AF8-0214-4508-A28F-4FB40BC114D7}</ProjectGuid>
+    <ProjectGuid>{408C31D9-E7D0-4BDE-AD34-9F62E134D4B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Sharpex2D</RootNamespace>
-    <AssemblyName>XnaGameLoop</AssemblyName>
+    <AssemblyName>Sharpex2D.Rendering.DirectX10</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,11 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Sharpex2D">
+    <Reference Include="Sharpex2D, Version=0.6.200.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Sharpex2D\bin\Debug\Sharpex2D.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Ressourcen\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,9 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XnaGameLoop.cs" />
+    <Compile Include="Content\Pipeline\Processors\DirectXFontContentProcessor.cs" />
+    <Compile Include="Content\Pipeline\Processors\DirectXPenContentProcessor.cs" />
+    <Compile Include="Content\Pipeline\Processors\DirectXTextureContentProcessor.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXHelper.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXPen.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXRenderDevice.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXResourceManager.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXTexture.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXFont.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
