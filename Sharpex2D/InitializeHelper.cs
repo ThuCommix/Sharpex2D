@@ -21,8 +21,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Sharpex2D.Framework.Debug.Logging;
-using Sharpex2D.Framework.Game;
+using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D
 {

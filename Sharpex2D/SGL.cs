@@ -20,23 +20,16 @@
 
 using System;
 using System.Diagnostics;
-using Sharpex2D.Framework.Audio;
-using Sharpex2D.Framework.Components;
-using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Debug;
-using Sharpex2D.Framework.Debug.Logging;
-using Sharpex2D.Framework.Events;
-using Sharpex2D.Framework.Game;
-using Sharpex2D.Framework.Game.Services;
-using Sharpex2D.Framework.Game.Services.Achievements;
-using Sharpex2D.Framework.Game.Services.Availability;
-using Sharpex2D.Framework.Game.Timing;
-using Sharpex2D.Framework.Input;
-using Sharpex2D.Framework.Math;
-using Sharpex2D.Framework.Rendering;
-using Sharpex2D.Framework.Rendering.Devices;
-using Sharpex2D.Framework.Rendering.Scene;
-using Sharpex2D.Framework.Surface;
+using Sharpex2D.Audio;
+using Sharpex2D.Content;
+using Sharpex2D.Debug;
+using Sharpex2D.Debug.Logging;
+using Sharpex2D.GameService;
+using Sharpex2D.Input;
+using Sharpex2D.Math;
+using Sharpex2D.Rendering;
+using Sharpex2D.Rendering.Scene;
+using Sharpex2D.Surface;
 
 namespace Sharpex2D
 {
@@ -73,9 +66,9 @@ namespace Sharpex2D
         /// <summary>
         ///     Gets the Version of SGL.
         /// </summary>
-        public static string Version
+        public static Version Version
         {
-            get { return "0.6.200"; }
+            get { return new Version(1, 0, 0); }
         }
 
         /// <summary>
@@ -124,40 +117,39 @@ namespace Sharpex2D
             State = EngineState.Initializing;
             Components = new ComponentManager();
             GameInstance = configurator.GameInstance;
-            Components.AddComponent(configurator.RenderTarget);
-            Components.AddComponent(new EventManager());
+            Components.Add(configurator.RenderTarget);
             GraphicsDevice = new GraphicsDevice(configurator.RenderTarget)
             {
                 BackBuffer = configurator.BackBuffer
             };
             configurator.RenderTarget.Window.Size = new Vector2(configurator.BackBuffer.Width,
                 configurator.BackBuffer.Height);
+            configurator.GameLoop.TargetFrameTime = 1000/(float) configurator.TargetFrameRate;
+            configurator.GameLoop.TargetUpdateTime = 1000/(float) configurator.TargetFrameRate;
+            Components.Add(configurator.GameLoop);
             GameInstance.Input = new InputManager(configurator.RenderTarget.Handle);
             GameInstance.Content = new ContentManager();
             GameInstance.SceneManager = new SceneManager();
-            configurator.GameLoop.TargetFrameTime = 1000/(float) configurator.TargetFrameRate;
-            configurator.GameLoop.TargetUpdateTime = 1000/(float) configurator.TargetFrameRate;
-            Components.AddComponent(configurator.GameLoop);
             GraphicsDevice.RefreshRate = configurator.TargetFrameRate;
-            Components.AddComponent(GameInstance.Content);
-            Components.AddComponent(GraphicsDevice);
-            Components.AddComponent(GameInstance);
-            Components.AddComponent(GameInstance.SceneManager);
-            Components.AddComponent(GameInstance.Input);
+            Components.Add(GameInstance.Content);
+            Components.Add(GraphicsDevice);
+            Components.Add(GameInstance);
+            Components.Add(GameInstance.SceneManager);
+            Components.Add(GameInstance.Input);
             Components.Get<IGameLoop>().Subscribe((IDrawable) GameInstance);
             Components.Get<IGameLoop>().Subscribe((IUpdateable) GameInstance);
+            Components.Get<IGameLoop>().Subscribe(GameInstance.Input);
 
             //prepare game services
             var gameServices = new GameServiceContainer();
 
             gameServices.Add(new AchievementProvider());
-            gameServices.Add(new AvailabilityProvider());
             gameServices.Add(new Gamer());
             gameServices.Add(new LaunchParameters());
 
             GameInstance.GameServices = gameServices;
 
-            Components.AddComponent(new ExceptionHandler());
+            Components.Add(new ExceptionHandler());
 
             EngineConfiguration engineConfiguration =
                 GameInstance.OnInitialize(GameInstance.GameServices.GetService<LaunchParameters>());
@@ -176,7 +168,8 @@ namespace Sharpex2D
         {
             if (State != EngineState.Initialized)
             {
-                throw new InvalidOperationException(string.Format("SGL must be initialized in order to run. Current state {0}", State));
+                throw new InvalidOperationException(
+                    string.Format("SGL must be initialized in order to run. Current state {0}", State));
             }
 
             if (State == EngineState.Running) return;
@@ -185,8 +178,8 @@ namespace Sharpex2D
             RenderDevice.GraphicsDevice = GraphicsDevice;
             RenderDevice.InitializeDevice();
             GameInstance.SoundManager = soundInitializer == null ? null : new SoundManager(soundInitializer);
-            Components.AddComponent(renderDevice);
-            Components.AddComponent(GameInstance.SoundManager);
+            Components.Add(renderDevice);
+            Components.Add(GameInstance.SoundManager);
             Components.Construct();
             GameInstance.OnLoadContent();
             Components.Get<IGameLoop>().Start();
@@ -239,7 +232,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        /// Queries a resource from the ContentManager content cache.
+        ///     Queries a resource from the ContentManager content cache.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="assetname">The Asset (Path loaded with the ContentManager).</param>
@@ -248,7 +241,8 @@ namespace Sharpex2D
         {
             if (State != EngineState.Running)
             {
-                throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
+                throw new InvalidOperationException(
+                    string.Format("SGL must be running in order to query any data. Current state {0}", State));
             }
 
             T data;
@@ -261,7 +255,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        /// Queries the ComponentManager.
+        ///     Queries the ComponentManager.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>T.</returns>
@@ -269,7 +263,8 @@ namespace Sharpex2D
         {
             if (State != EngineState.Running)
             {
-                throw new InvalidOperationException(string.Format("SGL must be running in order to query any data. Current state {0}", State));
+                throw new InvalidOperationException(
+                    string.Format("SGL must be running in order to query any data. Current state {0}", State));
             }
 
             return Components.Get<T>();

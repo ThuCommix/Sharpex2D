@@ -20,8 +20,11 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Sharpex2D.Framework.Audio.WaveOut;
-using Sharpex2D.Framework.Input.XInput;
+using System.Security;
+using Sharpex2D.Audio.WaveOut;
+using Sharpex2D.Input.JoystickApi;
+using Sharpex2D.Input.RawInput;
+using Sharpex2D.Input.XInput;
 
 namespace Sharpex2D
 {
@@ -354,6 +357,110 @@ namespace Sharpex2D
         /// <param name="reserved">Reserved for driver.</param>
         internal delegate void WaveDelegate(IntPtr handle, int message, IntPtr user, WaveHdr waveHeader, IntPtr reserved
             );
+
+        #endregion
+
+        #region RawInputAPI
+
+        /// <summary>
+        ///     Gets the RawInputData.
+        /// </summary>
+        /// <param name="hRawInput">The Device.</param>
+        /// <param name="command">The Command.</param>
+        /// <param name="buffer">The InputData.</param>
+        /// <param name="size">The Size.</param>
+        /// <param name="cbSizeHeader">The HeaderSize.</param>
+        /// <returns>Int32.</returns>
+        [DllImport("User32.dll", SetLastError = true)]
+        internal static extern int GetRawInputData(IntPtr hRawInput, DataCommand command, [Out] out InputData buffer,
+            [In, Out] ref int size, int cbSizeHeader);
+
+        /// <summary>
+        ///     Gets the RawInputData.
+        /// </summary>
+        /// <param name="hRawInput">The Device.</param>
+        /// <param name="command">The Command.</param>
+        /// <param name="pData">The InputData.</param>
+        /// <param name="size">The Size.</param>
+        /// <param name="sizeHeader">The HeaderSize.</param>
+        /// <returns>Int32.</returns>
+        [DllImport("User32.dll", SetLastError = true)]
+        internal static extern int GetRawInputData(IntPtr hRawInput, DataCommand command, [Out] IntPtr pData,
+            [In, Out] ref int size, int sizeHeader);
+
+        /// <summary>
+        ///     Gets the Device info.
+        /// </summary>
+        /// <param name="hDevice">The Device.</param>
+        /// <param name="command">The Command.</param>
+        /// <param name="pData">The Data.</param>
+        /// <param name="size">The Size.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("User32.dll", SetLastError = true)]
+        internal static extern uint GetRawInputDeviceInfo(IntPtr hDevice, RawInputDeviceInfo command, IntPtr pData,
+            ref uint size);
+
+        /// <summary>
+        ///     Gets the Device info.
+        /// </summary>
+        /// <param name="hDevice">The Device.</param>
+        /// <param name="command">The Command.</param>
+        /// <param name="data">The Data.</param>
+        /// <param name="dataSize">The Size.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("user32.dll")]
+        public static extern uint GetRawInputDeviceInfo(IntPtr hDevice, uint command, ref DeviceInfo data,
+            ref uint dataSize);
+
+        /// <summary>
+        ///     Gets the RawInputDeviceList.
+        /// </summary>
+        /// <param name="pRawInputDeviceList">The DeviceList.</param>
+        /// <param name="numberDevices">The Number of Devices.</param>
+        /// <param name="size">The Size.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("User32.dll", SetLastError = true)]
+        internal static extern uint GetRawInputDeviceList(IntPtr pRawInputDeviceList, ref uint numberDevices, uint size);
+
+        /// <summary>
+        ///     Registers the RawInputDevice.
+        /// </summary>
+        /// <param name="pRawInputDevice">The RawInputDevices.</param>
+        /// <param name="numberDevices">The Number of Devices.</param>
+        /// <param name="size">The Size.</param>
+        /// <returns>True on success.</returns>
+        [DllImport("User32.dll", SetLastError = true)]
+        internal static extern bool RegisterRawInputDevices(RawInputDevice[] pRawInputDevice, uint numberDevices,
+            uint size);
+
+        #endregion
+
+        #region Joystick
+
+        /// <summary>
+        ///     Gets the number of connected devices.
+        /// </summary>
+        /// <returns></returns>
+        [DllImport("winmm.dll")]
+        public static extern uint joyGetNumDevs();
+
+        /// <summary>
+        ///     Gets the state of the Joystick.
+        /// </summary>
+        /// <param name="uJoyID">The Joystick Id.</param>
+        /// <param name="pji">The JoyInfo.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("winmm.dll")]
+        public static extern uint joyGetPos(uint uJoyID, ref JoyInfo pji);
+
+        /// <summary>
+        ///     Gets the state of the extended Joystick.
+        /// </summary>
+        /// <param name="uJoyID">The Joystick Id.</param>
+        /// <param name="pjiex">The extended JoyInfo.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("winmm.dll"), SuppressUnmanagedCodeSecurity]
+        public static extern uint joyGetPosEx(uint uJoyID, ref JoyInfoEx pjiex);
 
         #endregion
 

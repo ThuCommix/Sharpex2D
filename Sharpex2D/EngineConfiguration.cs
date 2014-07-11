@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Framework.Audio;
-using Sharpex2D.Framework.Rendering.Devices;
+using Sharpex2D.Audio;
+using Sharpex2D.Rendering;
 
 namespace Sharpex2D
 {

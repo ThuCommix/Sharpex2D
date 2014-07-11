@@ -18,10 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Framework.Game;
-using Sharpex2D.Framework.Game.Timing;
-using Sharpex2D.Framework.Rendering;
-using Sharpex2D.Framework.Surface;
+using Sharpex2D.Rendering;
+using Sharpex2D.Surface;
 
 namespace Sharpex2D
 {
