@@ -32,7 +32,7 @@ namespace Sharpex2D.Input
         bool IsPlatformSupported { get; }
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     Gets the PlatformVersion.
         /// </summary>
         Version PlatformVersion { get; }
 

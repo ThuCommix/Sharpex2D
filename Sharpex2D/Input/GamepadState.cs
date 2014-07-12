@@ -26,9 +26,8 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class GamepadState : IInputState
     {
-
         /// <summary>
-        /// Initializes a new GamepadState class.
+        ///     Initializes a new GamepadState class.
         /// </summary>
         /// <param name="dpadUp">The DPadUp State.</param>
         /// <param name="dpadDown">The DPadDown State.</param>
@@ -75,163 +74,91 @@ namespace Sharpex2D.Input
         /// <summary>
         ///     A value indicating whether the D-Pad up is pressed.
         /// </summary>
-        public bool IsDPadUpPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsDPadUpPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether the D-Pad down is pressed.
         /// </summary>
-        public bool IsDPadDownPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsDPadDownPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether the D-Pad left is pressed.
         /// </summary>
-        public bool IsDPadLeftPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsDPadLeftPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether the D-Pad right is pressed.
         /// </summary>
-        public bool IsDPadRightPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsDPadRightPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether A is pressed.
         /// </summary>
-        public bool IsAPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsAPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether B is pressed.
         /// </summary>
-        public bool IsBPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsBPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether X is pressed.
         /// </summary>
-        public bool IsXPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsXPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether Y is pressed.
         /// </summary>
-        public bool IsYPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsYPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether back is pressed.
         /// </summary>
-        public bool IsBackPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsBackPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether start is pressed.
         /// </summary>
-        public bool IsStartPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsStartPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether left-shoulder is pressed.
         /// </summary>
-        public bool IsLeftShoulderPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsLeftShoulderPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether right-shoulder is pressed.
         /// </summary>
-        public bool IsRightShoulderPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsRightShoulderPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether left-stick is pressed.
         /// </summary>
-        public bool IsLeftStickPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsLeftStickPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether right-stick is pressed.
         /// </summary>
-        public bool IsRightStickPressed
-        {
-            get;
-            private set;
-        }
+        public bool IsRightStickPressed { get; private set; }
 
         /// <summary>
         ///     A value indicating whether left-trigger is pressed.
         /// </summary>
-        public int LeftTrigger
-        {
-            get;
-            private set;
-        }
+        public int LeftTrigger { get; private set; }
 
         /// <summary>
         ///     A value indicating whether right-trigger is pressed.
         /// </summary>
-        public int RightTrigger
-        {
-            get;
-            private set;
-        }
+        public int RightTrigger { get; private set; }
 
         /// <summary>
         ///     Gets the LeftThumbStick.
         /// </summary>
-        public Vector2 LeftThumbStick
-        {
-            get;
-            private set;
-        }
+        public Vector2 LeftThumbStick { get; private set; }
 
         /// <summary>
         ///     Gets the RightThumbStick.
         /// </summary>
-        public Vector2 RightThumbStick
-        {
-            get;
-            private set;
-        }
+        public Vector2 RightThumbStick { get; private set; }
     }
 }

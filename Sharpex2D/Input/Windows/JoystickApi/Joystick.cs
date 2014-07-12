@@ -56,6 +56,49 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         }
 
         /// <summary>
+        ///     Initializes the device.
+        /// </summary>
+        public override void InitializeDevice()
+        {
+        }
+
+        /// <summary>
+        ///     Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Update(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        ///     Gets the State.
+        /// </summary>
+        /// <returns>JoystickState.</returns>
+        public override JoystickState GetState()
+        {
+            if (NativeMethods.joyGetNumDevs() > 0)
+            {
+                var jie = new JoyInfoEx {dwFlags = (int) JoyFlags.JOY_RETURNALL};
+                jie.dwSize = (uint) Marshal.SizeOf(jie);
+
+                Try(NativeMethods.joyGetPosEx(0, ref jie));
+
+                var buttonStates = new Dictionary<int, bool>();
+
+                for (int i = 1; i <= 32; i++)
+                {
+                    int button = 2 ^ (i - 1);
+                    buttonStates.Add(i, ((jie.dwButtons & button) != 0));
+                }
+
+                return new JoystickState(jie.dwXpos, jie.dwYpos, jie.dwZpos, jie.dwRpos, jie.dwUpos, jie.dwVpos,
+                    new PointOfView(jie.dwPOV/100d), buttonStates);
+            }
+
+            throw new InvalidOperationException("Joystick not connected.");
+        }
+
+        /// <summary>
         ///     Trys an MMResult.
         /// </summary>
         /// <param name="result">The Result.</param>
@@ -74,50 +117,6 @@ namespace Sharpex2D.Input.Windows.JoystickApi
                 case 167:
                     throw new InvalidOperationException("The Joystick is unplugged.");
             }
-        }
-
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        public override void InitializeDevice()
-        {
-        }
-
-        /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
-        {
-
-        }
-
-        /// <summary>
-        ///     Gets the State.
-        /// </summary>
-        /// <returns>JoystickState.</returns>
-        public override JoystickState GetState()
-        {
-            if (NativeMethods.joyGetNumDevs() > 0)
-            {
-                var jie = new JoyInfoEx { dwFlags = (int)JoyFlags.JOY_RETURNALL };
-                jie.dwSize = (uint)Marshal.SizeOf(jie);
-
-                Try(NativeMethods.joyGetPosEx(0, ref jie));
-
-                var buttonStates = new Dictionary<int, bool>();
-
-                for (var i = 1; i <= 32; i++)
-                {
-                    int button = 2 ^ (i - 1);
-                    buttonStates.Add(i, ((jie.dwButtons & button) != 0));
-                }
-
-                return new JoystickState(jie.dwXpos, jie.dwYpos, jie.dwZpos, jie.dwRpos, jie.dwUpos, jie.dwVpos,
-                    new PointOfView(jie.dwPOV/100d), buttonStates);
-            }
-
-            throw new InvalidOperationException("Joystick not connected.");
         }
     }
 

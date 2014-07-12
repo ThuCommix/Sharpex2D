@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Input.Windows.JoystickApi;
 
 namespace Sharpex2D.Input
 {
@@ -28,9 +27,8 @@ namespace Sharpex2D.Input
     [TestState(TestState.Untested)]
     public class JoystickState : IInputState
     {
-
         /// <summary>
-        /// Initializes a new JoystickState class.
+        ///     Initializes a new JoystickState class.
         /// </summary>
         /// <param name="x">The X.</param>
         /// <param name="y">The Y.</param>
@@ -40,9 +38,9 @@ namespace Sharpex2D.Input
         /// <param name="v">The V.</param>
         /// <param name="pointOfView">The PointOfView.</param>
         /// <param name="buttonStates">The ButtonStates.</param>
-        internal JoystickState(uint x, uint y, uint z, uint r, uint u, uint v, PointOfView pointOfView, Dictionary<int, bool> buttonStates)
+        internal JoystickState(uint x, uint y, uint z, uint r, uint u, uint v, PointOfView pointOfView,
+            Dictionary<int, bool> buttonStates)
         {
-
             X = x;
             Y = y;
             Z = z;

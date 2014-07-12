@@ -43,7 +43,7 @@ namespace Sharpex2D.Input.Windows.RawInput
         public RawInputKeyboard()
             : base(new Guid("{827690DE-FE6C-46B4-9FE0-9A7A53AB9F99}"))
         {
-            var handle = SGL.Components.Get<RenderTarget>().Handle;
+            IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
             _msgFilter = new MessageFilter(handle) {Filter = 0x00FF};
             _msgFilter.MessageArrived += MessageArrived;
 
@@ -56,33 +56,6 @@ namespace Sharpex2D.Input.Windows.RawInput
         public override Version PlatformVersion
         {
             get { return new Version(5, 1); }
-        }
-
-        /// <summary>
-        ///     Processes the messages.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        private void MessageArrived(object sender, MessageEventArgs e)
-        {
-            Message m = e.Message;
-            int dwSize = 0;
-            NativeMethods.GetRawInputData(m.LParam, DataCommand.RID_INPUT, IntPtr.Zero, ref dwSize,
-                Marshal.SizeOf(typeof (RawInputHeader)));
-
-            if (dwSize !=
-                NativeMethods.GetRawInputData(m.LParam, DataCommand.RID_INPUT, out _rawBuffer, ref dwSize,
-                    Marshal.SizeOf(typeof (RawInputHeader))))
-            {
-                System.Diagnostics.Debug.WriteLine("Error getting the rawinput buffer.");
-            }
-
-            int virtualKey = _rawBuffer.data.keyboard.VKey;
-            int flags = _rawBuffer.data.keyboard.Flags;
-
-            bool isBreak = ((flags & 0x01) != 0); //isBreak = keydown
-
-            SetKeyState((Keys) virtualKey, !isBreak);
         }
 
         /// <summary>
@@ -124,6 +97,33 @@ namespace Sharpex2D.Input.Windows.RawInput
         public override KeyboardState GetState()
         {
             return new KeyboardState(_keystate);
+        }
+
+        /// <summary>
+        ///     Processes the messages.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void MessageArrived(object sender, MessageEventArgs e)
+        {
+            Message m = e.Message;
+            int dwSize = 0;
+            NativeMethods.GetRawInputData(m.LParam, DataCommand.RID_INPUT, IntPtr.Zero, ref dwSize,
+                Marshal.SizeOf(typeof (RawInputHeader)));
+
+            if (dwSize !=
+                NativeMethods.GetRawInputData(m.LParam, DataCommand.RID_INPUT, out _rawBuffer, ref dwSize,
+                    Marshal.SizeOf(typeof (RawInputHeader))))
+            {
+                System.Diagnostics.Debug.WriteLine("Error getting the rawinput buffer.");
+            }
+
+            int virtualKey = _rawBuffer.data.keyboard.VKey;
+            int flags = _rawBuffer.data.keyboard.Flags;
+
+            bool isBreak = ((flags & 0x01) != 0); //isBreak = keydown
+
+            SetKeyState((Keys) virtualKey, !isBreak);
         }
 
         /// <summary>

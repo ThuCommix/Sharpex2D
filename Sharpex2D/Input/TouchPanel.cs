@@ -26,11 +26,10 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class TouchPanel : IInputDevice
     {
-        
         private readonly INativeTouch _nativeTouch;
 
         /// <summary>
-        /// Initializes a new TouchPanel class.
+        ///     Initializes a new TouchPanel class.
         /// </summary>
         /// <param name="nativeTouch">The NativeTouch.</param>
         public TouchPanel(INativeTouch nativeTouch)
@@ -39,22 +38,31 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     A value indicating whether the Platform is supported.
         /// </summary>
-        public bool IsPlatformSupported { get { return _nativeTouch.IsPlatformSupported; } }
+        public bool IsPlatformSupported
+        {
+            get { return _nativeTouch.IsPlatformSupported; }
+        }
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     Gets the PlatformVersion.
         /// </summary>
-        public Version PlatformVersion { get { return _nativeTouch.PlatformVersion; } }
+        public Version PlatformVersion
+        {
+            get { return _nativeTouch.PlatformVersion; }
+        }
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid { get { return _nativeTouch.Guid; } }
+        public Guid Guid
+        {
+            get { return _nativeTouch.Guid; }
+        }
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -62,7 +70,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Updates the object.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime</param>
         public void Update(GameTime gameTime)
@@ -71,7 +79,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the TouchState.
+        ///     Gets the TouchState.
         /// </summary>
         /// <returns>TouchState.</returns>
         public TouchState GetState()

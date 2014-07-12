@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
     public interface INativeJoystick : IInputDevice
     {
         /// <summary>
-        /// Gets the JoystickState.
+        ///     Gets the JoystickState.
         /// </summary>
         /// <returns>JoystickState.</returns>
         JoystickState GetState();

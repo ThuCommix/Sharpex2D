@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
     public interface INativeGamepad : IInputDevice
     {
         /// <summary>
-        /// Gets the GamepadState.
+        ///     Gets the GamepadState.
         /// </summary>
         /// <returns>GamepadState.</returns>
         GamepadState GetState();

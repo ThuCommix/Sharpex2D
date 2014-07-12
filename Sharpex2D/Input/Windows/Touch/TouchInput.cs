@@ -29,43 +29,52 @@ namespace Sharpex2D.Input.Windows.Touch
     internal struct TouchInput
     {
         /// <summary>
-        /// The X-coordinate.
+        ///     The X-coordinate.
         /// </summary>
         public int x;
+
         /// <summary>
-        /// The Y-coordinate.
+        ///     The Y-coordinate.
         /// </summary>
         public int y;
+
         /// <summary>
-        /// The DeviceHandle.
+        ///     The DeviceHandle.
         /// </summary>
         public IntPtr hSource;
+
         /// <summary>
-        /// Current TouchId.
+        ///     Current TouchId.
         /// </summary>
         public int dwID;
+
         /// <summary>
-        /// The TouchEvent Flags.
+        ///     The TouchEvent Flags.
         /// </summary>
         public int dwFlags;
+
         /// <summary>
-        /// The TouchInputMask flags.
+        ///     The TouchInputMask flags.
         /// </summary>
         public int dwMask;
+
         /// <summary>
-        /// The Timestamp.
+        ///     The Timestamp.
         /// </summary>
         public int dwTime;
+
         /// <summary>
-        /// The Extra info.
+        ///     The Extra info.
         /// </summary>
         public IntPtr dwExtraInfo;
+
         /// <summary>
-        /// The Width of the touched area.
+        ///     The Width of the touched area.
         /// </summary>
         public int cxContact;
+
         /// <summary>
-        /// The Height of the touched area.
+        ///     The Height of the touched area.
         /// </summary>
         public int cyContact;
     }

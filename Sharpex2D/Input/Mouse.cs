@@ -26,11 +26,10 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Mouse : IInputDevice
     {
-
         private readonly INativeMouse _nativeMouse;
 
         /// <summary>
-        /// Initializes a new Mouse class.
+        ///     Initializes a new Mouse class.
         /// </summary>
         /// <param name="nativeMouse">The NativeMouse.</param>
         public Mouse(INativeMouse nativeMouse)
@@ -39,22 +38,31 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     A value indicating whether the Platform is supported.
         /// </summary>
-        public bool IsPlatformSupported { get { return _nativeMouse.IsPlatformSupported; } }
+        public bool IsPlatformSupported
+        {
+            get { return _nativeMouse.IsPlatformSupported; }
+        }
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     Gets the PlatformVersion.
         /// </summary>
-        public Version PlatformVersion { get { return _nativeMouse.PlatformVersion; } }
+        public Version PlatformVersion
+        {
+            get { return _nativeMouse.PlatformVersion; }
+        }
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid { get { return _nativeMouse.Guid; } }
+        public Guid Guid
+        {
+            get { return _nativeMouse.Guid; }
+        }
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -62,7 +70,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Updates the object.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime</param>
         public void Update(GameTime gameTime)
@@ -71,7 +79,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the MouseState.
+        ///     Gets the MouseState.
         /// </summary>
         /// <returns>MouseState.</returns>
         public MouseState GetState()

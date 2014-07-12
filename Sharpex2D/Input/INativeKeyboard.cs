@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
     public interface INativeKeyboard : IInputDevice
     {
         /// <summary>
-        /// Gets the KeyboardState.
+        ///     Gets the KeyboardState.
         /// </summary>
         /// <returns>KeyboardState.</returns>
         KeyboardState GetState();

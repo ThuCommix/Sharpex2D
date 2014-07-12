@@ -25,15 +25,17 @@ namespace Sharpex2D.Input.Windows.Touch
     public enum TouchMode
     {
         /// <summary>
-        /// Move.
+        ///     Move.
         /// </summary>
         Move = TouchFlags.TOUCHEVENTF_MOVE,
+
         /// <summary>
-        /// Down.
+        ///     Down.
         /// </summary>
         Down = TouchFlags.TOUCHEVENTF_DOWN,
+
         /// <summary>
-        /// Up.
+        ///     Up.
         /// </summary>
         Up = TouchFlags.TOUCHEVENTF_UP
     }

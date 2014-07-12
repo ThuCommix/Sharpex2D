@@ -26,11 +26,10 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Gamepad : IInputDevice
     {
-
         private readonly INativeGamepad _nativeGamepad;
 
         /// <summary>
-        /// Initializes a new Gamepad class.
+        ///     Initializes a new Gamepad class.
         /// </summary>
         /// <param name="nativeGamepad">The NativeGamepad.</param>
         public Gamepad(INativeGamepad nativeGamepad)
@@ -39,22 +38,31 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     A value indicating whether the Platform is supported.
         /// </summary>
-        public bool IsPlatformSupported { get { return _nativeGamepad.IsPlatformSupported; } }
+        public bool IsPlatformSupported
+        {
+            get { return _nativeGamepad.IsPlatformSupported; }
+        }
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     Gets the PlatformVersion.
         /// </summary>
-        public Version PlatformVersion { get { return _nativeGamepad.PlatformVersion; } }
+        public Version PlatformVersion
+        {
+            get { return _nativeGamepad.PlatformVersion; }
+        }
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid { get { return _nativeGamepad.Guid; } }
+        public Guid Guid
+        {
+            get { return _nativeGamepad.Guid; }
+        }
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -62,7 +70,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Updates the object.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -71,7 +79,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the GamepadState.
+        ///     Gets the GamepadState.
         /// </summary>
         /// <returns>GamepadState.</returns>
         public GamepadState GetState()

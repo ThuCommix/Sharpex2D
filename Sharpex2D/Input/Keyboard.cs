@@ -26,11 +26,10 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Keyboard : IInputDevice
     {
-
         private readonly INativeKeyboard _nativeKeyboard;
 
         /// <summary>
-        /// Initializes a new Keyboard class.
+        ///     Initializes a new Keyboard class.
         /// </summary>
         /// <param name="nativeKeyboard">The NativeKeyboard.</param>
         public Keyboard(INativeKeyboard nativeKeyboard)
@@ -39,7 +38,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     A value indicating whether the Platform is supported.
         /// </summary>
         public bool IsPlatformSupported
         {
@@ -47,21 +46,23 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the PlattformVersion.
+        ///     Gets the PlattformVersion.
         /// </summary>
-        public Version PlatformVersion {
+        public Version PlatformVersion
+        {
             get { return _nativeKeyboard.PlatformVersion; }
         }
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
-        public Guid Guid {
+        public Guid Guid
+        {
             get { return _nativeKeyboard.Guid; }
         }
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -69,7 +70,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Updates the object.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -78,7 +79,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the KeyboardState.
+        ///     Gets the KeyboardState.
         /// </summary>
         /// <returns>KeyboardState.</returns>
         public KeyboardState GetState()

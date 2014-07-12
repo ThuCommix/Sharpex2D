@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
     public interface INativeMouse : IInputDevice
     {
         /// <summary>
-        /// Gets the MouseState.
+        ///     Gets the MouseState.
         /// </summary>
         /// <returns>MouseState.</returns>
         MouseState GetState();

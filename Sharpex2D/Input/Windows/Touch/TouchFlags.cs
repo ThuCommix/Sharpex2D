@@ -25,39 +25,40 @@ namespace Sharpex2D.Input.Windows.Touch
     internal enum TouchFlags
     {
         /// <summary>
-        /// Movement has occurred. Cannot be combined with TOUCHEVENTF_DOWN.
+        ///     Movement has occurred. Cannot be combined with TOUCHEVENTF_DOWN.
         /// </summary>
         TOUCHEVENTF_MOVE = 0x0001,
 
         /// <summary>
-        /// The corresponding touch point was established through a new contact. Cannot be combined with TOUCHEVENTF_MOVE or TOUCHEVENTF_UP.
+        ///     The corresponding touch point was established through a new contact. Cannot be combined with TOUCHEVENTF_MOVE or
+        ///     TOUCHEVENTF_UP.
         /// </summary>
         TOUCHEVENTF_DOWN = 0x0002,
 
         /// <summary>
-        /// A touch point was removed.
+        ///     A touch point was removed.
         /// </summary>
         TOUCHEVENTF_UP = 0x0004,
 
         /// <summary>
-        /// A touch point is in range. This flag is used to enable touch hover support on compatible hardware.
-        ///  Applications that do not want support for hover can ignore this flag.
+        ///     A touch point is in range. This flag is used to enable touch hover support on compatible hardware.
+        ///     Applications that do not want support for hover can ignore this flag.
         /// </summary>
         TOUCHEVENTF_INRANGE = 0x0008,
 
         /// <summary>
-        /// Indicates that this TOUCHINPUT structure corresponds to a primary contact point.
-        ///  See the following text for more information on primary touch points.
+        ///     Indicates that this TOUCHINPUT structure corresponds to a primary contact point.
+        ///     See the following text for more information on primary touch points.
         /// </summary>
         TOUCHEVENTF_PRIMARY = 0x0010,
 
         /// <summary>
-        /// When received using GetTouchInputInfo, this input was not coalesced.
+        ///     When received using GetTouchInputInfo, this input was not coalesced.
         /// </summary>
         TOUCHEVENTF_NOCOALESCE = 0x0020,
 
         /// <summary>
-        /// The touch event came from the user's palm.
+        ///     The touch event came from the user's palm.
         /// </summary>
         TOUCHEVENTF_PALM = 0x0080,
     }

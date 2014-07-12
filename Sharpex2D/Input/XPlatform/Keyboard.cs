@@ -50,7 +50,7 @@ namespace Sharpex2D.Input.XPlatform
         public Keyboard()
             : base(new Guid("55DDC560-40B5-487F-A47B-A265707E495D"))
         {
-            var surfaceHandle = SGL.Components.Get<RenderTarget>().Handle;
+            IntPtr surfaceHandle = SGL.Components.Get<RenderTarget>().Handle;
             Description = "Keyboard based on the surface events";
             var surface = (Form) Control.FromHandle(surfaceHandle);
             _keystate = new Dictionary<Keys, bool>();

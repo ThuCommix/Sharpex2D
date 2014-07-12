@@ -29,25 +29,23 @@ using Sharpex2D.Surface;
 
 namespace Sharpex2D.Input.Windows.Touch
 {
-
 #if Windows
 
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
     public class TouchDevice : InputDevice<TouchState>, INativeTouch
     {
-
-        private readonly Logger _logger;
         private readonly IntPtr _handle;
-        private readonly List<Input.Touch> _touches; 
+        private readonly Logger _logger;
+        private readonly List<Input.Touch> _touches;
 
         /// <summary>
-        /// Initializes a new Touch class.
+        ///     Initializes a new Touch class.
         /// </summary>
         public TouchDevice()
             : base(new Guid("0F29FED4-24B0-4D39-91FA-80D29388853B"))
         {
-            var handle = SGL.Components.Get<RenderTarget>().Handle;
+            IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
             var msgFilter = new MessageFilter(handle) {Filter = NativeMethods.WM_TOUCH};
             msgFilter.MessageArrived += MessageArrived;
             _handle = handle;
@@ -67,11 +65,43 @@ namespace Sharpex2D.Input.Windows.Touch
             {
                 throw new Exception("TouchAPI not available.");
             }
-
         }
 
         /// <summary>
-        /// MessageArrived event.
+        ///     Gets the PlatformVersion.
+        /// </summary>
+        public override Version PlatformVersion
+        {
+            get { return new Version(6, 1); }
+        }
+
+        /// <summary>
+        ///     Initializes the device.
+        /// </summary>
+        public override void InitializeDevice()
+        {
+        }
+
+        /// <summary>
+        ///     Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Update(GameTime gameTime)
+        {
+            _touches.Clear();
+        }
+
+        /// <summary>
+        ///     Gets the State.
+        /// </summary>
+        /// <returns>TouchState.</returns>
+        public override TouchState GetState()
+        {
+            return new TouchState(_touches.ToArray());
+        }
+
+        /// <summary>
+        ///     MessageArrived event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -81,12 +111,12 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        /// Decoces the message.
+        ///     Decoces the message.
         /// </summary>
         /// <param name="m">The Message.</param>
         private void DecodeMessage(Message m)
         {
-            var inputCount = m.WParam.ToInt32();
+            int inputCount = m.WParam.ToInt32();
 
             var touchInput = new TouchInput[inputCount];
 
@@ -96,18 +126,18 @@ namespace Sharpex2D.Input.Windows.Touch
                 return;
             }
 
-            for (var i = 0; i < inputCount; i++)
+            for (int i = 0; i < inputCount; i++)
             {
-                var touchInfo = touchInput[i];
+                TouchInput touchInfo = touchInput[i];
                 var touchMode = TouchMode.Down;
 
-                if ((touchInfo.dwFlags & (int)TouchFlags.TOUCHEVENTF_DOWN) != 0)
+                if ((touchInfo.dwFlags & (int) TouchFlags.TOUCHEVENTF_DOWN) != 0)
                 {
                     touchMode = TouchMode.Down;
                 }
-                else if ((touchInfo.dwFlags & (int)TouchFlags.TOUCHEVENTF_UP) != 0)
+                else if ((touchInfo.dwFlags & (int) TouchFlags.TOUCHEVENTF_UP) != 0)
                 {
-                     touchMode = TouchMode.Up;
+                    touchMode = TouchMode.Up;
                 }
                 else if ((touchInfo.dwFlags & (int) TouchFlags.TOUCHEVENTF_MOVE) != 0)
                 {
@@ -115,7 +145,8 @@ namespace Sharpex2D.Input.Windows.Touch
                 }
 
 
-                var touch = new Input.Touch(touchInfo.dwID, new Vector2(touchInfo.cxContact/100f, touchInfo.cyContact/100f),
+                var touch = new Input.Touch(touchInfo.dwID,
+                    new Vector2(touchInfo.cxContact/100f, touchInfo.cyContact/100f),
                     new Vector2(touchInfo.x/100f, touchInfo.y/100f), new DateTime(0, 0, 0, 0, 0, 0, touchInfo.dwTime),
                     touchMode);
 
@@ -130,40 +161,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        public override Version PlatformVersion
-        {
-            get { return new Version(6, 1); }
-        }
-
-        /// <summary>
-        /// Initializes the device.
-        /// </summary>
-        public override void InitializeDevice()
-        {
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
-        {
-            _touches.Clear();
-        }
-
-        /// <summary>
-        /// Gets the State.
-        /// </summary>
-        /// <returns>TouchState.</returns>
-        public override TouchState GetState()
-        {
-            return new TouchState(_touches.ToArray());
-        }
-
-        /// <summary>
-        /// Deconstructs the object.
+        ///     Deconstructs the object.
         /// </summary>
         ~TouchDevice()
         {
@@ -175,5 +173,4 @@ namespace Sharpex2D.Input.Windows.Touch
     }
 
 #endif
-
 }

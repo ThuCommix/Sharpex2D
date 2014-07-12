@@ -26,17 +26,7 @@ namespace Sharpex2D.Input
     public class TouchState : IInputState
     {
         /// <summary>
-        /// Gets the Touches.
-        /// </summary>
-        public Touch[] Touches { private set; get; }
-
-        /// <summary>
-        /// Gets the TouchCount.
-        /// </summary>
-        public int TouchCount { private set; get; }
-
-        /// <summary>
-        /// Initializes a new TouchState class.
+        ///     Initializes a new TouchState class.
         /// </summary>
         /// <param name="touches">The Touches.</param>
         public TouchState(Touch[] touches)
@@ -44,5 +34,15 @@ namespace Sharpex2D.Input
             Touches = touches;
             TouchCount = touches.Length;
         }
+
+        /// <summary>
+        ///     Gets the Touches.
+        /// </summary>
+        public Touch[] Touches { private set; get; }
+
+        /// <summary>
+        ///     Gets the TouchCount.
+        /// </summary>
+        public int TouchCount { private set; get; }
     }
 }

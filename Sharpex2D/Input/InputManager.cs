@@ -23,6 +23,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sharpex2D.Debug.Logging;
+using Sharpex2D.Input.Windows.RawInput;
+using Sharpex2D.Input.Windows.Touch;
 
 namespace Sharpex2D.Input
 {
@@ -89,11 +91,11 @@ namespace Sharpex2D.Input
 
             Mouse = new Mouse(new XPlatform.Mouse());
 #if Windows
-            Keyboard = new Keyboard(new Windows.RawInput.RawInputKeyboard());
+            Keyboard = new Keyboard(new RawInputKeyboard());
             Gamepad = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
             Joystick = new Joystick(new Windows.JoystickApi.Joystick());
 
-            var nativeTouch = new Windows.Touch.TouchDevice();
+            var nativeTouch = new TouchDevice();
             if (nativeTouch.IsPlatformSupported)
             {
                 TouchPanel = new TouchPanel(nativeTouch);
@@ -113,7 +115,6 @@ namespace Sharpex2D.Input
             Add(Mouse);
             Add(Keyboard);
 #endif
-
         }
 
         /// <summary>
@@ -140,12 +141,12 @@ namespace Sharpex2D.Input
         public Gamepad Gamepad { get; set; }
 
         /// <summary>
-        /// Gets or sets the Joystick.
+        ///     Gets or sets the Joystick.
         /// </summary>
         public Joystick Joystick { get; set; }
 
         /// <summary>
-        /// Gets or sets the TouchPanel.
+        ///     Gets or sets the TouchPanel.
         /// </summary>
         public TouchPanel TouchPanel { get; set; }
 

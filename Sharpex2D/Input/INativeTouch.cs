@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
     public interface INativeTouch : IInputDevice
     {
         /// <summary>
-        /// Gets the TouchState.
+        ///     Gets the TouchState.
         /// </summary>
         /// <returns>TouchState.</returns>
         TouchState GetState();

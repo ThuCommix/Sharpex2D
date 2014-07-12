@@ -52,7 +52,7 @@ namespace Sharpex2D.Input.XPlatform
         public Mouse()
             : base(new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF"))
         {
-            var handle = SGL.Components.Get<RenderTarget>().Handle;
+            IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
             Description = "MouseDevice";
             _position = new Vector2(0, 0);
             Control control = Control.FromHandle(handle);

@@ -12,7 +12,7 @@
 // 
 // THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHOpenALEnums THE
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
@@ -35,7 +35,7 @@ namespace Sharpex2D
     {
 #if Windows
 
-        public enum GdiRasterOperations
+        internal enum GdiRasterOperations
         {
             SRCCOPY = 13369376,
             SRCPAINT = 15597702,
@@ -199,7 +199,7 @@ namespace Sharpex2D
         /// <param name="cbwaveOutCaps">The Size.</param>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        public static extern int waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
+        internal static extern int waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
 
         /// <summary>
         ///     Prepares the header.
@@ -410,7 +410,7 @@ namespace Sharpex2D
         /// <param name="dataSize">The Size.</param>
         /// <returns>UInt32.</returns>
         [DllImport("user32.dll")]
-        public static extern uint GetRawInputDeviceInfo(IntPtr hDevice, uint command, ref DeviceInfo data,
+        internal static extern uint GetRawInputDeviceInfo(IntPtr hDevice, uint command, ref DeviceInfo data,
             ref uint dataSize);
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace Sharpex2D
         /// </summary>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        public static extern uint joyGetNumDevs();
+        internal static extern uint joyGetNumDevs();
 
         /// <summary>
         ///     Gets the state of the Joystick.
@@ -452,7 +452,7 @@ namespace Sharpex2D
         /// <param name="pji">The JoyInfo.</param>
         /// <returns>UInt32.</returns>
         [DllImport("winmm.dll")]
-        public static extern uint joyGetPos(uint uJoyID, ref JoyInfo pji);
+        internal static extern uint joyGetPos(uint uJoyID, ref JoyInfo pji);
 
         /// <summary>
         ///     Gets the state of the extended Joystick.
@@ -461,14 +461,14 @@ namespace Sharpex2D
         /// <param name="pjiex">The extended JoyInfo.</param>
         /// <returns>UInt32.</returns>
         [DllImport("winmm.dll"), SuppressUnmanagedCodeSecurity]
-        public static extern uint joyGetPosEx(uint uJoyID, ref JoyInfoEx pjiex);
+        internal static extern uint joyGetPosEx(uint uJoyID, ref JoyInfoEx pjiex);
 
         #endregion
 
         #region Touch
 
         /// <summary>
-        /// Registers the TouchWindow.
+        ///     Registers the TouchWindow.
         /// </summary>
         /// <param name="hWnd">The Handle.</param>
         /// <param name="ulFlags">The Flags.</param>
@@ -478,7 +478,7 @@ namespace Sharpex2D
         internal static extern bool RegisterTouchWindow(IntPtr hWnd, ulong ulFlags);
 
         /// <summary>
-        /// Gets the TouchInputInfo.
+        ///     Gets the TouchInputInfo.
         /// </summary>
         /// <param name="hTouchInput">The TouchInput.</param>
         /// <param name="cInputs">The Number of structures.</param>
@@ -487,10 +487,11 @@ namespace Sharpex2D
         /// <returns>True on success.</returns>
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetTouchInputInfo(IntPtr hTouchInput, int cInputs, [In, Out] TouchInput[] pInputs, int cbSize);
+        internal static extern bool GetTouchInputInfo(IntPtr hTouchInput, int cInputs, [In, Out] TouchInput[] pInputs,
+            int cbSize);
 
         /// <summary>
-        /// Closes the TouchInputHandle.
+        ///     Closes the TouchInputHandle.
         /// </summary>
         /// <param name="lParam">The Handle.</param>
         [DllImport("user32.dll")]
@@ -498,7 +499,7 @@ namespace Sharpex2D
         internal static extern bool CloseTouchInputHandle(IntPtr lParam);
 
         /// <summary>
-        /// Closes the TouchInputHandle.
+        ///     Closes the TouchInputHandle.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         [DllImport("user32.dll")]
