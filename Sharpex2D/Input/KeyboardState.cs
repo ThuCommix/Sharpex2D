@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public class KeyboardState : IInputState
     {
         private readonly Dictionary<Keys, bool> _reference;
