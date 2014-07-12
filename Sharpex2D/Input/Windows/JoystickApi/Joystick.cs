@@ -70,7 +70,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
                 case 11:
                     throw new InvalidOperationException("An Invalidparam was passed to the driver.");
                 case 165:
-                    throw new InvalidOperationException("An Invalidparam was passed to the driver.");
+                    throw new InvalidOperationException("An Invalid joystick param was passed to the driver.");
                 case 167:
                     throw new InvalidOperationException("The Joystick is unplugged.");
             }
