@@ -18,53 +18,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct RawKeyboard
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The Makecode.
+        /// </summary>
+        public ushort Makecode;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Flags.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public ushort Flags;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Reserved.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        public ushort Reserved;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The VirtualKeyCode.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        public ushort VKey;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The Message.
+        /// </summary>
+        public uint Message;
+
+        /// <summary>
+        ///     The ExtraInformations.
+        /// </summary>
+        public uint ExtraInformation;
     }
 }

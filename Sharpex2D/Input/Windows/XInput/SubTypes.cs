@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,63 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [Flags]
+    public enum Subtypes
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     Unknown.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_UNKNOWN = 0x00,
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     Wheel.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        XINPUT_DEVSUBTYPE_WHEEL = 0x02,
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Arcade stick.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        XINPUT_DEVSUBTYPE_ARCADE_STICK = 0x03,
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     Flight stick.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        XINPUT_DEVSUBTYPE_FLIGHT_STICK = 0x04,
 
-            return !_reference[key];
-        }
-    }
+        /// <summary>
+        ///     Dance pad.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_DANCE_PAD = 0x05,
+
+        /// <summary>
+        ///     Guitar.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_GUITAR = 0x06,
+
+        /// <summary>
+        ///     Guitar alternate.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_GUITAR_ALTERNATE = 0x07,
+
+        /// <summary>
+        ///     Drum kit.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_DRUM_KIT = 0x08,
+
+        /// <summary>
+        ///     Guitar bass.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_GUITAR_BASS = 0x0B,
+
+        /// <summary>
+        ///     Arcade pad.
+        /// </summary>
+        XINPUT_DEVSUBTYPE_ARCADE_PAD = 0x13
+    };
 }

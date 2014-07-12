@@ -18,53 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct RawInputHeader
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     DeviceType.
+        /// </summary>
+        public uint dwType;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     Size.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public uint dwSize;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The RawDevice.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        public IntPtr hDevice;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The Param.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
-        }
+        public IntPtr wParam;
     }
 }

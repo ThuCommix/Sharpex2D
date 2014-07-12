@@ -18,38 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public interface IInputDevice
+    [TestState(TestState.Tested)]
+    internal enum HidUsagePage : ushort
     {
-        /// <summary>
-        ///     A value indicating whether the Platform is supported.
-        /// </summary>
-        bool IsPlatformSupported { get; }
+        /// <summary>Unknown usage page.</summary>
+        UNDEFINED = 0x00,
 
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        Version PlatformVersion { get; }
+        /// <summary>Generic desktop controls.</summary>
+        GENERIC = 0x01,
 
-        /// <summary>
-        ///     Gets the Guid.
-        /// </summary>
-        Guid Guid { get; }
+        /// <summary>Simulation controls.</summary>
+        SIMULATION = 0x02,
 
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        void InitializeDevice();
+        /// <summary>Virtual reality controls.</summary>
+        VR = 0x03,
 
-        /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        void Update(GameTime gameTime);
+        /// <summary>Sports controls.</summary>
+        SPORT = 0x04,
+
+        /// <summary>Games controls.</summary>
+        GAME = 0x05,
+
+        /// <summary>Keyboard controls.</summary>
+        KEYBOARD = 0x07,
     }
 }

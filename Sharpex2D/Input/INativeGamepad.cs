@@ -1,6 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
+﻿// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -18,38 +16,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public interface IInputDevice
+    [TestState(TestState.Tested)]
+    public interface INativeGamepad : IInputDevice
     {
         /// <summary>
-        ///     A value indicating whether the Platform is supported.
+        /// Gets the GamepadState.
         /// </summary>
-        bool IsPlatformSupported { get; }
-
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        Version PlatformVersion { get; }
-
-        /// <summary>
-        ///     Gets the Guid.
-        /// </summary>
-        Guid Guid { get; }
-
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        void InitializeDevice();
-
-        /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        void Update(GameTime gameTime);
+        /// <returns>GamepadState.</returns>
+        GamepadState GetState();
     }
 }

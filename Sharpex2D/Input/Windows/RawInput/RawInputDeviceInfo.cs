@@ -18,53 +18,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    internal enum RawInputDeviceInfo : uint
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     Requests the Device name.
+        /// </summary>
+        RIDI_DEVICENAME = 0x20000007,
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     Requests the Device info.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        RIDI_DEVICEINFO = 0x2000000b,
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Requests the Device data.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
-        }
+        PREPARSEDDATA = 0x20000005
     }
 }

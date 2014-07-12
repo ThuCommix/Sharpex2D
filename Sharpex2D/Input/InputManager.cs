@@ -22,10 +22,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-#if Windows
-using Keyboard = Sharpex2D.Input.RawInputKeyboard;
-
-#endif
+using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D.Input
 {
@@ -80,22 +77,43 @@ namespace Sharpex2D.Input
         #endregion
 
         private readonly List<IInputDevice> _devices;
+        private readonly Logger _logger;
 
         /// <summary>
         ///     Initializes a new InputManager Instance.
         /// </summary>
-        /// <param name="handle">The GameWindowHandle.</param>
-        public InputManager(IntPtr handle)
+        public InputManager()
         {
-            Mouse = new Mouse(handle);
+            _devices = new List<IInputDevice>();
+            _logger = LogManager.GetClassLogger();
+
+            Mouse = new Mouse(new XPlatform.Mouse());
 #if Windows
-            Keyboard = new RawInputKeyboard(handle);
-            Gamepad = Input.Gamepad.Retrieve(0);
-            _devices = new List<IInputDevice> {Keyboard, Mouse, Gamepad};
+            Keyboard = new Keyboard(new Windows.RawInput.RawInputKeyboard());
+            Gamepad = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
+            Joystick = new Joystick(new Windows.JoystickApi.Joystick());
+
+            var nativeTouch = new Windows.Touch.TouchDevice();
+            if (nativeTouch.IsPlatformSupported)
+            {
+                TouchPanel = new TouchPanel(nativeTouch);
+                Add(TouchPanel);
+            }
+            else
+            {
+                _logger.Info("Disabled touch input due incompatibility with the current platform.");
+            }
+
+            Add(Mouse);
+            Add(Keyboard);
+            Add(Gamepad);
+            Add(Joystick);
 #else
-            Keyboard = new Keyboard(handle);
-            _devices = new List<IInputDevice> { Mouse, Keyboard };
+            Keyboard = new Keyboard(new XPlatform.Keyboard());
+            Add(Mouse);
+            Add(Keyboard);
 #endif
+
         }
 
         /// <summary>
@@ -107,19 +125,29 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Keyboard device.
+        ///     Gets or sets the Keyboard device.
         /// </summary>
-        public InputDevice<KeyboardState> Keyboard { get; private set; }
+        public Keyboard Keyboard { get; set; }
 
         /// <summary>
-        ///     Gets the Mouse device.
+        ///     Gets or sets the Mouse device.
         /// </summary>
-        public InputDevice<MouseState> Mouse { get; private set; }
+        public Mouse Mouse { get; set; }
 
         /// <summary>
-        ///     Gets the Gamepad.
+        ///     Gets or sets the Gamepad.
         /// </summary>
-        public InputDevice<GamepadState> Gamepad { get; private set; }
+        public Gamepad Gamepad { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Joystick.
+        /// </summary>
+        public Joystick Joystick { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TouchPanel.
+        /// </summary>
+        public TouchPanel TouchPanel { get; set; }
 
         /// <summary>
         ///     Adds a new device to the InputManager.

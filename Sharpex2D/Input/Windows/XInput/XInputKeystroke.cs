@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    public struct XInputKeystroke
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The VirtualKey.
+        /// </summary>
+        [MarshalAs(UnmanagedType.I2)] [FieldOffset(0)] public short VirtualKey;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Unicode char.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [MarshalAs(UnmanagedType.I2)] [FieldOffset(2)] public char Unicode;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The Flags.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        [MarshalAs(UnmanagedType.I2)] [FieldOffset(4)] public short Flags;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The UserIndex.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        [MarshalAs(UnmanagedType.I2)] [FieldOffset(5)] public byte UserIndex;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The HIDCode.
+        /// </summary>
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(6)] public byte HidCode;
     }
 }

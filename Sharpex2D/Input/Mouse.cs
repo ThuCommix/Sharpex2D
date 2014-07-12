@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,106 +19,64 @@
 // THE SOFTWARE.
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-using Sharpex2D.Math;
 
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Mouse : InputDevice<MouseState>
+    public class Mouse : IInputDevice
     {
-        #region IUpdateable Implementation
+
+        private readonly INativeMouse _nativeMouse;
 
         /// <summary>
-        ///     Updates the object.
+        /// Initializes a new Mouse class.
         /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
+        /// <param name="nativeMouse">The NativeMouse.</param>
+        public Mouse(INativeMouse nativeMouse)
         {
-            _mousestate.Clear();
-        }
-
-        #endregion
-
-        private readonly Dictionary<MouseButtons, bool> _mousestate;
-        private Vector2 _position;
-
-        /// <summary>
-        ///     Initializes a new Mouse class.
-        /// </summary>
-        /// <param name="handle">The Handle.</param>
-        public Mouse(IntPtr handle)
-            : base(new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF"))
-        {
-            Description = "MouseDevice";
-            _position = new Vector2(0, 0);
-            Control control = Control.FromHandle(handle);
-            _mousestate = new Dictionary<MouseButtons, bool>();
-            control.MouseMove += surface_MouseMove;
-            control.MouseDown += surface_MouseDown;
-            control.MouseUp += surface_MouseUp;
-            Handle = handle;
+            _nativeMouse = nativeMouse;
         }
 
         /// <summary>
-        ///     Represents the surface handle.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
-        public IntPtr Handle { private set; get; }
+        public bool IsPlatformSupported { get { return _nativeMouse.IsPlatformSupported; } }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
-        public override Version PlatformVersion
+        public Version PlatformVersion { get { return _nativeMouse.PlatformVersion; } }
+
+        /// <summary>
+        /// Gets the Guid.
+        /// </summary>
+        public Guid Guid { get { return _nativeMouse.Guid; } }
+
+        /// <summary>
+        /// Initializes the Device.
+        /// </summary>
+        public void InitializeDevice()
         {
-            get { return new Version(5, 1); }
+            _nativeMouse.InitializeDevice();
         }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Updates the object.
         /// </summary>
-        public override void InitializeDevice()
+        /// <param name="gameTime">The GameTime</param>
+        public void Update(GameTime gameTime)
         {
+            _nativeMouse.Update(gameTime);
         }
 
-
         /// <summary>
-        ///     Gets the State.
+        /// Gets the MouseState.
         /// </summary>
         /// <returns>MouseState.</returns>
-        public override MouseState GetState()
+        public MouseState GetState()
         {
-            return new MouseState(_mousestate, _position);
-        }
-
-        /// <summary>
-        ///     Sets the internal button state.
-        /// </summary>
-        /// <param name="button">The Button.</param>
-        /// <param name="state">The State.</param>
-        private void SetButtonState(MouseButtons button, bool state)
-        {
-            if (!_mousestate.ContainsKey(button))
-            {
-                _mousestate.Add(button, state);
-            }
-            _mousestate[button] = state;
-        }
-
-        private void surface_MouseUp(object sender, MouseEventArgs e)
-        {
-            SetButtonState((MouseButtons) e.Button, false);
-        }
-
-        private void surface_MouseDown(object sender, MouseEventArgs e)
-        {
-            SetButtonState((MouseButtons) e.Button, true);
-        }
-
-        private void surface_MouseMove(object sender, MouseEventArgs e)
-        {
-            _position = new Vector2(e.Location.X/SGL.GraphicsDevice.Scale.X, e.Location.Y/SGL.GraphicsDevice.Scale.Y);
+            return _nativeMouse.GetState();
         }
     }
 }

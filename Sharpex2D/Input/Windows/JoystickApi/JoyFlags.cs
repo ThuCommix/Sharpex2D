@@ -18,72 +18,77 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public class Keyboard : IInputDevice
+    [TestState(TestState.Untested)]
+    internal enum JoyFlags
     {
-
-        private readonly INativeKeyboard _nativeKeyboard;
+        /// <summary>
+        ///     Returns all informations.
+        /// </summary>
+        JOY_RETURNALL =
+            (JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ | JOY_RETURNR | JOY_RETURNU | JOY_RETURNV | JOY_RETURNPOV |
+             JOY_RETURNBUTTONS),
 
         /// <summary>
-        /// Initializes a new Keyboard class.
+        ///     Returns button information.
         /// </summary>
-        /// <param name="nativeKeyboard">The NativeKeyboard.</param>
-        public Keyboard(INativeKeyboard nativeKeyboard)
-        {
-            _nativeKeyboard = nativeKeyboard;
-        }
+        JOY_RETURNBUTTONS = 128,
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     Returns the centered value.
         /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeKeyboard.IsPlatformSupported; }
-        }
+        JOY_RETURNCENTERED = 1024,
 
         /// <summary>
-        /// Gets the PlattformVersion.
+        ///     Returns the pov.
         /// </summary>
-        public Version PlatformVersion {
-            get { return _nativeKeyboard.PlatformVersion; }
-        }
+        JOY_RETURNPOV = 64,
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Returns the pov cts.
         /// </summary>
-        public Guid Guid {
-            get { return _nativeKeyboard.Guid; }
-        }
+        JOY_RETURNPOVCTS = 512,
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Returns uncalibrated values.
         /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeKeyboard.InitializeDevice();
-        }
+        JOY_RETURNRAWDATA = 256,
 
         /// <summary>
-        /// Updates the object.
+        ///     Returns the X position.
         /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeKeyboard.Update(gameTime);
-        }
+        JOY_RETURNX = 1,
 
         /// <summary>
-        /// Gets the KeyboardState.
+        ///     Returns the Y position.
         /// </summary>
-        /// <returns>KeyboardState.</returns>
-        public KeyboardState GetState()
-        {
-            return _nativeKeyboard.GetState();
-        }
+        JOY_RETURNY = 2,
+
+        /// <summary>
+        ///     Returns the Z position.
+        /// </summary>
+        JOY_RETURNZ = 4,
+
+        /// <summary>
+        ///     Returns the fourth axis.
+        /// </summary>
+        JOY_RETURNR = 8,
+
+        /// <summary>
+        ///     Returns the fifth axis.
+        /// </summary>
+        JOY_RETURNU = 16,
+
+        /// <summary>
+        ///     Returns the sixth axis.
+        /// </summary>
+        JOY_RETURNV = 32,
+
+        /// <summary>
+        ///     User dead zone.
+        /// </summary>
+        JOY_USEDEADZONE = 2048,
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    public struct XInputState
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The PacketNumber.
+        /// </summary>
+        [FieldOffset(0)] public int PacketNumber;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Gamepad.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [FieldOffset(4)] public XInputGamepad Gamepad;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Copies the source.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
+        /// <param name="source">The Source.</param>
+        public void Copy(XInputState source)
         {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
+            PacketNumber = source.PacketNumber;
+            Gamepad.Copy(source.Gamepad);
         }
     }
 }

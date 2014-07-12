@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Input.XInput;
+using Sharpex2D.Input.Windows.XInput;
 using Sharpex2D.Math;
 
 namespace Sharpex2D.Input

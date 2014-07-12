@@ -19,99 +19,64 @@
 // THE SOFTWARE.
 
 using System;
-using System.Runtime.InteropServices;
-using Sharpex2D.Input.JoystickApi;
 
 namespace Sharpex2D.Input
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class Joystick : InputDevice<JoystickState>
+    [TestState(TestState.Tested)]
+    public class Joystick : IInputDevice
     {
-        private JoystickState _state;
+
+        private readonly INativeJoystick _nativeJoystick;
 
         /// <summary>
-        ///     Initializes a new Joystickc class.
+        /// Initializes a new Joystick class.
         /// </summary>
-        public Joystick()
-            : base(new Guid("ECEE253A-DDF0-4678-B820-AF1ACFA7A306"))
+        /// <param name="nativeJoystick">The NativeJoystick.</param>
+        public Joystick(INativeJoystick nativeJoystick)
         {
-            _state = JoystickState.Empty;
+            _nativeJoystick = nativeJoystick;
         }
 
         /// <summary>
-        ///     A value indicating whether a Joystick is available.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
-        public bool Available
-        {
-            get { return NativeMethods.joyGetNumDevs() > 0; }
-        }
-
+        public bool IsPlatformSupported { get { return _nativeJoystick.IsPlatformSupported; } }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
-        public override Version PlatformVersion
-        {
-            get { return new Version(5, 1); }
-        }
+        public Version PlatformVersion { get { return _nativeJoystick.PlatformVersion; } }
 
         /// <summary>
-        ///     Trys an MMResult.
+        /// Gets the Guid.
         /// </summary>
-        /// <param name="result">The Result.</param>
-        internal static void Try(uint result)
+        public Guid Guid { get { return _nativeJoystick.Guid; } }
+
+        /// <summary>
+        /// Initializes the Device.
+        /// </summary>
+        public void InitializeDevice()
         {
-            switch (result)
-            {
-                case 2:
-                    throw new InvalidOperationException("An Invalid JoyStickId was passed to the driver.");
-                case 6:
-                    throw new InvalidOperationException("The Joystick driver is not present.");
-                case 11:
-                    throw new InvalidOperationException("An Invalidparam was passed to the driver.");
-                case 165:
-                    throw new InvalidOperationException("An Invalidparam was passed to the driver.");
-                case 167:
-                    throw new InvalidOperationException("The Joystick is unplugged.");
-            }
+            _nativeJoystick.InitializeDevice();
         }
 
         /// <summary>
-        ///     Initializes the device.
+        /// Updates the object.
         /// </summary>
-        public override void InitializeDevice()
+        /// <param name="gameTime">The GameTime</param>
+        public void Update(GameTime gameTime)
         {
+            _nativeJoystick.Update(gameTime);
         }
 
         /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
-        {
-            if (NativeMethods.joyGetNumDevs() > 0)
-            {
-                var jie = new JoyInfoEx {dwFlags = (int) JoyFlags.JOY_RETURNALL};
-                jie.dwSize = (uint) Marshal.SizeOf(jie);
-
-                Try(NativeMethods.joyGetPosEx(0, ref jie));
-
-                _state = new JoystickState(jie);
-            }
-        }
-
-        /// <summary>
-        ///     Gets the State.
+        /// Gets the JoystickState.
         /// </summary>
         /// <returns>JoystickState.</returns>
-        public override JoystickState GetState()
+        public JoystickState GetState()
         {
-            return _state;
+            return _nativeJoystick.GetState();
         }
     }
-
-#endif
 }

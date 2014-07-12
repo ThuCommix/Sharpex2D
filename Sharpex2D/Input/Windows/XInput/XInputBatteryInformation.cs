@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    public struct XInputBatteryInformation
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The BatteryType.
+        /// </summary>
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(0)] public byte BatteryType;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The BatteryLevel.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(1)] public byte BatteryLevel;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Converts the object to string.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
+        /// <returns>String.</returns>
+        public override string ToString()
         {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
+            return string.Format("{0} {1}", (BatteryType) BatteryType, (BatteryLevel) BatteryLevel);
         }
     }
 }

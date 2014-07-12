@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    public struct XInputCapabilities
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The Type.
+        /// </summary>
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(0)] private readonly byte Type;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The SubType.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(1)] public byte SubType;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The Flags.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        [MarshalAs(UnmanagedType.I2)] [FieldOffset(2)] public short Flags;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The Gamepad.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        [FieldOffset(4)] public XInputGamepad Gamepad;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The Vibration.
+        /// </summary>
+        [FieldOffset(16)] public XInputVibration Vibration;
     }
 }

@@ -18,53 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct JoyInfoEx
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The Size of this structure.
+        /// </summary>
+        public uint dwSize;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The flags.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public uint dwFlags;
 
-        /// <summary>
-        ///     A value indicating whether the key is pressed.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
-        }
+        public uint dwXpos;
+        public uint dwYpos;
+        public uint dwZpos;
+        public uint dwRpos;
+        public uint dwUpos;
+        public uint dwVpos;
+        public uint dwButtons;
+        public uint dwButtonNumber;
+        public uint dwPOV;
+        public uint dwReserved1;
+        public uint dwReserved2;
     }
 }

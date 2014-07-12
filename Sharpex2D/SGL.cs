@@ -127,7 +127,7 @@ namespace Sharpex2D
             configurator.GameLoop.TargetFrameTime = 1000/(float) configurator.TargetFrameRate;
             configurator.GameLoop.TargetUpdateTime = 1000/(float) configurator.TargetFrameRate;
             Components.Add(configurator.GameLoop);
-            GameInstance.Input = new InputManager(configurator.RenderTarget.Handle);
+            GameInstance.Input = new InputManager();
             GameInstance.Content = new ContentManager();
             GameInstance.SceneManager = new SceneManager();
             GraphicsDevice.RefreshRate = configurator.TargetFrameRate;
@@ -242,7 +242,7 @@ namespace Sharpex2D
             if (State != EngineState.Running)
             {
                 throw new InvalidOperationException(
-                    string.Format("SGL must be running in order to query any data. Current state {0}", State));
+                    string.Format("SGL must be running in order to query any resource. Current state {0}", State));
             }
 
             T data;
@@ -261,12 +261,6 @@ namespace Sharpex2D
         /// <returns>T.</returns>
         public static T QueryComponents<T>() where T : IComponent
         {
-            if (State != EngineState.Running)
-            {
-                throw new InvalidOperationException(
-                    string.Format("SGL must be running in order to query any data. Current state {0}", State));
-            }
-
             return Components.Get<T>();
         }
     }

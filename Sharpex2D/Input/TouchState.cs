@@ -18,53 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
 
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    public class TouchState : IInputState
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        /// Gets the Touches.
+        /// </summary>
+        public Touch[] Touches { private set; get; }
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        /// Gets the TouchCount.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public int TouchCount { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        /// Initializes a new TouchState class.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
+        /// <param name="touches">The Touches.</param>
+        public TouchState(Touch[] touches)
         {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
+            Touches = touches;
+            TouchCount = touches.Length;
         }
     }
 }

@@ -18,7 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Input.JoystickApi;
+using System;
+using System.Collections.Generic;
+using Sharpex2D.Input.Windows.JoystickApi;
 
 namespace Sharpex2D.Input
 {
@@ -26,52 +28,66 @@ namespace Sharpex2D.Input
     [TestState(TestState.Untested)]
     public class JoystickState : IInputState
     {
+
         /// <summary>
-        ///     Initializes a new JoystickState class.
+        /// Initializes a new JoystickState class.
         /// </summary>
-        /// <param name="joyInfoEx">The JoyInfoEx.</param>
-        internal JoystickState(JoyInfoEx joyInfoEx)
+        /// <param name="x">The X.</param>
+        /// <param name="y">The Y.</param>
+        /// <param name="z">The Z.</param>
+        /// <param name="r">The R.</param>
+        /// <param name="u">The U.</param>
+        /// <param name="v">The V.</param>
+        /// <param name="pointOfView">The PointOfView.</param>
+        /// <param name="buttonStates">The ButtonStates.</param>
+        internal JoystickState(uint x, uint y, uint z, uint r, uint u, uint v, PointOfView pointOfView, Dictionary<int, bool> buttonStates)
         {
-            PressedButtons = joyInfoEx.dwButtonNumber;
-            PointOfView = new PointOfView(joyInfoEx.dwPOV);
-            X = joyInfoEx.dwXpos;
-            Y = joyInfoEx.dwYpos;
-            Z = joyInfoEx.dwZpos;
-            R = joyInfoEx.dwRpos;
-            U = joyInfoEx.dwUpos;
-            V = joyInfoEx.dwVpos;
-            Button1 = JoystickButton.FromDwButtons(1, joyInfoEx.dwButtons);
-            Button2 = JoystickButton.FromDwButtons(2, joyInfoEx.dwButtons);
-            Button3 = JoystickButton.FromDwButtons(3, joyInfoEx.dwButtons);
-            Button4 = JoystickButton.FromDwButtons(4, joyInfoEx.dwButtons);
-            Button5 = JoystickButton.FromDwButtons(5, joyInfoEx.dwButtons);
-            Button6 = JoystickButton.FromDwButtons(6, joyInfoEx.dwButtons);
-            Button7 = JoystickButton.FromDwButtons(7, joyInfoEx.dwButtons);
-            Button8 = JoystickButton.FromDwButtons(8, joyInfoEx.dwButtons);
-            Button9 = JoystickButton.FromDwButtons(9, joyInfoEx.dwButtons);
-            Button10 = JoystickButton.FromDwButtons(10, joyInfoEx.dwButtons);
-            Button11 = JoystickButton.FromDwButtons(11, joyInfoEx.dwButtons);
-            Button12 = JoystickButton.FromDwButtons(12, joyInfoEx.dwButtons);
-            Button13 = JoystickButton.FromDwButtons(13, joyInfoEx.dwButtons);
-            Button14 = JoystickButton.FromDwButtons(14, joyInfoEx.dwButtons);
-            Button15 = JoystickButton.FromDwButtons(15, joyInfoEx.dwButtons);
-            Button16 = JoystickButton.FromDwButtons(16, joyInfoEx.dwButtons);
-            Button17 = JoystickButton.FromDwButtons(17, joyInfoEx.dwButtons);
-            Button18 = JoystickButton.FromDwButtons(18, joyInfoEx.dwButtons);
-            Button19 = JoystickButton.FromDwButtons(19, joyInfoEx.dwButtons);
-            Button20 = JoystickButton.FromDwButtons(20, joyInfoEx.dwButtons);
-            Button21 = JoystickButton.FromDwButtons(21, joyInfoEx.dwButtons);
-            Button22 = JoystickButton.FromDwButtons(22, joyInfoEx.dwButtons);
-            Button23 = JoystickButton.FromDwButtons(23, joyInfoEx.dwButtons);
-            Button24 = JoystickButton.FromDwButtons(24, joyInfoEx.dwButtons);
-            Button25 = JoystickButton.FromDwButtons(25, joyInfoEx.dwButtons);
-            Button26 = JoystickButton.FromDwButtons(26, joyInfoEx.dwButtons);
-            Button27 = JoystickButton.FromDwButtons(27, joyInfoEx.dwButtons);
-            Button28 = JoystickButton.FromDwButtons(28, joyInfoEx.dwButtons);
-            Button29 = JoystickButton.FromDwButtons(29, joyInfoEx.dwButtons);
-            Button30 = JoystickButton.FromDwButtons(30, joyInfoEx.dwButtons);
-            Button31 = JoystickButton.FromDwButtons(31, joyInfoEx.dwButtons);
-            Button32 = JoystickButton.FromDwButtons(32, joyInfoEx.dwButtons);
+
+            X = x;
+            Y = y;
+            Z = z;
+            R = r;
+            U = u;
+            V = v;
+            PointOfView = pointOfView;
+
+            if (buttonStates.Count != 32)
+            {
+                throw new ArgumentException("ButtonStates need 32 entries to be accepted.");
+            }
+
+            Button1 = new JoystickButton(buttonStates[0]);
+            Button2 = new JoystickButton(buttonStates[1]);
+            Button3 = new JoystickButton(buttonStates[2]);
+            Button4 = new JoystickButton(buttonStates[3]);
+            Button5 = new JoystickButton(buttonStates[4]);
+            Button6 = new JoystickButton(buttonStates[5]);
+            Button7 = new JoystickButton(buttonStates[6]);
+            Button8 = new JoystickButton(buttonStates[7]);
+            Button9 = new JoystickButton(buttonStates[8]);
+            Button10 = new JoystickButton(buttonStates[9]);
+            Button11 = new JoystickButton(buttonStates[10]);
+            Button12 = new JoystickButton(buttonStates[11]);
+            Button13 = new JoystickButton(buttonStates[12]);
+            Button14 = new JoystickButton(buttonStates[13]);
+            Button15 = new JoystickButton(buttonStates[14]);
+            Button16 = new JoystickButton(buttonStates[15]);
+            Button17 = new JoystickButton(buttonStates[16]);
+            Button18 = new JoystickButton(buttonStates[17]);
+            Button19 = new JoystickButton(buttonStates[18]);
+            Button20 = new JoystickButton(buttonStates[19]);
+            Button21 = new JoystickButton(buttonStates[20]);
+            Button22 = new JoystickButton(buttonStates[21]);
+            Button23 = new JoystickButton(buttonStates[22]);
+            Button24 = new JoystickButton(buttonStates[23]);
+            Button25 = new JoystickButton(buttonStates[24]);
+            Button26 = new JoystickButton(buttonStates[25]);
+            Button27 = new JoystickButton(buttonStates[26]);
+            Button28 = new JoystickButton(buttonStates[27]);
+            Button29 = new JoystickButton(buttonStates[28]);
+            Button30 = new JoystickButton(buttonStates[29]);
+            Button31 = new JoystickButton(buttonStates[30]);
+            Button32 = new JoystickButton(buttonStates[31]);
         }
 
         /// <summary>
@@ -273,13 +289,5 @@ namespace Sharpex2D.Input
         ///     Gets the number of pressed buttons.
         /// </summary>
         public uint PressedButtons { private set; get; }
-
-        /// <summary>
-        ///     Gets an empty JoystickState.
-        /// </summary>
-        internal static JoystickState Empty
-        {
-            get { return new JoystickState(new JoyInfoEx()); }
-        }
     }
 }

@@ -18,53 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    internal struct DeviceInfoKeyboard
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The ScanMode.
+        /// </summary>
+        public uint KeyboardMode;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Number of function keys.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public uint NumberOfFunctionKeys;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The Number of LED indicators.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        public uint NumberOfIndicators;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The Number of keys total.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        public uint NumberOfKeysTotal;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The SubType.
+        /// </summary>
+        public uint SubType;
+
+        /// <summary>
+        ///     The Type.
+        /// </summary>
+        public uint Type;
     }
 }

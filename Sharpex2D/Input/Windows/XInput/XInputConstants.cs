@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,53 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    public static class XInputConstants
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     Devtype Gamepad.
+        /// </summary>
+        public const int XINPUT_DEVTYPE_GAMEPAD = 0x01;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     Subtype gamepad.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public const int XINPUT_DEVSUBTYPE_GAMEPAD = 0x01;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Threshold Left thumb deadzone.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        public const int XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE = 7849;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     Threshold Right thumb deadzone.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        public const int XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE = 8689;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     Threshold trigger deadzone.
+        /// </summary>
+        public const int XINPUT_GAMEPAD_TRIGGER_THRESHOLD = 30;
+
+        /// <summary>
+        ///     Flag Gamepad.
+        /// </summary>
+        public const int XINPUT_FLAG_GAMEPAD = 0x00000001;
     }
 }

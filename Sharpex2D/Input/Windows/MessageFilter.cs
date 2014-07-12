@@ -18,61 +18,73 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-using Sharpex2D.Math;
+using System;
+using System.Windows.Forms;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows
 {
+#if Windows
+
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class MouseState : IInputState
+    [TestState(TestState.Tested)]
+    public class MessageFilter : NativeWindow
     {
-        private readonly Dictionary<MouseButtons, bool> _reference;
+        /// <summary>
+        ///     MessageEventHandler.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        public delegate void MessageEventHandler(object sender, MessageEventArgs e);
+
+        private bool _filterAssigned;
+        private int _messageFilter;
 
         /// <summary>
-        ///     Initializes a new MouseState class.
+        ///     Initializes a new WindowProcessor class.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        /// <param name="position">The Position.</param>
-        public MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
+        /// <param name="handle">The Handle.</param>
+        public MessageFilter(IntPtr handle)
         {
-            Position = new Vector2(position.X, position.Y);
-            _reference = reference;
+            AssignHandle(handle);
         }
 
         /// <summary>
-        ///     Gets the Position.
+        ///     Gets or sets the MessageFilter.
         /// </summary>
-        public Vector2 Position { private set; get; }
-
-        /// <summary>
-        ///     A value indicating whether the MouseButton is pressed.
-        /// </summary>
-        /// <param name="button">The MouseButton.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsMouseButtonDown(MouseButtons button)
+        public int Filter
         {
-            if (!_reference.ContainsKey(button))
+            set
             {
-                return false;
+                _messageFilter = value;
+                _filterAssigned = true;
             }
-
-            return _reference[button];
+            get { return _messageFilter; }
         }
 
         /// <summary>
-        ///     A value indicating whether the MouseButton is released.
+        ///     MessageArrived event.
         /// </summary>
-        /// <param name="button">The MouseButton.</param>
-        /// <returns>True if released.</returns>
-        public bool IsMouseButtonUp(MouseButtons button)
-        {
-            if (!_reference.ContainsKey(button))
-            {
-                return false;
-            }
+        public event MessageEventHandler MessageArrived;
 
-            return !_reference[button];
+        /// <summary>
+        ///     WindProc.
+        /// </summary>
+        /// <param name="m">The Message.</param>
+        protected override void WndProc(ref Message m)
+        {
+            if (_filterAssigned)
+            {
+                if (m.Msg == Filter)
+                {
+                    if (MessageArrived != null)
+                    {
+                        MessageArrived(this, new MessageEventArgs(m));
+                    }
+                }
+            }
+            base.WndProc(ref m);
         }
     }
+
+#endif
 }

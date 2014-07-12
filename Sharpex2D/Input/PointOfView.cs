@@ -18,53 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    public class PointOfView
     {
-        private readonly Dictionary<Keys, bool> _reference;
-
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     Initializes a new PointOfView class.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
+        /// <param name="angle">The Angle.</param>
+        internal PointOfView(double angle)
         {
-            _reference = reference;
+            Angle = angle;
         }
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     Gets the current angle.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
-        }
+        public double Angle { private set; get; }
     }
 }

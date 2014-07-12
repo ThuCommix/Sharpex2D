@@ -18,61 +18,62 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System;
+using Sharpex2D.Input.Windows.Touch;
 using Sharpex2D.Math;
 
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class MouseState : IInputState
+    public class Touch
     {
-        private readonly Dictionary<MouseButtons, bool> _reference;
+        /// <summary>
+        /// Gets the Contact size.
+        /// </summary>
+        public Vector2 Contact { private set; get; }
 
         /// <summary>
-        ///     Initializes a new MouseState class.
+        /// Gets the Location.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        /// <param name="position">The Position.</param>
-        public MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
+        public Vector2 Location { private set; get; }
+
+        /// <summary>
+        /// Gets the ContactRectangle.
+        /// </summary>
+        public Rectangle ContactRectangle { private set; get; }
+
+        /// <summary>
+        /// Gets the Id.
+        /// </summary>
+        public int Id { private set; get; }
+
+        /// <summary>
+        /// Gets the Time.
+        /// </summary>
+        public DateTime Time { private set; get; }
+
+        /// <summary>
+        /// Gets the TouchMode.
+        /// </summary>
+        public TouchMode TouchMode { private set; get; }
+
+        /// <summary>
+        /// Initializes a new Touch class.
+        /// </summary>
+        /// <param name="id">The Id.</param>
+        /// <param name="contact">The ContactSize.</param>
+        /// <param name="location">The Location.</param>
+        /// <param name="dateTime">The DateTime.</param>
+        /// <param name="touchMode">The TouchMode.</param>
+        public Touch(int id, Vector2 contact, Vector2 location, DateTime dateTime, TouchMode touchMode)
         {
-            Position = new Vector2(position.X, position.Y);
-            _reference = reference;
-        }
-
-        /// <summary>
-        ///     Gets the Position.
-        /// </summary>
-        public Vector2 Position { private set; get; }
-
-        /// <summary>
-        ///     A value indicating whether the MouseButton is pressed.
-        /// </summary>
-        /// <param name="button">The MouseButton.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsMouseButtonDown(MouseButtons button)
-        {
-            if (!_reference.ContainsKey(button))
-            {
-                return false;
-            }
-
-            return _reference[button];
-        }
-
-        /// <summary>
-        ///     A value indicating whether the MouseButton is released.
-        /// </summary>
-        /// <param name="button">The MouseButton.</param>
-        /// <returns>True if released.</returns>
-        public bool IsMouseButtonUp(MouseButtons button)
-        {
-            if (!_reference.ContainsKey(button))
-            {
-                return false;
-            }
-
-            return !_reference[button];
+            Id = id;
+            Contact = contact;
+            Location = location;
+            Time = dateTime;
+            TouchMode = touchMode;
+            ContactRectangle = new Rectangle(location, contact);
         }
     }
 }

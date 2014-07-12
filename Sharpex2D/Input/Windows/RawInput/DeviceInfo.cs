@@ -18,53 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct DeviceInfo
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The Size.
+        /// </summary>
+        [FieldOffset(0)] public int Size;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Type.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [FieldOffset(4)] public int Type;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The MouseInfo.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        [FieldOffset(8)] public DeviceInfoMouse MouseInfo;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The KeyboardInfo.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        [FieldOffset(8)] public DeviceInfoKeyboard KeyboardInfo;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The HIDInfo.
+        /// </summary>
+        [FieldOffset(8)] public DeviceInfoHID HIDInfo;
     }
 }

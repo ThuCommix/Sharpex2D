@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,38 +18,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public interface IInputDevice
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Sequential)]
+    public struct XInputVibration
     {
         /// <summary>
-        ///     A value indicating whether the Platform is supported.
+        ///     The LeftMotorSpeed.
         /// </summary>
-        bool IsPlatformSupported { get; }
+        [MarshalAs(UnmanagedType.I2)] public ushort LeftMotorSpeed;
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     The RightMotorSpeed.
         /// </summary>
-        Version PlatformVersion { get; }
-
-        /// <summary>
-        ///     Gets the Guid.
-        /// </summary>
-        Guid Guid { get; }
-
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        void InitializeDevice();
-
-        /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        void Update(GameTime gameTime);
+        [MarshalAs(UnmanagedType.I2)] public ushort RightMotorSpeed;
     }
 }

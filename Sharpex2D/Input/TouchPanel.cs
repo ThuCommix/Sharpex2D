@@ -18,53 +18,65 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System;
 
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    public class TouchPanel : IInputDevice
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        
+        private readonly INativeTouch _nativeTouch;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        /// Initializes a new TouchPanel class.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
+        /// <param name="nativeTouch">The NativeTouch.</param>
+        public TouchPanel(INativeTouch nativeTouch)
         {
-            _reference = reference;
+            _nativeTouch = nativeTouch;
         }
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        public bool IsPlatformSupported { get { return _nativeTouch.IsPlatformSupported; } }
 
-            return _reference[key];
+        /// <summary>
+        /// Gets the PlatformVersion.
+        /// </summary>
+        public Version PlatformVersion { get { return _nativeTouch.PlatformVersion; } }
+
+        /// <summary>
+        /// Gets the Guid.
+        /// </summary>
+        public Guid Guid { get { return _nativeTouch.Guid; } }
+
+        /// <summary>
+        /// Initializes the Device.
+        /// </summary>
+        public void InitializeDevice()
+        {
+            _nativeTouch.InitializeDevice();
         }
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        /// Updates the object.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
+        /// <param name="gameTime">The GameTime</param>
+        public void Update(GameTime gameTime)
         {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+            _nativeTouch.Update(gameTime);
+        }
 
-            return !_reference[key];
+        /// <summary>
+        /// Gets the TouchState.
+        /// </summary>
+        /// <returns>TouchState.</returns>
+        public TouchState GetState()
+        {
+            return _nativeTouch.GetState();
         }
     }
 }

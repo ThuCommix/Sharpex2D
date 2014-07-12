@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,70 +20,81 @@
 
 using System;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Keyboard : IInputDevice
+    [Flags]
+    public enum ButtonFlags
     {
-
-        private readonly INativeKeyboard _nativeKeyboard;
+        /// <summary>
+        ///     D-Pad Up.
+        /// </summary>
+        XINPUT_GAMEPAD_DPAD_UP = 0x0001,
 
         /// <summary>
-        /// Initializes a new Keyboard class.
+        ///     D-Pad Down.
         /// </summary>
-        /// <param name="nativeKeyboard">The NativeKeyboard.</param>
-        public Keyboard(INativeKeyboard nativeKeyboard)
-        {
-            _nativeKeyboard = nativeKeyboard;
-        }
+        XINPUT_GAMEPAD_DPAD_DOWN = 0x0002,
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     D-Pad Left.
         /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeKeyboard.IsPlatformSupported; }
-        }
+        XINPUT_GAMEPAD_DPAD_LEFT = 0x0004,
 
         /// <summary>
-        /// Gets the PlattformVersion.
+        ///     D-Pad Right.
         /// </summary>
-        public Version PlatformVersion {
-            get { return _nativeKeyboard.PlatformVersion; }
-        }
+        XINPUT_GAMEPAD_DPAD_RIGHT = 0x0008,
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Start.
         /// </summary>
-        public Guid Guid {
-            get { return _nativeKeyboard.Guid; }
-        }
+        XINPUT_GAMEPAD_START = 0x0010,
 
         /// <summary>
-        /// Initializes the Device.
+        ///     Back.
         /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeKeyboard.InitializeDevice();
-        }
+        XINPUT_GAMEPAD_BACK = 0x0020,
 
         /// <summary>
-        /// Updates the object.
+        ///     Left Thumb.
         /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeKeyboard.Update(gameTime);
-        }
+        XINPUT_GAMEPAD_LEFT_THUMB = 0x0040,
 
         /// <summary>
-        /// Gets the KeyboardState.
+        ///     Right Thumb.
         /// </summary>
-        /// <returns>KeyboardState.</returns>
-        public KeyboardState GetState()
-        {
-            return _nativeKeyboard.GetState();
-        }
-    }
+        XINPUT_GAMEPAD_RIGHT_THUMB = 0x0080,
+
+        /// <summary>
+        ///     Left Shoulder.
+        /// </summary>
+        XINPUT_GAMEPAD_LEFT_SHOULDER = 0x0100,
+
+        /// <summary>
+        ///     Right Shoulder.
+        /// </summary>
+        XINPUT_GAMEPAD_RIGHT_SHOULDER = 0x0200,
+
+        /// <summary>
+        ///     A.
+        /// </summary>
+        XINPUT_GAMEPAD_A = 0x1000,
+
+        /// <summary>
+        ///     B.
+        /// </summary>
+        XINPUT_GAMEPAD_B = 0x2000,
+
+        /// <summary>
+        ///     X.
+        /// </summary>
+        XINPUT_GAMEPAD_X = 0x4000,
+
+        /// <summary>
+        ///     Y.
+        /// </summary>
+        XINPUT_GAMEPAD_Y = 0x8000,
+    };
 }

@@ -18,53 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    internal struct DeviceInfoHID
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The ProductId.
+        /// </summary>
+        public uint ProductID;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Usage.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        public ushort Usage;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The UsagePage.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        public ushort UsagePage;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The VendorId.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        public uint VendorID;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The VersionNumber.
+        /// </summary>
+        public uint VersionNumber;
     }
 }

@@ -18,53 +18,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class KeyboardState : IInputState
+    [TestState(TestState.Tested)]
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct RawMouse
     {
-        private readonly Dictionary<Keys, bool> _reference;
+        /// <summary>
+        ///     The Flags.
+        /// </summary>
+        [FieldOffset(0)] public ushort usFlags;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        ///     The Buttons.
         /// </summary>
-        /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
-        {
-            _reference = reference;
-        }
+        [FieldOffset(4)] public uint ulButtons;
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        ///     The ButtonFlags.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return _reference[key];
-        }
+        [FieldOffset(4)] public ushort usButtonFlags;
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        ///     The ButtonData.
         /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
+        [FieldOffset(6)] public ushort usButtonData;
 
-            return !_reference[key];
-        }
+        /// <summary>
+        ///     The RawButtons.
+        /// </summary>
+        [FieldOffset(8)] public uint ulRawButtons;
+
+        /// <summary>
+        ///     X Position.
+        /// </summary>
+        [FieldOffset(12)] public int lLastX;
+
+        /// <summary>
+        ///     Y Position.
+        /// </summary>
+        [FieldOffset(16)] public int lLastY;
+
+        /// <summary>
+        ///     The ExtraInformations.
+        /// </summary>
+        [FieldOffset(20)] public uint ulExtraInformation;
     }
 }

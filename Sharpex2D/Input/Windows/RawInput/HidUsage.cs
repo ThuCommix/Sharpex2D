@@ -18,38 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Windows.RawInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public interface IInputDevice
+    [TestState(TestState.Tested)]
+    internal enum HidUsage : ushort
     {
-        /// <summary>
-        ///     A value indicating whether the Platform is supported.
-        /// </summary>
-        bool IsPlatformSupported { get; }
+        /// <summary>Unknown usage.</summary>
+        Undefined = 0x00,
 
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        Version PlatformVersion { get; }
+        /// <summary>Pointer</summary>
+        Pointer = 0x01,
 
-        /// <summary>
-        ///     Gets the Guid.
-        /// </summary>
-        Guid Guid { get; }
+        /// <summary>Mouse</summary>
+        Mouse = 0x02,
 
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        void InitializeDevice();
+        /// <summary>Joystick</summary>
+        Joystick = 0x04,
 
-        /// <summary>
-        ///     Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        void Update(GameTime gameTime);
+        /// <summary>Game Pad</summary>
+        Gamepad = 0x05,
+
+        /// <summary>Keyboard</summary>
+        Keyboard = 0x06,
+
+        /// <summary>Keypad</summary>
+        Keypad = 0x07,
+
+        /// <summary>Muilt-axis Controller</summary>
+        SystemControl = 0x80,
+
+        /// <summary>Tablet PC controls</summary>
+        Tablet = 0x80,
+
+        /// <summary>Consumer</summary>
+        Consumer = 0x0C,
     }
 }
