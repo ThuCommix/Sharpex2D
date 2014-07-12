@@ -22,9 +22,10 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using Sharpex2D.Audio.WaveOut;
-using Sharpex2D.Input.JoystickApi;
-using Sharpex2D.Input.RawInput;
-using Sharpex2D.Input.XInput;
+using Sharpex2D.Input.Windows.JoystickApi;
+using Sharpex2D.Input.Windows.RawInput;
+using Sharpex2D.Input.Windows.Touch;
+using Sharpex2D.Input.Windows.XInput;
 
 namespace Sharpex2D
 {
@@ -461,6 +462,50 @@ namespace Sharpex2D
         /// <returns>UInt32.</returns>
         [DllImport("winmm.dll"), SuppressUnmanagedCodeSecurity]
         public static extern uint joyGetPosEx(uint uJoyID, ref JoyInfoEx pjiex);
+
+        #endregion
+
+        #region Touch
+
+        /// <summary>
+        /// Registers the TouchWindow.
+        /// </summary>
+        /// <param name="hWnd">The Handle.</param>
+        /// <param name="ulFlags">The Flags.</param>
+        /// <returns>True on success.</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool RegisterTouchWindow(IntPtr hWnd, ulong ulFlags);
+
+        /// <summary>
+        /// Gets the TouchInputInfo.
+        /// </summary>
+        /// <param name="hTouchInput">The TouchInput.</param>
+        /// <param name="cInputs">The Number of structures.</param>
+        /// <param name="pInputs">The TouchInput structure.</param>
+        /// <param name="cbSize">The Size.</param>
+        /// <returns>True on success.</returns>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetTouchInputInfo(IntPtr hTouchInput, int cInputs, [In, Out] TouchInput[] pInputs, int cbSize);
+
+        /// <summary>
+        /// Closes the TouchInputHandle.
+        /// </summary>
+        /// <param name="lParam">The Handle.</param>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool CloseTouchInputHandle(IntPtr lParam);
+
+        /// <summary>
+        /// Closes the TouchInputHandle.
+        /// </summary>
+        /// <param name="handle">The Handle.</param>
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool UnregisterTouchWindow(IntPtr handle);
+
+        internal const int WM_TOUCH = 0x0240;
 
         #endregion
 
