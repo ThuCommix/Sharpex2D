@@ -325,6 +325,22 @@ namespace Sharpex2D.Math
             return new Vector2(-vector.X, -vector.Y);
         }
 
+        /// <summary>
+        ///     Returns the vector product.
+        /// </summary>
+        public static float VectorProduct(Vector2 left, Vector2 right)
+        {
+            return left.X*right.Y - left.Y*right.X;
+        }
+
+        /// <summary>
+        ///     Returns the vector cross product.
+        /// </summary>
+        public Vector2 CrossProduct()
+        {
+            return new Vector2(-Y, X);
+        }
+
         #endregion
 
         #region Object Member
