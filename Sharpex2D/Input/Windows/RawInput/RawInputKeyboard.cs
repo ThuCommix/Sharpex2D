@@ -30,7 +30,7 @@ namespace Sharpex2D.Input.Windows.RawInput
 
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class RawInputKeyboard : InputDevice<KeyboardState>, INativeKeyboard
+    public class RawInputKeyboard : NativeInput<KeyboardState>
     {
         private readonly Dictionary<Keys, bool> _keystate;
         private readonly MessageFilter _msgFilter;

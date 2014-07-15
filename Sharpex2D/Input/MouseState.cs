@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class MouseState : IInputState
+    public class MouseState
     {
         private readonly Dictionary<MouseButtons, bool> _reference;
 

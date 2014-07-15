@@ -28,7 +28,7 @@ namespace Sharpex2D.Input.XPlatform
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Mouse : InputDevice<MouseState>, INativeMouse
+    public class Mouse : NativeInput<MouseState>
     {
         #region IUpdateable Implementation
 
@@ -49,11 +49,9 @@ namespace Sharpex2D.Input.XPlatform
         /// <summary>
         ///     Initializes a new Mouse class.
         /// </summary>
-        public Mouse()
-            : base(new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF"))
+        public Mouse() : base(new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF"))
         {
             IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
-            Description = "MouseDevice";
             _position = new Vector2(0, 0);
             Control control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();

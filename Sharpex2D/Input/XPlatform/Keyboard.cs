@@ -27,7 +27,7 @@ namespace Sharpex2D.Input.XPlatform
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Keyboard : InputDevice<KeyboardState>, INativeKeyboard
+    public class Keyboard : NativeInput<KeyboardState>
     {
         #region IUpdateable Implementation
 
@@ -51,7 +51,6 @@ namespace Sharpex2D.Input.XPlatform
             : base(new Guid("55DDC560-40B5-487F-A47B-A265707E495D"))
         {
             IntPtr surfaceHandle = SGL.Components.Get<RenderTarget>().Handle;
-            Description = "Keyboard based on the surface events";
             var surface = (Form) Control.FromHandle(surfaceHandle);
             _keystate = new Dictionary<Keys, bool>();
             surface.KeyDown += _surface_KeyDown;

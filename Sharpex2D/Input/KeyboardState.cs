@@ -24,7 +24,7 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class KeyboardState : IInputState
+    public class KeyboardState
     {
         private readonly Dictionary<Keys, bool> _reference;
 

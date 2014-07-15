@@ -16,16 +16,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface INativeGamepad : IInputDevice
+    public abstract class NativeInput<T> : IInputDevice
     {
         /// <summary>
-        ///     Gets the GamepadState.
+        /// Initializes a new NativeInput class.
         /// </summary>
-        /// <returns>GamepadState.</returns>
-        GamepadState GetState();
+        /// <param name="guid">The Guid.</param>
+        protected NativeInput(Guid guid)
+        {
+            Guid = guid;
+        }
+
+        /// <summary>
+        /// Gets the State.
+        /// </summary>
+        /// <returns>TState.</returns>
+        public abstract T GetState();
+
+        /// <summary>
+        /// Gets the Guid.
+        /// </summary>
+        public Guid Guid { get; private set; }
+
+        /// <summary>
+        /// Gets the PlatformVersion.
+        /// </summary>
+        public abstract Version PlatformVersion { get; }
+
+        /// <summary>
+        /// A value indicating whether the Platform is supported.
+        /// </summary>
+        public virtual bool IsPlatformSupported { get { return PlatformVersion >= Environment.OSVersion.Version; } }
+
+        /// <summary>
+        /// Initializes the device.
+        /// </summary>
+        public abstract void InitializeDevice();
+
+        /// <summary>
+        /// Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public abstract void Update(GameTime gameTime);
     }
 }

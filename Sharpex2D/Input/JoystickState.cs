@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class JoystickState : IInputState
+    public class JoystickState
     {
         /// <summary>
         ///     Initializes a new JoystickState class.

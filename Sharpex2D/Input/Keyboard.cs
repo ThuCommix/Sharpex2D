@@ -26,13 +26,13 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Keyboard : IInputDevice
     {
-        private readonly INativeKeyboard _nativeKeyboard;
+        private readonly NativeInput<KeyboardState> _nativeKeyboard;
 
         /// <summary>
         ///     Initializes a new Keyboard class.
         /// </summary>
-        /// <param name="nativeKeyboard">The NativeKeyboard.</param>
-        public Keyboard(INativeKeyboard nativeKeyboard)
+        /// <param name="nativeKeyboard">The NativeInput.</param>
+        public Keyboard(NativeInput<KeyboardState> nativeKeyboard)
         {
             _nativeKeyboard = nativeKeyboard;
         }

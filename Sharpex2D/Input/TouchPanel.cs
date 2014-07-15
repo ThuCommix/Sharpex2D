@@ -26,13 +26,13 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class TouchPanel : IInputDevice
     {
-        private readonly INativeTouch _nativeTouch;
+        private readonly NativeInput<TouchState> _nativeTouch;
 
         /// <summary>
         ///     Initializes a new TouchPanel class.
         /// </summary>
-        /// <param name="nativeTouch">The NativeTouch.</param>
-        public TouchPanel(INativeTouch nativeTouch)
+        /// <param name="nativeTouch">The NativeInput.</param>
+        public TouchPanel(NativeInput<TouchState> nativeTouch)
         {
             _nativeTouch = nativeTouch;
         }

@@ -23,7 +23,7 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class TouchState : IInputState
+    public class TouchState
     {
         /// <summary>
         ///     Initializes a new TouchState class.

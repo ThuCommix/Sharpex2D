@@ -26,13 +26,13 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Gamepad : IInputDevice
     {
-        private readonly INativeGamepad _nativeGamepad;
+        private readonly NativeInput<GamepadState> _nativeGamepad;
 
         /// <summary>
         ///     Initializes a new Gamepad class.
         /// </summary>
-        /// <param name="nativeGamepad">The NativeGamepad.</param>
-        public Gamepad(INativeGamepad nativeGamepad)
+        /// <param name="nativeGamepad">The NativeInput.</param>
+        public Gamepad(NativeInput<GamepadState> nativeGamepad)
         {
             _nativeGamepad = nativeGamepad;
         }

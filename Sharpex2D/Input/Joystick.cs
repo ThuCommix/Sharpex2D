@@ -26,13 +26,13 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Joystick : IInputDevice
     {
-        private readonly INativeJoystick _nativeJoystick;
+        private readonly NativeInput<JoystickState> _nativeJoystick;
 
         /// <summary>
         ///     Initializes a new Joystick class.
         /// </summary>
-        /// <param name="nativeJoystick">The NativeJoystick.</param>
-        public Joystick(INativeJoystick nativeJoystick)
+        /// <param name="nativeJoystick">The NativeInput.</param>
+        public Joystick(NativeInput<JoystickState> nativeJoystick)
         {
             _nativeJoystick = nativeJoystick;
         }

@@ -26,13 +26,13 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class Mouse : IInputDevice
     {
-        private readonly INativeMouse _nativeMouse;
+        private readonly NativeInput<MouseState> _nativeMouse;
 
         /// <summary>
         ///     Initializes a new Mouse class.
         /// </summary>
-        /// <param name="nativeMouse">The NativeMouse.</param>
-        public Mouse(INativeMouse nativeMouse)
+        /// <param name="nativeMouse">The NativeInput.</param>
+        public Mouse(NativeInput<MouseState> nativeMouse)
         {
             _nativeMouse = nativeMouse;
         }

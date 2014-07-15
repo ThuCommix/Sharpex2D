@@ -33,8 +33,9 @@ namespace Sharpex2D.Input.Windows.Touch
 
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class TouchDevice : InputDevice<TouchState>, INativeTouch
+    public class TouchDevice : NativeInput<TouchState>
     {
+        private readonly bool _apiSuccess;
         private readonly IntPtr _handle;
         private readonly Logger _logger;
         private readonly List<Input.Touch> _touches;
@@ -46,13 +47,6 @@ namespace Sharpex2D.Input.Windows.Touch
             : base(new Guid("0F29FED4-24B0-4D39-91FA-80D29388853B"))
         {
             IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
-            var msgFilter = new MessageFilter(handle) {Filter = NativeMethods.WM_TOUCH};
-            msgFilter.MessageArrived += MessageArrived;
-            _handle = handle;
-
-            _touches = new List<Input.Touch>();
-
-            _logger = LogManager.GetClassLogger();
 
             try
             {
@@ -60,11 +54,21 @@ namespace Sharpex2D.Input.Windows.Touch
                 {
                     throw new InvalidOperationException("Unable to register TouchWindow.");
                 }
+                _apiSuccess = true;
             }
             catch (Exception)
             {
-                throw new Exception("TouchAPI not available.");
+                _apiSuccess = false;
+                return;
             }
+
+            var msgFilter = new MessageFilter(handle) {Filter = NativeMethods.WM_TOUCH};
+            msgFilter.MessageArrived += MessageArrived;
+            _handle = handle;
+
+            _touches = new List<Input.Touch>();
+
+            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -73,6 +77,14 @@ namespace Sharpex2D.Input.Windows.Touch
         public override Version PlatformVersion
         {
             get { return new Version(6, 1); }
+        }
+
+        /// <summary>
+        ///     A value indicating whether the Platform is supported.
+        /// </summary>
+        public override bool IsPlatformSupported
+        {
+            get { return _apiSuccess; }
         }
 
         /// <summary>

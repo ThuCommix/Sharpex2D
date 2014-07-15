@@ -28,7 +28,7 @@ namespace Sharpex2D.Input.Windows.XInput
 
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Gamepad : InputDevice<GamepadState>, INativeGamepad
+    public class Gamepad : NativeInput<GamepadState>
     {
         /// <summary>
         ///     Maximum Controller input.
@@ -75,10 +75,10 @@ namespace Sharpex2D.Input.Windows.XInput
         ///     Initializes a new XboxController class.
         /// </summary>
         /// <param name="playerIndex">The Index.</param>
-        private Gamepad(int playerIndex) : base(new Guid("CB9F0F16-F1A0-4022-B50E-82BA1C2D4D5E"))
+        private Gamepad(int playerIndex)
+            : base(new Guid("CB9F0F16-F1A0-4022-B50E-82BA1C2D4D5E"))
         {
             _playerIndex = playerIndex;
-            Description = "XBOX360 Controller support via XInput";
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
         }
 

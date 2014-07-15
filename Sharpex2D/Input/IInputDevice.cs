@@ -18,34 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public interface IInputDevice
+    public interface IInputDevice : IDevice
     {
-        /// <summary>
-        ///     A value indicating whether the Platform is supported.
-        /// </summary>
-        bool IsPlatformSupported { get; }
-
-        /// <summary>
-        ///     Gets the PlatformVersion.
-        /// </summary>
-        Version PlatformVersion { get; }
-
-        /// <summary>
-        ///     Gets the Guid.
-        /// </summary>
-        Guid Guid { get; }
-
-        /// <summary>
-        ///     Initializes the device.
-        /// </summary>
-        void InitializeDevice();
-
         /// <summary>
         ///     Updates the object.
         /// </summary>
