@@ -316,6 +316,17 @@ namespace Sharpex2D.Math
             return (float) System.Math.Pow(basis, exponent);
         }
 
+        /// <summary>
+        ///     Calculates the arctangent.
+        /// </summary>
+        /// <param name="x">The X.</param>
+        /// <param name="y">The Y.</param>
+        /// <returns>Float.</returns>
+        public static float Atan2(float x, float y)
+        {
+            return (float) System.Math.Atan2(x, y);
+        }
+
         #endregion
     }
 }
