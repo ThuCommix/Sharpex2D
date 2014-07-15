@@ -28,7 +28,6 @@ namespace Sharpex2D.Math
     public class PolygonContainer
     {
         private readonly Dictionary<int, Polygon> _innerPolygons;
-        private Vector2 _offset;
 
         /// <summary>
         ///     Initializes a new PolygonContainer class.
@@ -36,22 +35,6 @@ namespace Sharpex2D.Math
         public PolygonContainer()
         {
             _innerPolygons = new Dictionary<int, Polygon>();
-        }
-
-        /// <summary>
-        ///     Gets or sets the Offset.
-        /// </summary>
-        public Vector2 Offset
-        {
-            set
-            {
-                _offset = value;
-                foreach (var polygon in _innerPolygons)
-                {
-                    polygon.Value.Offset = value;
-                }
-            }
-            get { return _offset; }
         }
 
         /// <summary>

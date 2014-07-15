@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 
 namespace Sharpex2D.Math
@@ -29,7 +30,6 @@ namespace Sharpex2D.Math
         private readonly List<Vector2> _edges;
         private readonly List<Vector2> _originalPoints;
         private readonly List<Vector2> _points;
-        private Vector2 _offset;
 
         /// <summary>
         ///     Initializes a new Polygon class.
@@ -39,7 +39,16 @@ namespace Sharpex2D.Math
             _points = new List<Vector2>();
             _edges = new List<Vector2>();
             _originalPoints = new List<Vector2>();
-            _offset = new Vector2(0, 0);
+        }
+
+        /// <summary>
+        ///     Initializes a new Polygon class.
+        /// </summary>
+        /// <param name="points">The Points.</param>
+        public Polygon(params Vector2[] points)
+        {
+            _originalPoints.AddRange(points);
+            UpdateEdges();
         }
 
         /// <summary>
@@ -78,19 +87,6 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Sets or gets the Position.
-        /// </summary>
-        public Vector2 Offset
-        {
-            set
-            {
-                _offset = value;
-                UpdatePoints();
-            }
-            get { return _offset; }
-        }
-
-        /// <summary>
         ///     Gets the Edges.
         /// </summary>
         public List<Vector2> Edges
@@ -105,7 +101,6 @@ namespace Sharpex2D.Math
         public void Add(Vector2 point)
         {
             _originalPoints.Add(point);
-            UpdatePoints();
             UpdateEdges();
         }
 
@@ -116,7 +111,6 @@ namespace Sharpex2D.Math
         public void Add(params Vector2[] points)
         {
             _originalPoints.AddRange(points);
-            UpdatePoints();
             UpdateEdges();
         }
 
@@ -147,162 +141,105 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Updates the points.
-        /// </summary>
-        private void UpdatePoints()
-        {
-            _points.Clear();
-
-            foreach (Vector2 p in _originalPoints)
-            {
-                _points.Add(new Vector2(p.X + _offset.X, p.Y + _offset.Y));
-            }
-        }
-
-        /// <summary>
-        ///     Indicating whether the polygon is intersecting with another one.
-        /// </summary>
-        /// <param name="otherPolygon">The Polygon.</param>
-        /// <returns>True if the polygons are intersecting.</returns>
-        public bool Intersects(Polygon otherPolygon)
-        {
-            return PolygonCollision(this, otherPolygon, Vector2.Zero).Intersect;
-        }
-
-        /// <summary>
-        ///     Gets the collision result between two polygons.
-        /// </summary>
-        /// <param name="otherPolygon">The Polygon.</param>
-        /// <returns>PolygonCollisionResult.</returns>
-        public PolygonCollisionResult GetCollisionResult(Polygon otherPolygon)
-        {
-            return PolygonCollision(this, otherPolygon, new Vector2(0, 0));
-        }
-
-        /// <summary>
-        ///     Gets the collision result between two polygons.
-        /// </summary>
-        /// <param name="otherPolygon">The Polygon.</param>
-        /// <param name="velocity">The Velocity.</param>
-        /// <returns>PolygonCollisionResult.</returns>
-        public PolygonCollisionResult GetCollisionResult(Polygon otherPolygon, Vector2 velocity)
-        {
-            return PolygonCollision(this, otherPolygon, velocity);
-        }
-
-        /// <summary>
-        ///     Gets the interval distance.
-        /// </summary>
-        /// <param name="minA">The MinimumA.</param>
-        /// <param name="maxA">The MaximumA.</param>
-        /// <param name="minB">The MinimumB.</param>
-        /// <param name="maxB">The MaximumB.</param>
-        /// <returns>Float.</returns>
-        private static float IntervalDistance(float minA, float maxA, float minB, float maxB)
-        {
-            if (minA < minB)
-            {
-                return minB - maxA;
-            }
-
-            return minA - maxB;
-        }
-
-        /// <summary>
-        ///     Projects the Polygon.
+        ///     Projects an axis.
         /// </summary>
         /// <param name="axis">The Axis.</param>
-        /// <param name="polygon">The Polygon.</param>
         /// <param name="min">The Minimum.</param>
         /// <param name="max">The Maximum.</param>
-        private static void ProjectPolygon(Vector2 axis, Polygon polygon, out float min, out float max)
+        private void ProjectTo(Vector2 axis, out float min, out float max)
         {
-            float d = polygon.Points[0].Length;
-            min = d;
-            max = d;
-            foreach (Vector2 t in polygon.Points)
+            min = Vector2.Dot(axis, Points[0]);
+            max = min;
+
+            for (int i = 1; i < Points.Length; i++)
             {
-                d = Vector2.Dot(t, axis);
+                float d = Vector2.Dot(axis, Points[i]);
+
                 if (d < min)
-                {
                     min = d;
-                }
-                else
-                {
-                    if (d > max)
-                    {
-                        max = d;
-                    }
-                }
+                if (d > max)
+                    max = d;
             }
         }
 
         /// <summary>
-        ///     Calculates the Polygon collision.
+        ///     A value indicating whether the Polygon has a seperating axis.
         /// </summary>
-        /// <param name="polygonA">The first Polygon.</param>
-        /// <param name="polygonB">The second Polygon.</param>
-        /// <param name="velocity">The Velocity.</param>
-        /// <returns>PolygonCollisionResult.</returns>
-        private static PolygonCollisionResult PolygonCollision(Polygon polygonA, Polygon polygonB, Vector2 velocity)
+        /// <param name="other">The other Polygon.</param>
+        /// <param name="minOverlap">The MinimumOverlap.</param>
+        /// <param name="axis">The Axis.</param>
+        /// <returns>True of seperating axis.</returns>
+        private bool HasSeparatingAxisTo(Polygon other, ref float minOverlap, ref Vector2 axis)
         {
-            var result = new PolygonCollisionResult {Intersect = true, WillIntersect = true};
-
-            int edgeCountA = polygonA.Edges.Count;
-            int edgeCountB = polygonB.Edges.Count;
-            float minIntervalDistance = float.PositiveInfinity;
-            Vector2 translationAxis = Vector2.Zero;
-
-            for (int edgeIndex = 0; edgeIndex < edgeCountA + edgeCountB; edgeIndex++)
+            int prev = Points.Length - 1;
+            for (int i = 0; i < Points.Length; i++)
             {
-                Vector2 edge = edgeIndex < edgeCountA
-                    ? polygonA.Edges[edgeIndex]
-                    : polygonB.Edges[edgeIndex - edgeCountA];
+                Vector2 edge = Points[i] - Points[prev];
 
-                var axis = new Vector2(-edge.Y, edge.X);
-                axis.Normalize();
+                var v = new Vector2(edge.X, edge.Y);
+                v.CrossProduct();
+                v.Normalize();
 
-                float minA;
-                float minB;
-                float maxA;
-                float maxB;
+                float aMin, aMax, bMin, bMax;
+                ProjectTo(v, out aMin, out aMax);
+                other.ProjectTo(v, out bMin, out bMax);
 
-                ProjectPolygon(axis, polygonA, out minA, out maxA);
-                ProjectPolygon(axis, polygonB, out minB, out maxB);
+                if ((aMax < bMin) || (bMax < aMin))
+                    return true;
 
-                if (IntervalDistance(minA, maxA, minB, maxB) > 0) result.Intersect = false;
-
-
-                float velocityProjection = Vector2.Dot(axis, velocity);
-
-                if (velocityProjection < 0)
+                float overlapping = aMax < bMax ? aMax - bMin : bMax - aMin;
+                if (overlapping < minOverlap)
                 {
-                    minA += velocityProjection;
-                }
-                else
-                {
-                    maxA += velocityProjection;
+                    minOverlap = overlapping;
+                    axis = v;
                 }
 
-                float intervalDistance = IntervalDistance(minA, maxA, minB, maxB);
-                if (intervalDistance > 0) result.WillIntersect = false;
-
-                if (!result.Intersect && !result.WillIntersect) break;
-
-                intervalDistance = MathHelper.Abs(intervalDistance);
-                if (intervalDistance < minIntervalDistance)
-                {
-                    minIntervalDistance = intervalDistance;
-                    translationAxis = axis;
-
-                    Vector2 d = polygonA.Center - polygonB.Center;
-                    if (Vector2.Dot(d, translationAxis) < 0) translationAxis = -translationAxis;
-                }
+                prev = i;
             }
 
-            if (result.WillIntersect) result.MinimumTranslationVector = translationAxis*minIntervalDistance;
+            return false;
+        }
 
-            return result;
+        /// <summary>
+        ///     Checks if this Polygon intersects with another Polygon.
+        /// </summary>
+        /// <param name="other">The other Polygon.</param>
+        /// <param name="minimumTranslationVector">
+        ///     Returns a vector with which the Polygon has to be translated at minimum to not
+        ///     collide with the second Polygon.
+        /// </param>
+        /// <returns>True of intersecting.</returns>
+        public bool Intersects(Polygon other, out Vector2 minimumTranslationVector)
+        {
+            if (!IsValid || !other.IsValid)
+                throw new InvalidOperationException();
+
+            minimumTranslationVector = default(Vector2);
+            float minOverlap = float.MaxValue;
+
+            if (HasSeparatingAxisTo(other, ref minOverlap, ref minimumTranslationVector))
+                return false;
+
+            if (other.HasSeparatingAxisTo(this, ref minOverlap, ref minimumTranslationVector))
+                return false;
+
+            Vector2 d = Center - other.Center;
+            if (Vector2.Dot(d, minimumTranslationVector) > 0)
+                minimumTranslationVector = -minimumTranslationVector;
+            minimumTranslationVector *= minOverlap;
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Checks if this Polygon intersects with another Polygon.
+        /// </summary>
+        /// <param name="other">The other Polygon.</param>
+        /// <returns>True if intersecting.</returns>
+        public bool Intersects(Polygon other)
+        {
+            Vector2 mtv;
+            return Intersects(other, out mtv);
         }
 
         /// <summary>
@@ -312,11 +249,10 @@ namespace Sharpex2D.Math
         /// <returns>Polygon.</returns>
         public static Polygon FromRectangle(Rectangle rectangle)
         {
-            var polygon = new Polygon {Offset = new Vector2(0, 0)};
-            polygon.Add(new Vector2(rectangle.X, rectangle.Y), new Vector2(rectangle.X + rectangle.Width, rectangle.Y),
+            return new Polygon(new Vector2(rectangle.X, rectangle.Y),
+                new Vector2(rectangle.X + rectangle.Width, rectangle.Y),
                 new Vector2(rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height),
                 new Vector2(rectangle.X, rectangle.Y + rectangle.Height));
-            return polygon;
         }
 
         /// <summary>
@@ -326,9 +262,7 @@ namespace Sharpex2D.Math
         /// <returns>Polygon.</returns>
         public static Polygon FromEllipse(Ellipse ellipse)
         {
-            var polygon = new Polygon {Offset = new Vector2(0, 0)};
-            polygon.Add(ellipse.Points);
-            return polygon;
+            return new Polygon(ellipse.Points);
         }
     }
 }
