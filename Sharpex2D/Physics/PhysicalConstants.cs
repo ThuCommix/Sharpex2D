@@ -24,6 +24,7 @@ namespace Sharpex2D.Physics
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
+    [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     public static class PhysicalConstants
     {
         /// <summary>

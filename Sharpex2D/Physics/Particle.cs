@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using Sharpex2D.Entities;
 using Sharpex2D.Math;
 using Sharpex2D.Physics.Collision;
@@ -28,6 +29,7 @@ namespace Sharpex2D.Physics
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
+    [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     public class Particle : Entity
     {
         #region IShape Implementation

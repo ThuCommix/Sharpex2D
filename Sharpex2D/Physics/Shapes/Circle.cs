@@ -18,10 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 namespace Sharpex2D.Physics.Shapes
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
+    [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     public class Circle : IShape
     {
         /// <summary>

@@ -18,12 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 
 namespace Sharpex2D.Physics.Collision
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
+    [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     internal class ReferenceProvider
     {
         private readonly List<CollisionReference> _references;
