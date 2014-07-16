@@ -1,38 +1,21 @@
-Sharpex2D
-===================
-
-<h3>What is Sharpex2D?</h3>
-
-Sharpex2D or short SGL is a 2D component based GameEngine for .NET developers.
-It offers various build-in components such as physic, sound, rendering, content managing, networkservices and much more.
+##Opensource 2D GameEngine for indie developers
 
 
-<h3>Compatibility</h3>
+Sharpex2D allows you to create beautiful 2D games under .NET for Windows and Mono compatible systems. This engine is completly open source and free to use, even for comercial projects. It's written in C# and supports the following graphic frameworks.
 
-Windows XP <br />
-Windows Vista <br />
-Windows 7 <br />
-Windows 8 <br />
-Mono supported platforms <br />
+#####Graphics
+* DirectX9
+* DirectX10
+* DirectX11
+* Graphics Device Interface
 
+There are also different types of handling input. The supported devices are listed below.
 
+#####Input
+* Keyboard
+* Mouse
+* Touch
+* Gamepad
+* Joystick
 
-<h3>Concepts</h3>
-
-SGL is based on an abstract infrastructure, which means components such as renderer or sound could be swaped to third-party
-or your own components.
-
-All required game objects find place in the central ComponentManager including GameLoop, Serializers, Soundsystems.
-
-The GameLoop is highly configurable and almost all classes (specific classes which uses the IGameHandler interface) are
-able to subscribe to the GameLoop.
-
-Sharpex2D comes "out of the box" which means it runs fully without third-party.
-
-
-<h3>Documentations</h3>
-
-For code documentations see: <a href="https://github.com/ThuCommix/Sharpex2D/tree/master/Sharpex2D">source</a> <br />
-For examples (german only) see: <a href="http://www.vb-paradise.de/sonstiges/weitere-programmiersprachen/97492-sharpex-gamelibrary-tutorialuebersicht/"> tutorial overview</a>
-
-
+You can download the engine via nuget (https://www.nuget.org/profiles/ThuCommix/). For additional info visit http://sharpex2d.de/ . The source code can be found here: https://github.com/ThuCommix/Sharpex2D .
