@@ -59,6 +59,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 _balance = value;
 
+                if (_currentWaveOut == null) return;
                 float volume = Volume;
 
                 float left = System.Math.Min(1, value + 1);
@@ -82,6 +83,7 @@ namespace Sharpex2D.Audio.WaveOut
                 _volume = value;
                 lock (_lockObj)
                 {
+                    if (_currentWaveOut == null) return;
                     _currentWaveOut.SetVolume(value);
                 }
             }
@@ -96,6 +98,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 lock (_lockObj)
                 {
+                    if (_currentWaveOut == null) return 0;
                     return _currentWaveOut.GetPosition();
                 }
             }
@@ -111,6 +114,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 lock (_lockObj)
                 {
+                    if (_currentWaveOut == null) return false;
                     return _currentWaveOut.IsPlaying();
                 }
             }
@@ -125,6 +129,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 lock (_lockObj)
                 {
+                    if (_currentWaveOut == null) return 0;
                     return _currentWaveOut.GetLength();
                 }
             }
@@ -148,7 +153,10 @@ namespace Sharpex2D.Audio.WaveOut
                 lock (_lockObj)
                 {
                     _currentWaveOut = new WaveOut(_audioDevice, soundFile.GetStream(),
-                        new WaveOutBufferDescription(16384, 3));
+                        new WaveOutBufferDescription(16384, 3), playMode);
+
+                    Volume = _volume;
+                    Balance = _balance;
                 }
             }).Start();
         }
@@ -160,6 +168,7 @@ namespace Sharpex2D.Audio.WaveOut
         {
             lock (_lockObj)
             {
+                if (_currentWaveOut == null) return;
                 _currentWaveOut.Resume();
             }
         }
@@ -171,6 +180,7 @@ namespace Sharpex2D.Audio.WaveOut
         {
             lock (_lockObj)
             {
+                if (_currentWaveOut == null) return;
                 _currentWaveOut.Pause();
             }
         }
@@ -183,6 +193,7 @@ namespace Sharpex2D.Audio.WaveOut
         {
             lock (_lockObj)
             {
+                if (_currentWaveOut == null) return;
                 _currentWaveOut.Seek(position);
             }
         }
