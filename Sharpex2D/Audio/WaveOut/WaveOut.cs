@@ -32,6 +32,7 @@ namespace Sharpex2D.Audio.WaveOut
     internal class WaveOut : IDisposable
     {
         private readonly NativeMethods.WaveDelegate _bufferProcessor = WaveOutBuffer.WaveOutProc;
+        private readonly PlayMode _playMode;
         private readonly byte _zero;
         private WaveOutBuffer _buffers;
         private WaveOutBuffer _currentBuffer;
@@ -47,9 +48,12 @@ namespace Sharpex2D.Audio.WaveOut
         /// <param name="device">The AudioDevice.</param>
         /// <param name="waveStream">The WaveStream.</param>
         /// <param name="bufferDescription">The BufferDescription.</param>
-        public WaveOut(WaveOutDevice device, WaveStream waveStream, WaveOutBufferDescription bufferDescription)
+        /// <param name="playMode">The PlayMode.</param>
+        public WaveOut(WaveOutDevice device, WaveStream waveStream, WaveOutBufferDescription bufferDescription,
+            PlayMode playMode)
         {
             _waveStream = waveStream;
+            _playMode = playMode;
             LockObj = new object();
             _zero = _waveStream.Format.wBitsPerSample == 8 ? (byte) 128 : (byte) 0;
             _fillProcessor = FillBuffer;
@@ -186,7 +190,14 @@ namespace Sharpex2D.Audio.WaveOut
                         int got = _waveStream.Read(b, pos, toget);
                         if (got < toget)
                         {
-                            _finished = true;
+                            if (_playMode == PlayMode.Loop)
+                            {
+                                _waveStream.Position = 0;
+                            }
+                            else
+                            {
+                                _finished = true;
+                            }
                         }
                         pos += got;
                     }
