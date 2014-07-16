@@ -44,6 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -55,6 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentEventArgs.cs" />
+    <Compile Include="Content\Batch.cs" />
+    <Compile Include="Content\BatchEventArgs.cs" />
+    <Compile Include="Content\BatchProgressEventArgs.cs" />
+    <Compile Include="Content\IBatch.cs" />
     <Compile Include="Development\AttributeHelper.cs" />
     <Compile Include="Development\DeveloperAttribute.cs" />
     <Compile Include="Development\NativeMethods.cs" />
@@ -123,6 +128,7 @@
     <Compile Include="GameRandom.cs" />
     <Compile Include="Common\ThreadInvoker.cs" />
     <Compile Include="ComponentManager.cs" />
+    <Compile Include="GameService\GameTrigger.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="IConstructable.cs" />
@@ -143,7 +149,6 @@
     <Compile Include="Content\Pipeline\Serializer\Primitive\ShortSerializer.cs" />
     <Compile Include="Content\Pipeline\Serializer\Primitive\StringSerializer.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\EntityContainer.cs" />
     <Compile Include="Entities\EntityEnvironment.cs" />
     <Compile Include="GameComponentManager.cs" />
     <Compile Include="GameTime.cs" />
@@ -153,15 +158,10 @@
     <Compile Include="Input\Gamepad.cs" />
     <Compile Include="Input\GamepadState.cs" />
     <Compile Include="Input\IInputDevice.cs" />
-    <Compile Include="Input\IInputState.cs" />
-    <Compile Include="Input\INativeGamepad.cs" />
-    <Compile Include="Input\INativeJoystick.cs" />
-    <Compile Include="Input\INativeKeyboard.cs" />
-    <Compile Include="Input\INativeMouse.cs" />
-    <Compile Include="Input\INativeTouch.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\NativeInput.cs" />
     <Compile Include="Input\TouchPanel.cs" />
     <Compile Include="Input\Windows\Touch\TouchDevice.cs" />
     <Compile Include="Input\TouchState.cs" />
@@ -212,7 +212,6 @@
     <Compile Include="GameLoop.cs" />
     <Compile Include="IGameLoop.cs" />
     <Compile Include="Common\Synchronizer.cs" />
-    <Compile Include="Input\InputDevice.cs" />
     <Compile Include="Input\Windows\XInput\BatteryDeviceType.cs" />
     <Compile Include="Input\Windows\XInput\BatteryLevel.cs" />
     <Compile Include="Input\Windows\XInput\BatteryType.cs" />
@@ -286,13 +285,17 @@
     <Compile Include="Physics\Collision\PenetrationParams.cs" />
     <Compile Include="Physics\Collision\RecoilParams.cs" />
     <Compile Include="Physics\Collision\UnknownShapeException.cs" />
+    <Compile Include="Physics\Controllers\Controller.cs" />
+    <Compile Include="Physics\Controllers\GravityController.cs" />
     <Compile Include="Physics\IPhysicProvider.cs" />
     <Compile Include="Physics\Particle.cs" />
     <Compile Include="Physics\PhysicalConstants.cs" />
     <Compile Include="Physics\PhysicProvider.cs" />
+    <Compile Include="Physics\RigidBody.cs" />
     <Compile Include="Physics\Shapes\Circle.cs" />
     <Compile Include="Physics\Shapes\IShape.cs" />
     <Compile Include="Physics\Shapes\Rectangle.cs" />
+    <Compile Include="Physics\World.cs" />
     <Compile Include="Plugin\PluginCatalog.cs" />
     <Compile Include="Plugin\PluginContainer.cs" />
     <Compile Include="Plugin\PluginActivator.cs" />
@@ -339,6 +342,7 @@
     <Compile Include="Plugin\IsolatedAssemblySource.cs" />
     <Compile Include="Plugin\ProxySource.cs" />
     <Compile Include="Surface\GameWindow.cs" />
+    <Compile Include="Surface\ScreenSizeEventHandler.cs" />
     <Compile Include="Surface\SurfaceLayout.cs" />
     <Compile Include="UI\UIBounds.cs" />
     <Compile Include="UI\UIManager.cs" />

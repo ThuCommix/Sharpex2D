@@ -80,6 +80,8 @@ namespace Sharpex2D.Surface
         {
             Handle = handle;
             Window = new GameWindow(handle);
+            Window.FullscreenChanged += WindowFullscreenChanged;
+            Window.ScreenSizeChanged += WindowScreenSizeChanged;
         }
 
         /// <summary>
@@ -137,6 +139,42 @@ namespace Sharpex2D.Surface
 				#endif
 
                 throw new InvalidOperationException("Could not get the handle associated with the current process.");
+            }
+        }
+
+        /// <summary>
+        ///     ScreenSizeChanged event.
+        /// </summary>
+        public event ScreenSizeEventHandler ScreenSizeChanged;
+
+        /// <summary>
+        ///     FullscreenChanged event.
+        /// </summary>
+        public event ScreenSizeEventHandler FullscreenChanged;
+
+        /// <summary>
+        ///     WindowScreenChanged event.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void WindowScreenSizeChanged(object sender, EventArgs e)
+        {
+            if (ScreenSizeChanged != null)
+            {
+                ScreenSizeChanged(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        ///     WindowFullscreenChanged event.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void WindowFullscreenChanged(object sender, EventArgs e)
+        {
+            if (FullscreenChanged != null)
+            {
+                FullscreenChanged(this, EventArgs.Empty);
             }
         }
 

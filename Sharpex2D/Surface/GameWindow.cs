@@ -140,6 +140,11 @@ namespace Sharpex2D.Surface
 
                 //notify the GraphicsDevice
                 SGL.GraphicsDevice.BackBuffer = new BackBuffer(value);
+
+                if (ScreenSizeChanged != null)
+                {
+                    ScreenSizeChanged(this, EventArgs.Empty);
+                }
             }
             get
             {
@@ -201,6 +206,11 @@ namespace Sharpex2D.Surface
             get { return _surfaceStyle; }
             set
             {
+                if (value == _surfaceStyle)
+                {
+                    return;
+                }
+
                 FreeWindow();
                 MethodInvoker br = delegate
                 {
@@ -224,8 +234,12 @@ namespace Sharpex2D.Surface
                 _surface.Invoke(br);
 
                 _surfaceStyle = value;
-
                 FixWindow();
+
+                if (FullscreenChanged != null)
+                {
+                    FullscreenChanged(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -268,6 +282,29 @@ namespace Sharpex2D.Surface
                 return flag;
             }
         }
+
+        /// <summary>
+        ///     Centers the Window.
+        /// </summary>
+        public void CenterWindow()
+        {
+            MethodInvoker br = delegate
+            {
+                _surface.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width/2 - _surface.Width/2,
+                    Screen.PrimaryScreen.WorkingArea.Height/2 - _surface.Height/2);
+            };
+            _surface.Invoke(br);
+        }
+
+        /// <summary>
+        ///     ScreenSizeChanged event.
+        /// </summary>
+        public event ScreenSizeEventHandler ScreenSizeChanged;
+
+        /// <summary>
+        ///     FullscreenChanged event.
+        /// </summary>
+        public event ScreenSizeEventHandler FullscreenChanged;
 
         /// <summary>
         ///     Sets the CursorIcon.
