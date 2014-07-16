@@ -177,6 +177,8 @@ namespace Sharpex2D.Input.Windows.Touch
         /// </summary>
         ~TouchDevice()
         {
+            if (!_apiSuccess) return;
+
             if (!NativeMethods.UnregisterTouchWindow(_handle))
             {
                 _logger.Warn("Unable to unregister TouchWindow.");

@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
     public abstract class NativeInput<T> : IInputDevice
     {
         /// <summary>
-        /// Initializes a new NativeInput class.
+        ///     Initializes a new NativeInput class.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         protected NativeInput(Guid guid)
@@ -34,35 +34,38 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// Gets the State.
-        /// </summary>
-        /// <returns>TState.</returns>
-        public abstract T GetState();
-
-        /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
         /// <summary>
-        /// Gets the PlatformVersion.
+        ///     Gets the PlatformVersion.
         /// </summary>
         public abstract Version PlatformVersion { get; }
 
         /// <summary>
-        /// A value indicating whether the Platform is supported.
+        ///     A value indicating whether the Platform is supported.
         /// </summary>
-        public virtual bool IsPlatformSupported { get { return PlatformVersion >= Environment.OSVersion.Version; } }
+        public virtual bool IsPlatformSupported
+        {
+            get { return PlatformVersion >= Environment.OSVersion.Version; }
+        }
 
         /// <summary>
-        /// Initializes the device.
+        ///     Initializes the device.
         /// </summary>
         public abstract void InitializeDevice();
 
         /// <summary>
-        /// Updates the object.
+        ///     Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public abstract void Update(GameTime gameTime);
+
+        /// <summary>
+        ///     Gets the State.
+        /// </summary>
+        /// <returns>TState.</returns>
+        public abstract T GetState();
     }
 }

@@ -31,7 +31,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
     public class Joystick : NativeInput<JoystickState>
     {
         /// <summary>
-        /// Initializes a new Joystick class.
+        ///     Initializes a new Joystick class.
         /// </summary>
         public Joystick()
             : base(new Guid("ECEE253A-DDF0-4678-B820-AF1ACFA7A306"))
