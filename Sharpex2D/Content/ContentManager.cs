@@ -21,6 +21,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Content
@@ -41,7 +42,16 @@ namespace Sharpex2D.Content
 
         #endregion
 
+        /// <summary>
+        ///     BatchProgressEventHandler.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        public delegate void BatchProgressEventHandler(object sender, BatchProgressEventArgs e);
+
+        private readonly List<IBatch> _batchList;
         private readonly Dictionary<string, IContent> _contentCache;
+        private bool _batching;
 
         /// <summary>
         ///     Initializes a new ContentManager.
@@ -58,6 +68,7 @@ namespace Sharpex2D.Content
             }
 
             _contentCache = new Dictionary<string, IContent>();
+            _batchList = new List<IBatch>();
         }
 
         /// <summary>
@@ -74,6 +85,11 @@ namespace Sharpex2D.Content
         ///     Gets the ContentProcessor.
         /// </summary>
         public ContentProcessorSelector ContentProcessor { private set; get; }
+
+        /// <summary>
+        ///     BatchProgressChanged event.
+        /// </summary>
+        public event BatchProgressEventHandler BatchProgressChanged;
 
         /// <summary>
         ///     Loads an asset.
@@ -97,6 +113,114 @@ namespace Sharpex2D.Content
 
             IContentProcessor processor = ContentProcessor.Select<T>();
             var contentData = (T) processor.ReadData(Path.Combine(RootPath, asset));
+
+            ApplyCache(asset, contentData);
+
+            return contentData;
+        }
+
+        /// <summary>
+        ///     Queues a Batch.
+        /// </summary>
+        /// <param name="batch">The Batch.</param>
+        public void Queue(IBatch batch)
+        {
+            if (_batching)
+            {
+                throw new InvalidOperationException("Enqueue is running.");
+            }
+
+            _batchList.Add(batch);
+        }
+
+        /// <summary>
+        ///     Loads all batches.
+        /// </summary>
+        public void Enqueue()
+        {
+            if (_batching)
+            {
+                throw new InvalidOperationException("Enqueue is running already.");
+            }
+
+            _batching = true;
+            new Task(EnqueueInner).Start();
+        }
+
+        /// <summary>
+        ///     Loads all batches.
+        /// </summary>
+        private void EnqueueInner()
+        {
+            long totalBytes = 0;
+            long processedBytes = 0;
+            for (int j = 0; j <= _batchList.Count - 1; j++)
+            {
+                totalBytes += new FileInfo(Path.Combine(RootPath, _batchList[j].Asset)).Length;
+            }
+
+            for (int i = 0; i <= _batchList.Count - 1; i++)
+            {
+                IContent data = Load(_batchList[i].Asset, _batchList[i].Type);
+                _batchList[i].RaiseEvent(data);
+                processedBytes += new FileInfo(Path.Combine(RootPath, _batchList[i].Asset)).Length;
+
+                var eventArgs = new BatchProgressEventArgs
+                {
+                    Count = _batchList.Count,
+                    Current = _batchList[i],
+                    Processed = i,
+                    ProcessedBytes = processedBytes,
+                    TotalBytes = totalBytes,
+                    ProgressPercentage = 100*i/_batchList.Count
+                };
+
+                if (BatchProgressChanged != null)
+                {
+                    BatchProgressChanged(this, eventArgs);
+                }
+            }
+            _batching = false;
+            _batchList.Clear();
+
+            var completedArgs = new BatchProgressEventArgs
+            {
+                Count = _batchList.Count,
+                Current = null,
+                Processed = _batchList.Count,
+                ProcessedBytes = processedBytes,
+                TotalBytes = totalBytes,
+                ProgressPercentage = 100,
+                Completed = true
+            };
+
+            if (BatchProgressChanged != null)
+            {
+                BatchProgressChanged(this, completedArgs);
+            }
+        }
+
+        /// <summary>
+        ///     Loads an asset.
+        /// </summary>
+        /// <param name="asset">The Asset.</param>
+        /// <param name="type">The Type.</param>
+        /// <returns>IContent.</returns>
+        private IContent Load(string asset, Type type)
+        {
+            IContent data;
+            if (QueryCache(asset, type, out data))
+            {
+                return data;
+            }
+
+            if (!File.Exists(Path.Combine(RootPath, asset)))
+            {
+                throw new ContentLoadException("Asset not found.");
+            }
+
+            IContentProcessor processor = ContentProcessor.Select(type);
+            var contentData = (IContent) processor.ReadData(Path.Combine(RootPath, asset));
 
             ApplyCache(asset, contentData);
 
@@ -135,6 +259,28 @@ namespace Sharpex2D.Content
             }
 
             contentData = default(T);
+            return false;
+        }
+
+        /// <summary>
+        ///     Queries the cache.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <param name="asset">The Asset.</param>
+        /// <param name="contentData">The ContentData.</param>
+        /// <returns>True on success.</returns>
+        internal bool QueryCache(string asset, Type type, out IContent contentData)
+        {
+            foreach (var data in _contentCache)
+            {
+                if (data.Value.GetType() == type && data.Key == asset)
+                {
+                    contentData = data.Value;
+                    return true;
+                }
+            }
+
+            contentData = null;
             return false;
         }
     }

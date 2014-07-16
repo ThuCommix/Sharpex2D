@@ -60,15 +60,24 @@ namespace Sharpex2D.Content.Pipeline
         public IContentProcessor Select<T>() where T : IContent
         {
             Type requestedType = typeof (T);
+            return Select(requestedType);
+        }
 
+        /// <summary>
+        ///     Selects a ContentProcessor.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <returns>ContentProcessor T.</returns>
+        public IContentProcessor Select(Type type)
+        {
             foreach (IContentProcessor processor in _contentProcessors)
             {
-                if (processor.Type == requestedType)
+                if (processor.Type == type)
                 {
                     return processor;
                 }
 
-                if (processor.Type.BaseType == requestedType)
+                if (processor.Type.BaseType == type)
                 {
                     return processor;
                 }
@@ -80,19 +89,19 @@ namespace Sharpex2D.Content.Pipeline
             {
                 foreach (IContentProcessor processor in SGL.RenderDevice.ContentProcessors)
                 {
-                    if (processor.Type == requestedType)
+                    if (processor.Type == type)
                     {
                         return processor;
                     }
 
-                    if (processor.Type.BaseType == requestedType)
+                    if (processor.Type.BaseType == type)
                     {
                         return processor;
                     }
                 }
             }
 
-            throw new InvalidOperationException("ContentProcessor for type " + requestedType.Name + " not found.");
+            throw new InvalidOperationException("ContentProcessor for type " + type.Name + " not found.");
         }
     }
 }
