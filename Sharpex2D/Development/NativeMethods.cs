@@ -473,9 +473,9 @@ namespace Sharpex2D
         /// <param name="hWnd">The Handle.</param>
         /// <param name="ulFlags">The Flags.</param>
         /// <returns>True on success.</returns>
-        [DllImport("user32.dll")]
+        [DllImport("User32")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool RegisterTouchWindow(IntPtr hWnd, ulong ulFlags);
+        internal static extern bool RegisterTouchWindow(IntPtr hWnd, UInt32 ulFlags);
 
         /// <summary>
         ///     Gets the TouchInputInfo.
@@ -502,7 +502,7 @@ namespace Sharpex2D
         ///     Closes the TouchInputHandle.
         /// </summary>
         /// <param name="handle">The Handle.</param>
-        [DllImport("user32.dll")]
+        [DllImport("User32")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool UnregisterTouchWindow(IntPtr handle);
 
