@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering;
 
@@ -52,7 +53,7 @@ namespace Sharpex2D.Entities
         {
             Id = 0;
             _position = new Vector2(0, 0);
-            EntityContainer = new EntityContainer();
+            Entities = new List<Entity>();
             _componentsEnabled = true;
             RaiseEvents = true;
         }
@@ -79,7 +80,7 @@ namespace Sharpex2D.Entities
         /// <summary>
         ///     Gets the EntityContainer.
         /// </summary>
-        public EntityContainer EntityContainer { private set; get; }
+        public List<Entity> Entities { private set; get; }
 
         /// <summary>
         ///     A value indicating whether the Entity is dirty.
@@ -160,7 +161,7 @@ namespace Sharpex2D.Entities
         {
             if (_componentsEnabled)
             {
-                foreach (Entity entity in EntityContainer.GetEntities())
+                foreach (Entity entity in Entities)
                 {
                     entity.Update(gameTime);
                 }
@@ -178,7 +179,7 @@ namespace Sharpex2D.Entities
         {
             if (_componentsEnabled)
             {
-                foreach (Entity entity in EntityContainer.GetEntities())
+                foreach (Entity entity in Entities)
                 {
                     entity.Render(renderer, gameTime);
                 }
