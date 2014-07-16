@@ -169,10 +169,12 @@ namespace Sharpex2D
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnRendering(RenderDevice renderer, GameTime gameTime)
         {
+            renderer.Begin();
             foreach (IGameComponent gameComponent in GameComponentManager)
             {
                 gameComponent.Render(renderer, gameTime);
             }
+            renderer.End();
         }
 
         /// <summary>
