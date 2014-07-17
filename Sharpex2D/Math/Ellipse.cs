@@ -22,9 +22,9 @@ namespace Sharpex2D.Math
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Ellipse : IGeometry
+    public struct Ellipse : IGeometry
     {
-        private readonly Polygon _polygon;
+        private Polygon _polygon;
         private Vector2 _position;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Sharpex2D.Math
         /// </summary>
         /// <param name="radiusX">The X-Radius.</param>
         /// <param name="radiusY">The Y-Radius.</param>
-        public Ellipse(float radiusX, float radiusY)
+        public Ellipse(float radiusX, float radiusY) : this()
         {
             RadiusX = radiusX;
             RadiusY = radiusY;
@@ -77,11 +77,10 @@ namespace Sharpex2D.Math
         /// </summary>
         private void UpdateEllipse()
         {
-            _polygon.Reset();
 
             for (int i = 1; i <= 360; i++)
             {
-                _polygon.Add(
+                _polygon = new Polygon(
                     new Vector2(RadiusX*MathHelper.Cos(i*(float) MathHelper.PiOverOneEighty) + _position.X,
                         RadiusY*MathHelper.Sin(i*(float) MathHelper.PiOverOneEighty) + _position.Y));
             }
