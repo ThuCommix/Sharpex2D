@@ -26,7 +26,7 @@ namespace Sharpex2D.Math
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class Matrix : ICloneable
+    public struct Matrix : ICloneable
     {
         #region Matrix
 
@@ -149,7 +149,7 @@ namespace Sharpex2D.Math
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns></returns>
-        protected bool Equals(Matrix other)
+        public bool Equals(Matrix other)
         {
             return Equals(_fields, other._fields) && _columns == other._columns && _rows == other._rows;
         }

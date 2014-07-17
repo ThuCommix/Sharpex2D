@@ -25,7 +25,7 @@ namespace Sharpex2D.Math
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [Serializable]
-    public class Vector2
+    public struct Vector2
     {
         #region Constructors
 
