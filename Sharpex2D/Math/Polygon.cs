@@ -25,30 +25,28 @@ namespace Sharpex2D.Math
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Polygon : IGeometry
+    public struct Polygon : IGeometry
     {
-        private readonly List<Vector2> _edges;
-        private readonly List<Vector2> _originalPoints;
         private readonly List<Vector2> _points;
 
         /// <summary>
         ///     Initializes a new Polygon class.
         /// </summary>
-        public Polygon()
+        /// <param name="points">The Points.</param>
+        public Polygon(params Vector2[] points) : this()
         {
             _points = new List<Vector2>();
-            _edges = new List<Vector2>();
-            _originalPoints = new List<Vector2>();
+            _points.AddRange(points);
         }
 
         /// <summary>
         ///     Initializes a new Polygon class.
         /// </summary>
         /// <param name="points">The Points.</param>
-        public Polygon(params Vector2[] points)
+        public Polygon(IEnumerable<Vector2> points) : this()
         {
-            _originalPoints.AddRange(points);
-            UpdateEdges();
+            _points = new List<Vector2>();
+            _points.AddRange(points);
         }
 
         /// <summary>
@@ -84,60 +82,6 @@ namespace Sharpex2D.Math
         public Vector2[] Points
         {
             get { return _points.ToArray(); }
-        }
-
-        /// <summary>
-        ///     Gets the Edges.
-        /// </summary>
-        public List<Vector2> Edges
-        {
-            get { return _edges; }
-        }
-
-        /// <summary>
-        ///     Adds a Vector to the Polygon.
-        /// </summary>
-        /// <param name="point">The Vector.</param>
-        public void Add(Vector2 point)
-        {
-            _originalPoints.Add(point);
-            UpdateEdges();
-        }
-
-        /// <summary>
-        ///     Adds a array of Vector to the Polygon.
-        /// </summary>
-        /// <param name="points">The Vector.</param>
-        public void Add(params Vector2[] points)
-        {
-            _originalPoints.AddRange(points);
-            UpdateEdges();
-        }
-
-        /// <summary>
-        ///     Resets the Polygon.
-        /// </summary>
-        public void Reset()
-        {
-            _points.Clear();
-            _originalPoints.Clear();
-            _edges.Clear();
-        }
-
-        /// <summary>
-        ///     Updates the edges.
-        /// </summary>
-        private void UpdateEdges()
-        {
-            if (!IsValid) return;
-
-            _edges.Clear();
-            for (int i = 0; i < _points.Count; i++)
-            {
-                Vector2 p1 = _points[i];
-                Vector2 p2 = i + 1 >= _points.Count ? _points[0] : _points[i + 1];
-                _edges.Add(p2 - p1);
-            }
         }
 
         /// <summary>
