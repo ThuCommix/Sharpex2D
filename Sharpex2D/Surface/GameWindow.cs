@@ -148,7 +148,7 @@ namespace Sharpex2D.Surface
             }
             get
             {
-                Vector2 vector = null;
+                Vector2 vector = new Vector2(0);
 
                 MethodInvoker br = delegate { vector = new Vector2(_surface.Size.Width, _surface.Size.Height); };
                 _surface.Invoke(br);
@@ -169,7 +169,7 @@ namespace Sharpex2D.Surface
             }
             get
             {
-                Vector2 vector = null;
+                Vector2 vector = new Vector2(0);
 
                 MethodInvoker br = delegate { vector = new Vector2(_surface.Location.X, _surface.Location.Y); };
                 _surface.Invoke(br);

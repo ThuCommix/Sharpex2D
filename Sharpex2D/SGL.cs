@@ -68,7 +68,7 @@ namespace Sharpex2D
         /// </summary>
         public static Version Version
         {
-            get { return new Version(1, 0, 0); }
+            get { return Version.Parse("1.2.3"); }
         }
 
         /// <summary>
