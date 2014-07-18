@@ -60,6 +60,12 @@
     <Compile Include="Content\BatchEventArgs.cs" />
     <Compile Include="Content\BatchProgressEventArgs.cs" />
     <Compile Include="Content\IBatch.cs" />
+    <Compile Include="Debug\CpuWatcher.cs" />
+    <Compile Include="Debug\IDebugWatcher.cs" />
+    <Compile Include="Debug\Memory.cs" />
+    <Compile Include="Debug\MemoryUnit.cs" />
+    <Compile Include="Debug\MemoryWatcher.cs" />
+    <Compile Include="Debug\ThreadWatcher.cs" />
     <Compile Include="Development\AttributeHelper.cs" />
     <Compile Include="Development\DeveloperAttribute.cs" />
     <Compile Include="Development\NativeMethods.cs" />
@@ -111,7 +117,6 @@
     <Compile Include="Debug\Logging\LogLevel.cs" />
     <Compile Include="Debug\Logging\LogManager.cs" />
     <Compile Include="Debug\Logging\Adapters\Console\OutputMode.cs" />
-    <Compile Include="Debug\ProcessStatus.cs" />
     <Compile Include="Common\Extensions\BinaryReaderExtension.cs" />
     <Compile Include="Common\Extensions\LogLevelExtension.cs" />
     <Compile Include="Common\Extensions\UIBoundsExtension.cs" />
