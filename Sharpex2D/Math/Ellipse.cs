@@ -77,7 +77,6 @@ namespace Sharpex2D.Math
         /// </summary>
         private void UpdateEllipse()
         {
-
             for (int i = 1; i <= 360; i++)
             {
                 _polygon = new Polygon(
