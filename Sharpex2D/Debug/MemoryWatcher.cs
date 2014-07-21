@@ -30,17 +30,17 @@ namespace Sharpex2D.Debug
         #region IDebugWatcher Implementation
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
         /// <summary>
-        /// A value indicating whether the component is running.
+        ///     A value indicating whether the component is running.
         /// </summary>
         public bool IsRunning { private set; get; }
 
         /// <summary>
-        /// Starts the component.
+        ///     Starts the component.
         /// </summary>
         public void Start()
         {
@@ -53,7 +53,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Stops the component.
+        ///     Stops the component.
         /// </summary>
         public void Stop()
         {
@@ -61,7 +61,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Disposes the object.
+        ///     Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -70,7 +70,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Disposes the object.
+        ///     Disposes the object.
         /// </summary>
         /// <param name="disposing">The Disposing state.</param>
         public virtual void Dispose(bool disposing)
@@ -83,23 +83,23 @@ namespace Sharpex2D.Debug
 
         #endregion
 
-        /// <summary>
-        /// Gets the used memory.
-        /// </summary>
-        public Memory Memory { private set; get; }
-
         private Task _runTask;
 
         /// <summary>
-        /// Initializes a new MemoryWatcher class.
+        ///     Initializes a new MemoryWatcher class.
         /// </summary>
         public MemoryWatcher()
         {
             Guid = new Guid("FF7BDAD4-1F3A-4C77-8BDA-82F1CEA43FD8");
         }
-        
+
         /// <summary>
-        /// The Run loop.
+        ///     Gets the used memory.
+        /// </summary>
+        public Memory Memory { private set; get; }
+
+        /// <summary>
+        ///     The Run loop.
         /// </summary>
         private void RunInner()
         {

@@ -25,32 +25,38 @@ namespace Sharpex2D.Debug
     public enum MemoryUnit : long
     {
         /// <summary>
-        /// Byte.
+        ///     Byte.
         /// </summary>
         Byte = 1,
+
         /// <summary>
-        /// Kilobyte.
+        ///     Kilobyte.
         /// </summary>
-        Kilobyte = Byte * 1024,
+        Kilobyte = Byte*1024,
+
         /// <summary>
-        /// Megabyte.
+        ///     Megabyte.
         /// </summary>
-        Megabyte = Kilobyte * 1024,
+        Megabyte = Kilobyte*1024,
+
         /// <summary>
-        /// Gigabyte.
+        ///     Gigabyte.
         /// </summary>
-        Gigabyte = Megabyte * 1024,
+        Gigabyte = Megabyte*1024,
+
         /// <summary>
-        /// Terrabyte.
+        ///     Terrabyte.
         /// </summary>
-        Terrabyte = Gigabyte * 1024,
+        Terrabyte = Gigabyte*1024,
+
         /// <summary>
-        /// Pentabyte.
+        ///     Pentabyte.
         /// </summary>
-        Pentabyte = Terrabyte * 1024,
+        Pentabyte = Terrabyte*1024,
+
         /// <summary>
-        /// Exabyte.
+        ///     Exabyte.
         /// </summary>
-        Exabyte = Pentabyte * 1024,
+        Exabyte = Pentabyte*1024,
     }
 }

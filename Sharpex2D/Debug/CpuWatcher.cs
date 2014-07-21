@@ -31,12 +31,12 @@ namespace Sharpex2D.Debug
         #region IDebugWatcher Implementation
 
         /// <summary>
-        /// Gets the Guid.
+        ///     Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
         /// <summary>
-        /// Disposes the object.
+        ///     Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -45,19 +45,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">The Disposing state.</param>
-        public virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                IsRunning = false;
-            }
-        }
-
-        /// <summary>
-        /// Starts the component.
+        ///     Starts the component.
         /// </summary>
         public void Start()
         {
@@ -70,7 +58,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Stops the component.
+        ///     Stops the component.
         /// </summary>
         public void Stop()
         {
@@ -78,22 +66,29 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// A value indicating whether the component is running.
+        ///     A value indicating whether the component is running.
         /// </summary>
         public bool IsRunning { get; private set; }
 
+        /// <summary>
+        ///     Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The Disposing state.</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                IsRunning = false;
+            }
+        }
+
         #endregion
 
-        /// <summary>
-        /// Gets the CpuUsage.
-        /// </summary>
-        public float CpuUsage { private set; get; }
-
-        private Task _runTask;
         private PerformanceCounter _performanceCounter;
+        private Task _runTask;
 
         /// <summary>
-        /// Initializes a new CpuWatcher class.
+        ///     Initializes a new CpuWatcher class.
         /// </summary>
         public CpuWatcher()
         {
@@ -101,7 +96,12 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// The Run loop.
+        ///     Gets the CpuUsage.
+        /// </summary>
+        public float CpuUsage { private set; get; }
+
+        /// <summary>
+        ///     The Run loop.
         /// </summary>
         private void RunInner()
         {
@@ -112,7 +112,7 @@ namespace Sharpex2D.Debug
             {
                 _performanceCounter.NextValue();
                 _runTask.Wait(2000);
-                CpuUsage = _performanceCounter.NextValue() / Environment.ProcessorCount;
+                CpuUsage = _performanceCounter.NextValue()/Environment.ProcessorCount;
             }
         }
     }

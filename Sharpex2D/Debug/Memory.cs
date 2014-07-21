@@ -24,26 +24,12 @@ namespace Sharpex2D.Debug
     [TestState(TestState.Tested)]
     public struct Memory
     {
-        /// <summary>
-        /// Gets the Size.
-        /// </summary>
-        public long Size { private set; get; }
-
-        /// <summary>
-        /// Gets the Size.
-        /// </summary>
-        public float SizeF { private set; get; }
-
-        /// <summary>
-        /// Gets the Unit.
-        /// </summary>
-        public MemoryUnit Unit { private set; get; }
-
-        private readonly long _rawSize;
+        private long _rawSize;
         private readonly MemoryUnit _rawUnit;
+        private MemoryUnit _unit;
 
         /// <summary>
-        /// Initializes a new Memory struct.
+        ///     Initializes a new Memory struct.
         /// </summary>
         /// <param name="size">The Size.</param>
         /// <param name="unit">The MemoryUnit.</param>
@@ -57,26 +43,45 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Converts the Size.
+        ///     Gets the Size.
+        /// </summary>
+        public long Size { private set; get; }
+
+        /// <summary>
+        ///     Gets the Size.
+        /// </summary>
+        public float SizeF { private set; get; }
+
+        /// <summary>
+        ///     Gets the Unit.
+        /// </summary>
+        public MemoryUnit Unit
+        {
+            private set { Convert(value); }
+            get { return _unit; }
+        }
+
+        /// <summary>
+        ///     Converts the Size.
         /// </summary>
         /// <param name="targetUnit">The MemoryUnit.</param>
         public void Convert(MemoryUnit targetUnit)
         {
-            Unit = targetUnit;
+            _unit = targetUnit;
             if (targetUnit > _rawUnit)
             {
                 Size = _rawSize/((long) targetUnit/(long) _rawUnit);
-                SizeF = _rawSize / ((float)targetUnit / (float)_rawUnit);
+                SizeF = _rawSize/((float) targetUnit/(float) _rawUnit);
             }
             else
             {
-                Size = _rawSize * ((long)targetUnit * (long)_rawUnit);
-                SizeF = _rawSize * ((float)targetUnit * (float)_rawUnit);
+                Size = _rawSize*((long) targetUnit*(long) _rawUnit);
+                SizeF = _rawSize*((float) targetUnit*(float) _rawUnit);
             }
         }
 
         /// <summary>
-        /// Addition operator.
+        ///     Addition operator.
         /// </summary>
         /// <param name="m1">The first Memory.</param>
         /// <param name="m2">The second Memory.</param>
@@ -92,7 +97,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Substract operator.
+        ///     Substract operator.
         /// </summary>
         /// <param name="m1">The first Memory.</param>
         /// <param name="m2">The second Memory.</param>
@@ -108,7 +113,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        /// Multiply operator.
+        ///     Multiply operator.
         /// </summary>
         /// <param name="m1">The first Memory.</param>
         /// <param name="m2">The second Memory.</param>
@@ -120,11 +125,11 @@ namespace Sharpex2D.Debug
             m1C.Convert(MemoryUnit.Byte);
             m2C.Convert(MemoryUnit.Byte);
 
-            return new Memory(m1C.Size * m2C.Size, MemoryUnit.Byte);
+            return new Memory(m1C.Size*m2C.Size, MemoryUnit.Byte);
         }
 
         /// <summary>
-        /// Division operator.
+        ///     Division operator.
         /// </summary>
         /// <param name="m1">The first Memory.</param>
         /// <param name="m2">The second Memory.</param>
@@ -137,6 +142,28 @@ namespace Sharpex2D.Debug
             m2C.Convert(MemoryUnit.Byte);
 
             return new Memory(m1C.Size - m2C.Size, MemoryUnit.Byte);
+        }
+
+        /// <summary>
+        /// Increment by one unit.
+        /// </summary>
+        /// <param name="m1">The Memory.</param>
+        /// <returns>Memory.</returns>
+        public static Memory operator ++(Memory m1)
+        {
+            var memory = new Memory(m1._rawSize + 1, m1._rawUnit) {Unit = m1.Unit};
+            return memory;
+        }
+
+        /// <summary>
+        /// Decrement by one unit.
+        /// </summary>
+        /// <param name="m1">The Memory.</param>
+        /// <returns>Memory.</returns>
+        public static Memory operator --(Memory m1)
+        {
+            var memory = new Memory(m1._rawSize + 1, m1._rawUnit) { Unit = m1.Unit };
+            return memory;
         }
     }
 }
