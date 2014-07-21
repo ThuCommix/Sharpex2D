@@ -150,6 +150,9 @@ namespace Sharpex2D
             GameInstance.GameServices = gameServices;
 
             Components.Add(new ExceptionHandler());
+            Components.Add(new MemoryWatcher());
+            Components.Add(new CpuWatcher());
+            Components.Add(new ThreadWatcher());
 
             EngineConfiguration engineConfiguration =
                 GameInstance.OnInitialize(GameInstance.GameServices.GetService<LaunchParameters>());
