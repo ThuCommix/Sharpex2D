@@ -112,7 +112,7 @@ namespace Sharpex2D.Rendering
                     }
                     else
                     {
-                        if (renderer.IsPlatformSupported)
+                        if (renderer.IsPlatformSupported && renderer.PlatformVersion > result.PlatformVersion)
                         {
                             result = renderer;
                         }
