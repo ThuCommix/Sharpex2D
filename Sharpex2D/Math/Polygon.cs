@@ -121,7 +121,7 @@ namespace Sharpex2D.Math
                 Vector2 edge = Points[i] - Points[prev];
 
                 var v = new Vector2(edge.X, edge.Y);
-                v.CrossProduct();
+                v = v.CrossProduct();
                 v.Normalize();
 
                 float aMin, aMax, bMin, bMax;
@@ -130,6 +130,7 @@ namespace Sharpex2D.Math
 
                 if ((aMax < bMin) || (bMax < aMin))
                     return true;
+
 
                 float overlapping = aMax < bMax ? aMax - bMin : bMax - aMin;
                 if (overlapping < minOverlap)
