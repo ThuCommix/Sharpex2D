@@ -5,7 +5,6 @@ using Sharpex2D.Content;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering;
 using Sharpex2D.Rendering.Scene;
-using XPlane.Core.Audio;
 using XPlane.Core.Miscellaneous;
 using XPlane.Core.UI;
 using MouseButtons = Sharpex2D.Input.MouseButtons;
@@ -89,7 +88,7 @@ namespace XPlane.Core.Scenes
             _blackBlend = new BlackBlend {IsEnabled = true, FadeIn = false};
 
 #if AUDIO_ENABLED
-            AudioManager.Instance.Sound.Play(SGL.QueryResource<Sound>("menuMusic.mp3"), PlayMode.Loop);
+           // AudioManager.Instance.Sound.Play(SGL.QueryResource<Sound>("menuMusic.mp3"), PlayMode.Loop);
 #endif
         }
     }

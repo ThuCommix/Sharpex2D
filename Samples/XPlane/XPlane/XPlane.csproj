@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;AUDIO_DISABLED</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Audio\AudioManager.cs" />
     <Compile Include="Core\Entities\Enemy.cs" />
     <Compile Include="Core\Entities\Explosion.cs" />
     <Compile Include="Core\Entities\Player.cs" />
@@ -61,16 +60,25 @@
     <Compile Include="Core\EntityComposer.cs" />
     <Compile Include="Core\Game1.cs" />
     <Compile Include="Core\IDynamicHitbox.cs" />
+    <Compile Include="Core\Miscellaneous\Achievement.cs" />
+    <Compile Include="Core\Miscellaneous\AchievementManager.cs" />
     <Compile Include="Core\Miscellaneous\BlackBlend.cs" />
+    <Compile Include="Core\Miscellaneous\EnemyDestroyedAchievement.cs" />
+    <Compile Include="Core\Miscellaneous\GameMessage.cs" />
+    <Compile Include="Core\Miscellaneous\LasterTimeAchievement.cs" />
+    <Compile Include="Core\Miscellaneous\ScoreAchievement.cs" />
+    <Compile Include="Core\Miscellaneous\ScoreIndicator.cs" />
     <Compile Include="Core\Miscellaneous\DebugDisplay.cs" />
     <Compile Include="Core\Miscellaneous\FadeableText.cs" />
     <Compile Include="Core\Miscellaneous\Minimap.cs" />
     <Compile Include="Core\Miscellaneous\Scoreboard.cs" />
     <Compile Include="Core\Miscellaneous\Skybox.cs" />
+    <Compile Include="Core\Miscellaneous\SustainAchievement.cs" />
     <Compile Include="Core\Scenes\EndScene.cs" />
     <Compile Include="Core\Scenes\GameScene.cs" />
     <Compile Include="Core\Scenes\IntroScene.cs" />
     <Compile Include="Core\Scenes\MenuScene.cs" />
+    <Compile Include="Core\UI\AchievementControl.cs" />
     <Compile Include="Core\UI\MenuButton.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,8 +4,8 @@ using Sharpex2D.Content;
 using Sharpex2D.Input;
 using Sharpex2D.Rendering;
 using Sharpex2D.Rendering.Scene;
-using XPlane.Core.Audio;
 using XPlane.Core.Miscellaneous;
+using XPlane.Core.UI;
 
 namespace XPlane.Core.Scenes
 {
@@ -19,6 +19,8 @@ namespace XPlane.Core.Scenes
         private Minimap _minimap;
         private Scoreboard _scoreBoard;
         private Skybox _skyBox;
+        private bool _achievementsOpen;
+        private AchievementControl _achievementControl;
 
         /// <summary>
         /// Gets or sets the InputManager.
@@ -38,21 +40,27 @@ namespace XPlane.Core.Scenes
                 {
                     var endScene = SGL.QueryComponents<SceneManager>().Get<EndScene>();
                     endScene.Score = _entityComposer.Score;
+                    endScene.AchievementManager = _entityComposer.AchievementManager;
                     SGL.QueryComponents<SceneManager>().ActiveScene = endScene;
                 }
             }
             else
             {
-                _skyBox.Update(gameTime);
                 HandleInput(gameTime);
-                _entityComposer.Update(gameTime);
-                _scoreBoard.CurrentHealth = _entityComposer.Player.Health;
-                _scoreBoard.CurrentScore = _entityComposer.Score;
-                _minimap.Update(gameTime);
-                _debugDisplay.Update(gameTime);
+                if (!_achievementsOpen)
+                {
+                    _skyBox.Update(gameTime);
+                    _entityComposer.Update(gameTime);
+                    _scoreBoard.CurrentHealth = _entityComposer.Player.Health;
+                    _scoreBoard.CurrentScore = _entityComposer.Score;
+                    _minimap.Update(gameTime);
+                    _debugDisplay.Update(gameTime);
+                }
             }
 
             _blackBlend.Update(gameTime);
+            _achievementControl.Visible = _achievementsOpen;
+            UIManager.Update(gameTime);
         }
 
         /// <summary>
@@ -71,6 +79,7 @@ namespace XPlane.Core.Scenes
             _minimap.Render(renderer, gameTime);
             _debugDisplay.Render(renderer, gameTime);
             _blackBlend.Render(renderer, gameTime);
+            UIManager.Render(renderer, gameTime);
         }
 
         /// <summary>
@@ -105,9 +114,12 @@ namespace XPlane.Core.Scenes
             _debugDisplay = new DebugDisplay(_entityComposer) {Visible = false};
             _minimap = new Minimap(_entityComposer);
             _blackBlend = new BlackBlend {FadeIn = true};
+            _achievementControl = new AchievementControl(UIManager);
+            _achievementsOpen = false;
+            _achievementControl.AchievementManager = _entityComposer.AchievementManager;
 
 #if AUDIO_ENABLED
-            AudioManager.Instance.Sound.Play(SGL.QueryResource<Sound>("gameMusic.mp3"), PlayMode.Loop);
+    //AudioManager.Instance.Sound.Play(SGL.QueryResource<Sound>("gameMusic.mp3"), PlayMode.Loop);
 #endif
         }
 
@@ -139,6 +151,12 @@ namespace XPlane.Core.Scenes
                 if (Input.Keyboard.GetState().IsKeyDown(Keys.H))
                 {
                     _entityComposer.EnableHPBars = !_entityComposer.EnableHPBars;
+                    _currentDelay = InputDelay;
+                }
+
+                if (Input.Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    _achievementsOpen = !_achievementsOpen;
                     _currentDelay = InputDelay;
                 }
             }

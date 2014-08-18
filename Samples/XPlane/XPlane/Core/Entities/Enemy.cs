@@ -10,7 +10,7 @@ namespace XPlane.Core.Entities
         /// <summary>
         /// Gets the AttackDamage.
         /// </summary>
-        public const int AttackDamage = 20;
+        public const int AttackDamage = 25;
 
         private Rectangle _healthBarGreen;
         private Rectangle _healthBarRed;
