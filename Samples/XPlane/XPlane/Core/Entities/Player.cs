@@ -85,13 +85,13 @@ namespace XPlane.Core.Entities
         }
 
         /// <summary>
-        /// Renders the Player.
+        /// Draws the Player.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawTexture(Sprite, Position);
+            spriteBatch.DrawTexture(Sprite, Position);
         }
     }
 }

@@ -80,6 +80,7 @@
     <Compile Include="Core\Scenes\MenuScene.cs" />
     <Compile Include="Core\UI\AchievementControl.cs" />
     <Compile Include="Core\UI\MenuButton.cs" />
+    <Compile Include="Core\XML\XmlManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

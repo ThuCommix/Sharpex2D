@@ -61,27 +61,27 @@ namespace XPlane.Core.Miscellaneous
         public bool Visible { set; get; }
 
         /// <summary>
-        /// Renders the Minimap.
+        /// Draws the Minimap.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (!Visible) return;
 
-            renderer.DrawTexture(_minimap, new Vector2(X, Y), 0.4f);
+            spriteBatch.DrawTexture(_minimap, new Vector2(X, Y), 0.4f);
 
             foreach (Vector2 enemy in _enemyPositions)
             {
-                renderer.FillRectangle(Color.Red, new Rectangle(enemy.X, enemy.Y, 5, 5));
+                spriteBatch.FillRectangle(Color.Red, new Rectangle(enemy.X, enemy.Y, 5, 5));
             }
 
             foreach (Vector2 projectile in _projectilePositions)
             {
-                renderer.FillRectangle(Color.Blue, new Rectangle(projectile.X, projectile.Y, 2, 2));
+                spriteBatch.FillRectangle(Color.Blue, new Rectangle(projectile.X, projectile.Y, 2, 2));
             }
 
-            renderer.FillRectangle(Color.Green, new Rectangle(_playerPosition.X, _playerPosition.Y, 5, 5));
+            spriteBatch.FillRectangle(Color.Green, new Rectangle(_playerPosition.X, _playerPosition.Y, 5, 5));
         }
 
         /// <summary>

@@ -35,25 +35,25 @@ namespace XPlane.Core.UI
         }
 
         /// <summary>
-        /// Renders the AchievementControl.
+        /// Draws the AchievementControl.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        public override void OnRender(RenderDevice renderer)
+        /// <param name="spriteBatch">The spriteBatch.</param>
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             _offset = 20;
-            renderer.FillRectangle(Color.FromArgb(220, 0, 0, 0), _display);
+            spriteBatch.FillRectangle(Color.FromArgb(220, 0, 0, 0), _display);
 
             foreach (var achievement in AchievementManager.Achievements)
             {
-                renderer.DrawString(achievement.GetAchievementString(), _header, new Vector2(20, _offset), Color.White);
-                renderer.DrawString(achievement.Description, _description, new Vector2(20, _offset + 20), Color.White);
+                spriteBatch.DrawString(achievement.GetAchievementString(), _header, new Vector2(20, _offset), Color.White);
+                spriteBatch.DrawString(achievement.Description, _description, new Vector2(20, _offset + 20), Color.White);
 
                 var progress = new Rectangle(20, _offset + 65, 200, 15);
-                renderer.DrawRectangle(_progressPen, progress);
+                spriteBatch.DrawRectangle(_progressPen, progress);
 
                 var progressC = 198*achievement.Amount/achievement.NextAchievementAt;
 
-                renderer.FillRectangle(Color.Green, new Rectangle(21, _offset + 66, progressC, 13));
+                spriteBatch.FillRectangle(Color.Green, new Rectangle(21, _offset + 66, progressC, 13));
 
 
                 _offset += 100;

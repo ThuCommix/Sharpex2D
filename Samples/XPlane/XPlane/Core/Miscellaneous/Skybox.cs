@@ -48,22 +48,22 @@ namespace XPlane.Core.Miscellaneous
         public bool IsActive { set; get; }
 
         /// <summary>
-        /// Renders the Skybox.
+        /// Draws the Skybox.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawTexture(_background, _backgroundPosition);
+            spriteBatch.DrawTexture(_background, _backgroundPosition);
 
-            renderer.DrawTexture(_layer1, _layer1Position1);
-            renderer.DrawTexture(_layer2, _layer2Position1);
+            spriteBatch.DrawTexture(_layer1, _layer1Position1);
+            spriteBatch.DrawTexture(_layer2, _layer2Position1);
 
-            renderer.DrawTexture(_layer1, _layer1Position2);
-            renderer.DrawTexture(_layer2, _layer2Position2);
+            spriteBatch.DrawTexture(_layer1, _layer1Position2);
+            spriteBatch.DrawTexture(_layer2, _layer2Position2);
 
-            //renderer.DrawTexture(_layer1, _layer1Position3);
-            renderer.DrawTexture(_layer2, _layer2Position3);
+            //spriteBatch.DrawTexture(_layer1, _layer1Position3);
+            spriteBatch.DrawTexture(_layer2, _layer2Position3);
         }
 
         /// <summary>

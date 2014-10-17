@@ -49,14 +49,14 @@ namespace XPlane.Core.Miscellaneous
         public bool IsCompleted { private set; get; }
 
         /// <summary>
-        /// Renders the BlackBlend.
+        /// Draws the BlackBlend.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (!IsEnabled) return;
-            renderer.FillRectangle(Color.FromArgb(_alpha, 0, 0, 0), _display);
+            spriteBatch.FillRectangle(Color.FromArgb(_alpha, 0, 0, 0), _display);
         }
 
         /// <summary>

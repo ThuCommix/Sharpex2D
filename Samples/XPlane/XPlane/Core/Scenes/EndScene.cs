@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 using Sharpex2D;
 using Sharpex2D.Content;
 using Sharpex2D.Input;
@@ -6,6 +9,8 @@ using Sharpex2D.Math;
 using Sharpex2D.Rendering;
 using Sharpex2D.Rendering.Scene;
 using XPlane.Core.Miscellaneous;
+using XPlane.Core.XML;
+using Keys = Sharpex2D.Input.Keys;
 
 namespace XPlane.Core.Scenes
 {
@@ -58,26 +63,26 @@ namespace XPlane.Core.Scenes
         }
 
         /// <summary>
-        /// Renders the Scene.
+        /// Draws the Scene.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawTexture(_background, _backgroundPosition);
+            spriteBatch.DrawTexture(_background, _backgroundPosition);
             Vector2 dim =
-                renderer.MeasureString(
+                spriteBatch.MeasureString(
                     string.Format("score: {0}", _finalScore), _font);
-            Vector2 dim2 = renderer.MeasureString("Press {Enter} to continue", _font2);
-            Vector2 dim3 = renderer.MeasureString(
+            Vector2 dim2 = spriteBatch.MeasureString("Press {Enter} to continue", _font2);
+            Vector2 dim3 = spriteBatch.MeasureString(
                 string.Format("(Achievement multiplier {0}x)", _achievmentMultiplier), _font3);
-            renderer.DrawString(
+            spriteBatch.DrawString(
                 string.Format("score: {0}", _finalScore), _font,
                 new Vector2(400 - dim.X/2, 300), Color.White);
-            renderer.DrawString(string.Format("(Achievement multiplier {0}x)", _achievmentMultiplier), _font3,
+            spriteBatch.DrawString(string.Format("(Achievement multiplier {0}x)", _achievmentMultiplier), _font3,
                 new Vector2(400 - dim3.X/2, 350), Color.White);
-            renderer.DrawString("Press {Enter} to continue", _font2, new Vector2(400 - dim2.X/2, 420), Color.White);
-            _blackBlend.Render(renderer, gameTime);
+            spriteBatch.DrawString("Press {Enter} to continue", _font2, new Vector2(400 - dim2.X/2, 420), Color.White);
+            _blackBlend.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -107,6 +112,12 @@ namespace XPlane.Core.Scenes
         public override void OnSceneActivated()
         {
             _blackBlend = new BlackBlend {FadeIn = false, IsEnabled = true};
+
+            if (AchievementManager != null)
+            {
+                var xmlManager = new XmlManager<AchievementManager>();
+                xmlManager.Save(Path.Combine(Environment.CurrentDirectory, "achievements.xml"), AchievementManager);
+            }
         }
     }
 }

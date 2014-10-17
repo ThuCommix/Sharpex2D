@@ -59,13 +59,13 @@ namespace XPlane.Core.Entities
         }
 
         /// <summary>
-        /// Renders the projectile.
+        /// Draws the projectile.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawTexture(Texture, Position);
+            spriteBatch.DrawTexture(Texture, Position);
         }
     }
 }

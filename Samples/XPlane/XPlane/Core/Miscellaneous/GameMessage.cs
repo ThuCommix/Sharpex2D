@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Sharpex2D;
 using Sharpex2D.Common;
 using Sharpex2D.Math;
@@ -8,7 +6,7 @@ using Sharpex2D.Rendering;
 
 namespace XPlane.Core.Miscellaneous
 {
-    public class GameMessage : Singleton<GameMessage>, IUpdateable, IDrawable
+    public class GameMessage : Singleton<GameMessage>, IGameComponent
     {
         /// <summary>
         /// Gets the LifeTime in ms.
@@ -59,21 +57,26 @@ namespace XPlane.Core.Miscellaneous
         }
 
         /// <summary>
-        /// Renders the GameMessage.
+        /// Draws the GameMessage.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (_queuedMessages.Count > 0)
             {
-                var dim = renderer.MeasureString(_queuedMessages[0], _font);
+                var dim = spriteBatch.MeasureString(_queuedMessages[0], _font);
                 var display = new Rectangle(800 - dim.X - 20, 1, dim.X + 20, dim.Y + 20);
 
-                renderer.FillRectangle(_pen.Color, display);
-                renderer.DrawRectangle(_penBorder, display);
-                renderer.DrawString(_queuedMessages[0], _font, new Vector2(790 - dim.X, 11), Color.White);
+                spriteBatch.FillRectangle(_pen.Color, display);
+                spriteBatch.DrawRectangle(_penBorder, display);
+                spriteBatch.DrawString(_queuedMessages[0], _font, new Vector2(790 - dim.X, 11), Color.White);
             }
         }
+
+        /// <summary>
+        /// Gets the Order.
+        /// </summary>
+        public int Order { get { return 10000; } }
     }
 }

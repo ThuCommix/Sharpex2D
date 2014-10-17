@@ -25,13 +25,13 @@ namespace XPlane.Core.UI
         public string Text { set; get; }
 
         /// <summary>
-        /// Renders the MenuButton.
+        /// Draws the MenuButton.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        public override void OnRender(RenderDevice renderer)
+        /// <param name="spriteBatch">The spriteBatch.</param>
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
-            Vector2 dim = renderer.MeasureString(Text, _font);
-            renderer.DrawString(Text, _font,
+            Vector2 dim = spriteBatch.MeasureString(Text, _font);
+            spriteBatch.DrawString(Text, _font,
                 new Vector2(Position.X - (dim.X/2) + (Size.Width/2), Position.Y - (dim.Y/2) + (Size.Height/2)),
                 IsMouseHoverState ? Color.DarkOrange : Color.White);
         }

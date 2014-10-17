@@ -1,8 +1,10 @@
 ﻿
 using System;
+using System.Xml.Serialization;
 
 namespace XPlane.Core.Miscellaneous
 {
+    [Serializable]
     public class EnemyDestroyedAchievement : Achievement
     {
         private int _currentLv = 1;
@@ -31,13 +33,17 @@ namespace XPlane.Core.Miscellaneous
         /// <param name="amount">The Amount.</param>
         public override void Add(float amount)
         {
+            if (_currentLv == 10) return;
             Amount += amount;
 
             if (Amount >= NextAchievementAt)
             {
                 _currentLv++;
                 GameMessage.Instance.QueueMessage(string.Format("Achievement: {0}", GetAchievementString()));
-                NextAchievementAt *= 2;
+                if (_currentLv < 10)
+                {
+                    NextAchievementAt *= 2;
+                }
             }
             Description = string.Format("We hate mines, you should feel the same. ({0}/{1})", Amount, NextAchievementAt);
         }
@@ -45,9 +51,11 @@ namespace XPlane.Core.Miscellaneous
         /// <summary>
         /// Gets the current level.
         /// </summary>
+        [XmlElement("Stage")]
         public override int CurrentLevel
         {
             get { return _currentLv; }
+            set { _currentLv = value; }
         }
     }
 }

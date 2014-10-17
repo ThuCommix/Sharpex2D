@@ -45,15 +45,15 @@ namespace XPlane.Core.Miscellaneous
         }
 
         /// <summary>
-        /// Renders the DamageIndicator.
+        /// Draws the DamageIndicator.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (!IsVisible) return;
 
-            renderer.DrawString(string.Format("+ {0}", Score), _font, Position, Color);
+            spriteBatch.DrawString(string.Format("+ {0}", Score), _font, Position, Color);
         }
 
         /// <summary>

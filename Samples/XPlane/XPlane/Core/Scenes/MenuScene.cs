@@ -1,6 +1,5 @@
 ﻿using System.Windows.Forms;
 using Sharpex2D;
-using Sharpex2D.Audio;
 using Sharpex2D.Content;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering;
@@ -41,15 +40,15 @@ namespace XPlane.Core.Scenes
         }
 
         /// <summary>
-        /// Renders the Scene.
+        /// Draws the Scene.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawTexture(_menuBackground, _menuPosition);
-            UIManager.Render(renderer, gameTime);
-            _blackBlend.Render(renderer, gameTime);
+            spriteBatch.DrawTexture(_menuBackground, _menuPosition);
+            UIManager.Draw(spriteBatch, gameTime);
+            _blackBlend.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>

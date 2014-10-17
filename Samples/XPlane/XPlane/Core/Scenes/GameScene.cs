@@ -1,4 +1,6 @@
-﻿using Sharpex2D;
+﻿using System;
+using System.IO;
+using Sharpex2D;
 using Sharpex2D.Audio;
 using Sharpex2D.Content;
 using Sharpex2D.Input;
@@ -6,6 +8,7 @@ using Sharpex2D.Rendering;
 using Sharpex2D.Rendering.Scene;
 using XPlane.Core.Miscellaneous;
 using XPlane.Core.UI;
+using XPlane.Core.XML;
 
 namespace XPlane.Core.Scenes
 {
@@ -64,22 +67,22 @@ namespace XPlane.Core.Scenes
         }
 
         /// <summary>
-        /// Renders the scene.
+        /// Draws the scene.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            _skyBox.Render(renderer, gameTime);
-            _entityComposer.Render(renderer, gameTime);
+            _skyBox.Draw(spriteBatch, gameTime);
+            _entityComposer.Draw(spriteBatch, gameTime);
             if (!_debugDisplay.Visible)
             {
-                _scoreBoard.Render(renderer, gameTime);
+                _scoreBoard.Draw(spriteBatch, gameTime);
             }
-            _minimap.Render(renderer, gameTime);
-            _debugDisplay.Render(renderer, gameTime);
-            _blackBlend.Render(renderer, gameTime);
-            UIManager.Render(renderer, gameTime);
+            _minimap.Draw(spriteBatch, gameTime);
+            _debugDisplay.Draw(spriteBatch, gameTime);
+            _blackBlend.Draw(spriteBatch, gameTime);
+            UIManager.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -114,7 +117,27 @@ namespace XPlane.Core.Scenes
             _debugDisplay = new DebugDisplay(_entityComposer) {Visible = false};
             _minimap = new Minimap(_entityComposer);
             _blackBlend = new BlackBlend {FadeIn = true};
+
+            //load achievements
+
+            var xmlManager = new XmlManager<AchievementManager>();
+            try
+            {
+                _entityComposer.AchievementManager =
+                    xmlManager.Load(Path.Combine(Environment.CurrentDirectory, "achievements.xml"));
+            }
+            catch
+            {
+                _entityComposer.AchievementManager = new AchievementManager();
+                _entityComposer.AchievementManager.Achievements.Add(new EnemyDestroyedAchievement());
+                _entityComposer.AchievementManager.Achievements.Add(new ScoreAchievement());
+                _entityComposer.AchievementManager.Achievements.Add(new SustainAchievement());
+                _entityComposer.AchievementManager.Achievements.Add(new LasterTimeAchievement());
+                System.Diagnostics.Debug.WriteLine("Unable to load achievements.");
+            }
+
             _achievementControl = new AchievementControl(UIManager);
+            _achievementControl.Visible = false;
             _achievementsOpen = false;
             _achievementControl.AchievementManager = _entityComposer.AchievementManager;
 

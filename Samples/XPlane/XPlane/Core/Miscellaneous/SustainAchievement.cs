@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace XPlane.Core.Miscellaneous
 {
+    [Serializable]
     public class SustainAchievement : Achievement
     {
         private int _currentLv = 1;
@@ -33,13 +35,17 @@ namespace XPlane.Core.Miscellaneous
         /// <param name="amount">The Amount.</param>
         public override void Add(float amount)
         {
+            if (_currentLv == 10) return;
             Amount += amount;
 
             if (Amount >= NextAchievementAt)
             {
                 _currentLv++;
                 GameMessage.Instance.QueueMessage(string.Format("Achievement: {0}", GetAchievementString()));
-                NextAchievementAt *= 2f;
+                if (_currentLv < 10)
+                {
+                    NextAchievementAt *= 2;
+                }
             }
             Description = string.Format("Sustain as long as you can! ({0}s/{1}s)", (int)(Amount / 1000),
                 (int) (NextAchievementAt/1000));
@@ -48,9 +54,11 @@ namespace XPlane.Core.Miscellaneous
         /// <summary>
         /// Gets the current level.
         /// </summary>
+        [XmlElement("Stage")]
         public override int CurrentLevel
         {
             get { return _currentLv; }
+            set { _currentLv = value; }
         }
     }
 }

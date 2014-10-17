@@ -33,14 +33,14 @@ namespace XPlane.Core.Miscellaneous
         public int CurrentHealth { set; get; }
 
         /// <summary>
-        /// Renders the score board.
+        /// Draws the score board.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.DrawString(string.Format("score: {0}", CurrentScore), _scoreFont, _scorePosition, Color.White);
-            renderer.DrawString(string.Format("health: {0}", CurrentHealth), _healthFont, _healthPosition, Color.White);
+            spriteBatch.DrawString(string.Format("score: {0}", CurrentScore), _scoreFont, _scorePosition, Color.White);
+            spriteBatch.DrawString(string.Format("health: {0}", CurrentHealth), _healthFont, _healthPosition, Color.White);
         }
     }
 }

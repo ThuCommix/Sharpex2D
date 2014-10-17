@@ -60,15 +60,15 @@ namespace XPlane.Core.Miscellaneous
         }
 
         /// <summary>
-        /// Renders the FadeableText.
+        /// Draws the FadeableText.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (AnimationComplete) return;
 
-            renderer.DrawString(Text, Font, Position, Color.FromArgb((int) _currentAlpha, 255, 255, 255));
+            spriteBatch.DrawString(Text, Font, Position, Color.FromArgb((int) _currentAlpha, 255, 255, 255));
         }
 
         /// <summary>

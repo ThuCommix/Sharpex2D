@@ -54,27 +54,27 @@ namespace XPlane.Core.Miscellaneous
         public bool Visible { set; get; }
 
         /// <summary>
-        /// Renders the DebugDisplay.
+        /// Draws the DebugDisplay.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (!Visible) return;
 
             foreach (Enemy enemy in _currentEntityComposer.Enemies)
             {
-                renderer.DrawRectangle(_pen, enemy.Bounds);
+                spriteBatch.DrawRectangle(_pen, enemy.Bounds);
             }
 
             foreach (Projectile projectile in _currentEntityComposer.Projectiles)
             {
-                renderer.DrawRectangle(_pen2, projectile.Bounds);
+                spriteBatch.DrawRectangle(_pen2, projectile.Bounds);
             }
 
-            renderer.DrawRectangle(_pen3, _currentEntityComposer.Player.Bounds);
+            spriteBatch.DrawRectangle(_pen3, _currentEntityComposer.Player.Bounds);
 
-            renderer.DrawString(_debugMessage, _font, _display, Color.White);
+            spriteBatch.DrawString(_debugMessage, _font, _display, Color.White);
         }
 
         /// <summary>

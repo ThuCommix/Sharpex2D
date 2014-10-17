@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace XPlane.Core.Miscellaneous
 {
+    [XmlInclude(typeof(EnemyDestroyedAchievement))]
+    [XmlInclude(typeof(LasterTimeAchievement))]
+    [XmlInclude(typeof(ScoreAchievement))]
+    [XmlInclude(typeof(SustainAchievement))]
+    [Serializable]
     public class AchievementManager
     {
-
         /// <summary>
         /// Gets the Achievements.
         /// </summary>
+        [XmlElement("Achievements")]
         public List<Achievement> Achievements { private set; get; } 
 
         /// <summary>
@@ -16,13 +22,7 @@ namespace XPlane.Core.Miscellaneous
         /// </summary>
         public AchievementManager()
         {
-            Achievements = new List<Achievement>
-            {
-                new EnemyDestroyedAchievement(),
-                new ScoreAchievement(),
-                new SustainAchievement(),
-                new LasterTimeAchievement(),
-            };
+            Achievements = new List<Achievement>();
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace XPlane.Core
         /// <summary>
         /// Gets the Achievementmanager
         /// </summary>
-        public AchievementManager AchievementManager { get; private set; }
+        public AchievementManager AchievementManager { get; set; }
 
         /// <summary>
         /// Gets the FireDelay.
@@ -48,7 +48,6 @@ namespace XPlane.Core
             Explosions = new List<Explosion>();
             Input = SGL.QueryComponents<InputManager>();
             _scoreIndicators = new List<ScoreIndicator>();
-            AchievementManager = new AchievementManager();
             Score = 0;
             _random = new GameRandom();
 
@@ -122,18 +121,17 @@ namespace XPlane.Core
         private InputManager Input { set; get; }
 
         /// <summary>
-        /// Renders the EntityComposer.
+        /// Draws the EntityComposer.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            Player.Render(renderer, gameTime);
-            RenderEnemies(renderer, gameTime);
-            RenderProjectiles(renderer, gameTime);
-            RenderExplosions(renderer, gameTime);
-            RenderDamageIndicators(renderer, gameTime);
-            RenderGameMessage(renderer, gameTime);
+            Player.Draw(spriteBatch, gameTime);
+            DrawEnemies(spriteBatch, gameTime);
+            DrawProjectiles(spriteBatch, gameTime);
+            DrawExplosions(spriteBatch, gameTime);
+            DrawDamageIndicators(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -149,61 +147,60 @@ namespace XPlane.Core
             UpdateCollisions(gameTime);
             UpdateExplosion(gameTime);
             UpdateDamageIndicators(gameTime);
-            UpdateGameMessage(gameTime);
             Player.Update(gameTime);
 
             AchievementManager.Get<SustainAchievement>().Add(gameTime.ElapsedGameTime);
         }
 
         /// <summary>
-        /// Renders the enemies.
+        /// Draws the enemies.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        private void RenderEnemies(RenderDevice renderer, GameTime gameTime)
+        private void DrawEnemies(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Enemy t in Enemies)
             {
-                t.Render(renderer, gameTime);
+                t.Draw(spriteBatch, gameTime);
             }
         }
 
         /// <summary>
-        /// Renders the projectiles.
+        /// Draws the projectiles.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        private void RenderProjectiles(RenderDevice renderer, GameTime gameTime)
+        private void DrawProjectiles(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Projectile t in Projectiles)
             {
-                t.Render(renderer, gameTime);
+                t.Draw(spriteBatch, gameTime);
             }
         }
 
         /// <summary>
-        /// Renders the damage indicators.
+        /// Draws the damage indicators.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        private void RenderDamageIndicators(RenderDevice renderer, GameTime gameTime)
+        private void DrawDamageIndicators(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (var indicator in _scoreIndicators)
             {
-                indicator.Render(renderer, gameTime);
+                indicator.Draw(spriteBatch, gameTime);
             }
         }
 
         /// <summary>
-        /// Renders the projectiles.
+        /// Draws the projectiles.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        private void RenderExplosions(RenderDevice renderer, GameTime gameTime)
+        private void DrawExplosions(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Explosion t in Explosions)
             {
-                t.Render(renderer, gameTime);
+                t.Draw(spriteBatch, gameTime);
             }
         }
 
@@ -304,11 +301,11 @@ namespace XPlane.Core
         /// <summary>
         /// Updates the game message.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        private void RenderGameMessage(RenderDevice renderer, GameTime gameTime)
+        private void DrawGameMessage(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            GameMessage.Instance.Render(renderer, gameTime);
+            GameMessage.Instance.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -344,7 +341,6 @@ namespace XPlane.Core
 
                     //create explosion
 #if AUDIO_ENABLED
-                    _explosion.Play();
 #endif
 
                     CreateExplosion(new Vector2(enemy.Position.X - 40, enemy.Position.Y - 33));
@@ -378,7 +374,7 @@ namespace XPlane.Core
 
                                 //create explosion
 #if AUDIO_ENABLED
-                                _explosion.Play();
+                                new Task(() => {_explosion.Play();}).Start();
 #endif
 
                                 CreateExplosion(new Vector2(enemy.Position.X - 20, enemy.Position.Y - 30));
@@ -399,7 +395,7 @@ namespace XPlane.Core
                             Enemies[x].Damage(Enemy.AttackDamage);
 
 #if AUDIO_ENABLED
-                            _explosion.Play();
+                            new Task(() => {_explosion.Play();}).Start();
 #endif
 
                             deadEnemies.Add(enemy);
@@ -490,7 +486,7 @@ namespace XPlane.Core
             Projectiles.Add(projectile);
 
 #if AUDIO_ENABLED
-            _laserFire.Play();
+            new Task(() => {_laserFire.Play();}).Start();
 #endif
         }
 

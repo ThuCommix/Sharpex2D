@@ -45,23 +45,23 @@ namespace XPlane.Core.Scenes
         }
 
         /// <summary>
-        /// Renders the Scene.
+        /// Draws the Scene.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The spriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Render(RenderDevice renderer, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            _skyBox.Render(renderer, gameTime);
-            _fadeableText1.Render(renderer, gameTime);
+            _skyBox.Draw(spriteBatch, gameTime);
+            _fadeableText1.Draw(spriteBatch, gameTime);
             if (_fadeableText1.AnimationComplete)
             {
-                _fadeableText2.Render(renderer, gameTime);
+                _fadeableText2.Draw(spriteBatch, gameTime);
                 if (_fadeableText2.AnimationComplete)
                 {
-                    _fadeableText3.Render(renderer, gameTime);
+                    _fadeableText3.Draw(spriteBatch, gameTime);
                     if (_fadeableText3.AnimationComplete)
                     {
-                        _blackBlend.Render(renderer, gameTime);
+                        _blackBlend.Draw(spriteBatch, gameTime);
                     }
                 }
             }
