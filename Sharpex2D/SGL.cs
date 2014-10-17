@@ -191,7 +191,7 @@ namespace Sharpex2D
             Components.Get<GameLoop>().Stop();
             GameInstance.OnUnload();
             GC.Collect();
-            //Process.GetCurrentProcess().Kill();
+            Process.GetCurrentProcess().Kill();
         }
 
         /// <summary>
