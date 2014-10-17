@@ -41,7 +41,7 @@ namespace Sharpex2D.Rendering.DirectX10
         private readonly int _width;
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public override int Width
         {
@@ -49,7 +49,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public override int Height
         {
@@ -61,7 +61,7 @@ namespace Sharpex2D.Rendering.DirectX10
         private readonly Bitmap _bmp;
 
         /// <summary>
-        ///     Initializes a new DirectXTexture class.
+        /// Initializes a new DirectXTexture class.
         /// </summary>
         /// <param name="bmp">The Bitmap.</param>
         internal DirectXTexture(System.Drawing.Bitmap bmp)
@@ -104,12 +104,12 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Gets the RawBitmap.
+        /// Gets the RawBitmap.
         /// </summary>
         internal System.Drawing.Bitmap RawBitmap { get; private set; }
 
         /// <summary>
-        ///     Gets the current Bitmap.
+        /// Gets the current Bitmap.
         /// </summary>
         /// <returns></returns>
         public Bitmap GetBitmap()

@@ -52,9 +52,10 @@
     <Compile Include="Content\Pipeline\Processors\DirectXFontContentProcessor.cs" />
     <Compile Include="Content\Pipeline\Processors\DirectXPenContentProcessor.cs" />
     <Compile Include="Content\Pipeline\Processors\DirectXTextureContentProcessor.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXGraphics.cs" />
+    <Compile Include="Rendering\DirectX10\DirectXGraphicsManager.cs" />
     <Compile Include="Rendering\DirectX10\DirectXHelper.cs" />
     <Compile Include="Rendering\DirectX10\DirectXPen.cs" />
-    <Compile Include="Rendering\DirectX10\DirectXRenderDevice.cs" />
     <Compile Include="Rendering\DirectX10\DirectXResourceManager.cs" />
     <Compile Include="Rendering\DirectX10\DirectXTexture.cs" />
     <Compile Include="Rendering\DirectX10\DirectXFont.cs" />

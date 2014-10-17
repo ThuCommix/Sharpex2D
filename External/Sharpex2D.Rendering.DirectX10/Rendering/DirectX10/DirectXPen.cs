@@ -32,12 +32,12 @@ namespace Sharpex2D.Rendering.DirectX10
         #region IPen Implementation
 
         /// <summary>
-        ///     Sets or gets the Size of the Pen.
+        /// Sets or gets the Size of the Pen.
         /// </summary>
         public float Width { get; set; }
 
         /// <summary>
-        ///     Sets or gets the Color of the Pen.
+        /// Sets or gets the Color of the Pen.
         /// </summary>
         public Color Color
         {
@@ -55,7 +55,7 @@ namespace Sharpex2D.Rendering.DirectX10
         private Color _color;
 
         /// <summary>
-        ///     Initializes a new DirectXPen class.
+        /// Initializes a new DirectXPen class.
         /// </summary>
         public DirectXPen()
         {
@@ -65,7 +65,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Initializes a new DirectXPen class.
+        /// Initializes a new DirectXPen class.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
@@ -76,7 +76,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Gets the Pen.
+        /// Gets the Pen.
         /// </summary>
         /// <returns>SolidColorBrush</returns>
         internal SolidColorBrush GetPen()

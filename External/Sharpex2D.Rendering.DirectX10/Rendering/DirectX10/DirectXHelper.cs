@@ -31,19 +31,19 @@ namespace Sharpex2D.Rendering.DirectX10
     public class DirectXHelper
     {
         /// <summary>
-        ///     Gets or sets the RenderTarget.
+        /// Gets or sets the RenderTarget.
         /// </summary>
         internal static RenderTarget RenderTarget { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Direct2DFactory.
+        /// Sets or gets the Direct2DFactory.
         /// </summary>
         internal static Factory Direct2DFactory { set; get; }
 
         internal static SlimDX.DirectWrite.Factory DirectWriteFactory { set; get; }
 
         /// <summary>
-        ///     Converts the Color.
+        /// Converts the Color.
         /// </summary>
         /// <param name="value">The Color.</param>
         /// <returns>Color4.</returns>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the Rectangle.
+        /// Converts the Rectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>Rectangle.</returns>
@@ -63,7 +63,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the Vector2.
+        /// Converts the Vector2.
         /// </summary>
         /// <param name="target">The Vector.</param>
         /// <returns>PointF.</returns>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the Rectangle.
+        /// Converts the Rectangle.
         /// </summary>
         /// <param name="ellipse">The Ellipse.</param>
         /// <returns>Ellipse.</returns>
@@ -90,7 +90,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the Vector2.
+        /// Converts the Vector2.
         /// </summary>
         /// <param name="p0">The Vector2.</param>
         /// <returns>PointF.</returns>
@@ -100,7 +100,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the SolidColorBrush.
+        /// Converts the SolidColorBrush.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>Brush.</returns>
@@ -110,7 +110,7 @@ namespace Sharpex2D.Rendering.DirectX10
         }
 
         /// <summary>
-        ///     Converts the Rectangle.
+        /// Converts the Rectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>Rectangle.</returns>
