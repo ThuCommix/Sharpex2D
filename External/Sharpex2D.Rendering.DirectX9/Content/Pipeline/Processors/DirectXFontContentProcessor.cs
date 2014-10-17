@@ -30,7 +30,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
     public class DirectXFontContentProcessor : ContentProcessor<DirectXFont>
     {
         /// <summary>
-        ///     Initializes a new DirectXFontContentProcessor class.
+        /// Initializes a new DirectXFontContentProcessor class.
         /// </summary>
         public DirectXFontContentProcessor()
             : base(new Guid("46ABDF8E-8C83-4FD7-83F6-93E36BD4E6F2"))
@@ -38,7 +38,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>DirectXFont.</returns>
@@ -78,7 +78,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

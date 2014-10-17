@@ -37,7 +37,7 @@ namespace Sharpex2D.Rendering.DirectX9
         private readonly int _width;
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public override int Width
         {
@@ -45,7 +45,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public override int Height
         {
@@ -57,7 +57,7 @@ namespace Sharpex2D.Rendering.DirectX9
         private readonly Texture _texture;
 
         /// <summary>
-        ///     Initializes a new DirectXTexture class.
+        /// Initializes a new DirectXTexture class.
         /// </summary>
         /// <param name="path">The Path.</param>
         internal DirectXTexture(string path)
@@ -75,7 +75,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Initializes a new DirectXTexture class.
+        /// Initializes a new DirectXTexture class.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         internal DirectXTexture(Stream stream)
@@ -95,7 +95,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Initializes a new DirectXTexture class.
+        /// Initializes a new DirectXTexture class.
         /// </summary>
         /// <param name="bitmap">The Bitmap.</param>
         internal DirectXTexture(Bitmap bitmap)
@@ -116,12 +116,12 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Gets the RawBitmap.
+        /// Gets the RawBitmap.
         /// </summary>
         internal Bitmap RawBitmap { private set; get; }
 
         /// <summary>
-        ///     Gets the Texture.
+        /// Gets the Texture.
         /// </summary>
         /// <returns>Texture.</returns>
         internal Texture GetTexture()

@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,31 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 namespace Sharpex2D.Rendering.DirectX9
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class DirectXResourceManager : ResourceManager
+    [MetaData("Graphics", "DirectX9")]
+    public class DirectXGraphicsManager : GraphicsManager
     {
         /// <summary>
-        /// Creates a new Resource.
+        /// A value indicating whether the Graphics is supported.
         /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="width">The Width.</param>
-        /// <returns>IPen.</returns>
-        public override IPen CreateResource(Color color, float width)
+        public override bool IsSupported
         {
-            return new DirectXPen(color, width);
+            get { return Environment.OSVersion.Version >= new Version(5, 1); }
         }
 
         /// <summary>
-        /// Creates a new Resource.
+        /// Creates the graphics.
         /// </summary>
-        /// <param name="typeface">The Typeface.</param>
-        /// <returns>IFont.</returns>
-        public override IFont CreateResource(Typeface typeface)
+        /// <returns>IGraphics.</returns>
+        public override IGraphics Create()
         {
-            return new DirectXFont(typeface);
+            return new DirectXGraphics();
         }
     }
 }

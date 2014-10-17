@@ -31,12 +31,12 @@ namespace Sharpex2D.Rendering.DirectX9
     internal static class DirectXHelper
     {
         /// <summary>
-        ///     Gets the Direct3D9Device.
+        /// Gets the Direct3D9Device.
         /// </summary>
         public static Device Direct3D9 { set; get; }
 
         /// <summary>
-        ///     Converts the Color into a DXColor.
+        /// Converts the Color into a DXColor.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>DXColor.</returns>
@@ -46,7 +46,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts the Vector into a texture based rectangle.
+        /// Converts the Vector into a texture based rectangle.
         /// </summary>
         /// <param name="position">The Position.</param>
         /// <param name="texture">The Texture.</param>
@@ -58,7 +58,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts a Rectangle into a WinRectangle.
+        /// Converts a Rectangle into a WinRectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>Rectangle.</returns>
@@ -69,7 +69,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts the Vector2 into DXVector3.
+        /// Converts the Vector2 into DXVector3.
         /// </summary>
         /// <param name="vector2">The Vector2.</param>
         /// <returns>Vector3.</returns>
@@ -79,7 +79,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts the vertex into DXVertex3.
+        /// Converts the vertex into DXVertex3.
         /// </summary>
         /// <param name="vertex">The Vertex.</param>
         /// <returns>Vector2 Array.</returns>
@@ -96,7 +96,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts the Vector2 into Vector3.
+        /// Converts the Vector2 into Vector3.
         /// </summary>
         /// <param name="position">The Vector2.</param>
         /// <returns>Vector3.</returns>

@@ -30,7 +30,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
     public class DirectXTextureContentProcessor : ContentProcessor<DirectXTexture>
     {
         /// <summary>
-        ///     Initializes a new DirectXTextureContentProcessor class.
+        /// Initializes a new DirectXTextureContentProcessor class.
         /// </summary>
         public DirectXTextureContentProcessor()
             : base(new Guid("B13691DB-CF30-4A9A-A670-7030D2B798FD"))
@@ -38,7 +38,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>DirectXTexture.</returns>
@@ -55,7 +55,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

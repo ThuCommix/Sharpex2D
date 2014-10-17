@@ -31,7 +31,7 @@ namespace Sharpex2D.Rendering.DirectX9
         #region IFont Implementation
 
         /// <summary>
-        ///     Sets or gets the Typeface.
+        /// Sets or gets the Typeface.
         /// </summary>
         public Typeface Typeface { get; set; }
 
@@ -40,7 +40,7 @@ namespace Sharpex2D.Rendering.DirectX9
         private readonly SlimDX.Direct3D9.Font _font;
 
         /// <summary>
-        ///     Initializes a new DirectXFont.
+        /// Initializes a new DirectXFont.
         /// </summary>
         /// <param name="typeface">The Typeface</param>
         public DirectXFont(Typeface typeface)
@@ -49,7 +49,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Converts
+        /// Converts
         /// </summary>
         /// <param name="typeface"></param>
         /// <returns></returns>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Rendering.DirectX9
         }
 
         /// <summary>
-        ///     Gets the Font.
+        /// Gets the Font.
         /// </summary>
         /// <returns>TextFormat.</returns>
         public SlimDX.Direct3D9.Font GetFont()

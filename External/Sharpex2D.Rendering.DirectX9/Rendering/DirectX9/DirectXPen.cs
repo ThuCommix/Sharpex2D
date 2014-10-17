@@ -30,26 +30,26 @@ namespace Sharpex2D.Rendering.DirectX9
         #region IPen Implementation
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public float Width { get; set; }
 
         /// <summary>
-        ///     Gets the Color.
+        /// Gets the Color.
         /// </summary>
         public Color Color { get; set; }
 
         #endregion
 
         /// <summary>
-        ///     Initializes a new DirectXPen class.
+        /// Initializes a new DirectXPen class.
         /// </summary>
         public DirectXPen()
         {
         }
 
         /// <summary>
-        ///     Initializes a new DirectXPen class.
+        /// Initializes a new DirectXPen class.
         /// </summary>
         /// <param name="color"></param>
         /// <param name="width"></param>
