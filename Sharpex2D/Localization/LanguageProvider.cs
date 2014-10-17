@@ -31,7 +31,7 @@ namespace Sharpex2D.Localization
     public class LanguageProvider
     {
         /// <summary>
-        ///     LanguageEventHandler.
+        /// LanguageEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -48,12 +48,12 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     LanguageChanged event.
+        /// LanguageChanged event.
         /// </summary>
         public event LanguageEventHandler LanguageChanged;
 
         /// <summary>
-        ///     Changes the current language.
+        /// Changes the current language.
         /// </summary>
         /// <param name="guid">The LanguageGuide.</param>
         public void ChangeLanguage(Guid guid)
@@ -75,7 +75,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Gets the LocalizedString from the current Language.
+        /// Gets the LocalizedString from the current Language.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>String</returns>
@@ -94,7 +94,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Loads a language based on the Path.
+        /// Loads a language based on the Path.
         /// </summary>
         /// <param name="path">The Filepath.</param>
         public void LoadLanguage(string path)
@@ -110,7 +110,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Loads a languages in the given Directory.
+        /// Loads a languages in the given Directory.
         /// </summary>
         /// <param name="directoryPath">The DirectoryPath.</param>
         public void LoadLanguagesFromDirectory(string directoryPath)

@@ -29,7 +29,7 @@ namespace Sharpex2D.Input
         private readonly Dictionary<Keys, bool> _reference;
 
         /// <summary>
-        ///     Initializes a new KeyState class.
+        /// Initializes a new KeyState class.
         /// </summary>
         /// <param name="reference">The Reference.</param>
         public KeyboardState(Dictionary<Keys, bool> reference)
@@ -38,7 +38,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     A value indicating whether the key is pressed.
+        /// A value indicating whether the key is pressed.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed.</returns>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     A value indicating whether the key is released.
+        /// A value indicating whether the key is released.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if released.</returns>

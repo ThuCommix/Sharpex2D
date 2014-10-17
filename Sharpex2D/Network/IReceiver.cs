@@ -25,7 +25,7 @@ namespace Sharpex2D.Network
     public interface IReceiver
     {
         /// <summary>
-        ///     Receives a package.
+        /// Receives a package.
         /// </summary>
         void BeginReceive();
     }

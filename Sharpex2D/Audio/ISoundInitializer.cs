@@ -25,14 +25,14 @@ namespace Sharpex2D.Audio
     public interface ISoundInitializer
     {
         /// <summary>
-        ///     A value indicating whether the ISoundInitializer is supported.
+        /// A value indicating whether the ISoundInitializer is supported.
         /// </summary>
         bool IsSupported { get; }
 
         /// <summary>
-        ///     Creates the ISoundProvider.
+        /// Creates the ISoundProvider.
         /// </summary>
         /// <returns>ISoundProvider</returns>
-        ISoundProvider CreateProvider();
+        ISoundProvider Create();
     }
 }

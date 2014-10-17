@@ -32,7 +32,7 @@ namespace Sharpex2D
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -44,7 +44,7 @@ namespace Sharpex2D
         #region IEnumerable Implementation
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
         public IEnumerator<IComponent> GetEnumerator()
@@ -53,7 +53,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
@@ -64,7 +64,7 @@ namespace Sharpex2D
         #endregion
 
         /// <summary>
-        ///     ComponentEventHandler.
+        /// ComponentEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -75,7 +75,7 @@ namespace Sharpex2D
         private bool _alreadyCalledConstruct;
 
         /// <summary>
-        ///     Access to the Components enumeration.
+        /// Access to the Components enumeration.
         /// </summary>
         private List<IComponent> Components
         {
@@ -83,7 +83,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Initializes all Components.
+        /// Initializes all Components.
         /// </summary>
         public void Construct()
         {
@@ -99,17 +99,17 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     ComponentRemoved event.
+        /// ComponentRemoved event.
         /// </summary>
         public event ComponentEventHandler ComponentRemoved;
 
         /// <summary>
-        ///     ComponentAdded event.
+        /// ComponentAdded event.
         /// </summary>
         public event ComponentEventHandler ComponentAdded;
 
         /// <summary>
-        ///     Adds a new Component to the enumeration.
+        /// Adds a new Component to the enumeration.
         /// </summary>
         /// <param name="component">The Component.</param>
         public void Add(IComponent component)
@@ -132,7 +132,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Removes a Component from the enumeration.
+        /// Removes a Component from the enumeration.
         /// </summary>
         /// <param name="component">The Component.</param>
         public void Remove(IComponent component)
@@ -146,7 +146,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns a specific component if exists.
+        /// Returns a specific component if exists.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Component</returns>
@@ -161,7 +161,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Component by Guid.
+        /// Gets the Component by Guid.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>IComponent</returns>

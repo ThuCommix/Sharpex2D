@@ -31,7 +31,7 @@ namespace Sharpex2D.GameService
     public class Gamer : IGameService, IContent
     {
         /// <summary>
-        ///     Initializes a new Gamer class.
+        /// Initializes a new Gamer class.
         /// </summary>
         public Gamer()
         {
@@ -39,12 +39,12 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets or sets the DisplayName of the gamer.
+        /// Gets or sets the DisplayName of the gamer.
         /// </summary>
         public string DisplayName { set; get; }
 
         /// <summary>
-        ///     Gets or sets the Guid-Identifer of the gamer.
+        /// Gets or sets the Guid-Identifer of the gamer.
         /// </summary>
         public Guid Guid { get; set; }
     }

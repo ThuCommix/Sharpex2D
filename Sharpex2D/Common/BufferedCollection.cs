@@ -31,7 +31,7 @@ namespace Sharpex2D.Common
         private T _buffer;
 
         /// <summary>
-        ///     Initializes a new BufferedCollection class.
+        /// Initializes a new BufferedCollection class.
         /// </summary>
         public BufferedCollection()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Gets the Element by Index.
+        /// Gets the Element by Index.
         /// </summary>
         /// <param name="index">The Index.</param>
         /// <returns>T</returns>
@@ -68,7 +68,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Adds a new Element to the collection.
+        /// Adds a new Element to the collection.
         /// </summary>
         /// <param name="element">The Element.</param>
         public void Add(T element)
@@ -77,7 +77,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Removes an Element from the collection.
+        /// Removes an Element from the collection.
         /// </summary>
         /// <param name="element">The Element.</param>
         public void Remove(T element)
@@ -89,7 +89,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Indicates whether the collection contains an element.
+        /// Indicates whether the collection contains an element.
         /// </summary>
         /// <param name="element"></param>
         /// <returns></returns>
@@ -99,7 +99,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Gets all elements.
+        /// Gets all elements.
         /// </summary>
         /// <returns></returns>
         public T[] ToArray()
@@ -108,7 +108,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Gets an specified Element of the collection.
+        /// Gets an specified Element of the collection.
         /// </summary>
         /// <typeparam name="TE">The Type.</typeparam>
         /// <returns>Element</returns>
@@ -132,7 +132,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Clears the collection.
+        /// Clears the collection.
         /// </summary>
         public void Clear()
         {

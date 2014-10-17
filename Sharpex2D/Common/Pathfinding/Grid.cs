@@ -30,7 +30,7 @@ namespace Sharpex2D.Common.Pathfinding
         private readonly GridField[,] _fields;
 
         /// <summary>
-        ///     Initializes a new Grid class.
+        /// Initializes a new Grid class.
         /// </summary>
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
@@ -54,7 +54,7 @@ namespace Sharpex2D.Common.Pathfinding
         public int GridHeight { private set; get; }
 
         /// <summary>
-        ///     Returns all Neighbors of a field.
+        /// Returns all Neighbors of a field.
         /// </summary>
         /// <param name="x">The X-Coord of the field.</param>
         /// <param name="y">The Y-Coord of the field.</param>
@@ -95,7 +95,7 @@ namespace Sharpex2D.Common.Pathfinding
         }
 
         /// <summary>
-        ///     Returns a GridField on the specific position.
+        /// Returns a GridField on the specific position.
         /// </summary>
         /// <param name="x">The X-Coord.</param>
         /// <param name="y">The Y-Coord.</param>
@@ -106,7 +106,7 @@ namespace Sharpex2D.Common.Pathfinding
         }
 
         /// <summary>
-        ///     Gets the distance between two GridFields.
+        /// Gets the distance between two GridFields.
         /// </summary>
         /// <param name="first">The first GridField.</param>
         /// <param name="second">The second GridField.</param>

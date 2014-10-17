@@ -41,7 +41,7 @@ namespace Sharpex2D.Input.Windows.Touch
         private readonly List<Input.Touch> _touches;
 
         /// <summary>
-        ///     Initializes a new Touch class.
+        /// Initializes a new Touch class.
         /// </summary>
         public TouchDevice()
             : base(new Guid("0F29FED4-24B0-4D39-91FA-80D29388853B"))
@@ -72,7 +72,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public override Version PlatformVersion
         {
@@ -80,7 +80,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     A value indicating whether the Platform is supported.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
         public override bool IsPlatformSupported
         {
@@ -88,14 +88,14 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     Initializes the device.
+        /// Initializes the device.
         /// </summary>
         public override void InitializeDevice()
         {
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
@@ -104,7 +104,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     Gets the State.
+        /// Gets the State.
         /// </summary>
         /// <returns>TouchState.</returns>
         public override TouchState GetState()
@@ -113,7 +113,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     MessageArrived event.
+        /// MessageArrived event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -123,7 +123,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     Decoces the message.
+        /// Decoces the message.
         /// </summary>
         /// <param name="m">The Message.</param>
         private void DecodeMessage(Message m)
@@ -173,7 +173,7 @@ namespace Sharpex2D.Input.Windows.Touch
         }
 
         /// <summary>
-        ///     Deconstructs the object.
+        /// Deconstructs the object.
         /// </summary>
         ~TouchDevice()
         {

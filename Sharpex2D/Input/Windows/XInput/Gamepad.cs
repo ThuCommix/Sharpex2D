@@ -31,22 +31,22 @@ namespace Sharpex2D.Input.Windows.XInput
     public class Gamepad : NativeInput<GamepadState>
     {
         /// <summary>
-        ///     Maximum Controller input.
+        /// Maximum Controller input.
         /// </summary>
         internal const int MaxControllerCount = 4;
 
         /// <summary>
-        ///     StartIndex.
+        /// StartIndex.
         /// </summary>
         internal const int FirstControllerIndex = 0;
 
         /// <summary>
-        ///     LastIndex.
+        /// LastIndex.
         /// </summary>
         internal const int LastControllerIndex = MaxControllerCount - 1;
 
         /// <summary>
-        ///     Gets the Available Controllers.
+        /// Gets the Available Controllers.
         /// </summary>
         private static readonly Gamepad[] Controllers;
 
@@ -60,7 +60,7 @@ namespace Sharpex2D.Input.Windows.XInput
         private bool _stopMotorTimerActive;
 
         /// <summary>
-        ///     Initializes a new XboxController class.
+        /// Initializes a new XboxController class.
         /// </summary>
         static Gamepad()
         {
@@ -72,7 +72,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Initializes a new XboxController class.
+        /// Initializes a new XboxController class.
         /// </summary>
         /// <param name="playerIndex">The Index.</param>
         private Gamepad(int playerIndex)
@@ -83,7 +83,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Gets the Gamepad BatteryInformation.
+        /// Gets the Gamepad BatteryInformation.
         /// </summary>
         public XInputBatteryInformation BatteryInformationGamepad
         {
@@ -92,7 +92,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Gets the Headset BatteryInformation.
+        /// Gets the Headset BatteryInformation.
         /// </summary>
         public XInputBatteryInformation BatteryInformationHeadset
         {
@@ -101,12 +101,12 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     A value indicating whether the Controller is Connected.
+        /// A value indicating whether the Controller is Connected.
         /// </summary>
         public bool IsConnected { get; internal set; }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public override Version PlatformVersion
         {
@@ -114,7 +114,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
@@ -123,7 +123,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Gets the State.
+        /// Gets the State.
         /// </summary>
         /// <returns>GamepadState.</returns>
         public override GamepadState GetState()
@@ -150,7 +150,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Initializes the Device.
         /// </summary>
         public override void InitializeDevice()
         {
@@ -162,7 +162,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Retrieves the XBoxController.
+        /// Retrieves the XBoxController.
         /// </summary>
         /// <param name="index">The Index.</param>
         /// <returns>XboxController.</returns>
@@ -172,7 +172,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Updates the BatteryState.
+        /// Updates the BatteryState.
         /// </summary>
         internal void UpdateBatteryState()
         {
@@ -189,14 +189,14 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Triggers the events.
+        /// Triggers the events.
         /// </summary>
         protected void OnStateChanged()
         {
         }
 
         /// <summary>
-        ///     Gets the Capabilities.
+        /// Gets the Capabilities.
         /// </summary>
         /// <returns></returns>
         public XInputCapabilities GetCapabilities()
@@ -207,7 +207,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Updates the Controller state.
+        /// Updates the Controller state.
         /// </summary>
         internal void UpdateState()
         {
@@ -229,7 +229,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Vibrates the controller.
+        /// Vibrates the controller.
         /// </summary>
         /// <param name="leftMotor">The LeftMotor.</param>
         /// <param name="rightMotor">The RightMotor.</param>
@@ -248,7 +248,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Vibrates the controller.
+        /// Vibrates the controller.
         /// </summary>
         /// <param name="strength">The Strength.</param>
         /// <param name="length">The Length.</param>
@@ -263,7 +263,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Converts the object to string.
+        /// Converts the object to string.
         /// </summary>
         /// <returns>String.</returns>
         public override string ToString()

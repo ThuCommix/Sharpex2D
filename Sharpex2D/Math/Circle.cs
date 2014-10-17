@@ -25,7 +25,7 @@ namespace Sharpex2D.Math
     public struct Circle : IGeometry
     {
         /// <summary>
-        ///     Creates a new Circle.
+        /// Creates a new Circle.
         /// </summary>
         /// <param name="position">The Position.</param>
         /// <param name="radius">The Radius.</param>
@@ -36,17 +36,17 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets or sets the Circle radius.
+        /// Gets or sets the Circle radius.
         /// </summary>
         public float Radius { set; get; }
 
         /// <summary>
-        ///     Gets or sets the center point of the Circle.
+        /// Gets or sets the center point of the Circle.
         /// </summary>
         public Vector2 Position { set; get; }
 
         /// <summary>
-        ///     Gets the Distance between two circles.
+        /// Gets the Distance between two circles.
         /// </summary>
         /// <param name="circle1">The first Circle.</param>
         /// <param name="circle2">The second Circle.</param>
@@ -59,7 +59,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the Distance between this, and a second Circle.
+        /// Gets the Distance between this, and a second Circle.
         /// </summary>
         /// <param name="circle">The second Circle.</param>
         /// <returns>Distance</returns>
@@ -71,7 +71,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Indicates whether the Circle intersects with another Circle.
+        /// Indicates whether the Circle intersects with another Circle.
         /// </summary>
         /// <param name="circle">The second Circle.</param>
         /// <returns>True on intersect</returns>
@@ -85,7 +85,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Indicates whether the first Circle intersects with the second Circle.
+        /// Indicates whether the first Circle intersects with the second Circle.
         /// </summary>
         /// <param name="circle1">The first Circle.</param>
         /// <param name="circle2">The second Circle.</param>
@@ -100,7 +100,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Converts the circle in to a string.
+        /// Converts the circle in to a string.
         /// </summary>
         /// <returns>String</returns>
         public override string ToString()

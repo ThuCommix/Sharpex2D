@@ -26,7 +26,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Console
     public class ConsoleAdapter : IAdapter
     {
         /// <summary>
-        ///     Initializes a new ConsoleAdapter class.
+        /// Initializes a new ConsoleAdapter class.
         /// </summary>
         /// <param name="mode">The OutputMode.</param>
         public ConsoleAdapter(OutputMode mode)
@@ -35,12 +35,12 @@ namespace Sharpex2D.Debug.Logging.Adapters.Console
         }
 
         /// <summary>
-        ///     Gets the OutputMode.
+        /// Gets the OutputMode.
         /// </summary>
         public OutputMode OutputMode { private set; get; }
 
         /// <summary>
-        ///     Logs a message.
+        /// Logs a message.
         /// </summary>
         /// <param name="message">The Message.</param>
         public void Write(string message)

@@ -23,6 +23,7 @@ using Sharpex2D.Entities;
 using Sharpex2D.Math;
 using Sharpex2D.Physics.Collision;
 using Sharpex2D.Physics.Shapes;
+using Sharpex2D.Rendering;
 using Rectangle = Sharpex2D.Physics.Shapes.Rectangle;
 
 namespace Sharpex2D.Physics
@@ -35,7 +36,7 @@ namespace Sharpex2D.Physics
         #region IShape Implementation
 
         /// <summary>
-        ///     Gets or sets the type of the shape.
+        /// Gets or sets the type of the shape.
         /// </summary>
         public IShape Shape { set; get; }
 
@@ -48,7 +49,7 @@ namespace Sharpex2D.Physics
         private Vector2 _velocity = new Vector2(0, 0);
 
         /// <summary>
-        ///     Initializes a new Particle.
+        /// Initializes a new Particle.
         /// </summary>
         public Particle()
         {
@@ -58,7 +59,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Initializes a new Particle.
+        /// Initializes a new Particle.
         /// </summary>
         /// <param name="physicProvider">The PhysicProvider.</param>
         public Particle(IPhysicProvider physicProvider)
@@ -74,7 +75,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets the mass of the object.
+        /// Sets or gets the mass of the object.
         /// </summary>
         public float Mass
         {
@@ -83,7 +84,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets the elasticity of the object.
+        /// Sets or gets the elasticity of the object.
         /// </summary>
         public float Elasticity
         {
@@ -92,7 +93,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets the velocity of the object.
+        /// Sets or gets the velocity of the object.
         /// </summary>
         public Vector2 Velocity
         {
@@ -101,7 +102,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets the damping value of the object.
+        /// Sets or gets the damping value of the object.
         /// </summary>
         public float Damping
         {
@@ -110,12 +111,12 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets whether gravity should be used.
+        /// Sets or gets whether gravity should be used.
         /// </summary>
         public bool Gravity { set; get; }
 
         /// <summary>
-        ///     Gets the linked PhysicProvider.
+        /// Gets the linked PhysicProvider.
         /// </summary>
         public IPhysicProvider PhysicProvider
         {
@@ -123,7 +124,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Called after a non-elastic impact.
+        /// Called after a non-elastic impact.
         /// </summary>
         /// <param name="penetration">The PenetrationParams.</param>
         public virtual void OnPenetration(PenetrationParams penetration)
@@ -131,10 +132,27 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Called after an elastic impact.
+        /// Called after an elastic impact.
         /// </summary>
         /// <param name="recoil">The RecoilParams.</param>
         public virtual void OnRecoil(RecoilParams recoil)
+        {
+        }
+
+        /// <summary>
+        /// Updates the particle.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Update(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Renders the particle.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
         }
     }

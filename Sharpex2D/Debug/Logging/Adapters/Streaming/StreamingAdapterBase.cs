@@ -31,7 +31,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
         private readonly StreamWriter _writer;
 
         /// <summary>
-        ///     Initializes a new StreamingAdapterBase class.
+        /// Initializes a new StreamingAdapterBase class.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <param name="encoding">The Encoding.</param>
@@ -47,12 +47,12 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
         }
 
         /// <summary>
-        ///     Gets the Encoding.
+        /// Gets the Encoding.
         /// </summary>
         public Encoding Encoding { private set; get; }
 
         /// <summary>
-        ///     Logs a message.
+        /// Logs a message.
         /// </summary>
         /// <param name="message">The Message.</param>
         void IAdapter.Write(string message)
@@ -61,7 +61,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
         }
 
         /// <summary>
-        ///     Logs a message.
+        /// Logs a message.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="writer">The StreamWriter.</param>

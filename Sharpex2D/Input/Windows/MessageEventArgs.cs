@@ -30,7 +30,7 @@ namespace Sharpex2D.Input.Windows
     public class MessageEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new MessageEventArgs class.
+        /// Initializes a new MessageEventArgs class.
         /// </summary>
         /// <param name="msg">The Message.</param>
         internal MessageEventArgs(Message msg)
@@ -39,7 +39,7 @@ namespace Sharpex2D.Input.Windows
         }
 
         /// <summary>
-        ///     Gets the Message.
+        /// Gets the Message.
         /// </summary>
         public Message Message { private set; get; }
     }

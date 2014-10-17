@@ -27,54 +27,58 @@ namespace Sharpex2D.Audio
     public interface ISoundProvider : IComponent, IDisposable
     {
         /// <summary>
-        ///     Sets or gets the Balance.
+        /// Sets or gets the Balance.
         /// </summary>
         float Balance { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Volume.
+        /// Sets or gets the Volume.
         /// </summary>
         float Volume { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Position.
+        /// Sets or gets the Position.
         /// </summary>
         long Position { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the SoundProvider is playing.
+        /// Gets the PlaybackState.
         /// </summary>
-        bool IsPlaying { get; }
+        PlaybackState PlaybackState { get; }
 
         /// <summary>
-        ///     Gets the sound length.
+        /// Gets the sound length.
         /// </summary>
         long Length { get; }
 
         /// <summary>
-        ///     Gets the SoundInitializer.
+        /// Triggered if the playback state changed.
         /// </summary>
-        ISoundInitializer SoundInitializer { get; }
+        event PlaybackChangedEventHandler PlaybackChanged;
 
         /// <summary>
-        ///     Plays the sound.
+        /// Plays the sound.
         /// </summary>
         /// <param name="soundFile">The Soundfile.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        void Play(Sound soundFile, PlayMode playMode);
+        void Play(Sound soundFile);
 
         /// <summary>
-        ///     Resumes a sound.
+        /// Resumes a sound.
         /// </summary>
         void Resume();
 
         /// <summary>
-        ///     Pause a sound.
+        /// Pause a sound.
         /// </summary>
         void Pause();
 
         /// <summary>
-        ///     Seeks a sound to a specified position.
+        /// Stops the sound.
+        /// </summary>
+        void Stop();
+
+        /// <summary>
+        /// Seeks a sound to a specified position.
         /// </summary>
         /// <param name="position">The Position.</param>
         void Seek(long position);

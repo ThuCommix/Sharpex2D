@@ -29,14 +29,14 @@ namespace Sharpex2D.Content.Pipeline
     public class ContentProcessorException : Exception
     {
         /// <summary>
-        ///     Initializes a new ContentProcessorException class.
+        /// Initializes a new ContentProcessorException class.
         /// </summary>
         public ContentProcessorException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new ContentProcessorException class.
+        /// Initializes a new ContentProcessorException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         public ContentProcessorException(string message) : base(message)
@@ -44,7 +44,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Initializes a new ContentProcessorException class.
+        /// Initializes a new ContentProcessorException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="inner">The InnerException.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Initializes a new ContentProcessorException class.
+        /// Initializes a new ContentProcessorException class.
         /// </summary>
         /// <param name="serializationInfo">The SerializationInfo.</param>
         /// <param name="context">The StreamContext.</param>

@@ -29,7 +29,7 @@ namespace Sharpex2D.Rendering.GDI
     public static class GDIHelper
     {
         /// <summary>
-        ///     Converts the Color.
+        /// Converts the Color.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>GDI Color.</returns>
@@ -39,7 +39,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Converts the Point.
+        /// Converts the Point.
         /// </summary>
         /// <param name="vector">The Vector2.</param>
         /// <returns>Point.</returns>
@@ -49,7 +49,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Converts the PointF.
+        /// Converts the PointF.
         /// </summary>
         /// <param name="vector">The Vector2.</param>
         /// <returns>PointF.</returns>
@@ -59,7 +59,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Converts the Rectangle.
+        /// Converts the Rectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>Rectangle.</returns>
@@ -70,7 +70,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Converts the RectangleF.
+        /// Converts the RectangleF.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>RectangleF.</returns>

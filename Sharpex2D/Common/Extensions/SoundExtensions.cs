@@ -31,7 +31,7 @@ namespace Sharpex2D.Common.Extensions
     public static class SoundExtensions
     {
         /// <summary>
-        ///     Gets the Stream.
+        /// Gets the Stream.
         /// </summary>
         /// <param name="sound">The Sound.</param>
         /// <returns>WaveStream.</returns>

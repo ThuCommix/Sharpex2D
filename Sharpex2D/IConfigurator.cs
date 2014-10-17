@@ -28,28 +28,23 @@ namespace Sharpex2D
     public interface IConfigurator
     {
         /// <summary>
-        ///     Gets the BackBuffer.
+        /// Gets the BackBuffer.
         /// </summary>
         BackBuffer BackBuffer { get; }
 
         /// <summary>
-        ///     Gets the TargetFrameRate.
+        /// Gets the TargetFrameRate.
         /// </summary>
         int TargetFrameRate { get; }
 
         /// <summary>
-        ///     Gets the GameInstance.
+        /// Gets the GameInstance.
         /// </summary>
         Game GameInstance { get; }
 
         /// <summary>
-        ///     Gets the RenderTarget.
+        /// Gets the RenderTarget.
         /// </summary>
         RenderTarget RenderTarget { get; }
-
-        /// <summary>
-        ///     Gets the GameLoop.
-        /// </summary>
-        IGameLoop GameLoop { get; }
     }
 }

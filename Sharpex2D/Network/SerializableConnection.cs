@@ -30,7 +30,7 @@ namespace Sharpex2D.Network
     public class SerializableConnection : IConnection
     {
         /// <summary>
-        ///     Initializes a new SerializableConnection class.
+        /// Initializes a new SerializableConnection class.
         /// </summary>
         internal SerializableConnection(IPAddress ipaddress, float latency, bool connected)
         {
@@ -40,22 +40,22 @@ namespace Sharpex2D.Network
         }
 
         /// <summary>
-        ///     Sets or gets the Latency.
+        /// Sets or gets the Latency.
         /// </summary>
         public float Latency { get; set; }
 
         /// <summary>
-        ///     Sets or gets the IPAddress.
+        /// Sets or gets the IPAddress.
         /// </summary>
         public IPAddress IPAddress { get; private set; }
 
         /// <summary>
-        ///     A value indicating whether the connection is still available.
+        /// A value indicating whether the connection is still available.
         /// </summary>
         public bool Connected { get; private set; }
 
         /// <summary>
-        ///     Creates a SerializableConnection from IConnection.
+        /// Creates a SerializableConnection from IConnection.
         /// </summary>
         /// <param name="connection">The Connection.</param>
         /// <returns>SerializableConnection</returns>
@@ -65,7 +65,7 @@ namespace Sharpex2D.Network
         }
 
         /// <summary>
-        ///     Converts an IConnection array into SerialiableConnection array.
+        /// Converts an IConnection array into SerialiableConnection array.
         /// </summary>
         /// <param name="connections">The Connections.</param>
         /// <returns>SerializableConnections</returns>

@@ -32,7 +32,7 @@ namespace Sharpex2D.Rendering
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Rendering
         #endregion
 
         /// <summary>
-        ///     Initializes a new GraphicsDeivce.
+        /// Initializes a new GraphicsDeivce.
         /// </summary>
         /// <param name="renderTarget">The RenderTarget.</param>
         public GraphicsDevice(RenderTarget renderTarget)
@@ -51,22 +51,22 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Determines if the graphics device is disposed.
+        /// Determines if the graphics device is disposed.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        ///     Sets or gets the graphic resolution.
+        /// Sets or gets the graphic resolution.
         /// </summary>
         public BackBuffer BackBuffer { get; set; }
 
         /// <summary>
-        ///     Sets or gets the RenderTarget.
+        /// Sets or gets the RenderTarget.
         /// </summary>
         public RenderTarget RenderTarget { get; internal set; }
 
         /// <summary>
-        ///     Gets the ScaleValue.
+        /// Gets the ScaleValue.
         /// </summary>
         public Vector2 Scale
         {
@@ -86,17 +86,17 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets or sets the Clear Color.
+        /// Gets or sets the Clear Color.
         /// </summary>
         public Color ClearColor { set; get; }
 
         /// <summary>
-        ///     Gets the RefreshRate.
+        /// Gets the RefreshRate.
         /// </summary>
         public float RefreshRate { internal set; get; }
 
         /// <summary>
-        ///     Disposes the GraphicsDevice.
+        /// Disposes the GraphicsDevice.
         /// </summary>
         public void Dispose()
         {
@@ -105,7 +105,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)

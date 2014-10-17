@@ -27,7 +27,7 @@ namespace Sharpex2D
     public class TestStateAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new TestStateAttribute class.
+        /// Initializes a new TestStateAttribute class.
         /// </summary>
         /// <param name="state">The TestState.</param>
         public TestStateAttribute(TestState state)

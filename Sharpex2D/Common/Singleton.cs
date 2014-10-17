@@ -27,7 +27,7 @@ namespace Sharpex2D.Common
         private static readonly T StaticInstance = new T();
 
         /// <summary>
-        ///     Gets the Instance.
+        /// Gets the Instance.
         /// </summary>
         public static T Instance
         {

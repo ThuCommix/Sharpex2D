@@ -28,12 +28,12 @@ namespace Sharpex2D.Input.Windows.JoystickApi
     internal struct JoyInfoEx
     {
         /// <summary>
-        ///     The Size of this structure.
+        /// The Size of this structure.
         /// </summary>
         public uint dwSize;
 
         /// <summary>
-        ///     The flags.
+        /// The flags.
         /// </summary>
         public uint dwFlags;
 

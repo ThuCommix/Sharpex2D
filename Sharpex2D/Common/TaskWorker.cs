@@ -32,7 +32,7 @@ namespace Sharpex2D.Common
         #region IComponent Implementation
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid { get; set; }
 
@@ -43,7 +43,7 @@ namespace Sharpex2D.Common
         private bool _isDisposed;
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -52,7 +52,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -72,7 +72,7 @@ namespace Sharpex2D.Common
         private readonly Task _task;
 
         /// <summary>
-        ///     Initializes a new TaskComponent class.
+        /// Initializes a new TaskComponent class.
         /// </summary>
         protected TaskWorker()
         {
@@ -81,12 +81,12 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Gets the ProgressPercentage.
+        /// Gets the ProgressPercentage.
         /// </summary>
         public abstract int ProgressPercentage { get; }
 
         /// <summary>
-        ///     Starts the
+        /// Starts the
         /// </summary>
         public void Start()
         {
@@ -97,7 +97,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Starts the work.
+        /// Starts the work.
         /// </summary>
         public virtual void Work()
         {

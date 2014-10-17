@@ -28,7 +28,7 @@ namespace Sharpex2D.Common
     public static class Delay
     {
         /// <summary>
-        ///     Executes the action with the specified delay.
+        /// Executes the action with the specified delay.
         /// </summary>
         /// <param name="delay">The Delay.</param>
         /// <param name="action">The Action.</param>
@@ -42,7 +42,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Executes the function with the specified delay.
+        /// Executes the function with the specified delay.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="delay">The Delay.</param>

@@ -25,7 +25,7 @@ namespace Sharpex2D.Rendering
     public abstract class ResourceManager
     {
         /// <summary>
-        ///     Creates a new Resource.
+        /// Creates a new Resource.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
@@ -33,7 +33,7 @@ namespace Sharpex2D.Rendering
         public abstract IPen CreateResource(Color color, float width);
 
         /// <summary>
-        ///     Creates a new Resource.
+        /// Creates a new Resource.
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
         /// <returns>IFont.</returns>

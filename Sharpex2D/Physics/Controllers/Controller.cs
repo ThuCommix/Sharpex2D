@@ -25,7 +25,7 @@ namespace Sharpex2D.Physics.Controllers
     public abstract class Controller
     {
         /// <summary>
-        ///     Initializes a new Controller class.
+        /// Initializes a new Controller class.
         /// </summary>
         protected Controller()
         {
@@ -34,17 +34,17 @@ namespace Sharpex2D.Physics.Controllers
         }
 
         /// <summary>
-        ///     A value indicating whether the Controller is enabled.
+        /// A value indicating whether the Controller is enabled.
         /// </summary>
         public bool IsEnabled { set; get; }
 
         /// <summary>
-        ///     Gets or sets the Name.
+        /// Gets or sets the Name.
         /// </summary>
         public string Name { set; get; }
 
         /// <summary>
-        ///     Updates the Controller.
+        /// Updates the Controller.
         /// </summary>
         /// <param name="world">The World.</param>
         /// <param name="elapsed">The Elapsed.</param>

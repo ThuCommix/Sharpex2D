@@ -33,7 +33,7 @@ namespace Sharpex2D.Debug.Logging
         private static readonly List<Logger> Loggers;
 
         /// <summary>
-        ///     Initializes a new LogManager class.
+        /// Initializes a new LogManager class.
         /// </summary>
         static LogManager()
         {
@@ -48,17 +48,17 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Gets or sets the MinimumLogLevel.
+        /// Gets or sets the MinimumLogLevel.
         /// </summary>
         public static LogLevel MinimumLogLevel { set; get; }
 
         /// <summary>
-        ///     Gets or sets the Adapter.
+        /// Gets or sets the Adapter.
         /// </summary>
         public static IAdapter Adapter { set; get; }
 
         /// <summary>
-        ///     Gets the logger.
+        /// Gets the logger.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>Logger.</returns>
@@ -70,7 +70,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Gets the class logger.
+        /// Gets the class logger.
         /// </summary>
         /// <returns>The Logger.</returns>
         public static Logger GetClassLogger()
@@ -81,7 +81,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Traces the message.
+        /// Traces the message.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="level">The LogLevel.</param>

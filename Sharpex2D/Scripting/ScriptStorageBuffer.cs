@@ -31,7 +31,7 @@ namespace Sharpex2D.Scripting
         private readonly Dictionary<Guid, Assembly> _list;
 
         /// <summary>
-        ///     Initializes a new ScriptStorageBuffer class.
+        /// Initializes a new ScriptStorageBuffer class.
         /// </summary>
         public ScriptStorageBuffer()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Sets or gets the CompiledScript.
+        /// Sets or gets the CompiledScript.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>Assembly.</returns>
@@ -58,7 +58,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Adds a new compiled script to the storage.
+        /// Adds a new compiled script to the storage.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <param name="compiledScript">The CompiledScript.</param>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Removes a compiled script.
+        /// Removes a compiled script.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         public void Remove(Guid guid)
@@ -87,7 +87,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Updates a already existing compiled script.
+        /// Updates a already existing compiled script.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <param name="compiledScript">The CompiledScript.</param>
@@ -102,7 +102,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     A value indicating whether the compiled script exists.
+        /// A value indicating whether the compiled script exists.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>True if the compiled script is available.</returns>

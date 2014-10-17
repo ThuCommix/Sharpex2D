@@ -31,7 +31,7 @@ namespace Sharpex2D.Plugin
         private bool _isDisposed;
 
         /// <summary>
-        ///     Initializes a new IsolatedAssemblySource class.
+        /// Initializes a new IsolatedAssemblySource class.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <param name="assemblyPath">The AssemblyPath.</param>
@@ -40,7 +40,7 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Initializes a new IsolatedAssemblySource class.
+        /// Initializes a new IsolatedAssemblySource class.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="assemblyPath">The AssemblyPath.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Initializes a new IsolatedAssemblySource class.
+        /// Initializes a new IsolatedAssemblySource class.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="assemblyPath">The AssemblyPath.</param>
@@ -67,12 +67,12 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Gets the Instance.
+        /// Gets the Instance.
         /// </summary>
         public T Instance { private set; get; }
 
         /// <summary>
-        ///     Disposes the Object.
+        /// Disposes the Object.
         /// </summary>
         public void Dispose()
         {
@@ -81,7 +81,7 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)

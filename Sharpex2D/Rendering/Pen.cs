@@ -26,41 +26,41 @@ namespace Sharpex2D.Rendering
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [Content("Pencil")]
-    public class Pen : IDeviceResource
+    public class Pen : IGraphicsResource
     {
         #region IRendererResource Implementation
 
         /// <summary>
-        ///     Gets or sets the DebugName.
+        /// Gets or sets the DebugName.
         /// </summary>
         public string DebugName { get; set; }
 
         #endregion
 
         /// <summary>
-        ///     Initializes a new Pen class.
+        /// Initializes a new Pen class.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
         public Pen(Color color, float width)
         {
-            RenderDevice rendererInstance = SGL.RenderDevice;
-            Instance = rendererInstance.ResourceManager.CreateResource(color, width);
+            SpriteBatch spriteBatch = SGL.SpriteBatch;
+            Instance = spriteBatch.Graphics.ResourceManager.CreateResource(color, width);
             Type = Instance.GetType();
         }
 
         /// <summary>
-        ///     Gets the Instance.
+        /// Gets the Instance.
         /// </summary>
         public IPen Instance { private set; get; }
 
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         public Type Type { private set; get; }
 
         /// <summary>
-        ///     Gets or sets the Color.
+        /// Gets or sets the Color.
         /// </summary>
         public Color Color
         {
@@ -69,7 +69,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets or sets the Width.
+        /// Gets or sets the Width.
         /// </summary>
         public float Width
         {

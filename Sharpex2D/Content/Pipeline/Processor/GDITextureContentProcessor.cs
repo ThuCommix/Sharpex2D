@@ -39,7 +39,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>GdiTexture.</returns>
@@ -66,7 +66,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

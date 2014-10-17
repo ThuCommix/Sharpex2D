@@ -27,7 +27,7 @@ namespace Sharpex2D.Debug.Logging
     public class Logger
     {
         /// <summary>
-        ///     Initializes a new Logger class.
+        /// Initializes a new Logger class.
         /// </summary>
         /// <param name="type">The Type.</param>
         internal Logger(Type type)
@@ -36,12 +36,12 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         public Type Type { private set; get; }
 
         /// <summary>
-        ///     Formats the message.
+        /// Formats the message.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="level">The LogLevel.</param>
@@ -51,7 +51,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new info message.
+        /// Logs a new info message.
         /// </summary>
         /// <param name="message">The Message.</param>
         public void Info(string message)
@@ -60,7 +60,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new info message.
+        /// Logs a new info message.
         /// </summary>
         /// <param name="stringFormat">The StringFormat.</param>
         /// <param name="arguments">The Arguments.</param>
@@ -70,7 +70,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new warning message.
+        /// Logs a new warning message.
         /// </summary>
         /// <param name="message">The Message.</param>
         public void Warn(string message)
@@ -79,7 +79,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new warning message.
+        /// Logs a new warning message.
         /// </summary>
         /// <param name="stringFormat">The StringFormat.</param>
         /// <param name="arguments">The Arguments.</param>
@@ -89,7 +89,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new error message.
+        /// Logs a new error message.
         /// </summary>
         /// <param name="message">The Message.</param>
         public void Error(string message)
@@ -98,7 +98,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new error message.
+        /// Logs a new error message.
         /// </summary>
         /// <param name="stringFormat">The StringFormat.</param>
         /// <param name="arguments">The Arguments.</param>
@@ -108,7 +108,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new critical message.
+        /// Logs a new critical message.
         /// </summary>
         /// <param name="message">The Message.</param>
         public void Critical(string message)
@@ -117,7 +117,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new critical message.
+        /// Logs a new critical message.
         /// </summary>
         /// <param name="stringFormat">The StringFormat.</param>
         /// <param name="arguments">The Arguments.</param>
@@ -127,7 +127,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new engine message.
+        /// Logs a new engine message.
         /// </summary>
         /// <param name="message">The Message.</param>
         internal void Engine(string message)
@@ -136,7 +136,7 @@ namespace Sharpex2D.Debug.Logging
         }
 
         /// <summary>
-        ///     Logs a new engine message.
+        /// Logs a new engine message.
         /// </summary>
         /// <param name="stringFormat">The StringFormat.</param>
         /// <param name="arguments">The Arguments.</param>

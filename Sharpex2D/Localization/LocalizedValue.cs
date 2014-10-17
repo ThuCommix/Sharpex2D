@@ -28,12 +28,12 @@ namespace Sharpex2D.Localization
     public class LocalizedValue
     {
         /// <summary>
-        ///     Gets or sets the Id of the LocalizedValue.
+        /// Gets or sets the Id of the LocalizedValue.
         /// </summary>
         public string Id { set; get; }
 
         /// <summary>
-        ///     Sets or gets the value of the LocalizedString.
+        /// Sets or gets the value of the LocalizedString.
         /// </summary>
         public string LocalizedString { set; get; }
     }

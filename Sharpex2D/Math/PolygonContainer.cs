@@ -30,7 +30,7 @@ namespace Sharpex2D.Math
         private readonly Dictionary<int, Polygon> _innerPolygons;
 
         /// <summary>
-        ///     Initializes a new PolygonContainer class.
+        /// Initializes a new PolygonContainer class.
         /// </summary>
         public PolygonContainer()
         {
@@ -38,7 +38,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the Polygons.
+        /// Gets the Polygons.
         /// </summary>
         public Polygon[] Polygons
         {
@@ -46,7 +46,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Adds a new Polygon.
+        /// Adds a new Polygon.
         /// </summary>
         /// <param name="index">The Index.</param>
         /// <param name="polygon">The Polygon.</param>
@@ -56,7 +56,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Removes a Polygon.
+        /// Removes a Polygon.
         /// </summary>
         /// <param name="index">The Index.</param>
         public void Remove(int index)
@@ -68,7 +68,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     A value indicating whether the Polygon intersects with the PolygonContainer.
+        /// A value indicating whether the Polygon intersects with the PolygonContainer.
         /// </summary>
         /// <param name="polygon">The Polygon.</param>
         /// <returns>True if intersecting.</returns>
@@ -78,7 +78,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     A value indicating whether the PolygonContainer intersects with this PolygonContainer.
+        /// A value indicating whether the PolygonContainer intersects with this PolygonContainer.
         /// </summary>
         /// <param name="polygonContainer">The PolygonContainer.</param>
         /// <returns>True if intersecting.</returns>
@@ -87,7 +87,7 @@ namespace Sharpex2D.Math
             bool flag = false;
 
             foreach (
-                var polygon in
+                KeyValuePair<int, Polygon> polygon in
                     _innerPolygons.Where(
                         polygon =>
                             polygonContainer.Polygons.Any(outsidePolygon => polygon.Value.Intersects(outsidePolygon))))
@@ -99,7 +99,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     A value indicating whether the Polygon intersects with the PolygonContainer.
+        /// A value indicating whether the Polygon intersects with the PolygonContainer.
         /// </summary>
         /// <param name="polygon">The Polygon.</param>
         /// <param name="indices">The Indices which are intersects.</param>
@@ -110,7 +110,7 @@ namespace Sharpex2D.Math
             var indicesList = new List<int>();
 
             foreach (
-                var selectedPolygon in
+                KeyValuePair<int, Polygon> selectedPolygon in
                     _innerPolygons.Where(selectedPolygon => selectedPolygon.Value.Intersects(polygon)))
             {
                 indicesList.Add(selectedPolygon.Key);
@@ -122,7 +122,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     A value indicating whether the PolygonContainer intersects with this PolygonContainer.
+        /// A value indicating whether the PolygonContainer intersects with this PolygonContainer.
         /// </summary>
         /// <param name="polygonContainer">The PolygonContainer.</param>
         /// <param name="indices">The Indices which are intersects.</param>
@@ -132,7 +132,7 @@ namespace Sharpex2D.Math
             bool flag = false;
             var indicesList = new List<int>();
 
-            foreach (var polygon in from polygon in _innerPolygons
+            foreach (KeyValuePair<int, Polygon> polygon in from polygon in _innerPolygons
                 from outsidePolygon in
                     polygonContainer.Polygons.Where(outsidePolygon => polygon.Value.Intersects(outsidePolygon))
                 select polygon)

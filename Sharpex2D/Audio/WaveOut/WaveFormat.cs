@@ -29,42 +29,42 @@ namespace Sharpex2D.Audio.WaveOut
     internal class WaveFormat
     {
         /// <summary>
-        ///     Waveform-audio format type.
+        /// Waveform-audio format type.
         /// </summary>
         public short wFormatTag;
 
         /// <summary>
-        ///     Channels.
+        /// Channels.
         /// </summary>
         public short nChannels;
 
         /// <summary>
-        ///     Samples per second.
+        /// Samples per second.
         /// </summary>
         public int nSamplesPerSec;
 
         /// <summary>
-        ///     Average bytes per seconds.
+        /// Average bytes per seconds.
         /// </summary>
         public int nAvgBytesPerSec;
 
         /// <summary>
-        ///     BlockAlign.
+        /// BlockAlign.
         /// </summary>
         public short nBlockAlign;
 
         /// <summary>
-        ///     Bits per sample.
+        /// Bits per sample.
         /// </summary>
         public short wBitsPerSample;
 
         /// <summary>
-        ///     Extra attributes.
+        /// Extra attributes.
         /// </summary>
         public short cbSize;
 
         /// <summary>
-        ///     Initializes a new WaveFormat class.
+        /// Initializes a new WaveFormat class.
         /// </summary>
         /// <param name="rate">The SamplesPerSecond.</param>
         /// <param name="bits">The BitsPerSample.</param>

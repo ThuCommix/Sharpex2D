@@ -29,7 +29,7 @@ namespace Sharpex2D.Common.Extensions
         private const int AllocatedBuffer = 1024;
 
         /// <summary>
-        ///     Reads all Bytes (Alloc:1024).
+        /// Reads all Bytes (Alloc:1024).
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns></returns>

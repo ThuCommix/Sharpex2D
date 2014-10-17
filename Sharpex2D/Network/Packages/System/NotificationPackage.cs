@@ -28,7 +28,7 @@ namespace Sharpex2D.Network.Packages.System
     internal class NotificationPackage : BasePackage
     {
         /// <summary>
-        ///     Initializes a new NotificationPackage class.
+        /// Initializes a new NotificationPackage class.
         /// </summary>
         /// <param name="connection">The Connection.</param>
         public NotificationPackage(IConnection[] connection)
@@ -38,7 +38,7 @@ namespace Sharpex2D.Network.Packages.System
         }
 
         /// <summary>
-        ///     Initializes a new NotificationPackage class.
+        /// Initializes a new NotificationPackage class.
         /// </summary>
         /// <param name="connection">The Connection.</param>
         /// <param name="mode">The NotificationMode.</param>
@@ -49,12 +49,12 @@ namespace Sharpex2D.Network.Packages.System
         }
 
         /// <summary>
-        ///     Sets or gets the NotificationMode.
+        /// Sets or gets the NotificationMode.
         /// </summary>
         public NotificationMode Mode { set; get; }
 
         /// <summary>
-        ///     Gets the corresponding connection.
+        /// Gets the corresponding connection.
         /// </summary>
         public IConnection[] Connection { private set; get; }
     }

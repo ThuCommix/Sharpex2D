@@ -29,47 +29,34 @@ namespace Sharpex2D
     public class Configurator : IConfigurator
     {
         /// <summary>
-        ///     Initializes a new Configurator class.
+        /// Initializes a new Configurator class.
         /// </summary>
         /// <param name="gameInstance">The GameInstance.</param>
         /// <param name="renderTarget">The RenderTarget.</param>
         public Configurator(Game gameInstance, RenderTarget renderTarget)
-            : this(60, new BackBuffer(640, 480), new GameLoop(), gameInstance, renderTarget)
+            : this(60, new BackBuffer(640, 480), gameInstance, renderTarget)
         {
         }
 
         /// <summary>
-        ///     Initializes a new Configurator class.
+        /// Initializes a new Configurator class.
         /// </summary>
         /// <param name="backbuffer">The BackBuffer.</param>
         /// <param name="gameInstance">The GameInstance.</param>
         /// <param name="renderTarget">The RenderTarget.</param>
         public Configurator(BackBuffer backbuffer, Game gameInstance, RenderTarget renderTarget)
-            : this(60, backbuffer, new GameLoop(), gameInstance, renderTarget)
+            : this(60, backbuffer, gameInstance, renderTarget)
         {
         }
 
         /// <summary>
-        ///     Initializes a new Configurator class.
+        /// Initializes a new Configurator class.
         /// </summary>
         /// <param name="targetFrameRate">The TargetFrameRate.</param>
         /// <param name="backbuffer">The BackBuffer.</param>
         /// <param name="gameInstance">The GameInstance.</param>
         /// <param name="renderTarget">The RenderTarget.</param>
-        public Configurator(int targetFrameRate, BackBuffer backbuffer, Game gameInstance, RenderTarget renderTarget)
-            : this(targetFrameRate, backbuffer, new GameLoop(), gameInstance, renderTarget)
-        {
-        }
-
-        /// <summary>
-        ///     Initializes a new Configurator class.
-        /// </summary>
-        /// <param name="targetFrameRate">The TargetFrameRate.</param>
-        /// <param name="backbuffer">The BackBuffer.</param>
-        /// <param name="gameLoop">The GameLoop.</param>
-        /// <param name="gameInstance">The GameInstance.</param>
-        /// <param name="renderTarget">The RenderTarget.</param>
-        public Configurator(int targetFrameRate, BackBuffer backbuffer, IGameLoop gameLoop, Game gameInstance,
+        public Configurator(int targetFrameRate, BackBuffer backbuffer, Game gameInstance,
             RenderTarget renderTarget)
         {
             if (!renderTarget.IsValid)
@@ -79,38 +66,32 @@ namespace Sharpex2D
 
             TargetFrameRate = targetFrameRate;
             BackBuffer = backbuffer;
-            GameLoop = gameLoop;
             GameInstance = gameInstance;
             RenderTarget = renderTarget;
         }
 
         /// <summary>
-        ///     Gets or sets the BackBuffer.
+        /// Gets or sets the BackBuffer.
         /// </summary>
         public BackBuffer BackBuffer { private set; get; }
 
         /// <summary>
-        ///     Gets or sets the TargetFrameRate.
+        /// Gets or sets the TargetFrameRate.
         /// </summary>
         public int TargetFrameRate { private set; get; }
 
         /// <summary>
-        ///     Gets the Game.
+        /// Gets the Game.
         /// </summary>
         public Game GameInstance { private set; get; }
 
         /// <summary>
-        ///     Gets the TargetHandle.
+        /// Gets the TargetHandle.
         /// </summary>
         public RenderTarget RenderTarget { get; private set; }
 
         /// <summary>
-        ///     Sets or gets the GameLoop.
-        /// </summary>
-        public IGameLoop GameLoop { private set; get; }
-
-        /// <summary>
-        ///     Gets the default initializer.
+        /// Gets the default initializer.
         /// </summary>
         /// <param name="gameInstance">The GameInstance.</param>
         /// <returns>SGLInitializer</returns>

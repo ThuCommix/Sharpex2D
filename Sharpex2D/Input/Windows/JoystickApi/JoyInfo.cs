@@ -28,22 +28,22 @@ namespace Sharpex2D.Input.Windows.JoystickApi
     internal struct JoyInfo
     {
         /// <summary>
-        ///     The X position.
+        /// The X position.
         /// </summary>
         public uint wXpos;
 
         /// <summary>
-        ///     The Y position.
+        /// The Y position.
         /// </summary>
         public uint wYpos;
 
         /// <summary>
-        ///     The Z position.
+        /// The Z position.
         /// </summary>
         public uint wZpos;
 
         /// <summary>
-        ///     The ButtonStates.
+        /// The ButtonStates.
         /// </summary>
         public uint wButtons;
     }

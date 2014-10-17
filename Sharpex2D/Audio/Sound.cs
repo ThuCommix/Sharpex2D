@@ -33,7 +33,7 @@ namespace Sharpex2D.Audio
         #region IDisposable Implementation
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">The Disposing State.</param>
         public virtual void Dispose(bool disposing)
@@ -57,14 +57,14 @@ namespace Sharpex2D.Audio
         #endregion
 
         /// <summary>
-        ///     Initializes a new Sound.
+        /// Initializes a new Sound.
         /// </summary>
         internal Sound()
         {
         }
 
         /// <summary>
-        ///     Initializes a new Sound based on the resource file.
+        /// Initializes a new Sound based on the resource file.
         /// </summary>
         /// <param name="file">The File.</param>
         internal Sound(string file)
@@ -80,17 +80,17 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        ///     Sets or Gets the resource path.
+        /// Sets or Gets the resource path.
         /// </summary>
         public string ResourcePath { get; private set; }
 
         /// <summary>
-        ///     Gets the Data.
+        /// Gets the Data.
         /// </summary>
         public byte[] Data { get; private set; }
 
         /// <summary>
-        ///     Determines, if the Sound is initialized.
+        /// Determines, if the Sound is initialized.
         /// </summary>
         public bool IsInitialized { get; private set; }
     }

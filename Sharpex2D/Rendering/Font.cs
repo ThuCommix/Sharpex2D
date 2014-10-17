@@ -26,29 +26,29 @@ namespace Sharpex2D.Rendering
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [Content("Font")]
-    public class Font : IDeviceResource
+    public class Font : IGraphicsResource
     {
         #region IRendererResource Implementation
 
         /// <summary>
-        ///     Gets or sets the DebugName.
+        /// Gets or sets the DebugName.
         /// </summary>
         public string DebugName { get; set; }
 
         #endregion
 
         /// <summary>
-        ///     Initializes a new Font class.
+        /// Initializes a new Font class.
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
         public Font(Typeface typeface)
         {
-            RenderDevice rendererInstance = SGL.RenderDevice;
-            Instance = rendererInstance.ResourceManager.CreateResource(typeface);
+            SpriteBatch spriteBatch = SGL.SpriteBatch;
+            Instance = spriteBatch.Graphics.ResourceManager.CreateResource(typeface);
         }
 
         /// <summary>
-        ///     Initializes a new Font class.
+        /// Initializes a new Font class.
         /// </summary>
         /// <param name="familyName">The FamilyName.</param>
         /// <param name="size">The Size.</param>
@@ -59,17 +59,17 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets the Instance.
+        /// Gets the Instance.
         /// </summary>
         public IFont Instance { private set; get; }
 
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         public Type Type { private set; get; }
 
         /// <summary>
-        ///     Gets the Typeface.
+        /// Gets the Typeface.
         /// </summary>
         public Typeface Typeface
         {

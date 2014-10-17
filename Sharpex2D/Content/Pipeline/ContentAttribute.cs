@@ -27,7 +27,7 @@ namespace Sharpex2D.Content.Pipeline
     public class ContentAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new ContentAttribute class.
+        /// Initializes a new ContentAttribute class.
         /// </summary>
         /// <param name="displayName">The DisplayName.</param>
         public ContentAttribute(string displayName)
@@ -36,7 +36,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Gets the DisplayName.
+        /// Gets the DisplayName.
         /// </summary>
         public string DisplayName { private set; get; }
     }

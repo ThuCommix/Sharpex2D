@@ -28,7 +28,7 @@ namespace Sharpex2D.Physics
     public static class PhysicalConstants
     {
         /// <summary>
-        ///     Gets the gravityconstant.
+        /// Gets the gravityconstant.
         /// </summary>
         public static float Gravitation
         {
@@ -36,7 +36,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Gets the velocity of light in m/s.
+        /// Gets the velocity of light in m/s.
         /// </summary>
         public static Int32 VelocityOfLight
         {

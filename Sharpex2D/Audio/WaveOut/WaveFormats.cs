@@ -25,12 +25,12 @@ namespace Sharpex2D.Audio.WaveOut
     internal enum WaveFormats
     {
         /// <summary>
-        ///     Pcm.
+        /// Pcm.
         /// </summary>
         Pcm = 1,
 
         /// <summary>
-        ///     Float.
+        /// Float.
         /// </summary>
         Float = 3
     }

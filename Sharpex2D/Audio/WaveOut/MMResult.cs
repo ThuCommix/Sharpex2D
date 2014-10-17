@@ -25,122 +25,122 @@ namespace Sharpex2D.Audio.WaveOut
     internal enum MMResult
     {
         /// <summary>
-        ///     No error.
+        /// No error.
         /// </summary>
         MMSYSERR_NOERROR = 0,
 
         /// <summary>
-        ///     Error.
+        /// Error.
         /// </summary>
         MMSYSERR_ERROR = 1,
 
         /// <summary>
-        ///     Device not available.
+        /// Device not available.
         /// </summary>
         MMSYSERR_BADDEVICEID = 2,
 
         /// <summary>
-        ///     WaveOut is disabled.
+        /// WaveOut is disabled.
         /// </summary>
         MMSYSERR_NOTENABLED = 3,
 
         /// <summary>
-        ///     Allocated.
+        /// Allocated.
         /// </summary>
         MMSYSERR_ALLOCATED = 4,
 
         /// <summary>
-        ///     The Handle is invalid.
+        /// The Handle is invalid.
         /// </summary>
         MMSYSERR_INVALHANDLE = 5,
 
         /// <summary>
-        ///     No driver available.
+        /// No driver available.
         /// </summary>
         MMSYSERR_NODRIVER = 6,
 
         /// <summary>
-        ///     Out of memory.
+        /// Out of memory.
         /// </summary>
         MMSYSERR_NOMEM = 7,
 
         /// <summary>
-        ///     Not supported.
+        /// Not supported.
         /// </summary>
         MMSYSERR_NOTSUPPORTED = 8,
 
         /// <summary>
-        ///     Bad error number.
+        /// Bad error number.
         /// </summary>
         MMSYSERR_BADERRNUM = 9,
 
         /// <summary>
-        ///     Invalid flag.
+        /// Invalid flag.
         /// </summary>
         MMSYSERR_INVALFLAG = 10,
 
         /// <summary>
-        ///     Invalid parameter.
+        /// Invalid parameter.
         /// </summary>
         MMSYSERR_INVALPARAM = 11,
 
         /// <summary>
-        ///     WaveOut currently bussy.
+        /// WaveOut currently bussy.
         /// </summary>
         MMSYSERR_HANDLEBUSY = 12,
 
         /// <summary>
-        ///     Invalid alias.
+        /// Invalid alias.
         /// </summary>
         MMSYSERR_INVALIDALIAS = 13,
 
         /// <summary>
-        ///     ???.
+        /// ???.
         /// </summary>
         MMSYSERR_BADDB = 14,
 
         /// <summary>
-        ///     Key not found.
+        /// Key not found.
         /// </summary>
         MMSYSERR_KEYNOTFOUND = 15,
 
         /// <summary>
-        ///     Read error.
+        /// Read error.
         /// </summary>
         MMSYSERR_READERROR = 16,
 
         /// <summary>
-        ///     Write error.
+        /// Write error.
         /// </summary>
         MMSYSERR_WRITEERROR = 17,
 
         /// <summary>
-        ///     Delete error.
+        /// Delete error.
         /// </summary>
         MMSYSERR_DELETEERROR = 18,
 
         /// <summary>
-        ///     Value not found.
+        /// Value not found.
         /// </summary>
         MMSYSERR_VALNOTFOUND = 19,
 
         /// <summary>
-        ///     No driver cb.
+        /// No driver cb.
         /// </summary>
         MMSYSERR_NODRIVERCB = 20,
 
         /// <summary>
-        ///     Bad format.
+        /// Bad format.
         /// </summary>
         WAVERR_BADFORMAT = 32,
 
         /// <summary>
-        ///     WaveOut still playing.
+        /// WaveOut still playing.
         /// </summary>
         WAVERR_STILLPLAYING = 33,
 
         /// <summary>
-        ///     The header is not prepared.
+        /// The header is not prepared.
         /// </summary>
         WAVERR_UNPREPARED = 34
     }

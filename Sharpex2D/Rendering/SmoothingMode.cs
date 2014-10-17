@@ -25,12 +25,12 @@ namespace Sharpex2D.Rendering
     public enum SmoothingMode
     {
         /// <summary>
-        ///     No smoothing.
+        /// No smoothing.
         /// </summary>
         None,
 
         /// <summary>
-        ///     AntiAlias.
+        /// AntiAlias.
         /// </summary>
         AntiAlias
     }

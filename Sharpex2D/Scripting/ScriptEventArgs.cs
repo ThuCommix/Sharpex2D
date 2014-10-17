@@ -27,7 +27,7 @@ namespace Sharpex2D.Scripting
     public class ScriptEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new ScriptEventArgs class.
+        /// Initializes a new ScriptEventArgs class.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         internal ScriptEventArgs(Guid guid)
@@ -36,7 +36,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Gets the guid of the script.
+        /// Gets the guid of the script.
         /// </summary>
         public Guid Guid { private set; get; }
     }

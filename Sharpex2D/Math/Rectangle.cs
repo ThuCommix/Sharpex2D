@@ -29,7 +29,7 @@ namespace Sharpex2D.Math
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Rectangle" /> struct.
+        /// Initializes a new instance of the <see cref="Rectangle" /> struct.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -44,7 +44,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Rectangle" /> struct.
+        /// Initializes a new instance of the <see cref="Rectangle" /> struct.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -70,7 +70,7 @@ namespace Sharpex2D.Math
         #region Coordinates and Size
 
         /// <summary>
-        ///     Gets or sets the X-coordinate.
+        /// Gets or sets the X-coordinate.
         /// </summary>
         public float X
         {
@@ -79,7 +79,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets or sets the Y-coordinate.
+        /// Gets or sets the Y-coordinate.
         /// </summary>
         public float Y
         {
@@ -88,7 +88,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets or sets the width.
+        /// Gets or sets the width.
         /// </summary>
         public float Width
         {
@@ -97,7 +97,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets or sets the height.
+        /// Gets or sets the height.
         /// </summary>
         public float Height
         {
@@ -110,7 +110,7 @@ namespace Sharpex2D.Math
         #region Properties
 
         /// <summary>
-        ///     Gets the left.
+        /// Gets the left.
         /// </summary>
         public float Left
         {
@@ -118,7 +118,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the right.
+        /// Gets the right.
         /// </summary>
         public float Right
         {
@@ -126,7 +126,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the top.
+        /// Gets the top.
         /// </summary>
         public float Top
         {
@@ -134,7 +134,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the bottom.
+        /// Gets the bottom.
         /// </summary>
         public float Bottom
         {
@@ -142,7 +142,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the location.
+        /// Gets the location.
         /// </summary>
         public Vector2 Location
         {
@@ -150,7 +150,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the center.
+        /// Gets the center.
         /// </summary>
         public Vector2 Center
         {
@@ -164,7 +164,7 @@ namespace Sharpex2D.Math
         private static readonly Rectangle EmptyRectangle = new Rectangle(0, 0, 0, 0);
 
         /// <summary>
-        ///     Gets an empty rectangle instance.
+        /// Gets an empty rectangle instance.
         /// </summary>
         public static Rectangle Empty
         {
@@ -176,7 +176,7 @@ namespace Sharpex2D.Math
         #region Methods
 
         /// <summary>
-        ///     Determines whether this instance contains the specified rectangle.
+        /// Determines whether this instance contains the specified rectangle.
         /// </summary>
         /// <param name="value">The value.</param>
         public bool Contains(Rectangle value)
@@ -189,7 +189,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Determines whether this instance contains the specified vector.
+        /// Determines whether this instance contains the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         public bool Contains(Vector2 vector)
@@ -201,7 +201,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Intersectses the specified rectangle.
+        /// Intersectses the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         public bool Intersects(Rectangle rectangle)
@@ -214,7 +214,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Intersects the specified rectangle.
+        /// Intersects the specified rectangle.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         public Rectangle Intersect(Rectangle rectangle)
@@ -239,7 +239,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Converts the Rectangle to a string.
+        /// Converts the Rectangle to a string.
         /// </summary>
         /// <returns>String</returns>
         public override string ToString()
@@ -252,7 +252,7 @@ namespace Sharpex2D.Math
         #region Operators
 
         /// <summary>
-        ///     Implements the operator +.
+        /// Implements the operator +.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -265,7 +265,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator -.
+        /// Implements the operator -.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -278,7 +278,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator *.
+        /// Implements the operator *.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -293,7 +293,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator *.
+        /// Implements the operator *.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="scale">The scale.</param>
@@ -308,7 +308,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator /.
+        /// Implements the operator /.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="vector">The vector.</param>
@@ -323,7 +323,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator /.
+        /// Implements the operator /.
         /// </summary>
         /// <param name="rectangle">The rectangle.</param>
         /// <param name="scale">The scale.</param>

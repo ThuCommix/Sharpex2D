@@ -31,7 +31,7 @@ namespace Sharpex2D.UI
         private readonly List<UIControl> _controls;
 
         /// <summary>
-        ///     Initializes a new UICollection class.
+        /// Initializes a new UICollection class.
         /// </summary>
         internal UIManager()
         {
@@ -39,12 +39,12 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Sets or gets the Description.
+        /// Sets or gets the Description.
         /// </summary>
         public string Description { set; get; }
 
         /// <summary>
-        ///     Adds a new UIControl to the Collection.
+        /// Adds a new UIControl to the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
         public void Add(UIControl control)
@@ -53,7 +53,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Removes a new UIControl from the Collection.
+        /// Removes a new UIControl from the Collection.
         /// </summary>
         /// <param name="control">The Control.</param>
         public void Remove(UIControl control)
@@ -62,7 +62,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the spezified UIControl.
+        /// Gets the spezified UIControl.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>UIControl</returns>
@@ -80,7 +80,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the UIControl spezified by its GUID.
+        /// Gets the UIControl spezified by its GUID.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>UIControl</returns>
@@ -98,7 +98,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Clears the UIManager.
+        /// Clears the UIManager.
         /// </summary>
         public void Clear()
         {
@@ -106,7 +106,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets all UIControls.
+        /// Gets all UIControls.
         /// </summary>
         /// <returns>UIControl Array</returns>
         public UIControl[] GetAll()
@@ -115,7 +115,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -130,17 +130,17 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Proceses a Render.
+        /// Proceses a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             for (int i = 0; i <= _controls.Count - 1; i++)
             {
                 if (_controls[i].Visible)
                 {
-                    _controls[i].OnRender(renderer);
+                    _controls[i].OnDraw(spriteBatch);
                 }
             }
         }

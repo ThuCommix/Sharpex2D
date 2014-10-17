@@ -28,7 +28,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
     public class StreamingAdapter : StreamingAdapterBase
     {
         /// <summary>
-        ///     Initializes a new StreamingAdapter class.
+        /// Initializes a new StreamingAdapter class.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         public StreamingAdapter(Stream stream) : this(stream, Encoding.UTF8)
@@ -36,7 +36,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
         }
 
         /// <summary>
-        ///     Initializes a new StreamingAdapter class.
+        /// Initializes a new StreamingAdapter class.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <param name="encoding">The Encoding.</param>
@@ -45,7 +45,7 @@ namespace Sharpex2D.Debug.Logging.Adapters.Streaming
         }
 
         /// <summary>
-        ///     Logs a message.
+        /// Logs a message.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="writer">The StreamWriter.</param>

@@ -31,7 +31,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
     public class Joystick : NativeInput<JoystickState>
     {
         /// <summary>
-        ///     Initializes a new Joystick class.
+        /// Initializes a new Joystick class.
         /// </summary>
         public Joystick()
             : base(new Guid("ECEE253A-DDF0-4678-B820-AF1ACFA7A306"))
@@ -39,7 +39,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         }
 
         /// <summary>
-        ///     A value indicating whether a Joystick is available.
+        /// A value indicating whether a Joystick is available.
         /// </summary>
         public bool Available
         {
@@ -48,7 +48,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
 
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public override Version PlatformVersion
         {
@@ -56,14 +56,14 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         }
 
         /// <summary>
-        ///     Initializes the device.
+        /// Initializes the device.
         /// </summary>
         public override void InitializeDevice()
         {
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
@@ -71,7 +71,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         }
 
         /// <summary>
-        ///     Gets the State.
+        /// Gets the State.
         /// </summary>
         /// <returns>JoystickState.</returns>
         public override JoystickState GetState()
@@ -99,7 +99,7 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         }
 
         /// <summary>
-        ///     Trys an MMResult.
+        /// Trys an MMResult.
         /// </summary>
         /// <param name="result">The Result.</param>
         internal static void Try(uint result)

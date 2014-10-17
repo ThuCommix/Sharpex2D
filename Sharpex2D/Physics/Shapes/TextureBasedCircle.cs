@@ -29,7 +29,7 @@ namespace Sharpex2D.Physics.Shapes
     public class TextureBasedCircle : Circle
     {
         /// <summary>
-        ///     Initializes a new TextureBasedCircle class.
+        /// Initializes a new TextureBasedCircle class.
         /// </summary>
         /// <param name="texture">The underlying Texture.</param>
         public TextureBasedCircle(Texture2D texture)
@@ -38,7 +38,7 @@ namespace Sharpex2D.Physics.Shapes
         }
 
         /// <summary>
-        ///     Gets the Texture.
+        /// Gets the Texture.
         /// </summary>
         public Texture2D Texture { private set; get; }
     }

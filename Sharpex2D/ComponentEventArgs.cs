@@ -27,7 +27,7 @@ namespace Sharpex2D
     public class ComponentEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new ComponentEventArgs class.
+        /// Initializes a new ComponentEventArgs class.
         /// </summary>
         /// <param name="affectedComponent">The AffectedComponent.</param>
         internal ComponentEventArgs(IComponent affectedComponent)
@@ -36,7 +36,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the AffectedComponent.
+        /// Gets the AffectedComponent.
         /// </summary>
         public IComponent AffectedComponent { private set; get; }
     }

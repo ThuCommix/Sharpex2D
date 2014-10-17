@@ -31,7 +31,7 @@ namespace Sharpex2D
         private readonly List<IGameComponent> _components;
 
         /// <summary>
-        ///     Initializes a new GameComponentCollection class.
+        /// Initializes a new GameComponentCollection class.
         /// </summary>
         public GameComponentManager()
         {
@@ -40,7 +40,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Components.
+        /// Gets the Components.
         /// </summary>
         public IGameComponent[] Components
         {
@@ -48,7 +48,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator of IGameComponent.</returns>
         public IEnumerator<IGameComponent> GetEnumerator()
@@ -57,7 +57,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator of IGameComponent.</returns>
         IEnumerator IEnumerable.GetEnumerator()
@@ -66,7 +66,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Adds a new IGameComponent.
+        /// Adds a new IGameComponent.
         /// </summary>
         /// <param name="gameComponent">The IGameComponent.</param>
         public void Add(IGameComponent gameComponent)
@@ -79,7 +79,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Removes a IGameComponent.
+        /// Removes a IGameComponent.
         /// </summary>
         /// <param name="gameComponent">The IGameComponent.</param>
         public void Remove(IGameComponent gameComponent)
@@ -94,7 +94,7 @@ namespace Sharpex2D
         private class GameComponentComparer : IComparer<IGameComponent>
         {
             /// <summary>
-            ///     Compares two IGameComponents.
+            /// Compares two IGameComponents.
             /// </summary>
             /// <param name="x">The first IGameComponent.</param>
             /// <param name="y">The second IGameComponent.</param>

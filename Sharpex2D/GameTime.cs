@@ -27,18 +27,18 @@ namespace Sharpex2D
     public class GameTime
     {
         /// <summary>
-        ///     Gets the ElapsedGameTime.
+        /// Gets the ElapsedGameTime.
         /// </summary>
         public float ElapsedGameTime { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the updateloop hangs behind. If your game encounter this, do something to catch up e.G.
-        ///     disable physics.
+        /// A value indicating whether the updateloop hangs behind. If your game encounter this, do something to catch up e.G.
+        /// disable physics.
         /// </summary>
         public bool IsRunningSlowly { set; get; }
 
         /// <summary>
-        ///     Gets the TotalGameTime.
+        /// Gets the TotalGameTime.
         /// </summary>
         public TimeSpan TotalGameTime { set; get; }
     }

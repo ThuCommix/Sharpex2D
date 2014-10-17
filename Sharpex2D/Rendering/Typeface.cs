@@ -29,7 +29,7 @@ namespace Sharpex2D.Rendering
         private float _fontSize;
 
         /// <summary>
-        ///     Initializes a new Typeface class.
+        /// Initializes a new Typeface class.
         /// </summary>
         public Typeface()
         {
@@ -39,12 +39,12 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Sets or gets the FontFamily.
+        /// Sets or gets the FontFamily.
         /// </summary>
         public string FamilyName { set; get; }
 
         /// <summary>
-        ///     Sets or gets the FontSize.
+        /// Sets or gets the FontSize.
         /// </summary>
         public float Size
         {
@@ -64,7 +64,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Sets or gets the FontStyle.
+        /// Sets or gets the FontStyle.
         /// </summary>
         public TypefaceStyle Style { set; get; }
     }

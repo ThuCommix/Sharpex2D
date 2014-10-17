@@ -31,17 +31,17 @@ namespace Sharpex2D.Scripting.CSharp
         #region IScript Implementation
 
         /// <summary>
-        ///     Sets or gets the ScriptContent.
+        /// Sets or gets the ScriptContent.
         /// </summary>
         public string Content { get; set; }
 
         /// <summary>
-        ///     A value indicating whether the script is active.
+        /// A value indicating whether the script is active.
         /// </summary>
         public bool IsActive { get; set; }
 
         /// <summary>
-        ///     Gets or sets the guid of the script.
+        /// Gets or sets the guid of the script.
         /// </summary>
         public Guid Guid { get; set; }
 

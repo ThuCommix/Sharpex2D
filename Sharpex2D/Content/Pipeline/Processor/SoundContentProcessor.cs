@@ -31,7 +31,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
     public class SoundContentProcessor : ContentProcessor<Sound>
     {
         /// <summary>
-        ///     Initializes a new SoundContentProcessor class.
+        /// Initializes a new SoundContentProcessor class.
         /// </summary>
         public SoundContentProcessor()
             : base(new Guid("3F5D0CE8-26B8-4034-8C3C-2F0DB2D6F25A"))
@@ -39,7 +39,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>Sound.</returns>
@@ -49,7 +49,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

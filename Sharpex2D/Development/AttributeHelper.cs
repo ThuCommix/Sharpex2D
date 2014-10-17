@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 
 namespace Sharpex2D
 {
@@ -27,7 +28,7 @@ namespace Sharpex2D
     public static class AttributeHelper
     {
         /// <summary>
-        ///     Gets the Attribute.
+        /// Gets the Attribute.
         /// </summary>
         /// <typeparam name="T">The Attribute Type.</typeparam>
         /// <param name="obj">The Object.</param>
@@ -47,7 +48,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Attribute.
+        /// Gets the Attribute.
         /// </summary>
         /// <typeparam name="T">The Attribute Type.</typeparam>
         /// <param name="type">The Type.</param>
@@ -67,7 +68,49 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Trys to get the Attribute.
+        /// Gets the Attributes.
+        /// </summary>
+        /// <typeparam name="T">The Attribute Type.</typeparam>
+        /// <param name="obj">The Object.</param>
+        /// <returns>Attribute.</returns>
+        public static T[] GetAttributes<T>(object obj) where T : Attribute
+        {
+            var attributes = new List<T>();
+
+            foreach (object attribute in obj.GetType().GetCustomAttributes(typeof (T), true))
+            {
+                if (attribute.GetType() == typeof (T))
+                {
+                    attributes.Add((T) attribute);
+                }
+            }
+
+            return attributes.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the Attributes.
+        /// </summary>
+        /// <typeparam name="T">The Attribute Type.</typeparam>
+        /// <param name="type">The Type.</param>
+        /// <returns>Attribute.</returns>
+        public static T[] GetAttributes<T>(Type type) where T : Attribute
+        {
+            var attributes = new List<T>();
+
+            foreach (object attribute in type.GetCustomAttributes(typeof (T), true))
+            {
+                if (attribute.GetType() == typeof (T))
+                {
+                    attributes.Add((T) attribute);
+                }
+            }
+
+            return attributes.ToArray();
+        }
+
+        /// <summary>
+        /// Trys to get the Attribute.
         /// </summary>
         /// <typeparam name="T">The Attribute Type.</typeparam>
         /// <param name="type">The Type.</param>
@@ -88,7 +131,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Trys to get the Attribute.
+        /// Trys to get the Attribute.
         /// </summary>
         /// <typeparam name="T">The Attribute Type.</typeparam>
         /// <param name="obj">The Object.</param>

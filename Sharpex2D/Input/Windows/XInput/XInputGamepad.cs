@@ -28,42 +28,42 @@ namespace Sharpex2D.Input.Windows.XInput
     public struct XInputGamepad
     {
         /// <summary>
-        ///     The Buttons.
+        /// The Buttons.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(0)] public short wButtons;
 
         /// <summary>
-        ///     The back left trigger.
+        /// The back left trigger.
         /// </summary>
         [MarshalAs(UnmanagedType.I1)] [FieldOffset(2)] public byte bLeftTrigger;
 
         /// <summary>
-        ///     The back right trigger.
+        /// The back right trigger.
         /// </summary>
         [MarshalAs(UnmanagedType.I1)] [FieldOffset(3)] public byte bRightTrigger;
 
         /// <summary>
-        ///     The thumb left X.
+        /// The thumb left X.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(4)] public short sThumbLX;
 
         /// <summary>
-        ///     The thumb left Y.
+        /// The thumb left Y.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(6)] public short sThumbLY;
 
         /// <summary>
-        ///     The thumb right X.
+        /// The thumb right X.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(8)] public short sThumbRX;
 
         /// <summary>
-        ///     The thumb right Y.
+        /// The thumb right Y.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(10)] public short sThumbRY;
 
         /// <summary>
-        ///     A value indicating whether the button was pressed.
+        /// A value indicating whether the button was pressed.
         /// </summary>
         /// <param name="buttonFlags">The ButtonFlags.</param>
         /// <returns>True if the button was pressed.</returns>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     A value indicating whether the button is accessable on the gamepad.
+        /// A value indicating whether the button is accessable on the gamepad.
         /// </summary>
         /// <param name="buttonFlags">The ButtonFlags.</param>
         /// <returns>True if accessable.</returns>
@@ -83,7 +83,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Copies the source.
+        /// Copies the source.
         /// </summary>
         /// <param name="source">The Source.</param>
         public void Copy(XInputGamepad source)

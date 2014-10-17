@@ -29,14 +29,16 @@ namespace Sharpex2D.Audio.WaveOut
 #if Windows
 
         /// <summary>
-        ///     Trys a WaveOut operation.
+        /// Trys a WaveOut operation.
         /// </summary>
         /// <param name="result">The Result.</param>
-        public static void Try(int result)
+        public static void Try(MMResult result)
         {
             if (result != (int) MMResult.MMSYSERR_NOERROR)
             {
-                throw new InvalidOperationException(((MMResult) result).ToString());
+                if (result == MMResult.WAVERR_STILLPLAYING) return;
+
+                throw new InvalidOperationException((result).ToString());
             }
         }
 

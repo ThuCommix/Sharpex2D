@@ -22,7 +22,6 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Sharpex2D.Math;
-using Sharpex2D.Rendering;
 
 namespace Sharpex2D.Surface
 {
@@ -33,7 +32,7 @@ namespace Sharpex2D.Surface
         #region IDisposable Implementation
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -42,7 +41,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -67,7 +66,7 @@ namespace Sharpex2D.Surface
         private SurfaceStyle _surfaceStyle;
 
         /// <summary>
-        ///     Initializes a new GameWindow class.
+        /// Initializes a new GameWindow class.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         internal GameWindow(IntPtr handle)
@@ -85,7 +84,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the Title.
+        /// Gets or sets the Title.
         /// </summary>
         public string Title
         {
@@ -106,7 +105,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the Icon.
+        /// Gets or sets the Icon.
         /// </summary>
         public Icon Icon
         {
@@ -127,7 +126,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the Size.
+        /// Gets or sets the Size.
         /// </summary>
         public Vector2 Size
         {
@@ -138,9 +137,6 @@ namespace Sharpex2D.Surface
                 _surface.Invoke(br);
                 FixWindow();
 
-                //notify the GraphicsDevice
-                SGL.GraphicsDevice.BackBuffer = new BackBuffer(value);
-
                 if (ScreenSizeChanged != null)
                 {
                     ScreenSizeChanged(this, EventArgs.Empty);
@@ -150,7 +146,8 @@ namespace Sharpex2D.Surface
             {
                 var vector = new Vector2(0);
 
-                MethodInvoker br = delegate { vector = new Vector2(_surface.Size.Width, _surface.Size.Height); };
+                MethodInvoker br =
+                    delegate { vector = new Vector2(_surface.ClientSize.Width, _surface.ClientSize.Height); };
                 _surface.Invoke(br);
 
                 return vector;
@@ -158,7 +155,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the Position.
+        /// Gets or sets the Position.
         /// </summary>
         public Vector2 Position
         {
@@ -179,7 +176,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the CursorVisibility.
+        /// Gets or sets the CursorVisibility.
         /// </summary>
         public bool CursorVisibility
         {
@@ -199,7 +196,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the SurfaceStyle.
+        /// Gets or sets the SurfaceStyle.
         /// </summary>
         public SurfaceStyle SurfaceStyle
         {
@@ -244,7 +241,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets or sets the SurfaceLayout.
+        /// Gets or sets the SurfaceLayout.
         /// </summary>
         public SurfaceLayout SurfaceLayout
         {
@@ -264,12 +261,12 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     A value indicating whether the window is fullscreened.
+        /// A value indicating whether the window is fullscreened.
         /// </summary>
         public bool IsFullscreen { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the window is active.
+        /// A value indicating whether the window is active.
         /// </summary>
         public bool IsActive
         {
@@ -284,7 +281,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Centers the Window.
+        /// Centers the Window.
         /// </summary>
         public void CenterWindow()
         {
@@ -297,17 +294,17 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     ScreenSizeChanged event.
+        /// ScreenSizeChanged event.
         /// </summary>
         public event ScreenSizeEventHandler ScreenSizeChanged;
 
         /// <summary>
-        ///     FullscreenChanged event.
+        /// FullscreenChanged event.
         /// </summary>
         public event ScreenSizeEventHandler FullscreenChanged;
 
         /// <summary>
-        ///     Sets the CursorIcon.
+        /// Sets the CursorIcon.
         /// </summary>
         /// <param name="path">The Path.</param>
         public void SetCursorIcon(string path)
@@ -317,7 +314,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Fixes the size of the window.
+        /// Fixes the size of the window.
         /// </summary>
         private void FixWindow()
         {
@@ -330,7 +327,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Frees the window size.
+        /// Frees the window size.
         /// </summary>
         private void FreeWindow()
         {
@@ -343,7 +340,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Deactivate Event.
+        /// Deactivate Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -353,7 +350,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Activate Event.
+        /// Activate Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -363,7 +360,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     FormClosing Event.
+        /// FormClosing Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>

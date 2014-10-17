@@ -27,7 +27,7 @@ namespace Sharpex2D.Plugin
     public abstract class ProxySource : MarshalByRefObject
     {
         /// <summary>
-        ///     Gets the LifetimeService.
+        /// Gets the LifetimeService.
         /// </summary>
         /// <returns>ILease object.</returns>
         public new virtual object GetLifetimeService()

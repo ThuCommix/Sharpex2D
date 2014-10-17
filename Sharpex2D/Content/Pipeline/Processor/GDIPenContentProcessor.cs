@@ -32,7 +32,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
     public class GDIPenContentProcessor : ContentProcessor<GDIPen>
     {
         /// <summary>
-        ///     Initializes a new GdiPenContentProcessor class.
+        /// Initializes a new GdiPenContentProcessor class.
         /// </summary>
         public GDIPenContentProcessor()
             : base(new Guid("B28CF4D2-9F85-4CB1-878E-F7D274026E60"))
@@ -40,7 +40,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>GdiPen.</returns>
@@ -78,7 +78,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

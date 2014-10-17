@@ -31,7 +31,7 @@ namespace Sharpex2D.GameService
         private readonly List<IGameService> _gameServices;
 
         /// <summary>
-        ///     Initializes a new GameServiceContainer class.
+        /// Initializes a new GameServiceContainer class.
         /// </summary>
         public GameServiceContainer()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Adds a new GameService.
+        /// Adds a new GameService.
         /// </summary>
         /// <param name="service">The GameService.</param>
         public void Add(IGameService service)
@@ -51,7 +51,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Removes a GameService.
+        /// Removes a GameService.
         /// </summary>
         /// <param name="service">The GameService.</param>
         public void Remove(IGameService service)
@@ -63,7 +63,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets the Service.
+        /// Gets the Service.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>T.</returns>

@@ -36,7 +36,7 @@ namespace Sharpex2D.Network.Protocols.Local
         #region IServer Implementation
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -45,7 +45,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -55,12 +55,12 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     A value indicating whether the server is active.
+        /// A value indicating whether the server is active.
         /// </summary>
         public bool IsActive { get; private set; }
 
         /// <summary>
-        ///     Subscribes to a Client.
+        /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
@@ -69,7 +69,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Unsubscribes from a Client.
+        /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
@@ -87,7 +87,7 @@ namespace Sharpex2D.Network.Protocols.Local
         private int _idleTimeout;
 
         /// <summary>
-        ///     Initializes a new LocalServer class.
+        /// Initializes a new LocalServer class.
         /// </summary>
         public LocalServer()
         {
@@ -105,13 +105,13 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
-        ///     disconnected.
+        /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
+        /// disconnected.
         /// </summary>
         public float TimeOutLatency { set; get; }
 
         /// <summary>
-        ///     Accepts clients if available.
+        /// Accepts clients if available.
         /// </summary>
         private void BeginAcceptConnections()
         {
@@ -135,7 +135,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Handles a connection.
+        /// Handles a connection.
         /// </summary>
         /// <param name="objConnection">The Connection.</param>
         private void HandleClient(object objConnection)
@@ -197,7 +197,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sets the latency of a connection.
+        /// Sets the latency of a connection.
         /// </summary>
         /// <param name="pingPackage">The PingPackage.</param>
         private void SetLatency(PingPackage pingPackage)
@@ -216,7 +216,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Gets the connection.
+        /// Gets the connection.
         /// </summary>
         /// <param name="address">The IPAddress.</param>
         /// <returns>LocalConnection</returns>
@@ -233,7 +233,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sends a package to all clients.
+        /// Sends a package to all clients.
         /// </summary>
         /// <param name="package">The Package.</param>
         private void SendToAllClients(IBasePackage package)
@@ -248,7 +248,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sends a package to a specified client.
+        /// Sends a package to a specified client.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="connection">The Connection</param>
@@ -262,7 +262,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sending a ping request every 30 seconds to all clients.
+        /// Sending a ping request every 30 seconds to all clients.
         /// </summary>
         private void PingRequestLoop()
         {
@@ -287,7 +287,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sends a NotificationPackage to all clients.
+        /// Sends a NotificationPackage to all clients.
         /// </summary>
         /// <param name="mode">The Mode.</param>
         /// <param name="connections">The ConnectionParams.</param>
@@ -304,7 +304,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Idles the thread.
+        /// Idles the thread.
         /// </summary>
         private void Idle()
         {
@@ -326,7 +326,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Closes the server.
+        /// Closes the server.
         /// </summary>
         public void Close()
         {
@@ -335,7 +335,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Gets a list of all matching package listeners.
+        /// Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>

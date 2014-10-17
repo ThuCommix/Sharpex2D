@@ -29,37 +29,37 @@ namespace Sharpex2D.Audio.WaveOut
     internal struct WaveOutCaps
     {
         /// <summary>
-        ///     The Manufacturer.
+        /// The Manufacturer.
         /// </summary>
         public short wMid;
 
         /// <summary>
-        ///     The ProductId.
+        /// The ProductId.
         /// </summary>
         public short wPid;
 
         /// <summary>
-        ///     The DriverVersion.
+        /// The DriverVersion.
         /// </summary>
         public uint vDriverVersion;
 
         /// <summary>
-        ///     The Devicename.
+        /// The Devicename.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)] public string szPname;
 
         /// <summary>
-        ///     Supported formats.
+        /// Supported formats.
         /// </summary>
         public WaveCapsFormats dwFormats;
 
         /// <summary>
-        ///     Amount of supported channels.
+        /// Amount of supported channels.
         /// </summary>
         public short wChannels;
 
         /// <summary>
-        ///     Driver reserved.
+        /// Driver reserved.
         /// </summary>
         public short wReserved1;
 

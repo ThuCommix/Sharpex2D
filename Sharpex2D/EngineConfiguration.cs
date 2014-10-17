@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using Sharpex2D.Audio;
 using Sharpex2D.Rendering;
 
@@ -25,27 +26,44 @@ namespace Sharpex2D
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class EngineConfiguration
+    public class EngineConfiguration : IComponent
     {
         /// <summary>
-        ///     Initializes a new EngineConfiguration class.
+        /// Initializes a new EngineConfiguration class.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        /// <param name="soundInitializer">The SoundInitializer.</param>
-        public EngineConfiguration(RenderDevice renderer, ISoundInitializer soundInitializer)
+        /// <param name="graphicsManager">The GraphicsManager.</param>
+        public EngineConfiguration(GraphicsManager graphicsManager)
+            : this(graphicsManager, null)
         {
-            Renderer = renderer;
+        }
+
+        /// <summary>
+        /// Initializes a new EngineConfiguration class.
+        /// </summary>
+        /// <param name="graphicsManager">The GraphicsManager.</param>
+        /// <param name="soundInitializer">The SoundInitializer.</param>
+        public EngineConfiguration(GraphicsManager graphicsManager, ISoundInitializer soundInitializer)
+        {
+            GraphicsManager = graphicsManager;
             SoundInitializer = soundInitializer;
         }
 
         /// <summary>
-        ///     Gets the IRenderer.
+        /// Gets the IRenderer.
         /// </summary>
-        internal RenderDevice Renderer { private set; get; }
+        internal GraphicsManager GraphicsManager { set; get; }
 
         /// <summary>
-        ///     Gets the SoundInitializer.
+        /// Gets the SoundInitializer.
         /// </summary>
-        internal ISoundInitializer SoundInitializer { private set; get; }
+        internal ISoundInitializer SoundInitializer { set; get; }
+
+        /// <summary>
+        /// Gets the Guid.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("C3D1DFE3-80A0-4543-AE19-355F09C45DB0"); }
+        }
     }
 }

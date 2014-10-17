@@ -29,7 +29,7 @@ namespace Sharpex2D.Rendering.Scene
     public abstract class Scene
     {
         /// <summary>
-        ///     Initializes the Scene class.
+        /// Initializes the Scene class.
         /// </summary>
         protected Scene()
         {
@@ -38,35 +38,49 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Sets or gets the EntityEnvironment.
+        /// Sets or gets the EntityEnvironment.
         /// </summary>
         public EntityEnvironment EntityEnvironment { get; set; }
 
         /// <summary>
-        ///     Sets or gets the UIManager.
+        /// Sets or gets the UIManager.
         /// </summary>
         public UIManager UIManager { set; get; }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public abstract void Update(GameTime gameTime);
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public abstract void Render(RenderDevice renderer, GameTime gameTime);
+        public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
 
         /// <summary>
-        ///     Initializes the scene.
+        /// Initializes the scene.
         /// </summary>
         public abstract void Initialize();
 
         /// <summary>
-        ///     Loads the content.
+        /// Called if the scene is activated by SceneManager.
+        /// </summary>
+        public virtual void OnSceneActivated()
+        {
+        }
+
+        /// <summary>
+        /// Called if the scene is deactivated by SceneManager.
+        /// </summary>
+        public virtual void OnSceneDeactivated()
+        {
+        }
+
+        /// <summary>
+        /// Loads the content.
         /// </summary>
         /// <param name="content">The ContentManager.</param>
         public abstract void LoadContent(ContentManager content);

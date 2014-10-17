@@ -27,37 +27,37 @@ namespace Sharpex2D.Content
     public class BatchProgressEventArgs : EventArgs
     {
         /// <summary>
-        ///     Gets the ProgressPercentage.
+        /// Gets the ProgressPercentage.
         /// </summary>
         public int ProgressPercentage { internal set; get; }
 
         /// <summary>
-        ///     Gets the amount of progrProcessedessed batches.
+        /// Gets the amount of progrProcessedessed batches.
         /// </summary>
         public int Processed { internal set; get; }
 
         /// <summary>
-        ///     Gets the Count.
+        /// Gets the Count.
         /// </summary>
         public int Count { internal set; get; }
 
         /// <summary>
-        ///     A value indicating whether the batches are completed.
+        /// A value indicating whether the batches are completed.
         /// </summary>
         public bool Completed { internal set; get; }
 
         /// <summary>
-        ///     Gets the current batch.
+        /// Gets the current batch.
         /// </summary>
         public IBatch Current { internal set; get; }
 
         /// <summary>
-        ///     Gets the TotalBytes.
+        /// Gets the TotalBytes.
         /// </summary>
         public long TotalBytes { internal set; get; }
 
         /// <summary>
-        ///     Gets the ProcessedBytes.
+        /// Gets the ProcessedBytes.
         /// </summary>
         public long ProcessedBytes { internal set; get; }
     }

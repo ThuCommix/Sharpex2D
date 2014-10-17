@@ -27,17 +27,17 @@ namespace Sharpex2D
     public interface IDevice : IComponent
     {
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         Version PlatformVersion { get; }
 
         /// <summary>
-        ///     A value indicating whether the Platform is supported.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
         bool IsPlatformSupported { get; }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Initializes the Device.
         /// </summary>
         void InitializeDevice();
     }

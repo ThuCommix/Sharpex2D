@@ -34,7 +34,7 @@ namespace Sharpex2D.UI
         #region IGameHandler Implementation
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -66,7 +66,7 @@ namespace Sharpex2D.UI
         private MouseState _mouseState;
 
         /// <summary>
-        ///     Gets the relative mouse position.
+        /// Gets the relative mouse position.
         /// </summary>
         public Vector2 RelativeMousePosition
         {
@@ -84,12 +84,12 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the Bounds of the UIControl.
+        /// Gets the Bounds of the UIControl.
         /// </summary>
         public UIBounds Bounds { private set; get; }
 
         /// <summary>
-        ///     Sets or gets the Position of the UIControl.
+        /// Sets or gets the Position of the UIControl.
         /// </summary>
         public Vector2 Position
         {
@@ -102,22 +102,22 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     A value indicating whether the UIControl is visible.
+        /// A value indicating whether the UIControl is visible.
         /// </summary>
         public bool Visible { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the UIConrol is enabled.
+        /// A value indicating whether the UIConrol is enabled.
         /// </summary>
         public bool Enable { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the UIControl is available to get the focus.
+        /// A value indicating whether the UIControl is available to get the focus.
         /// </summary>
         public bool CanGetFocus { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Size of the UIControl.
+        /// Sets or gets the Size of the UIControl.
         /// </summary>
         public UISize Size
         {
@@ -130,22 +130,22 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     A value indicating whether the mouse is hovering the UIControl.
+        /// A value indicating whether the mouse is hovering the UIControl.
         /// </summary>
         public bool IsMouseHoverState { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the UIControl has focus.
+        /// A value indicating whether the UIControl has focus.
         /// </summary>
         public bool HasFocus { internal set; get; }
 
         /// <summary>
-        ///     Gets the Guid-Identifer.
+        /// Gets the Guid-Identifer.
         /// </summary>
         public Guid Guid { private set; get; }
 
         /// <summary>
-        ///     Sets or gets the Parent UIControl.
+        /// Sets or gets the Parent UIControl.
         /// </summary>
         public UIControl Parent
         {
@@ -154,12 +154,12 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the children of the UIControl.
+        /// Gets the children of the UIControl.
         /// </summary>
         public List<UIControl> Children { internal set; get; }
 
         /// <summary>
-        ///     Sets or gets the UIManager.
+        /// Sets or gets the UIManager.
         /// </summary>
         internal UIManager UIManager { set; get; }
 
@@ -168,7 +168,7 @@ namespace Sharpex2D.UI
         #region Methods
 
         /// <summary>
-        ///     Initializes a new UIControl class.
+        /// Initializes a new UIControl class.
         /// </summary>
         /// <param name="assignedUIManager">The assigned UIManager.</param>
         protected UIControl(UIManager assignedUIManager)
@@ -190,7 +190,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Updates the Bounds of the UIControl.
+        /// Updates the Bounds of the UIControl.
         /// </summary>
         internal void UpdateBounds()
         {
@@ -198,7 +198,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Sets the Parent.
+        /// Sets the Parent.
         /// </summary>
         /// <param name="parent">The Parent.</param>
         internal void SetParent(UIControl parent)
@@ -216,7 +216,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Sets the Focus for this UIControl.
+        /// Sets the Focus for this UIControl.
         /// </summary>
         public void SetFocus()
         {
@@ -234,7 +234,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Removes a UIControl from the Childs.
+        /// Removes a UIControl from the Childs.
         /// </summary>
         /// <param name="control">The UIControl.</param>
         public void RemoveChild(UIControl control)
@@ -246,7 +246,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Removes the Focus of the UIControl.
+        /// Removes the Focus of the UIControl.
         /// </summary>
         public void RemoveFocus()
         {
@@ -254,7 +254,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Determines, if a MouseButton was pressed.
+        /// Determines, if a MouseButton was pressed.
         /// </summary>
         /// <param name="mouseButton">The MouseButton.</param>
         /// <returns>True if pressed</returns>
@@ -265,7 +265,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Determines, if a Key was pressed down.
+        /// Determines, if a Key was pressed down.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed down</returns>
@@ -275,7 +275,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Determines, if a Key was relased.
+        /// Determines, if a Key was relased.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed</returns>
@@ -299,13 +299,13 @@ namespace Sharpex2D.UI
         #region Abstract
 
         /// <summary>
-        ///     Processes a Render call.
+        /// Processes a Render call.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
-        public abstract void OnRender(RenderDevice renderer);
+        /// <param name="spriteBatch">The SpriteBatch.</param>
+        public abstract void OnDraw(SpriteBatch spriteBatch);
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnUpdate(GameTime gameTime)

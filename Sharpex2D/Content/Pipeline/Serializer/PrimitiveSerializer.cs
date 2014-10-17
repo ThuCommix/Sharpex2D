@@ -28,7 +28,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer
     public abstract class PrimitiveSerializer<T> : IPrimitiveSerializer
     {
         /// <summary>
-        ///     Reads a value from the given Reader.
+        /// Reads a value from the given Reader.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns>Object</returns>
@@ -38,7 +38,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer
         }
 
         /// <summary>
-        ///     Writes a specified value.
+        /// Writes a specified value.
         /// </summary>
         /// <param name="writer">The BinaryWriter.</param>
         /// <param name="value">The Value.</param>
@@ -48,7 +48,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer
         }
 
         /// <summary>
-        ///     Gets the ContentType.
+        /// Gets the ContentType.
         /// </summary>
         public Type ContentType
         {
@@ -56,7 +56,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer
         }
 
         /// <summary>
-        ///     The ContentManager.
+        /// The ContentManager.
         /// </summary>
         public ContentManager Content
         {
@@ -64,14 +64,14 @@ namespace Sharpex2D.Content.Pipeline.Serializer
         }
 
         /// <summary>
-        ///     Reads a value from the given Reader.
+        /// Reads a value from the given Reader.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns>T</returns>
         public abstract T Read(BinaryReader reader);
 
         /// <summary>
-        ///     Writes a specified value.
+        /// Writes a specified value.
         /// </summary>
         /// <param name="writer">The BinaryWriter.</param>
         /// <param name="value">The Value.</param>

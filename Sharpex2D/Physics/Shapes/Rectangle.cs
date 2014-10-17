@@ -28,7 +28,7 @@ namespace Sharpex2D.Physics.Shapes
     public class Rectangle : IShape
     {
         /// <summary>
-        ///     Initializes a new Rectangle class.
+        /// Initializes a new Rectangle class.
         /// </summary>
         public Rectangle()
         {
@@ -37,12 +37,12 @@ namespace Sharpex2D.Physics.Shapes
         }
 
         /// <summary>
-        ///     Sets or gets the width of the rectangle.
+        /// Sets or gets the width of the rectangle.
         /// </summary>
         public float Width { set; get; }
 
         /// <summary>
-        ///     Sets or gets the height of the rectangle.
+        /// Sets or gets the height of the rectangle.
         /// </summary>
         public float Height { set; get; }
     }

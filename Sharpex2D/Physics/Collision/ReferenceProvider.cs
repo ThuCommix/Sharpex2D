@@ -31,7 +31,7 @@ namespace Sharpex2D.Physics.Collision
         private readonly List<CollisionReference> _references;
 
         /// <summary>
-        ///     Initializes a new CollisionReferences class.
+        /// Initializes a new CollisionReferences class.
         /// </summary>
         public ReferenceProvider()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Adds a new CollisionReference to the ReferenceProvider.
+        /// Adds a new CollisionReference to the ReferenceProvider.
         /// </summary>
         /// <param name="reference">The Reference.</param>
         public void AddReference(CollisionReference reference)
@@ -48,7 +48,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Clears the current References, this should be called at the end of an update.
+        /// Clears the current References, this should be called at the end of an update.
         /// </summary>
         public void ClearReferences()
         {
@@ -56,7 +56,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Indicates whether the particle collision is already processed.
+        /// Indicates whether the particle collision is already processed.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>

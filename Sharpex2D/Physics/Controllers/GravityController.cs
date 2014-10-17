@@ -29,14 +29,14 @@ namespace Sharpex2D.Physics.Controllers
         private readonly Vector2 _gravity;
 
         /// <summary>
-        ///     Initializes a new GravityController class.
+        /// Initializes a new GravityController class.
         /// </summary>
         public GravityController() : this(9.81f)
         {
         }
 
         /// <summary>
-        ///     Initializes a new GravityController class.
+        /// Initializes a new GravityController class.
         /// </summary>
         /// <param name="gravity">The Gravity.</param>
         public GravityController(float gravity)
@@ -46,7 +46,7 @@ namespace Sharpex2D.Physics.Controllers
         }
 
         /// <summary>
-        ///     Updates the controller.
+        /// Updates the controller.
         /// </summary>
         /// <param name="world">The World.</param>
         /// <param name="elapsed">The Elapsed.</param>

@@ -29,14 +29,14 @@ namespace Sharpex2D.Plugin
     public class PluginCatalog<T>
     {
         /// <summary>
-        ///     Initializes a new PluginCatalog class.
+        /// Initializes a new PluginCatalog class.
         /// </summary>
         public PluginCatalog() : this(Environment.CurrentDirectory)
         {
         }
 
         /// <summary>
-        ///     Initializes a new PluginCatalog class.
+        /// Initializes a new PluginCatalog class.
         /// </summary>
         /// <param name="workingDirectory">The WorkingDirectory.</param>
         public PluginCatalog(string workingDirectory)
@@ -45,12 +45,12 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Sets or gets the WorkingDirectory.
+        /// Sets or gets the WorkingDirectory.
         /// </summary>
         public string WorkingDirectory { set; get; }
 
         /// <summary>
-        ///     Compose the plugins.
+        /// Compose the plugins.
         /// </summary>
         /// <returns>PluginContainer with type T.</returns>
         public PluginContainer<T> Compose()

@@ -27,7 +27,7 @@ namespace Sharpex2D.Network.Protocols.Udp
     public class UdpConnection : IConnection
     {
         /// <summary>
-        ///     Initializes a new UdpConnection class.
+        /// Initializes a new UdpConnection class.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
         public UdpConnection(IPAddress ipAddress)
@@ -38,17 +38,17 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sets or gets the Latency.
+        /// Sets or gets the Latency.
         /// </summary>
         public float Latency { get; set; }
 
         /// <summary>
-        ///     Sets or gets the IPAddress.
+        /// Sets or gets the IPAddress.
         /// </summary>
         public IPAddress IPAddress { get; private set; }
 
         /// <summary>
-        ///     A value indicating whether the connection is still available.
+        /// A value indicating whether the connection is still available.
         /// </summary>
         public bool Connected { get; private set; }
     }

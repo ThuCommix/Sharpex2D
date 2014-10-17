@@ -18,31 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 namespace Sharpex2D.Audio.WaveOut
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public class WaveOutInitializer : ISoundInitializer
     {
         /// <summary>
-        ///     Creates the Provider.
-        /// </summary>
-        /// <returns>ISoundProvider.</returns>
-        public ISoundProvider CreateProvider()
-        {
-            return new WaveOutSoundProvider(this);
-        }
-
-        /// <summary>
-        ///     A value indicating whether the WaveOutSoundProvider is supported.
+        /// A value indicating whether the audio interface is supported.
         /// </summary>
         public bool IsSupported
         {
-            get { return NativeMethods.waveOutGetNumDevs() > 0; }
+            get
+            {
+#if Windows
+                return new Version(5, 1) <= Environment.OSVersion.Version;
+#else
+                return false;
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Creates a new WaveOutProvider.
+        /// </summary>
+        /// <returns></returns>
+        public ISoundProvider Create()
+        {
+#if Windows
+            return new WaveOutProvider();
+#else
+            throw new NotSupportedException();
+#endif
         }
     }
-
-#endif
 }

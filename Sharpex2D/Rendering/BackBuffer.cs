@@ -28,7 +28,7 @@ namespace Sharpex2D.Rendering
     public class BackBuffer
     {
         /// <summary>
-        ///     Initializes a new BackBuffer class.
+        /// Initializes a new BackBuffer class.
         /// </summary>
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
@@ -38,7 +38,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Initializes a new BackBuffer class.
+        /// Initializes a new BackBuffer class.
         /// </summary>
         /// <param name="size">The Size.</param>
         public BackBuffer(Vector2 size)
@@ -53,17 +53,17 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Sets or gets the Scaling Value.
+        /// Sets or gets the Scaling Value.
         /// </summary>
         public bool Scaling { set; get; }
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public int Width { private set; get; }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public int Height { private set; get; }
     }

@@ -34,7 +34,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Gets or sets the guid of the language.
+        /// Gets or sets the guid of the language.
         /// </summary>
         public Guid Guid { set; get; }
 

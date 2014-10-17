@@ -29,14 +29,14 @@ namespace Sharpex2D.Content
     public class ContentLoadException : Exception
     {
         /// <summary>
-        ///     Initializes a new ContentLoadException class.
+        /// Initializes a new ContentLoadException class.
         /// </summary>
         public ContentLoadException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new ContentLoadException class.
+        /// Initializes a new ContentLoadException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         public ContentLoadException(string message) : base(message)
@@ -44,7 +44,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Initializes a new ContentLoadException class.
+        /// Initializes a new ContentLoadException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="inner">The InnerException.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Initializes a new ContentLoadException class.
+        /// Initializes a new ContentLoadException class.
         /// </summary>
         /// <param name="serializationInfo">The SerializationInfo.</param>
         /// <param name="context">The StreamContext.</param>

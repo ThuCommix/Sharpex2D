@@ -28,7 +28,7 @@ namespace Sharpex2D.Entities
     public class EntityPositionEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new EntityPositionEventArgs class.
+        /// Initializes a new EntityPositionEventArgs class.
         /// </summary>
         /// <param name="delta">The Delta.</param>
         internal EntityPositionEventArgs(Vector2 delta)
@@ -37,7 +37,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Gets the Delta.
+        /// Gets the Delta.
         /// </summary>
         public Vector2 Delta { private set; get; }
     }

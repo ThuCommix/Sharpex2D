@@ -28,7 +28,7 @@ namespace Sharpex2D.Input
     public class JoystickState
     {
         /// <summary>
-        ///     Initializes a new JoystickState class.
+        /// Initializes a new JoystickState class.
         /// </summary>
         /// <param name="x">The X.</param>
         /// <param name="y">The Y.</param>
@@ -89,202 +89,202 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the JoystickButton1.
+        /// Gets the JoystickButton1.
         /// </summary>
         public JoystickButton Button1 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton2.
+        /// Gets the JoystickButton2.
         /// </summary>
         public JoystickButton Button2 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton3.
+        /// Gets the JoystickButton3.
         /// </summary>
         public JoystickButton Button3 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton4.
+        /// Gets the JoystickButton4.
         /// </summary>
         public JoystickButton Button4 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton5.
+        /// Gets the JoystickButton5.
         /// </summary>
         public JoystickButton Button5 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton6.
+        /// Gets the JoystickButton6.
         /// </summary>
         public JoystickButton Button6 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton7.
+        /// Gets the JoystickButton7.
         /// </summary>
         public JoystickButton Button7 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton8.
+        /// Gets the JoystickButton8.
         /// </summary>
         public JoystickButton Button8 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton9.
+        /// Gets the JoystickButton9.
         /// </summary>
         public JoystickButton Button9 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton10.
+        /// Gets the JoystickButton10.
         /// </summary>
         public JoystickButton Button10 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton11.
+        /// Gets the JoystickButton11.
         /// </summary>
         public JoystickButton Button11 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton12.
+        /// Gets the JoystickButton12.
         /// </summary>
         public JoystickButton Button12 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton13.
+        /// Gets the JoystickButton13.
         /// </summary>
         public JoystickButton Button13 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton14.
+        /// Gets the JoystickButton14.
         /// </summary>
         public JoystickButton Button14 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton15.
+        /// Gets the JoystickButton15.
         /// </summary>
         public JoystickButton Button15 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton16.
+        /// Gets the JoystickButton16.
         /// </summary>
         public JoystickButton Button16 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton17.
+        /// Gets the JoystickButton17.
         /// </summary>
         public JoystickButton Button17 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton18.
+        /// Gets the JoystickButton18.
         /// </summary>
         public JoystickButton Button18 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton19.
+        /// Gets the JoystickButton19.
         /// </summary>
         public JoystickButton Button19 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton20.
+        /// Gets the JoystickButton20.
         /// </summary>
         public JoystickButton Button20 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton21.
+        /// Gets the JoystickButton21.
         /// </summary>
         public JoystickButton Button21 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton22.
+        /// Gets the JoystickButton22.
         /// </summary>
         public JoystickButton Button22 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton23.
+        /// Gets the JoystickButton23.
         /// </summary>
         public JoystickButton Button23 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton24.
+        /// Gets the JoystickButton24.
         /// </summary>
         public JoystickButton Button24 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton25.
+        /// Gets the JoystickButton25.
         /// </summary>
         public JoystickButton Button25 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton26.
+        /// Gets the JoystickButton26.
         /// </summary>
         public JoystickButton Button26 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton27.
+        /// Gets the JoystickButton27.
         /// </summary>
         public JoystickButton Button27 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton28.
+        /// Gets the JoystickButton28.
         /// </summary>
         public JoystickButton Button28 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton29.
+        /// Gets the JoystickButton29.
         /// </summary>
         public JoystickButton Button29 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton30.
+        /// Gets the JoystickButton30.
         /// </summary>
         public JoystickButton Button30 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton31.
+        /// Gets the JoystickButton31.
         /// </summary>
         public JoystickButton Button31 { private set; get; }
 
         /// <summary>
-        ///     Gets the JoystickButton32.
+        /// Gets the JoystickButton32.
         /// </summary>
         public JoystickButton Button32 { private set; get; }
 
         /// <summary>
-        ///     The first axis.
+        /// The first axis.
         /// </summary>
         public uint X { private set; get; }
 
         /// <summary>
-        ///     The second axis.
+        /// The second axis.
         /// </summary>
         public uint Y { private set; get; }
 
         /// <summary>
-        ///     The third axis.
+        /// The third axis.
         /// </summary>
         public uint Z { private set; get; }
 
         /// <summary>
-        ///     The fourth axis.
+        /// The fourth axis.
         /// </summary>
         public uint R { private set; get; }
 
         /// <summary>
-        ///     The fifth axis.
+        /// The fifth axis.
         /// </summary>
         public uint U { private set; get; }
 
         /// <summary>
-        ///     The sixth axis.
+        /// The sixth axis.
         /// </summary>
         public uint V { private set; get; }
 
         /// <summary>
-        ///     Gets the PointOfView.
+        /// Gets the PointOfView.
         /// </summary>
         public PointOfView PointOfView { private set; get; }
 
         /// <summary>
-        ///     Gets the number of pressed buttons.
+        /// Gets the number of pressed buttons.
         /// </summary>
         public uint PressedButtons { private set; get; }
     }

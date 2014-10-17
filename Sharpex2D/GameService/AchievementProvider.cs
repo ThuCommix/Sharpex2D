@@ -31,7 +31,7 @@ namespace Sharpex2D.GameService
         #region IComponent Implementation
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid
         {
@@ -43,7 +43,7 @@ namespace Sharpex2D.GameService
         private readonly Dictionary<Guid, Achievement> _achievements;
 
         /// <summary>
-        ///     Initializes a new AchievementProvider class.
+        /// Initializes a new AchievementProvider class.
         /// </summary>
         public AchievementProvider()
         {
@@ -51,7 +51,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Adds a new Achievement.
+        /// Adds a new Achievement.
         /// </summary>
         /// <param name="achievement">The Achievement.</param>
         public void Add(Achievement achievement)
@@ -65,7 +65,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Removes a Achievement.
+        /// Removes a Achievement.
         /// </summary>
         /// <param name="achievement">The Achievement.</param>
         public void Remove(Achievement achievement)
@@ -79,7 +79,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Removes a Achievement.
+        /// Removes a Achievement.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         public void Remove(Guid guid)
@@ -93,7 +93,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets a Achievement.
+        /// Gets a Achievement.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>Achievement</returns>
@@ -108,7 +108,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets the solved Achievements.
+        /// Gets the solved Achievements.
         /// </summary>
         /// <returns>Array of Achievement</returns>
         public Achievement[] GetSolved()
@@ -118,7 +118,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets the unsolved Achievements.
+        /// Gets the unsolved Achievements.
         /// </summary>
         /// <returns>Array of Achievement</returns>
         public Achievement[] GetUnSolved()
@@ -128,7 +128,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets all Achievements.
+        /// Gets all Achievements.
         /// </summary>
         /// <returns>Array of Achievement</returns>
         public Achievement[] GetAll()

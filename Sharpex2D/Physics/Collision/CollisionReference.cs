@@ -29,7 +29,7 @@ namespace Sharpex2D.Physics.Collision
     internal class CollisionReference
     {
         /// <summary>
-        ///     Initializes a new CollisionReference class.
+        /// Initializes a new CollisionReference class.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -40,12 +40,12 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Gets the first Particle.
+        /// Gets the first Particle.
         /// </summary>
         public Particle C1 { private set; get; }
 
         /// <summary>
-        ///     Gets the second Particle.
+        /// Gets the second Particle.
         /// </summary>
         public Particle C2 { private set; get; }
     }

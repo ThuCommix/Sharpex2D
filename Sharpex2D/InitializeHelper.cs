@@ -30,7 +30,7 @@ namespace Sharpex2D
     public static class InitializeHelper
     {
         /// <summary>
-        ///     Gets the Game class.
+        /// Gets the Game class.
         /// </summary>
         /// <returns>Game.</returns>
         public static Game GetGameClass()

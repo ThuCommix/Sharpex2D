@@ -28,27 +28,27 @@ namespace Sharpex2D.Input.Windows.XInput
     public struct XInputKeystroke
     {
         /// <summary>
-        ///     The VirtualKey.
+        /// The VirtualKey.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(0)] public short VirtualKey;
 
         /// <summary>
-        ///     The Unicode char.
+        /// The Unicode char.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(2)] public char Unicode;
 
         /// <summary>
-        ///     The Flags.
+        /// The Flags.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(4)] public short Flags;
 
         /// <summary>
-        ///     The UserIndex.
+        /// The UserIndex.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] [FieldOffset(5)] public byte UserIndex;
 
         /// <summary>
-        ///     The HIDCode.
+        /// The HIDCode.
         /// </summary>
         [MarshalAs(UnmanagedType.I1)] [FieldOffset(6)] public byte HidCode;
     }

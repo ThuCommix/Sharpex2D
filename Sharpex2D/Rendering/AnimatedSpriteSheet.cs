@@ -29,7 +29,7 @@ namespace Sharpex2D.Rendering
         #region IUpdate Implementation
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -62,7 +62,7 @@ namespace Sharpex2D.Rendering
         private float _durationPassed;
 
         /// <summary>
-        ///     Initializes a new AnimatedSpriteSheet class.
+        /// Initializes a new AnimatedSpriteSheet class.
         /// </summary>
         /// <param name="texture2D">The Texture2D.</param>
         public AnimatedSpriteSheet(Texture2D texture2D) : base(texture2D)
@@ -71,17 +71,17 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets the current Keyframe.
+        /// Gets the current Keyframe.
         /// </summary>
         public Keyframe CurrentKeyframe { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the AnimatedSpriteSheet should update automatically.
+        /// A value indicating whether the AnimatedSpriteSheet should update automatically.
         /// </summary>
         public bool AutoUpdate { set; get; }
 
         /// <summary>
-        ///     Adds a new Keyframe.
+        /// Adds a new Keyframe.
         /// </summary>
         /// <param name="keyframe">The Keyframe.</param>
         public void Add(Keyframe keyframe)
@@ -90,7 +90,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Removes a Keyframe.
+        /// Removes a Keyframe.
         /// </summary>
         /// <param name="keyframe">The Keyframe.</param>
         public void Remove(Keyframe keyframe)
@@ -102,7 +102,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Removes a Keyframe at a specific index.
+        /// Removes a Keyframe at a specific index.
         /// </summary>
         /// <param name="index">The Index.</param>
         public void RemoveAt(int index)
@@ -114,7 +114,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Activates a Keyframe.
+        /// Activates a Keyframe.
         /// </summary>
         /// <param name="index">The Index.</param>
         public void ActivateKeyframe(int index)

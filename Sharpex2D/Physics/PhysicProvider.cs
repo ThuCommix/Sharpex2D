@@ -33,7 +33,7 @@ namespace Sharpex2D.Physics
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -45,7 +45,7 @@ namespace Sharpex2D.Physics
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -59,7 +59,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Constructs the Component
+        /// Constructs the Component
         /// </summary>
         public void Construct()
         {
@@ -70,7 +70,7 @@ namespace Sharpex2D.Physics
         #region IPhysicProvider Implementation
 
         /// <summary>
-        ///     Subscribes a particle to the current PhysicProvider class.
+        /// Subscribes a particle to the current PhysicProvider class.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         public void Subscribe(Particle particle)
@@ -79,7 +79,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Unsubscribes a particle from the current PhysicProvider class.
+        /// Unsubscribes a particle from the current PhysicProvider class.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         public void Unsubscribe(Particle particle)
@@ -88,27 +88,27 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets or gets the lower bound.
+        /// Sets or gets the lower bound.
         /// </summary>
         public float LowerBound { get; set; }
 
         /// <summary>
-        ///     Sets or gets the upper bound.
+        /// Sets or gets the upper bound.
         /// </summary>
         public float UpperBound { get; set; }
 
         /// <summary>
-        ///     Sets or gets the left bound.
+        /// Sets or gets the left bound.
         /// </summary>
         public float BoundLeft { get; set; }
 
         /// <summary>
-        ///     Sets or gets the right bound.
+        /// Sets or gets the right bound.
         /// </summary>
         public float BoundRight { get; set; }
 
         /// <summary>
-        ///     Sets the velocity of the particle.
+        /// Sets the velocity of the particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <param name="velocity">The Velocity.</param>
@@ -118,7 +118,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Sets the velocity of the particle.
+        /// Sets the velocity of the particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <param name="velocity">The Velocity.</param>
@@ -135,7 +135,7 @@ namespace Sharpex2D.Physics
         private readonly ReferenceProvider _referenceProvider;
 
         /// <summary>
-        ///     Initializes a new PhysicProvider class.
+        /// Initializes a new PhysicProvider class.
         /// </summary>
         public PhysicProvider()
         {
@@ -147,27 +147,27 @@ namespace Sharpex2D.Physics
             Gravity = PhysicalConstants.Gravitation;
             CollisionManager = new CollisionManager();
             _referenceProvider = new ReferenceProvider();
-            SGL.Components.Get<IGameLoop>().Subscribe(this);
+            SGL.Components.Get<GameLoop>().Subscribe(this);
             SGL.Components.Add(this);
         }
 
         /// <summary>
-        ///     Indicating whether the gravity should be emulated.
+        /// Indicating whether the gravity should be emulated.
         /// </summary>
         public bool EnableGravity { set; get; }
 
         /// <summary>
-        ///     Sets or gets the custom gravity.
+        /// Sets or gets the custom gravity.
         /// </summary>
         public float Gravity { set; get; }
 
         /// <summary>
-        ///     Gets the current CollisionManager.
+        /// Gets the current CollisionManager.
         /// </summary>
         public ICollision CollisionManager { private set; get; }
 
         /// <summary>
-        ///     Updates the given particle.
+        /// Updates the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <param name="gameTime">The GameTime.</param>
@@ -294,7 +294,7 @@ namespace Sharpex2D.Physics
         #region Vigours
 
         /// <summary>
-        ///     Gets the velocity of fall of the object.
+        /// Gets the velocity of fall of the object.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         /// <returns>Velocity in meter per second</returns>
@@ -315,7 +315,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the damped velocity of the object.
+        /// Returns the damped velocity of the object.
         /// </summary>
         /// <param name="velocity">The Velocity.</param>
         /// <param name="damping">The Damping.</param>
@@ -346,7 +346,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Damps the particle on impact.
+        /// Damps the particle on impact.
         /// </summary>
         /// <param name="originVelocity">The Velocity.</param>
         /// <returns>Damped Velocity</returns>
@@ -357,7 +357,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the new velocity of two particles after an elastic impact.
+        /// Returns the new velocity of two particles after an elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -416,7 +416,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the new velocity after a non elastic impact.
+        /// Returns the new velocity after a non elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -439,7 +439,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the kinetic energy of the given particle.
+        /// Returns the kinetic energy of the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Ekin</returns>
@@ -454,7 +454,7 @@ namespace Sharpex2D.Physics
         #region Public Methods
 
         /// <summary>
-        ///     Returns the kinetic energy of the given particle.
+        /// Returns the kinetic energy of the given particle.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Ekin</returns>
@@ -464,7 +464,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Gets the velocity of fall of the object.
+        /// Gets the velocity of fall of the object.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         /// <returns>Velocity in meter per second</returns>
@@ -474,7 +474,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the damped velocity of the object.
+        /// Returns the damped velocity of the object.
         /// </summary>
         /// <param name="particle">The Particle.</param>
         /// <returns>Damped Velocity</returns>
@@ -484,7 +484,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the new velocity of two particles after an elastic impact.
+        /// Returns the new velocity of two particles after an elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -495,7 +495,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Returns the new velocity after a non elastic impact.
+        /// Returns the new velocity after a non elastic impact.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>

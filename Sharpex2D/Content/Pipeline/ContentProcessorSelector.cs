@@ -32,7 +32,7 @@ namespace Sharpex2D.Content.Pipeline
         private readonly List<IContentProcessor> _contentProcessors;
 
         /// <summary>
-        ///     Initializes a new ContentProcessorSelector class.
+        /// Initializes a new ContentProcessorSelector class.
         /// </summary>
         public ContentProcessorSelector()
         {
@@ -43,7 +43,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Adds a new ContentProcessor.
+        /// Adds a new ContentProcessor.
         /// </summary>
         /// <param name="contentProcessor"></param>
         public void Add(IContentProcessor contentProcessor)
@@ -53,7 +53,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Selects a ContentProcessor.
+        /// Selects a ContentProcessor.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>ContentProcessor T.</returns>
@@ -64,7 +64,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Selects a ContentProcessor.
+        /// Selects a ContentProcessor.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>ContentProcessor T.</returns>
@@ -85,9 +85,9 @@ namespace Sharpex2D.Content.Pipeline
 
             //also query the render.
 
-            if (SGL.RenderDevice.ContentProcessors != null)
+            if (SGL.SpriteBatch.Graphics.ContentProcessors != null)
             {
-                foreach (IContentProcessor processor in SGL.RenderDevice.ContentProcessors)
+                foreach (IContentProcessor processor in SGL.SpriteBatch.Graphics.ContentProcessors)
                 {
                     if (processor.Type == type)
                     {

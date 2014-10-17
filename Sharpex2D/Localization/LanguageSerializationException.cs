@@ -29,14 +29,14 @@ namespace Sharpex2D.Localization
     public class LanguageSerializationException : Exception
     {
         /// <summary>
-        ///     Initializes a new LanguageSerializationException class.
+        /// Initializes a new LanguageSerializationException class.
         /// </summary>
         public LanguageSerializationException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new LanguageSerializationException class.
+        /// Initializes a new LanguageSerializationException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         public LanguageSerializationException(string message) : base(message)
@@ -44,7 +44,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Initializes a new LanguageSerializationException class.
+        /// Initializes a new LanguageSerializationException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="inner">The InnerException.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Initializes a new LanguageSerializationException class.
+        /// Initializes a new LanguageSerializationException class.
         /// </summary>
         /// <param name="serializationInfo">The SerializationInfo.</param>
         /// <param name="context">The StreamContext.</param>

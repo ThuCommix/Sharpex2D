@@ -27,12 +27,12 @@ namespace Sharpex2D.Rendering
     public interface IPen : IContent
     {
         /// <summary>
-        ///     Sets or gets the Size of the Pen.
+        /// Sets or gets the Size of the Pen.
         /// </summary>
         float Width { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Color of the Pen.
+        /// Sets or gets the Color of the Pen.
         /// </summary>
         Color Color { set; get; }
     }

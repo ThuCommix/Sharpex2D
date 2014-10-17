@@ -27,7 +27,7 @@ namespace Sharpex2D.Content.Pipeline
     public abstract class ContentProcessor<T> : IContentProcessor where T : IContent
     {
         /// <summary>
-        ///     Initializes a new ContentProcessor class.
+        /// Initializes a new ContentProcessor class.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         protected ContentProcessor(Guid guid)
@@ -36,7 +36,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         public Type Type
         {
@@ -44,12 +44,12 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>Object.</returns>
@@ -59,7 +59,7 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>
@@ -69,14 +69,14 @@ namespace Sharpex2D.Content.Pipeline
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>T.</returns>
         public abstract T ReadData(string filepath);
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

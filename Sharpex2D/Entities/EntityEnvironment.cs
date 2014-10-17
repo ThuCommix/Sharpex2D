@@ -31,7 +31,7 @@ namespace Sharpex2D.Entities
         private readonly Dictionary<int, Entity> _entities;
 
         /// <summary>
-        ///     Initializes a new EntityManager class.
+        /// Initializes a new EntityManager class.
         /// </summary>
         public EntityEnvironment()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Adds a new Entity to the Container.
+        /// Adds a new Entity to the Container.
         /// </summary>
         /// <param name="entity">The Entity.</param>
         public void Add(Entity entity)
@@ -55,7 +55,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Removes a Entity from the Container.
+        /// Removes a Entity from the Container.
         /// </summary>
         /// <param name="entity">The Entity.</param>
         public void Remove(Entity entity)
@@ -67,7 +67,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Gets all Entities.
+        /// Gets all Entities.
         /// </summary>
         /// <returns>Entity Array</returns>
         public Entity[] GetEntities()
@@ -78,7 +78,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Gets a special Entity.
+        /// Gets a special Entity.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Entity</returns>
@@ -96,7 +96,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Gets a special Entity.
+        /// Gets a special Entity.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>Entity.</returns>
@@ -114,7 +114,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Clears all Entities.
+        /// Clears all Entities.
         /// </summary>
         public void Clear()
         {
@@ -122,7 +122,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -144,17 +144,17 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             foreach (Entity entity in GetEntities())
             {
                 if (!entity.IsDestroyed)
                 {
-                    entity.Render(renderer, gameTime);
+                    entity.Draw(spriteBatch, gameTime);
                 }
             }
         }

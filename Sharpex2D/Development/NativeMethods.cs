@@ -22,10 +22,11 @@ using System;
 using System.Runtime.InteropServices;
 using System.Security;
 using Sharpex2D.Audio.WaveOut;
+using Sharpex2D.Input;
 using Sharpex2D.Input.Windows.JoystickApi;
-using Sharpex2D.Input.Windows.RawInput;
 using Sharpex2D.Input.Windows.Touch;
 using Sharpex2D.Input.Windows.XInput;
+using Sharpex2D.Rendering.OpenGL.Windows;
 
 namespace Sharpex2D
 {
@@ -55,7 +56,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Allocates the Console.
+        /// Allocates the Console.
         /// </summary>
         /// <returns>Int32.</returns>
         [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto,
@@ -63,14 +64,14 @@ namespace Sharpex2D
         internal static extern int AllocConsole();
 
         /// <summary>
-        ///     Gets the console handle.
+        /// Gets the console handle.
         /// </summary>
         /// <returns>IntPtr.</returns>
         [DllImport("kernel32.dll")]
         internal static extern IntPtr GetConsoleWindow();
 
         /// <summary>
-        ///     Shows a window specified by its handle.
+        /// Shows a window specified by its handle.
         /// </summary>
         /// <param name="hWnd">The Handle.</param>
         /// <param name="nCmdShow">The Command.</param>
@@ -79,7 +80,7 @@ namespace Sharpex2D
         internal static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
         /// <summary>
-        ///     Sets the console title.
+        /// Sets the console title.
         /// </summary>
         /// <param name="lpConsoleTitle">The Title.</param>
         /// <returns></returns>
@@ -87,7 +88,7 @@ namespace Sharpex2D
         internal static extern bool SetConsoleTitle([MarshalAs(UnmanagedType.LPWStr)] String lpConsoleTitle);
 
         /// <summary>
-        ///     Gets the XInput state.
+        /// Gets the XInput state.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pState">The InputState.</param>
@@ -100,7 +101,7 @@ namespace Sharpex2D
             );
 
         /// <summary>
-        ///     Sets the Input state.
+        /// Sets the Input state.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pVibration">The Vibration.</param>
@@ -113,7 +114,7 @@ namespace Sharpex2D
             );
 
         /// <summary>
-        ///     Gets the Capabilities.
+        /// Gets the Capabilities.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="dwFlags">The dwFlags.</param>
@@ -128,7 +129,7 @@ namespace Sharpex2D
             );
 
         /// <summary>
-        ///     Gets the Battery information.
+        /// Gets the Battery information.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="devType">The DevType.</param>
@@ -154,12 +155,12 @@ namespace Sharpex2D
         internal static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
-        ///     Deletes the specified device context (DC).
+        /// Deletes the specified device context (DC).
         /// </summary>
         /// <param name="hdc">A handle to the device context.</param>
         /// <returns>
-        ///     If the function succeeds, the return value is <c>true</c>. If the function fails, the return value is
-        ///     <c>false</c>.
+        /// If the function succeeds, the return value is <c>true</c>. If the function fails, the return value is
+        /// <c>false</c>.
         /// </returns>
         [DllImport("gdi32.dll", EntryPoint = "DeleteDC")]
         internal static extern bool DeleteDC([In] IntPtr hdc);
@@ -174,7 +175,7 @@ namespace Sharpex2D
             GdiRasterOperations dwRop);
 
         /// <summary>
-        ///     A value indicating whether the Window is valid.
+        /// A value indicating whether the Window is valid.
         /// </summary>
         /// <param name="hWnd">The Handle.</param>
         /// <returns>True if window is valid</returns>
@@ -184,55 +185,58 @@ namespace Sharpex2D
 
         #region WaveOutAPI
 
+        internal delegate void WaveCallback(
+            IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved);
+
         /// <summary>
-        ///     Gets the number of devices.
+        /// Gets the number of devices.
         /// </summary>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
         internal static extern int waveOutGetNumDevs();
 
         /// <summary>
-        ///     Gets the dev caps.
+        /// Gets the dev caps.
         /// </summary>
         /// <param name="deviceID">The DeviceId.</param>
         /// <param name="waveOutCaps">The WaveOutCaps.</param>
         /// <param name="cbwaveOutCaps">The Size.</param>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
+        internal static extern MMResult waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
 
         /// <summary>
-        ///     Prepares the header.
+        /// Prepares the header.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="lpWaveOutHdr">The WaveHeader.</param>
         /// <param name="uSize">The Size.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutPrepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
+        internal static extern MMResult waveOutPrepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
 
         /// <summary>
-        ///     Unprepares the header.
+        /// Unprepares the header.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="lpWaveOutHdr">The WaveHeader.</param>
         /// <param name="uSize">The Size.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutUnprepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
+        internal static extern MMResult waveOutUnprepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
 
         /// <summary>
-        ///     Writes the header.
+        /// Writes the header.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="lpWaveOutHdr">The WaveHeader.</param>
         /// <param name="uSize">The Size.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutWrite(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
+        internal static extern MMResult waveOutWrite(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
 
         /// <summary>
-        ///     Opens a WaveOut.
+        /// Opens a WaveOut.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="uDeviceID">The DeviceHandle.</param>
@@ -242,114 +246,84 @@ namespace Sharpex2D
         /// <param name="dwFlags">The Flags.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutOpen(out IntPtr hWaveOut, uint uDeviceID, WaveFormat lpFormat,
-            WaveDelegate dwCallback, IntPtr dwInstance, uint dwFlags);
+        internal static extern MMResult waveOutOpen(out IntPtr hWaveOut, IntPtr uDeviceID, WaveFormat lpFormat,
+            WaveCallback dwCallback, IntPtr dwInstance, uint dwFlags);
 
         /// <summary>
-        ///     Resets the WaveOut.
+        /// Resets the WaveOut.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutReset(IntPtr hWaveOut);
+        internal static extern MMResult waveOutReset(IntPtr hWaveOut);
 
         /// <summary>
-        ///     Closes the WaveOut.
+        /// Closes the WaveOut.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutClose(IntPtr hWaveOut);
+        internal static extern MMResult waveOutClose(IntPtr hWaveOut);
 
         /// <summary>
-        ///     Pauses the WaveOut.
+        /// Pauses the WaveOut.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutPause(IntPtr hWaveOut);
+        internal static extern MMResult waveOutPause(IntPtr hWaveOut);
 
         /// <summary>
-        ///     Restarts the WaveOut.
+        /// Restarts the WaveOut.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutRestart(IntPtr hWaveOut);
+        internal static extern MMResult waveOutRestart(IntPtr hWaveOut);
 
         /// <summary>
-        ///     Sets the volume.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="dwVolume">The Volume.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern int waveOutSetVolume(IntPtr hWaveOut, uint dwVolume);
-
-        /// <summary>
-        ///     Gets the Volume.
+        /// Sets the volume.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="dwVolume">The Volume.</param>
         /// <returns>Int.</returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutGetVolume(IntPtr hWaveOut, out uint dwVolume);
+        internal static extern MMResult waveOutSetVolume(IntPtr hWaveOut, uint dwVolume);
 
         /// <summary>
-        ///     Gets the Pitch.
+        /// Gets the Volume.
+        /// </summary>
+        /// <param name="hWaveOut">The Handle.</param>
+        /// <param name="dwVolume">The Volume.</param>
+        /// <returns>Int.</returns>
+        [DllImport("winmm.dll")]
+        internal static extern MMResult waveOutGetVolume(IntPtr hWaveOut, out uint dwVolume);
+
+        /// <summary>
+        /// Gets the Pitch.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="pdwPitch">The Pitch.</param>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutGetPitch(IntPtr hWaveOut, IntPtr pdwPitch);
+        internal static extern MMResult waveOutGetPitch(IntPtr hWaveOut, IntPtr pdwPitch);
 
         /// <summary>
-        ///     Sets the Pitch.
+        /// Sets the Pitch.
         /// </summary>
         /// <param name="hWaveOut">The Handle.</param>
         /// <param name="dwPitch">The Pitch.</param>
         /// <returns></returns>
         [DllImport("winmm.dll")]
-        internal static extern int waveOutSetPitch(IntPtr hWaveOut, int dwPitch);
+        internal static extern MMResult waveOutSetPitch(IntPtr hWaveOut, int dwPitch);
 
         /// <summary>
-        ///     Open.
-        /// </summary>
-        internal const int MM_WOM_OPEN = 0x3BB;
-
-        /// <summary>
-        ///     Close.
-        /// </summary>
-        internal const int MM_WOM_CLOSE = 0x3BC;
-
-        /// <summary>
-        ///     Done.
-        /// </summary>
-        internal const int MM_WOM_DONE = 0x3BD;
-
-        /// <summary>
-        ///     Callbackfunction number.
+        /// Callbackfunction number.
         /// </summary>
         internal const int CALLBACK_FUNCTION = 0x00030000;
 
         /// <summary>
-        ///     Time in ms.
-        /// </summary>
-        internal const int TIME_MS = 0x0001;
-
-        /// <summary>
-        ///     Time in samples.
-        /// </summary>
-        internal const int TIME_SAMPLES = 0x0002;
-
-        /// <summary>
-        ///     Time in bytes.
-        /// </summary>
-        internal const int TIME_BYTES = 0x0004;
-
-        /// <summary>
-        ///     WaveDelegate.
+        /// WaveDelegate.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         /// <param name="message">The Message.</param>
@@ -361,92 +335,17 @@ namespace Sharpex2D
 
         #endregion
 
-        #region RawInputAPI
-
-        /// <summary>
-        ///     Gets the RawInputData.
-        /// </summary>
-        /// <param name="hRawInput">The Device.</param>
-        /// <param name="command">The Command.</param>
-        /// <param name="buffer">The InputData.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="cbSizeHeader">The HeaderSize.</param>
-        /// <returns>Int32.</returns>
-        [DllImport("User32.dll", SetLastError = true)]
-        internal static extern int GetRawInputData(IntPtr hRawInput, DataCommand command, [Out] out InputData buffer,
-            [In, Out] ref int size, int cbSizeHeader);
-
-        /// <summary>
-        ///     Gets the RawInputData.
-        /// </summary>
-        /// <param name="hRawInput">The Device.</param>
-        /// <param name="command">The Command.</param>
-        /// <param name="pData">The InputData.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="sizeHeader">The HeaderSize.</param>
-        /// <returns>Int32.</returns>
-        [DllImport("User32.dll", SetLastError = true)]
-        internal static extern int GetRawInputData(IntPtr hRawInput, DataCommand command, [Out] IntPtr pData,
-            [In, Out] ref int size, int sizeHeader);
-
-        /// <summary>
-        ///     Gets the Device info.
-        /// </summary>
-        /// <param name="hDevice">The Device.</param>
-        /// <param name="command">The Command.</param>
-        /// <param name="pData">The Data.</param>
-        /// <param name="size">The Size.</param>
-        /// <returns>UInt32.</returns>
-        [DllImport("User32.dll", SetLastError = true)]
-        internal static extern uint GetRawInputDeviceInfo(IntPtr hDevice, RawInputDeviceInfo command, IntPtr pData,
-            ref uint size);
-
-        /// <summary>
-        ///     Gets the Device info.
-        /// </summary>
-        /// <param name="hDevice">The Device.</param>
-        /// <param name="command">The Command.</param>
-        /// <param name="data">The Data.</param>
-        /// <param name="dataSize">The Size.</param>
-        /// <returns>UInt32.</returns>
-        [DllImport("user32.dll")]
-        internal static extern uint GetRawInputDeviceInfo(IntPtr hDevice, uint command, ref DeviceInfo data,
-            ref uint dataSize);
-
-        /// <summary>
-        ///     Gets the RawInputDeviceList.
-        /// </summary>
-        /// <param name="pRawInputDeviceList">The DeviceList.</param>
-        /// <param name="numberDevices">The Number of Devices.</param>
-        /// <param name="size">The Size.</param>
-        /// <returns>UInt32.</returns>
-        [DllImport("User32.dll", SetLastError = true)]
-        internal static extern uint GetRawInputDeviceList(IntPtr pRawInputDeviceList, ref uint numberDevices, uint size);
-
-        /// <summary>
-        ///     Registers the RawInputDevice.
-        /// </summary>
-        /// <param name="pRawInputDevice">The RawInputDevices.</param>
-        /// <param name="numberDevices">The Number of Devices.</param>
-        /// <param name="size">The Size.</param>
-        /// <returns>True on success.</returns>
-        [DllImport("User32.dll", SetLastError = true)]
-        internal static extern bool RegisterRawInputDevices(RawInputDevice[] pRawInputDevice, uint numberDevices,
-            uint size);
-
-        #endregion
-
         #region Joystick
 
         /// <summary>
-        ///     Gets the number of connected devices.
+        /// Gets the number of connected devices.
         /// </summary>
         /// <returns></returns>
         [DllImport("winmm.dll")]
         internal static extern uint joyGetNumDevs();
 
         /// <summary>
-        ///     Gets the state of the Joystick.
+        /// Gets the state of the Joystick.
         /// </summary>
         /// <param name="uJoyID">The Joystick Id.</param>
         /// <param name="pji">The JoyInfo.</param>
@@ -455,7 +354,7 @@ namespace Sharpex2D
         internal static extern uint joyGetPos(uint uJoyID, ref JoyInfo pji);
 
         /// <summary>
-        ///     Gets the state of the extended Joystick.
+        /// Gets the state of the extended Joystick.
         /// </summary>
         /// <param name="uJoyID">The Joystick Id.</param>
         /// <param name="pjiex">The extended JoyInfo.</param>
@@ -468,7 +367,7 @@ namespace Sharpex2D
         #region Touch
 
         /// <summary>
-        ///     Registers the TouchWindow.
+        /// Registers the TouchWindow.
         /// </summary>
         /// <param name="hWnd">The Handle.</param>
         /// <param name="ulFlags">The Flags.</param>
@@ -478,7 +377,7 @@ namespace Sharpex2D
         internal static extern bool RegisterTouchWindow(IntPtr hWnd, UInt32 ulFlags);
 
         /// <summary>
-        ///     Gets the TouchInputInfo.
+        /// Gets the TouchInputInfo.
         /// </summary>
         /// <param name="hTouchInput">The TouchInput.</param>
         /// <param name="cInputs">The Number of structures.</param>
@@ -491,7 +390,7 @@ namespace Sharpex2D
             int cbSize);
 
         /// <summary>
-        ///     Closes the TouchInputHandle.
+        /// Closes the TouchInputHandle.
         /// </summary>
         /// <param name="lParam">The Handle.</param>
         [DllImport("user32.dll")]
@@ -499,7 +398,7 @@ namespace Sharpex2D
         internal static extern bool CloseTouchInputHandle(IntPtr lParam);
 
         /// <summary>
-        ///     Closes the TouchInputHandle.
+        /// Closes the TouchInputHandle.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         [DllImport("User32")]
@@ -509,6 +408,152 @@ namespace Sharpex2D
         internal const int WM_TOUCH = 0x0240;
 
         #endregion
+
+        /// <summary>
+        /// Gets the current key state.
+        /// </summary>
+        /// <param name="key">The Key.</param>
+        /// <returns>Key.</returns>
+        [DllImport("user32.dll")]
+        internal static extern short GetAsyncKeyState(Keys key);
+
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LoadLibrary(string lpFileName);
+
+        [DllImport("gdi32.dll")]
+        public static extern int SwapBuffers(IntPtr hDC);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetDC(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern int RelaseDC(IntPtr hWnd, IntPtr hDC);
+
+        /// <summary>
+        /// Gets the current render context.
+        /// </summary>
+        /// <returns>The current render context.</returns>
+        [DllImport("opengl32.dll")]
+        public static extern IntPtr wglGetCurrentContext();
+
+        /// <summary>
+        /// Make the specified render context current.
+        /// </summary>
+        /// <param name="hdc">The handle to the device context.</param>
+        /// <param name="hrc">The handle to the render context.</param>
+        /// <returns></returns>
+        [DllImport("opengl32.dll")]
+        public static extern int wglMakeCurrent(IntPtr hdc, IntPtr hrc);
+
+        /// <summary>
+        /// Creates a render context from the device context.
+        /// </summary>
+        /// <param name="hdc">The handle to the device context.</param>
+        /// <returns>The handle to the render context.</returns>
+        [DllImport("opengl32.dll", SetLastError = true)]
+        public static extern IntPtr wglCreateContext(IntPtr hdc);
+
+        /// <summary>
+        /// Deletes the render context.
+        /// </summary>
+        /// <param name="hrc">The handle to the render context.</param>
+        /// <returns></returns>
+        [DllImport("opengl32.dll")]
+        public static extern int wglDeleteContext(IntPtr hrc);
+
+        [DllImport("gdi32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        public static extern int ChoosePixelFormat(IntPtr deviceContext, ref PixelFormatDescriptor pixelFormatDescriptor);
+
+        public static bool SetPixelFormat(IntPtr deviceContext, int pixelFormat,
+            ref PixelFormatDescriptor pixelFormatDescriptor)
+        {
+            LoadLibrary("opengl32.dll");
+            return _SetPixelFormat(deviceContext, pixelFormat, ref pixelFormatDescriptor);
+        }
+
+        [DllImport("gdi32.dll", EntryPoint = "SetPixelFormat", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        public static extern bool _SetPixelFormat(IntPtr deviceContext, int pixelFormat,
+            ref PixelFormatDescriptor pixelFormatDescriptor);
+
+        [DllImport("user32.dll")]
+        public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
+
+        [DllImport("opengl32.dll")]
+        public static extern bool wglUseFontBitmaps(IntPtr hDC, uint first, uint count, uint listBase);
+
+        [DllImport("opengl32.dll")]
+        public static extern IntPtr wglGetProcAddress(string name);
+
+        public const uint WHITE_BRUSH = 0;
+        public const uint LTGRAY_BRUSH = 1;
+        public const uint GRAY_BRUSH = 2;
+        public const uint DKGRAY_BRUSH = 3;
+        public const uint BLACK_BRUSH = 4;
+        public const uint NULL_BRUSH = 5;
+        public const uint HOLLOW_BRUSH = NULL_BRUSH;
+        public const uint WHITE_PEN = 6;
+        public const uint BLACK_PEN = 7;
+        public const uint NULL_PEN = 8;
+        public const uint OEM_FIXED_FONT = 10;
+        public const uint ANSI_FIXED_FONT = 11;
+        public const uint ANSI_VAR_FONT = 12;
+        public const uint SYSTEM_FONT = 13;
+        public const uint DEVICE_DEFAULT_FONT = 14;
+        public const uint DEFAULT_PALETTE = 15;
+        public const uint SYSTEM_FIXED_FONT = 16;
+        public const uint DEFAULT_GUI_FONT = 17;
+        public const uint DC_BRUSH = 18;
+        public const uint DC_PEN = 19;
+
+        public const uint DEFAULT_PITCH = 0;
+        public const uint FIXED_PITCH = 1;
+        public const uint VARIABLE_PITCH = 2;
+
+        public const uint DEFAULT_QUALITY = 0;
+        public const uint DRAFT_QUALITY = 1;
+        public const uint PROOF_QUALITY = 2;
+        public const uint NONANTIALIASED_QUALITY = 3;
+        public const uint ANTIALIASED_QUALITY = 4;
+        public const uint CLEARTYPE_QUALITY = 5;
+        public const uint CLEARTYPE_NATURAL_QUALITY = 6;
+
+        public const uint CLIP_DEFAULT_PRECIS = 0;
+        public const uint CLIP_CHARACTER_PRECIS = 1;
+        public const uint CLIP_STROKE_PRECIS = 2;
+        public const uint CLIP_MASK = 0xf;
+
+        public const uint OUT_DEFAULT_PRECIS = 0;
+        public const uint OUT_STRING_PRECIS = 1;
+        public const uint OUT_CHARACTER_PRECIS = 2;
+        public const uint OUT_STROKE_PRECIS = 3;
+        public const uint OUT_TT_PRECIS = 4;
+        public const uint OUT_DEVICE_PRECIS = 5;
+        public const uint OUT_RASTER_PRECIS = 6;
+        public const uint OUT_TT_ONLY_PRECIS = 7;
+        public const uint OUT_OUTLINE_PRECIS = 8;
+        public const uint OUT_SCREEN_OUTLINE_PRECIS = 9;
+        public const uint OUT_PS_ONLY_PRECIS = 10;
+
+        public const uint ANSI_CHARSET = 0;
+        public const uint DEFAULT_CHARSET = 1;
+        public const uint SYMBOL_CHARSET = 2;
+
+        public const uint FW_DONTCARE = 0;
+        public const uint FW_THIN = 100;
+        public const uint FW_EXTRALIGHT = 200;
+        public const uint FW_LIGHT = 300;
+        public const uint FW_NORMAL = 400;
+        public const uint FW_MEDIUM = 500;
+        public const uint FW_SEMIBOLD = 600;
+        public const uint FW_BOLD = 700;
+        public const uint FW_EXTRABOLD = 800;
+        public const uint FW_HEAVY = 900;
+
+        [DllImport("gdi32.dll")]
+        public static extern IntPtr CreateFont(int nHeight, int nWidth, int nEscapement,
+            int nOrientation, uint fnWeight, uint fdwItalic, uint fdwUnderline, uint
+                fdwStrikeOut, uint fdwCharSet, uint fdwOutputPrecision, uint
+                    fdwClipPrecision, uint fdwQuality, uint fdwPitchAndFamily, string lpszFace);
 
 #endif
     }

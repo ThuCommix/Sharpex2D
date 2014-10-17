@@ -27,7 +27,7 @@ namespace Sharpex2D
     public class GameTimer : IUpdateable
     {
         /// <summary>
-        ///     TickedEventHandler.
+        /// TickedEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -37,14 +37,14 @@ namespace Sharpex2D
         private float _passedms;
 
         /// <summary>
-        ///     Initializes a new GameTimer class.
+        /// Initializes a new GameTimer class.
         /// </summary>
         public GameTimer() : this(100)
         {
         }
 
         /// <summary>
-        ///     Initializes a new GameTimer class.
+        /// Initializes a new GameTimer class.
         /// </summary>
         /// <param name="interval">The Interval.</param>
         public GameTimer(float interval)
@@ -53,7 +53,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     A value indicating whether the GameTimer is enabled.
+        /// A value indicating whether the GameTimer is enabled.
         /// </summary>
         public bool Enabled
         {
@@ -62,23 +62,23 @@ namespace Sharpex2D
                 _enabled = value;
                 if (value)
                 {
-                    SGL.QueryComponents<IGameLoop>().Subscribe(this);
+                    SGL.QueryComponents<GameLoop>().Subscribe(this);
                 }
                 else
                 {
-                    SGL.QueryComponents<IGameLoop>().Unsubscribe(this);
+                    SGL.QueryComponents<GameLoop>().Unsubscribe(this);
                 }
             }
             get { return _enabled; }
         }
 
         /// <summary>
-        ///     Gets or sets the Interval.
+        /// Gets or sets the Interval.
         /// </summary>
         public float Interval { set; get; }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         void IUpdateable.Update(GameTime gameTime)
@@ -99,7 +99,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Ticked event.
+        /// Ticked event.
         /// </summary>
         public event TickedEventHandler Ticked;
     }

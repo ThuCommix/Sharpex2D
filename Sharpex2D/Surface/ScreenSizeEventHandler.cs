@@ -23,7 +23,7 @@ using System;
 namespace Sharpex2D.Surface
 {
     /// <summary>
-    ///     ScreenSizeEventHandler.
+    /// ScreenSizeEventHandler.
     /// </summary>
     /// <param name="sender">The Sender.</param>
     /// <param name="e">The EventArgs.</param>

@@ -29,7 +29,7 @@ namespace Sharpex2D.Rendering
     public struct Color
     {
         /// <summary>
-        ///     Initializes a new Color.
+        /// Initializes a new Color.
         /// </summary>
         /// <param name="r">The RedValue.</param>
         /// <param name="g">The GreenValue.</param>
@@ -44,27 +44,27 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets or sets the RedValue.
+        /// Gets or sets the RedValue.
         /// </summary>
         public byte R { set; get; }
 
         /// <summary>
-        ///     Gets or sets the GreenValue.
+        /// Gets or sets the GreenValue.
         /// </summary>
         public byte G { set; get; }
 
         /// <summary>
-        ///     Gets or sets the BlueValue.
+        /// Gets or sets the BlueValue.
         /// </summary>
         public byte B { set; get; }
 
         /// <summary>
-        ///     Gets or sets the AlphaValue.
+        /// Gets or sets the AlphaValue.
         /// </summary>
         public byte A { set; get; }
 
         /// <summary>
-        ///     Generates a Color from the given Values.
+        /// Generates a Color from the given Values.
         /// </summary>
         /// <param name="a">The AlphaValue.</param>
         /// <param name="r">The RedValue.</param>
@@ -788,7 +788,7 @@ namespace Sharpex2D.Rendering
         #region Operator
 
         /// <summary>
-        ///     The != Operator.
+        /// The != Operator.
         /// </summary>
         /// <param name="a">The FirstColor.</param>
         /// <param name="b">The SecondColor.</param>
@@ -799,7 +799,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     The == Operator.
+        /// The == Operator.
         /// </summary>
         /// <param name="a">The FirstColor.</param>
         /// <param name="b">The SecondColor.</param>
@@ -810,7 +810,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     The * Operator.
+        /// The * Operator.
         /// </summary>
         /// <param name="a">The FirstColor.</param>
         /// <param name="scale">The Scalevalue.</param>
@@ -821,7 +821,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Determines, if this Object is equal with another.
+        /// Determines, if this Object is equal with another.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>Bool.</returns>
@@ -831,7 +831,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Determines, if this Object is equal with another.
+        /// Determines, if this Object is equal with another.
         /// </summary>
         /// <param name="obj">The Object.</param>
         /// <returns>Bool.</returns>
@@ -841,7 +841,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets the HashCode for the current Color.
+        /// Gets the HashCode for the current Color.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
@@ -850,7 +850,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Color Converted to String.
+        /// Color Converted to String.
         /// </summary>
         /// <returns>String</returns>
         public override string ToString()
@@ -863,7 +863,7 @@ namespace Sharpex2D.Rendering
         #region Methods
 
         /// <summary>
-        ///     Multiplies the specified color.
+        /// Multiplies the specified color.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="scale">The scale.</param>
@@ -890,7 +890,7 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Counterpart for ToString.
+        /// Counterpart for ToString.
         /// </summary>
         /// <param name="stringColor">The ColorString.</param>
         /// <returns>Color</returns>

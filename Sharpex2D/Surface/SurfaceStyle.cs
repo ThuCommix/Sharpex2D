@@ -25,12 +25,12 @@ namespace Sharpex2D.Surface
     public enum SurfaceStyle
     {
         /// <summary>
-        ///     Windowed.
+        /// Windowed.
         /// </summary>
         Normal = 0,
 
         /// <summary>
-        ///     Fullscreen.
+        /// Fullscreen.
         /// </summary>
         Fullscreen = 1
     }

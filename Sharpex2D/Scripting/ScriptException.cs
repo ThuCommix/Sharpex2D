@@ -29,14 +29,14 @@ namespace Sharpex2D.Scripting
     public class ScriptException : Exception
     {
         /// <summary>
-        ///     Initializes a new ScriptException class.
+        /// Initializes a new ScriptException class.
         /// </summary>
         public ScriptException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new ScriptException class.
+        /// Initializes a new ScriptException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         public ScriptException(string message) : base(message)
@@ -44,7 +44,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Initializes a new ScriptException class.
+        /// Initializes a new ScriptException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="inner">The InnerException.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Initializes a new ScriptException class.
+        /// Initializes a new ScriptException class.
         /// </summary>
         /// <param name="serializationInfo">The SerializationInfo.</param>
         /// <param name="context">The StreamContext.</param>

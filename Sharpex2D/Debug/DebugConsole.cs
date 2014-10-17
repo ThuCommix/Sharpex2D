@@ -30,7 +30,7 @@ namespace Sharpex2D.Debug
         private static bool _isOpen;
 
         /// <summary>
-        ///     Open the DebugConsole.
+        /// Open the DebugConsole.
         /// </summary>
         public static void Open()
         {
@@ -38,7 +38,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Open the DebugConsole.
+        /// Open the DebugConsole.
         /// </summary>
         /// <param name="debugName">The DebugName.</param>
         public static void Open(string debugName)
@@ -58,7 +58,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Close the DebugConsole.
+        /// Close the DebugConsole.
         /// </summary>
         public static void Close()
         {

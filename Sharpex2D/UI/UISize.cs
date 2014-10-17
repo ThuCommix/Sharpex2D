@@ -29,7 +29,7 @@ namespace Sharpex2D.UI
         private readonly Vector2 _size;
 
         /// <summary>
-        ///     Initializes a new UISize class.
+        /// Initializes a new UISize class.
         /// </summary>
         public UISize()
         {
@@ -37,7 +37,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Initializes a new UISize class.
+        /// Initializes a new UISize class.
         /// </summary>
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
@@ -47,7 +47,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public int Width
         {
@@ -55,7 +55,7 @@ namespace Sharpex2D.UI
         }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public int Height
         {

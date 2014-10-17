@@ -32,7 +32,7 @@ namespace Sharpex2D.Scripting
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Scripting
         #endregion
 
         /// <summary>
-        ///     ScriptEventHandler.
+        /// ScriptEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -52,7 +52,7 @@ namespace Sharpex2D.Scripting
         private readonly Dictionary<string, MethodInfo> _methods;
 
         /// <summary>
-        ///     Initializes a new ScriptHost class.
+        /// Initializes a new ScriptHost class.
         /// </summary>
         /// <param name="evaluator">The ScriptEvaluator.</param>
         public ScriptHost(IScriptEvaluator<T> evaluator)
@@ -63,17 +63,17 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     ScriptCompleted event.
+        /// ScriptCompleted event.
         /// </summary>
         public event ScriptEventHandler ScriptCompleted;
 
         /// <summary>
-        ///     ScriptRunning event.
+        /// ScriptRunning event.
         /// </summary>
         public event ScriptEventHandler ScriptRunning;
 
         /// <summary>
-        ///     Executes the script.
+        /// Executes the script.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
@@ -90,7 +90,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Internal Execute.
+        /// Internal Execute.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>
@@ -106,7 +106,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Adds a method to the list.
+        /// Adds a method to the list.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         /// <param name="methodInfo">The MethodInfo.</param>
@@ -121,7 +121,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Removes a method from the list.
+        /// Removes a method from the list.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         public void RemoveMethod(string key)
@@ -135,7 +135,7 @@ namespace Sharpex2D.Scripting
         }
 
         /// <summary>
-        ///     Invokes a method.
+        /// Invokes a method.
         /// </summary>
         /// <param name="key">The MethodName.</param>
         /// <param name="parameters">The Parameters.</param>

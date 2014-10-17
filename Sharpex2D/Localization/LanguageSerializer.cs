@@ -29,7 +29,7 @@ namespace Sharpex2D.Localization
     public class LanguageSerializer
     {
         /// <summary>
-        ///     Serializes the given Language.
+        /// Serializes the given Language.
         /// </summary>
         /// <param name="path">The Filepath.</param>
         /// <param name="language">The Language.</param>
@@ -42,7 +42,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Deserializes a Language.
+        /// Deserializes a Language.
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>Language</returns>

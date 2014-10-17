@@ -34,7 +34,7 @@ namespace Sharpex2D.Rendering.GDI
         private readonly int _width;
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public override int Width
         {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public override int Height
         {
@@ -52,7 +52,7 @@ namespace Sharpex2D.Rendering.GDI
         #endregion
 
         /// <summary>
-        ///     Initializes a new GdiTexture class.
+        /// Initializes a new GdiTexture class.
         /// </summary>
         /// <param name="bitmap">The Bitmap.</param>
         internal GDITexture(Bitmap bitmap)
@@ -63,7 +63,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Gets the GdiTexture data.
+        /// Gets the GdiTexture data.
         /// </summary>
         internal Bitmap Bmp { private set; get; }
     }

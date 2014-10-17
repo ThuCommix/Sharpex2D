@@ -33,7 +33,7 @@ namespace Sharpex2D.Audio.WaveOut
         #region Stream Implementation
 
         /// <summary>
-        ///     A value indicating whether the stream can read.
+        /// A value indicating whether the stream can read.
         /// </summary>
         public override bool CanRead
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     A value indicating whether the stream can seek.
+        /// A value indicating whether the stream can seek.
         /// </summary>
         public override bool CanSeek
         {
@@ -49,7 +49,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     A value indicating whether the stream can write.
+        /// A value indicating whether the stream can write.
         /// </summary>
         public override bool CanWrite
         {
@@ -57,7 +57,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Gets the Length.
+        /// Gets the Length.
         /// </summary>
         public override long Length
         {
@@ -65,7 +65,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Gets the Position.
+        /// Gets the Position.
         /// </summary>
         public override long Position
         {
@@ -74,7 +74,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Closes the Stream.
+        /// Closes the Stream.
         /// </summary>
         public override void Close()
         {
@@ -82,14 +82,14 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Flushs the stream.
+        /// Flushs the stream.
         /// </summary>
         public override void Flush()
         {
         }
 
         /// <summary>
-        ///     Sets the Length.
+        /// Sets the Length.
         /// </summary>
         /// <param name="length">The Length.</param>
         public override void SetLength(long length)
@@ -98,7 +98,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Seeks the Stream
+        /// Seeks the Stream
         /// </summary>
         /// <param name="position">The Position.</param>
         /// <param name="origin">The Origin.</param>
@@ -121,7 +121,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Reads the stream.
+        /// Reads the stream.
         /// </summary>
         /// <param name="buffer">The Buffer.</param>
         /// <param name="offset">The Offset.</param>
@@ -134,7 +134,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Writes into the stream.
+        /// Writes into the stream.
         /// </summary>
         /// <param name="buffer">The Buffer.</param>
         /// <param name="offset">The Offset.</param>
@@ -151,7 +151,7 @@ namespace Sharpex2D.Audio.WaveOut
         private long _position;
 
         /// <summary>
-        ///     Initializes a new WaveStream class.
+        /// Initializes a new WaveStream class.
         /// </summary>
         /// <param name="file">The File.</param>
         public WaveStream(string file) : this(new FileStream(file, FileMode.Open, FileAccess.Read))
@@ -159,7 +159,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Initializes a new WaveStream class.
+        /// Initializes a new WaveStream class.
         /// </summary>
         /// <param name="stream">The BaseStream.</param>
         public WaveStream(Stream stream)
@@ -177,7 +177,7 @@ namespace Sharpex2D.Audio.WaveOut
         public WaveFormat Format { private set; get; }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public new void Dispose()
         {
@@ -189,7 +189,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Deconstructs the WaveStream class.
+        /// Deconstructs the WaveStream class.
         /// </summary>
         ~WaveStream()
         {
@@ -197,7 +197,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Reads a chunk.
+        /// Reads a chunk.
         /// </summary>
         /// <param name="reader">The Reader.</param>
         /// <returns>String.</returns>
@@ -209,7 +209,7 @@ namespace Sharpex2D.Audio.WaveOut
         }
 
         /// <summary>
-        ///     Reads the Header.
+        /// Reads the Header.
         /// </summary>
         private void ReadHeader()
         {

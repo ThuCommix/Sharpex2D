@@ -28,14 +28,14 @@ namespace Sharpex2D.Network.Packages
     public class BinaryPackage : BasePackage
     {
         /// <summary>
-        ///     Initializes a new BinaryPackage class.
+        /// Initializes a new BinaryPackage class.
         /// </summary>
         internal BinaryPackage()
         {
         }
 
         /// <summary>
-        ///     Creates a BinaryPackage.
+        /// Creates a BinaryPackage.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="obj">The Object.</param>

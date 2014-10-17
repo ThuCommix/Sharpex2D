@@ -35,7 +35,7 @@ namespace Sharpex2D.Math
         private readonly int _rows;
 
         /// <summary>
-        ///     Initializes a new Matrix class.
+        /// Initializes a new Matrix class.
         /// </summary>
         /// <param name="columns">The amount of Columns.</param>
         /// <param name="rows">The amount of Rows.</param>
@@ -54,7 +54,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the amount of columns.
+        /// Gets the amount of columns.
         /// </summary>
         public int Columns
         {
@@ -62,7 +62,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the amount of rows.
+        /// Gets the amount of rows.
         /// </summary>
         public int Rows
         {
@@ -70,7 +70,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Clones the Matrix.
+        /// Clones the Matrix.
         /// </summary>
         /// <returns>Object</returns>
         public object Clone()
@@ -80,7 +80,7 @@ namespace Sharpex2D.Math
 
 
         /// <summary>
-        ///     Sets a value of the element.
+        /// Sets a value of the element.
         /// </summary>
         /// <param name="column">The Column.</param>
         /// <param name="row">The Row.</param>
@@ -100,7 +100,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the value of the element.
+        /// Gets the value of the element.
         /// </summary>
         /// <param name="column">The Column.</param>
         /// <param name="row">The Row.</param>
@@ -120,7 +120,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Converts the Matrix in to a string.
+        /// Converts the Matrix in to a string.
         /// </summary>
         /// <returns>String</returns>
         public override string ToString()
@@ -145,7 +145,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Check if another matrix is equal to the current matrix.
+        /// Check if another matrix is equal to the current matrix.
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns></returns>
@@ -155,7 +155,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Check if another matrix is equal to the current matrix.
+        /// Check if another matrix is equal to the current matrix.
         /// </summary>
         /// <param name="obj">The Matrix.</param>
         /// <returns></returns>
@@ -167,7 +167,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the HashCode.
+        /// Gets the HashCode.
         /// </summary>
         /// <returns>Int32</returns>
         public override int GetHashCode()
@@ -182,7 +182,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Checks for Null.
+        /// Checks for Null.
         /// </summary>
         /// <param name="matrices">The Matrices.</param>
         private static void CheckForNull(params Matrix[] matrices)
@@ -194,7 +194,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Copys the current Matrix to another matrix.
+        /// Copys the current Matrix to another matrix.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
         public void CopyTo(Matrix matrix)
@@ -216,7 +216,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Resizes the matrix.
+        /// Resizes the matrix.
         /// </summary>
         /// <param name="columns">The Columns.</param>
         /// <param name="rows">The Rows.</param>
@@ -246,7 +246,7 @@ namespace Sharpex2D.Math
         #region Operator
 
         /// <summary>
-        ///     Addition of two matrices.
+        /// Addition of two matrices.
         /// </summary>
         /// <param name="a">The first Matrix.</param>
         /// <param name="b">The second Matrix.</param>
@@ -271,7 +271,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Substraction of two matrices.
+        /// Substraction of two matrices.
         /// </summary>
         /// <param name="a">The first Matrix.</param>
         /// <param name="b">The second Matrix.</param>
@@ -296,7 +296,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiplys two matrices.
+        /// Multiplys two matrices.
         /// </summary>
         /// <param name="a">The first Matrix.</param>
         /// <param name="b">The second Matrix.</param>
@@ -321,7 +321,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Scalarmultiply with a matrix.
+        /// Scalarmultiply with a matrix.
         /// </summary>
         /// <param name="a">The Matrix.</param>
         /// <param name="scalar">The Scalar</param>
@@ -343,7 +343,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Scalarmultiply with a matrix.
+        /// Scalarmultiply with a matrix.
         /// </summary>
         /// <param name="a">The Matrix.</param>
         /// <param name="scalar">The Scalar</param>
@@ -365,7 +365,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Divide two matrices.
+        /// Divide two matrices.
         /// </summary>
         /// <param name="a">The first Matrix.</param>
         /// <param name="b">The second Matrix.</param>
@@ -402,7 +402,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Addition with another matrix.
+        /// Addition with another matrix.
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns>Matrix</returns>
@@ -412,7 +412,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Substract with another matrix.
+        /// Substract with another matrix.
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns>Matrix</returns>
@@ -422,7 +422,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiply with another matrix.
+        /// Multiply with another matrix.
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns>Matrix</returns>
@@ -432,7 +432,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiply with a scalar.
+        /// Multiply with a scalar.
         /// </summary>
         /// <param name="scalar">The Scalar.</param>
         /// <returns>Matrix</returns>
@@ -442,7 +442,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Divide with another matrix.
+        /// Divide with another matrix.
         /// </summary>
         /// <param name="other">The Matrix.</param>
         /// <returns>Matrix</returns>
@@ -452,7 +452,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Pow the matrix.
+        /// Pow the matrix.
         /// </summary>
         /// <param name="exponent">The Exponent.</param>
         /// <returns>Matrix</returns>
@@ -470,7 +470,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Transposes the matrix.
+        /// Transposes the matrix.
         /// </summary>
         /// <returns>Matrix</returns>
         public Matrix Transpose()

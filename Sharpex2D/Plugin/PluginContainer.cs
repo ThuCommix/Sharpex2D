@@ -28,7 +28,7 @@ namespace Sharpex2D.Plugin
     public class PluginContainer<T> : BufferedCollection<T>
     {
         /// <summary>
-        ///     Initializes a new PluginContainer class.
+        /// Initializes a new PluginContainer class.
         /// </summary>
         public PluginContainer()
         {
@@ -36,12 +36,12 @@ namespace Sharpex2D.Plugin
         }
 
         /// <summary>
-        ///     Sets or gets the Description.
+        /// Sets or gets the Description.
         /// </summary>
         public string Description { set; get; }
 
         /// <summary>
-        ///     Sets or gets the Guid.
+        /// Sets or gets the Guid.
         /// </summary>
         public Guid Guid { set; get; }
     }

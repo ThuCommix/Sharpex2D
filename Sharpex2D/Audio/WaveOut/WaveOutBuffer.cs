@@ -20,170 +20,145 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 namespace Sharpex2D.Audio.WaveOut
 {
 #if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class WaveOutBuffer
+    internal class WaveOutBuffer : IDisposable
     {
-        private readonly WaveHdr _header;
-        private readonly AutoResetEvent _playEvent = new AutoResetEvent(false);
-        private readonly WaveOut _wavOut;
-        private readonly IntPtr _waveOutHandle;
-        private GCHandle _headerDataHandle;
+        private readonly int _bufferSize;
+        private readonly WaveOut _waveOut;
+        private byte[] _buffer;
+        private GCHandle _bufferHandle;
+        private bool _disposed;
+        private WaveHdr _header;
         private GCHandle _headerHandle;
-        private bool _playing;
+        private GCHandle _userDataHandle;
 
         /// <summary>
-        ///     Initializes a new WaveOutBuffer class.
+        /// Initializes a new WaveOutBuffer class.
         /// </summary>
-        /// <param name="waveOutHandle">The WaveOutHandle.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="wavOut">The WaveOut.</param>
-        public WaveOutBuffer(IntPtr waveOutHandle, int size, WaveOut wavOut)
+        /// <param name="waveOut">The WaveOut.</param>
+        /// <param name="bufferSize">The BufferSize.</param>
+        public WaveOutBuffer(WaveOut waveOut, int bufferSize)
         {
-            _wavOut = wavOut;
-            _waveOutHandle = waveOutHandle;
+            if (waveOut == null)
+                throw new ArgumentNullException("waveOut");
+            if (bufferSize <= 0)
+                throw new ArgumentOutOfRangeException("bufferSize");
 
-            _header = new WaveHdr();
-            _headerHandle = GCHandle.Alloc(_header, GCHandleType.Pinned);
-            _header.dwUser = (IntPtr) GCHandle.Alloc(this);
-            var headerData = new byte[size];
-            _headerDataHandle = GCHandle.Alloc(headerData, GCHandleType.Pinned);
-            _header.lpData = _headerDataHandle.AddrOfPinnedObject();
-            _header.dwBufferLength = size;
-
-            lock (_wavOut.LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutPrepareHeader(_waveOutHandle, _header, Marshal.SizeOf(_header)));
-            }
+            _waveOut = waveOut;
+            _bufferSize = bufferSize;
         }
 
         /// <summary>
-        ///     Gets or sets the NextBuffer.
+        /// A value indicating whether the Buffer is in queue.
         /// </summary>
-        public WaveOutBuffer NextBuffer { set; get; }
-
-        /// <summary>
-        ///     Gets the Size.
-        /// </summary>
-        public int Size
+        public bool IsInQueue
         {
-            get { return _header.dwBufferLength; }
+            get { return (_header.dwFlags & WaveHeaderFlags.WHDR_INQUEUE) == WaveHeaderFlags.WHDR_INQUEUE; }
         }
 
         /// <summary>
-        ///     Gets the Data.
-        /// </summary>
-        public IntPtr Data
-        {
-            get { return _header.lpData; }
-        }
-
-        /// <summary>
-        ///     Deconstructs the object.
-        /// </summary>
-        ~WaveOutBuffer()
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
-            if (_header.lpData != IntPtr.Zero)
+            if (!_disposed)
             {
-                lock (_wavOut.LockObj)
-                {
-                    WaveOutResult.Try(NativeMethods.waveOutUnprepareHeader(_waveOutHandle, _header,
-                        Marshal.SizeOf(_header)));
-                }
-
-                _headerHandle.Free();
-                _header.lpData = IntPtr.Zero;
+                Dispose(true);
+                GC.SuppressFinalize(this);
             }
-
-            _playEvent.Close();
-
-            if (_headerDataHandle.IsAllocated)
-            {
-                _headerDataHandle.Free();
-            }
-            GC.SuppressFinalize(this);
+            _disposed = true;
         }
 
         /// <summary>
-        ///     Plays the buffer.
+        /// Initializes the buffer.
         /// </summary>
-        /// <returns>True if playing.</returns>
-        public bool Play()
+        public void Initialize()
         {
-            lock (this)
+            _buffer = new byte[_bufferSize];
+
+            var header = new WaveHdr();
+            _headerHandle = GCHandle.Alloc(header);
+            _userDataHandle = GCHandle.Alloc(this);
+            _bufferHandle = GCHandle.Alloc(_buffer, GCHandleType.Pinned);
+
+            header.dwUser = (IntPtr) _userDataHandle;
+            header.dwLoops = 1;
+            header.lpData = _bufferHandle.AddrOfPinnedObject();
+            header.dwBufferLength = _bufferSize;
+
+            _header = header;
+            lock (_waveOut.LockObj)
             {
-                _playEvent.Reset();
-                lock (_wavOut.LockObj)
-                {
-                    _playing = NativeMethods.waveOutWrite(_waveOutHandle, _header, Marshal.SizeOf(_header)) ==
-                               (int) MMResult.MMSYSERR_NOERROR;
-                }
-                return _playing;
+                WaveOutResult.Try(NativeMethods.waveOutPrepareHeader(_waveOut.WaveOutHandle, header,
+                    Marshal.SizeOf(header)));
             }
         }
 
         /// <summary>
-        ///     Waits for the buffer to be completed.
+        /// Writes data to the buffer.
         /// </summary>
-        public void WaitFor()
+        /// <returns>True on success.</returns>
+        public bool WriteData()
         {
-            if (_playing)
+            int read;
+            lock (_waveOut.WaveStream)
             {
-                _playing = _playEvent.WaitOne();
+                read = _waveOut.WaveStream.Read(_buffer, 0, _buffer.Length);
             }
-            else
+            if (read > 0)
             {
-                Thread.Sleep(0);
+                Array.Clear(_buffer, read, _buffer.Length - read);
+                lock (_waveOut.LockObj)
+                {
+                    MMResult result = NativeMethods.waveOutWrite(_waveOut.WaveOutHandle, _header,
+                        Marshal.SizeOf(_header));
+                    if (result != MMResult.MMSYSERR_NOERROR)
+                    {
+                        WaveOutResult.Try(result);
+                    }
+                    return result == MMResult.MMSYSERR_NOERROR;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The disposing state.</param>
+        public virtual void Dispose(bool disposing)
+        {
+            lock (_waveOut.LockObj)
+            {
+                if (_header == null || _waveOut.WaveOutHandle == IntPtr.Zero)
+                    return;
+
+
+                WaveOutResult.Try(NativeMethods.waveOutUnprepareHeader(_waveOut.WaveOutHandle, _header,
+                    Marshal.SizeOf(_header)));
+
+                if (_bufferHandle.IsAllocated)
+                    _bufferHandle.Free();
+                if (_headerHandle.IsAllocated)
+                    _headerHandle.Free();
+                if (_userDataHandle.IsAllocated)
+                    _userDataHandle.Free();
+                _header = null;
             }
         }
 
         /// <summary>
-        ///     Called, if the buffer is completed.
+        /// Deconstructs the WaveOutBuffer class.
         /// </summary>
-        public void OnCompleted()
+        ~WaveOutBuffer()
         {
-            _playEvent.Set();
-            _playing = false;
-        }
-
-        /// <summary>
-        ///     Processes the WaveOut messages.
-        /// </summary>
-        /// <param name="hdrvr">The Handle.</param>
-        /// <param name="uMsg">The Message.</param>
-        /// <param name="dwUser">The UserData.</param>
-        /// <param name="wavhdr">The WaveHeader.</param>
-        /// <param name="dwParam2">Reserved.</param>
-        internal static void WaveOutProc(IntPtr hdrvr, int uMsg, IntPtr dwUser, WaveHdr wavhdr, IntPtr dwParam2)
-        {
-            if (uMsg == NativeMethods.MM_WOM_DONE)
-            {
-                try
-                {
-                    var h = (GCHandle) wavhdr.dwUser;
-                    var buf = (WaveOutBuffer) h.Target;
-                    buf.OnCompleted();
-                }
-                catch
-                {
-                }
-            }
+            Dispose(false);
         }
     }
-
 #endif
 }

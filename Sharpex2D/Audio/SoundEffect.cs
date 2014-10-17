@@ -27,22 +27,35 @@ namespace Sharpex2D.Audio
     public class SoundEffect
     {
         private readonly Sound _sound;
-        private readonly SoundManager _soundProvider;
-        private bool _muted;
-        private float _vBeforeMute;
+        private readonly ISoundProvider _soundProvider;
 
         /// <summary>
-        ///     Initializes a new SoundEffect.
+        /// Initializes a new SoundEffect class.
         /// </summary>
         /// <param name="sound">The Sound.</param>
-        public SoundEffect(Sound sound)
+        public SoundEffect(Sound sound) : this(sound, null)
         {
-            _soundProvider = SGL.Components.Get<SoundManager>().CreateNew();
-            _sound = sound;
         }
 
         /// <summary>
-        ///     Sets or gets the Balance.
+        /// Initializes a new SoundEffect class.
+        /// </summary>
+        /// <param name="sound">The Sound.</param>
+        /// <param name="group">The SoundEffectGroup.</param>
+        public SoundEffect(Sound sound, SoundEffectGroup group)
+        {
+            if (sound == null)
+                throw new ArgumentNullException("sound");
+
+            _soundProvider = AudioManager.Instance.CreateInstance();
+            _sound = sound;
+
+            if (group != null)
+                group.SoundEffects.Add(this);
+        }
+
+        /// <summary>
+        /// Sets or gets the Balance.
         /// </summary>
         public float Balance
         {
@@ -51,7 +64,7 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        ///     Sets or gets the Volume.
+        /// Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
@@ -60,7 +73,23 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        ///     Sets or gets the Sound.
+        /// Gets the PlaybackState.
+        /// </summary>
+        public PlaybackState PlaybackState
+        {
+            get { return _soundProvider.PlaybackState; }
+        }
+
+        /// <summary>
+        /// Gets the current Length.
+        /// </summary>
+        public long Length
+        {
+            get { return _soundProvider.Length; }
+        }
+
+        /// <summary>
+        /// Sets or gets the Sound.
         /// </summary>
         public Sound Sound
         {
@@ -68,45 +97,12 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        ///     A value indicating whether the sound is muted.
-        /// </summary>
-        public bool Muted
-        {
-            set
-            {
-                if ((value && Muted) | (!value && !Muted))
-                {
-                    return;
-                }
-
-                if (value)
-                {
-                    _vBeforeMute = Volume;
-                    Volume = 0;
-                }
-                else
-                {
-                    Volume = _vBeforeMute;
-                }
-
-                _muted = value;
-            }
-            get { return _muted; }
-        }
-
-        /// <summary>
-        ///     Plays the SoundEffect.
+        /// Plays the SoundEffect.
         /// </summary>
         public void Play()
         {
-            if (_sound != null)
-            {
-                _soundProvider.Play(_sound, PlayMode.None);
-            }
-            else
-            {
-                throw new NullReferenceException("Sound can not be null.");
-            }
+            _soundProvider.Dispose();
+            _soundProvider.Play(_sound);
         }
     }
 }

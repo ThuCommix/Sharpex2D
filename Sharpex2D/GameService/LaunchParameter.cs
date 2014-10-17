@@ -25,7 +25,7 @@ namespace Sharpex2D.GameService
     public class LaunchParameter
     {
         /// <summary>
-        ///     Initializes a new LaunchParameter class.
+        /// Initializes a new LaunchParameter class.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <param name="value">The Value.</param>
@@ -36,12 +36,12 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets the Key.
+        /// Gets the Key.
         /// </summary>
         public string Key { private set; get; }
 
         /// <summary>
-        ///     Gets the Value.
+        /// Gets the Value.
         /// </summary>
         public string Value { private set; get; }
     }

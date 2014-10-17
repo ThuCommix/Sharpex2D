@@ -27,7 +27,7 @@ namespace Sharpex2D
     public class DeveloperAttribute : Attribute
     {
         /// <summary>
-        ///     Initializes a new DeveloperAttribute class.
+        /// Initializes a new DeveloperAttribute class.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="contact">The contact option.</param>
@@ -38,12 +38,12 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the Developer name.
+        /// Gets the Developer name.
         /// </summary>
         public string Developer { private set; get; }
 
         /// <summary>
-        ///     Gets the contact option.
+        /// Gets the contact option.
         /// </summary>
         public string Contact { private set; get; }
     }

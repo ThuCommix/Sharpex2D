@@ -28,17 +28,17 @@ namespace Sharpex2D.Scripting
     public interface IScript : IContent
     {
         /// <summary>
-        ///     Sets or gets the ScriptContent.
+        /// Sets or gets the ScriptContent.
         /// </summary>
         string Content { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the script is active.
+        /// A value indicating whether the script is active.
         /// </summary>
         bool IsActive { get; set; }
 
         /// <summary>
-        ///     Gets or sets the guid of the script.
+        /// Gets or sets the guid of the script.
         /// </summary>
         Guid Guid { get; set; }
     }

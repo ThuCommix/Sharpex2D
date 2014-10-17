@@ -27,24 +27,24 @@ namespace Sharpex2D.Content.Pipeline
     public interface IContentProcessor
     {
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         Type Type { get; }
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         Guid Guid { get; }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>Object.</returns>
         object ReadData(string filepath);
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

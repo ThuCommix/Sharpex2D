@@ -30,14 +30,14 @@ namespace Sharpex2D.Physics.Collision
     public class UnknownShapeException : Exception
     {
         /// <summary>
-        ///     Initializes a new UnknownShapeException class.
+        /// Initializes a new UnknownShapeException class.
         /// </summary>
         public UnknownShapeException()
         {
         }
 
         /// <summary>
-        ///     Initializes a new UnknownShapeException class.
+        /// Initializes a new UnknownShapeException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         public UnknownShapeException(string message) : base(message)
@@ -45,7 +45,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Initializes a new UnknownShapeException class.
+        /// Initializes a new UnknownShapeException class.
         /// </summary>
         /// <param name="message">The Message.</param>
         /// <param name="inner">The InnerException.</param>
@@ -54,7 +54,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Initializes a new UnknownShapeException class.
+        /// Initializes a new UnknownShapeException class.
         /// </summary>
         /// <param name="serializationInfo">The SerializationInfo.</param>
         /// <param name="context">The StreamContext.</param>

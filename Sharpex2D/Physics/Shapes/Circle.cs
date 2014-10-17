@@ -28,7 +28,7 @@ namespace Sharpex2D.Physics.Shapes
     public class Circle : IShape
     {
         /// <summary>
-        ///     Initializes a new Circle class.
+        /// Initializes a new Circle class.
         /// </summary>
         public Circle()
         {
@@ -36,7 +36,7 @@ namespace Sharpex2D.Physics.Shapes
         }
 
         /// <summary>
-        ///     Initializes a new Circle class.
+        /// Initializes a new Circle class.
         /// </summary>
         /// <param name="radius">The Radius.</param>
         public Circle(float radius)
@@ -45,7 +45,7 @@ namespace Sharpex2D.Physics.Shapes
         }
 
         /// <summary>
-        ///     Sets or gets the radius of the circle.
+        /// Sets or gets the radius of the circle.
         /// </summary>
         public float Radius { set; get; }
     }

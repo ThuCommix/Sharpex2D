@@ -25,12 +25,12 @@ namespace Sharpex2D.Rendering
     public enum InterpolationMode
     {
         /// <summary>
-        ///     NearestNeighbor.
+        /// NearestNeighbor.
         /// </summary>
         NearestNeighbor,
 
         /// <summary>
-        ///     Linear.
+        /// Linear.
         /// </summary>
         Linear
     }

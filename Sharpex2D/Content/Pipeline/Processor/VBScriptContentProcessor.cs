@@ -31,7 +31,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
     public class VBScriptContentProcessor : ContentProcessor<VBScript>
     {
         /// <summary>
-        ///     Initializes a new CSharpScriptContentProcessor class.
+        /// Initializes a new CSharpScriptContentProcessor class.
         /// </summary>
         public VBScriptContentProcessor()
             : base(new Guid("81352726-E45A-4DF1-A8A9-8798BAA88D09"))
@@ -39,7 +39,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>CSharpScript.</returns>
@@ -66,7 +66,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

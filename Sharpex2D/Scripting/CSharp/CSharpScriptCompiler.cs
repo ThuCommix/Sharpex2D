@@ -33,7 +33,7 @@ namespace Sharpex2D.Scripting.CSharp
         private static readonly Logger Logger;
 
         /// <summary>
-        ///     Initializes a new CSharpScriptCompiler class.
+        /// Initializes a new CSharpScriptCompiler class.
         /// </summary>
         static CSharpScriptCompiler()
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.Scripting.CSharp
         }
 
         /// <summary>
-        ///     Compiles the source to assembly.
+        /// Compiles the source to assembly.
         /// </summary>
         /// <param name="script">The SharpScript.</param>
         /// <returns>Assembly.</returns>

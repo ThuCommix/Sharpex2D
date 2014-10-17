@@ -27,14 +27,14 @@ namespace Sharpex2D.Content
     public class Batch<T> : IBatch where T : IContent
     {
         /// <summary>
-        ///     BatchEventHandler.
+        /// BatchEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void BatchEventHandler(object sender, BatchEventArgs<T> e);
 
         /// <summary>
-        ///     Initializes a new Batch class.
+        /// Initializes a new Batch class.
         /// </summary>
         /// <param name="asset">The Asset.</param>
         public Batch(string asset)
@@ -43,7 +43,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         public Type Type
         {
@@ -51,12 +51,12 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Gets the Asset.
+        /// Gets the Asset.
         /// </summary>
         public string Asset { private set; get; }
 
         /// <summary>
-        ///     Raises the completed event.
+        /// Raises the completed event.
         /// </summary>
         /// <param name="data">The Data.</param>
         void IBatch.RaiseEvent(object data)
@@ -65,12 +65,12 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Completed event.
+        /// Completed event.
         /// </summary>
         public event BatchEventHandler Completed;
 
         /// <summary>
-        ///     Raises the completed event.
+        /// Raises the completed event.
         /// </summary>
         /// <param name="data">The Data.</param>
         internal void RaiseEvent(T data)

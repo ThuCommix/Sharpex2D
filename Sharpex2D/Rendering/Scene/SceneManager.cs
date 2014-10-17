@@ -31,7 +31,7 @@ namespace Sharpex2D.Rendering.Scene
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -43,14 +43,14 @@ namespace Sharpex2D.Rendering.Scene
         #region IGameComponent Implementation
 
         /// <summary>
-        ///     Gets the Order.
+        /// Gets the Order.
         /// </summary>
         public int Order { get; private set; }
 
         #endregion
 
         /// <summary>
-        ///     SceneEventHandler.
+        /// SceneEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -61,7 +61,7 @@ namespace Sharpex2D.Rendering.Scene
         private Scene _activeScene;
 
         /// <summary>
-        ///     Initializes a new SceneManager class.
+        /// Initializes a new SceneManager class.
         /// </summary>
         public SceneManager()
         {
@@ -70,16 +70,29 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Gets the ActiveScene.
+        /// Gets the scenes.
+        /// </summary>
+        public Scene[] Scenes
+        {
+            get { return _scenes.ToArray(); }
+        }
+
+        /// <summary>
+        /// Gets the ActiveScene.
         /// </summary>
         public Scene ActiveScene
         {
             get { return _activeScene; }
             set
             {
+                if (value == null) return;
                 var args = new SceneEventArgs(_activeScene, value);
+                if (_activeScene != null)
+                {
+                    _activeScene.OnSceneDeactivated();
+                }
                 _activeScene = value;
-
+                value.OnSceneActivated();
                 if (SceneChanged != null)
                 {
                     SceneChanged(this, args);
@@ -88,7 +101,7 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -100,25 +113,25 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Render(RenderDevice renderer, GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (ActiveScene != null)
             {
-                ActiveScene.Render(renderer, gameTime);
+                ActiveScene.Draw(spriteBatch, gameTime);
             }
         }
 
         /// <summary>
-        ///     SceneChanged event.
+        /// SceneChanged event.
         /// </summary>
         public event SceneEventHandler SceneChanged;
 
         /// <summary>
-        ///     Gets a specified scene.
+        /// Gets a specified scene.
         /// </summary>
         /// <typeparam name="T">The Scene.</typeparam>
         /// <returns>Scene.</returns>
@@ -136,7 +149,7 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Adds a new Scene.
+        /// Adds a new Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         public void AddScene(Scene scene)
@@ -147,7 +160,7 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Adds a new Scene fluently.
+        /// Adds a new Scene fluently.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         /// <returns>The specified scene.</returns>
@@ -160,7 +173,7 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Removes a Scene.
+        /// Removes a Scene.
         /// </summary>
         /// <param name="scene">The Scene.</param>
         public void RemoveScene(Scene scene)
@@ -169,7 +182,7 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Removes all Scenes.
+        /// Removes all Scenes.
         /// </summary>
         public void ClearScenes()
         {

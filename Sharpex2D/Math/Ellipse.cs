@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+
 namespace Sharpex2D.Math
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
@@ -28,7 +30,7 @@ namespace Sharpex2D.Math
         private Vector2 _position;
 
         /// <summary>
-        ///     Initializes a new Ellipse class.
+        /// Initializes a new Ellipse class.
         /// </summary>
         /// <param name="radiusX">The X-Radius.</param>
         /// <param name="radiusY">The Y-Radius.</param>
@@ -42,7 +44,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Sets or gets the Position.
+        /// Sets or gets the Position.
         /// </summary>
         public Vector2 Position
         {
@@ -55,17 +57,17 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the X-Radius.
+        /// Gets the X-Radius.
         /// </summary>
         public float RadiusX { private set; get; }
 
         /// <summary>
-        ///     Gets the Y-Radius.
+        /// Gets the Y-Radius.
         /// </summary>
         public float RadiusY { private set; get; }
 
         /// <summary>
-        ///     Gets the points.
+        /// Gets the points.
         /// </summary>
         public Vector2[] Points
         {
@@ -73,16 +75,17 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Updates the Ellipse if something changed.
+        /// Updates the Ellipse if something changed.
         /// </summary>
         private void UpdateEllipse()
         {
+            var points = new List<Vector2>();
             for (int i = 1; i <= 360; i++)
             {
-                _polygon = new Polygon(
-                    new Vector2(RadiusX*MathHelper.Cos(i*(float) MathHelper.PiOverOneEighty) + _position.X,
-                        RadiusY*MathHelper.Sin(i*(float) MathHelper.PiOverOneEighty) + _position.Y));
+                points.Add(new Vector2(RadiusX*MathHelper.Cos(i*(float) MathHelper.PiOverOneEighty) + _position.X,
+                    RadiusY*MathHelper.Sin(i*(float) MathHelper.PiOverOneEighty) + _position.Y));
             }
+            _polygon = new Polygon(points.ToArray());
         }
     }
 }

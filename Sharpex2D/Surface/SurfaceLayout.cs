@@ -25,7 +25,7 @@ namespace Sharpex2D.Surface
     public class SurfaceLayout
     {
         /// <summary>
-        ///     Initializes a new SurfaceLayout class.
+        /// Initializes a new SurfaceLayout class.
         /// </summary>
         public SurfaceLayout()
         {
@@ -35,7 +35,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Initializes a new SurfaceLayout class.
+        /// Initializes a new SurfaceLayout class.
         /// </summary>
         /// <param name="canMinimize">The State.</param>
         /// <param name="canMaximize">The State.</param>
@@ -48,17 +48,17 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     A value indicating whether the surface is minimizable.
+        /// A value indicating whether the surface is minimizable.
         /// </summary>
         public bool CanMinimize { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the surface is maximizable.
+        /// A value indicating whether the surface is maximizable.
         /// </summary>
         public bool CanMaximize { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the surface is closable.
+        /// A value indicating whether the surface is closable.
         /// </summary>
         public bool CanClose { set; get; }
     }

@@ -29,14 +29,14 @@ namespace Sharpex2D.Content
     public class ContentVerifier
     {
         /// <summary>
-        ///     Initializes a new ContentVerifier class.
+        /// Initializes a new ContentVerifier class.
         /// </summary>
         internal ContentVerifier()
         {
         }
 
         /// <summary>
-        ///     Checks whether the content file is modified.
+        /// Checks whether the content file is modified.
         /// </summary>
         /// <param name="contentPath">The ContentPath.</param>
         /// <param name="expectedSha256">The ExpectedSha256Hash.</param>
@@ -47,7 +47,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Checks whether the content file is modified.
+        /// Checks whether the content file is modified.
         /// </summary>
         /// <param name="fileStream">The FileStream.</param>
         /// <param name="expectedSha256">The ExpectedSha256Hash.</param>
@@ -58,7 +58,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Gets the Sha256-Hash of a file.
+        /// Gets the Sha256-Hash of a file.
         /// </summary>
         /// <param name="file">The File.</param>
         /// <returns>String</returns>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Gets the Sha256-Hash of a file.
+        /// Gets the Sha256-Hash of a file.
         /// </summary>
         /// <param name="fileStream">The FileStream.</param>
         /// <returns>String</returns>

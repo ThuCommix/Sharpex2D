@@ -35,7 +35,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         private bool _isRunning;
 
         /// <summary>
-        ///     Initializes a new UdpConnectionManager class.
+        /// Initializes a new UdpConnectionManager class.
         /// </summary>
         public UdpConnectionManager()
         {
@@ -43,7 +43,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Adds a PingRequest to check.
+        /// Adds a PingRequest to check.
         /// </summary>
         /// <param name="pingRequest"></param>
         public void AddPingRequest(UdpPingRequest pingRequest)
@@ -52,7 +52,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Removes a PingRequest by ip.
+        /// Removes a PingRequest by ip.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
         public void RemoveByIP(IPAddress ipAddress)
@@ -68,7 +68,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Starts checking.
+        /// Starts checking.
         /// </summary>
         public void Start()
         {
@@ -78,7 +78,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Stops checking.
+        /// Stops checking.
         /// </summary>
         public void Stop()
         {
@@ -122,7 +122,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Called if a PingRequest timed out.
+        /// Called if a PingRequest timed out.
         /// </summary>
         public event PingTimedOutEventHandler PingTimedOut;
     }

@@ -32,7 +32,7 @@ namespace Sharpex2D.Common
         private bool _isDisposed;
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -61,7 +61,7 @@ namespace Sharpex2D.Common
         private readonly Control _invokeableControl;
 
         /// <summary>
-        ///     Initializes a new ThreadInvoker class.
+        /// Initializes a new ThreadInvoker class.
         /// </summary>
         public ThreadInvoker()
         {
@@ -69,7 +69,7 @@ namespace Sharpex2D.Common
         }
 
         /// <summary>
-        ///     Invokes an action in a special thread.
+        /// Invokes an action in a special thread.
         /// </summary>
         /// <param name="action">The Action.</param>
         public void Invoke(Action action)

@@ -28,24 +28,24 @@ namespace Sharpex2D.Content.Pipeline.Serializer
     public interface IPrimitiveSerializer
     {
         /// <summary>
-        ///     Gets the ContentType.
+        /// Gets the ContentType.
         /// </summary>
         Type ContentType { get; }
 
         /// <summary>
-        ///     The ContentManager.
+        /// The ContentManager.
         /// </summary>
         ContentManager Content { get; }
 
         /// <summary>
-        ///     Starts writing contentdata.
+        /// Starts writing contentdata.
         /// </summary>
         /// <param name="writer">The BinaryWriter</param>
         /// <param name="value">The Value.</param>
         void Write(BinaryWriter writer, object value);
 
         /// <summary>
-        ///     Starts reading contentdata.
+        /// Starts reading contentdata.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns>Object</returns>

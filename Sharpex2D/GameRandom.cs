@@ -29,7 +29,7 @@ namespace Sharpex2D
         private readonly Random _random;
 
         /// <summary>
-        ///     Initializes a new GameRandom.
+        /// Initializes a new GameRandom.
         /// </summary>
         public GameRandom()
         {
@@ -37,7 +37,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns Int32 between Int32 min - and max value.
+        /// Returns Int32 between Int32 min - and max value.
         /// </summary>
         /// <returns>Int</returns>
         public int Next()
@@ -46,7 +46,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns Int32 between 0 and max.
+        /// Returns Int32 between 0 and max.
         /// </summary>
         /// <param name="max">The Maximum.</param>
         /// <returns>Int</returns>
@@ -56,7 +56,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns Int32 between min and max.
+        /// Returns Int32 between min and max.
         /// </summary>
         /// <param name="min">The Minimum.</param>
         /// <param name="max">The Maximum.</param>
@@ -67,7 +67,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns a float between 0 and 1.
+        /// Returns a float between 0 and 1.
         /// </summary>
         /// <returns>Float</returns>
         public float NextFloat()
@@ -76,7 +76,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns a double between 0 and 1.
+        /// Returns a double between 0 and 1.
         /// </summary>
         /// <returns>Double</returns>
         public double NextDouble()
@@ -85,7 +85,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns true or false.
+        /// Returns true or false.
         /// </summary>
         /// <returns>Boolean</returns>
         public bool NextBoolean()
@@ -94,7 +94,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Returns true or false based on the probability.
+        /// Returns true or false based on the probability.
         /// </summary>
         /// <param name="probability">The Probability.</param>
         /// <returns>Boolean</returns>

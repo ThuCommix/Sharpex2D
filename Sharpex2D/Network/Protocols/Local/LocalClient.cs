@@ -38,7 +38,7 @@ namespace Sharpex2D.Network.Protocols.Local
         #region IClient Implementation
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -56,7 +56,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -76,7 +76,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Receives a package.
+        /// Receives a package.
         /// </summary>
         public void BeginReceive()
         {
@@ -86,7 +86,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Connects to the local server.
+        /// Connects to the local server.
         /// </summary>
         /// <param name="ip">The Serverip.</param>
         public void Connect(IPAddress ip)
@@ -106,7 +106,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Disconnect from the local server.
+        /// Disconnect from the local server.
         /// </summary>
         public void Disconnect()
         {
@@ -117,7 +117,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Subscribes to a Client.
+        /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
@@ -126,7 +126,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Subscribes to a Client.
+        /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IClientListener subscriber)
@@ -135,7 +135,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Unsubscribes from a Client.
+        /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
@@ -144,7 +144,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Unsubscribes from a Client.
+        /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IClientListener unsubscriber)
@@ -159,7 +159,7 @@ namespace Sharpex2D.Network.Protocols.Local
         private bool _isDisposed;
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -168,7 +168,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -195,7 +195,7 @@ namespace Sharpex2D.Network.Protocols.Local
         private NetworkStream _nStream;
 
         /// <summary>
-        ///     Initializes a new LocalClient class.
+        /// Initializes a new LocalClient class.
         /// </summary>
         public LocalClient()
         {
@@ -206,7 +206,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     A value indicating whether the client is connected.
+        /// A value indicating whether the client is connected.
         /// </summary>
         public bool Connected
         {
@@ -214,7 +214,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Gets a list of all matching package listeners.
+        /// Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
@@ -238,7 +238,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Starts receiving data.
+        /// Starts receiving data.
         /// </summary>
         private void InternalBeginReceive()
         {
@@ -337,7 +337,7 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         /// <summary>
-        ///     Idles the thread.
+        /// Idles the thread.
         /// </summary>
         private void Idle()
         {

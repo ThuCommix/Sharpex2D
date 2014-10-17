@@ -30,7 +30,7 @@ namespace Sharpex2D.Network.Packages
         private static readonly BinaryFormatter Formatter;
 
         /// <summary>
-        ///     Initializes a new PackageSerializer class.
+        /// Initializes a new PackageSerializer class.
         /// </summary>
         static PackageSerializer()
         {
@@ -38,7 +38,7 @@ namespace Sharpex2D.Network.Packages
         }
 
         /// <summary>
-        ///     Serializes the package in the given stream.
+        /// Serializes the package in the given stream.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="targetStream">The TargetStream</param>
@@ -48,7 +48,7 @@ namespace Sharpex2D.Network.Packages
         }
 
         /// <summary>
-        ///     Deserializes a package from the given stream.
+        /// Deserializes a package from the given stream.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <returns>Package</returns>

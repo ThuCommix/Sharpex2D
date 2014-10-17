@@ -37,7 +37,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         #region IServer Implementation
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         public void Send(IBasePackage package)
@@ -55,7 +55,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sends a package to the given receivers.
+        /// Sends a package to the given receivers.
         /// </summary>
         /// <param name="package">The Package.</param>
         /// <param name="receiver">The Receiver.</param>
@@ -71,12 +71,12 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     A value indicating whether the server is active.
+        /// A value indicating whether the server is active.
         /// </summary>
         public bool IsActive { get; private set; }
 
         /// <summary>
-        ///     Subscribes to a Client.
+        /// Subscribes to a Client.
         /// </summary>
         /// <param name="subscriber">The Subscriber.</param>
         public void Subscribe(IPackageListener subscriber)
@@ -85,7 +85,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Unsubscribes from a Client.
+        /// Unsubscribes from a Client.
         /// </summary>
         /// <param name="unsubscriber">The Unsubscriber.</param>
         public void Unsubscribe(IPackageListener unsubscriber)
@@ -100,7 +100,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         private bool _isDisposed;
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -109,7 +109,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -136,7 +136,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         private int _idleTimeout;
 
         /// <summary>
-        ///     Initializes a new UdpServer class.
+        /// Initializes a new UdpServer class.
         /// </summary>
         public UdpServer()
         {
@@ -156,13 +156,13 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
-        ///     disconnected.
+        /// Sets or gets the TimeOutLatency, if a client latency is higher than this value, the client is going to be
+        /// disconnected.
         /// </summary>
         public float TimeOutLatency { set; get; }
 
         /// <summary>
-        ///     Called if a PingRequest timed out.
+        /// Called if a PingRequest timed out.
         /// </summary>
         private void _connectionManager_PingTimedOut(object sender, IPAddress ipAddress)
         {
@@ -181,7 +181,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Accepts clients if available.
+        /// Accepts clients if available.
         /// </summary>
         private void BeginAcceptConnections()
         {
@@ -246,7 +246,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Handles the given package.
+        /// Handles the given package.
         /// </summary>
         /// <param name="package">The Package.</param>
         private void HandlePackage(IBasePackage package)
@@ -282,7 +282,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sets the latency of a connection.
+        /// Sets the latency of a connection.
         /// </summary>
         /// <param name="pingPackage">The PingPackage.</param>
         private void SetLatency(PingPackage pingPackage)
@@ -303,7 +303,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Gets the UpdConnection by the specified IPAddress.
+        /// Gets the UpdConnection by the specified IPAddress.
         /// </summary>
         /// <param name="ipAddress">The IPAddress.</param>
         /// <returns>UpdConnection</returns>
@@ -320,7 +320,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sending a ping request every 30 seconds to all clients.
+        /// Sending a ping request every 30 seconds to all clients.
         /// </summary>
         private void PingRequestLoop()
         {
@@ -345,7 +345,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Sends a NotificationPackage to all clients.
+        /// Sends a NotificationPackage to all clients.
         /// </summary>
         /// <param name="mode">The Mode.</param>
         /// <param name="connections">The ConnectionParams.</param>
@@ -356,7 +356,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Idles the thread.
+        /// Idles the thread.
         /// </summary>
         private void Idle()
         {
@@ -378,7 +378,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Gets a list of all matching package listeners.
+        /// Gets a list of all matching package listeners.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <returns>List of package listeners</returns>
@@ -402,7 +402,7 @@ namespace Sharpex2D.Network.Protocols.Udp
         }
 
         /// <summary>
-        ///     Closes the server.
+        /// Closes the server.
         /// </summary>
         public void Close()
         {

@@ -33,7 +33,7 @@ namespace Sharpex2D.GameService
         internal readonly Dictionary<string, object> Settings;
 
         /// <summary>
-        ///     Initializes a new GameSettings class.
+        /// Initializes a new GameSettings class.
         /// </summary>
         public GameSettings()
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Adds a new Setting to the GameSettings class.
+        /// Adds a new Setting to the GameSettings class.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="value">The Value.</param>
@@ -57,7 +57,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Returns a SettingValue.
+        /// Returns a SettingValue.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <returns>Object</returns>
@@ -72,7 +72,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Returns a SettingValue.
+        /// Returns a SettingValue.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="name">The Name.</param>
@@ -88,7 +88,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Sets a new value of a setting.
+        /// Sets a new value of a setting.
         /// </summary>
         /// <param name="name">The Name.</param>
         /// <param name="value">The Value.</param>
@@ -104,7 +104,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Loads the GameSettings from a specific path.
+        /// Loads the GameSettings from a specific path.
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>GameSettings</returns>
@@ -117,7 +117,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Saves the setting to a specific path.
+        /// Saves the setting to a specific path.
         /// </summary>
         /// <param name="path">The Path.</param>
         public void Save(string path)

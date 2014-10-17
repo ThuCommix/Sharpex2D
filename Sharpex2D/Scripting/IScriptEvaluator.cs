@@ -25,7 +25,7 @@ namespace Sharpex2D.Scripting
     public interface IScriptEvaluator<in T> where T : IScript
     {
         /// <summary>
-        ///     Evaluate the script content.
+        /// Evaluate the script content.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>

@@ -25,22 +25,22 @@ namespace Sharpex2D.Input.Windows.XInput
     public enum BatteryLevel : byte
     {
         /// <summary>
-        ///     Empty.
+        /// Empty.
         /// </summary>
         BATTERY_LEVEL_EMPTY = 0x00,
 
         /// <summary>
-        ///     Low.
+        /// Low.
         /// </summary>
         BATTERY_LEVEL_LOW = 0x01,
 
         /// <summary>
-        ///     Medium.
+        /// Medium.
         /// </summary>
         BATTERY_LEVEL_MEDIUM = 0x02,
 
         /// <summary>
-        ///     Full.
+        /// Full.
         /// </summary>
         BATTERY_LEVEL_FULL = 0x03
     };

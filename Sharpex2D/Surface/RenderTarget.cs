@@ -32,7 +32,7 @@ namespace Sharpex2D.Surface
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -46,7 +46,7 @@ namespace Sharpex2D.Surface
         #region IDisposable Implementation
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -55,7 +55,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -73,7 +73,7 @@ namespace Sharpex2D.Surface
         #endregion
 
         /// <summary>
-        ///     Initializes a new RenderTarget class.
+        /// Initializes a new RenderTarget class.
         /// </summary>
         /// <param name="handle">The WindowHandle.</param>
         internal RenderTarget(IntPtr handle)
@@ -85,17 +85,17 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets the WindowHandle.
+        /// Gets the WindowHandle.
         /// </summary>
         public IntPtr Handle { get; private set; }
 
         /// <summary>
-        ///     Gets the ISurfaceControl.
+        /// Gets the ISurfaceControl.
         /// </summary>
         public GameWindow Window { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the surface is running in fullscreen.
+        /// A value indicating whether the surface is running in fullscreen.
         /// </summary>
         public bool IsFullscreen
         {
@@ -103,7 +103,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     A value indicating whether the RenderTarget is valid.
+        /// A value indicating whether the RenderTarget is valid.
         /// </summary>
         public bool IsValid
         {
@@ -118,7 +118,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Gets the RenderTarget associated with the current process.
+        /// Gets the RenderTarget associated with the current process.
         /// </summary>
         public static RenderTarget Default
         {
@@ -143,17 +143,17 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     ScreenSizeChanged event.
+        /// ScreenSizeChanged event.
         /// </summary>
         public event ScreenSizeEventHandler ScreenSizeChanged;
 
         /// <summary>
-        ///     FullscreenChanged event.
+        /// FullscreenChanged event.
         /// </summary>
         public event ScreenSizeEventHandler FullscreenChanged;
 
         /// <summary>
-        ///     WindowScreenChanged event.
+        /// WindowScreenChanged event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -166,7 +166,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     WindowFullscreenChanged event.
+        /// WindowFullscreenChanged event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -179,7 +179,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Create a new RenderTarget from a specified handle.
+        /// Create a new RenderTarget from a specified handle.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         /// <returns>RenderTarget</returns>
@@ -201,7 +201,7 @@ namespace Sharpex2D.Surface
         }
 
         /// <summary>
-        ///     Creates a new RenderTarget.
+        /// Creates a new RenderTarget.
         /// </summary>
         /// <returns>RenderTarget</returns>
         public static RenderTarget Create()

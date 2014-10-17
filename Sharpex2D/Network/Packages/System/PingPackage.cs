@@ -28,11 +28,11 @@ namespace Sharpex2D.Network.Packages.System
     internal class PingPackage : BasePackage
     {
         /// <summary>
-        ///     Initializes a new PingPackage class.
+        /// Initializes a new PingPackage class.
         /// </summary>
         /// <remarks>
-        ///     We use our PC-Time to determine the creation of the package. The clients sends the same package back
-        ///     and we calculate the time differences.
+        /// We use our PC-Time to determine the creation of the package. The clients sends the same package back
+        /// and we calculate the time differences.
         /// </remarks>
         public PingPackage()
         {
@@ -40,7 +40,7 @@ namespace Sharpex2D.Network.Packages.System
         }
 
         /// <summary>
-        ///     Gets the sending time of the PingPackage.
+        /// Gets the sending time of the PingPackage.
         /// </summary>
         public DateTime TimeStamp { private set; get; }
     }

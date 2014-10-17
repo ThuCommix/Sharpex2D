@@ -31,12 +31,12 @@ namespace Sharpex2D.Debug
         #region IDebugWatcher Implementation
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid { get; private set; }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -45,7 +45,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Starts the component.
+        /// Starts the component.
         /// </summary>
         public void Start()
         {
@@ -58,7 +58,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Stops the component.
+        /// Stops the component.
         /// </summary>
         public void Stop()
         {
@@ -66,12 +66,12 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     A value indicating whether the component is running.
+        /// A value indicating whether the component is running.
         /// </summary>
         public bool IsRunning { get; private set; }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">The Disposing state.</param>
         public virtual void Dispose(bool disposing)
@@ -88,7 +88,7 @@ namespace Sharpex2D.Debug
         private Task _runTask;
 
         /// <summary>
-        ///     Initializes a new ThreadWatcher class.
+        /// Initializes a new ThreadWatcher class.
         /// </summary>
         public ThreadWatcher()
         {
@@ -97,17 +97,17 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Gets the amount of running Threads.
+        /// Gets the amount of running Threads.
         /// </summary>
         public int Count { private set; get; }
 
         /// <summary>
-        ///     Gets the ProcessThreads.
+        /// Gets the ProcessThreads.
         /// </summary>
         public ProcessThread[] Threads { private set; get; }
 
         /// <summary>
-        ///     The Run loop.
+        /// The Run loop.
         /// </summary>
         private void RunInner()
         {

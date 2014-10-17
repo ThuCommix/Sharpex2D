@@ -28,12 +28,12 @@ namespace Sharpex2D.Input.Windows.XInput
     public struct XInputVibration
     {
         /// <summary>
-        ///     The LeftMotorSpeed.
+        /// The LeftMotorSpeed.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] public ushort LeftMotorSpeed;
 
         /// <summary>
-        ///     The RightMotorSpeed.
+        /// The RightMotorSpeed.
         /// </summary>
         [MarshalAs(UnmanagedType.I2)] public ushort RightMotorSpeed;
     }

@@ -27,7 +27,7 @@ namespace Sharpex2D.Rendering
     public class Keyframe
     {
         /// <summary>
-        ///     Initializes a new Keyframe class.
+        /// Initializes a new Keyframe class.
         /// </summary>
         /// <param name="displayRectangle">The DisplayRectangle.</param>
         /// <param name="duration">The Duration.</param>
@@ -38,12 +38,12 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets the DisplayRectangle.
+        /// Gets the DisplayRectangle.
         /// </summary>
         public Rectangle DisplayRectangle { private set; get; }
 
         /// <summary>
-        ///     Gets the Duration.
+        /// Gets the Duration.
         /// </summary>
         public float Duration { private set; get; }
     }

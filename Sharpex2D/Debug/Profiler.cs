@@ -31,7 +31,7 @@ namespace Sharpex2D.Debug
         private static readonly Logger Logger;
 
         /// <summary>
-        ///     Initializes a  new Profiler class.
+        /// Initializes a  new Profiler class.
         /// </summary>
         static Profiler()
         {
@@ -39,7 +39,7 @@ namespace Sharpex2D.Debug
         }
 
         /// <summary>
-        ///     Profiles an action.
+        /// Profiles an action.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <param name="action">The Action.</param>

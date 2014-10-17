@@ -27,7 +27,7 @@ namespace Sharpex2D.Localization
     public class LanguageEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new LanguageEventArgs class.
+        /// Initializes a new LanguageEventArgs class.
         /// </summary>
         /// <param name="language">The Language.</param>
         internal LanguageEventArgs(Language language)
@@ -36,7 +36,7 @@ namespace Sharpex2D.Localization
         }
 
         /// <summary>
-        ///     Gets the Language.
+        /// Gets the Language.
         /// </summary>
         public Language Language { private set; get; }
     }

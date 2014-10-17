@@ -30,7 +30,7 @@ namespace Sharpex2D.Math
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector2" /> struct.
+        /// Initializes a new instance of the <see cref="Vector2" /> struct.
         /// </summary>
         /// <param name="value">The value.</param>
         public Vector2(float value)
@@ -40,7 +40,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="Vector2" /> struct.
+        /// Initializes a new instance of the <see cref="Vector2" /> struct.
         /// </summary>
         /// <param name="x">The x.</param>
         /// <param name="y">The y.</param>
@@ -62,7 +62,7 @@ namespace Sharpex2D.Math
         #region Vectors
 
         /// <summary>
-        ///     Returns a null vector.
+        /// Returns a null vector.
         /// </summary>
         public static Vector2 Zero
         {
@@ -70,7 +70,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns a vector that represents the x-axis.
+        /// Returns a vector that represents the x-axis.
         /// </summary>
         public static Vector2 UnitX
         {
@@ -78,7 +78,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns a vector that represents the y-axis.
+        /// Returns a vector that represents the y-axis.
         /// </summary>
         public static Vector2 UnitY
         {
@@ -90,7 +90,7 @@ namespace Sharpex2D.Math
         #region Coordinates
 
         /// <summary>
-        ///     Gets or sets the X coordinate.
+        /// Gets or sets the X coordinate.
         /// </summary>
         public float X
         {
@@ -99,7 +99,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets or sets the Y coordinate.
+        /// Gets or sets the Y coordinate.
         /// </summary>
         public float Y
         {
@@ -112,7 +112,7 @@ namespace Sharpex2D.Math
         #region Properties
 
         /// <summary>
-        ///     Gets the length.
+        /// Gets the length.
         /// </summary>
         public float Length
         {
@@ -120,7 +120,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the length squared.
+        /// Gets the length squared.
         /// </summary>
         public float LengthSquared
         {
@@ -132,7 +132,7 @@ namespace Sharpex2D.Math
         #region Methods
 
         /// <summary>
-        ///     Normalizes this vector.
+        /// Normalizes this vector.
         /// </summary>
         public void Normalize()
         {
@@ -146,7 +146,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Translates the vector.
+        /// Translates the vector.
         /// </summary>
         /// <param name="translation">The translation.</param>
         public void Translate(Vector2 translation)
@@ -160,7 +160,7 @@ namespace Sharpex2D.Math
         #region Vector Methods
 
         /// <summary>
-        ///     Truncates the specified vector and removes all decimal places.
+        /// Truncates the specified vector and removes all decimal places.
         /// </summary>
         /// <param name="a">The vector.</param>
         public static Vector2 Truncate(Vector2 a)
@@ -169,7 +169,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Normalizes the specified vector.
+        /// Normalizes the specified vector.
         /// </summary>
         /// <param name="a">The vector.</param>
         public static Vector2 Normalize(Vector2 a)
@@ -184,7 +184,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the absolute values of the specified vector.
+        /// Returns the absolute values of the specified vector.
         /// </summary>
         /// <param name="a">The vector.</param>
         public static Vector2 Abs(Vector2 a)
@@ -195,7 +195,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Clamps the specified value.
+        /// Clamps the specified value.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="min">The min.</param>
@@ -209,7 +209,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Linear interpolation between the two values.
+        /// Linear interpolation between the two values.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -225,7 +225,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Rotates the specified vector.
+        /// Rotates the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         /// <param name="angle">The angle.</param>
@@ -238,7 +238,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Rounds the specified vector.
+        /// Rounds the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         public static Vector2 Round(Vector2 vector)
@@ -250,7 +250,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Interpolates between two values using a cubic equation.
+        /// Interpolates between two values using a cubic equation.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -266,7 +266,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the lesser components of the two values.
+        /// Returns the lesser components of the two values.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -278,7 +278,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the greater components of the two values.
+        /// Returns the greater components of the two values.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -290,7 +290,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the dot product for the specified vectors.
+        /// Returns the dot product for the specified vectors.
         /// </summary>
         /// <param name="a">The first value.</param>
         /// <param name="b">The second value.</param>
@@ -301,7 +301,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Reflects the specified vector.
+        /// Reflects the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         /// <param name="normal">The normal.</param>
@@ -317,7 +317,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Negates the specified vector.
+        /// Negates the specified vector.
         /// </summary>
         /// <param name="vector">The vector.</param>
         public static Vector2 Negate(Vector2 vector)
@@ -326,7 +326,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the vector product.
+        /// Returns the vector product.
         /// </summary>
         public static float VectorProduct(Vector2 left, Vector2 right)
         {
@@ -334,7 +334,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the vector cross product.
+        /// Returns the vector cross product.
         /// </summary>
         public Vector2 CrossProduct()
         {
@@ -346,7 +346,7 @@ namespace Sharpex2D.Math
         #region Object Member
 
         /// <summary>
-        ///     Determines whether the specified <see cref="System.Object" /> is equal to this instance.
+        /// Determines whether the specified <see cref="System.Object" /> is equal to this instance.
         /// </summary>
         /// <param name="obj">The <see cref="System.Object" /> to compare with this instance.</param>
         public override bool Equals(object obj)
@@ -355,7 +355,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns a hash code for this instance.
+        /// Returns a hash code for this instance.
         /// </summary>
         public override int GetHashCode()
         {
@@ -363,7 +363,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns a <see cref="System.String" /> that represents this instance.
+        /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         public override string ToString()
         {
@@ -375,7 +375,7 @@ namespace Sharpex2D.Math
         #region Operators
 
         /// <summary>
-        ///     Implements the operator ==.
+        /// Implements the operator ==.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -385,7 +385,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator !=.
+        /// Implements the operator !=.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -395,7 +395,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator +.
+        /// Implements the operator +.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -405,7 +405,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator -.
+        /// Implements the operator -.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -415,7 +415,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator -.
+        /// Implements the operator -.
         /// </summary>
         /// <param name="a">The vector.</param>
         public static Vector2 operator -(Vector2 a)
@@ -424,7 +424,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator *.
+        /// Implements the operator *.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -434,7 +434,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator *.
+        /// Implements the operator *.
         /// </summary>
         /// <param name="a">The vector.</param>
         /// <param name="scale">The scale.</param>
@@ -444,7 +444,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator /.
+        /// Implements the operator /.
         /// </summary>
         /// <param name="a">The first vector.</param>
         /// <param name="b">The second vector.</param>
@@ -454,7 +454,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Implements the operator /.
+        /// Implements the operator /.
         /// </summary>
         /// <param name="a">The vector.</param>
         /// <param name="scale">The scale.</param>

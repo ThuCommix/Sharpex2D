@@ -31,7 +31,7 @@ namespace Sharpex2D.Scripting.VB
         private readonly ScriptStorageBuffer _storageBuffer;
 
         /// <summary>
-        ///     Initializes a new SharpScriptEvaluator.
+        /// Initializes a new SharpScriptEvaluator.
         /// </summary>
         public VBScriptEvaluator()
         {
@@ -41,12 +41,12 @@ namespace Sharpex2D.Scripting.VB
         }
 
         /// <summary>
-        ///     A value indicating whether the compiled scripts gets buffered.
+        /// A value indicating whether the compiled scripts gets buffered.
         /// </summary>
         public bool Buffering { set; get; }
 
         /// <summary>
-        ///     Evaluate the script content.
+        /// Evaluate the script content.
         /// </summary>
         /// <param name="script">The Script.</param>
         /// <param name="objects">The Objects.</param>

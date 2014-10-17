@@ -27,7 +27,7 @@ namespace Sharpex2D.Rendering.Scene
     public class SceneEventArgs : EventArgs
     {
         /// <summary>
-        ///     Initializes a new SceneEventArgs class.
+        /// Initializes a new SceneEventArgs class.
         /// </summary>
         /// <param name="oldScene">The OldScene.</param>
         /// <param name="newScene">The NewScene.</param>
@@ -38,12 +38,12 @@ namespace Sharpex2D.Rendering.Scene
         }
 
         /// <summary>
-        ///     Gets the old Scene.
+        /// Gets the old Scene.
         /// </summary>
         public Scene OldScene { private set; get; }
 
         /// <summary>
-        ///     Gets the new Scene.
+        /// Gets the new Scene.
         /// </summary>
         public Scene NewScene { private set; get; }
     }

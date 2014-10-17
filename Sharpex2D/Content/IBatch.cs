@@ -27,17 +27,17 @@ namespace Sharpex2D.Content
     public interface IBatch
     {
         /// <summary>
-        ///     Gets the Type.
+        /// Gets the Type.
         /// </summary>
         Type Type { get; }
 
         /// <summary>
-        ///     Gets the Asset.
+        /// Gets the Asset.
         /// </summary>
         string Asset { get; }
 
         /// <summary>
-        ///     Raises the completed event.
+        /// Raises the completed event.
         /// </summary>
         /// <param name="data">The Data.</param>
         void RaiseEvent(object data);

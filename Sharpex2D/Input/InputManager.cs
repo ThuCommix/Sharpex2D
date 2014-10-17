@@ -23,7 +23,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sharpex2D.Debug.Logging;
-using Sharpex2D.Input.Windows.RawInput;
 using Sharpex2D.Input.Windows.Touch;
 
 namespace Sharpex2D.Input
@@ -35,7 +34,7 @@ namespace Sharpex2D.Input
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -43,7 +42,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
@@ -59,7 +58,7 @@ namespace Sharpex2D.Input
         #region IEnumerable Implementation
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
         public IEnumerator<IInputDevice> GetEnumerator()
@@ -68,7 +67,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Enumerator.
+        /// Gets the Enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
         IEnumerator IEnumerable.GetEnumerator()
@@ -82,7 +81,7 @@ namespace Sharpex2D.Input
         private readonly Logger _logger;
 
         /// <summary>
-        ///     Initializes a new InputManager Instance.
+        /// Initializes a new InputManager Instance.
         /// </summary>
         public InputManager()
         {
@@ -91,7 +90,7 @@ namespace Sharpex2D.Input
 
             Mouse = new Mouse(new XPlatform.Mouse());
 #if Windows
-            Keyboard = new Keyboard(new RawInputKeyboard());
+            Keyboard = new Keyboard(new Windows.Keyboard());
             Gamepad = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
             Joystick = new Joystick(new Windows.JoystickApi.Joystick());
 
@@ -118,7 +117,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Devices.
+        /// Gets the Devices.
         /// </summary>
         public IInputDevice[] Devices
         {
@@ -126,32 +125,32 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets or sets the Keyboard device.
+        /// Gets or sets the Keyboard device.
         /// </summary>
         public Keyboard Keyboard { get; set; }
 
         /// <summary>
-        ///     Gets or sets the Mouse device.
+        /// Gets or sets the Mouse device.
         /// </summary>
         public Mouse Mouse { get; set; }
 
         /// <summary>
-        ///     Gets or sets the Gamepad.
+        /// Gets or sets the Gamepad.
         /// </summary>
         public Gamepad Gamepad { get; set; }
 
         /// <summary>
-        ///     Gets or sets the Joystick.
+        /// Gets or sets the Joystick.
         /// </summary>
         public Joystick Joystick { get; set; }
 
         /// <summary>
-        ///     Gets or sets the TouchPanel.
+        /// Gets or sets the TouchPanel.
         /// </summary>
         public TouchPanel TouchPanel { get; set; }
 
         /// <summary>
-        ///     Adds a new device to the InputManager.
+        /// Adds a new device to the InputManager.
         /// </summary>
         /// <param name="device">The Device.</param>
         public void Add(IInputDevice device)
@@ -161,7 +160,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Removes a device from the InputManager.
+        /// Removes a device from the InputManager.
         /// </summary>
         /// <param name="device">The Device.</param>
         public void Remove(IInputDevice device)
@@ -173,7 +172,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets a special device.
+        /// Gets a special device.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>InputDevice</returns>
@@ -191,7 +190,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets any device which matches T.
+        /// Gets any device which matches T.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Array of InputDevice.</returns>
@@ -215,7 +214,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the device if supported.
+        /// Gets the device if supported.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>InputDevice.</returns>
@@ -233,7 +232,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets any supported device which matches T.
+        /// Gets any supported device which matches T.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Array of InputDevice.</returns>
@@ -257,7 +256,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the device by guid.
+        /// Gets the device by guid.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>InputDevice.</returns>
@@ -272,7 +271,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets any device which matches the guid.
+        /// Gets any device which matches the guid.
         /// </summary>
         /// <param name="guid">The Guid.</param>
         /// <returns>Array of InputDevice.</returns>

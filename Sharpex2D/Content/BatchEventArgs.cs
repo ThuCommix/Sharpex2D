@@ -27,7 +27,7 @@ namespace Sharpex2D.Content
     public class BatchEventArgs<T> : EventArgs where T : IContent
     {
         /// <summary>
-        ///     Initializes a new BatchEventArgs class.
+        /// Initializes a new BatchEventArgs class.
         /// </summary>
         /// <param name="asset">The Asset.</param>
         /// <param name="data">The Data.</param>
@@ -38,12 +38,12 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Gets the content data.
+        /// Gets the content data.
         /// </summary>
         public T Data { private set; get; }
 
         /// <summary>
-        ///     Gets the Asset.
+        /// Gets the Asset.
         /// </summary>
         public string Asset { private set; get; }
     }

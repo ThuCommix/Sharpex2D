@@ -25,12 +25,12 @@ namespace Sharpex2D.Debug.Logging.Adapters.Console
     public enum OutputMode
     {
         /// <summary>
-        ///     StandardOut stream.
+        /// StandardOut stream.
         /// </summary>
         Standard = 0,
 
         /// <summary>
-        ///     StandardError stream.
+        /// StandardError stream.
         /// </summary>
         Error = 1
     }

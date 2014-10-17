@@ -28,12 +28,12 @@ namespace Sharpex2D.Network.Logic
     public interface IPackageListener
     {
         /// <summary>
-        ///     Gets the ListenerType.
+        /// Gets the ListenerType.
         /// </summary>
         Type ListenerType { get; }
 
         /// <summary>
-        ///     Called if a package is received.
+        /// Called if a package is received.
         /// </summary>
         /// <param name="binaryPackage">The BinaryPackage.</param>
         void OnPackageReceived(BinaryPackage binaryPackage);

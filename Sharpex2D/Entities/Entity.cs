@@ -30,36 +30,34 @@ namespace Sharpex2D.Entities
     public abstract class Entity
     {
         /// <summary>
-        ///     EntityDestroyedEventHandler.
+        /// EntityDestroyedEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void EntityDestroyedEventHandler(object sender, EventArgs e);
 
         /// <summary>
-        ///     EntityPositionEventHandler.
+        /// EntityPositionEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void EntityPositionEventHandler(object sender, EntityPositionEventArgs e);
 
-        private bool _componentsEnabled;
         private Vector2 _position;
 
         /// <summary>
-        ///     Initializes a new Entity class.
+        /// Initializes a new Entity class.
         /// </summary>
         protected Entity()
         {
             Id = 0;
             _position = new Vector2(0, 0);
             Entities = new List<Entity>();
-            _componentsEnabled = true;
             RaiseEvents = true;
         }
 
         /// <summary>
-        ///     Sets or gets the Position of the Entity.
+        /// Sets or gets the Position of the Entity.
         /// </summary>
         public Vector2 Position
         {
@@ -73,42 +71,42 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Sets or gets the Id of the Entity.
+        /// Sets or gets the Id of the Entity.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        ///     Gets the EntityContainer.
+        /// Gets the EntityContainer.
         /// </summary>
         public List<Entity> Entities { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the Entity is dirty.
+        /// A value indicating whether the Entity is dirty.
         /// </summary>
         public bool IsDirty { set; get; }
 
         /// <summary>
-        ///     A value indicating whether the Entity is destroyed.
+        /// A value indicating whether the Entity is destroyed.
         /// </summary>
         public bool IsDestroyed { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the Entity can raise events.
+        /// A value indicating whether the Entity can raise events.
         /// </summary>
         public bool RaiseEvents { set; get; }
 
         /// <summary>
-        ///     PositionChanged event.
+        /// PositionChanged event.
         /// </summary>
         public event EntityPositionEventHandler PositionChanged;
 
         /// <summary>
-        ///     Destroyed event.
+        /// Destroyed event.
         /// </summary>
         public event EntityDestroyedEventHandler Destroyed;
 
         /// <summary>
-        ///     Called, if the Position changed.
+        /// Called, if the Position changed.
         /// </summary>
         /// <param name="delta">The Delta.</param>
         public virtual void OnPositionChanged(Vector2 delta)
@@ -123,23 +121,7 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Enables Container updates.
-        /// </summary>
-        public void EnableContainerUpdates()
-        {
-            _componentsEnabled = true;
-        }
-
-        /// <summary>
-        ///     Disbale Container updates.
-        /// </summary>
-        public void DisableContainerUpdates()
-        {
-            _componentsEnabled = false;
-        }
-
-        /// <summary>
-        ///     Destroys the Entity.
+        /// Destroys the Entity.
         /// </summary>
         public void Destroy()
         {
@@ -154,36 +136,16 @@ namespace Sharpex2D.Entities
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void Update(GameTime gameTime)
-        {
-            if (_componentsEnabled)
-            {
-                foreach (Entity entity in Entities)
-                {
-                    entity.Update(gameTime);
-                }
-            }
-
-            IsDirty = false;
-        }
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void Render(RenderDevice renderer, GameTime gameTime)
-        {
-            if (_componentsEnabled)
-            {
-                foreach (Entity entity in Entities)
-                {
-                    entity.Render(renderer, gameTime);
-                }
-            }
-        }
+        public abstract void Draw(SpriteBatch spriteBatch, GameTime gameTime);
     }
 }

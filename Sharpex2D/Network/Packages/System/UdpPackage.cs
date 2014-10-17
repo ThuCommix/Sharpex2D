@@ -28,7 +28,7 @@ namespace Sharpex2D.Network.Packages.System
     internal class UdpPackage : BasePackage
     {
         /// <summary>
-        ///     Initializes a new UdpPackage class.
+        /// Initializes a new UdpPackage class.
         /// </summary>
         /// <param name="notify">The UdpNotifyMode.</param>
         public UdpPackage(UdpNotify notify)
@@ -37,7 +37,7 @@ namespace Sharpex2D.Network.Packages.System
         }
 
         /// <summary>
-        ///     Gets the notify mode of this package.
+        /// Gets the notify mode of this package.
         /// </summary>
         public UdpNotify NotifyMode { get; private set; }
     }

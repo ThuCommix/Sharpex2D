@@ -26,7 +26,7 @@ namespace Sharpex2D.Debug.Logging.Adapters
     public interface IAdapter
     {
         /// <summary>
-        ///     Logs a message.
+        /// Logs a message.
         /// </summary>
         /// <param name="message">The Message.</param>
         void Write(string message);

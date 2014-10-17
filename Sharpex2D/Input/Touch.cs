@@ -29,7 +29,7 @@ namespace Sharpex2D.Input
     public class Touch
     {
         /// <summary>
-        ///     Initializes a new Touch class.
+        /// Initializes a new Touch class.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <param name="contact">The ContactSize.</param>
@@ -47,32 +47,32 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Contact size.
+        /// Gets the Contact size.
         /// </summary>
         public Vector2 Contact { private set; get; }
 
         /// <summary>
-        ///     Gets the Location.
+        /// Gets the Location.
         /// </summary>
         public Vector2 Location { private set; get; }
 
         /// <summary>
-        ///     Gets the ContactRectangle.
+        /// Gets the ContactRectangle.
         /// </summary>
         public Rectangle ContactRectangle { private set; get; }
 
         /// <summary>
-        ///     Gets the Id.
+        /// Gets the Id.
         /// </summary>
         public int Id { private set; get; }
 
         /// <summary>
-        ///     Gets the Time.
+        /// Gets the Time.
         /// </summary>
         public DateTime Time { private set; get; }
 
         /// <summary>
-        ///     Gets the TouchMode.
+        /// Gets the TouchMode.
         /// </summary>
         public TouchMode TouchMode { private set; get; }
     }

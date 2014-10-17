@@ -23,26 +23,26 @@ using Sharpex2D.Content.Pipeline;
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     [Content("Texture2D")]
-    public abstract class Texture2D : IDeviceResource
+    public abstract class Texture2D : IGraphicsResource
     {
         #region IRendererResource Implementation
 
         /// <summary>
-        ///     Gets or sets the DebugName.
+        /// Gets or sets the DebugName.
         /// </summary>
         public string DebugName { get; set; }
 
         #endregion
 
         /// <summary>
-        ///     Gets the Width.
+        /// Gets the Width.
         /// </summary>
         public abstract int Width { get; }
 
         /// <summary>
-        ///     Gets the Height.
+        /// Gets the Height.
         /// </summary>
         public abstract int Height { get; }
     }

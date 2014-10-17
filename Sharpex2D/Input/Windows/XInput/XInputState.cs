@@ -28,17 +28,17 @@ namespace Sharpex2D.Input.Windows.XInput
     public struct XInputState
     {
         /// <summary>
-        ///     The PacketNumber.
+        /// The PacketNumber.
         /// </summary>
         [FieldOffset(0)] public int PacketNumber;
 
         /// <summary>
-        ///     The Gamepad.
+        /// The Gamepad.
         /// </summary>
         [FieldOffset(4)] public XInputGamepad Gamepad;
 
         /// <summary>
-        ///     Copies the source.
+        /// Copies the source.
         /// </summary>
         /// <param name="source">The Source.</param>
         public void Copy(XInputState source)

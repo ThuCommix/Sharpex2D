@@ -28,7 +28,7 @@ namespace Sharpex2D
     public static class ReflectionHelper
     {
         /// <summary>
-        ///     Gets the property value with any access modifier.
+        /// Gets the property value with any access modifier.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="name">The Name.</param>
@@ -50,7 +50,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Invokes a contructor with any access modifier.
+        /// Invokes a contructor with any access modifier.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="parameters">The Parameters.</param>

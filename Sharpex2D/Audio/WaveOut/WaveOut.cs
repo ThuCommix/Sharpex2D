@@ -19,388 +19,392 @@
 // THE SOFTWARE.
 
 using System;
-using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace Sharpex2D.Audio.WaveOut
 {
 #if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    internal class WaveOut : IDisposable
+    [TestState(TestState.Tested)]
+    internal class WaveOut
     {
-        private readonly NativeMethods.WaveDelegate _bufferProcessor = WaveOutBuffer.WaveOutProc;
-        private readonly PlayMode _playMode;
-        private readonly byte _zero;
-        private WaveOutBuffer _buffers;
-        private WaveOutBuffer _currentBuffer;
-        private BufferFillEventHandler _fillProcessor;
-        private bool _finished;
-        private Task _thread;
-        private IntPtr _waveOutHandle;
-        private WaveStream _waveStream;
+        private readonly NativeMethods.WaveCallback _callback;
+        private readonly object _lockObj = new object();
+        private int _activeBuffers;
+        private float _balance;
+        private List<WaveOutBuffer> _buffers;
+        private int _device;
+        private IntPtr _hWaveOut;
+        private int _latency = 150;
+
+        private PlaybackState _playbackState = PlaybackState.Stopped;
+        private WaveStream _stream;
+        private float _volume;
 
         /// <summary>
-        ///     Initializes a new WaveOut class.
+        /// Initializes a new WaveOut class.
         /// </summary>
-        /// <param name="device">The AudioDevice.</param>
-        /// <param name="waveStream">The WaveStream.</param>
-        /// <param name="bufferDescription">The BufferDescription.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        public WaveOut(WaveOutDevice device, WaveStream waveStream, WaveOutBufferDescription bufferDescription,
-            PlayMode playMode)
+        public WaveOut()
         {
-            _waveStream = waveStream;
-            _playMode = playMode;
-            LockObj = new object();
-            _zero = _waveStream.Format.wBitsPerSample == 8 ? (byte) 128 : (byte) 0;
-            _fillProcessor = FillBuffer;
-
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutOpen(out _waveOutHandle, device.DeviceId, waveStream.Format,
-                    _bufferProcessor, IntPtr.Zero, NativeMethods.CALLBACK_FUNCTION));
-            }
-
-            AllocateBuffers(bufferDescription.Size, bufferDescription.Count);
-
-            _thread = new Task(CopyData);
-            _thread.Start();
+            _callback = Callback;
         }
 
         /// <summary>
-        ///     Gets the LockObj.
+        /// Just exists for lock.
         /// </summary>
-        public object LockObj { private set; get; }
+        internal object LockObj
+        {
+            get { return _lockObj; }
+        }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Gets or sets the Volume.
+        /// </summary>
+        public float Volume
+        {
+            get { return _volume; }
+            set
+            {
+                SetVolume(_hWaveOut, value, value);
+                _volume = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the Volume.
+        /// </summary>
+        public float Balance
+        {
+            get { return _balance; }
+            set
+            {
+                float left = System.Math.Min(1, value + 1);
+                float right = System.Math.Abs(System.Math.Max(-1, value - 1));
+
+                SetVolume(_hWaveOut, left*Volume, right*Volume);
+                _balance = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the current WaveStream.
+        /// </summary>
+        public WaveStream WaveStream
+        {
+            get { return _stream; }
+        }
+
+        /// <summary>
+        /// Gets the PlaybackState.
+        /// </summary>
+        public PlaybackState PlaybackState
+        {
+            get { return _playbackState; }
+        }
+
+        /// <summary>
+        /// Gets the Device.
+        /// </summary>
+        public int Device
+        {
+            get { return _device; }
+            set { _device = value; }
+        }
+
+        /// <summary>
+        /// Gets the WaveOutHandle.
+        /// </summary>
+        public IntPtr WaveOutHandle
+        {
+            get { return _hWaveOut; }
+        }
+
+        /// <summary>
+        /// Gets or sets the Latency.
+        /// </summary>
+        public int Latency
+        {
+            get { return _latency; }
+            set { _latency = value; }
+        }
+
+        /// <summary>
+        /// Triggered if the playback state changed.
+        /// </summary>
+        public event PlaybackChangedEventHandler PlaybackChanged;
+
+        /// <summary>
+        /// Gets the available device amount.
+        /// </summary>
+        /// <returns>Int32.</returns>
+        public static int GetDeviceCount()
+        {
+            return NativeMethods.waveOutGetNumDevs();
+        }
+
+        /// <summary>
+        /// Gets the caps of the device. 
+        /// </summary>
+        /// <param name="device">The Device.</param>
+        /// <returns>WaveOutCaps.</returns>
+        public static WaveOutCaps GetDevice(int device)
+        {
+            var caps = new WaveOutCaps();
+            NativeMethods.waveOutGetDevCaps((uint) device, out caps, (uint) Marshal.SizeOf(caps));
+            return caps;
+        }
+
+        /// <summary>
+        /// Gets all devices.
+        /// </summary>
+        /// <returns>Array of WaveOutCaps.</returns>
+        public static WaveOutCaps[] GetDevices()
+        {
+            var caps = new WaveOutCaps[GetDeviceCount()];
+            for (int i = 0; i < caps.Length; i++)
+                caps[i] = GetDevice(i);
+            return caps;
+        }
+
+        /// <summary>
+        /// Initializes the playback.
+        /// </summary>
+        /// <param name="waveStream">The WaveStream.</param>
+        public void Initialize(WaveStream waveStream)
+        {
+            lock (_lockObj)
+            {
+                _stream = waveStream;
+                _hWaveOut = CreateWaveOut();
+                int bufferSize = (_stream.Format.nAvgBytesPerSec/1000*_latency);
+                _buffers = new List<WaveOutBuffer>();
+                for (int i = 0; i < 2; i++)
+                {
+                    _buffers.Add(new WaveOutBuffer(this, bufferSize));
+                    _buffers.Last().Initialize();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Plays the wavestream.
+        /// </summary>
+        public void Play()
+        {
+            if (_playbackState == PlaybackState.Stopped)
+            {
+                StartPlayback();
+                _playbackState = PlaybackState.Playing;
+            }
+            else if (_playbackState == PlaybackState.Paused)
+            {
+                Resume();
+                _playbackState = PlaybackState.Playing;
+            }
+            RaisePlaybackChanged();
+        }
+
+        /// <summary>
+        /// Pause the wavestream.
+        /// </summary>
+        public void Pause()
+        {
+            if (_playbackState == PlaybackState.Playing)
+            {
+                lock (_lockObj)
+                {
+                    NativeMethods.waveOutPause(_hWaveOut);
+                }
+                _playbackState = PlaybackState.Paused;
+                RaisePlaybackChanged();
+            }
+        }
+
+        /// <summary>
+        /// Resumes the wavestream.
+        /// </summary>
+        public void Resume()
+        {
+            if (_playbackState == PlaybackState.Paused)
+            {
+                lock (_lockObj)
+                {
+                    NativeMethods.waveOutRestart(_hWaveOut);
+                }
+                _playbackState = PlaybackState.Playing;
+                RaisePlaybackChanged();
+            }
+        }
+
+        /// <summary>
+        /// Stops the wavestream.
+        /// </summary>
+        public void Stop()
+        {
+            if (_playbackState != PlaybackState.Stopped)
+            {
+                _playbackState = PlaybackState.Stopped;
+                lock (_lockObj)
+                {
+                    MMResult result = NativeMethods.waveOutReset(_hWaveOut);
+                    WaveOutResult.Try(result);
+                }
+                RaisePlaybackChanged();
+            }
+        }
+
+        /// <summary>
+        /// Creates new WaveOut.
+        /// </summary>
+        /// <returns></returns>
+        private IntPtr CreateWaveOut()
+        {
+            IntPtr handle;
+            WaveOutResult.Try(NativeMethods.waveOutOpen(out handle,
+                (IntPtr) _device,
+                _stream.Format,
+                _callback,
+                IntPtr.Zero,
+                NativeMethods.CALLBACK_FUNCTION));
+
+            return handle;
+        }
+
+        /// <summary>
+        /// Callback func.
+        /// </summary>
+        /// <param name="handle">The WaveOutHandle.</param>
+        /// <param name="msg">The WaveMessage.</param>
+        /// <param name="user">The UserData.</param>
+        /// <param name="header">The WaveHdr.</param>
+        /// <param name="reserved">Reserved.</param>
+        private void Callback(IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved)
+        {
+            if (_hWaveOut != handle)
+                return;
+
+            if (msg == WaveMessage.WOM_DONE)
+            {
+                var hBuffer = (GCHandle) header.dwUser;
+                var buffer = hBuffer.Target as WaveOutBuffer;
+                Interlocked.Decrement(ref _activeBuffers);
+
+                if (buffer == null) return;
+                if (_playbackState != PlaybackState.Stopped)
+                {
+                    lock (_lockObj)
+                    {
+                        if (buffer.WriteData())
+                            Interlocked.Increment(ref _activeBuffers);
+                    }
+                }
+
+                if (_activeBuffers == 0)
+                {
+                    _playbackState = PlaybackState.Stopped;
+                    RaisePlaybackChanged();
+                }
+            }
+            else if (msg == WaveMessage.WOM_CLOSE)
+            {
+                _playbackState = PlaybackState.Stopped;
+                RaisePlaybackChanged();
+            }
+        }
+
+        /// <summary>
+        /// Starts the playback.
+        /// </summary>
+        private void StartPlayback()
+        {
+            foreach (WaveOutBuffer buffer in _buffers)
+            {
+                if (!buffer.IsInQueue)
+                {
+                    if (buffer.WriteData())
+                    {
+                        Interlocked.Increment(ref _activeBuffers);
+                    }
+                    else
+                    {
+                        _playbackState = PlaybackState.Stopped;
+                        RaisePlaybackChanged();
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
-            if (_thread != null)
-                try
-                {
-                    _finished = true;
-                    if (_waveOutHandle != IntPtr.Zero)
-                    {
-                        lock (LockObj)
-                        {
-                            WaveOutResult.Try(NativeMethods.waveOutReset(_waveOutHandle));
-                        }
-                    }
-                    while (!_thread.IsCompleted)
-                    {
-                    }
-                    _fillProcessor = null;
-                    FreeBuffers();
-                    if (_waveOutHandle != IntPtr.Zero)
-                    {
-                        lock (LockObj)
-                        {
-                            WaveOutResult.Try(NativeMethods.waveOutClose(_waveOutHandle));
-                        }
-                    }
-                    lock (LockObj)
-                    {
-                        _waveStream.Close();
-                        _waveStream.Dispose();
-                        _waveStream = null;
-                    }
-                }
-                finally
-                {
-                    _thread = null;
-                    _waveOutHandle = IntPtr.Zero;
-                }
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        ///     Enumerates the devices.
+        /// Disposes the object.
         /// </summary>
-        /// <returns>Array of AudioDevice.</returns>
-        public static WaveOutDevice[] EnumerateDevices()
+        /// <param name="disposing">The disposing state.</param>
+        public virtual void Dispose(bool disposing)
         {
-            int deviceNum = NativeMethods.waveOutGetNumDevs();
-            var devices = new WaveOutDevice[deviceNum];
-            for (int i = 0; i <= deviceNum - 1; i++)
+            if (_hWaveOut == IntPtr.Zero)
+                return;
+
+            Stop();
+            lock (_lockObj)
             {
-                var caps = new WaveOutCaps();
-                int result = NativeMethods.waveOutGetDevCaps((uint) i, out caps, (uint) Marshal.SizeOf(caps));
-                WaveOutResult.Try(result);
+                if (_buffers != null)
+                {
+                    foreach (WaveOutBuffer buffer in _buffers)
+                    {
+                        buffer.Dispose();
+                    }
 
-                devices[i] = new WaveOutDevice((uint) i, caps);
+                    _buffers.Clear();
+                }
+                WaveOutResult.Try(NativeMethods.waveOutClose(_hWaveOut));
+                _hWaveOut = IntPtr.Zero;
             }
-
-            return devices;
         }
 
         /// <summary>
-        ///     Deconstructs the WaveOut.
+        /// Sets the Volume.
+        /// </summary>
+        /// <param name="waveOut">The WaveOut.</param>
+        /// <param name="left">The Left.</param>
+        /// <param name="right">The Right.</param>
+        public static void SetVolume(IntPtr waveOut, float left, float right)
+        {
+            uint tmp = (uint) (left*0xFFFF) + ((uint) (right*0xFFFF) << 16);
+            MMResult result = NativeMethods.waveOutSetVolume(waveOut, tmp);
+            if (result != MMResult.MMSYSERR_NOERROR)
+                WaveOutResult.Try(NativeMethods.waveOutSetVolume(waveOut, tmp));
+        }
+
+        /// <summary>
+        /// Raises the PlaybackChanged event.
+        /// </summary>
+        private void RaisePlaybackChanged()
+        {
+            if (PlaybackChanged != null)
+            {
+                PlaybackChanged(this, EventArgs.Empty);
+            }
+        }
+
+        /// <summary>
+        /// Deconstructs the WaveOut class.
         /// </summary>
         ~WaveOut()
         {
-            Dispose();
+            Dispose(false);
         }
-
-        /// <summary>
-        ///     Copies the data.
-        /// </summary>
-        private void CopyData()
-        {
-            while (!_finished)
-            {
-                Advance();
-                if (_fillProcessor != null && ! _finished)
-                    _fillProcessor(_currentBuffer.Data, _currentBuffer.Size);
-                else
-                {
-                    byte v = _zero;
-                    var b = new byte[_currentBuffer.Size];
-                    for (int i = 0; i < b.Length; i++)
-                    {
-                        b[i] = v;
-                    }
-                    Marshal.Copy(b, 0, _currentBuffer.Data, b.Length);
-                }
-                _currentBuffer.Play();
-            }
-            WaitForAllBuffers();
-        }
-
-        /// <summary>
-        ///     Fills the buffer.
-        /// </summary>
-        /// <param name="data">The Data.</param>
-        /// <param name="size">The Size.</param>
-        private void FillBuffer(IntPtr data, int size)
-        {
-            var b = new byte[size];
-            lock (LockObj)
-            {
-                if (_waveStream != null)
-                {
-                    int pos = 0;
-                    while (pos < size && !_finished)
-                    {
-                        int toget = size - pos;
-                        int got = _waveStream.Read(b, pos, toget);
-                        if (got < toget)
-                        {
-                            if (_playMode == PlayMode.Loop)
-                            {
-                                _waveStream.Position = 0;
-                            }
-                            else
-                            {
-                                _finished = true;
-                            }
-                        }
-                        pos += got;
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < b.Length; i++)
-                        b[i] = 0;
-                }
-            }
-            Marshal.Copy(b, 0, data, size);
-        }
-
-        /// <summary>
-        ///     Allocates the buffers.
-        /// </summary>
-        /// <param name="bufferSize">The BufferSize.</param>
-        /// <param name="bufferCount">The BufferCount.</param>
-        private void AllocateBuffers(int bufferSize, int bufferCount)
-        {
-            FreeBuffers();
-            if (bufferCount > 0)
-            {
-                _buffers = new WaveOutBuffer(_waveOutHandle, bufferSize, this);
-                WaveOutBuffer prev = _buffers;
-                try
-                {
-                    for (int i = 1; i < bufferCount; i++)
-                    {
-                        var buffer = new WaveOutBuffer(_waveOutHandle, bufferSize, this);
-                        prev.NextBuffer = buffer;
-                        prev = buffer;
-                    }
-                }
-                finally
-                {
-                    prev.NextBuffer = _buffers;
-                }
-            }
-        }
-
-        /// <summary>
-        ///     Frees the buffers.
-        /// </summary>
-        private void FreeBuffers()
-        {
-            _currentBuffer = null;
-            if (_buffers != null)
-            {
-                WaveOutBuffer first = _buffers;
-                _buffers = null;
-
-                WaveOutBuffer current = first;
-                do
-                {
-                    WaveOutBuffer next = current.NextBuffer;
-                    current.Dispose();
-                    current = next;
-                } while (current != first);
-            }
-        }
-
-        /// <summary>
-        ///     Advance.
-        /// </summary>
-        private void Advance()
-        {
-            _currentBuffer = _currentBuffer == null ? _buffers : _currentBuffer.NextBuffer;
-            _currentBuffer.WaitFor();
-        }
-
-        /// <summary>
-        ///     Waits for all buffers.
-        /// </summary>
-        private void WaitForAllBuffers()
-        {
-            WaveOutBuffer buffer = _buffers;
-            while (buffer.NextBuffer != _buffers)
-            {
-                buffer.WaitFor();
-                buffer = buffer.NextBuffer;
-            }
-        }
-
-        /// <summary>
-        ///     Sets the Volume.
-        /// </summary>
-        public void SetVolume(float value)
-        {
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutSetVolume(_waveOutHandle, FloatToWaveOutVolume(value, value)));
-            }
-        }
-
-        /// <summary>
-        ///     Sets the balance.
-        /// </summary>
-        /// <param name="left">The Left.</param>
-        /// <param name="right">The Right.</param>
-        public void SetBalance(float left, float right)
-        {
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutSetVolume(_waveOutHandle, FloatToWaveOutVolume(left, right)));
-            }
-        }
-
-        /// <summary>
-        ///     Converts a float into waveOut volume.
-        /// </summary>
-        /// <param name="left">Left.</param>
-        /// <param name="right">Right.</param>
-        /// <returns>UInt.</returns>
-        private static uint FloatToWaveOutVolume(float left, float right)
-        {
-            return (uint) (left*0xFFFF) + ((uint) (right*0xFFFF) << 16);
-        }
-
-        /// <summary>
-        ///     Pause.
-        /// </summary>
-        public void Pause()
-        {
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutPause(_waveOutHandle));
-            }
-        }
-
-        /// <summary>
-        ///     Resume.
-        /// </summary>
-        public void Resume()
-        {
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutRestart(_waveOutHandle));
-            }
-        }
-
-        /// <summary>
-        ///     Stop.
-        /// </summary>
-        public void Stop()
-        {
-            lock (LockObj)
-            {
-                WaveOutResult.Try(NativeMethods.waveOutReset(_waveOutHandle));
-            }
-        }
-
-        /// <summary>
-        ///     Gets the Position in ms.
-        /// </summary>
-        /// <returns>Int64.</returns>
-        public long GetPosition()
-        {
-            lock (LockObj)
-            {
-                return _waveStream.Position/_waveStream.Format.nAvgBytesPerSec;
-            }
-        }
-
-        /// <summary>
-        ///     Gets the Length in ms.
-        /// </summary>
-        /// <returns>Int64.</returns>
-        public long GetLength()
-        {
-            lock (LockObj)
-            {
-                return _waveStream.Length/_waveStream.Format.nAvgBytesPerSec;
-            }
-        }
-
-        /// <summary>
-        ///     Seeks.
-        /// </summary>
-        /// <param name="position">The Position.</param>
-        public void Seek(long position)
-        {
-            lock (LockObj)
-            {
-                long requestesPostion = position/1000*_waveStream.Format.nAvgBytesPerSec;
-                if (requestesPostion < _waveStream.Length)
-                {
-                    _waveStream.Seek(requestesPostion, SeekOrigin.Begin);
-                }
-            }
-        }
-
-        /// <summary>
-        ///     A value indicating whether the waveOut is playing.
-        /// </summary>
-        /// <returns>True if playing.</returns>
-        public bool IsPlaying()
-        {
-            return !_finished;
-        }
-
-        private delegate void BufferFillEventHandler(IntPtr data, int size);
     }
-
 #endif
 }

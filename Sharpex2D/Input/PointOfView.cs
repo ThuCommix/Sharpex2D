@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
     public class PointOfView
     {
         /// <summary>
-        ///     Initializes a new PointOfView class.
+        /// Initializes a new PointOfView class.
         /// </summary>
         /// <param name="angle">The Angle.</param>
         internal PointOfView(double angle)
@@ -34,7 +34,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the current angle.
+        /// Gets the current angle.
         /// </summary>
         public double Angle { private set; get; }
     }

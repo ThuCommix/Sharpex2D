@@ -34,7 +34,7 @@ namespace Sharpex2D.Physics.Collision
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -46,7 +46,7 @@ namespace Sharpex2D.Physics.Collision
         #region ICollision Implementation
 
         /// <summary>
-        ///     Indicates whether the particles intersect with each other.
+        /// Indicates whether the particles intersect with each other.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -60,7 +60,7 @@ namespace Sharpex2D.Physics.Collision
         #region CollisionManager Internal
 
         /// <summary>
-        ///     Initializes a new CollisionManager class.
+        /// Initializes a new CollisionManager class.
         /// </summary>
         public CollisionManager()
         {
@@ -68,7 +68,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Destructor.
+        /// Destructor.
         /// </summary>
         ~CollisionManager()
         {
@@ -76,7 +76,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Indicates whether the particles intersect with each other.
+        /// Indicates whether the particles intersect with each other.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -119,7 +119,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Indicates whether the rectangle intersects with another rectangle.
+        /// Indicates whether the rectangle intersects with another rectangle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -139,7 +139,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Indicates whether the rectangle intersects with a circle.
+        /// Indicates whether the rectangle intersects with a circle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>
@@ -183,7 +183,7 @@ namespace Sharpex2D.Physics.Collision
         }
 
         /// <summary>
-        ///     Indicates whether the circle intersects with a circle.
+        /// Indicates whether the circle intersects with a circle.
         /// </summary>
         /// <param name="particle1">The first Particle.</param>
         /// <param name="particle2">The second Particle.</param>

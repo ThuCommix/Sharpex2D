@@ -36,7 +36,7 @@ namespace Sharpex2D
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -48,7 +48,7 @@ namespace Sharpex2D
         private RenderTarget _renderTarget;
 
         /// <summary>
-        ///     Initializes a new Game class.
+        /// Initializes a new Game class.
         /// </summary>
         protected Game()
         {
@@ -56,65 +56,64 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Gets the GameComponentManager.
+        /// Gets the GameComponentManager.
         /// </summary>
         public GameComponentManager GameComponentManager { private set; get; }
 
         /// <summary>
-        ///     The current InputManager.
+        /// The current InputManager.
         /// </summary>
         public InputManager Input { get; set; }
 
         /// <summary>
-        ///     The Current SoundPlayer.
+        /// The Current AudioManager.
         /// </summary>
-        public SoundManager SoundManager { get; internal set; }
+        public AudioManager AudioManager { get; internal set; }
 
         /// <summary>
-        ///     The Current ContentManager.
+        /// The Current ContentManager.
         /// </summary>
         public ContentManager Content { get; set; }
 
         /// <summary>
-        ///     The Current SceneManager.
+        /// The Current SceneManager.
         /// </summary>
         public SceneManager SceneManager { get; set; }
 
         /// <summary>
-        ///     The Current GameServices.
+        /// The Current GameServices.
         /// </summary>
         public GameServiceContainer GameServices { set; get; }
 
         /// <summary>
-        ///     Sets or gets the TargetFrameTime.
+        /// Sets or gets the TargetFrameTime.
         /// </summary>
-        public float TargetFrameTime
+        public float TargetTime
         {
-            get { return SGL.Components.Get<IGameLoop>().TargetFrameTime; }
-            set { SGL.Components.Get<IGameLoop>().TargetFrameTime = value; }
+            get { return SGL.Components.Get<GameLoop>().TargetTime; }
+            set { SGL.Components.Get<GameLoop>().TargetTime = value; }
         }
 
         /// <summary>
-        ///     Sets or gets the TargetUpdateTime.
-        /// </summary>
-        public float TargetUpdateTime
-        {
-            get { return SGL.Components.Get<IGameLoop>().TargetUpdateTime; }
-            set { SGL.Components.Get<IGameLoop>().TargetUpdateTime = value; }
-        }
-
-        /// <summary>
-        ///     A value indicating whether the surface is active.
+        /// A value indicating whether the surface is active.
         /// </summary>
         public bool IsActive
         {
             get { return _renderTarget.Window.IsActive; }
         }
 
+        /// <summary>
+        /// Gets the GameWindow.
+        /// </summary>
+        public GameWindow Window
+        {
+            get { return _renderTarget.Window; }
+        }
+
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         void IUpdateable.Update(GameTime gameTime)
@@ -127,13 +126,13 @@ namespace Sharpex2D
         #region IDrawable Implementation
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        void IDrawable.Render(RenderDevice renderer, GameTime gameTime)
+        void IDrawable.Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            OnRendering(renderer, gameTime);
+            OnDrawing(spriteBatch, gameTime);
         }
 
         #endregion
@@ -141,7 +140,7 @@ namespace Sharpex2D
         #region IConstructable Implementation
 
         /// <summary>
-        ///     Constructs the component.
+        /// Constructs the component.
         /// </summary>
         void IConstructable.Construct()
         {
@@ -151,7 +150,7 @@ namespace Sharpex2D
         #endregion
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnUpdate(GameTime gameTime)
@@ -163,57 +162,55 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Processes a Render.
+        /// Processes a Render.
         /// </summary>
-        /// <param name="renderer">The GraphicRenderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void OnRendering(RenderDevice renderer, GameTime gameTime)
+        public virtual void OnDrawing(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            renderer.Begin();
+            spriteBatch.Begin();
             foreach (IGameComponent gameComponent in GameComponentManager)
             {
-                gameComponent.Render(renderer, gameTime);
+                gameComponent.Draw(spriteBatch, gameTime);
             }
-            renderer.End();
+            spriteBatch.End();
         }
 
         /// <summary>
-        ///     Processes the Game initialization.
+        /// Processes the Game initialization.
         /// </summary>
         /// <param name="launchParameters">The LaunchParameters.</param>
         public abstract EngineConfiguration OnInitialize(LaunchParameters launchParameters);
 
         /// <summary>
-        ///     Processes the Game load.
+        /// Processes the Game load.
         /// </summary>
         public abstract void OnLoadContent();
 
         /// <summary>
-        ///     Processes the Game unload.
+        /// Processes the Game unload.
         /// </summary>
         public virtual void OnUnload()
         {
         }
 
         /// <summary>
-        ///     Processes if the surface is activated.
+        /// Processes if the surface is activated.
         /// </summary>
         public virtual void OnActivation()
         {
-            SGL.Components.Get<IGameLoop>().Idle = false;
         }
 
         /// <summary>
-        ///     Processes if the surface is deactivated.
+        /// Processes if the surface is deactivated.
         /// </summary>
         public virtual void OnDeactivation()
         {
-            SGL.Components.Get<IGameLoop>().Idle = true;
         }
 
 
         /// <summary>
-        ///     Exits the game.
+        /// Exits the game.
         /// </summary>
         public void Exit()
         {
@@ -221,7 +218,7 @@ namespace Sharpex2D
         }
 
         /// <summary>
-        ///     Restarts the Game with the specified LaunchParameters.
+        /// Restarts the Game with the specified LaunchParameters.
         /// </summary>
         /// <param name="launchParameters">The LaunchParameters.</param>
         public void Restart(LaunchParameters launchParameters)

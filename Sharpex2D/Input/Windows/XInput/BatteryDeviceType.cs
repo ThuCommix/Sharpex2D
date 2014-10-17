@@ -25,12 +25,12 @@ namespace Sharpex2D.Input.Windows.XInput
     public enum BatteryDeviceType : byte
     {
         /// <summary>
-        ///     Gamepad.
+        /// Gamepad.
         /// </summary>
         BATTERY_DEVTYPE_GAMEPAD = 0x00,
 
         /// <summary>
-        ///     Headset.
+        /// Headset.
         /// </summary>
         BATTERY_DEVTYPE_HEADSET = 0x01,
     }

@@ -25,27 +25,27 @@ namespace Sharpex2D.Rendering
     public enum TypefaceStyle
     {
         /// <summary>
-        ///     Regular font.
+        /// Regular font.
         /// </summary>
         Regular = 0,
 
         /// <summary>
-        ///     Underlined font.
+        /// Underlined font.
         /// </summary>
         Underline = 1,
 
         /// <summary>
-        ///     Italic font.
+        /// Italic font.
         /// </summary>
         Italic = 2,
 
         /// <summary>
-        ///     Bold font.
+        /// Bold font.
         /// </summary>
         Bold = 3,
 
         /// <summary>
-        ///     Strikeout font.
+        /// Strikeout font.
         /// </summary>
         Strikeout = 4
     }

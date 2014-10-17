@@ -27,7 +27,7 @@ namespace Sharpex2D.Rendering
     public class SpriteSheet
     {
         /// <summary>
-        ///     Initializes a new SpriteSheet class.
+        /// Initializes a new SpriteSheet class.
         /// </summary>
         /// <param name="texture2D">The Texture2D.</param>
         public SpriteSheet(Texture2D texture2D)
@@ -37,12 +37,12 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        ///     Gets the Texture2D.
+        /// Gets the Texture2D.
         /// </summary>
         public Texture2D Texture2D { private set; get; }
 
         /// <summary>
-        ///     Gets the Rectangle.
+        /// Gets the Rectangle.
         /// </summary>
         public Rectangle Rectangle { set; get; }
     }

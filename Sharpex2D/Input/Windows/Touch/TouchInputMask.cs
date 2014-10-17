@@ -26,17 +26,17 @@ namespace Sharpex2D.Input.Windows.Touch
     internal enum TouchInputMask
     {
         /// <summary>
-        ///     cxContact and cyContact are valid. See the following text for more information on primary touch points.
+        /// cxContact and cyContact are valid. See the following text for more information on primary touch points.
         /// </summary>
         TOUCHINPUTMASKF_CONTACTAREA = 0x0004,
 
         /// <summary>
-        ///     dwExtraInfo is valid.
+        /// dwExtraInfo is valid.
         /// </summary>
         TOUCHINPUTMASKF_EXTRAINFO = 0x0002,
 
         /// <summary>
-        ///     The system time was set in the TOUCHINPUT structure.
+        /// The system time was set in the TOUCHINPUT structure.
         /// </summary>
         TOUCHINPUTMASKF_TIMEFROMSYSTEM = 0x0001
     }

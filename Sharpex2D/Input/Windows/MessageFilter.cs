@@ -30,7 +30,7 @@ namespace Sharpex2D.Input.Windows
     public class MessageFilter : NativeWindow
     {
         /// <summary>
-        ///     MessageEventHandler.
+        /// MessageEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -40,7 +40,7 @@ namespace Sharpex2D.Input.Windows
         private int _messageFilter;
 
         /// <summary>
-        ///     Initializes a new WindowProcessor class.
+        /// Initializes a new WindowProcessor class.
         /// </summary>
         /// <param name="handle">The Handle.</param>
         public MessageFilter(IntPtr handle)
@@ -49,7 +49,7 @@ namespace Sharpex2D.Input.Windows
         }
 
         /// <summary>
-        ///     Gets or sets the MessageFilter.
+        /// Gets or sets the MessageFilter.
         /// </summary>
         public int Filter
         {
@@ -62,12 +62,12 @@ namespace Sharpex2D.Input.Windows
         }
 
         /// <summary>
-        ///     MessageArrived event.
+        /// MessageArrived event.
         /// </summary>
         public event MessageEventHandler MessageArrived;
 
         /// <summary>
-        ///     WindProc.
+        /// WindProc.
         /// </summary>
         /// <param name="m">The Message.</param>
         protected override void WndProc(ref Message m)

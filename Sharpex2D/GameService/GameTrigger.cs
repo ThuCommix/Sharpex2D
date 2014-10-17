@@ -27,21 +27,21 @@ namespace Sharpex2D.GameService
     public abstract class GameTrigger
     {
         /// <summary>
-        ///     GameTriggerEventHandler.
+        /// GameTriggerEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void GameTriggerEventHandler(object sender, EventArgs e);
 
         /// <summary>
-        ///     Initializes a new GameTrigger class.
+        /// Initializes a new GameTrigger class.
         /// </summary>
         protected GameTrigger() : this("Undefined GameTrigger")
         {
         }
 
         /// <summary>
-        ///     The GameTrigger.
+        /// The GameTrigger.
         /// </summary>
         /// <param name="name">The Name.</param>
         protected GameTrigger(string name)
@@ -50,22 +50,22 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Gets the Name.
+        /// Gets the Name.
         /// </summary>
         public string Name { private set; get; }
 
         /// <summary>
-        ///     Gets or sets the Data.
+        /// Gets or sets the Data.
         /// </summary>
         public object Data { get; set; }
 
         /// <summary>
-        ///     Triggered event.
+        /// Triggered event.
         /// </summary>
         public event GameTriggerEventHandler Triggered;
 
         /// <summary>
-        ///     Triggers the GameTrigger.
+        /// Triggers the GameTrigger.
         /// </summary>
         public virtual void Trigger()
         {

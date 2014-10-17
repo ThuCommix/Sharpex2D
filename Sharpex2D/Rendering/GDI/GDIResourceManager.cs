@@ -25,7 +25,7 @@ namespace Sharpex2D.Rendering.GDI
     public class GDIResourceManager : ResourceManager
     {
         /// <summary>
-        ///     Creates a new Resource.
+        /// Creates a new Resource.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
@@ -36,7 +36,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Creates a new Resource.
+        /// Creates a new Resource.
         /// </summary>
         /// <param name="typeface">The Typeface.</param>
         /// <returns>IFont.</returns>

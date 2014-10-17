@@ -33,7 +33,7 @@ namespace Sharpex2D.Scripting.VB
         private static readonly Logger Logger;
 
         /// <summary>
-        ///     Initializes a new VBScriptCompiler class.
+        /// Initializes a new VBScriptCompiler class.
         /// </summary>
         static VBScriptCompiler()
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.Scripting.VB
         }
 
         /// <summary>
-        ///     Compiles the source to assembly.
+        /// Compiles the source to assembly.
         /// </summary>
         /// <param name="script">The SharpScript.</param>
         /// <returns>Assembly.</returns>

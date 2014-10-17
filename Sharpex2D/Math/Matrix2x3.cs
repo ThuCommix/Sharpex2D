@@ -27,14 +27,14 @@ namespace Sharpex2D.Math
     public unsafe struct Matrix2x3
     {
         /// <summary>
-        ///     The identity matrix.
+        /// The identity matrix.
         /// </summary>
         public static readonly Matrix2x3 Identity;
 
         private fixed float _values [6];
 
         /// <summary>
-        ///     Initializes a new Matrix2x3 class.
+        /// Initializes a new Matrix2x3 class.
         /// </summary>
         static Matrix2x3()
         {
@@ -45,7 +45,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns or sets the matrix element at the given Position.
+        /// Returns or sets the matrix element at the given Position.
         /// </summary>
         /// <returns>Float.</returns>
         public float this[int x, int y]
@@ -66,7 +66,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Sets or gets the OffsetX.
+        /// Sets or gets the OffsetX.
         /// </summary>
         public float OffsetX
         {
@@ -75,7 +75,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Sets or gets the OffsetY.
+        /// Sets or gets the OffsetY.
         /// </summary>
         public float OffsetY
         {
@@ -84,7 +84,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Gets the Determinant.
+        /// Gets the Determinant.
         /// </summary>
         public float Determinant
         {
@@ -96,7 +96,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     A value indicating whether this matrix is the identity matrix.
+        /// A value indicating whether this matrix is the identity matrix.
         /// </summary>
         public bool IsIdentity
         {
@@ -117,7 +117,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Applies this matrix to a point.
+        /// Applies this matrix to a point.
         /// </summary>
         /// <returns>Vector2.</returns>
         public Vector2 ApplyTo(Vector2 point)
@@ -132,7 +132,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Applies this matrix to an array of vectors.
+        /// Applies this matrix to an array of vectors.
         /// </summary>
         /// <returns>Vector2 Array.</returns>
         public Vector2[] ApplyTo(Vector2[] points)
@@ -144,7 +144,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiplies the rows.
+        /// Multiplies the rows.
         /// </summary>
         /// <param name="row">The Row.</param>
         /// <param name="factor">The Factor.</param>
@@ -160,7 +160,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Swaps the rows.
+        /// Swaps the rows.
         /// </summary>
         private void SwapRows()
         {
@@ -176,7 +176,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Subtracts the rows.
+        /// Subtracts the rows.
         /// </summary>
         /// <param name="row1">The first Row.</param>
         /// <param name="row2">The second Row.</param>
@@ -193,7 +193,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Returns the inverse matrix of this matrix.
+        /// Returns the inverse matrix of this matrix.
         /// </summary>
         /// <returns>Matrix2x3.</returns>
         public Matrix2x3 Invert()
@@ -236,7 +236,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a scaling matrix.
+        /// Creates a scaling matrix.
         /// </summary>
         /// <param name="factorX">The X Factor.</param>
         /// <param name="factorY">The Y Factor.</param>
@@ -250,7 +250,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a scaling matrix.
+        /// Creates a scaling matrix.
         /// </summary>
         /// <param name="factor">The Factor.</param>
         /// <returns>Matrix2x3.</returns>
@@ -260,7 +260,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a translation matrix.
+        /// Creates a translation matrix.
         /// </summary>
         /// <param name="x">The X.</param>
         /// <param name="y">The Y.</param>
@@ -274,7 +274,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a translation matrix.
+        /// Creates a translation matrix.
         /// </summary>
         /// <param name="vector">The Vector.</param>
         /// <returns>Matrix2x3.</returns>
@@ -287,7 +287,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a rotation matrix.
+        /// Creates a rotation matrix.
         /// </summary>
         /// <param name="angle">The Angle.</param>
         /// <returns>Matrix2x3.</returns>
@@ -305,7 +305,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a shearing matrix.
+        /// Creates a shearing matrix.
         /// </summary>
         /// <param name="value">The Value.</param>
         /// <returns>Matrix2x3.</returns>
@@ -317,7 +317,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Creates a shearing matrix.
+        /// Creates a shearing matrix.
         /// </summary>
         /// <param name="value">The Value.</param>
         /// <returns>Matrix2x3.</returns>
@@ -329,7 +329,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiplies two matrices.
+        /// Multiplies two matrices.
         /// </summary>
         /// <param name="left">The left matrix.</param>
         /// <param name="right">The right matrix.</param>
@@ -348,7 +348,7 @@ namespace Sharpex2D.Math
         }
 
         /// <summary>
-        ///     Multiplies two matrices.
+        /// Multiplies two matrices.
         /// </summary>
         /// <param name="left">The left matrix.</param>
         /// <param name="right">The right matrix.</param>

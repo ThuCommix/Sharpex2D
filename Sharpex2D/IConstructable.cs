@@ -25,7 +25,7 @@ namespace Sharpex2D
     public interface IConstructable : IComponent
     {
         /// <summary>
-        ///     Constructs the Component
+        /// Constructs the Component
         /// </summary>
         void Construct();
     }

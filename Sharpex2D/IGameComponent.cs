@@ -25,7 +25,7 @@ namespace Sharpex2D
     public interface IGameComponent : IUpdateable, IDrawable
     {
         /// <summary>
-        ///     Gets the Order.
+        /// Gets the Order.
         /// </summary>
         int Order { get; }
     }

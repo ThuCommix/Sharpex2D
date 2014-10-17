@@ -29,7 +29,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
     public class DoubleSerializer : PrimitiveSerializer<double>
     {
         /// <summary>
-        ///     Reads a value from the given Reader.
+        /// Reads a value from the given Reader.
         /// </summary>
         /// <param name="reader">The BinaryReader.</param>
         /// <returns></returns>
@@ -39,7 +39,7 @@ namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
         }
 
         /// <summary>
-        ///     Writes a specified value.
+        /// Writes a specified value.
         /// </summary>
         /// <param name="writer">The BinaryWriter.</param>
         /// <param name="value">The Value.</param>

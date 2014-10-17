@@ -27,7 +27,7 @@ namespace Sharpex2D.Input.Windows.XInput
 #if Windows
 
         /// <summary>
-        ///     Gets the XInput state.
+        /// Gets the XInput state.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pState">The InputState.</param>
@@ -38,7 +38,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Sets the Input state.
+        /// Sets the Input state.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pVibration">The Vibration.</param>
@@ -49,7 +49,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Gets the Capabilities.
+        /// Gets the Capabilities.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="dwFlags">The dwFlags.</param>
@@ -61,7 +61,7 @@ namespace Sharpex2D.Input.Windows.XInput
         }
 
         /// <summary>
-        ///     Gets the Battery information.
+        /// Gets the Battery information.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="devType">The DevType.</param>

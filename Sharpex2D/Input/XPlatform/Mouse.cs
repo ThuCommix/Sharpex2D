@@ -33,7 +33,7 @@ namespace Sharpex2D.Input.XPlatform
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
@@ -47,7 +47,7 @@ namespace Sharpex2D.Input.XPlatform
         private Vector2 _position;
 
         /// <summary>
-        ///     Initializes a new Mouse class.
+        /// Initializes a new Mouse class.
         /// </summary>
         public Mouse() : base(new Guid("5D0749E7-80A2-40EA-857B-0776CB7859CF"))
         {
@@ -62,12 +62,12 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Represents the surface handle.
+        /// Represents the surface handle.
         /// </summary>
         public IntPtr Handle { private set; get; }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public override Version PlatformVersion
         {
@@ -75,7 +75,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Initializes the Device.
         /// </summary>
         public override void InitializeDevice()
         {
@@ -83,7 +83,7 @@ namespace Sharpex2D.Input.XPlatform
 
 
         /// <summary>
-        ///     Gets the State.
+        /// Gets the State.
         /// </summary>
         /// <returns>MouseState.</returns>
         public override MouseState GetState()
@@ -92,7 +92,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Sets the internal button state.
+        /// Sets the internal button state.
         /// </summary>
         /// <param name="button">The Button.</param>
         /// <param name="state">The State.</param>

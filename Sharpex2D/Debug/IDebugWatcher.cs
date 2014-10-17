@@ -27,17 +27,17 @@ namespace Sharpex2D.Debug
     public interface IDebugWatcher : IComponent, IDisposable
     {
         /// <summary>
-        ///     A value indicating whether the component is running.
+        /// A value indicating whether the component is running.
         /// </summary>
         bool IsRunning { get; }
 
         /// <summary>
-        ///     Starts the component.
+        /// Starts the component.
         /// </summary>
         void Start();
 
         /// <summary>
-        ///     Stops the component.
+        /// Stops the component.
         /// </summary>
         void Stop();
     }

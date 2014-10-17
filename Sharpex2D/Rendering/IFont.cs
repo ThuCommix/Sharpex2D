@@ -27,7 +27,7 @@ namespace Sharpex2D.Rendering
     public interface IFont : IContent
     {
         /// <summary>
-        ///     Sets or gets the Typeface.
+        /// Sets or gets the Typeface.
         /// </summary>
         Typeface Typeface { set; get; }
     }

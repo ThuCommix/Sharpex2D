@@ -30,7 +30,7 @@ namespace Sharpex2D.Input
         private readonly Dictionary<MouseButtons, bool> _reference;
 
         /// <summary>
-        ///     Initializes a new MouseState class.
+        /// Initializes a new MouseState class.
         /// </summary>
         /// <param name="reference">The Reference.</param>
         /// <param name="position">The Position.</param>
@@ -41,12 +41,12 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Position.
+        /// Gets the Position.
         /// </summary>
         public Vector2 Position { private set; get; }
 
         /// <summary>
-        ///     A value indicating whether the MouseButton is pressed.
+        /// A value indicating whether the MouseButton is pressed.
         /// </summary>
         /// <param name="button">The MouseButton.</param>
         /// <returns>True if pressed.</returns>
@@ -61,7 +61,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     A value indicating whether the MouseButton is released.
+        /// A value indicating whether the MouseButton is released.
         /// </summary>
         /// <param name="button">The MouseButton.</param>
         /// <returns>True if released.</returns>

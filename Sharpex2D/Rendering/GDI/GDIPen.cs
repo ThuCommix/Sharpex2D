@@ -32,7 +32,7 @@ namespace Sharpex2D.Rendering.GDI
         #region IPen Implementation
 
         /// <summary>
-        ///     Sets or gets the Size of the Pen.
+        /// Sets or gets the Size of the Pen.
         /// </summary>
         public float Width
         {
@@ -45,7 +45,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Sets or gets the Color of the Pen.
+        /// Sets or gets the Color of the Pen.
         /// </summary>
         public Color Color
         {
@@ -64,7 +64,7 @@ namespace Sharpex2D.Rendering.GDI
         private bool _isDisposed;
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -73,7 +73,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
         protected virtual void Dispose(bool disposing)
@@ -95,7 +95,7 @@ namespace Sharpex2D.Rendering.GDI
         private float _width;
 
         /// <summary>
-        ///     Initializes a new GdiPen class.
+        /// Initializes a new GdiPen class.
         /// </summary>
         public GDIPen()
         {
@@ -106,7 +106,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Initializes a new GdiPen class.
+        /// Initializes a new GdiPen class.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="width">The Width.</param>
@@ -116,7 +116,7 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         /// <summary>
-        ///     Gets the Pen.
+        /// Gets the Pen.
         /// </summary>
         /// <returns>Pen</returns>
         internal System.Drawing.Pen GetPen()

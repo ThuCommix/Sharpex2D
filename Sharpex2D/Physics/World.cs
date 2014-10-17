@@ -31,7 +31,7 @@ namespace Sharpex2D.Physics
         #region IDisposable Implementation
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         public void Dispose()
         {
@@ -40,7 +40,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Disposes the object.
+        /// Disposes the object.
         /// </summary>
         /// <param name="disposing">The Disposing State.</param>
         public virtual void Dispose(bool disposing)
@@ -52,14 +52,14 @@ namespace Sharpex2D.Physics
                 Controllers.Clear();
                 Controllers = null;
 
-                SGL.QueryComponents<IGameLoop>().Unsubscribe(this);
+                SGL.QueryComponents<GameLoop>().Unsubscribe(this);
             }
         }
 
         #endregion
 
         /// <summary>
-        ///     Initializes a new World class.
+        /// Initializes a new World class.
         /// </summary>
         public World()
         {
@@ -71,21 +71,21 @@ namespace Sharpex2D.Physics
                 throw new InvalidOperationException("SGL not initialized.");
             }
 
-            SGL.QueryComponents<IGameLoop>().Subscribe(this);
+            SGL.QueryComponents<GameLoop>().Subscribe(this);
         }
 
         /// <summary>
-        ///     Gets the Bodies.
+        /// Gets the Bodies.
         /// </summary>
         public List<RigidBody> Bodies { private set; get; }
 
         /// <summary>
-        ///     Gets the Controllers.
+        /// Gets the Controllers.
         /// </summary>
         public List<Controller> Controllers { private set; get; }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)

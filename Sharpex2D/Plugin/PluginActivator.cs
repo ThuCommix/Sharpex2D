@@ -32,7 +32,7 @@ namespace Sharpex2D.Plugin
         #region IComponent Implementation
 
         /// <summary>
-        ///     Gets the guid.
+        /// Gets the guid.
         /// </summary>
         public Guid Guid
         {
@@ -42,7 +42,7 @@ namespace Sharpex2D.Plugin
         #endregion
 
         /// <summary>
-        ///     Loads a plugin into SGL.
+        /// Loads a plugin into SGL.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="path">The Path.</param>

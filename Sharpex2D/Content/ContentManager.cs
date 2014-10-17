@@ -33,7 +33,7 @@ namespace Sharpex2D.Content
         #region IComponent Implementation
 
         /// <summary>
-        ///     Sets or gets the Guid of the Component.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
         public Guid Guid
         {
@@ -43,7 +43,7 @@ namespace Sharpex2D.Content
         #endregion
 
         /// <summary>
-        ///     BatchProgressEventHandler.
+        /// BatchProgressEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -54,7 +54,7 @@ namespace Sharpex2D.Content
         private bool _batching;
 
         /// <summary>
-        ///     Initializes a new ContentManager.
+        /// Initializes a new ContentManager.
         /// </summary>
         public ContentManager()
         {
@@ -72,33 +72,36 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Sets or gets the base ContentPath.
+        /// Sets or gets the base ContentPath.
         /// </summary>
         public string RootPath { get; private set; }
 
         /// <summary>
-        ///     Gets the ContentVerifier.
+        /// Gets the ContentVerifier.
         /// </summary>
         public ContentVerifier ContentVerifier { private set; get; }
 
         /// <summary>
-        ///     Gets the ContentProcessor.
+        /// Gets the ContentProcessor.
         /// </summary>
         public ContentProcessorSelector ContentProcessor { private set; get; }
 
         /// <summary>
-        ///     BatchProgressChanged event.
+        /// BatchProgressChanged event.
         /// </summary>
         public event BatchProgressEventHandler BatchProgressChanged;
 
         /// <summary>
-        ///     Loads an asset.
+        /// Loads an asset.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="asset">The Asset.</param>
         /// <returns>T.</returns>
         public T Load<T>(string asset) where T : IContent
         {
+            //make the path valid if not
+            asset = asset.Replace("/", @"\");
+
             //query content cache first.
             T data;
             if (QueryCache(asset, out data))
@@ -120,7 +123,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Queues a Batch.
+        /// Queues a Batch.
         /// </summary>
         /// <param name="batch">The Batch.</param>
         public void Queue(IBatch batch)
@@ -134,7 +137,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Loads all batches.
+        /// Loads all batches.
         /// </summary>
         public void Enqueue()
         {
@@ -148,7 +151,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Loads all batches.
+        /// Loads all batches.
         /// </summary>
         private void EnqueueInner()
         {
@@ -201,7 +204,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Loads an asset.
+        /// Loads an asset.
         /// </summary>
         /// <param name="asset">The Asset.</param>
         /// <param name="type">The Type.</param>
@@ -228,7 +231,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Apply the cache.
+        /// Apply the cache.
         /// </summary>
         /// <param name="asset">The Asset.</param>
         /// <param name="data">The Data.</param>
@@ -241,7 +244,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Queries the cache.
+        /// Queries the cache.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="asset">The Asset.</param>
@@ -249,7 +252,7 @@ namespace Sharpex2D.Content
         /// <returns>True on success.</returns>
         internal bool QueryCache<T>(string asset, out T contentData) where T : IContent
         {
-            foreach (var data in _contentCache)
+            foreach (KeyValuePair<string, IContent> data in _contentCache)
             {
                 if (data.Value is T && data.Key == asset)
                 {
@@ -263,7 +266,7 @@ namespace Sharpex2D.Content
         }
 
         /// <summary>
-        ///     Queries the cache.
+        /// Queries the cache.
         /// </summary>
         /// <param name="type">The Type.</param>
         /// <param name="asset">The Asset.</param>
@@ -271,7 +274,7 @@ namespace Sharpex2D.Content
         /// <returns>True on success.</returns>
         internal bool QueryCache(string asset, Type type, out IContent contentData)
         {
-            foreach (var data in _contentCache)
+            foreach (KeyValuePair<string, IContent> data in _contentCache)
             {
                 if (data.Value.GetType() == type && data.Key == asset)
                 {

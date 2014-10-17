@@ -27,10 +27,10 @@ namespace Sharpex2D
     public interface IDrawable
     {
         /// <summary>
-        ///     Renders the object.
+        /// Renders the object.
         /// </summary>
-        /// <param name="renderer">The Renderer.</param>
+        /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        void Render(RenderDevice renderer, GameTime gameTime);
+        void Draw(SpriteBatch spriteBatch, GameTime gameTime);
     }
 }

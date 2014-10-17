@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
     public class JoystickButton
     {
         /// <summary>
-        ///     Initializes a new JoystickButton class.
+        /// Initializes a new JoystickButton class.
         /// </summary>
         /// <param name="state">The Button State.</param>
         public JoystickButton(bool state)
@@ -34,7 +34,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     A value indicating whether the JoystickButton is pressed.
+        /// A value indicating whether the JoystickButton is pressed.
         /// </summary>
         public bool IsPressed { private set; get; }
     }

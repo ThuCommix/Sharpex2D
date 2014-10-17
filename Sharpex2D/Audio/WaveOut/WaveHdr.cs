@@ -29,42 +29,42 @@ namespace Sharpex2D.Audio.WaveOut
     internal class WaveHdr
     {
         /// <summary>
-        ///     Pointer to waveform buffer.
+        /// Pointer to waveform buffer.
         /// </summary>
         public IntPtr lpData;
 
         /// <summary>
-        ///     Length of the buffer.
+        /// Length of the buffer.
         /// </summary>
         public int dwBufferLength;
 
         /// <summary>
-        ///     Amount of data in the buffer.
+        /// Amount of data in the buffer.
         /// </summary>
         public int dwBytesRecorded;
 
         /// <summary>
-        ///     User data.
+        /// User data.
         /// </summary>
         public IntPtr dwUser;
 
         /// <summary>
-        ///     The Flags.
+        /// The Flags.
         /// </summary>
-        public int dwFlags;
+        public WaveHeaderFlags dwFlags;
 
         /// <summary>
-        ///     Amount of loops.
+        /// Amount of loops.
         /// </summary>
         public int dwLoops;
 
         /// <summary>
-        ///     Reserved.
+        /// Reserved.
         /// </summary>
         public IntPtr lpNext;
 
         /// <summary>
-        ///     Reserved.
+        /// Reserved.
         /// </summary>
         public IntPtr reserved;
     }

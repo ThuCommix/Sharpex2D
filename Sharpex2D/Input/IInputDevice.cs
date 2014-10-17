@@ -25,7 +25,7 @@ namespace Sharpex2D.Input
     public interface IInputDevice : IDevice
     {
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         void Update(GameTime gameTime);

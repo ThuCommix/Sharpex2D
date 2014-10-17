@@ -31,7 +31,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
     public class GamerContentProcessor : ContentProcessor<Gamer>
     {
         /// <summary>
-        ///     Initializes a new GamerContentProcessor class.
+        /// Initializes a new GamerContentProcessor class.
         /// </summary>
         public GamerContentProcessor()
             : base(new Guid("2A6EB8A1-981E-42AC-92E5-87C1EBB5BDE5"))
@@ -39,7 +39,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>Gamer.</returns>
@@ -67,7 +67,7 @@ namespace Sharpex2D.Content.Pipeline.Processor
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

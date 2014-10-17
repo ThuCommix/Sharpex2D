@@ -32,7 +32,7 @@ namespace Sharpex2D.Input.XPlatform
         #region IUpdateable Implementation
 
         /// <summary>
-        ///     Called if the component should get updated.
+        /// Called if the component should get updated.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
@@ -45,7 +45,7 @@ namespace Sharpex2D.Input.XPlatform
         private readonly Dictionary<Keys, bool> _keystate;
 
         /// <summary>
-        ///     Initializes a new FluentKeyboard class.
+        /// Initializes a new FluentKeyboard class.
         /// </summary>
         public Keyboard()
             : base(new Guid("55DDC560-40B5-487F-A47B-A265707E495D"))
@@ -58,7 +58,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public override Version PlatformVersion
         {
@@ -66,14 +66,14 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Initializes the device.
+        /// Initializes the device.
         /// </summary>
         public override void InitializeDevice()
         {
         }
 
         /// <summary>
-        ///     Gets the State.
+        /// Gets the State.
         /// </summary>
         /// <returns>KeyState.</returns>
         public override KeyboardState GetState()
@@ -82,7 +82,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     The KeyUp Event.
+        /// The KeyUp Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -99,7 +99,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     The KeyDown Event.
+        /// The KeyDown Event.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -110,7 +110,7 @@ namespace Sharpex2D.Input.XPlatform
         }
 
         /// <summary>
-        ///     Sets the internal KeyState.
+        /// Sets the internal KeyState.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <param name="state">The State.</param>

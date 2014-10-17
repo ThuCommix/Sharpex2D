@@ -25,27 +25,27 @@ namespace Sharpex2D.Input.Windows.XInput
     public enum CapabilityFlags
     {
         /// <summary>
-        ///     Voice supported.
+        /// Voice supported.
         /// </summary>
         XINPUT_CAPS_VOICE_SUPPORTED = 0x0004,
 
         /// <summary>
-        ///     FFB supported.
+        /// FFB supported.
         /// </summary>
         XINPUT_CAPS_FFB_SUPPORTED = 0x0001,
 
         /// <summary>
-        ///     Wireless.
+        /// Wireless.
         /// </summary>
         XINPUT_CAPS_WIRELESS = 0x0002,
 
         /// <summary>
-        ///     PMD supported.
+        /// PMD supported.
         /// </summary>
         XINPUT_CAPS_PMD_SUPPORTED = 0x0008,
 
         /// <summary>
-        ///     No navigation.
+        /// No navigation.
         /// </summary>
         XINPUT_CAPS_NO_NAVIGATION = 0x0010,
     }

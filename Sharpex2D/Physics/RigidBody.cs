@@ -35,7 +35,7 @@ namespace Sharpex2D.Physics
         private float _torque;
 
         /// <summary>
-        ///     Initializes a new RigidBody class.
+        /// Initializes a new RigidBody class.
         /// </summary>
         /// <param name="mass">The Mass.</param>
         /// <param name="shape">The Shape.</param>
@@ -44,7 +44,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Initializes a new RigidBody class.
+        /// Initializes a new RigidBody class.
         /// </summary>
         /// <param name="mass">The Mass.</param>
         /// <param name="points">The Points of a Polygon.</param>
@@ -53,7 +53,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Initializes a new RigidBody class.
+        /// Initializes a new RigidBody class.
         /// </summary>
         /// <param name="mass">The Mass.</param>
         /// <param name="shape">The Shape.</param>
@@ -99,42 +99,42 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Gets the Center point.
+        /// Gets the Center point.
         /// </summary>
         public Vector2 Center { private set; get; }
 
         /// <summary>
-        ///     Gets the linear Velocity.
+        /// Gets the linear Velocity.
         /// </summary>
         public Vector2 Velocity { private set; get; }
 
         /// <summary>
-        ///     Gets the Mass.
+        /// Gets the Mass.
         /// </summary>
         public float Mass { private set; get; }
 
         /// <summary>
-        ///     Gets the AngularVelocity.
+        /// Gets the AngularVelocity.
         /// </summary>
         public float AngularVelocity { private set; get; }
 
         /// <summary>
-        ///     Gets the Rotation angle.
+        /// Gets the Rotation angle.
         /// </summary>
         public float Rotation { private set; get; }
 
         /// <summary>
-        ///     gets the shape.
+        /// gets the shape.
         /// </summary>
         public Polygon Shape { private set; get; }
 
         /// <summary>
-        ///     Gets the Inertia.
+        /// Gets the Inertia.
         /// </summary>
         public float Inertia { private set; get; }
 
         /// <summary>
-        ///     Gets the InvertedMass.
+        /// Gets the InvertedMass.
         /// </summary>
         public float InvertedMass
         {
@@ -142,7 +142,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Gets the InvertedInertia.
+        /// Gets the InvertedInertia.
         /// </summary>
         public float InvertedInertia
         {
@@ -150,7 +150,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     A value indicating whether the RigidBody is static.
+        /// A value indicating whether the RigidBody is static.
         /// </summary>
         public bool IsStatic
         {
@@ -158,7 +158,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Applys an impulse.
+        /// Applys an impulse.
         /// </summary>
         /// <param name="impulse">The Impulse.</param>
         /// <param name="impactPoint">The ImpactPoint.</param>
@@ -171,7 +171,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Applys a force.
+        /// Applys a force.
         /// </summary>
         /// <param name="force">The Force.</param>
         /// <param name="impactPoint">The ImpactPoint.</param>
@@ -187,7 +187,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="elapsed">The Elapsed.</param>
         public void Update(float elapsed)
@@ -208,7 +208,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     A value indicating whether two shapes are colliding.
+        /// A value indicating whether two shapes are colliding.
         /// </summary>
         /// <param name="rigidBody">The Other Rigidbody.</param>
         /// <param name="minimumTranslationVector">The MinimumTranslationVector.</param>
@@ -219,7 +219,7 @@ namespace Sharpex2D.Physics
         }
 
         /// <summary>
-        ///     Removes all forces.
+        /// Removes all forces.
         /// </summary>
         public void RemoveForces()
         {

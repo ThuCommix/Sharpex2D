@@ -32,7 +32,7 @@ namespace Sharpex2D.GameService
         private readonly Dictionary<string, string> _parameters;
 
         /// <summary>
-        ///     Initializes a new LaunchParameters class.
+        /// Initializes a new LaunchParameters class.
         /// </summary>
         internal LaunchParameters()
         {
@@ -41,7 +41,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Initializes a new LaunchParameters class.
+        /// Initializes a new LaunchParameters class.
         /// </summary>
         /// <param name="parameters">The Parameters.</param>
         internal LaunchParameters(IEnumerable<LaunchParameter> parameters)
@@ -54,7 +54,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Returns a launch parameter specified by the key.
+        /// Returns a launch parameter specified by the key.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>String.</returns>
@@ -64,7 +64,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Parses the command line parameters.
+        /// Parses the command line parameters.
         /// </summary>
         /// <param name="value">The Parameters.</param>
         private void ParseCommandLineParameters(IList<string> value)
@@ -88,7 +88,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Indicating whether the key is available.
+        /// Indicating whether the key is available.
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if the key is available.</returns>
@@ -98,7 +98,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Converts the LaunchParameters into string.
+        /// Converts the LaunchParameters into string.
         /// </summary>
         /// <returns>String.</returns>
         public override string ToString()
@@ -112,7 +112,7 @@ namespace Sharpex2D.GameService
         }
 
         /// <summary>
-        ///     Creates a new LaunchParameters object.
+        /// Creates a new LaunchParameters object.
         /// </summary>
         /// <param name="parameters">The Parameters.</param>
         /// <returns>LaunchParameters.</returns>

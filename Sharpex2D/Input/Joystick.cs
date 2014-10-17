@@ -29,7 +29,7 @@ namespace Sharpex2D.Input
         private readonly NativeInput<JoystickState> _nativeJoystick;
 
         /// <summary>
-        ///     Initializes a new Joystick class.
+        /// Initializes a new Joystick class.
         /// </summary>
         /// <param name="nativeJoystick">The NativeInput.</param>
         public Joystick(NativeInput<JoystickState> nativeJoystick)
@@ -38,7 +38,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     A value indicating whether the Platform is supported.
+        /// A value indicating whether the Platform is supported.
         /// </summary>
         public bool IsPlatformSupported
         {
@@ -46,7 +46,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the PlatformVersion.
+        /// Gets the PlatformVersion.
         /// </summary>
         public Version PlatformVersion
         {
@@ -54,7 +54,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid
         {
@@ -62,7 +62,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Initializes the Device.
         /// </summary>
         public void InitializeDevice()
         {
@@ -70,7 +70,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Updates the object.
+        /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime</param>
         public void Update(GameTime gameTime)
@@ -79,7 +79,7 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        ///     Gets the JoystickState.
+        /// Gets the JoystickState.
         /// </summary>
         /// <returns>JoystickState.</returns>
         public JoystickState GetState()

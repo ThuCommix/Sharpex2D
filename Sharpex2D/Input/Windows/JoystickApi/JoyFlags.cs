@@ -25,69 +25,69 @@ namespace Sharpex2D.Input.Windows.JoystickApi
     internal enum JoyFlags
     {
         /// <summary>
-        ///     Returns all informations.
+        /// Returns all informations.
         /// </summary>
         JOY_RETURNALL =
             (JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ | JOY_RETURNR | JOY_RETURNU | JOY_RETURNV | JOY_RETURNPOV |
              JOY_RETURNBUTTONS),
 
         /// <summary>
-        ///     Returns button information.
+        /// Returns button information.
         /// </summary>
         JOY_RETURNBUTTONS = 128,
 
         /// <summary>
-        ///     Returns the centered value.
+        /// Returns the centered value.
         /// </summary>
         JOY_RETURNCENTERED = 1024,
 
         /// <summary>
-        ///     Returns the pov.
+        /// Returns the pov.
         /// </summary>
         JOY_RETURNPOV = 64,
 
         /// <summary>
-        ///     Returns the pov cts.
+        /// Returns the pov cts.
         /// </summary>
         JOY_RETURNPOVCTS = 512,
 
         /// <summary>
-        ///     Returns uncalibrated values.
+        /// Returns uncalibrated values.
         /// </summary>
         JOY_RETURNRAWDATA = 256,
 
         /// <summary>
-        ///     Returns the X position.
+        /// Returns the X position.
         /// </summary>
         JOY_RETURNX = 1,
 
         /// <summary>
-        ///     Returns the Y position.
+        /// Returns the Y position.
         /// </summary>
         JOY_RETURNY = 2,
 
         /// <summary>
-        ///     Returns the Z position.
+        /// Returns the Z position.
         /// </summary>
         JOY_RETURNZ = 4,
 
         /// <summary>
-        ///     Returns the fourth axis.
+        /// Returns the fourth axis.
         /// </summary>
         JOY_RETURNR = 8,
 
         /// <summary>
-        ///     Returns the fifth axis.
+        /// Returns the fifth axis.
         /// </summary>
         JOY_RETURNU = 16,
 
         /// <summary>
-        ///     Returns the sixth axis.
+        /// Returns the sixth axis.
         /// </summary>
         JOY_RETURNV = 32,
 
         /// <summary>
-        ///     User dead zone.
+        /// User dead zone.
         /// </summary>
         JOY_USEDEADZONE = 2048,
     }

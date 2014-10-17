@@ -28,7 +28,7 @@ namespace Sharpex2D.Common.Pathfinding
     public class GridField : IComparable<GridField>
     {
         /// <summary>
-        ///     Initializes a new GridField class.
+        /// Initializes a new GridField class.
         /// </summary>
         public GridField()
         {
@@ -42,22 +42,22 @@ namespace Sharpex2D.Common.Pathfinding
         internal GridField Predecessor { set; get; }
 
         /// <summary>
-        ///     Gets the Neigbors of the GridField.
+        /// Gets the Neigbors of the GridField.
         /// </summary>
         public Neighbor[] Neighbors { internal set; get; }
 
         /// <summary>
-        ///     Gets the Position.
+        /// Gets the Position.
         /// </summary>
         public Vector2 Position { internal set; get; }
 
         /// <summary>
-        ///     A value indicating whether the field is walkable.
+        /// A value indicating whether the field is walkable.
         /// </summary>
         public bool IsWalkable { set; get; }
 
         /// <summary>
-        ///     Compares the fieldvalue to other.
+        /// Compares the fieldvalue to other.
         /// </summary>
         /// <param name="other">The other GridField.</param>
         /// <returns>Int32</returns>
@@ -67,7 +67,7 @@ namespace Sharpex2D.Common.Pathfinding
         }
 
         /// <summary>
-        ///     Gets the distance to a neighbor.
+        /// Gets the distance to a neighbor.
         /// </summary>
         /// <param name="neighbor">The Neigbor.</param>
         /// <returns>Int32</returns>
