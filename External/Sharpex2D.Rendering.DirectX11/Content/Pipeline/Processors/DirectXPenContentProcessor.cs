@@ -30,7 +30,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
     public class DirectXPenContentProcessor : ContentProcessor<DirectXPen>
     {
         /// <summary>
-        ///     Initializes a new DirectXPenContentProcessor class.
+        /// Initializes a new DirectXPenContentProcessor class.
         /// </summary>
         public DirectXPenContentProcessor()
             : base(new Guid("2FD6D521-1A08-45A8-A3B0-68C892AD3277"))
@@ -38,7 +38,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Reads the data.
+        /// Reads the data.
         /// </summary>
         /// <param name="filepath">The FilePath.</param>
         /// <returns>DirectXPen.</returns>
@@ -78,7 +78,7 @@ namespace Sharpex2D.Content.Pipeline.Processors
         }
 
         /// <summary>
-        ///     Writes the data.
+        /// Writes the data.
         /// </summary>
         /// <param name="data">The Data.</param>
         /// <param name="destinationpath">The DestinationPath.</param>

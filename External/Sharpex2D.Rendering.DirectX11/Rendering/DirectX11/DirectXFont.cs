@@ -31,7 +31,7 @@ namespace Sharpex2D.Rendering.DirectX11
         #region IFont Implementation
 
         /// <summary>
-        ///     Sets or gets the Typeface.
+        /// Sets or gets the Typeface.
         /// </summary>
         public Typeface Typeface { get; set; }
 
@@ -40,7 +40,7 @@ namespace Sharpex2D.Rendering.DirectX11
         private readonly TextFormat _textFormat;
 
         /// <summary>
-        ///     Initializes a new DirectXFont.
+        /// Initializes a new DirectXFont.
         /// </summary>
         /// <param name="typeface">The Typeface</param>
         public DirectXFont(Typeface typeface)
@@ -51,7 +51,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts the Typeface style into a FontWeight.
+        /// Converts the Typeface style into a FontWeight.
         /// </summary>
         /// <returns>FontWeight</returns>
         private FontWeight GetWeightFromTypeface()
@@ -65,7 +65,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts the Typeface style into a FontStyle.
+        /// Converts the Typeface style into a FontStyle.
         /// </summary>
         /// <returns>FontStyle</returns>
         private FontStyle GetFontStyleFromTypeface()
@@ -81,7 +81,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Gets the Font.
+        /// Gets the Font.
         /// </summary>
         /// <returns>TextFormat.</returns>
         public TextFormat GetFont()

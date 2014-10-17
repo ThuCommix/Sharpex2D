@@ -29,22 +29,22 @@ namespace Sharpex2D.Rendering.DirectX11
     internal static class DirectXHelper
     {
         /// <summary>
-        ///     Sets or gets the RenderTarget.
+        /// Sets or gets the RenderTarget.
         /// </summary>
         public static RenderTarget RenderTarget { set; get; }
 
         /// <summary>
-        ///     Sets or gets the D2DFactory.
+        /// Sets or gets the D2DFactory.
         /// </summary>
         public static Factory D2DFactory { set; get; }
 
         /// <summary>
-        ///     Sets or gets the DirectWriteFactory.
+        /// Sets or gets the DirectWriteFactory.
         /// </summary>
         public static SharpDX.DirectWrite.Factory DirectWriteFactory { set; get; }
 
         /// <summary>
-        ///     Converts a Rectangle into DxRectangle.
+        /// Converts a Rectangle into DxRectangle.
         /// </summary>
         /// <param name="rectangle">The Rectangle.</param>
         /// <returns>DxRectangle.</returns>
@@ -54,7 +54,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts a Color into DxColor.
+        /// Converts a Color into DxColor.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>DxColor.</returns>
@@ -64,7 +64,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts a Color into a SolidColorBrush.
+        /// Converts a Color into a SolidColorBrush.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>SolidColorBrush</returns>
@@ -74,7 +74,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts a Vector into DxVector.
+        /// Converts a Vector into DxVector.
         /// </summary>
         /// <param name="vector">The Vector.</param>
         /// <returns>DxVector</returns>
@@ -84,7 +84,7 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Converts a Rectangle into a Ellipse.
+        /// Converts a Rectangle into a Ellipse.
         /// </summary>
         /// <param name="ellipse">The Ellipse.</param>
         /// <returns>Ellipse</returns>

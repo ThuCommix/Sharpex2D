@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -41,28 +41,24 @@ namespace Sharpex2D.Rendering.DirectX11
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Device("DirectX 11 Device")]
-    public class DirectXRenderDevice : RenderDevice
+    public class DirectXGraphics : IGraphics
     {
-        private readonly IContentProcessor[] _contentProcessors;
-        private readonly InterpolationMode _interpolationMode;
-        private readonly SmoothingMode _smoothingMode;
+        private readonly GraphicsDevice _graphicsDevice;
         private SwapChain _swapChain;
         private SwapChainDescription _swapChainDesc;
 
         /// <summary>
-        ///     Initializes a new DirectXRenderDevice class.
+        /// Initializes a new DirectXGraphics class.
         /// </summary>
-        /// <param name="interpolationMode">The InterpolationMode.</param>
-        /// <param name="smoothingMode">The SmoothingMode.</param>
-        public DirectXRenderDevice(InterpolationMode interpolationMode, SmoothingMode smoothingMode)
-            : base(new DirectXResourceManager(), new Guid("4CDE20B5-7BD6-4B3B-A228-60ECE08CC65B"))
+        public DirectXGraphics()
         {
-            _contentProcessors = new IContentProcessor[]
+            ResourceManager = new DirectXResourceManager();
+            ContentProcessors = new IContentProcessor[]
             {new DirectXFontContentProcessor(), new DirectXPenContentProcessor(), new DirectXTextureContentProcessor()};
+            SmoothingMode = SmoothingMode.AntiAlias;
+            InterpolationMode = InterpolationMode.Linear;
 
-            _interpolationMode = interpolationMode;
-            _smoothingMode = smoothingMode;
+            _graphicsDevice = SGL.QueryComponents<GraphicsDevice>();
 
             var d2DFactory = new Factory(FactoryType.MultiThreaded);
             DirectXHelper.D2DFactory = d2DFactory;
@@ -70,45 +66,31 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Initializes a new DirectXRenderDevice class.
+        /// Gets the ResourceManager.
         /// </summary>
-        public DirectXRenderDevice()
-            : base(new DirectXResourceManager(), new Guid("4CDE20B5-7BD6-4B3B-A228-60ECE08CC65B"))
-        {
-            _contentProcessors = new IContentProcessor[]
-            {new DirectXFontContentProcessor(), new DirectXPenContentProcessor(), new DirectXTextureContentProcessor()};
-
-            _interpolationMode = InterpolationMode.Linear;
-            _smoothingMode = SmoothingMode.AntiAlias;
-
-            var d2DFactory = new Factory(FactoryType.MultiThreaded);
-            DirectXHelper.D2DFactory = d2DFactory;
-            DirectXHelper.DirectWriteFactory = new SharpDX.DirectWrite.Factory(SharpDX.DirectWrite.FactoryType.Shared);
-        }
+        public ResourceManager ResourceManager { get; private set; }
 
         /// <summary>
-        ///     Gets the required PlatformVersion.
+        /// Gets the ContentProcessors.
         /// </summary>
-        public override Version PlatformVersion
-        {
-            get { return new Version(6, 1, 7601); }
-        }
+        public IContentProcessor[] ContentProcessors { get; private set; }
 
         /// <summary>
-        ///     Gets the ContentProcessors.
+        /// Gets or sets the SmoothingMode.
         /// </summary>
-        public override IContentProcessor[] ContentProcessors
-        {
-            get { return _contentProcessors; }
-        }
+        public SmoothingMode SmoothingMode { get; set; }
 
         /// <summary>
-        ///     Initializes the Device.
+        /// Gets or sets the InterpolationMode.
         /// </summary>
-        public override void InitializeDevice()
-        {
-            GraphicsDevice.ClearColor = Color.CornflowerBlue;
+        public InterpolationMode InterpolationMode { get; set; }
 
+
+        /// <summary>
+        /// Initializes the graphics.
+        /// </summary>
+        public void Initialize()
+        {
             var swapChainDesc = new SwapChainDescription
             {
                 BufferCount = 2,
@@ -116,7 +98,7 @@ namespace Sharpex2D.Rendering.DirectX11
                 OutputHandle = SGL.Components.Get<RenderTarget>().Handle,
                 IsWindowed = true,
                 ModeDescription =
-                    new ModeDescription(GraphicsDevice.BackBuffer.Width, GraphicsDevice.BackBuffer.Height,
+                    new ModeDescription(_graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height,
                         new Rational(60, 1), Format.R8G8B8A8_UNorm),
                 SampleDescription = new SampleDescription(1, 0),
                 Flags = SwapChainFlags.AllowModeSwitch,
@@ -125,7 +107,7 @@ namespace Sharpex2D.Rendering.DirectX11
 
             _swapChainDesc = swapChainDesc;
 
-            swapChainDesc.ModeDescription.Scaling = GraphicsDevice.BackBuffer.Scaling
+            swapChainDesc.ModeDescription.Scaling = _graphicsDevice.BackBuffer.Scaling
                 ? DisplayModeScaling.Stretched
                 : DisplayModeScaling.Centered;
 
@@ -150,44 +132,44 @@ namespace Sharpex2D.Rendering.DirectX11
                     Usage = RenderTargetUsage.None
                 }) {TextAntialiasMode = TextAntialiasMode.Cleartype};
             DirectXHelper.RenderTarget = renderTarget;
-            DirectXHelper.RenderTarget.AntialiasMode = _smoothingMode == SmoothingMode.AntiAlias
+            DirectXHelper.RenderTarget.AntialiasMode = SmoothingMode == SmoothingMode.AntiAlias
                 ? AntialiasMode.Aliased
                 : AntialiasMode.PerPrimitive;
         }
 
         /// <summary>
-        ///     Begins the draw operation.
+        /// Begins the draw operation.
         /// </summary>
-        public override void Begin()
+        public void Begin()
         {
-            _swapChainDesc.ModeDescription.Scaling = GraphicsDevice.BackBuffer.Scaling
+            _swapChainDesc.ModeDescription.Scaling = _graphicsDevice.BackBuffer.Scaling
                 ? DisplayModeScaling.Stretched
                 : DisplayModeScaling.Centered;
             DirectXHelper.RenderTarget.BeginDraw();
             DirectXHelper.RenderTarget.Transform = Matrix3x2.Identity;
-            DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(GraphicsDevice.ClearColor));
+            DirectXHelper.RenderTarget.Clear(DirectXHelper.ConvertColor(_graphicsDevice.ClearColor));
         }
 
         /// <summary>
-        ///     Ends the draw operation.
+        /// Ends the draw operation.
         /// </summary>
-        public override void End()
+        public void End()
         {
             DirectXHelper.RenderTarget.EndDraw();
             _swapChain.Present(0, PresentFlags.None);
         }
 
         /// <summary>
-        ///     Draws a string.
+        /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public override void DrawString(string text, Font font, Rectangle rectangle, Color color)
+        public void DrawString(string text, Font font, Rectangle rectangle, Color color)
         {
             var dxFont = font.Instance as DirectXFont;
-            if (dxFont == null) throw new ArgumentException("DirectXRenderer expects a DirectXFont as resource.");
+            if (dxFont == null) throw new ArgumentException("DirectX11 expects a DirectXFont as resource.");
 
             DirectXHelper.RenderTarget.DrawText(text, dxFont.GetFont(),
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height),
@@ -195,132 +177,131 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Draws a string.
+        /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public override void DrawString(string text, Font font, Vector2 position, Color color)
+        public void DrawString(string text, Font font, Vector2 position, Color color)
         {
             var dxFont = font.Instance as DirectXFont;
-            if (dxFont == null) throw new ArgumentException("DirectXRenderer expects a DirectXFont as resource.");
+            if (dxFont == null) throw new ArgumentException("DirectX11 expects a DirectXFont as resource.");
 
             DirectXHelper.RenderTarget.DrawText(text, dxFont.GetFont(),
                 new RectangleF(position.X, position.Y, 9999, 9999), DirectXHelper.ConvertSolidColorBrush(color));
         }
 
         /// <summary>
-        ///     Draws a Texture.
+        /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public override void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1)
         {
             var dxTexture = texture as DirectXTexture;
-            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            if (dxTexture == null) throw new ArgumentException("DirectX11 expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp,
                 new RectangleF(position.X, position.Y, texture.Width, texture.Height), opacity,
-                _interpolationMode == InterpolationMode.Linear
+                InterpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor);
         }
 
         /// <summary>
-        ///     Draws a Texture.
+        /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public override void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1)
         {
             var dxTexture = texture as DirectXTexture;
-            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            if (dxTexture == null) throw new ArgumentException("DirectX11 expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp,
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height), opacity,
-                _interpolationMode == InterpolationMode.Linear
+                InterpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor);
         }
 
         /// <summary>
-        ///     Draws a Texture.
+        /// Draws a Texture.
         /// </summary>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public override void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1)
         {
             var dxTexture = spriteSheet.Texture2D as DirectXTexture;
-            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            if (dxTexture == null) throw new ArgumentException("DirectX11 expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
 
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp,
                 new RectangleF(position.X, position.Y, spriteSheet.Rectangle.Width, spriteSheet.Rectangle.Height),
                 opacity,
-                _interpolationMode == InterpolationMode.Linear
+                InterpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangle(spriteSheet.Rectangle));
         }
 
-
         /// <summary>
-        ///     Draws a Texture.
+        /// Draws a Texture.
         /// </summary>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public override void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
         {
             var dxTexture = spriteSheet.Texture2D as DirectXTexture;
-            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            if (dxTexture == null) throw new ArgumentException("DirectX11 expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
 
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp,
                 new RectangleF(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height), opacity,
-                _interpolationMode == InterpolationMode.Linear
+                InterpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangle(spriteSheet.Rectangle));
         }
 
         /// <summary>
-        ///     Draws a Texture.
+        /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="source">The SourceRectangle.</param>
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public override void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
+        public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1)
         {
             var dxTexture = texture as DirectXTexture;
-            if (dxTexture == null) throw new ArgumentException("DirectXRenderer expects a DirectXTexture as resource.");
+            if (dxTexture == null) throw new ArgumentException("DirectX11 expects a DirectXTexture as resource.");
             Bitmap dxBmp = dxTexture.GetBitmap();
 
             DirectXHelper.RenderTarget.DrawBitmap(dxBmp, DirectXHelper.ConvertRectangle(destination), opacity,
-                _interpolationMode == InterpolationMode.Linear
+                InterpolationMode == InterpolationMode.Linear
                     ? BitmapInterpolationMode.Linear
                     : BitmapInterpolationMode.NearestNeighbor, DirectXHelper.ConvertRectangle(source));
         }
 
         /// <summary>
-        ///     Measures the string.
+        /// Measures the string.
         /// </summary>
         /// <param name="text">The String.</param>
         /// <param name="font">The Font.</param>
         /// <returns>Vector2.</returns>
-        public override Vector2 MeasureString(string text, Font font)
+        public Vector2 MeasureString(string text, Font font)
         {
             var dxFont = font.Instance as DirectXFont;
-            if (dxFont == null) throw new ArgumentException("DirectXRenderer expects a DirectXFont as resource.");
+            if (dxFont == null) throw new ArgumentException("DirectX11 expects a DirectXFont as resource.");
 
             TextFormat fontData = dxFont.GetFont();
 
@@ -337,10 +318,10 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Sets the Transform.
+        /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        public override void SetTransform(Matrix2x3 matrix)
+        public void SetTransform(Matrix2x3 matrix)
         {
             var dxMatrix = new Matrix3x2
             {
@@ -354,74 +335,74 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Resets the Transform.
+        /// Resets the Transform.
         /// </summary>
-        public override void ResetTransform()
+        public void ResetTransform()
         {
             DirectXHelper.RenderTarget.Transform = Matrix3x2.Identity;
         }
 
         /// <summary>
-        ///     Draws a Rectangle.
+        /// Draws a Rectangle.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public override void DrawRectangle(Pen pen, Rectangle rectangle)
+        public void DrawRectangle(Pen pen, Rectangle rectangle)
         {
             var dxPen = pen.Instance as DirectXPen;
-            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+            if (dxPen == null) throw new ArgumentException("DirectX11 expects a DirectXPen as resource.");
 
             DirectXHelper.RenderTarget.DrawRectangle(
                 DirectXHelper.ConvertRectangle(rectangle), dxPen.GetPen(), dxPen.Width);
         }
 
         /// <summary>
-        ///     Draws a Line between two points.
+        /// Draws a Line between two points.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
         /// <param name="target">The Targetpoint.</param>
-        public override void DrawLine(Pen pen, Vector2 start, Vector2 target)
+        public void DrawLine(Pen pen, Vector2 start, Vector2 target)
         {
             var dxPen = pen.Instance as DirectXPen;
-            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+            if (dxPen == null) throw new ArgumentException("DirectX11 expects a DirectXPen as resource.");
             DirectXHelper.RenderTarget.DrawLine(DirectXHelper.ConvertVector(start), DirectXHelper.ConvertVector(target),
                 dxPen.GetPen(), dxPen.Width);
         }
 
         /// <summary>
-        ///     Draws a Ellipse.
+        /// Draws a Ellipse.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        public override void DrawEllipse(Pen pen, Ellipse ellipse)
+        public void DrawEllipse(Pen pen, Ellipse ellipse)
         {
             var dxPen = pen.Instance as DirectXPen;
-            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+            if (dxPen == null) throw new ArgumentException("DirectX11 expects a DirectXPen as resource.");
             DirectXHelper.RenderTarget.DrawEllipse(DirectXHelper.ConvertEllipse(ellipse), dxPen.GetPen(), dxPen.Width);
         }
 
         /// <summary>
-        ///     Draws an Arc.
+        /// Draws an Arc.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="startAngle">The StartAngle.</param>
         /// <param name="sweepAngle">The SweepAngle.</param>
-        public override void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
+        public void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
-            throw new NotSupportedException("DrawArc is not supported by DirectXRenderer");
+            throw new NotSupportedException("DrawArc is not supported by DirectX11.");
         }
 
         /// <summary>
-        ///     Draws a Polygon.
+        /// Draws a Polygon.
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="polygon">The Polygon.</param>
-        public override void DrawPolygon(Pen pen, Polygon polygon)
+        public void DrawPolygon(Pen pen, Polygon polygon)
         {
             var dxPen = pen.Instance as DirectXPen;
-            if (dxPen == null) throw new ArgumentException("DirectXRenderer expects a DirectXPen as resource.");
+            if (dxPen == null) throw new ArgumentException("DirectX11 expects a DirectXPen as resource.");
 
             var geometry = new PathGeometry(DirectXHelper.D2DFactory);
             using (GeometrySink sink = geometry.Open())
@@ -441,33 +422,33 @@ namespace Sharpex2D.Rendering.DirectX11
         }
 
         /// <summary>
-        ///     Fills a Rectangle.
+        /// Fills a Rectangle.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public override void FillRectangle(Color color, Rectangle rectangle)
+        public void FillRectangle(Color color, Rectangle rectangle)
         {
             DirectXHelper.RenderTarget.FillRectangle(DirectXHelper.ConvertRectangle(rectangle),
                 new SolidColorBrush(DirectXHelper.RenderTarget, DirectXHelper.ConvertColor(color)));
         }
 
         /// <summary>
-        ///     Fills a Ellipse.
+        /// Fills a Ellipse.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        public override void FillEllipse(Color color, Ellipse ellipse)
+        public void FillEllipse(Color color, Ellipse ellipse)
         {
             DirectXHelper.RenderTarget.FillEllipse(DirectXHelper.ConvertEllipse(ellipse),
                 new SolidColorBrush(DirectXHelper.RenderTarget, DirectXHelper.ConvertColor(color)));
         }
 
         /// <summary>
-        ///     Fills a Polygon.
+        /// Fills a Polygon.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <param name="polygon">The Polygon.</param>
-        public override void FillPolygon(Color color, Polygon polygon)
+        public void FillPolygon(Color color, Polygon polygon)
         {
             var geometry = new PathGeometry(DirectXHelper.D2DFactory);
             using (GeometrySink sink = geometry.Open())
