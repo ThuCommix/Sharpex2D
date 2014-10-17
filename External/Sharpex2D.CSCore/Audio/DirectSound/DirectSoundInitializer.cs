@@ -26,21 +26,21 @@ namespace Sharpex2D.Audio.DirectSound
     public class DirectSoundInitializer : ISoundInitializer
     {
         /// <summary>
-        ///     Creates the ISoundProvider.
-        /// </summary>
-        /// <returns>ISoundProvider</returns>
-        public ISoundProvider CreateProvider()
-        {
-            return new DirectSoundProvider(this);
-        }
-
-        /// <summary>
-        ///     A value indicating whether the ISoundInitializer is supported.
+        /// A value indicating whether the ISoundInitializer is supported.
         /// </summary>
         /// <remarks>CSCore dont provide any info about that, so we return true.</remarks>
         public bool IsSupported
         {
             get { return true; }
+        }
+
+        /// <summary>
+        /// Creates the ISoundProvider.
+        /// </summary>
+        /// <returns>ISoundProvider</returns>
+        public ISoundProvider Create()
+        {
+            return new DirectSoundProvider(this);
         }
     }
 }

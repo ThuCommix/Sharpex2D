@@ -33,7 +33,7 @@ namespace Sharpex2D.Audio.DirectSound
         #region IComponent Implementation
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid
         {
@@ -47,52 +47,75 @@ namespace Sharpex2D.Audio.DirectSound
         private PanSource _panSource;
 
         /// <summary>
-        ///     Initializes a new CSCoreSoundProvider class.
+        /// Initializes a new CSCoreSoundProvider class.
         /// </summary>
         /// <param name="soundInitializer">The SoundInitializer.</param>
         internal DirectSoundProvider(ISoundInitializer soundInitializer)
         {
             _directSoundOut = new DirectSoundOut();
             SoundInitializer = soundInitializer;
+            _directSoundOut.Stopped += DirectSoundOutStopped;
         }
 
         /// <summary>
-        ///     Gets the PlaybackState.
+        /// Gets the SoundInitializer.
         /// </summary>
-        private PlaybackState PlaybackState
+        public ISoundInitializer SoundInitializer { private set; get; }
+
+        /// <summary>
+        /// Gets the PlaybackState.
+        /// </summary>
+        public PlaybackState PlaybackState
         {
-            get { return _directSoundOut.PlaybackState; }
+            get
+            {
+                switch (_directSoundOut.PlaybackState)
+                {
+                    case CSCore.SoundOut.PlaybackState.Paused:
+                        return PlaybackState.Paused;
+                    case CSCore.SoundOut.PlaybackState.Playing:
+                        return PlaybackState.Playing;
+                    case CSCore.SoundOut.PlaybackState.Stopped:
+                        return PlaybackState.Stopped;
+                }
+
+                return PlaybackState.Stopped;
+            }
         }
 
         /// <summary>
-        ///     Plays the sound.
+        /// Plays the sound.
         /// </summary>
         /// <param name="soundFile">The Soundfile.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        public void Play(Sound soundFile, PlayMode playMode)
+        public void Play(Sound soundFile)
         {
-            Play(CodecFactory.Instance.GetCodec(soundFile.ResourcePath), playMode);
+            Play(CodecFactory.Instance.GetCodec(soundFile.ResourcePath));
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Resumes a sound.
+        /// Resumes a sound.
         /// </summary>
         public void Resume()
         {
             _directSoundOut.Resume();
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Pause a sound.
+        /// Pause a sound.
         /// </summary>
         public void Pause()
         {
             _directSoundOut.Pause();
-            IsPlaying = false;
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Seeks a sound to a specified position.
+        /// Seeks a sound to a specified position.
         /// </summary>
         /// <param name="position">The Position.</param>
         public void Seek(long position)
@@ -102,7 +125,7 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Sets or gets the Position.
+        /// Sets or gets the Position.
         /// </summary>
         public long Position
         {
@@ -111,12 +134,7 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     A value indicating whether the SoundProvider is playing.
-        /// </summary>
-        public bool IsPlaying { get; set; }
-
-        /// <summary>
-        ///     Gets the sound length.
+        /// Gets the sound length.
         /// </summary>
         public long Length
         {
@@ -124,7 +142,12 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Sets or gets the Balance.
+        /// Triggered if the playback state changed.
+        /// </summary>
+        public event PlaybackChangedEventHandler PlaybackChanged;
+
+        /// <summary>
+        /// Sets or gets the Balance.
         /// </summary>
         public float Balance
         {
@@ -133,7 +156,7 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Sets or gets the Volume.
+        /// Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
@@ -142,12 +165,7 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Gets the SoundInitializer.
-        /// </summary>
-        public ISoundInitializer SoundInitializer { private set; get; }
-
-        /// <summary>
-        ///     Disposes the SoundProvider.
+        /// Disposes the SoundProvider.
         /// </summary>
         public void Dispose()
         {
@@ -156,38 +174,42 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Plays the sound.
+        /// Stops the sound.
         /// </summary>
-        /// <param name="source">The WaveSource.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        private void Play(IWaveSource source, PlayMode playMode)
-        {
-            Stop();
-            if (playMode == PlayMode.Loop)
-            {
-                source = new LoopStream(source);
-            }
-            var panSource = new PanSource(source);
-            _panSource = panSource;
-            _directSoundOut.Initialize(panSource.ToWaveSource());
-            _directSoundOut.Play();
-            IsPlaying = true;
-        }
-
-        /// <summary>
-        ///     Stops the sound.
-        /// </summary>
-        private void Stop()
+        public void Stop()
         {
             if (PlaybackState != PlaybackState.Stopped)
             {
                 _directSoundOut.Stop();
-                IsPlaying = false;
             }
         }
 
         /// <summary>
-        ///     Disposes the SoundProvider.
+        /// Triggerd if the DSoundOut stopped.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DirectSoundOutStopped(object sender, EventArgs e)
+        {
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Plays the sound.
+        /// </summary>
+        /// <param name="source">The WaveSource.</param>
+        private void Play(IWaveSource source)
+        {
+            Stop();
+            var panSource = new PanSource(source);
+            _panSource = panSource;
+            _directSoundOut.Initialize(panSource.ToWaveSource());
+            _directSoundOut.Play();
+        }
+
+        /// <summary>
+        /// Disposes the SoundProvider.
         /// </summary>
         /// <param name="disposing">The State.</param>
         protected virtual void Dispose(bool disposing)
@@ -205,7 +227,7 @@ namespace Sharpex2D.Audio.DirectSound
         }
 
         /// <summary>
-        ///     Deconstructs the SoundProvider.
+        /// Deconstructs the SoundProvider.
         /// </summary>
         ~DirectSoundProvider()
         {

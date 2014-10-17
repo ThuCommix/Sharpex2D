@@ -8,7 +8,7 @@ namespace Sharpex2D.Audio.XAudio2
         private CSCore.XAudio2.XAudio2 _xaudio2;
 
         /// <summary>
-        ///     Initializes a new XAudio2Initializer class.
+        /// Initializes a new XAudio2Initializer class.
         /// </summary>
         public XAudio2Initializer()
         {
@@ -16,7 +16,7 @@ namespace Sharpex2D.Audio.XAudio2
         }
 
         /// <summary>
-        ///     A value indicating whether the SoundProvider is supported.
+        /// A value indicating whether the SoundProvider is supported.
         /// </summary>
         public bool IsSupported
         {
@@ -24,10 +24,10 @@ namespace Sharpex2D.Audio.XAudio2
         }
 
         /// <summary>
-        ///     Creates the Provider.
+        /// Creates the Provider.
         /// </summary>
         /// <returns>ISoundProvider.</returns>
-        public ISoundProvider CreateProvider()
+        public ISoundProvider Create()
         {
             if (_xaudio2 == null)
             {
@@ -38,7 +38,7 @@ namespace Sharpex2D.Audio.XAudio2
         }
 
         /// <summary>
-        ///     Creates the XAudio2.
+        /// Creates the XAudio2.
         /// </summary>
         private void CreateXAudio2()
         {

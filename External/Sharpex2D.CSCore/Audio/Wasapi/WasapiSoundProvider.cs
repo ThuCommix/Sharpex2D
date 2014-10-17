@@ -34,107 +34,121 @@ namespace Sharpex2D.Audio.Wasapi
         #region IComponent Implementation
 
         /// <summary>
-        ///     Gets the Guid.
+        /// Gets the Guid.
         /// </summary>
         public Guid Guid
         {
-            get { return new Guid("F08568B6-2426-444F-8562-827AFCA55E36"); }
+            get { return new Guid("0910E001-3926-413A-9AA9-E33E08D497D1"); }
         }
 
         #endregion
 
         private bool _disposed;
         private PanSource _panSource;
-        private ISoundOut _soundOut;
+        private WasapiOut _wasapiOut;
 
         /// <summary>
-        ///     Initializes a new WasapiSoundProvider class.
+        /// Initializes a new WasapiSoundProvider class.
         /// </summary>
         /// <param name="soundInitializer">The SoundInitializer.</param>
         internal WasapiSoundProvider(ISoundInitializer soundInitializer)
         {
-            _soundOut = new WasapiOut(false, AudioClientShareMode.Shared, 100);
+            _wasapiOut = new WasapiOut(false, AudioClientShareMode.Shared, 100);
             SoundInitializer = soundInitializer;
+            _wasapiOut.Stopped += DirectSoundOutStopped;
         }
 
         /// <summary>
-        ///     Gets the PlaybackState.
+        /// Gets the SoundInitializer.
         /// </summary>
-        private PlaybackState PlaybackState
-        {
-            get { return _soundOut.PlaybackState; }
-        }
+        public ISoundInitializer SoundInitializer { private set; get; }
 
         /// <summary>
-        ///     Disposes the SoundProvider.
+        /// Gets the PlaybackState.
         /// </summary>
-        public void Dispose()
+        public PlaybackState PlaybackState
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            get
+            {
+                switch (_wasapiOut.PlaybackState)
+                {
+                    case CSCore.SoundOut.PlaybackState.Paused:
+                        return PlaybackState.Paused;
+                    case CSCore.SoundOut.PlaybackState.Playing:
+                        return PlaybackState.Playing;
+                    case CSCore.SoundOut.PlaybackState.Stopped:
+                        return PlaybackState.Stopped;
+                }
+
+                return PlaybackState.Stopped;
+            }
         }
 
         /// <summary>
-        ///     Plays the sound.
+        /// Plays the sound.
         /// </summary>
         /// <param name="soundFile">The Soundfile.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        public void Play(Sound soundFile, PlayMode playMode)
+        public void Play(Sound soundFile)
         {
-            Play(CodecFactory.Instance.GetCodec(soundFile.ResourcePath), playMode);
+            Play(CodecFactory.Instance.GetCodec(soundFile.ResourcePath));
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Resumes a sound.
+        /// Resumes a sound.
         /// </summary>
         public void Resume()
         {
-            _soundOut.Resume();
+            _wasapiOut.Resume();
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Pause a sound.
+        /// Pause a sound.
         /// </summary>
         public void Pause()
         {
-            _soundOut.Pause();
-            IsPlaying = false;
+            _wasapiOut.Pause();
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
         }
 
         /// <summary>
-        ///     Seeks a sound to a specified position.
+        /// Seeks a sound to a specified position.
         /// </summary>
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            if (_soundOut.WaveSource != null)
-                _soundOut.WaveSource.Position = position;
+            if (_wasapiOut.WaveSource != null)
+                _wasapiOut.WaveSource.Position = position;
         }
 
         /// <summary>
-        ///     Sets or gets the Position.
+        /// Sets or gets the Position.
         /// </summary>
         public long Position
         {
-            get { return _soundOut.WaveSource != null ? _soundOut.WaveSource.Position : 0; }
+            get { return _wasapiOut.WaveSource != null ? _wasapiOut.WaveSource.Position : 0; }
             set { Seek(value); }
         }
 
         /// <summary>
-        ///     A value indicating whether the SoundProvider is playing.
-        /// </summary>
-        public bool IsPlaying { get; set; }
-
-        /// <summary>
-        ///     Gets the sound length.
+        /// Gets the sound length.
         /// </summary>
         public long Length
         {
-            get { return _soundOut.WaveSource != null ? _soundOut.WaveSource.Length : 0; }
+            get { return _wasapiOut.WaveSource != null ? _wasapiOut.WaveSource.Length : 0; }
         }
 
         /// <summary>
-        ///     Sets or gets the Balance.
+        /// Triggered if the playback state changed.
+        /// </summary>
+        public event PlaybackChangedEventHandler PlaybackChanged;
+
+        /// <summary>
+        /// Sets or gets the Balance.
         /// </summary>
         public float Balance
         {
@@ -143,73 +157,82 @@ namespace Sharpex2D.Audio.Wasapi
         }
 
         /// <summary>
-        ///     Sets or gets the Volume.
+        /// Sets or gets the Volume.
         /// </summary>
         public float Volume
         {
-            get { return _soundOut.Volume; }
-            set { _soundOut.Volume = value; }
+            get { return _wasapiOut.Volume; }
+            set { _wasapiOut.Volume = value; }
         }
 
         /// <summary>
-        ///     Gets the SoundInitializer.
+        /// Disposes the SoundProvider.
         /// </summary>
-        public ISoundInitializer SoundInitializer { private set; get; }
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
-        ///     Disposes the SoundProvider.
+        /// Stops the sound.
+        /// </summary>
+        public void Stop()
+        {
+            if (PlaybackState != PlaybackState.Stopped)
+            {
+                _wasapiOut.Stop();
+            }
+        }
+
+        /// <summary>
+        /// Triggerd if the DSoundOut stopped.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DirectSoundOutStopped(object sender, EventArgs e)
+        {
+            if (PlaybackChanged != null)
+                PlaybackChanged(this, EventArgs.Empty);
+        }
+
+        /// <summary>
+        /// Plays the sound.
+        /// </summary>
+        /// <param name="source">The WaveSource.</param>
+        private void Play(IWaveSource source)
+        {
+            Stop();
+            var panSource = new PanSource(source);
+            _panSource = panSource;
+            _wasapiOut.Initialize(panSource.ToWaveSource());
+            _wasapiOut.Play();
+        }
+
+        /// <summary>
+        /// Disposes the SoundProvider.
         /// </summary>
         /// <param name="disposing">The State.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
             {
-                if (_soundOut != null)
+                if (_wasapiOut != null)
                 {
                     Stop();
-                    _soundOut.Dispose();
-                    _soundOut = null;
-                    _panSource = null;
+                    _wasapiOut.Dispose();
+                    _wasapiOut = null;
                 }
             }
             _disposed = true;
         }
 
         /// <summary>
-        ///     Deconstructs the SoundProvider.
+        /// Deconstructs the SoundProvider.
         /// </summary>
         ~WasapiSoundProvider()
         {
             Dispose(false);
-        }
-
-        /// <summary>
-        ///     Plays the sound.
-        /// </summary>
-        /// <param name="waveSource">The WaveSource.</param>
-        /// <param name="playMode">The PlayMode.</param>
-        private void Play(IWaveSource waveSource, PlayMode playMode)
-        {
-            Stop();
-            if (playMode == PlayMode.Loop)
-                waveSource = new LoopStream(waveSource);
-
-            var panSource = new PanSource(waveSource);
-            _soundOut.Initialize(panSource.ToWaveSource(16));
-            _panSource = panSource;
-            IsPlaying = true;
-        }
-
-        /// <summary>
-        ///     Stops the sound.
-        /// </summary>
-        private void Stop()
-        {
-            if (PlaybackState != PlaybackState.Stopped)
-            {
-                _soundOut.Stop();
-                IsPlaying = false;
-            }
         }
     }
 }

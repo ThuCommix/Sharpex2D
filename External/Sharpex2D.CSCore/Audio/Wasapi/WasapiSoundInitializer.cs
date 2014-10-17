@@ -28,22 +28,22 @@ namespace Sharpex2D.Audio.Wasapi
     public class WasapiSoundInitializer : ISoundInitializer
     {
         /// <summary>
-        ///     Creates a new SoundProvider class.
-        /// </summary>
-        /// <returns>SoundProvider</returns>
-        public ISoundProvider CreateProvider()
-        {
-            if (!WasapiOut.IsSupportedOnCurrentPlatform)
-                throw new InvalidOperationException("Wasapi is not supported for your system. (Vista and higher)");
-            return new WasapiSoundProvider(this);
-        }
-
-        /// <summary>
-        ///     A value indicating whether the ISoundInitializer is supported.
+        /// A value indicating whether the ISoundInitializer is supported.
         /// </summary>
         public bool IsSupported
         {
             get { return WasapiOut.IsSupportedOnCurrentPlatform; }
+        }
+
+        /// <summary>
+        /// Creates a new SoundProvider class.
+        /// </summary>
+        /// <returns>SoundProvider</returns>
+        public ISoundProvider Create()
+        {
+            if (!WasapiOut.IsSupportedOnCurrentPlatform)
+                throw new InvalidOperationException("Wasapi is not supported for your system. (Vista and higher)");
+            return new WasapiSoundProvider(this);
         }
     }
 }
