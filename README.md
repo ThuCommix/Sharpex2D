@@ -10,6 +10,7 @@ Sharpex2D allows you to create beautiful 2D games under .NET for Windows and Mon
 * DirectX9
 * DirectX10
 * DirectX11
+* OpenGL
 * Graphics Device Interface
 
 There are also different types of handling input. The supported devices are listed below.
