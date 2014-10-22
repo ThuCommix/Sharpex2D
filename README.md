@@ -22,4 +22,7 @@ There are also different types of handling input. The supported devices are list
 * Gamepad
 * Joystick
 
+######Getting started
+Checkout the [wiki](https://github.com/ThuCommix/Sharpex2D/wiki), and get a quick overview of how to use Sharpex2D in your game.
+
 You can download the engine via nuget (https://www.nuget.org/profiles/ThuCommix/). For additional info visit http://sharpex2d.de/ . The source code can be found here: https://github.com/ThuCommix/Sharpex2D .
