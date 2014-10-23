@@ -98,7 +98,7 @@ namespace Sharpex2D.Rendering.OpenGL
                 _renderTarget.Handle);
 
             OpenGL.glShadeModel(OpenGL.GL_FLAT);
-            OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
+            OpenGL.glMatrixMode(OpenGL.GL_PROJECTION);
             OpenGL.glLoadIdentity();
             OpenGL.glOrtho(0, _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, 0,
                 1, -1);
@@ -137,7 +137,7 @@ namespace Sharpex2D.Rendering.OpenGL
                 if (_graphicsDevice.Scale != _oldScale)
                 {
                     OpenGL.glViewport(0, 0, (int) _renderTarget.Window.Size.X, (int) _renderTarget.Window.Size.Y);
-                    OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
+                    OpenGL.glMatrixMode(OpenGL.GL_PROJECTION);
                     OpenGL.glLoadIdentity();
 
                     OpenGL.glOrtho(0, _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, 0,
@@ -434,7 +434,7 @@ namespace Sharpex2D.Rendering.OpenGL
             matrixf[13] = matrix.OffsetY;
             matrixf[14] = 0;
             matrixf[15] = 1;
-
+            OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
             OpenGL.glLoadMatrixf(matrixf);
         }
 
@@ -443,6 +443,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void ResetTransform()
         {
+            OpenGL.glMatrixMode(OpenGL.GL_MODELVIEW);
             OpenGL.glLoadIdentity();
         }
 
