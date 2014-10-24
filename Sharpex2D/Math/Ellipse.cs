@@ -48,6 +48,15 @@ namespace Sharpex2D.Math
         /// <summary>
         /// Initializes a new Ellipse class.
         /// </summary>
+        /// <param name="Radiuses">Vector representing X and Y radiuses</param>
+        /// <param name="radiusY">The position.</param>
+        public Ellipse(Vector2 Radiuses, Vector2 Position)
+            :this(Radiuses.X, Radiuses.Y, Position)
+        {}
+
+        /// <summary>
+        /// Initializes a new Ellipse class.
+        /// </summary>
         /// <param name="radiusX">The X-Radius.</param>
         /// <param name="radiusY">The Y-Radius.</param>
         public Ellipse(float radiusX, float radiusY)
