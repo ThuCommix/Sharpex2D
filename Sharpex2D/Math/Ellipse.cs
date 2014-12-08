@@ -34,14 +34,34 @@ namespace Sharpex2D.Math
         /// </summary>
         /// <param name="radiusX">The X-Radius.</param>
         /// <param name="radiusY">The Y-Radius.</param>
-        public Ellipse(float radiusX, float radiusY) : this()
+        /// <param name="Position">The position.</param>
+        public Ellipse(float radiusX, float radiusY, Vector2 Position)
+            : this()
         {
             RadiusX = radiusX;
             RadiusY = radiusY;
-            _position = new Vector2(0, 0);
+            _position = Position;
             _polygon = new Polygon();
             UpdateEllipse();
         }
+
+        /// <summary>
+        /// Initializes a new Ellipse class.
+        /// </summary>
+        /// <param name="Radiuses">Vector representing X and Y radiuses</param>
+        /// <param name="radiusY">The position.</param>
+        public Ellipse(Vector2 Radiuses, Vector2 Position)
+            :this(Radiuses.X, Radiuses.Y, Position)
+        {}
+
+        /// <summary>
+        /// Initializes a new Ellipse class.
+        /// </summary>
+        /// <param name="radiusX">The X-Radius.</param>
+        /// <param name="radiusY">The Y-Radius.</param>
+        public Ellipse(float radiusX, float radiusY)
+            : this(radiusX, radiusY, Vector2.Zero)
+        { }
 
         /// <summary>
         /// Sets or gets the Position.
