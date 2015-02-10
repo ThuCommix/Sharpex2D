@@ -43,9 +43,8 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         /// </summary>
         public bool Available
         {
-            get { return NativeMethods.joyGetNumDevs() > 0; }
+            get { return JoystickInterops.joyGetNumDevs() > 0; }
         }
-
 
         /// <summary>
         /// Gets the PlatformVersion.
@@ -76,12 +75,12 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         /// <returns>JoystickState.</returns>
         public override JoystickState GetState()
         {
-            if (NativeMethods.joyGetNumDevs() > 0)
+            if (JoystickInterops.joyGetNumDevs() > 0)
             {
                 var jie = new JoyInfoEx {dwFlags = (int) JoyFlags.JOY_RETURNALL};
                 jie.dwSize = (uint) Marshal.SizeOf(jie);
 
-                Try(NativeMethods.joyGetPosEx(0, ref jie));
+                Try(JoystickInterops.joyGetPosEx(0, ref jie));
 
                 var buttonStates = new Dictionary<int, bool>();
 

@@ -89,6 +89,6 @@ namespace Sharpex2D.Input.Windows.JoystickApi
         /// <summary>
         /// User dead zone.
         /// </summary>
-        JOY_USEDEADZONE = 2048,
+        JOY_USEDEADZONE = 2048
     }
 }

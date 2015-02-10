@@ -50,7 +50,7 @@ namespace Sharpex2D.Input.Windows.Touch
 
             try
             {
-                if (!NativeMethods.RegisterTouchWindow(handle, 0))
+                if (!TouchInterops.RegisterTouchWindow(handle, 0))
                 {
                     throw new InvalidOperationException("Unable to register TouchWindow.");
                 }
@@ -62,7 +62,7 @@ namespace Sharpex2D.Input.Windows.Touch
                 return;
             }
 
-            var msgFilter = new MessageFilter(handle) {Filter = NativeMethods.WM_TOUCH};
+            var msgFilter = new MessageFilter(handle) { Filter = TouchInterops.WM_TOUCH };
             msgFilter.MessageArrived += MessageArrived;
             _handle = handle;
 
@@ -132,7 +132,7 @@ namespace Sharpex2D.Input.Windows.Touch
 
             var touchInput = new TouchInput[inputCount];
 
-            if (!NativeMethods.GetTouchInputInfo(m.LParam, inputCount, touchInput, Marshal.SizeOf(touchInput)))
+            if (!TouchInterops.GetTouchInputInfo(m.LParam, inputCount, touchInput, Marshal.SizeOf(touchInput)))
             {
                 _logger.Warn("Error while extracting TouchInputInfo.");
                 return;
@@ -165,7 +165,7 @@ namespace Sharpex2D.Input.Windows.Touch
                 _touches.Add(touch);
 
 
-                if (!NativeMethods.CloseTouchInputHandle(m.LParam))
+                if (!TouchInterops.CloseTouchInputHandle(m.LParam))
                 {
                     _logger.Warn("Unable to close TouchInputHandle.");
                 }
@@ -179,7 +179,7 @@ namespace Sharpex2D.Input.Windows.Touch
         {
             if (!_apiSuccess) return;
 
-            if (!NativeMethods.UnregisterTouchWindow(_handle))
+            if (!TouchInterops.UnregisterTouchWindow(_handle))
             {
                 _logger.Warn("Unable to unregister TouchWindow.");
             }
