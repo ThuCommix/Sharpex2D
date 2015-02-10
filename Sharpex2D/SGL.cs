@@ -171,7 +171,7 @@ namespace Sharpex2D
         {
             Components.Add(engineConfiguration);
             GraphicsManager = engineConfiguration.GraphicsManager;
-            GameInstance.AudioManager = AudioManager.Instance;
+            GameInstance.AudioManager = new AudioManager(engineConfiguration.AudioInitializer);
             Components.Add(GameInstance.AudioManager);
             Components.Construct();
             Components.Get<GameLoop>().Start();
@@ -190,8 +190,6 @@ namespace Sharpex2D
 
             Components.Get<GameLoop>().Stop();
             GameInstance.OnUnload();
-            GC.Collect();
-            Process.GetCurrentProcess().Kill();
         }
 
         /// <summary>
