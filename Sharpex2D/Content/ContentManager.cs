@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Sharpex2D.Content.Pipeline;
+using Sharpex2D.Content.Factory;
 
 namespace Sharpex2D.Content
 {
@@ -30,18 +30,6 @@ namespace Sharpex2D.Content
     [TestState(TestState.Tested)]
     public class ContentManager : IComponent
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("0DD94218-396E-4EBA-9B3C-EAD05420A375"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// BatchProgressEventHandler.
         /// </summary>
@@ -60,7 +48,7 @@ namespace Sharpex2D.Content
         {
             RootPath = Path.Combine(Environment.CurrentDirectory, "Content");
             ContentVerifier = new ContentVerifier();
-            ContentProcessor = new ContentProcessorSelector();
+            ContentPipeline = new ContentPipeline();
 
             if (!Directory.Exists(RootPath))
             {
@@ -69,6 +57,12 @@ namespace Sharpex2D.Content
 
             _contentCache = new Dictionary<string, IContent>();
             _batchList = new List<IBatch>();
+
+            //add build in factories
+            ContentPipeline.Attach(new AudioSourceFactory());
+            ContentPipeline.Attach(new TextFileFactory());
+            ContentPipeline.Attach(new ScriptFileFactory());
+            ContentPipeline.Attach(new Texture2DFactory());
         }
 
         /// <summary>
@@ -82,9 +76,21 @@ namespace Sharpex2D.Content
         public ContentVerifier ContentVerifier { private set; get; }
 
         /// <summary>
-        /// Gets the ContentProcessor.
+        /// Gets the ContentPipeline.
         /// </summary>
-        public ContentProcessorSelector ContentProcessor { private set; get; }
+        public ContentPipeline ContentPipeline { private set; get; }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("0DD94218-396E-4EBA-9B3C-EAD05420A375"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// BatchProgressChanged event.
@@ -114,12 +120,10 @@ namespace Sharpex2D.Content
                 throw new ContentLoadException("Asset not found.");
             }
 
-            IContentProcessor processor = ContentProcessor.Select<T>();
-            var contentData = (T) processor.ReadData(Path.Combine(RootPath, asset));
+            data = ContentPipeline.ProcessDatatype<T>(Path.Combine(RootPath, asset));
+            ApplyCache(asset, data);
 
-            ApplyCache(asset, contentData);
-
-            return contentData;
+            return data;
         }
 
         /// <summary>
@@ -222,12 +226,10 @@ namespace Sharpex2D.Content
                 throw new ContentLoadException("Asset not found.");
             }
 
-            IContentProcessor processor = ContentProcessor.Select(type);
-            var contentData = (IContent) processor.ReadData(Path.Combine(RootPath, asset));
+            data = ContentPipeline.ProcessDatatype(Path.Combine(RootPath, asset), type);
+            ApplyCache(asset, data);
 
-            ApplyCache(asset, contentData);
-
-            return contentData;
+            return data;
         }
 
         /// <summary>

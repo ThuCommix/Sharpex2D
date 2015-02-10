@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,38 +18,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.IO;
-using System.Runtime.InteropServices;
 using Sharpex2D.Rendering;
 
-namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
+namespace Sharpex2D.Content.Factory
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ComVisible(false)]
-    public class ColorSerializer : PrimitiveSerializer<Color>
+    public class Texture2DFactory : AttachableFactory<Texture2D>
     {
         /// <summary>
-        /// Reads a value from the given Reader.
+        /// Creates a content resource.
         /// </summary>
-        /// <param name="reader">The BinaryReader.</param>
-        /// <returns></returns>
-        public override Color Read(BinaryReader reader)
+        /// <param name="path">The Path.</param>
+        /// <returns>Texture2D.</returns>
+        public override Texture2D CreateContent(string path)
         {
-            return new Color(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
-        }
-
-        /// <summary>
-        /// Writes a specified value.
-        /// </summary>
-        /// <param name="writer">The BinaryWriter.</param>
-        /// <param name="value">The Value.</param>
-        public override void Write(BinaryWriter writer, Color value)
-        {
-            writer.Write(value.R);
-            writer.Write(value.G);
-            writer.Write(value.B);
-            writer.Write(value.A);
+            return new Texture2D(SGL.SpriteBatch.Graphics.ResourceManager.CreateResource(path));
         }
     }
 }

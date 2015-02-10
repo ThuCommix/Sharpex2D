@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,35 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.IO;
-using System.Runtime.InteropServices;
-
-namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
+namespace Sharpex2D.Content
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    [ComVisible(false)]
-    public class IntegerSerializer : PrimitiveSerializer<Int32>
+    [TestState(TestState.Untested)]
+    public class TextFile : IContent
     {
         /// <summary>
-        /// Reads a value from the given Reader.
+        /// Gets the text of this instance.
         /// </summary>
-        /// <param name="reader">The BinaryReader.</param>
-        /// <returns></returns>
-        public override int Read(BinaryReader reader)
-        {
-            return reader.ReadInt32();
-        }
-
-        /// <summary>
-        /// Writes a specified value.
-        /// </summary>
-        /// <param name="writer">The BinaryWriter.</param>
-        /// <param name="value">The Value.</param>
-        public override void Write(BinaryWriter writer, int value)
-        {
-            writer.Write(value);
-        }
+        public string Text { internal set; get; }
     }
 }

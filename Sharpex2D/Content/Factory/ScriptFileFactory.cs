@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,33 +19,22 @@
 // THE SOFTWARE.
 
 using System.IO;
-using System.Runtime.InteropServices;
+using Sharpex2D.Scripting;
 
-namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
+namespace Sharpex2D.Content.Factory
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ComVisible(false)]
-    public class CharSerializer : PrimitiveSerializer<char>
+    public class ScriptFileFactory : AttachableFactory<ScriptFile>
     {
         /// <summary>
-        /// Reads a value from the given Reader.
+        /// Creates a content resource.
         /// </summary>
-        /// <param name="reader">The BinaryReader.</param>
-        /// <returns></returns>
-        public override char Read(BinaryReader reader)
+        /// <param name="path">The Path.</param>
+        /// <returns>ScriptFile.</returns>
+        public override ScriptFile CreateContent(string path)
         {
-            return reader.ReadChar();
-        }
-
-        /// <summary>
-        /// Writes a specified value.
-        /// </summary>
-        /// <param name="writer">The BinaryWriter.</param>
-        /// <param name="value">The Value.</param>
-        public override void Write(BinaryWriter writer, char value)
-        {
-            writer.Write(value);
+            return new ScriptFile {Text = File.ReadAllText(path)};
         }
     }
 }

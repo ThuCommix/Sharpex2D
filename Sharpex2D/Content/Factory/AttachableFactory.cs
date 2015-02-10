@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,50 +19,41 @@
 // THE SOFTWARE.
 
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using Sharpex2D.Audio;
 
-namespace Sharpex2D.Content.Pipeline.Processor
+namespace Sharpex2D.Content.Factory
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ComVisible(false)]
-    public class SoundContentProcessor : ContentProcessor<Sound>
+    public abstract class AttachableFactory<T> : IAttachableFactory where T : IContent
     {
         /// <summary>
-        /// Initializes a new SoundContentProcessor class.
+        /// Initializes a new AttachbleFactory class.
         /// </summary>
-        public SoundContentProcessor()
-            : base(new Guid("3F5D0CE8-26B8-4034-8C3C-2F0DB2D6F25A"))
+        protected AttachableFactory()
         {
+            Type = typeof (T);
         }
 
         /// <summary>
-        /// Reads the data.
+        /// Gets the type.
         /// </summary>
-        /// <param name="filepath">The FilePath.</param>
-        /// <returns>Sound.</returns>
-        public override Sound ReadData(string filepath)
+        public Type Type { get; private set; }
+
+        /// <summary>
+        /// Creates a content resource.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>IContent.</returns>
+        IContent IAttachableFactory.CreateContent(string path)
         {
-            return new Sound(filepath);
+            return CreateContent(path);
         }
 
         /// <summary>
-        /// Writes the data.
+        /// Creates a content resource.
         /// </summary>
-        /// <param name="data">The Data.</param>
-        /// <param name="destinationpath">The DestinationPath.</param>
-        public override void WriteData(Sound data, string destinationpath)
-        {
-            try
-            {
-                File.Copy(data.ResourcePath, destinationpath);
-            }
-            catch (Exception ex)
-            {
-                throw new ContentProcessorException(GetType().Name + " caused an error.", ex);
-            }
-        }
+        /// <param name="path">The Path.</param>
+        /// <returns>T.</returns>
+        public abstract T CreateContent(string path);
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,35 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.IO;
-using System.Runtime.InteropServices;
-using Sharpex2D.Common.Extensions;
+using System;
 
-namespace Sharpex2D.Content.Pipeline.Serializer.Primitive
+namespace Sharpex2D.Content.Factory
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ComVisible(false)]
-    public class ByteArraySerializer : PrimitiveSerializer<byte[]>
+    public interface IAttachableFactory
     {
         /// <summary>
-        /// Reads a value from the given Reader.
+        /// Gets the type.
         /// </summary>
-        /// <param name="reader">The BinaryReader.</param>
-        /// <returns></returns>
-        public override byte[] Read(BinaryReader reader)
-        {
-            return reader.ReadAllBytes();
-        }
+        Type Type { get; }
 
         /// <summary>
-        /// Writes a specified value.
+        /// Creates a content resource.
         /// </summary>
-        /// <param name="writer">The BinaryWriter.</param>
-        /// <param name="value">The Value.</param>
-        public override void Write(BinaryWriter writer, byte[] value)
-        {
-            writer.Write(value);
-        }
+        /// <param name="path">The Path.</param>
+        /// <returns>IContent.</returns>
+        IContent CreateContent(string path);
     }
 }
