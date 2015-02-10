@@ -18,20 +18,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal enum WaveFormats
+    public interface IAudioInitializer
     {
         /// <summary>
-        /// Pcm.
+        /// A value indicating whether the audio provider is supported by the current platform.
         /// </summary>
-        Pcm = 1,
+        bool IsSupported { get; }
 
         /// <summary>
-        /// Float.
+        /// Creates the AudioProvider.
         /// </summary>
-        Float = 3
+        /// <returns>IAudioProvider.</returns>
+        IAudioProvider Create();
     }
 }

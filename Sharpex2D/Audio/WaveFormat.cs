@@ -21,64 +21,72 @@
 
 using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [StructLayout(LayoutKind.Sequential)]
-    internal class WaveFormat
+    [StructLayout(LayoutKind.Explicit)]
+    public class WaveFormat
     {
         /// <summary>
         /// Waveform-audio format type.
         /// </summary>
-        public short wFormatTag;
+        [FieldOffset(0)] public WaveFormats Format;
 
         /// <summary>
         /// Channels.
         /// </summary>
-        public short nChannels;
+        [FieldOffset(2)] public short Channels;
 
         /// <summary>
         /// Samples per second.
         /// </summary>
-        public int nSamplesPerSec;
+        [FieldOffset(4)] public int SamplesPerSec;
 
         /// <summary>
         /// Average bytes per seconds.
         /// </summary>
-        public int nAvgBytesPerSec;
+        [FieldOffset(8)] public int AvgBytesPerSec;
 
         /// <summary>
         /// BlockAlign.
         /// </summary>
-        public short nBlockAlign;
+        [FieldOffset(12)] public short BlockAlign;
 
         /// <summary>
         /// Bits per sample.
         /// </summary>
-        public short wBitsPerSample;
+        [FieldOffset(14)] public short BitsPerSample;
 
         /// <summary>
         /// Extra attributes.
         /// </summary>
-        public short cbSize;
+        [FieldOffset(16)] internal short cbSize;
 
         /// <summary>
-        /// Initializes a new WaveFormat class.
+        /// Initializes a new WaveFormat struct.
+        /// </summary>
+        public WaveFormat()
+            : this(22050, 16, 2)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new WaveFormat struct.
         /// </summary>
         /// <param name="rate">The SamplesPerSecond.</param>
         /// <param name="bits">The BitsPerSample.</param>
         /// <param name="channels">The Channels.</param>
         public WaveFormat(int rate, int bits, int channels)
         {
-            wFormatTag = (short) WaveFormats.Pcm;
-            nChannels = (short) channels;
-            nSamplesPerSec = rate;
-            wBitsPerSample = (short) bits;
+            Format = WaveFormats.Pcm;
+            Channels = (short) channels;
+            SamplesPerSec = rate;
+            BitsPerSample = (short) bits;
             cbSize = 0;
 
-            nBlockAlign = (short) (channels*(bits/8));
-            nAvgBytesPerSec = nSamplesPerSec*nBlockAlign;
+            BlockAlign = (short) (channels*(bits/8));
+            AvgBytesPerSec = SamplesPerSec*BlockAlign;
         }
     }
 }

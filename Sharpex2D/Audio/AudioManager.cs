@@ -20,42 +20,62 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Common;
 using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class AudioManager : Singleton<AudioManager>, IComponent
+    public class AudioManager : IComponent, IDisposable
     {
-        private readonly ISoundInitializer _soundInitializer;
-        private readonly ISoundProvider _soundProvider;
+        private readonly List<AudioEffectGroup> _audioEffectGroups;
+        private readonly IAudioProvider _audioProvider;
+        internal readonly IAudioInitializer AudioInitializer;
 
         /// <summary>
         /// Initializes a new AudioManager class.
         /// </summary>
-        public AudioManager()
+        /// <param name="audioInitializer">The AudioInitializer.</param>
+        internal AudioManager(IAudioInitializer audioInitializer)
         {
-            ISoundInitializer soundInitializer = SGL.QueryComponents<EngineConfiguration>().SoundInitializer;
-            if (soundInitializer == null)
-            {
-                LogManager.GetClassLogger().Warn("No suitable audio interface found.");
-                return;
-                //throw new AudioException("No suitable audio interface found.");
-            }
+            _audioEffectGroups = new List<AudioEffectGroup>();
+            var logger = LogManager.GetClassLogger();
 
-            if (!soundInitializer.IsSupported)
+            if (audioInitializer == null)
             {
-                LogManager.GetClassLogger().Warn("The specified audio interface is not supported.");
-                return;
-                //throw new AudioException("The specified audio interface is not supported.");
+                logger.Warn("The specified audio initializer was null.");
             }
+            else if (!audioInitializer.IsSupported)
+            {
+                logger.Warn("The specified AudioProvider is not supported.");
+            }
+            else
+            {
+                AudioInitializer = audioInitializer;
+                _audioProvider = audioInitializer.Create();
+                _audioProvider.PlaybackChanged += PlaybackChanged;
 
-            SoundEffectGroups = new List<SoundEffectGroup>();
-            _soundInitializer = soundInitializer;
-            _soundProvider = soundInitializer.Create();
-            _soundProvider.PlaybackChanged += PlaybackChanged;
+
+#if DEBUG
+                var metadata = MetaDataReader.ReadMetaData(_audioProvider);
+                if (metadata.ContainsKey("Name"))
+                {
+                    logger.Info("Audiosystem initialized with {0}.", metadata["Name"]);
+                }
+                else
+                {
+                    logger.Info("Audiosystem initialized with unknown.");
+                }
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of all AudioEffectGroups of this instance.
+        /// </summary>
+        public AudioEffectGroup[] AudioEffectGroups
+        {
+            get { return _audioEffectGroups.ToArray(); }
         }
 
         /// <summary>
@@ -63,7 +83,7 @@ namespace Sharpex2D.Audio
         /// </summary>
         public PlaybackState PlaybackState
         {
-            get { return _soundProvider.PlaybackState; }
+            get { return _audioProvider.PlaybackState; }
         }
 
         /// <summary>
@@ -71,7 +91,7 @@ namespace Sharpex2D.Audio
         /// </summary>
         public long Length
         {
-            get { return _soundProvider.Length; }
+            get { return _audioProvider.Length; }
         }
 
         /// <summary>
@@ -80,7 +100,7 @@ namespace Sharpex2D.Audio
         public long Position
         {
             set { Seek(value); }
-            get { return _soundProvider.Position; }
+            get { return _audioProvider.Position; }
         }
 
         /// <summary>
@@ -88,30 +108,37 @@ namespace Sharpex2D.Audio
         /// </summary>
         public float Volume
         {
-            get { return _soundProvider.Volume; }
-            set { _soundProvider.Volume = value; }
+            get { return _audioProvider.Volume; }
+            set { _audioProvider.Volume = value; }
         }
 
         /// <summary>
-        /// Gets or sets the Balance.
+        /// Gets or sets the Pan.
         /// </summary>
-        public float Balance
+        public float Pan
         {
-            get { return _soundProvider.Balance; }
-            set { _soundProvider.Balance = value; }
+            get { return _audioProvider.Pan; }
+            set { _audioProvider.Pan = value; }
         }
 
-        /// <summary>
-        /// Gets the SoundEffectGroups.
-        /// </summary>
-        public List<SoundEffectGroup> SoundEffectGroups { private set; get; }
+        #region IComponent Implementation
 
         /// <summary>
         /// Gets the Guid.
         /// </summary>
         public Guid Guid
         {
-            get { return new Guid("7C7E6EA0-45BE-457C-8726-463E0D5B72BC"); }
+            get { return new Guid("825A61CB-7761-4574-AA50-AA41BDBC4951"); }
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_audioProvider != null) _audioProvider.Dispose();
         }
 
         /// <summary>
@@ -131,12 +158,29 @@ namespace Sharpex2D.Audio
         }
 
         /// <summary>
-        /// Plays the specified sound.
+        /// Initializes the audio manager with the given audio source.
         /// </summary>
-        /// <param name="sound">The Sound.</param>
-        public void Play(Sound sound)
+        /// <param name="audioSource">The AudioSource.</param>
+        public void Initialize(AudioSource audioSource)
         {
-            _soundProvider.Play(sound);
+            _audioProvider.Initialize(audioSource.Instance);
+        }
+
+        /// <summary>
+        /// Plays the specified audio source.
+        /// </summary>
+        /// <param name="playbackMode">The PlaybackMode.</param>
+        public void Play(PlaybackMode playbackMode)
+        {
+            _audioProvider.Play(playbackMode);
+        }
+
+        /// <summary>
+        /// Plays the specified audio source.
+        /// </summary>
+        public void Play()
+        {
+            Play(PlaybackMode.None);
         }
 
         /// <summary>
@@ -144,7 +188,7 @@ namespace Sharpex2D.Audio
         /// </summary>
         public void Pause()
         {
-            _soundProvider.Pause();
+            _audioProvider.Pause();
         }
 
         /// <summary>
@@ -152,7 +196,7 @@ namespace Sharpex2D.Audio
         /// </summary>
         public void Resume()
         {
-            _soundProvider.Resume();
+            _audioProvider.Resume();
         }
 
         /// <summary>
@@ -160,7 +204,7 @@ namespace Sharpex2D.Audio
         /// </summary>
         public void Stop()
         {
-            _soundProvider.Stop();
+            _audioProvider.Stop();
         }
 
         /// <summary>
@@ -169,16 +213,26 @@ namespace Sharpex2D.Audio
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            _soundProvider.Seek(position);
+            _audioProvider.Seek(position);
         }
 
         /// <summary>
-        /// Creates a new Instance of ISoundProvider.
+        /// Adds an AudioEffectGroup to this instance.
         /// </summary>
-        /// <returns>ISoundProvider.</returns>
-        internal ISoundProvider CreateInstance()
+        /// <param name="audioEffectGroup">The AudioEffectGroup.</param>
+        internal void AddEffectGroup(AudioEffectGroup audioEffectGroup)
         {
-            return _soundInitializer.Create();
+            _audioEffectGroups.Add(audioEffectGroup);
+        }
+
+        /// <summary>
+        /// Creates the propper audio source for this provider.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>AudioSource.</returns>
+        internal AudioSource CreatePropperAudioSource(string path)
+        {
+            return new AudioSource(_audioProvider.CreateAudioSource(path));
         }
     }
 }

@@ -18,50 +18,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
+using Sharpex2D.Content;
 
 namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class SoundEffectGroup
+    public interface IAudioSource : IContent
     {
-        private float _masterVolume;
-
         /// <summary>
-        /// Initializes a new SoundEffectGroup class.
+        /// Gets or sets the Name of the AudioSource object.
         /// </summary>
-        public SoundEffectGroup()
-        {
-            SoundEffects = new List<SoundEffect>();
-            AudioManager.Instance.SoundEffectGroups.Add(this);
-        }
-
-        /// <summary>
-        /// Gets the assigned SoundEffects.
-        /// </summary>
-        public List<SoundEffect> SoundEffects { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the MasterVolume.
-        /// </summary>
-        public float MasterVolume
-        {
-            set
-            {
-                if (value < 0 || value > 1f)
-                {
-                    throw new ArgumentOutOfRangeException("value");
-                }
-                _masterVolume = value;
-
-                foreach (SoundEffect soundEffect in SoundEffects)
-                {
-                    soundEffect.Volume = _masterVolume;
-                }
-            }
-            get { return _masterVolume; }
-        }
+        string Name { get; set; }
     }
 }

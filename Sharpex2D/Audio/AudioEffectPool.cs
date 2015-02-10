@@ -18,43 +18,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using Sharpex2D.Common;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Flags]
-    internal enum WaveCapsSupported
+    public class AudioEffectPool : Singleton<AudioEffectPool>
     {
         /// <summary>
-        /// Pitch is supported.
+        /// Represents the amount of the maximum simultaneously sounds available.
         /// </summary>
-        WAVECAPS_PITCH = 1,
+        public const int MaxSimultaneouslySounds = 32;
+
+        private readonly List<AudioEffect> _audioEffectPool;
 
         /// <summary>
-        /// Playbackrate is supported.
+        /// Initializes a new AudioEffectPool class.
         /// </summary>
-        WAVECAPS_PLAYBACKRATE = 2,
+        public AudioEffectPool()
+        {
+            _audioEffectPool = new List<AudioEffect>();
+            for (int i = 0; i < MaxSimultaneouslySounds; i++)
+            {
+                _audioEffectPool.Add(new AudioEffect());
+            }
+        }
 
         /// <summary>
-        /// Volume control supported.
+        /// Gets the amount of requestable audio effects.
         /// </summary>
-        WAVECAPS_VOLUME = 4,
+        public int RequestableAudioEffects
+        {
+            get { return _audioEffectPool.Count(x => x.PlaybackState == PlaybackState.Stopped); }
+        }
 
         /// <summary>
-        /// Balancing is supported.
+        /// Requests an idle audio effect.
         /// </summary>
-        WAVECAPS_LRVOLUME = 8,
-
-        /// <summary>
-        /// The driver is synced.
-        /// </summary>
-        WAVECAPS_SYNC = 16,
-
-        /// <summary>
-        /// Accurate position information supported.
-        /// </summary>
-        WAVECAPS_SAMPLEACCURATE = 32
+        /// <returns>AudioEffect.</returns>
+        public AudioEffect RequestAudioEffect()
+        {
+            foreach (var audioEffect in _audioEffectPool)
+            {
+                if (audioEffect.PlaybackState == PlaybackState.Stopped)
+                    return audioEffect;
+            }
+            throw new AudioException("Unable to request an audio effect.");
+        }
     }
 }

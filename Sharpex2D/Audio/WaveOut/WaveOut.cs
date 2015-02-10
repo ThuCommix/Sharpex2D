@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -31,18 +32,13 @@ namespace Sharpex2D.Audio.WaveOut
     [TestState(TestState.Tested)]
     internal class WaveOut
     {
-        private readonly NativeMethods.WaveCallback _callback;
+        private readonly MMInterops.WaveCallback _callback;
         private readonly object _lockObj = new object();
         private int _activeBuffers;
-        private float _balance;
         private List<WaveOutBuffer> _buffers;
-        private int _device;
-        private IntPtr _hWaveOut;
         private int _latency = 150;
-
         private PlaybackState _playbackState = PlaybackState.Stopped;
-        private WaveStream _stream;
-        private float _volume;
+        internal AudioMixer AudioMixer;
 
         /// <summary>
         /// Initializes a new WaveOut class.
@@ -50,6 +46,7 @@ namespace Sharpex2D.Audio.WaveOut
         public WaveOut()
         {
             _callback = Callback;
+            AudioMixer = new AudioMixer();
         }
 
         /// <summary>
@@ -65,37 +62,28 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public float Volume
         {
-            get { return _volume; }
-            set
-            {
-                SetVolume(_hWaveOut, value, value);
-                _volume = value;
-            }
+            get { return AudioMixer.Volume; }
+            set { AudioMixer.Volume = value; }
         }
 
         /// <summary>
-        /// Gets or sets the Volume.
+        /// Gets or sets the Pan.
         /// </summary>
-        public float Balance
+        public float Pan
         {
-            get { return _balance; }
-            set
-            {
-                float left = System.Math.Min(1, value + 1);
-                float right = System.Math.Abs(System.Math.Max(-1, value - 1));
-
-                SetVolume(_hWaveOut, left*Volume, right*Volume);
-                _balance = value;
-            }
+            get { return AudioMixer.Pan; }
+            set { AudioMixer.Pan = value; }
         }
 
         /// <summary>
-        /// Gets the current WaveStream.
+        /// Gets the current Stream.
         /// </summary>
-        public WaveStream WaveStream
-        {
-            get { return _stream; }
-        }
+        public MemoryStream Stream { get; private set; }
+
+        /// <summary>
+        /// Gets the WaveFormat.
+        /// </summary>
+        public WaveFormat Format { get; private set; }
 
         /// <summary>
         /// Gets the PlaybackState.
@@ -108,19 +96,12 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// Gets the Device.
         /// </summary>
-        public int Device
-        {
-            get { return _device; }
-            set { _device = value; }
-        }
+        public int Device { get; set; }
 
         /// <summary>
         /// Gets the WaveOutHandle.
         /// </summary>
-        public IntPtr WaveOutHandle
-        {
-            get { return _hWaveOut; }
-        }
+        public IntPtr WaveOutHandle { get; private set; }
 
         /// <summary>
         /// Gets or sets the Latency.
@@ -142,7 +123,7 @@ namespace Sharpex2D.Audio.WaveOut
         /// <returns>Int32.</returns>
         public static int GetDeviceCount()
         {
-            return NativeMethods.waveOutGetNumDevs();
+            return MMInterops.waveOutGetNumDevs();
         }
 
         /// <summary>
@@ -153,7 +134,7 @@ namespace Sharpex2D.Audio.WaveOut
         public static WaveOutCaps GetDevice(int device)
         {
             var caps = new WaveOutCaps();
-            NativeMethods.waveOutGetDevCaps((uint) device, out caps, (uint) Marshal.SizeOf(caps));
+            MMInterops.waveOutGetDevCaps((uint)device, out caps, (uint)Marshal.SizeOf(caps));
             return caps;
         }
 
@@ -172,14 +153,17 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// Initializes the playback.
         /// </summary>
-        /// <param name="waveStream">The WaveStream.</param>
-        public void Initialize(WaveStream waveStream)
+        /// <param name="audioData">The AudioData.</param>
+        /// <param name="format">The WaveFormat.</param>
+        public void Initialize(byte[] audioData, WaveFormat format)
         {
             lock (_lockObj)
             {
-                _stream = waveStream;
-                _hWaveOut = CreateWaveOut();
-                int bufferSize = (_stream.Format.nAvgBytesPerSec/1000*_latency);
+                Stop();
+                Stream = new MemoryStream(audioData);
+                Format = format;
+                WaveOutHandle = CreateWaveOut();
+                int bufferSize = (format.AvgBytesPerSec/1000*_latency);
                 _buffers = new List<WaveOutBuffer>();
                 for (int i = 0; i < 2; i++)
                 {
@@ -198,13 +182,14 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 StartPlayback();
                 _playbackState = PlaybackState.Playing;
+                RaisePlaybackChanged();
             }
             else if (_playbackState == PlaybackState.Paused)
             {
                 Resume();
                 _playbackState = PlaybackState.Playing;
+                RaisePlaybackChanged();
             }
-            RaisePlaybackChanged();
         }
 
         /// <summary>
@@ -216,7 +201,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 lock (_lockObj)
                 {
-                    NativeMethods.waveOutPause(_hWaveOut);
+                    MMInterops.waveOutPause(WaveOutHandle);
                 }
                 _playbackState = PlaybackState.Paused;
                 RaisePlaybackChanged();
@@ -232,7 +217,7 @@ namespace Sharpex2D.Audio.WaveOut
             {
                 lock (_lockObj)
                 {
-                    NativeMethods.waveOutRestart(_hWaveOut);
+                    MMInterops.waveOutRestart(WaveOutHandle);
                 }
                 _playbackState = PlaybackState.Playing;
                 RaisePlaybackChanged();
@@ -249,7 +234,7 @@ namespace Sharpex2D.Audio.WaveOut
                 _playbackState = PlaybackState.Stopped;
                 lock (_lockObj)
                 {
-                    MMResult result = NativeMethods.waveOutReset(_hWaveOut);
+                    MMResult result = MMInterops.waveOutReset(WaveOutHandle);
                     WaveOutResult.Try(result);
                 }
                 RaisePlaybackChanged();
@@ -263,12 +248,12 @@ namespace Sharpex2D.Audio.WaveOut
         private IntPtr CreateWaveOut()
         {
             IntPtr handle;
-            WaveOutResult.Try(NativeMethods.waveOutOpen(out handle,
-                (IntPtr) _device,
-                _stream.Format,
+            WaveOutResult.Try(MMInterops.waveOutOpen(out handle,
+                (IntPtr) Device,
+                Format,
                 _callback,
                 IntPtr.Zero,
-                NativeMethods.CALLBACK_FUNCTION));
+                MMInterops.CALLBACK_FUNCTION));
 
             return handle;
         }
@@ -283,7 +268,7 @@ namespace Sharpex2D.Audio.WaveOut
         /// <param name="reserved">Reserved.</param>
         private void Callback(IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved)
         {
-            if (_hWaveOut != handle)
+            if (WaveOutHandle != handle)
                 return;
 
             if (msg == WaveMessage.WOM_DONE)
@@ -320,19 +305,23 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         private void StartPlayback()
         {
+            Stream.Position = 0;
             foreach (WaveOutBuffer buffer in _buffers)
             {
                 if (!buffer.IsInQueue)
                 {
-                    if (buffer.WriteData())
+                    lock (_lockObj)
                     {
-                        Interlocked.Increment(ref _activeBuffers);
-                    }
-                    else
-                    {
-                        _playbackState = PlaybackState.Stopped;
-                        RaisePlaybackChanged();
-                        break;
+                        if (buffer.WriteData())
+                        {
+                            Interlocked.Increment(ref _activeBuffers);
+                        }
+                        else
+                        {
+                            _playbackState = PlaybackState.Stopped;
+                            RaisePlaybackChanged();
+                            break;
+                        }
                     }
                 }
             }
@@ -353,23 +342,30 @@ namespace Sharpex2D.Audio.WaveOut
         /// <param name="disposing">The disposing state.</param>
         public virtual void Dispose(bool disposing)
         {
-            if (_hWaveOut == IntPtr.Zero)
-                return;
-
-            Stop();
-            lock (_lockObj)
+            if (_buffers != null)
             {
-                if (_buffers != null)
+                lock (_lockObj)
                 {
                     foreach (WaveOutBuffer buffer in _buffers)
                     {
                         buffer.Dispose();
                     }
-
-                    _buffers.Clear();
                 }
-                WaveOutResult.Try(NativeMethods.waveOutClose(_hWaveOut));
-                _hWaveOut = IntPtr.Zero;
+                _buffers.Clear();
+            }
+            if (Stream != null)
+                Stream.Close();
+
+            if (disposing)
+            {
+                if (WaveOutHandle == IntPtr.Zero)
+                    return;
+
+                lock (_lockObj)
+                {
+                    WaveOutResult.Try(MMInterops.waveOutClose(WaveOutHandle));
+                    WaveOutHandle = IntPtr.Zero;
+                }
             }
         }
 
@@ -382,9 +378,9 @@ namespace Sharpex2D.Audio.WaveOut
         public static void SetVolume(IntPtr waveOut, float left, float right)
         {
             uint tmp = (uint) (left*0xFFFF) + ((uint) (right*0xFFFF) << 16);
-            MMResult result = NativeMethods.waveOutSetVolume(waveOut, tmp);
+            MMResult result = MMInterops.waveOutSetVolume(waveOut, tmp);
             if (result != MMResult.MMSYSERR_NOERROR)
-                WaveOutResult.Try(NativeMethods.waveOutSetVolume(waveOut, tmp));
+                WaveOutResult.Try(MMInterops.waveOutSetVolume(waveOut, tmp));
         }
 
         /// <summary>

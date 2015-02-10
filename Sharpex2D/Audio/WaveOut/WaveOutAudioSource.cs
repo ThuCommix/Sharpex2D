@@ -18,28 +18,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.IO;
-using Sharpex2D.Audio;
-using Sharpex2D.Audio.WaveOut;
+using Sharpex2D.Audio.Converters;
 
-namespace Sharpex2D.Common.Extensions
+namespace Sharpex2D.Audio.WaveOut
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class SoundExtensions
+    public class WaveOutAudioSource : IAudioSource
     {
-        /// <summary>
-        /// Gets the Stream.
-        /// </summary>
-        /// <param name="sound">The Sound.</param>
-        /// <returns>WaveStream.</returns>
-        internal static WaveStream GetStream(this Sound sound)
-        {
-            return new WaveStream(new MemoryStream(sound.Data));
-        }
-    }
+        internal byte[] WaveData;
+        internal WaveFormat WaveFormat;
 
-#endif
+        /// <summary>
+        /// Initializes a new WaveOutAudioSource class.
+        /// </summary>
+        /// <param name="waveStream">The WaveStream.</param>
+        internal WaveOutAudioSource(WaveStream waveStream)
+        {
+            waveStream.Seek(0, SeekOrigin.Begin);
+            WaveData = new byte[waveStream.Length];
+            waveStream.Read(WaveData, 0, WaveData.Length);
+            waveStream.Close();
+            WaveFormat = waveStream.Format;
+
+            if (WaveFormat.Channels == 1) //try to convert to stereo for full audiomixer support
+            {
+                try
+                {
+                    new MonoToStereoConverter().ConvertAudioData(WaveData, ref WaveFormat);
+                }
+                catch (NotSupportedException)
+                {
+                }
+            }
+        }
+
+        #region IAudioSource Implementation
+
+        /// <summary>
+        /// Gets the Name of the AudioSource object.
+        /// </summary>
+        public string Name { get; set; }
+
+        #endregion
+    }
 }

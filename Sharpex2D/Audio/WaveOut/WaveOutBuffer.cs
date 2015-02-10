@@ -66,12 +66,9 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public void Dispose()
         {
-            if (!_disposed)
-            {
-                Dispose(true);
-                GC.SuppressFinalize(this);
-            }
             _disposed = true;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -94,7 +91,7 @@ namespace Sharpex2D.Audio.WaveOut
             _header = header;
             lock (_waveOut.LockObj)
             {
-                WaveOutResult.Try(NativeMethods.waveOutPrepareHeader(_waveOut.WaveOutHandle, header,
+                WaveOutResult.Try(MMInterops.waveOutPrepareHeader(_waveOut.WaveOutHandle, header,
                     Marshal.SizeOf(header)));
             }
         }
@@ -106,23 +103,23 @@ namespace Sharpex2D.Audio.WaveOut
         public bool WriteData()
         {
             int read;
-            lock (_waveOut.WaveStream)
+            lock (_waveOut.Stream)
             {
-                read = _waveOut.WaveStream.Read(_buffer, 0, _buffer.Length);
+                read = _waveOut.Stream.Read(_buffer, 0, _buffer.Length);
             }
             if (read > 0)
             {
+                if (_disposed) return false;
+                _waveOut.AudioMixer.ApplyEffects(_buffer, _waveOut.Format);
                 Array.Clear(_buffer, read, _buffer.Length - read);
-                lock (_waveOut.LockObj)
+
+                MMResult result = MMInterops.waveOutWrite(_waveOut.WaveOutHandle, _header,
+                    Marshal.SizeOf(_header));
+                if (result != MMResult.MMSYSERR_NOERROR)
                 {
-                    MMResult result = NativeMethods.waveOutWrite(_waveOut.WaveOutHandle, _header,
-                        Marshal.SizeOf(_header));
-                    if (result != MMResult.MMSYSERR_NOERROR)
-                    {
-                        WaveOutResult.Try(result);
-                    }
-                    return result == MMResult.MMSYSERR_NOERROR;
+                    WaveOutResult.Try(result);
                 }
+                return result == MMResult.MMSYSERR_NOERROR;
             }
             return false;
         }
@@ -138,17 +135,21 @@ namespace Sharpex2D.Audio.WaveOut
                 if (_header == null || _waveOut.WaveOutHandle == IntPtr.Zero)
                     return;
 
-
-                WaveOutResult.Try(NativeMethods.waveOutUnprepareHeader(_waveOut.WaveOutHandle, _header,
-                    Marshal.SizeOf(_header)));
-
                 if (_bufferHandle.IsAllocated)
                     _bufferHandle.Free();
                 if (_headerHandle.IsAllocated)
                     _headerHandle.Free();
                 if (_userDataHandle.IsAllocated)
                     _userDataHandle.Free();
+
+                WaveOutResult.Try(MMInterops.waveOutUnprepareHeader(_waveOut.WaveOutHandle, _header,
+                    Marshal.SizeOf(_header)));
+
                 _header = null;
+            }
+
+            if (disposing)
+            {
             }
         }
 

@@ -18,43 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Flags]
-    internal enum WaveCapsSupported
+    public enum PlaybackMode
     {
         /// <summary>
-        /// Pitch is supported.
+        /// No specific playback mode.
         /// </summary>
-        WAVECAPS_PITCH = 1,
+        None,
 
         /// <summary>
-        /// Playbackrate is supported.
+        /// Looping the audio source.
         /// </summary>
-        WAVECAPS_PLAYBACKRATE = 2,
-
-        /// <summary>
-        /// Volume control supported.
-        /// </summary>
-        WAVECAPS_VOLUME = 4,
-
-        /// <summary>
-        /// Balancing is supported.
-        /// </summary>
-        WAVECAPS_LRVOLUME = 8,
-
-        /// <summary>
-        /// The driver is synced.
-        /// </summary>
-        WAVECAPS_SYNC = 16,
-
-        /// <summary>
-        /// Accurate position information supported.
-        /// </summary>
-        WAVECAPS_SAMPLEACCURATE = 32
+        Loop
     }
 }

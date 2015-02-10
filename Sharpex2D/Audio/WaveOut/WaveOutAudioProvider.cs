@@ -19,30 +19,32 @@
 // THE SOFTWARE.
 
 using System;
-using System.IO;
 
 namespace Sharpex2D.Audio.WaveOut
 {
 #if Windows
-    public class WaveOutProvider : ISoundProvider
+
+    [Developer("ThuCommix", "developer@sharpex2d.de")]
+    [TestState(TestState.Tested)]
+    [MetaData("Name", "WaveOut API")]
+    public class WaveOutAudioProvider : IAudioProvider
     {
+        private readonly int _device;
         private readonly WaveOut _waveOut;
+        private IAudioSource _currentAudioSource;
+        private PlaybackMode _playbackMode = PlaybackMode.None;
+        private bool _userStop;
 
         /// <summary>
         /// Initializes a new WaveOutProvider class.
         /// </summary>
-        public WaveOutProvider()
+        public WaveOutAudioProvider()
         {
+            var devices = WaveOut.GetDevices();
+            if (devices.Length == 0) throw new AudioException("No available audio devices where found.");
+            _device = 0;
             _waveOut = new WaveOut();
             _waveOut.PlaybackChanged += PlaybackChangedEvent;
-        }
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("4ADFDB7D-984E-476E-9EF3-46B0ED8C7F6A"); }
         }
 
         /// <summary>
@@ -53,10 +55,10 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// Sets or gets the Balance.
         /// </summary>
-        public float Balance
+        public float Pan
         {
-            get { return _waveOut.Balance; }
-            set { _waveOut.Balance = value; }
+            get { return _waveOut.Pan; }
+            set { _waveOut.Pan = value; }
         }
 
         /// <summary>
@@ -73,7 +75,7 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public long Position
         {
-            get { return _waveOut.WaveStream.Length/_waveOut.WaveStream.Format.nAvgBytesPerSec*1000; }
+            get { return _waveOut.Stream.Position/_waveOut.Format.AvgBytesPerSec*1000; }
             set { Seek(value); }
         }
 
@@ -90,17 +92,34 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public long Length
         {
-            get { return _waveOut.WaveStream.Length/_waveOut.WaveStream.Format.nAvgBytesPerSec*1000; }
+            get { return _waveOut.Stream.Length/_waveOut.Format.AvgBytesPerSec*1000; }
+        }
+
+        /// <summary>
+        /// Initializes the audio provider with the given audio source.
+        /// </summary>
+        /// <param name="audioSource">The AudioSource.</param>
+        public void Initialize(IAudioSource audioSource)
+        {
+            var waveOutAudioSource = audioSource as WaveOutAudioSource;
+            if (waveOutAudioSource == null)
+            {
+                throw new InvalidOperationException("The specified audio source does not match the AudioProvider type.");
+            }
+
+            _currentAudioSource = audioSource;
+            _waveOut.Device = _device;
+            _waveOut.Initialize(waveOutAudioSource.WaveData, waveOutAudioSource.WaveFormat);
+            _userStop = false;
         }
 
         /// <summary>
         /// Plays the sound.
         /// </summary>
-        /// <param name="soundFile">The Soundfile.</param>
-        public void Play(Sound soundFile)
+        /// <param name="playbackMode">The PlaybackMode.</param>
+        public void Play(PlaybackMode playbackMode)
         {
-            _waveOut.Dispose();
-            _waveOut.Initialize(new WaveStream(new MemoryStream(soundFile.Data)));
+            _playbackMode = playbackMode;
             _waveOut.Play();
         }
 
@@ -125,6 +144,7 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public void Stop()
         {
+            _userStop = true;
             _waveOut.Stop();
         }
 
@@ -134,8 +154,18 @@ namespace Sharpex2D.Audio.WaveOut
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            long requestesPostion = position/1000*_waveOut.WaveStream.Format.nAvgBytesPerSec;
-            _waveOut.WaveStream.Position = requestesPostion;
+            long requestesPostion = position/1000*_waveOut.Format.AvgBytesPerSec;
+            _waveOut.Stream.Position = requestesPostion;
+        }
+
+        /// <summary>
+        /// Creates an AudioSource.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>AudioSource.</returns>
+        public IAudioSource CreateAudioSource(string path)
+        {
+            return new WaveOutAudioSource(new WaveStream(path));
         }
 
         /// <summary>
@@ -143,7 +173,28 @@ namespace Sharpex2D.Audio.WaveOut
         /// </summary>
         public void Dispose()
         {
-            _waveOut.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Deconstructs the WaveOutAudioProvider class.
+        /// </summary>
+        ~WaveOutAudioProvider()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The disposing state.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _waveOut.Dispose();
+            }
         }
 
         /// <summary>
@@ -153,6 +204,12 @@ namespace Sharpex2D.Audio.WaveOut
         /// <param name="e">The EventArgs.</param>
         private void PlaybackChangedEvent(object sender, EventArgs e)
         {
+            if (PlaybackState == PlaybackState.Stopped && !_userStop && _playbackMode == PlaybackMode.Loop &&
+                _currentAudioSource != null)
+            {
+                Play(PlaybackMode.Loop);
+            }
+
             if (PlaybackChanged != null)
             {
                 PlaybackChanged(this, e);

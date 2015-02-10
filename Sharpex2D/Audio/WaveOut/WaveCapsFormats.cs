@@ -143,6 +143,6 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// 96 kHz, Stereo, 16-bit
         /// </summary>
-        WAVE_FORMAT_96S16 = 0x00080000,
+        WAVE_FORMAT_96S16 = 0x00080000
     }
 }

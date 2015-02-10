@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -24,12 +24,12 @@ namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface ISoundProvider : IComponent, IDisposable
+    public interface IAudioProvider : IDisposable
     {
         /// <summary>
-        /// Sets or gets the Balance.
+        /// Sets or gets the Pan.
         /// </summary>
-        float Balance { set; get; }
+        float Pan { set; get; }
 
         /// <summary>
         /// Sets or gets the Volume.
@@ -57,10 +57,16 @@ namespace Sharpex2D.Audio
         event PlaybackChangedEventHandler PlaybackChanged;
 
         /// <summary>
+        /// Initializes the audio provider with the given source.
+        /// </summary>
+        /// <param name="audioSource">The IAudioSource.</param>
+        void Initialize(IAudioSource audioSource);
+
+        /// <summary>
         /// Plays the sound.
         /// </summary>
-        /// <param name="soundFile">The Soundfile.</param>
-        void Play(Sound soundFile);
+        /// <param name="playbackMode">The PlaybackMode.</param>
+        void Play(PlaybackMode playbackMode);
 
         /// <summary>
         /// Resumes a sound.
@@ -82,5 +88,12 @@ namespace Sharpex2D.Audio
         /// </summary>
         /// <param name="position">The Position.</param>
         void Seek(long position);
+
+        /// <summary>
+        /// Creates an AudioSource.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>AudioSource.</returns>
+        IAudioSource CreateAudioSource(string path);
     }
 }

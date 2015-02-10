@@ -18,40 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
+using Sharpex2D.Content;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class WaveOutInitializer : ISoundInitializer
+    public class AudioSource : IContent
     {
         /// <summary>
-        /// A value indicating whether the audio interface is supported.
+        /// Initializes a new AudioSource class.
         /// </summary>
-        public bool IsSupported
+        /// <param name="audioSource">The IAudioSource.</param>
+        internal AudioSource(IAudioSource audioSource)
         {
-            get
-            {
-#if Windows
-                return new Version(5, 1) <= Environment.OSVersion.Version;
-#else
-                return false;
-#endif
-            }
+            Instance = audioSource;
         }
 
         /// <summary>
-        /// Creates a new WaveOutProvider.
+        /// Gets the Name of the AudioSource object.
         /// </summary>
-        /// <returns></returns>
-        public ISoundProvider Create()
+        public string Name
         {
-#if Windows
-            return new WaveOutProvider();
-#else
-            throw new NotSupportedException();
-#endif
+            get { return Instance.Name; }
         }
+
+        /// <summary>
+        /// Gets the IAudioSource instance.
+        /// </summary>
+        internal IAudioSource Instance { get; private set; }
     }
 }

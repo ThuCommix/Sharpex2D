@@ -37,6 +37,6 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// WaveOut done.
         /// </summary>
-        WOM_DONE = 0x3BD,
+        WOM_DONE = 0x3BD
     }
 }

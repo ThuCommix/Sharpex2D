@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,21 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Audio
+using System;
+
+namespace Sharpex2D.Audio.WaveOut
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface ISoundInitializer
+    public class WaveOutAudioInitializer : IAudioInitializer
     {
         /// <summary>
-        /// A value indicating whether the ISoundInitializer is supported.
+        /// A value indicating whether the audio interface is supported.
         /// </summary>
-        bool IsSupported { get; }
+        public bool IsSupported
+        {
+            get
+            {
+#if Windows
+                return new Version(5, 1) <= Environment.OSVersion.Version;
+#else
+                return false;
+#endif
+            }
+        }
 
         /// <summary>
-        /// Creates the ISoundProvider.
+        /// Creates a new WaveOutAudioProvider.
         /// </summary>
-        /// <returns>ISoundProvider</returns>
-        ISoundProvider Create();
+        /// <returns></returns>
+        public IAudioProvider Create()
+        {
+#if Windows
+            return new WaveOutAudioProvider();
+#else
+            throw new NotSupportedException();
+#endif
+        }
     }
 }
