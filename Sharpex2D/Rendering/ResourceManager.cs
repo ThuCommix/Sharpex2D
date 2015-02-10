@@ -38,5 +38,12 @@ namespace Sharpex2D.Rendering
         /// <param name="typeface">The Typeface.</param>
         /// <returns>IFont.</returns>
         public abstract IFont CreateResource(Typeface typeface);
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>ITexture.</returns>
+        public abstract ITexture CreateResource(string path);
     }
 }

@@ -28,6 +28,16 @@ namespace Sharpex2D.GameService
     [TestState(TestState.Tested)]
     public class AchievementProvider : IComponent, IGameService
     {
+        private readonly Dictionary<Guid, Achievement> _achievements;
+
+        /// <summary>
+        /// Initializes a new AchievementProvider class.
+        /// </summary>
+        public AchievementProvider()
+        {
+            _achievements = new Dictionary<Guid, Achievement>();
+        }
+
         #region IComponent Implementation
 
         /// <summary>
@@ -39,16 +49,6 @@ namespace Sharpex2D.GameService
         }
 
         #endregion
-
-        private readonly Dictionary<Guid, Achievement> _achievements;
-
-        /// <summary>
-        /// Initializes a new AchievementProvider class.
-        /// </summary>
-        public AchievementProvider()
-        {
-            _achievements = new Dictionary<Guid, Achievement>();
-        }
 
         /// <summary>
         /// Adds a new Achievement.

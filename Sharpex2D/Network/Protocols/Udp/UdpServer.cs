@@ -34,98 +34,6 @@ namespace Sharpex2D.Network.Protocols.Udp
     [TestState(TestState.Untested)]
     public class UdpServer : IServer, IDisposable
     {
-        #region IServer Implementation
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        public void Send(IBasePackage package)
-        {
-            byte[] result;
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(package, mStream);
-                result = mStream.ToArray();
-            }
-            for (int i = 0; i <= _connections.Count - 1; i++)
-            {
-                _listener.Client.SendTo(result, new IPEndPoint(_connections[i].IPAddress, 2565));
-            }
-        }
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        /// <param name="receiver">The Receiver.</param>
-        public void Send(IBasePackage package, IPAddress receiver)
-        {
-            byte[] result;
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(package, mStream);
-                result = mStream.ToArray();
-            }
-            _listener.Client.SendTo(result, new IPEndPoint(receiver, 2565));
-        }
-
-        /// <summary>
-        /// A value indicating whether the server is active.
-        /// </summary>
-        public bool IsActive { get; private set; }
-
-        /// <summary>
-        /// Subscribes to a Client.
-        /// </summary>
-        /// <param name="subscriber">The Subscriber.</param>
-        public void Subscribe(IPackageListener subscriber)
-        {
-            _packageListeners.Add(subscriber);
-        }
-
-        /// <summary>
-        /// Unsubscribes from a Client.
-        /// </summary>
-        /// <param name="unsubscriber">The Unsubscriber.</param>
-        public void Unsubscribe(IPackageListener unsubscriber)
-        {
-            _packageListeners.Remove(unsubscriber);
-        }
-
-        #endregion
-
-        #region IDisposable Implementation
-
-        private bool _isDisposed;
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                _isDisposed = true;
-                if (disposing)
-                {
-                    _listener.Close();
-                }
-            }
-        }
-
-        #endregion
-
         private const int IdleMax = 30;
         private readonly UdpConnectionManager _connectionManager;
         private readonly List<IConnection> _connections;
@@ -411,5 +319,97 @@ namespace Sharpex2D.Network.Protocols.Udp
             _connectionManager.Stop();
             IsActive = false;
         }
+
+        #region IServer Implementation
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        public void Send(IBasePackage package)
+        {
+            byte[] result;
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(package, mStream);
+                result = mStream.ToArray();
+            }
+            for (int i = 0; i <= _connections.Count - 1; i++)
+            {
+                _listener.Client.SendTo(result, new IPEndPoint(_connections[i].IPAddress, 2565));
+            }
+        }
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        /// <param name="receiver">The Receiver.</param>
+        public void Send(IBasePackage package, IPAddress receiver)
+        {
+            byte[] result;
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(package, mStream);
+                result = mStream.ToArray();
+            }
+            _listener.Client.SendTo(result, new IPEndPoint(receiver, 2565));
+        }
+
+        /// <summary>
+        /// A value indicating whether the server is active.
+        /// </summary>
+        public bool IsActive { get; private set; }
+
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        public void Subscribe(IPackageListener subscriber)
+        {
+            _packageListeners.Add(subscriber);
+        }
+
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        public void Unsubscribe(IPackageListener unsubscriber)
+        {
+            _packageListeners.Remove(unsubscriber);
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _listener.Close();
+                }
+            }
+        }
+
+        #endregion
     }
 }

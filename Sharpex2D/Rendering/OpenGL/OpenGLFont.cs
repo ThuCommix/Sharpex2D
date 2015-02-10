@@ -20,13 +20,12 @@
 
 using System;
 using System.Drawing;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("OpenGL Font")]
+    [MetaData("Name", "OpenGL Font")]
     public class OpenGLFont : IFont
     {
         /// <summary>

@@ -31,18 +31,6 @@ namespace Sharpex2D.Physics.Collision
     [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     public class CollisionManager : ICollision, IComponent
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("8B822A26-67AC-456E-BA37-0978C9F9697B"); }
-        }
-
-        #endregion
-
         #region ICollision Implementation
 
         /// <summary>
@@ -53,6 +41,18 @@ namespace Sharpex2D.Physics.Collision
         public bool IsIntersecting(Particle particle1, Particle particle2)
         {
             return InternalIsIntersecting(particle1, particle2);
+        }
+
+        #endregion
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("8B822A26-67AC-456E-BA37-0978C9F9697B"); }
         }
 
         #endregion

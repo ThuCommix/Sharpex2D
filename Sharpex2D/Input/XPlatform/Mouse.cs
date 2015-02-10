@@ -30,19 +30,6 @@ namespace Sharpex2D.Input.XPlatform
     [TestState(TestState.Tested)]
     public class Mouse : NativeInput<MouseState>
     {
-        #region IUpdateable Implementation
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
-        {
-            _mousestate.Clear();
-        }
-
-        #endregion
-
         private readonly Dictionary<MouseButtons, bool> _mousestate;
         private Vector2 _position;
 
@@ -74,13 +61,25 @@ namespace Sharpex2D.Input.XPlatform
             get { return new Version(5, 1); }
         }
 
+        #region IUpdateable Implementation
+
+        /// <summary>
+        /// Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Update(GameTime gameTime)
+        {
+            _mousestate.Clear();
+        }
+
+        #endregion
+
         /// <summary>
         /// Initializes the Device.
         /// </summary>
         public override void InitializeDevice()
         {
         }
-
 
         /// <summary>
         /// Gets the State.

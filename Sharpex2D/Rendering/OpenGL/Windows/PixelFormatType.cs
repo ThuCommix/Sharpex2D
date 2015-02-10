@@ -32,6 +32,6 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         /// <summary>
         /// Requests ColorIndex.
         /// </summary>
-        PFD_TYPE_COLORINDEX = 1,
+        PFD_TYPE_COLORINDEX = 1
     }
 }

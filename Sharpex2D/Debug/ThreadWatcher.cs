@@ -28,6 +28,42 @@ namespace Sharpex2D.Debug
     [TestState(TestState.Tested)]
     public class ThreadWatcher : IDebugWatcher
     {
+        private readonly Process _currentProcess;
+        private Task _runTask;
+
+        /// <summary>
+        /// Initializes a new ThreadWatcher class.
+        /// </summary>
+        public ThreadWatcher()
+        {
+            Guid = new Guid("556AA31B-1FAD-4FF3-A8C1-F1FAE5DD08CC");
+            _currentProcess = Process.GetCurrentProcess();
+        }
+
+        /// <summary>
+        /// Gets the amount of running Threads.
+        /// </summary>
+        public int Count { private set; get; }
+
+        /// <summary>
+        /// Gets the ProcessThreads.
+        /// </summary>
+        public ProcessThread[] Threads { private set; get; }
+
+        /// <summary>
+        /// The Run loop.
+        /// </summary>
+        private void RunInner()
+        {
+            while (IsRunning)
+            {
+                Count = _currentProcess.Threads.Count;
+                Threads = new ProcessThread[Count];
+                _currentProcess.Threads.CopyTo(Threads, 0);
+                _runTask.Wait(1000);
+            }
+        }
+
         #region IDebugWatcher Implementation
 
         /// <summary>
@@ -83,41 +119,5 @@ namespace Sharpex2D.Debug
         }
 
         #endregion
-
-        private readonly Process _currentProcess;
-        private Task _runTask;
-
-        /// <summary>
-        /// Initializes a new ThreadWatcher class.
-        /// </summary>
-        public ThreadWatcher()
-        {
-            Guid = new Guid("556AA31B-1FAD-4FF3-A8C1-F1FAE5DD08CC");
-            _currentProcess = Process.GetCurrentProcess();
-        }
-
-        /// <summary>
-        /// Gets the amount of running Threads.
-        /// </summary>
-        public int Count { private set; get; }
-
-        /// <summary>
-        /// Gets the ProcessThreads.
-        /// </summary>
-        public ProcessThread[] Threads { private set; get; }
-
-        /// <summary>
-        /// The Run loop.
-        /// </summary>
-        private void RunInner()
-        {
-            while (IsRunning)
-            {
-                Count = _currentProcess.Threads.Count;
-                Threads = new ProcessThread[Count];
-                _currentProcess.Threads.CopyTo(Threads, 0);
-                _runTask.Wait(1000);
-            }
-        }
     }
 }

@@ -19,13 +19,12 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Scripting.VB
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    [Content("Visual Basic Script File")]
+    [MetaData("Name", "Visual Basic Script File")]
     public class VBScript : IScript
     {
         #region IScript Implementation

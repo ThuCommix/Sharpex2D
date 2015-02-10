@@ -57,6 +57,6 @@ namespace Sharpex2D.Debug
         /// <summary>
         /// Exabyte.
         /// </summary>
-        Exabyte = Pentabyte*1024,
+        Exabyte = Pentabyte*1024
     }
 }

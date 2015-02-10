@@ -95,6 +95,6 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         /// <summary>
         /// Supports direct draw.
         /// </summary>
-        PFD_SUPPORT_DIRECTDRAW = 0x00002000,
+        PFD_SUPPORT_DIRECTDRAW = 0x00002000
     }
 }

@@ -28,36 +28,6 @@ namespace Sharpex2D.Physics
     [TestState(TestState.Untested)]
     public class World : IUpdateable, IDisposable
     {
-        #region IDisposable Implementation
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">The Disposing State.</param>
-        public virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Bodies.Clear();
-                Bodies = null;
-                Controllers.Clear();
-                Controllers = null;
-
-                SGL.QueryComponents<GameLoop>().Unsubscribe(this);
-            }
-        }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new World class.
         /// </summary>
@@ -100,5 +70,35 @@ namespace Sharpex2D.Physics
                 }
             }
         }
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The Disposing State.</param>
+        public virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                Bodies.Clear();
+                Bodies = null;
+                Controllers.Clear();
+                Controllers = null;
+
+                SGL.QueryComponents<GameLoop>().Unsubscribe(this);
+            }
+        }
+
+        #endregion
     }
 }

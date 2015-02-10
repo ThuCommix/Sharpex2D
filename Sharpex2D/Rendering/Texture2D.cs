@@ -18,32 +18,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Content.Pipeline;
+
+using Sharpex2D.Content;
 
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Texture2D")]
-    public abstract class Texture2D : IGraphicsResource
+    [MetaData("Name", "Texture2D")]
+    public class Texture2D : IContent
     {
-        #region IRendererResource Implementation
+        internal readonly ITexture Texture;
 
         /// <summary>
-        /// Gets or sets the DebugName.
+        /// Initializes a new Texture2D class.
         /// </summary>
-        public string DebugName { get; set; }
-
-        #endregion
+        /// <param name="texture">The Texture.</param>
+        internal Texture2D(ITexture texture)
+        {
+            Texture = texture;
+        }
 
         /// <summary>
         /// Gets the Width.
         /// </summary>
-        public abstract int Width { get; }
+        public int Width
+        {
+            get { return Texture.Width; }
+        }
 
         /// <summary>
         /// Gets the Height.
         /// </summary>
-        public abstract int Height { get; }
+        public int Height
+        {
+            get { return Texture.Height; }
+        }
     }
 }

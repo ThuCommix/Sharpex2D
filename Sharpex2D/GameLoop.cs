@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Sharpex2D.Debug.Logging;
 using Sharpex2D.Rendering;
 
 namespace Sharpex2D
@@ -34,10 +35,9 @@ namespace Sharpex2D
         private readonly List<IDrawable> _drawables;
         private readonly GameTime _gameTime;
         private readonly Stopwatch _gameTimer;
+        private readonly Logger _logger;
         private readonly Thread _loopThread;
         private readonly List<IUpdateable> _updateables;
-        private int _measuredFps;
-        private int _measuredUps;
 
         /// <summary>
         /// Initializes a new GameLoop class.
@@ -52,6 +52,7 @@ namespace Sharpex2D
             _gameTime = new GameTime();
             Precision = Precision.High;
             DrawMode = DrawMode.Limited;
+            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -67,18 +68,12 @@ namespace Sharpex2D
         /// <summary>
         /// Gets the measured frames per second.
         /// </summary>
-        public int MeasuredFrames
-        {
-            get { return _measuredFps; }
-        }
+        public int MeasuredFrames { get; private set; }
 
         /// <summary>
         /// Gets the measured updates per second.
         /// </summary>
-        public int MeasuredUpdates
-        {
-            get { return _measuredUps; }
-        }
+        public int MeasuredUpdates { get; private set; }
 
         /// <summary>
         /// Gets or sets the DrawMode.
@@ -211,8 +206,8 @@ namespace Sharpex2D
                 if (frameCounter >= Stopwatch.Frequency)
                 {
                     frameCounter = 0;
-                    _measuredFps = frames;
-                    _measuredUps = updates;
+                    MeasuredFrames = frames;
+                    MeasuredUpdates = updates;
                     frames = 0;
                     updates = 0;
                 }
@@ -239,11 +234,14 @@ namespace Sharpex2D
                 }
             }
 
-            //the game ended, clean up self disposing elements
+            //the game ended, clean up components
 
-            foreach (var component in SGL.Components.OfType<ISelfDisposingComponent>())
+            foreach (var component in SGL.Components.OfType<IDisposable>())
             {
                 (component).Dispose();
+#if DEBUG
+                _logger.Engine("Disposing: {0}", component.GetType().Name);
+#endif
             }
         }
 

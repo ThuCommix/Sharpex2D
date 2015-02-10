@@ -35,6 +35,179 @@ namespace Sharpex2D.Network.Protocols.Local
     [TestState(TestState.Untested)]
     public class LocalClient : IClient, IDisposable
     {
+        private const int IdleMax = 30;
+        private readonly List<IClientListener> _clientListeners;
+        private readonly Logger _logger;
+        private readonly List<IPackageListener> _packageListeners;
+        private readonly TcpClient _tcpClient;
+        private int _currentIdle;
+        private int _idleTimeout;
+        private NetworkStream _nStream;
+
+        /// <summary>
+        /// Initializes a new LocalClient class.
+        /// </summary>
+        public LocalClient()
+        {
+            _tcpClient = new TcpClient();
+            _packageListeners = new List<IPackageListener>();
+            _clientListeners = new List<IClientListener>();
+            _logger = LogManager.GetClassLogger();
+        }
+
+        /// <summary>
+        /// A value indicating whether the client is connected.
+        /// </summary>
+        public bool Connected
+        {
+            get { return _tcpClient != null && _tcpClient.Connected; }
+        }
+
+        /// <summary>
+        /// Gets a list of all matching package listeners.
+        /// </summary>
+        /// <param name="type">The Type.</param>
+        /// <returns>List of package listeners</returns>
+        private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
+        {
+            var listenerContext = new List<IPackageListener>();
+            for (int i = 0; i <= _packageListeners.Count - 1; i++)
+            {
+                //if listener type is null go to next
+                if (_packageListeners[i].ListenerType == null)
+                {
+                    continue;
+                }
+
+                if (_packageListeners[i].ListenerType == type)
+                {
+                    listenerContext.Add(_packageListeners[i]);
+                }
+            }
+            return listenerContext;
+        }
+
+        /// <summary>
+        /// Starts receiving data.
+        /// </summary>
+        private void InternalBeginReceive()
+        {
+            while (_tcpClient.Connected)
+            {
+                try
+                {
+                    IBasePackage package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
+                    if (package == null)
+                    {
+                        //Idle the client.
+                        Idle();
+                        continue;
+                    }
+                    var binaryPackage = package as BinaryPackage;
+                    if (binaryPackage != null)
+                    {
+                        //binary package
+                        //Gets the subscriber list with the matching origin type
+                        IEnumerable<IPackageListener> subscribers = GetPackageSubscriber(binaryPackage.OriginType);
+                        foreach (IPackageListener subscriber in subscribers)
+                        {
+                            subscriber.OnPackageReceived(binaryPackage);
+                        }
+
+                        //Nothing more to do.
+                        continue;
+                    }
+                    //determine, which package is it.
+                    var notificationPackage = package as NotificationPackage;
+                    if (notificationPackage != null)
+                    {
+                        //Notificationpackage
+
+                        switch (notificationPackage.Mode)
+                        {
+                            //client joined
+                            case NotificationMode.ClientJoined:
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
+                                }
+                                break;
+                            //client exited
+                            case NotificationMode.ClientExited:
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
+                                }
+                                break;
+                            //client listing
+                            case NotificationMode.ClientList:
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientListing(notificationPackage.Connection);
+                                }
+                                break;
+                            //server shutdown
+                            case NotificationMode.ServerShutdown:
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnServerShutdown();
+                                    _tcpClient.Close();
+                                }
+                                break;
+                            //we timed out.
+                            case NotificationMode.TimeOut:
+                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
+                                {
+                                    _clientListeners[i].OnClientTimedOut();
+                                }
+                                _tcpClient.Close();
+                                break;
+                        }
+
+                        //exit sub
+                        continue;
+                    }
+                    var pingPackage = package as PingPackage;
+                    if (pingPackage != null)
+                    {
+                        //Pingpackage
+                        //Send the ping package back to the server.
+                        Send(pingPackage);
+                        //exit sub
+                        continue;
+                    }
+
+                    _logger.Error("Received unknown package.");
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Idles the thread.
+        /// </summary>
+        private void Idle()
+        {
+            //Idle to save cpu power.   
+            _currentIdle++;
+
+            if (_idleTimeout > 0)
+            {
+                Thread.Sleep(_idleTimeout);
+            }
+
+            if (_currentIdle < IdleMax) return;
+
+            _currentIdle = 0;
+            if (_idleTimeout < 15)
+            {
+                _idleTimeout++;
+            }
+        }
+
         #region IClient Implementation
 
         /// <summary>
@@ -184,178 +357,5 @@ namespace Sharpex2D.Network.Protocols.Local
         }
 
         #endregion
-
-        private const int IdleMax = 30;
-        private readonly List<IClientListener> _clientListeners;
-        private readonly Logger _logger;
-        private readonly List<IPackageListener> _packageListeners;
-        private readonly TcpClient _tcpClient;
-        private int _currentIdle;
-        private int _idleTimeout;
-        private NetworkStream _nStream;
-
-        /// <summary>
-        /// Initializes a new LocalClient class.
-        /// </summary>
-        public LocalClient()
-        {
-            _tcpClient = new TcpClient();
-            _packageListeners = new List<IPackageListener>();
-            _clientListeners = new List<IClientListener>();
-            _logger = LogManager.GetClassLogger();
-        }
-
-        /// <summary>
-        /// A value indicating whether the client is connected.
-        /// </summary>
-        public bool Connected
-        {
-            get { return _tcpClient != null && _tcpClient.Connected; }
-        }
-
-        /// <summary>
-        /// Gets a list of all matching package listeners.
-        /// </summary>
-        /// <param name="type">The Type.</param>
-        /// <returns>List of package listeners</returns>
-        private IEnumerable<IPackageListener> GetPackageSubscriber(Type type)
-        {
-            var listenerContext = new List<IPackageListener>();
-            for (int i = 0; i <= _packageListeners.Count - 1; i++)
-            {
-                //if listener type is null go to next
-                if (_packageListeners[i].ListenerType == null)
-                {
-                    continue;
-                }
-
-                if (_packageListeners[i].ListenerType == type)
-                {
-                    listenerContext.Add(_packageListeners[i]);
-                }
-            }
-            return listenerContext;
-        }
-
-        /// <summary>
-        /// Starts receiving data.
-        /// </summary>
-        private void InternalBeginReceive()
-        {
-            while (_tcpClient.Connected)
-            {
-                try
-                {
-                    IBasePackage package = _tcpClient.Available > 0 ? PackageSerializer.Deserialize(_nStream) : null;
-                    if (package == null)
-                    {
-                        //Idle the client.
-                        Idle();
-                        continue;
-                    }
-                    var binaryPackage = package as BinaryPackage;
-                    if (binaryPackage != null)
-                    {
-                        //binary package
-                        //Gets the subscriber list with the matching origin type
-                        IEnumerable<IPackageListener> subscribers = GetPackageSubscriber(binaryPackage.OriginType);
-                        foreach (IPackageListener subscriber in subscribers)
-                        {
-                            subscriber.OnPackageReceived(binaryPackage);
-                        }
-
-                        //Nothing more to do.
-                        continue;
-                    }
-                    //determine, which package is it.
-                    var notificationPackage = package as NotificationPackage;
-                    if (notificationPackage != null)
-                    {
-                        //Notificationpackage
-
-                        switch (notificationPackage.Mode)
-                        {
-                                //client joined
-                            case NotificationMode.ClientJoined:
-                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
-                                {
-                                    _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
-                                }
-                                break;
-                                //client exited
-                            case NotificationMode.ClientExited:
-                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
-                                {
-                                    _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
-                                }
-                                break;
-                                //client listing
-                            case NotificationMode.ClientList:
-                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
-                                {
-                                    _clientListeners[i].OnClientListing(notificationPackage.Connection);
-                                }
-                                break;
-                                //server shutdown
-                            case NotificationMode.ServerShutdown:
-                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
-                                {
-                                    _clientListeners[i].OnServerShutdown();
-                                    _tcpClient.Close();
-                                }
-                                break;
-                                //we timed out.
-                            case NotificationMode.TimeOut:
-                                for (int i = 0; i <= _clientListeners.Count - 1; i++)
-                                {
-                                    _clientListeners[i].OnClientTimedOut();
-                                }
-                                _tcpClient.Close();
-                                break;
-                        }
-
-                        //exit sub
-                        continue;
-                    }
-                    var pingPackage = package as PingPackage;
-                    if (pingPackage != null)
-                    {
-                        //Pingpackage
-                        //Send the ping package back to the server.
-                        Send(pingPackage);
-                        //exit sub
-                        continue;
-                    }
-
-                    _logger.Error("Received unknown package.");
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex.Message);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Idles the thread.
-        /// </summary>
-        private void Idle()
-        {
-            //Idle to save cpu power.   
-            _currentIdle++;
-
-            if (_idleTimeout > 0)
-            {
-                Thread.Sleep(_idleTimeout);
-            }
-
-            if (_currentIdle < IdleMax) return;
-
-            _currentIdle = 0;
-            if (_idleTimeout < 15)
-            {
-                _idleTimeout++;
-            }
-        }
     }
 }

@@ -18,13 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("OpenGL Pen")]
+    [MetaData("Name", "OpenGL Pen")]
     public class OpenGLPen : IPen
     {
         private Color _color;

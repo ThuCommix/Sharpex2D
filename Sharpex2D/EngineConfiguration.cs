@@ -41,11 +41,11 @@ namespace Sharpex2D
         /// Initializes a new EngineConfiguration class.
         /// </summary>
         /// <param name="graphicsManager">The GraphicsManager.</param>
-        /// <param name="soundInitializer">The SoundInitializer.</param>
-        public EngineConfiguration(GraphicsManager graphicsManager, ISoundInitializer soundInitializer)
+        /// <param name="audioInitializer">The AudioInitializer.</param>
+        public EngineConfiguration(GraphicsManager graphicsManager, IAudioInitializer audioInitializer)
         {
             GraphicsManager = graphicsManager;
-            SoundInitializer = soundInitializer;
+            AudioInitializer = audioInitializer;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Sharpex2D
         /// <summary>
         /// Gets the SoundInitializer.
         /// </summary>
-        internal ISoundInitializer SoundInitializer { set; get; }
+        internal IAudioInitializer AudioInitializer { set; get; }
 
         /// <summary>
         /// Gets the Guid.

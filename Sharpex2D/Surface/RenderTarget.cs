@@ -29,48 +29,7 @@ namespace Sharpex2D.Surface
     [TestState(TestState.Tested)]
     public class RenderTarget : IComponent, IDisposable
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("0F73D6D0-7CE8-4A77-A184-BE93E77E86B5"); }
-        }
-
-        #endregion
-
         private bool _isDisposed;
-
-        #region IDisposable Implementation
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                _isDisposed = true;
-                if (disposing)
-                {
-                    Window.Dispose();
-                }
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Initializes a new RenderTarget class.
@@ -141,6 +100,18 @@ namespace Sharpex2D.Surface
                 throw new InvalidOperationException("Could not get the handle associated with the current process.");
             }
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("0F73D6D0-7CE8-4A77-A184-BE93E77E86B5"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// ScreenSizeChanged event.
@@ -221,5 +192,34 @@ namespace Sharpex2D.Surface
 
             return new RenderTarget(handle);
         }
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    Window.Dispose();
+                }
+            }
+        }
+
+        #endregion
     }
 }

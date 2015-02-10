@@ -26,6 +26,29 @@ namespace Sharpex2D.Rendering
     [TestState(TestState.Tested)]
     public class AnimatedSpriteSheet : SpriteSheet, IUpdateable
     {
+        private readonly List<Keyframe> _keyframes;
+        private int _ckeyframe;
+        private float _durationPassed;
+
+        /// <summary>
+        /// Initializes a new AnimatedSpriteSheet class.
+        /// </summary>
+        /// <param name="texture2D">The Texture2D.</param>
+        public AnimatedSpriteSheet(Texture2D texture2D) : base(texture2D)
+        {
+            _keyframes = new List<Keyframe>();
+        }
+
+        /// <summary>
+        /// Gets the current Keyframe.
+        /// </summary>
+        public Keyframe CurrentKeyframe { private set; get; }
+
+        /// <summary>
+        /// A value indicating whether the AnimatedSpriteSheet should update automatically.
+        /// </summary>
+        public bool AutoUpdate { set; get; }
+
         #region IUpdate Implementation
 
         /// <summary>
@@ -56,29 +79,6 @@ namespace Sharpex2D.Rendering
         }
 
         #endregion
-
-        private readonly List<Keyframe> _keyframes;
-        private int _ckeyframe;
-        private float _durationPassed;
-
-        /// <summary>
-        /// Initializes a new AnimatedSpriteSheet class.
-        /// </summary>
-        /// <param name="texture2D">The Texture2D.</param>
-        public AnimatedSpriteSheet(Texture2D texture2D) : base(texture2D)
-        {
-            _keyframes = new List<Keyframe>();
-        }
-
-        /// <summary>
-        /// Gets the current Keyframe.
-        /// </summary>
-        public Keyframe CurrentKeyframe { private set; get; }
-
-        /// <summary>
-        /// A value indicating whether the AnimatedSpriteSheet should update automatically.
-        /// </summary>
-        public bool AutoUpdate { set; get; }
 
         /// <summary>
         /// Adds a new Keyframe.

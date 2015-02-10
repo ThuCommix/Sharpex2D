@@ -21,14 +21,13 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("OpenGL Texture")]
-    public class OpenGLTexture : Texture2D
+    [MetaData("Name", "OpenGL Texture")]
+    public class OpenGLTexture : ITexture
     {
         private readonly int _height;
         private readonly OpenGLGraphics _openglGraphics;
@@ -53,22 +52,6 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Gets the Width.
-        /// </summary>
-        public override int Width
-        {
-            get { return _width; }
-        }
-
-        /// <summary>
-        /// Gets the Height.
-        /// </summary>
-        public override int Height
-        {
-            get { return _height; }
-        }
-
-        /// <summary>
         /// Gets the TextureId.
         /// </summary>
         public int TextureId { private set; get; }
@@ -81,12 +64,27 @@ namespace Sharpex2D.Rendering.OpenGL
         internal bool IsBinded { private set; get; }
 
         /// <summary>
+        /// Gets the Width.
+        /// </summary>
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Gets the Height.
+        /// </summary>
+        public int Height
+        {
+            get { return _height; }
+        }
+
+        /// <summary>
         /// Binds the texture if unbinded.
         /// </summary>
         internal void BindIfUnbinded()
         {
             if (IsBinded) return;
-
             var texture = new uint[1];
 
             OpenGL.glHint(OpenGL.GL_PERSPECTIVE_CORRECTION_HINT, OpenGL.GL_NICEST);
@@ -115,7 +113,6 @@ namespace Sharpex2D.Rendering.OpenGL
                 OpenGL.GL_UNSIGNED_BYTE, data.Scan0);
 
             RawBitmap.UnlockBits(data);
-
             IsBinded = true;
         }
     }

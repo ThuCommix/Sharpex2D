@@ -18,28 +18,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D
+using Sharpex2D.Content;
+
+namespace Sharpex2D.Scripting
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public enum Precision
+    [TestState(TestState.Untested)]
+    public class ScriptFile : IContent
     {
         /// <summary>
-        /// High loop precision.
+        /// Gets the text of this instance.
         /// </summary>
-        /// <remarks>High CPU usage through non sleeping thread.</remarks>
-        High,
-
-        /// <summary>
-        /// Normal loop precision.
-        /// </summary>
-        /// <remarks>Average CPU usage. [ThreadSleep: 1ms]</remarks>
-        Normal = 1,
-
-        /// <summary>
-        /// Low loop precision.
-        /// </summary>
-        /// <remarks>Low CPU usage. [ThreadSleep: 2ms]</remarks>
-        Low = 2
+        public string Text { internal set; get; }
     }
 }

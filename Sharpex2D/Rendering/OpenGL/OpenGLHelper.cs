@@ -54,6 +54,14 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
+        /// Clears the last opengl error.
+        /// </summary>
+        public static void ClearLastError()
+        {
+            OpenGL.glGetError();
+        }
+
+        /// <summary>
         /// Gets the last error.
         /// </summary>
         /// <returns>OpenGLError.</returns>

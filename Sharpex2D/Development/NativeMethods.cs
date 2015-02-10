@@ -21,6 +21,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Security;
+using Sharpex2D.Audio;
 using Sharpex2D.Audio.WaveOut;
 using Sharpex2D.Input;
 using Sharpex2D.Input.Windows.JoystickApi;
@@ -62,6 +63,16 @@ namespace Sharpex2D
         [DllImport("kernel32.dll", EntryPoint = "AllocConsole", SetLastError = true, CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall)]
         internal static extern int AllocConsole();
+
+        /// <summary>
+        /// Check if a Library is present.
+        /// </summary>
+        /// <param name="fileName">The FileName.</param>
+        /// <returns>True if present.</returns>
+        internal static bool CheckLibrary(string fileName)
+        {
+            return LoadLibrary(fileName) == IntPtr.Zero;
+        }
 
         /// <summary>
         /// Gets the console handle.
@@ -182,232 +193,6 @@ namespace Sharpex2D
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsWindow(IntPtr hWnd);
-
-        #region WaveOutAPI
-
-        internal delegate void WaveCallback(
-            IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved);
-
-        /// <summary>
-        /// Gets the number of devices.
-        /// </summary>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern int waveOutGetNumDevs();
-
-        /// <summary>
-        /// Gets the dev caps.
-        /// </summary>
-        /// <param name="deviceID">The DeviceId.</param>
-        /// <param name="waveOutCaps">The WaveOutCaps.</param>
-        /// <param name="cbwaveOutCaps">The Size.</param>
-        /// <returns></returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutGetDevCaps(uint deviceID, out WaveOutCaps waveOutCaps, uint cbwaveOutCaps);
-
-        /// <summary>
-        /// Prepares the header.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="lpWaveOutHdr">The WaveHeader.</param>
-        /// <param name="uSize">The Size.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutPrepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
-
-        /// <summary>
-        /// Unprepares the header.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="lpWaveOutHdr">The WaveHeader.</param>
-        /// <param name="uSize">The Size.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutUnprepareHeader(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
-
-        /// <summary>
-        /// Writes the header.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="lpWaveOutHdr">The WaveHeader.</param>
-        /// <param name="uSize">The Size.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutWrite(IntPtr hWaveOut, WaveHdr lpWaveOutHdr, int uSize);
-
-        /// <summary>
-        /// Opens a WaveOut.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="uDeviceID">The DeviceHandle.</param>
-        /// <param name="lpFormat">The WaveFormat.</param>
-        /// <param name="dwCallback">The Callback.</param>
-        /// <param name="dwInstance">The Instance.</param>
-        /// <param name="dwFlags">The Flags.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutOpen(out IntPtr hWaveOut, IntPtr uDeviceID, WaveFormat lpFormat,
-            WaveCallback dwCallback, IntPtr dwInstance, uint dwFlags);
-
-        /// <summary>
-        /// Resets the WaveOut.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutReset(IntPtr hWaveOut);
-
-        /// <summary>
-        /// Closes the WaveOut.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutClose(IntPtr hWaveOut);
-
-        /// <summary>
-        /// Pauses the WaveOut.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutPause(IntPtr hWaveOut);
-
-        /// <summary>
-        /// Restarts the WaveOut.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutRestart(IntPtr hWaveOut);
-
-        /// <summary>
-        /// Sets the volume.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="dwVolume">The Volume.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutSetVolume(IntPtr hWaveOut, uint dwVolume);
-
-        /// <summary>
-        /// Gets the Volume.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="dwVolume">The Volume.</param>
-        /// <returns>Int.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutGetVolume(IntPtr hWaveOut, out uint dwVolume);
-
-        /// <summary>
-        /// Gets the Pitch.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="pdwPitch">The Pitch.</param>
-        /// <returns></returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutGetPitch(IntPtr hWaveOut, IntPtr pdwPitch);
-
-        /// <summary>
-        /// Sets the Pitch.
-        /// </summary>
-        /// <param name="hWaveOut">The Handle.</param>
-        /// <param name="dwPitch">The Pitch.</param>
-        /// <returns></returns>
-        [DllImport("winmm.dll")]
-        internal static extern MMResult waveOutSetPitch(IntPtr hWaveOut, int dwPitch);
-
-        /// <summary>
-        /// Callbackfunction number.
-        /// </summary>
-        internal const int CALLBACK_FUNCTION = 0x00030000;
-
-        /// <summary>
-        /// WaveDelegate.
-        /// </summary>
-        /// <param name="handle">The Handle.</param>
-        /// <param name="message">The Message.</param>
-        /// <param name="user">The User.</param>
-        /// <param name="waveHeader">The WaveHeader.</param>
-        /// <param name="reserved">Reserved for driver.</param>
-        internal delegate void WaveDelegate(IntPtr handle, int message, IntPtr user, WaveHdr waveHeader, IntPtr reserved
-            );
-
-        #endregion
-
-        #region Joystick
-
-        /// <summary>
-        /// Gets the number of connected devices.
-        /// </summary>
-        /// <returns></returns>
-        [DllImport("winmm.dll")]
-        internal static extern uint joyGetNumDevs();
-
-        /// <summary>
-        /// Gets the state of the Joystick.
-        /// </summary>
-        /// <param name="uJoyID">The Joystick Id.</param>
-        /// <param name="pji">The JoyInfo.</param>
-        /// <returns>UInt32.</returns>
-        [DllImport("winmm.dll")]
-        internal static extern uint joyGetPos(uint uJoyID, ref JoyInfo pji);
-
-        /// <summary>
-        /// Gets the state of the extended Joystick.
-        /// </summary>
-        /// <param name="uJoyID">The Joystick Id.</param>
-        /// <param name="pjiex">The extended JoyInfo.</param>
-        /// <returns>UInt32.</returns>
-        [DllImport("winmm.dll"), SuppressUnmanagedCodeSecurity]
-        internal static extern uint joyGetPosEx(uint uJoyID, ref JoyInfoEx pjiex);
-
-        #endregion
-
-        #region Touch
-
-        /// <summary>
-        /// Registers the TouchWindow.
-        /// </summary>
-        /// <param name="hWnd">The Handle.</param>
-        /// <param name="ulFlags">The Flags.</param>
-        /// <returns>True on success.</returns>
-        [DllImport("User32")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool RegisterTouchWindow(IntPtr hWnd, UInt32 ulFlags);
-
-        /// <summary>
-        /// Gets the TouchInputInfo.
-        /// </summary>
-        /// <param name="hTouchInput">The TouchInput.</param>
-        /// <param name="cInputs">The Number of structures.</param>
-        /// <param name="pInputs">The TouchInput structure.</param>
-        /// <param name="cbSize">The Size.</param>
-        /// <returns>True on success.</returns>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetTouchInputInfo(IntPtr hTouchInput, int cInputs, [In, Out] TouchInput[] pInputs,
-            int cbSize);
-
-        /// <summary>
-        /// Closes the TouchInputHandle.
-        /// </summary>
-        /// <param name="lParam">The Handle.</param>
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool CloseTouchInputHandle(IntPtr lParam);
-
-        /// <summary>
-        /// Closes the TouchInputHandle.
-        /// </summary>
-        /// <param name="handle">The Handle.</param>
-        [DllImport("User32")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool UnregisterTouchWindow(IntPtr handle);
-
-        internal const int WM_TOUCH = 0x0240;
-
-        #endregion
 
         /// <summary>
         /// Gets the current key state.

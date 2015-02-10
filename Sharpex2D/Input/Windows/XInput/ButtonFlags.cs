@@ -95,6 +95,6 @@ namespace Sharpex2D.Input.Windows.XInput
         /// <summary>
         /// Y.
         /// </summary>
-        XINPUT_GAMEPAD_Y = 0x8000,
+        XINPUT_GAMEPAD_Y = 0x8000
     };
 }

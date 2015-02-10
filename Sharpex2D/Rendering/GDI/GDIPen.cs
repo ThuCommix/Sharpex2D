@@ -20,15 +20,48 @@
 
 using System;
 using System.Drawing;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.GDI
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Graphics Device Interface Pen")]
+    [MetaData("Name", "Graphics Device Interface Pen")]
     public class GDIPen : IPen, IDisposable
     {
+        private readonly System.Drawing.Pen _pen;
+        private Color _color;
+        private float _width;
+
+        /// <summary>
+        /// Initializes a new GdiPen class.
+        /// </summary>
+        public GDIPen()
+        {
+            _pen = new System.Drawing.Pen(Brushes.Black);
+            Color = Color.Black;
+            Width = 1;
+            _pen.Width = 1;
+        }
+
+        /// <summary>
+        /// Initializes a new GdiPen class.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        /// <param name="width">The Width.</param>
+        public GDIPen(Color color, float width)
+        {
+            _pen = new System.Drawing.Pen(new SolidBrush(GDIHelper.ConvertColor(color)), width);
+        }
+
+        /// <summary>
+        /// Gets the Pen.
+        /// </summary>
+        /// <returns>Pen</returns>
+        internal System.Drawing.Pen GetPen()
+        {
+            return _pen;
+        }
+
         #region IPen Implementation
 
         /// <summary>
@@ -89,39 +122,5 @@ namespace Sharpex2D.Rendering.GDI
         }
 
         #endregion
-
-        private readonly System.Drawing.Pen _pen;
-        private Color _color;
-        private float _width;
-
-        /// <summary>
-        /// Initializes a new GdiPen class.
-        /// </summary>
-        public GDIPen()
-        {
-            _pen = new System.Drawing.Pen(Brushes.Black);
-            Color = Color.Black;
-            Width = 1;
-            _pen.Width = 1;
-        }
-
-        /// <summary>
-        /// Initializes a new GdiPen class.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="width">The Width.</param>
-        public GDIPen(Color color, float width)
-        {
-            _pen = new System.Drawing.Pen(new SolidBrush(GDIHelper.ConvertColor(color)), width);
-        }
-
-        /// <summary>
-        /// Gets the Pen.
-        /// </summary>
-        /// <returns>Pen</returns>
-        internal System.Drawing.Pen GetPen()
-        {
-            return _pen;
-        }
     }
 }

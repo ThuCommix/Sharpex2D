@@ -18,28 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D
+namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public enum Precision
+    [TestState(TestState.Untested)]
+    public interface ITexture
     {
         /// <summary>
-        /// High loop precision.
+        /// Gets the Width.
         /// </summary>
-        /// <remarks>High CPU usage through non sleeping thread.</remarks>
-        High,
+        int Width { get; }
 
         /// <summary>
-        /// Normal loop precision.
+        /// Gets the Height.
         /// </summary>
-        /// <remarks>Average CPU usage. [ThreadSleep: 1ms]</remarks>
-        Normal = 1,
-
-        /// <summary>
-        /// Low loop precision.
-        /// </summary>
-        /// <remarks>Low CPU usage. [ThreadSleep: 2ms]</remarks>
-        Low = 2
+        int Height { get; }
     }
 }

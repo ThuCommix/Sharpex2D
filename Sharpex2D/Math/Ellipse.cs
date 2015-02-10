@@ -51,8 +51,9 @@ namespace Sharpex2D.Math
         /// <param name="Radiuses">Vector representing X and Y radiuses</param>
         /// <param name="radiusY">The position.</param>
         public Ellipse(Vector2 Radiuses, Vector2 Position)
-            :this(Radiuses.X, Radiuses.Y, Position)
-        {}
+            : this(Radiuses.X, Radiuses.Y, Position)
+        {
+        }
 
         /// <summary>
         /// Initializes a new Ellipse class.
@@ -61,7 +62,8 @@ namespace Sharpex2D.Math
         /// <param name="radiusY">The Y-Radius.</param>
         public Ellipse(float radiusX, float radiusY)
             : this(radiusX, radiusY, Vector2.Zero)
-        { }
+        {
+        }
 
         /// <summary>
         /// Sets or gets the Position.

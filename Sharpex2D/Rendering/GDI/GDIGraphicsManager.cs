@@ -25,6 +25,7 @@ namespace Sharpex2D.Rendering.GDI
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [MetaData("Graphics", "GDI")]
+    [Obsolete("GDI is no longer maintained, please see OpenGLGraphicsManager instead.")]
     public class GDIGraphicsManager : GraphicsManager
     {
         /// <summary>

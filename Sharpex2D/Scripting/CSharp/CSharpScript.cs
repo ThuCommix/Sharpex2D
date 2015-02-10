@@ -19,13 +19,12 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Scripting.CSharp
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    [Content("CSharp Script File")]
+    [MetaData("Name", "CSharp Script File")]
     public class CSharpScript : IScript
     {
         #region IScript Implementation

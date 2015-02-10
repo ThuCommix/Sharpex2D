@@ -98,7 +98,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawString(string text, Font font, Rectangle rectangle, Color color)
         {
-            Graphics.DrawString(text, font, rectangle, color);
+            Graphics.DrawString(text, font.Instance, rectangle, color);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawString(string text, Font font, Vector2 position, Color color)
         {
-            Graphics.DrawString(text, font, position, color);
+            Graphics.DrawString(text, font.Instance, position, color);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(texture, position, color, opacity);
+            Graphics.DrawTexture(texture.Texture, position, color, opacity);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(texture, rectangle, color, opacity);
+            Graphics.DrawTexture(texture.Texture, rectangle, color, opacity);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Sharpex2D.Rendering
         public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1f)
         {
-            Graphics.DrawTexture(texture, source, destination, color, opacity);
+            Graphics.DrawTexture(texture.Texture, source, destination, color, opacity);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Sharpex2D.Rendering
         /// <returns>Vector2.</returns>
         public Vector2 MeasureString(string text, Font font)
         {
-            return Graphics.MeasureString(text, font);
+            return Graphics.MeasureString(text, font.Instance);
         }
 
         /// <summary>
@@ -266,7 +266,7 @@ namespace Sharpex2D.Rendering
         /// <param name="rectangle">The Rectangle.</param>
         public void DrawRectangle(Pen pen, Rectangle rectangle)
         {
-            Graphics.DrawRectangle(pen, rectangle);
+            Graphics.DrawRectangle(pen.Instance, rectangle);
         }
 
         /// <summary>
@@ -277,7 +277,7 @@ namespace Sharpex2D.Rendering
         /// <param name="target">The Targetpoint.</param>
         public void DrawLine(Pen pen, Vector2 start, Vector2 target)
         {
-            Graphics.DrawLine(pen, start, target);
+            Graphics.DrawLine(pen.Instance, start, target);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Sharpex2D.Rendering
         /// <param name="ellipse">The Ellipse.</param>
         public void DrawEllipse(Pen pen, Ellipse ellipse)
         {
-            Graphics.DrawEllipse(pen, ellipse);
+            Graphics.DrawEllipse(pen.Instance, ellipse);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace Sharpex2D.Rendering
         /// <param name="sweepAngle">The SweepAngle.</param>
         public void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
-            Graphics.DrawArc(pen, rectangle, startAngle, sweepAngle);
+            Graphics.DrawArc(pen.Instance, rectangle, startAngle, sweepAngle);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Sharpex2D.Rendering
         /// <param name="polygon">The Polygon.</param>
         public void DrawPolygon(Pen pen, Polygon polygon)
         {
-            Graphics.DrawPolygon(pen, polygon);
+            Graphics.DrawPolygon(pen.Instance, polygon);
         }
 
         /// <summary>

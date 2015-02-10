@@ -27,6 +27,33 @@ namespace Sharpex2D.Debug
     [TestState(TestState.Tested)]
     public class MemoryWatcher : IDebugWatcher
     {
+        private Task _runTask;
+
+        /// <summary>
+        /// Initializes a new MemoryWatcher class.
+        /// </summary>
+        public MemoryWatcher()
+        {
+            Guid = new Guid("FF7BDAD4-1F3A-4C77-8BDA-82F1CEA43FD8");
+        }
+
+        /// <summary>
+        /// Gets the used memory.
+        /// </summary>
+        public Memory Memory { private set; get; }
+
+        /// <summary>
+        /// The Run loop.
+        /// </summary>
+        private void RunInner()
+        {
+            while (IsRunning)
+            {
+                Memory = new Memory(Environment.WorkingSet, MemoryUnit.Byte);
+                _runTask.Wait(100);
+            }
+        }
+
         #region IDebugWatcher Implementation
 
         /// <summary>
@@ -82,32 +109,5 @@ namespace Sharpex2D.Debug
         }
 
         #endregion
-
-        private Task _runTask;
-
-        /// <summary>
-        /// Initializes a new MemoryWatcher class.
-        /// </summary>
-        public MemoryWatcher()
-        {
-            Guid = new Guid("FF7BDAD4-1F3A-4C77-8BDA-82F1CEA43FD8");
-        }
-
-        /// <summary>
-        /// Gets the used memory.
-        /// </summary>
-        public Memory Memory { private set; get; }
-
-        /// <summary>
-        /// The Run loop.
-        /// </summary>
-        private void RunInner()
-        {
-            while (IsRunning)
-            {
-                Memory = new Memory(Environment.WorkingSet, MemoryUnit.Byte);
-                _runTask.Wait(100);
-            }
-        }
     }
 }

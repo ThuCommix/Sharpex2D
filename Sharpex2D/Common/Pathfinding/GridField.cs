@@ -36,9 +36,7 @@ namespace Sharpex2D.Common.Pathfinding
         }
 
         internal float G { get; set; }
-
         internal float F { get; set; }
-
         internal GridField Predecessor { set; get; }
 
         /// <summary>

@@ -33,143 +33,6 @@ namespace Sharpex2D.Network.Protocols.Udp
     [TestState(TestState.Untested)]
     public class UdpClient : IClient, IDisposable
     {
-        #region IClient Implemenation
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        public void Send(IBasePackage package)
-        {
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(package, mStream);
-                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
-            }
-        }
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        /// <param name="receiver">The Receiver.</param>
-        public void Send(IBasePackage package, IPAddress receiver)
-        {
-            package.Receiver = receiver;
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(package, mStream);
-                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
-            }
-        }
-
-        /// <summary>
-        /// Receives a package.
-        /// </summary>
-        public void BeginReceive()
-        {
-            var beginHandle = new Thread(InternalBeginReceive) {IsBackground = true};
-            beginHandle.Start();
-        }
-
-        /// <summary>
-        /// Connects to the local server.
-        /// </summary>
-        /// <param name="ip">The Serverip.</param>
-        public void Connect(IPAddress ip)
-        {
-            _ip = ip;
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(new UdpPackage(UdpNotify.Hi), mStream);
-                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(ip, 2563));
-                _connected = true;
-            }
-        }
-
-        /// <summary>
-        /// Disconnect from the local server.
-        /// </summary>
-        public void Disconnect()
-        {
-            using (var mStream = new MemoryStream())
-            {
-                PackageSerializer.Serialize(new UdpPackage(UdpNotify.Bye), mStream);
-                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
-                _connected = false;
-            }
-            _udpClient.Close();
-        }
-
-        /// <summary>
-        /// Subscribes to a Client.
-        /// </summary>
-        /// <param name="subscriber">The Subscriber.</param>
-        public void Subscribe(IPackageListener subscriber)
-        {
-            _packageListeners.Add(subscriber);
-        }
-
-        /// <summary>
-        /// Subscribes to a Client.
-        /// </summary>
-        /// <param name="subscriber">The Subscriber.</param>
-        public void Subscribe(IClientListener subscriber)
-        {
-            _clientListeners.Add(subscriber);
-        }
-
-        /// <summary>
-        /// Unsubscribes from a Client.
-        /// </summary>
-        /// <param name="unsubscriber">The Unsubscriber.</param>
-        public void Unsubscribe(IPackageListener unsubscriber)
-        {
-            _packageListeners.Remove(unsubscriber);
-        }
-
-        /// <summary>
-        /// Unsubscribes from a Client.
-        /// </summary>
-        /// <param name="unsubscriber">The Unsubscriber.</param>
-        public void Unsubscribe(IClientListener unsubscriber)
-        {
-            _clientListeners.Remove(unsubscriber);
-        }
-
-        #endregion
-
-        #region IDisposable Implementation
-
-        private bool _isDisposed;
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                _isDisposed = true;
-                if (disposing)
-                {
-                    _udpClient.Close();
-                }
-            }
-        }
-
-        #endregion
-
         private const int IdleMax = 30;
         private readonly List<IClientListener> _clientListeners;
         private readonly List<IPackageListener> _packageListeners;
@@ -316,5 +179,142 @@ namespace Sharpex2D.Network.Protocols.Udp
                 _idleTimeout++;
             }
         }
+
+        #region IClient Implemenation
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        public void Send(IBasePackage package)
+        {
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(package, mStream);
+                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
+            }
+        }
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        /// <param name="receiver">The Receiver.</param>
+        public void Send(IBasePackage package, IPAddress receiver)
+        {
+            package.Receiver = receiver;
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(package, mStream);
+                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
+            }
+        }
+
+        /// <summary>
+        /// Receives a package.
+        /// </summary>
+        public void BeginReceive()
+        {
+            var beginHandle = new Thread(InternalBeginReceive) {IsBackground = true};
+            beginHandle.Start();
+        }
+
+        /// <summary>
+        /// Connects to the local server.
+        /// </summary>
+        /// <param name="ip">The Serverip.</param>
+        public void Connect(IPAddress ip)
+        {
+            _ip = ip;
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(new UdpPackage(UdpNotify.Hi), mStream);
+                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(ip, 2563));
+                _connected = true;
+            }
+        }
+
+        /// <summary>
+        /// Disconnect from the local server.
+        /// </summary>
+        public void Disconnect()
+        {
+            using (var mStream = new MemoryStream())
+            {
+                PackageSerializer.Serialize(new UdpPackage(UdpNotify.Bye), mStream);
+                _udpClient.Client.SendTo(mStream.ToArray(), new IPEndPoint(_ip, 2563));
+                _connected = false;
+            }
+            _udpClient.Close();
+        }
+
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        public void Subscribe(IPackageListener subscriber)
+        {
+            _packageListeners.Add(subscriber);
+        }
+
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        public void Subscribe(IClientListener subscriber)
+        {
+            _clientListeners.Add(subscriber);
+        }
+
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        public void Unsubscribe(IPackageListener unsubscriber)
+        {
+            _packageListeners.Remove(unsubscriber);
+        }
+
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        public void Unsubscribe(IClientListener unsubscriber)
+        {
+            _clientListeners.Remove(unsubscriber);
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
+
+        private bool _isDisposed;
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    _udpClient.Close();
+                }
+            }
+        }
+
+        #endregion
     }
 }

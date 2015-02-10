@@ -29,47 +29,12 @@ namespace Sharpex2D
     [TestState(TestState.Tested)]
     public class ComponentManager : IConstructable, IEnumerable<IComponent>
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("6A3D114D-6DF4-429E-82ED-F7CD0AE29CF8"); }
-        }
-
-        #endregion
-
-        #region IEnumerable Implementation
-
-        /// <summary>
-        /// Gets the Enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        public IEnumerator<IComponent> GetEnumerator()
-        {
-            return _internalComponents.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the Enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        #endregion
-
         /// <summary>
         /// ComponentEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void ComponentEventHandler(object sender, ComponentEventArgs e);
-
 
         private readonly List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;
@@ -81,6 +46,18 @@ namespace Sharpex2D
         {
             get { return _internalComponents; }
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("6A3D114D-6DF4-429E-82ED-F7CD0AE29CF8"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes all Components.
@@ -178,5 +155,27 @@ namespace Sharpex2D
 
             throw new InvalidOperationException("Component with guid " + guid + " not found.");
         }
+
+        #region IEnumerable Implementation
+
+        /// <summary>
+        /// Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<IComponent> GetEnumerator()
+        {
+            return _internalComponents.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 }

@@ -47,6 +47,6 @@ namespace Sharpex2D.Input.Windows.XInput
         /// <summary>
         /// Unknown.
         /// </summary>
-        BATTERY_TYPE_UNKNOWN = 0xFF,
+        BATTERY_TYPE_UNKNOWN = 0xFF
     };
 }

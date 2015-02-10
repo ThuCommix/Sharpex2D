@@ -23,8 +23,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using Sharpex2D.Common.Extensions;
-using Sharpex2D.Content.Pipeline;
-using Sharpex2D.Content.Pipeline.Processor;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering.OpenGL.Windows;
 using Sharpex2D.Surface;
@@ -52,7 +50,6 @@ namespace Sharpex2D.Rendering.OpenGL
             ResourceManager = new OpenGLResourceManager();
             SmoothingMode = SmoothingMode.AntiAlias;
             InterpolationMode = InterpolationMode.Linear;
-            ContentProcessors = new IContentProcessor[] {new OpenGLTextureContentProcessor()};
             _preRenderedUnits = new Dictionary<int, PreRenderedText>();
 
             _graphicsDevice = SGL.QueryComponents<GraphicsDevice>();
@@ -73,11 +70,6 @@ namespace Sharpex2D.Rendering.OpenGL
         /// Gets the ResourceManager.
         /// </summary>
         public ResourceManager ResourceManager { get; private set; }
-
-        /// <summary>
-        /// Gets the ContentProcessors.
-        /// </summary>
-        public IContentProcessor[] ContentProcessors { get; private set; }
 
         /// <summary>
         /// Gets or sets the SmoothingMode.
@@ -131,7 +123,6 @@ namespace Sharpex2D.Rendering.OpenGL
             OpenGL.glClearColor(oglColor.R, oglColor.G, oglColor.B, oglColor.A);
             OpenGL.glClear(OpenGL.GL_COLOR_BUFFER_BIT | OpenGL.GL_DEPTH_BUFFER_BIT);
             OpenGL.glColor4f(1, 1, 1, 1);
-
             if (_graphicsDevice.BackBuffer.Scaling)
             {
                 if (_graphicsDevice.Scale != _oldScale)
@@ -165,7 +156,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="font">The Font.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Rectangle rectangle, Color color)
+        public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
         {
             DrawString(text.WordWrap((int) rectangle.Width), font, new Vector2(rectangle.X, rectangle.Y), color);
         }
@@ -177,9 +168,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="font">The Font.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Vector2 position, Color color)
+        public void DrawString(string text, IFont font, Vector2 position, Color color)
         {
-            var oglFont = font.Instance as OpenGLFont;
+            var oglFont = font as OpenGLFont;
             if (oglFont == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLFont as resource.");
 
             var prt = new PreRenderedText(oglFont.GetFont(), color, text);
@@ -202,7 +193,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="position">The Position.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1)
         {
             DrawTexture(texture, new Rectangle(position.X, position.Y, texture.Width, texture.Height), color, opacity);
         }
@@ -214,7 +205,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1)
         {
             var oglTexture = texture as OpenGLTexture;
             if (oglTexture == null)
@@ -278,7 +269,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
         {
-            var oglTexture = spriteSheet.Texture2D as OpenGLTexture;
+            var oglTexture = spriteSheet.Texture2D.Texture as OpenGLTexture;
             if (oglTexture == null)
                 throw new ArgumentException("OpenGLRenderDevice expects a OpenGLTexture as resource.");
 
@@ -338,7 +329,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
+        public void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1)
         {
             var oglTexture = texture as OpenGLTexture;
@@ -399,9 +390,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="text">The String.</param>
         /// <param name="font">The Font.</param>
         /// <returns>Vector2.</returns>
-        public Vector2 MeasureString(string text, Font font)
+        public Vector2 MeasureString(string text, IFont font)
         {
-            var oglFont = font.Instance as OpenGLFont;
+            var oglFont = font as OpenGLFont;
             if (oglFont == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLFont as resource.");
 
             SizeF result = _graphics.MeasureString(text, oglFont.GetFont());
@@ -452,9 +443,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public void DrawRectangle(Pen pen, Rectangle rectangle)
+        public void DrawRectangle(IPen pen, Rectangle rectangle)
         {
-            var oglPen = pen.Instance as OpenGLPen;
+            var oglPen = pen as OpenGLPen;
             if (oglPen == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLPen as resource.");
 
             OpenGL.glLineWidth(oglPen.Width);
@@ -477,9 +468,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
         /// <param name="target">The Targetpoint.</param>
-        public void DrawLine(Pen pen, Vector2 start, Vector2 target)
+        public void DrawLine(IPen pen, Vector2 start, Vector2 target)
         {
-            var oglPen = pen.Instance as OpenGLPen;
+            var oglPen = pen as OpenGLPen;
             if (oglPen == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLPen as resource.");
 
             OpenGL.glLineWidth(oglPen.Width);
@@ -496,9 +487,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        public void DrawEllipse(Pen pen, Ellipse ellipse)
+        public void DrawEllipse(IPen pen, Ellipse ellipse)
         {
-            var oglPen = pen.Instance as OpenGLPen;
+            var oglPen = pen as OpenGLPen;
             if (oglPen == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLPen as resource.");
 
             OpenGL.glLineWidth(oglPen.Width);
@@ -523,7 +514,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="startAngle">The StartAngle.</param>
         /// <param name="sweepAngle">The SweepAngle.</param>
-        public void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
+        public void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
             throw new NotSupportedException();
         }
@@ -533,9 +524,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="polygon">The Polygon.</param>
-        public void DrawPolygon(Pen pen, Polygon polygon)
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
-            var oglPen = pen.Instance as OpenGLPen;
+            var oglPen = pen as OpenGLPen;
             if (oglPen == null) throw new ArgumentException("OpenGLRenderDevice expects a OpenGLPen as resource.");
 
             OpenGL.glLineWidth(oglPen.Width);

@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Drawing;
+
 namespace Sharpex2D.Rendering.GDI
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
@@ -43,6 +45,16 @@ namespace Sharpex2D.Rendering.GDI
         public override IFont CreateResource(Typeface typeface)
         {
             return new GDIFont(typeface);
+        }
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="path">The Path.</param>
+        /// <returns>ITexture.</returns>
+        public override ITexture CreateResource(string path)
+        {
+            return new GDITexture((Bitmap) Image.FromFile(path));
         }
     }
 }

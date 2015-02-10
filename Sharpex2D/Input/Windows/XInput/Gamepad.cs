@@ -51,8 +51,6 @@ namespace Sharpex2D.Input.Windows.XInput
         private static readonly Gamepad[] Controllers;
 
         private readonly int _playerIndex;
-        private XInputBatteryInformation _batterInformationHeadset;
-        private XInputBatteryInformation _batteryInformationGamepad;
         private XInputState _gamepadStateCurrent;
         private XInputState _gamepadStatePrev = new XInputState();
         private bool _isInitilized;
@@ -85,20 +83,12 @@ namespace Sharpex2D.Input.Windows.XInput
         /// <summary>
         /// Gets the Gamepad BatteryInformation.
         /// </summary>
-        public XInputBatteryInformation BatteryInformationGamepad
-        {
-            get { return _batteryInformationGamepad; }
-            internal set { _batteryInformationGamepad = value; }
-        }
+        public XInputBatteryInformation BatteryInformationGamepad { get; internal set; }
 
         /// <summary>
         /// Gets the Headset BatteryInformation.
         /// </summary>
-        public XInputBatteryInformation BatteryInformationHeadset
-        {
-            get { return _batterInformationHeadset; }
-            internal set { _batterInformationHeadset = value; }
-        }
+        public XInputBatteryInformation BatteryInformationHeadset { get; internal set; }
 
         /// <summary>
         /// A value indicating whether the Controller is Connected.

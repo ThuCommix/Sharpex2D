@@ -33,18 +33,6 @@ namespace Sharpex2D
     [TestState(TestState.Tested)]
     public abstract class Game : IUpdateable, IDrawable, IConstructable
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("6782E502-BE99-4030-9472-C295E822881B"); }
-        }
-
-        #endregion
-
         private RenderTarget _renderTarget;
 
         /// <summary>
@@ -110,15 +98,26 @@ namespace Sharpex2D
             get { return _renderTarget.Window; }
         }
 
-        #region IUpdateable Implementation
+        #region IComponent Implementation
 
         /// <summary>
-        /// Updates the object.
+        /// Sets or gets the Guid of the Component.
         /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        void IUpdateable.Update(GameTime gameTime)
+        public Guid Guid
         {
-            OnUpdate(gameTime);
+            get { return new Guid("6782E502-BE99-4030-9472-C295E822881B"); }
+        }
+
+        #endregion
+
+        #region IConstructable Implementation
+
+        /// <summary>
+        /// Constructs the component.
+        /// </summary>
+        void IConstructable.Construct()
+        {
+            _renderTarget = SGL.Components.Get<RenderTarget>();
         }
 
         #endregion
@@ -137,14 +136,15 @@ namespace Sharpex2D
 
         #endregion
 
-        #region IConstructable Implementation
+        #region IUpdateable Implementation
 
         /// <summary>
-        /// Constructs the component.
+        /// Updates the object.
         /// </summary>
-        void IConstructable.Construct()
+        /// <param name="gameTime">The GameTime.</param>
+        void IUpdateable.Update(GameTime gameTime)
         {
-            _renderTarget = SGL.Components.Get<RenderTarget>();
+            OnUpdate(gameTime);
         }
 
         #endregion
@@ -207,7 +207,6 @@ namespace Sharpex2D
         public virtual void OnDeactivation()
         {
         }
-
 
         /// <summary>
         /// Exits the game.

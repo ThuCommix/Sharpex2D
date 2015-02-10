@@ -29,18 +29,6 @@ namespace Sharpex2D.Rendering
     [TestState(TestState.Tested)]
     public class GraphicsDevice : IComponent, IDisposable
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("9360F0CF-F712-499D-912A-891B1E35876C"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new GraphicsDeivce.
         /// </summary>
@@ -94,6 +82,18 @@ namespace Sharpex2D.Rendering
         /// Gets the RefreshRate.
         /// </summary>
         public float RefreshRate { internal set; get; }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("9360F0CF-F712-499D-912A-891B1E35876C"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// Disposes the GraphicsDevice.

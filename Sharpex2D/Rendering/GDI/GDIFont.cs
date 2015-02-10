@@ -20,24 +20,14 @@
 
 using System;
 using System.Drawing;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.GDI
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Graphics Device Interface Font")]
+    [MetaData("Name", "Graphics Device Interface Font")]
     public class GDIFont : IFont
     {
-        #region IFont Implementation
-
-        /// <summary>
-        /// Sets or gets the Typeface.
-        /// </summary>
-        public Typeface Typeface { get; set; }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new GdiFont class.
         /// </summary>
@@ -59,6 +49,15 @@ namespace Sharpex2D.Rendering.GDI
 
             Typeface = typeface;
         }
+
+        #region IFont Implementation
+
+        /// <summary>
+        /// Sets or gets the Typeface.
+        /// </summary>
+        public Typeface Typeface { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Gets the Font.

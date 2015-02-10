@@ -18,25 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using Sharpex2D.Content.Pipeline;
-
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Font")]
-    public class Font : IGraphicsResource
+    [MetaData("Name", "Font")]
+    public class Font
     {
-        #region IRendererResource Implementation
-
-        /// <summary>
-        /// Gets or sets the DebugName.
-        /// </summary>
-        public string DebugName { get; set; }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new Font class.
         /// </summary>
@@ -61,12 +49,7 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// Gets the Instance.
         /// </summary>
-        public IFont Instance { private set; get; }
-
-        /// <summary>
-        /// Gets the Type.
-        /// </summary>
-        public Type Type { private set; get; }
+        internal IFont Instance { private set; get; }
 
         /// <summary>
         /// Gets the Typeface.

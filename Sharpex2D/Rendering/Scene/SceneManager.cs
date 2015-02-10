@@ -28,34 +28,12 @@ namespace Sharpex2D.Rendering.Scene
     [TestState(TestState.Tested)]
     public class SceneManager : IGameComponent, IComponent
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("00C8ED49-0C1B-47A8-B990-C71F5C4CB09E"); }
-        }
-
-        #endregion
-
-        #region IGameComponent Implementation
-
-        /// <summary>
-        /// Gets the Order.
-        /// </summary>
-        public int Order { get; private set; }
-
-        #endregion
-
         /// <summary>
         /// SceneEventHandler.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         public delegate void SceneEventHandler(object sender, SceneEventArgs e);
-
 
         private readonly List<Scene> _scenes;
         private Scene _activeScene;
@@ -99,6 +77,27 @@ namespace Sharpex2D.Rendering.Scene
                 }
             }
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("00C8ED49-0C1B-47A8-B990-C71F5C4CB09E"); }
+        }
+
+        #endregion
+
+        #region IGameComponent Implementation
+
+        /// <summary>
+        /// Gets the Order.
+        /// </summary>
+        public int Order { get; private set; }
+
+        #endregion
 
         /// <summary>
         /// Updates the object.

@@ -33,15 +33,6 @@ namespace Sharpex2D.Physics
     [Obsolete("The old physic system will be removed in the future. Please use alternatives.")]
     public class Particle : Entity
     {
-        #region IShape Implementation
-
-        /// <summary>
-        /// Gets or sets the type of the shape.
-        /// </summary>
-        public IShape Shape { set; get; }
-
-        #endregion
-
         private readonly IPhysicProvider _physicProvider;
         private float _damping = 1f;
         private float _elasticity = 1f;
@@ -73,6 +64,15 @@ namespace Sharpex2D.Physics
             Shape = new Rectangle();
             Gravity = true;
         }
+
+        #region IShape Implementation
+
+        /// <summary>
+        /// Gets or sets the type of the shape.
+        /// </summary>
+        public IShape Shape { set; get; }
+
+        #endregion
 
         /// <summary>
         /// Sets or gets the mass of the object.

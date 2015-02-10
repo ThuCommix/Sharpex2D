@@ -28,6 +28,38 @@ namespace Sharpex2D.Debug
     [TestState(TestState.Tested)]
     public class CpuWatcher : IDebugWatcher
     {
+        private PerformanceCounter _performanceCounter;
+        private Task _runTask;
+
+        /// <summary>
+        /// Initializes a new CpuWatcher class.
+        /// </summary>
+        public CpuWatcher()
+        {
+            Guid = new Guid("420669D7-E8CD-4D6A-848D-A7FCDA226526");
+        }
+
+        /// <summary>
+        /// Gets the CpuUsage.
+        /// </summary>
+        public float CpuUsage { private set; get; }
+
+        /// <summary>
+        /// The Run loop.
+        /// </summary>
+        private void RunInner()
+        {
+            _performanceCounter = new PerformanceCounter("Process", "% Processor Time",
+                Process.GetCurrentProcess().ProcessName);
+
+            while (IsRunning)
+            {
+                _performanceCounter.NextValue();
+                _runTask.Wait(2000);
+                CpuUsage = _performanceCounter.NextValue()/Environment.ProcessorCount;
+            }
+        }
+
         #region IDebugWatcher Implementation
 
         /// <summary>
@@ -83,37 +115,5 @@ namespace Sharpex2D.Debug
         }
 
         #endregion
-
-        private PerformanceCounter _performanceCounter;
-        private Task _runTask;
-
-        /// <summary>
-        /// Initializes a new CpuWatcher class.
-        /// </summary>
-        public CpuWatcher()
-        {
-            Guid = new Guid("420669D7-E8CD-4D6A-848D-A7FCDA226526");
-        }
-
-        /// <summary>
-        /// Gets the CpuUsage.
-        /// </summary>
-        public float CpuUsage { private set; get; }
-
-        /// <summary>
-        /// The Run loop.
-        /// </summary>
-        private void RunInner()
-        {
-            _performanceCounter = new PerformanceCounter("Process", "% Processor Time",
-                Process.GetCurrentProcess().ProcessName);
-
-            while (IsRunning)
-            {
-                _performanceCounter.NextValue();
-                _runTask.Wait(2000);
-                CpuUsage = _performanceCounter.NextValue()/Environment.ProcessorCount;
-            }
-        }
     }
 }

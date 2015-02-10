@@ -18,25 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using Sharpex2D.Content.Pipeline;
-
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Pencil")]
-    public class Pen : IGraphicsResource
+    [MetaData("Name", "Pencil")]
+    public class Pen
     {
-        #region IRendererResource Implementation
-
-        /// <summary>
-        /// Gets or sets the DebugName.
-        /// </summary>
-        public string DebugName { get; set; }
-
-        #endregion
-
         /// <summary>
         /// Initializes a new Pen class.
         /// </summary>
@@ -46,18 +34,12 @@ namespace Sharpex2D.Rendering
         {
             SpriteBatch spriteBatch = SGL.SpriteBatch;
             Instance = spriteBatch.Graphics.ResourceManager.CreateResource(color, width);
-            Type = Instance.GetType();
         }
 
         /// <summary>
         /// Gets the Instance.
         /// </summary>
-        public IPen Instance { private set; get; }
-
-        /// <summary>
-        /// Gets the Type.
-        /// </summary>
-        public Type Type { private set; get; }
+        internal IPen Instance { private set; get; }
 
         /// <summary>
         /// Gets or sets the Color.

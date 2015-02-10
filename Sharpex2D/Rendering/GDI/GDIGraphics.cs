@@ -26,8 +26,6 @@ using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Sharpex2D.Common.Extensions;
-using Sharpex2D.Content.Pipeline;
-using Sharpex2D.Content.Pipeline.Processor;
 using Sharpex2D.Math;
 using Matrix = System.Drawing.Drawing2D.Matrix;
 using Rectangle = Sharpex2D.Math.Rectangle;
@@ -49,8 +47,6 @@ namespace Sharpex2D.Rendering.GDI
         public GDIGraphics()
         {
             ResourceManager = new GDIResourceManager();
-            ContentProcessors = new IContentProcessor[]
-            {new GDIFontContentProcessor(), new GDIPenContentProcessor(), new GDITextureContentProcessor()};
             SmoothingMode = SmoothingMode.AntiAlias;
             InterpolationMode = InterpolationMode.Linear;
 
@@ -61,11 +57,6 @@ namespace Sharpex2D.Rendering.GDI
         /// Gets the ResourceManager.
         /// </summary>
         public ResourceManager ResourceManager { get; private set; }
-
-        /// <summary>
-        /// Gets the ContentProcessors.
-        /// </summary>
-        public IContentProcessor[] ContentProcessors { get; private set; }
 
         /// <summary>
         /// Gets or sets the SmoothingMode.
@@ -125,9 +116,9 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="font">The Font.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Rectangle rectangle, Color color)
+        public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
         {
-            var gdifont = font.Instance as GDIFont;
+            var gdifont = font as GDIFont;
             if (gdifont == null)
             {
                 throw new GraphicsException("GdiRenderer needs a GdiFont resource.");
@@ -143,9 +134,9 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="font">The Font.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Vector2 position, Color color)
+        public void DrawString(string text, IFont font, Vector2 position, Color color)
         {
-            var gdifont = font.Instance as GDIFont;
+            var gdifont = font as GDIFont;
             if (gdifont == null)
             {
                 throw new GraphicsException("GdiRenderer needs a GdiFont resource.");
@@ -162,7 +153,7 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="position">The Position.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1)
         {
             var gdiTexture = texture as GDITexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
@@ -200,7 +191,7 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1)
         {
             var gdiTexture = texture as GDITexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
@@ -236,7 +227,7 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1)
         {
-            var gdiTexture = spriteSheet.Texture2D as GDITexture;
+            var gdiTexture = spriteSheet.Texture2D.Texture as GDITexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
 
             var matrix = new ColorMatrix {Matrix33 = opacity};
@@ -275,7 +266,7 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
         {
-            var gdiTexture = spriteSheet.Texture2D as GDITexture;
+            var gdiTexture = spriteSheet.Texture2D.Texture as GDITexture;
             if (gdiTexture == null) throw new ArgumentException("GdiRenderer expects a GdiTexture resource.");
 
             var matrix = new ColorMatrix {Matrix33 = opacity};
@@ -313,7 +304,7 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
+        public void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1)
         {
             var gdiTexture = texture as GDITexture;
@@ -347,9 +338,9 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="text">The String.</param>
         /// <param name="font">The Font.</param>
         /// <returns>Vector2.</returns>
-        public Vector2 MeasureString(string text, Font font)
+        public Vector2 MeasureString(string text, IFont font)
         {
-            var gdifont = font.Instance as GDIFont;
+            var gdifont = font as GDIFont;
             if (gdifont == null)
             {
                 throw new InvalidOperationException("GdiRenderer needs a GdiFont resource.");
@@ -383,9 +374,9 @@ namespace Sharpex2D.Rendering.GDI
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        public void DrawRectangle(Pen pen, Rectangle rectangle)
+        public void DrawRectangle(IPen pen, Rectangle rectangle)
         {
-            var gdiPen = pen.Instance as GDIPen;
+            var gdiPen = pen as GDIPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawRectangle(gdiPen.GetPen(),
@@ -399,9 +390,9 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="pen">The Pen.</param>
         /// <param name="start">The Startpoint.</param>
         /// <param name="target">The Targetpoint.</param>
-        public void DrawLine(Pen pen, Vector2 start, Vector2 target)
+        public void DrawLine(IPen pen, Vector2 start, Vector2 target)
         {
-            var gdiPen = pen.Instance as GDIPen;
+            var gdiPen = pen as GDIPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawLine(gdiPen.GetPen(), start.X, start.Y, target.X, target.Y);
@@ -412,9 +403,9 @@ namespace Sharpex2D.Rendering.GDI
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="ellipse">The Ellipse.</param>
-        public void DrawEllipse(Pen pen, Ellipse ellipse)
+        public void DrawEllipse(IPen pen, Ellipse ellipse)
         {
-            var gdiPen = pen.Instance as GDIPen;
+            var gdiPen = pen as GDIPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawEllipse(gdiPen.GetPen(),
@@ -429,9 +420,9 @@ namespace Sharpex2D.Rendering.GDI
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="startAngle">The StartAngle.</param>
         /// <param name="sweepAngle">The SweepAngle.</param>
-        public void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
+        public void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle)
         {
-            var gdiPen = pen.Instance as GDIPen;
+            var gdiPen = pen as GDIPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawArc(gdiPen.GetPen(),
@@ -444,9 +435,9 @@ namespace Sharpex2D.Rendering.GDI
         /// </summary>
         /// <param name="pen">The Pen.</param>
         /// <param name="polygon">The Polygon.</param>
-        public void DrawPolygon(Pen pen, Polygon polygon)
+        public void DrawPolygon(IPen pen, Polygon polygon)
         {
-            var gdiPen = pen.Instance as GDIPen;
+            var gdiPen = pen as GDIPen;
             if (gdiPen == null) throw new ArgumentException("GdiRenderer expects a GdiPen as resource.");
 
             _buffergraphics.DrawPolygon(gdiPen.GetPen(), polygon.Points.ToPoints());

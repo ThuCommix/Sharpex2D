@@ -47,6 +47,6 @@ namespace Sharpex2D.Input.Windows.XInput
         /// <summary>
         /// No navigation.
         /// </summary>
-        XINPUT_CAPS_NO_NAVIGATION = 0x0010,
+        XINPUT_CAPS_NO_NAVIGATION = 0x0010
     }
 }

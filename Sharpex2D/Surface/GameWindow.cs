@@ -29,36 +29,6 @@ namespace Sharpex2D.Surface
     [TestState(TestState.Tested)]
     public class GameWindow : IDisposable
     {
-        #region IDisposable Implementation
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_isDisposed)
-            {
-                _isDisposed = true;
-                if (disposing)
-                {
-                    MethodInvoker br = () => _surface.Dispose();
-                    _surface.Invoke(br);
-                }
-            }
-        }
-
-        #endregion
-
         private readonly Form _surface;
         private bool _cursorVisibility = true;
         private bool _isDisposed;
@@ -369,5 +339,35 @@ namespace Sharpex2D.Surface
             e.Cancel = true;
             SGL.Shutdown();
         }
+
+        #region IDisposable Implementation
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                if (disposing)
+                {
+                    MethodInvoker br = () => _surface.Dispose();
+                    _surface.Invoke(br);
+                }
+            }
+        }
+
+        #endregion
     }
 }

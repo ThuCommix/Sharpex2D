@@ -27,18 +27,6 @@ namespace Sharpex2D.Debug
     [TestState(TestState.Untested)]
     public class ExceptionHandler : IComponent
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Gets the guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("4FE0400B-0520-4B43-ADAD-B588B13C38D8"); }
-        }
-
-        #endregion
-
         private bool _enabled;
 
         public bool Enabled
@@ -64,6 +52,18 @@ namespace Sharpex2D.Debug
                 }
             }
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Gets the guid.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("4FE0400B-0520-4B43-ADAD-B588B13C38D8"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// Logs the unhandled exceptions.

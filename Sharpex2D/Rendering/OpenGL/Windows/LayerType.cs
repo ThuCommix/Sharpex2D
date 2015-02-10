@@ -32,6 +32,6 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         /// <summary>
         /// Overlay plane.
         /// </summary>
-        PFD_OVERLAY_PLANE = 1,
+        PFD_OVERLAY_PLANE = 1
     }
 }

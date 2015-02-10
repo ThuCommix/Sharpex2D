@@ -31,52 +31,6 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class InputManager : IComponent, IUpdateable, IEnumerable<IInputDevice>
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("EA75A88F-C5C3-48B4-ACA1-3366B579CA57"); }
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
-        {
-            for (int i = 0; i < _devices.Count; i++)
-            {
-                _devices[i].Update(gameTime);
-            }
-        }
-
-        #endregion
-
-        #region IEnumerable Implementation
-
-        /// <summary>
-        /// Gets the Enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        public IEnumerator<IInputDevice> GetEnumerator()
-        {
-            return _devices.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the Enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        #endregion
-
         private readonly List<IInputDevice> _devices;
         private readonly Logger _logger;
 
@@ -286,5 +240,51 @@ namespace Sharpex2D.Input
 
             return deviceList.ToArray();
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("EA75A88F-C5C3-48B4-ACA1-3366B579CA57"); }
+        }
+
+        /// <summary>
+        /// Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public void Update(GameTime gameTime)
+        {
+            for (int i = 0; i < _devices.Count; i++)
+            {
+                _devices[i].Update(gameTime);
+            }
+        }
+
+        #endregion
+
+        #region IEnumerable Implementation
+
+        /// <summary>
+        /// Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<IInputDevice> GetEnumerator()
+        {
+            return _devices.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the Enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 }

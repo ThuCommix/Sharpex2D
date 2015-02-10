@@ -33,52 +33,6 @@ namespace Sharpex2D.Network.Protocols.Local
     [TestState(TestState.Untested)]
     public class LocalServer : IServer
     {
-        #region IServer Implementation
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        public void Send(IBasePackage package)
-        {
-            SendToAllClients(package);
-        }
-
-        /// <summary>
-        /// Sends a package to the given receivers.
-        /// </summary>
-        /// <param name="package">The Package.</param>
-        /// <param name="receiver">The Receiver.</param>
-        public void Send(IBasePackage package, IPAddress receiver)
-        {
-            SendTo(package, receiver);
-        }
-
-        /// <summary>
-        /// A value indicating whether the server is active.
-        /// </summary>
-        public bool IsActive { get; private set; }
-
-        /// <summary>
-        /// Subscribes to a Client.
-        /// </summary>
-        /// <param name="subscriber">The Subscriber.</param>
-        public void Subscribe(IPackageListener subscriber)
-        {
-            _packageListeners.Add(subscriber);
-        }
-
-        /// <summary>
-        /// Unsubscribes from a Client.
-        /// </summary>
-        /// <param name="unsubscriber">The Unsubscriber.</param>
-        public void Unsubscribe(IPackageListener unsubscriber)
-        {
-            _packageListeners.Remove(unsubscriber);
-        }
-
-        #endregion
-
         private const int IdleMax = 30;
         private readonly List<LocalConnection> _connections;
         private readonly TcpListener _localListener;
@@ -357,5 +311,51 @@ namespace Sharpex2D.Network.Protocols.Local
             }
             return listenerContext;
         }
+
+        #region IServer Implementation
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        public void Send(IBasePackage package)
+        {
+            SendToAllClients(package);
+        }
+
+        /// <summary>
+        /// Sends a package to the given receivers.
+        /// </summary>
+        /// <param name="package">The Package.</param>
+        /// <param name="receiver">The Receiver.</param>
+        public void Send(IBasePackage package, IPAddress receiver)
+        {
+            SendTo(package, receiver);
+        }
+
+        /// <summary>
+        /// A value indicating whether the server is active.
+        /// </summary>
+        public bool IsActive { get; private set; }
+
+        /// <summary>
+        /// Subscribes to a Client.
+        /// </summary>
+        /// <param name="subscriber">The Subscriber.</param>
+        public void Subscribe(IPackageListener subscriber)
+        {
+            _packageListeners.Add(subscriber);
+        }
+
+        /// <summary>
+        /// Unsubscribes from a Client.
+        /// </summary>
+        /// <param name="unsubscriber">The Unsubscriber.</param>
+        public void Unsubscribe(IPackageListener unsubscriber)
+        {
+            _packageListeners.Remove(unsubscriber);
+        }
+
+        #endregion
     }
 }

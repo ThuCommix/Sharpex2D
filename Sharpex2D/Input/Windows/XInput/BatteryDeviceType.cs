@@ -32,6 +32,6 @@ namespace Sharpex2D.Input.Windows.XInput
         /// <summary>
         /// Headset.
         /// </summary>
-        BATTERY_DEVTYPE_HEADSET = 0x01,
+        BATTERY_DEVTYPE_HEADSET = 0x01
     }
 }

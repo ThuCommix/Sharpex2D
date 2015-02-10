@@ -20,13 +20,12 @@
 
 using System;
 using Sharpex2D.Content;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.GameService
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Gamer Profile")]
+    [MetaData("Name", "Gamer Profile")]
     [Serializable]
     public class Gamer : IGameService, IContent
     {

@@ -1573,7 +1573,6 @@ namespace Sharpex2D.Rendering.OpenGL
         private static readonly Dictionary<string, Delegate> OglExtensions = new Dictionary<string, Delegate>();
         public uint FOG_SPECULAR_TEXTURE_WIN = 33004u;
 
-
         [DllImport("opengl32.dll")]
         public static extern void glAccum(uint op, float value);
 

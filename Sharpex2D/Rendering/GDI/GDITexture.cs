@@ -19,37 +19,16 @@
 // THE SOFTWARE.
 
 using System.Drawing;
-using Sharpex2D.Content.Pipeline;
 
 namespace Sharpex2D.Rendering.GDI
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [Content("Graphics Device Interface Texture")]
-    public class GDITexture : Texture2D
+    [MetaData("Name", "Graphics Device Interface Texture")]
+    public class GDITexture : ITexture
     {
-        #region Texture2D Implementation
-
         private readonly int _height;
         private readonly int _width;
-
-        /// <summary>
-        /// Gets the Width.
-        /// </summary>
-        public override int Width
-        {
-            get { return _width; }
-        }
-
-        /// <summary>
-        /// Gets the Height.
-        /// </summary>
-        public override int Height
-        {
-            get { return _height; }
-        }
-
-        #endregion
 
         /// <summary>
         /// Initializes a new GdiTexture class.
@@ -66,5 +45,21 @@ namespace Sharpex2D.Rendering.GDI
         /// Gets the GdiTexture data.
         /// </summary>
         internal Bitmap Bmp { private set; get; }
+
+        /// <summary>
+        /// Gets the Width.
+        /// </summary>
+        public int Width
+        {
+            get { return _width; }
+        }
+
+        /// <summary>
+        /// Gets the Height.
+        /// </summary>
+        public int Height
+        {
+            get { return _height; }
+        }
     }
 }

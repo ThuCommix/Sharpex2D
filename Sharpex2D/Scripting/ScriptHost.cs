@@ -29,18 +29,6 @@ namespace Sharpex2D.Scripting
     [TestState(TestState.Tested)]
     public class ScriptHost<T> : IComponent where T : IScript
     {
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("076AE512-8E9C-44B9-BB91-CF8289BCEDC1"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// ScriptEventHandler.
         /// </summary>
@@ -61,6 +49,18 @@ namespace Sharpex2D.Scripting
             _evaluator = evaluator;
             SGL.Components.Add(this);
         }
+
+        #region IComponent Implementation
+
+        /// <summary>
+        /// Sets or gets the Guid of the Component.
+        /// </summary>
+        public Guid Guid
+        {
+            get { return new Guid("076AE512-8E9C-44B9-BB91-CF8289BCEDC1"); }
+        }
+
+        #endregion
 
         /// <summary>
         /// ScriptCompleted event.

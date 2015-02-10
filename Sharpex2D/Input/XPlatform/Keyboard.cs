@@ -29,19 +29,6 @@ namespace Sharpex2D.Input.XPlatform
     [TestState(TestState.Tested)]
     public class Keyboard : NativeInput<KeyboardState>
     {
-        #region IUpdateable Implementation
-
-        /// <summary>
-        /// Called if the component should get updated.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
-        {
-            _keystate.Clear();
-        }
-
-        #endregion
-
         private readonly Dictionary<Keys, bool> _keystate;
 
         /// <summary>
@@ -64,6 +51,19 @@ namespace Sharpex2D.Input.XPlatform
         {
             get { return new Version(5, 1); }
         }
+
+        #region IUpdateable Implementation
+
+        /// <summary>
+        /// Called if the component should get updated.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public override void Update(GameTime gameTime)
+        {
+            _keystate.Clear();
+        }
+
+        #endregion
 
         /// <summary>
         /// Initializes the device.
