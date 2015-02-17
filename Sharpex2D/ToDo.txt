@@ -1,0 +1,71 @@
+﻿
+AUDIO ENGINE TODO: 100%
+
+Rewrite Audio Engine : Done
+Fix WaveOut not playing : Done
+Reimplement PlaybackMode : Done 
+Allow loop in WaveOut : Done
+Implement switchable audio devices : Done
+Implement initialize for faster play if the source is the same : Done 
+Rework WaveOut Volume since you can only control the entire volume and not for single wavOuts : Done
+	-> Create kind of AudioMixer this could also come into OpenAL's favour
+WaveOut is not correctly disposing on window close: Done (deadlock caused by callback and then call to waveout funcs)
+Implement OpenAL : Done
+	Fix some waves get not played properly : Done
+	Add Sound Balancing : Done
+		-> Or on the fly convert stereo sources into mono ones and use openAL build in source manipulation
+	Add circular buffering for live manipulating sources : Done
+		-> This Would also help on position and seeking
+	Position, and Seeking: Done
+	Add SourceState Polling (may implemented in the playbackstream) : Done better way
+	Add auto audioformat pick : Done ...
+	Fix some openal data does not get disposed correctly (COM disconnected) : Done (Hopefully)
+		-> The Audiosystem gets initialized in the SGL Main Thread and gets disposed in the gameloop thread
+		this could cause the CLR to tell that some coms are not disposed. I will investigate this.
+Add some sort of audio effect pool, to play a sound on a currently free audiorenderer : Done
+	-> This would allow to play the same audio effect simultaneously
+
+
+
+CONTENT SYSTEM TODO 100%:
+
+Simplify Content Processors since we never load s2d formats ;) : Done
+Implement unified script content processor : Done
+	-> But needs much work on the script system
+Rename Content Processors into *Factory : Done
+
+Datatype -> Factory Enumeration -> Factory load data type -> push through content manager
+
+
+SCRIPT SYSTEM TODO:
+
+Rewrite Script Engine : Pending ...
+Implement Lua : Pending ...
+
+
+RENDERING ENGINE TODO:
+
+OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
+	-> Problem detected race condition with opengl init (gameloop) and using it (content loading)
+	-> Nope, the error actually caused by something else. The error get thrown before any texture related stuff
+	is done. This error only occurs sometimes
+	-> Tracked the error back to OpenGL.glTexImage2D !
+	-> GL_MAX_TEXTURE_SIZE is sometimes smaller than it should be, this causes large textures to crash
+	-> This only occurs in VS debug.. if I start the application on the desktop no errors occur ever
+
+Fix OpenGL stretching not working properly : Pending ...
+Use a higher OpenGL version since OpenGL 1.1 is very old : Pending ...
+Shader support : Pending ...
+Hide Instance in Pen and Texture2D. Just pass the .Instance to the plugins : Done
+	-> The previous system was some wierdo stuff, realy.
+
+Complety rewrite opengl and use 3.3 : Pending ..
+
+
+
+
+MISC TODO:
+
+Do not force kill app after closing. Simply close the surface after the game loop executed : Done
+Clean up disposable components : Done
+
