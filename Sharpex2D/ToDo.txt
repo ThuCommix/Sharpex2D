@@ -69,3 +69,4 @@ MISC TODO:
 Do not force kill app after closing. Simply close the surface after the game loop executed : Done
 Clean up disposable components : Done
 
+
