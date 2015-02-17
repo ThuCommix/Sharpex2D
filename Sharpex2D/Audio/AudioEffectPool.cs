@@ -41,7 +41,7 @@ namespace Sharpex2D.Audio
         public AudioEffectPool()
         {
             _audioEffectPool = new List<AudioEffect>();
-            for (int i = 0; i < MaxSimultaneouslySounds; i++)
+            for (var i = 0; i < MaxSimultaneouslySounds; i++)
             {
                 _audioEffectPool.Add(new AudioEffect());
             }
@@ -53,6 +53,14 @@ namespace Sharpex2D.Audio
         public int RequestableAudioEffects
         {
             get { return _audioEffectPool.Count(x => x.PlaybackState == PlaybackState.Stopped); }
+        }
+
+        /// <summary>
+        /// A value indicating whether that atleast one free audio effect is available.
+        /// </summary>
+        public bool CanRequest
+        {
+            get { return _audioEffectPool.Any(audioEffect => audioEffect.PlaybackState == PlaybackState.Stopped); }
         }
 
         /// <summary>
