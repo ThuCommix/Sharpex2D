@@ -69,7 +69,7 @@ namespace Sharpex2D.Input.XPlatform
         /// <param name="gameTime">The GameTime.</param>
         public override void Update(GameTime gameTime)
         {
-            _mousestate.Clear();
+ 
         }
 
         #endregion
