@@ -63,6 +63,7 @@ namespace Sharpex2D.Content
             ContentPipeline.Attach(new TextFileFactory());
             ContentPipeline.Attach(new ScriptFileFactory());
             ContentPipeline.Attach(new Texture2DFactory());
+            ContentPipeline.Attach(new AudioEffectFactory());
         }
 
         /// <summary>

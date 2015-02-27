@@ -19,13 +19,14 @@
 // THE SOFTWARE.
 
 using System;
+using Sharpex2D.Content;
 using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class AudioEffect
+    public class AudioEffect : IContent
     {
         private readonly IAudioProvider _audioProvider;
 
