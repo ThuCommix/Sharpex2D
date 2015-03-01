@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
@@ -42,11 +43,41 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
+        /// Converts the font out of an OpenGLFont object.
+        /// </summary>
+        /// <param name="font">The OpenGLFont.</param>
+        /// <returns>Font.</returns>
+        public static System.Drawing.Font ConvertFont(OpenGLFont font)
+        {
+            FontStyle style;
+            switch (font.Accessoire)
+            {
+                case TextAccessoire.Bold:
+                    style = FontStyle.Bold;
+                    break;
+                case TextAccessoire.Italic:
+                    style = FontStyle.Italic;
+                    break;
+                case TextAccessoire.Strikeout:
+                    style = FontStyle.Strikeout;
+                    break;
+                case TextAccessoire.Underline:
+                    style = FontStyle.Underline;
+                    break;
+                default:
+                    style = FontStyle.Regular;
+                    break;
+            }
+
+            return new System.Drawing.Font(font.FontFamily, font.Size, style);
+        }
+
+        /// <summary>
         /// Throws the last error.
         /// </summary>
         public static void ThrowLastError()
         {
-            var glError = (OpenGLError) OpenGL.glGetError();
+            var glError = (OpenGLError)OpenGLInterops.glGetError();
             if (glError != OpenGLError.GL_NO_ERROR)
             {
                 throw new GraphicsException(glError.ToString());
@@ -58,7 +89,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public static void ClearLastError()
         {
-            OpenGL.glGetError();
+            OpenGLInterops.glGetError();
         }
 
         /// <summary>
@@ -67,7 +98,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <returns>OpenGLError.</returns>
         public static OpenGLError GetLastError()
         {
-            return (OpenGLError) OpenGL.glGetError();
+            return (OpenGLError)OpenGLInterops.glGetError();
         }
 
         /// <summary>

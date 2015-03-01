@@ -18,20 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [MetaData("Name", "OpenGL Texture")]
-    public class OpenGLTexture : ITexture
+    internal class OpenGLTexture : ITexture
     {
-        private readonly int _height;
-        private readonly OpenGLGraphics _openglGraphics;
-        private readonly int _width;
+        /// <summary>
+        /// Gets the Id.
+        /// </summary>
+        internal uint Id { private set; get; }
+
+        /// <summary>
+        /// Gets the Width.
+        /// </summary>
+        public int Width { get; private set; }
+
+        /// <summary>
+        /// Gets the Height.
+        /// </summary>
+        public int Height { get; private set; }
 
         /// <summary>
         /// Initializes a new OpenGLTexture class.
@@ -39,81 +50,49 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="bitmap">The Bitmap.</param>
         internal OpenGLTexture(Bitmap bitmap)
         {
-            _width = bitmap.Width;
-            _height = bitmap.Height;
-            RawBitmap = bitmap;
-
-            var oglGraphics = SGL.SpriteBatch.Graphics as OpenGLGraphics;
-            if (oglGraphics == null) throw new InvalidOperationException("OpenGLGraphics not present.");
-
-            _openglGraphics = oglGraphics;
-
-            BindIfUnbinded();
-        }
-
-        /// <summary>
-        /// Gets the TextureId.
-        /// </summary>
-        public int TextureId { private set; get; }
-
-        /// <summary>
-        /// Gets the RawBitmap.
-        /// </summary>
-        internal Bitmap RawBitmap { private set; get; }
-
-        internal bool IsBinded { private set; get; }
-
-        /// <summary>
-        /// Gets the Width.
-        /// </summary>
-        public int Width
-        {
-            get { return _width; }
-        }
-
-        /// <summary>
-        /// Gets the Height.
-        /// </summary>
-        public int Height
-        {
-            get { return _height; }
-        }
-
-        /// <summary>
-        /// Binds the texture if unbinded.
-        /// </summary>
-        internal void BindIfUnbinded()
-        {
-            if (IsBinded) return;
-            var texture = new uint[1];
-
-            OpenGL.glHint(OpenGL.GL_PERSPECTIVE_CORRECTION_HINT, OpenGL.GL_NICEST);
-
-            OpenGL.glGenTextures(1, texture);
-            OpenGLHelper.ThrowLastError();
-            OpenGL.glBindTexture(OpenGL.GL_TEXTURE_2D, texture[0]);
-            TextureId = (int) texture[0];
-
-            BitmapData data = RawBitmap.LockBits(new Rectangle(0, 0, RawBitmap.Width, RawBitmap.Height),
+            Height = bitmap.Height;
+            Width = bitmap.Width;
+            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
-            if (_openglGraphics.InterpolationMode == InterpolationMode.NearestNeighbor)
-            {
-                OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_NEAREST);
-                OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_NEAREST);
-            }
-            else
-            {
-                OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MIN_FILTER, (int) OpenGL.GL_LINEAR);
-                OpenGL.glTexParameteri(OpenGL.GL_TEXTURE_2D, OpenGL.GL_TEXTURE_MAG_FILTER, (int) OpenGL.GL_LINEAR);
-            }
+            var textureBuffer = new uint[1];
+            OpenGLInterops.glGenTextures(1, textureBuffer);
+            Id = textureBuffer[0];
 
-            OpenGL.glTexImage2D(OpenGL.GL_TEXTURE_2D, 0, OpenGL.GL_RGBA8,
-                _width, _height, 0, OpenGL.GL_BGRA,
-                OpenGL.GL_UNSIGNED_BYTE, data.Scan0);
+            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
+            OpenGLInterops.glTexParameteri(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_S,
+                (int) OpenGLInterops.GL_REPEAT);
+            OpenGLInterops.glTexParameteri(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_T,
+                (int) OpenGLInterops.GL_REPEAT);
 
-            RawBitmap.UnlockBits(data);
-            IsBinded = true;
+            OpenGLInterops.glTexParameterf(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MIN_FILTER,
+                SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear ? OpenGLInterops.GL_LINEAR : OpenGLInterops.GL_NEAREST);
+            OpenGLInterops.glTexParameterf(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MAG_FILTER,
+                SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear ? OpenGLInterops.GL_LINEAR : OpenGLInterops.GL_NEAREST);
+
+            OpenGLInterops.glTexImage2D(OpenGLInterops.GL_TEXTURE_2D, 0, OpenGLInterops.GL_RGBA, Width, Height, 0,
+                OpenGLInterops.GL_BGRA, OpenGLInterops.GL_UNSIGNED_BYTE, data.Scan0);
+
+            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
+            bitmap.UnlockBits(data);
+            bitmap.Dispose();
+        }
+
+        /// <summary>
+        /// Binds the current texture.
+        /// </summary>
+        internal void Bind()
+        {
+            OpenGLInterops.ActiveTexture(OpenGLInterops.GL_TEXTURE0);
+            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
+        }
+
+        /// <summary>
+        /// Unbinds the texture.
+        /// </summary>
+        internal void Unbind()
+        {
+            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
         }
     }
 }

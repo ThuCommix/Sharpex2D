@@ -18,65 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
-using Sharpex2D.Rendering.GDI;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    internal class PreRenderedText : IDisposable
+    [TestState(TestState.Tested)]
+    internal class BitmapFont
     {
-        private readonly Color _color;
-        private readonly System.Drawing.Font _font;
-        private readonly string _text;
-
         /// <summary>
-        /// Initializes a new PreRenderedText class.
+        /// Draws the text into a bitmap.
         /// </summary>
+        /// <param name="text">The Text.</param>
         /// <param name="font">The Font.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="text">The Text.</param>
-        public PreRenderedText(System.Drawing.Font font, Color color, string text)
+        /// <returns>Bitmap.</returns>
+        public static Bitmap DrawTextToBitmap(string text, System.Drawing.Font font, Color color)
         {
-            Identifer = font.GetHashCode() + color.GetHashCode() + text.GetHashCode();
-            _font = font;
-            _color = color;
-            _text = text;
-        }
-
-        /// <summary>
-        /// Gets the identifer.
-        /// </summary>
-        public int Identifer { private set; get; }
-
-        /// <summary>
-        /// Gets the OpenGLTexture.
-        /// </summary>
-        public OpenGLTexture OpenGLTexture { private set; get; }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Renders the font.
-        /// </summary>
-        public void RenderFont()
-        {
-            System.Drawing.Color fontColor = GDIHelper.ConvertColor(_color);
-            Size result = TextRenderer.MeasureText(_text, _font);
+            var fontColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+            var result = TextRenderer.MeasureText(text, font);
             var bitmapFont = new Bitmap(result.Width, result.Height);
-            Graphics graphics = Graphics.FromImage(bitmapFont);
+            var graphics = Graphics.FromImage(bitmapFont);
             graphics.Clear(System.Drawing.Color.Transparent);
             graphics.CompositingMode = CompositingMode.SourceOver;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -84,26 +49,11 @@ namespace Sharpex2D.Rendering.OpenGL
             graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            graphics.DrawString(_text, _font, new SolidBrush(fontColor), new PointF(0, 0));
+            graphics.DrawString(text, font, new SolidBrush(fontColor), new PointF(0, 0));
             graphics.Flush();
             graphics.Dispose();
 
-            OpenGLTexture = new OpenGLTexture(bitmapFont);
-            OpenGLTexture.BindIfUnbinded();
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">The disposing state.</param>
-        public virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                OpenGL.glDeleteTextures(1, new[] {(uint) OpenGLTexture.TextureId});
-            }
-
-            OpenGLTexture.RawBitmap.Dispose();
+            return bitmapFont;
         }
     }
 }

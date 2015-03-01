@@ -18,47 +18,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public interface IRenderContext : IDisposable
+    [TestState(TestState.Untested)]
+    internal enum ContextAttributes
     {
         /// <summary>
-        /// Gets the Width.
+        /// Major version.
         /// </summary>
-        int Width { get; }
+        MajorVersion = 0x2091,
 
         /// <summary>
-        /// Gets the Height.
+        /// Minor version.
         /// </summary>
-        int Height { get; }
+        MinorVersion = 0x2092,
 
         /// <summary>
-        /// Gets the current OpenGLVersion.
+        /// Layer plane.
         /// </summary>
-        OpenGLVersion CurrentVersion { get; }
+        LayerPlane = 0x2093,
 
         /// <summary>
-        /// Makes the render context the current context.
+        /// Flags.
         /// </summary>
-        void MakeCurrent();
+        Flags = 0x2094,
 
         /// <summary>
-        /// Creates a new RenderContext.
+        /// Profile mask.
         /// </summary>
-        /// <param name="width">The Width.</param>
-        /// <param name="height">The Height.</param>
-        /// <param name="colorDepth">The ColorDepth.</param>
-        /// <param name="parameter">The optional parameter.</param>
-        void Create(int width, int height, int colorDepth, object parameter = null);
+        ProfileMask = 0x9126,
 
         /// <summary>
-        /// Blit the rendered data to the supplied device context.
+        /// Debug.
         /// </summary>
-        /// <param name="hdc">The HDC.</param>
-        void Blit(IntPtr hdc);
+        Debug = 0x0001,
+
+        /// <summary>
+        /// Forward compatible.
+        /// </summary>
+        ForwardCompatible = 0x0002,
+
+        /// <summary>
+        /// Core profile.
+        /// </summary>
+        CoreProfile = 0x00000001,
+
+        /// <summary>
+        /// Compatibility profile.
+        /// </summary>
+        CompatibilityProfile = 0x00000002,
     }
 }

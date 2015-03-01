@@ -18,55 +18,55 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [MetaData("Name", "OpenGL Pen")]
-    public class OpenGLPen : IPen
+    internal class TextEntityManager
     {
-        private Color _color;
+        /// <summary>
+        /// Gets the maximum TextEntity cache amount.
+        /// </summary>
+        public const int MaxEntityCache = 10;
+
+        private readonly Dictionary<int, TextEntity> _cache;
 
         /// <summary>
-        /// Initializes a new OpenGLPen class.
+        /// Initializes a new TextEntityManager class.
         /// </summary>
-        public OpenGLPen()
+        public TextEntityManager()
         {
+            _cache = new Dictionary<int, TextEntity>();
         }
 
         /// <summary>
-        /// Initializes a new OpenGLPen class.
+        /// Gets the font texture.
         /// </summary>
+        /// <param name="text">The Text.</param>
+        /// <param name="font">The Font.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="width">The Width.</param>
-        public OpenGLPen(Color color, float width)
+        /// <param name="wrapWidth">The WrapWidth.</param>
+        /// <returns></returns>
+        public OpenGLTexture GetFontTexture(string text, OpenGLFont font, Color color, int wrapWidth = 0)
         {
-            Color = color;
-            Width = width;
-        }
-
-        /// <summary>
-        /// Gets the PreCalculatedAlpha value.
-        /// </summary>
-        public float PreCalculatedAlpha { get; private set; }
-
-        /// <summary>
-        /// Sets or gets the Size of the Pen.
-        /// </summary>
-        public float Width { get; set; }
-
-        /// <summary>
-        /// Sets or gets the Color of the Pen.
-        /// </summary>
-        public Color Color
-        {
-            get { return _color; }
-            set
+            var textEntity = new TextEntity(text, font, color, wrapWidth);
+            if (_cache.ContainsKey(textEntity.Id))
             {
-                _color = value;
-                PreCalculatedAlpha = _color.A/255f;
+                return _cache[textEntity.Id].Texture;
             }
+
+            if (_cache.Count > MaxEntityCache)
+            {
+                var entity = _cache.Values.First();
+                _cache.Remove(entity.Id);
+            }
+
+            textEntity.DrawText();
+            _cache.Add(textEntity.Id, textEntity);
+            return textEntity.Texture;
         }
     }
 }

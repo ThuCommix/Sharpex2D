@@ -18,20 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering.OpenGL.Windows
+namespace Sharpex2D.Rendering.OpenGL.Shaders
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal enum LayerType : byte
+    internal static class SimpleVertexShader
     {
-        /// <summary>
-        /// Main plane.
-        /// </summary>
-        PFD_MAIN_PLANE = 0,
+        public static string SourceCode = @"#version 150 core
 
-        /// <summary>
-        /// Overlay plane.
-        /// </summary>
-        PFD_OVERLAY_PLANE = 1
+in vec2 position;
+in vec3 color;
+in vec2 texcoord;
+uniform float alpha;
+uniform vec2 dim;
+uniform mat4 transform;
+out vec3 Color;
+out vec2 Texcoord;
+out float Alpha;
+
+void main() {
+    Color = color;
+    Texcoord = texcoord;
+    Alpha = alpha;
+    gl_Position = vec4(position.x * 2.0 / dim.x - 1.0, position.y * -2.0 / dim.y + 1.0, 0.0, 1.0) * transform;
+}
+";
     }
 }

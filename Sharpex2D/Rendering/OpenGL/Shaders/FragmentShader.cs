@@ -18,20 +18,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering.OpenGL.Windows
+namespace Sharpex2D.Rendering.OpenGL.Shaders
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal enum PixelFormatType : byte
+    internal class FragmentShader : Shader
     {
         /// <summary>
-        /// Requests RGBA.
+        /// Initializes a new FragmentShader class.
         /// </summary>
-        PFD_TYPE_RGBA = 0,
-
-        /// <summary>
-        /// Requests ColorIndex.
-        /// </summary>
-        PFD_TYPE_COLORINDEX = 1
+        public FragmentShader()
+        {
+            Id = OpenGLInterops.CreateShader(OpenGLInterops.GL_FRAGMENT_SHADER);
+        }
     }
 }

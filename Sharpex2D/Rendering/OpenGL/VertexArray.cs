@@ -18,95 +18,71 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public enum OpenGLVersion
+    internal class VertexArray : IDisposable
     {
         /// <summary>
-        /// This will mainly create the highest version available.
+        /// Gets the opengl identifer.
         /// </summary>
-        [Version(0, 0)] Compatibility,
+        public uint Id { get; private set; }
 
         /// <summary>
-        /// Version 1.1.
+        /// Initializes a new VertexArray class.
         /// </summary>
-        [Version(1, 1)] OpenGL11,
+        public VertexArray()
+        {
+            var buffers = new uint[1];
+            OpenGLInterops.GenVertexArrays(1, buffers);
+            if (buffers[0] == 0) throw new GraphicsException("Unable to allocate memory for vertex array.");
+
+            Id = buffers[0];
+        }
 
         /// <summary>
-        /// Version 1.2.
+        /// Deconstructs the VertexArray class.
         /// </summary>
-        [Version(1, 2)] OpenGL12,
+        ~VertexArray()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
-        /// Version 1.3.
+        /// Binds the VertexArray.
         /// </summary>
-        [Version(1, 3)] OpenGL13,
+        public void Bind()
+        {
+            OpenGLInterops.BindVertexArray(Id);
+        }
 
         /// <summary>
-        /// Version 1.4.
+        /// Unbinds the VertexArray.
         /// </summary>
-        [Version(1, 4)] OpenGL14,
+        public void Unbind()
+        {
+            OpenGLInterops.BindVertexArray(0);
+        }
 
         /// <summary>
-        /// Version 1.5.
+        /// Disposes the object.
         /// </summary>
-        [Version(1, 5)] OpenGL15,
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
-        /// OpenGL 2.0.
+        /// Disposes the object.
         /// </summary>
-        [Version(2, 0)] OpenGL20,
-
-        /// <summary>
-        /// OpenGL 2.1.
-        /// </summary>
-        [Version(2, 1)] OpenGL21,
-
-        /// <summary>
-        /// OpenGL 3.0.
-        /// </summary>
-        [Version(3, 0)] OpenGL30,
-
-        /// <summary>
-        /// OpenGL 3.1.
-        /// </summary>
-        [Version(3, 1)] OpenGL31,
-
-        /// <summary>
-        /// OpenGL 3.2.
-        /// </summary>
-        [Version(3, 2)] OpenGL32,
-
-        /// <summary>
-        /// OpenGL 3.3.
-        /// </summary>
-        [Version(3, 3)] OpenGL33,
-
-        /// <summary>
-        /// OpenGL 4.0.
-        /// </summary>
-        [Version(4, 0)] OpenGL40,
-
-        /// <summary>
-        /// OpenGL 4.1.
-        /// </summary>
-        [Version(4, 1)] OpenGL41,
-
-        /// <summary>
-        /// OpenGL 4.2.
-        /// </summary>
-        [Version(4, 2)] OpenGL42,
-
-        /// <summary>
-        /// OpenGL 4.3.
-        /// </summary>
-        [Version(4, 3)] OpenGL43,
-
-        /// <summary>
-        /// OpenGL 4.4.
-        /// </summary>
-        [Version(4, 4)] OpenGL44
+        /// <param name="disposing">The disposing state.</param>
+        protected void Dispose(bool disposing)
+        {
+            OpenGLInterops.DeleteVertexArrays(1, new[] {Id});
+        }
     }
 }

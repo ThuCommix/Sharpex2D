@@ -18,48 +18,51 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using Sharpex2D.Common.Extensions;
+
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class OpenGLFont : IFont
+    internal class TextEntity
     {
         /// <summary>
-        /// Gets the font family.
+        /// Gets the Id.
         /// </summary>
-        public string FontFamily { get; private set; }
+        public int Id { get; private set; }
 
         /// <summary>
-        /// Gets the font size.
+        /// Gets the Texture.
         /// </summary>
-        public float Size { get; private set; }
+        public OpenGLTexture Texture { get; private set; }
+
+        private readonly string _text;
+        private readonly System.Drawing.Font _font;
+        private readonly Color _color;
 
         /// <summary>
-        /// Gets the text accessoire.
+        /// Initializes a new TextEntity class.
         /// </summary>
-        public TextAccessoire Accessoire { get; private set; }
-
-        /// <summary>
-        /// Initializes a new OpenGLFont class.
-        /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        public OpenGLFont(string fontFamily, float size) : this(fontFamily, size, TextAccessoire.Regular)
+        /// <param name="text">The Text.</param>
+        /// <param name="font">The Font.</param>
+        /// <param name="color">The Color.</param>
+        /// <param name="wrapWidth">The Wordwrap Width.</param>
+        public TextEntity(string text, OpenGLFont font, Color color, int wrapWidth = 0)
         {
-            
+            if (wrapWidth > 0) text = text.WordWrap(wrapWidth);
+            var gdiFont = OpenGLHelper.ConvertFont(font);
+            Id = text.GetHashCode() + gdiFont.GetHashCode() + color.GetHashCode();
+            _text = text;
+            _font = gdiFont;
+            _color = color;
         }
 
         /// <summary>
-        /// Initializes a new OpenGLFont class.
+        /// Draws the text.
         /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="accessoire">The TextAccessoire.</param>
-        public OpenGLFont(string fontFamily, float size, TextAccessoire accessoire)
+        public void DrawText()
         {
-            FontFamily = fontFamily;
-            Size = size;
-            Accessoire = accessoire;
+            Texture = new OpenGLTexture(BitmapFont.DrawTextToBitmap(_text, _font, _color));
         }
     }
 }

@@ -20,81 +20,81 @@
 
 using System;
 
-namespace Sharpex2D.Rendering.OpenGL.Windows
+namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [Flags]
-    internal enum PixelFormatDescription : uint
+    internal enum PixelFormatDescription
     {
         /// <summary>
         /// DoubleBuffer.
         /// </summary>
-        PFD_DOUBLEBUFFER = 0x00000001,
+        DoubleBuffer = 0x00000001,
 
         /// <summary>
         /// Stereo.
         /// </summary>
-        PFD_STEREO = 0x00000002,
+        Stereo = 0x00000002,
 
         /// <summary>
         /// Draw to window.
         /// </summary>
-        PFD_DRAW_TO_WINDOW = 0x00000004,
+        DrawToWindow = 0x00000004,
 
         /// <summary>
         /// Draw to bitmap.
         /// </summary>
-        PFD_DRAW_TO_BITMAP = 0x00000008,
+        DrawToBitmap = 0x00000008,
 
         /// <summary>
         /// Support GDI.
         /// </summary>
-        PFD_SUPPORT_GDI = 0x00000010,
+        SupportGDI = 0x00000010,
 
         /// <summary>
         /// Support OpenGL.
         /// </summary>
-        PFD_SUPPORT_OPENGL = 0x00000020,
+        SupportOpenGL = 0x00000020,
 
         /// <summary>
         /// Requests a generic format.
         /// </summary>
-        PFD_GENERIC_FORMAT = 0x00000040,
+        GenericFormat = 0x00000040,
 
         /// <summary>
         /// Need palette.
         /// </summary>
-        PFD_NEED_PALETTE = 0x00000080,
+        NeedPalette = 0x00000080,
 
         /// <summary>
         /// Need system palette.
         /// </summary>
-        PFD_NEED_SYSTEM_PALETTE = 0x00000100,
+        NeedSystemPalette = 0x00000100,
 
         /// <summary>
         /// Swap exchange.
         /// </summary>
-        PFD_SWAP_EXCHANGE = 0x00000200,
+        SwapExchange = 0x00000200,
 
         /// <summary>
         /// Swap copy.
         /// </summary>
-        PFD_SWAP_COPY = 0x00000400,
+        SwapCopy = 0x00000400,
 
         /// <summary>
         /// Swap layer buffers.
         /// </summary>
-        PFD_SWAP_LAYER_BUFFERS = 0x00000800,
+        SwapLayerBuffers = 0x00000800,
 
         /// <summary>
         /// Generic accelerated.
         /// </summary>
-        PFD_GENERIC_ACCELERATED = 0x00001000,
+        GenericAccelerated = 0x00001000,
 
         /// <summary>
         /// Supports direct draw.
         /// </summary>
-        PFD_SUPPORT_DIRECTDRAW = 0x00002000
+        SupportDirectDraw = 0x00002000
     }
 }

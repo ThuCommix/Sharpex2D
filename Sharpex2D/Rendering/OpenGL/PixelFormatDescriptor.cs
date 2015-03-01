@@ -21,7 +21,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Rendering.OpenGL.Windows
+namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -31,122 +31,122 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         /// <summary>
         /// Specifies the size of this data structure. This value should be set to <c>sizeof(PIXELFORMATDESCRIPTOR)</c>.
         /// </summary>
-        public Int16 nSize;
+        public Int16 Size;
 
         /// <summary>
         /// Specifies the version of this data structure. This value should be set to 1.
         /// </summary>
-        public Int16 nVersion;
+        public Int16 Version;
 
         /// <summary>
         /// A set of bit flags that specify properties of the pixel buffer. The properties are generally not mutually exclusive;
         /// you can set any combination of bit flags, with the exceptions noted.
         /// </summary>
-        public PixelFormatDescription dwFlags;
+        public PixelFormatDescription FormatDescription;
 
         /// <summary>
         /// Specifies the type of pixel data. The following types are defined.
         /// </summary>
-        public PixelFormatType iPixelType;
+        public int PixelType;
 
         /// <summary>
         /// Specifies the number of color bitplanes in each color buffer. For RGBA pixel types, it is the size
         /// of the color buffer, excluding the alpha bitplanes. For color-index pixels, it is the size of the
         /// color-index buffer.
         /// </summary>
-        public Byte cColorBits;
+        public Byte ColorBits;
 
         /// <summary>
         /// Specifies the number of red bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cRedBits;
+        public Byte RedBits;
 
         /// <summary>
         /// Specifies the shift count for red bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cRedShift;
+        public Byte RedShift;
 
         /// <summary>
         /// Specifies the number of green bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cGreenBits;
+        public Byte GreenBits;
 
         /// <summary>
         /// Specifies the shift count for green bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cGreenShift;
+        public Byte GreenShift;
 
         /// <summary>
         /// Specifies the number of blue bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cBlueBits;
+        public Byte BlueBits;
 
         /// <summary>
         /// Specifies the shift count for blue bitplanes in each RGBA color buffer.
         /// </summary>
-        public Byte cBlueShift;
+        public Byte BlueShift;
 
         /// <summary>
         /// Specifies the number of alpha bitplanes in each RGBA color buffer. Alpha bitplanes are not supported.
         /// </summary>
-        public Byte cAlphaBits;
+        public Byte AlphaBits;
 
         /// <summary>
         /// Specifies the shift count for alpha bitplanes in each RGBA color buffer. Alpha bitplanes are not supported.
         /// </summary>
-        public Byte cAlphaShift;
+        public Byte AlphaShift;
 
         /// <summary>
         /// Specifies the total number of bitplanes in the accumulation buffer.
         /// </summary>
-        public Byte cAccumBits;
+        public Byte AccumBits;
 
         /// <summary>
         /// Specifies the number of red bitplanes in the accumulation buffer.
         /// </summary>
-        public Byte cAccumRedBits;
+        public Byte AccumRedBits;
 
         /// <summary>
         /// Specifies the number of green bitplanes in the accumulation buffer.
         /// </summary>
-        public Byte cAccumGreenBits;
+        public Byte AccumGreenBits;
 
         /// <summary>
         /// Specifies the number of blue bitplanes in the accumulation buffer.
         /// </summary>
-        public Byte cAccumBlueBits;
+        public Byte AccumBlueBits;
 
         /// <summary>
         /// Specifies the number of alpha bitplanes in the accumulation buffer.
         /// </summary>
-        public Byte cAccumAlphaBits;
+        public Byte AccumAlphaBits;
 
         /// <summary>
         /// Specifies the depth of the depth (z-axis) buffer.
         /// </summary>
-        public Byte cDepthBits;
+        public Byte DepthBits;
 
         /// <summary>
         /// Specifies the depth of the stencil buffer.
         /// </summary>
-        public Byte cStencilBits;
+        public Byte StencilBits;
 
         /// <summary>
         /// Specifies the number of auxiliary buffers. Auxiliary buffers are not supported.
         /// </summary>
-        public Byte cAuxBuffers;
+        public Byte AuxBuffers;
 
         /// <summary>
         /// Ignored. Earlier implementations of OpenGL used this member, but it is no longer used.
         /// </summary>
         /// <remarks>Specifies the type of layer.</remarks>
-        public LayerType iLayerType;
+        public int LayerType;
 
         /// <summary>
         /// Specifies the number of overlay and underlay planes. Bits 0 through 3 specify up to 15 overlay planes and
         /// bits 4 through 7 specify up to 15 underlay planes.
         /// </summary>
-        public Byte bReserved;
+        public Byte Reserved;
 
         /// <summary>
         /// Ignored. Earlier implementations of OpenGL used this member, but it is no longer used.
@@ -155,13 +155,13 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         ///		Specifies the layer mask. The layer mask is used in conjunction with the visible mask to determine
         ///		if one layer overlays another.
         /// </remarks>
-        public Int32 dwLayerMask;
+        public Int32 LayerMask;
 
         /// <summary>
         /// Specifies the transparent color or index of an underlay plane. When the pixel type is RGBA, <b>dwVisibleMask</b>
         /// is a transparent RGB color value. When the pixel type is color index, it is a transparent index value.
         /// </summary>
-        public Int32 dwVisibleMask;
+        public Int32 VisibleMask;
 
         /// <summary>
         /// Ignored. Earlier implementations of OpenGL used this member, but it is no longer used.
@@ -170,6 +170,6 @@ namespace Sharpex2D.Rendering.OpenGL.Windows
         ///		Specifies whether more than one pixel format shares the same frame buffer. If the result of the bitwise
         ///		AND of the damage masks between two pixel formats is nonzero, then they share the same buffers.
         /// </remarks>
-        public Int32 dwDamageMask;
+        public Int32 DamageMask;
     }
 }

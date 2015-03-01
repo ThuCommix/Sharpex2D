@@ -18,48 +18,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering.OpenGL
+
+namespace Sharpex2D.Rendering.OpenGL.Shaders
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class OpenGLFont : IFont
+    internal abstract class Shader
     {
         /// <summary>
-        /// Gets the font family.
+        /// Gets the Id.
         /// </summary>
-        public string FontFamily { get; private set; }
+        public uint Id { get; set; }
 
         /// <summary>
-        /// Gets the font size.
+        /// Compiles the shader.
         /// </summary>
-        public float Size { get; private set; }
-
-        /// <summary>
-        /// Gets the text accessoire.
-        /// </summary>
-        public TextAccessoire Accessoire { get; private set; }
-
-        /// <summary>
-        /// Initializes a new OpenGLFont class.
-        /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        public OpenGLFont(string fontFamily, float size) : this(fontFamily, size, TextAccessoire.Regular)
+        /// <param name="sourceCode">The SourceCode.</param>
+        public void Compile(string sourceCode)
         {
-            
+            OpenGLInterops.ShaderSource(Id, sourceCode);
+            OpenGLInterops.CompileShader(Id);
         }
 
         /// <summary>
-        /// Initializes a new OpenGLFont class.
+        /// Deletes the shader.
         /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="accessoire">The TextAccessoire.</param>
-        public OpenGLFont(string fontFamily, float size, TextAccessoire accessoire)
+        public void Delete()
         {
-            FontFamily = fontFamily;
-            Size = size;
-            Accessoire = accessoire;
+            OpenGLInterops.DeleteShader(Id);
         }
     }
 }
