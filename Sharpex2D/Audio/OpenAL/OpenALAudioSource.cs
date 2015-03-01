@@ -26,7 +26,7 @@ namespace Sharpex2D.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class OpenALAudioSource : IAudioSource
+    internal class OpenALAudioSource : IAudioSource
     {
         internal byte[] WaveData;
         internal WaveFormat WaveFormat;

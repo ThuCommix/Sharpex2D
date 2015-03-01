@@ -26,7 +26,7 @@ namespace Sharpex2D.Audio.WaveOut
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class WaveOutAudioSource : IAudioSource
+    internal class WaveOutAudioSource : IAudioSource
     {
         internal byte[] WaveData;
         internal WaveFormat WaveFormat;

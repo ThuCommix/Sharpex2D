@@ -22,7 +22,7 @@ namespace Sharpex2D.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class OpenALDataBuffer
+    internal class OpenALDataBuffer
     {
         /// <summary>
         /// Initializes a new OpenALDataBuffer class.
