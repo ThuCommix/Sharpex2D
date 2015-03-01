@@ -21,7 +21,7 @@
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public interface ITexture
     {
         /// <summary>
