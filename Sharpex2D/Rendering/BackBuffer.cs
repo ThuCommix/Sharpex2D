@@ -53,11 +53,6 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
-        /// Sets or gets the Scaling Value.
-        /// </summary>
-        public bool Scaling { set; get; }
-
-        /// <summary>
         /// Gets the Width.
         /// </summary>
         public int Width { private set; get; }
