@@ -27,8 +27,18 @@ namespace Sharpex2D.Rendering
     public interface IFont : IContent
     {
         /// <summary>
-        /// Sets or gets the Typeface.
+        /// Gets the font family.
         /// </summary>
-        Typeface Typeface { set; get; }
+        string FontFamily { get; }
+
+        /// <summary>
+        /// Gets the font size.
+        /// </summary>
+        float Size { get; }
+
+        /// <summary>
+        /// Gets the text accessoire.
+        /// </summary>
+        TextAccessoire Accessoire { get; }
     }
 }

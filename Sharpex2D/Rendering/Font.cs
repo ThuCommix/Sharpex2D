@@ -26,37 +26,50 @@ namespace Sharpex2D.Rendering
     public class Font
     {
         /// <summary>
-        /// Initializes a new Font class.
-        /// </summary>
-        /// <param name="typeface">The Typeface.</param>
-        public Font(Typeface typeface)
-        {
-            SpriteBatch spriteBatch = SGL.SpriteBatch;
-            Instance = spriteBatch.Graphics.ResourceManager.CreateResource(typeface);
-        }
-
-        /// <summary>
-        /// Initializes a new Font class.
-        /// </summary>
-        /// <param name="familyName">The FamilyName.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="style">The Style.</param>
-        public Font(string familyName, float size, TypefaceStyle style)
-            : this(new Typeface {FamilyName = familyName, Size = size, Style = style})
-        {
-        }
-
-        /// <summary>
         /// Gets the Instance.
         /// </summary>
         internal IFont Instance { private set; get; }
 
         /// <summary>
-        /// Gets the Typeface.
+        /// Gets the FontFamily.
         /// </summary>
-        public Typeface Typeface
+        public string FontFamily {
+            get { return Instance.FontFamily; }
+        }
+
+        /// <summary>
+        /// Gets the Size.
+        /// </summary>
+        public float Size {
+            get { return Instance.Size; }
+        }
+
+        /// <summary>
+        /// Gets the TextAccessoire.
+        /// </summary>
+        public TextAccessoire Accessoire {
+            get { return Instance.Accessoire; }
+        }
+
+        /// <summary>
+        /// Initializes a new Font class.
+        /// </summary>
+        /// <param name="fontFamily">The FontFamily.</param>
+        /// <param name="size">The Size.</param>
+        public Font(string fontFamily, float size) : this(fontFamily, size, TextAccessoire.Regular)
         {
-            get { return Instance.Typeface; }
+            
+        }
+
+        /// <summary>
+        /// Initializes a new Font class.
+        /// </summary>
+        /// <param name="fontFamily">The FontFamily.</param>
+        /// <param name="size">The Size.</param>
+        /// <param name="accessoire">The TextAccessoire.</param>
+        public Font(string fontFamily, float size, TextAccessoire accessoire)
+        {
+            Instance = SGL.SpriteBatch.Renderer.CreateResource(fontFamily, size, accessoire);
         }
     }
 }

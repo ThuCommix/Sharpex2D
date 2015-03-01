@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -16,36 +16,36 @@
 // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+// THE SOFTWARE.;
 
 namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public enum TypefaceStyle
+    public enum TextAccessoire
     {
         /// <summary>
-        /// Regular font.
+        /// Regular.
         /// </summary>
         Regular = 0,
 
         /// <summary>
-        /// Underlined font.
+        /// Underlined.
         /// </summary>
         Underline = 1,
 
         /// <summary>
-        /// Italic font.
+        /// Italic.
         /// </summary>
         Italic = 2,
 
         /// <summary>
-        /// Bold font.
+        /// Bold.
         /// </summary>
         Bold = 3,
 
         /// <summary>
-        /// Strikeout font.
+        /// Strikeout.
         /// </summary>
         Strikeout = 4
     }
