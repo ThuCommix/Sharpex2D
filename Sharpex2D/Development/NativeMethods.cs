@@ -20,14 +20,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Security;
-using Sharpex2D.Audio;
-using Sharpex2D.Audio.WaveOut;
 using Sharpex2D.Input;
-using Sharpex2D.Input.Windows.JoystickApi;
-using Sharpex2D.Input.Windows.Touch;
 using Sharpex2D.Input.Windows.XInput;
-using Sharpex2D.Rendering.OpenGL.Windows;
 
 namespace Sharpex2D
 {
@@ -245,20 +239,6 @@ namespace Sharpex2D
         /// <returns></returns>
         [DllImport("opengl32.dll")]
         public static extern int wglDeleteContext(IntPtr hrc);
-
-        [DllImport("gdi32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
-        public static extern int ChoosePixelFormat(IntPtr deviceContext, ref PixelFormatDescriptor pixelFormatDescriptor);
-
-        public static bool SetPixelFormat(IntPtr deviceContext, int pixelFormat,
-            ref PixelFormatDescriptor pixelFormatDescriptor)
-        {
-            LoadLibrary("opengl32.dll");
-            return _SetPixelFormat(deviceContext, pixelFormat, ref pixelFormatDescriptor);
-        }
-
-        [DllImport("gdi32.dll", EntryPoint = "SetPixelFormat", SetLastError = true), SuppressUnmanagedCodeSecurity]
-        public static extern bool _SetPixelFormat(IntPtr deviceContext, int pixelFormat,
-            ref PixelFormatDescriptor pixelFormatDescriptor);
 
         [DllImport("user32.dll")]
         public static extern int ReleaseDC(IntPtr hWnd, IntPtr hDC);
