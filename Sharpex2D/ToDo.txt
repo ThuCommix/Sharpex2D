@@ -43,7 +43,7 @@ Rewrite Script Engine : Pending ...
 Implement Lua : Pending ...
 
 
-RENDERING ENGINE TODO:
+RENDERING ENGINE TODO 90%:
 
 OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
 	-> Problem detected race condition with opengl init (gameloop) and using it (content loading)
@@ -52,14 +52,15 @@ OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
 	-> Tracked the error back to OpenGL.glTexImage2D !
 	-> GL_MAX_TEXTURE_SIZE is sometimes smaller than it should be, this causes large textures to crash
 	-> This only occurs in VS debug.. if I start the application on the desktop no errors occur ever
-
-Fix OpenGL stretching not working properly : Pending ...
-Use a higher OpenGL version since OpenGL 1.1 is very old : Pending ...
+			-> Fixed
+			-> Sometimes the OpenGLContext fails to establish while in VSDebug Mode
+Fix OpenGL stretching not working properly : Done
+Use a higher OpenGL version since OpenGL 1.1 is very old : Done
 Shader support : Pending ...
 Hide Instance in Pen and Texture2D. Just pass the .Instance to the plugins : Done
 	-> The previous system was some wierdo stuff, realy.
-
-Complety rewrite opengl and use 3.3 : Pending ..
+Complety rewrite opengl and use 3.3 : Done
+Allow texture manipulation : Pending ...
 
 
 
