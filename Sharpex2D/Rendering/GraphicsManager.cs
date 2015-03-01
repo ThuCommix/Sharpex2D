@@ -25,14 +25,14 @@ namespace Sharpex2D.Rendering
     public abstract class GraphicsManager
     {
         /// <summary>
-        /// A value indicating whether the Graphics is supported.
+        /// A value indicating whether the Renderer is supported.
         /// </summary>
         public abstract bool IsSupported { get; }
 
         /// <summary>
         /// Creates the graphics.
         /// </summary>
-        /// <returns>IGraphics.</returns>
-        public abstract IGraphics Create();
+        /// <returns>IRenderer.</returns>
+        public abstract IRenderer Create();
     }
 }

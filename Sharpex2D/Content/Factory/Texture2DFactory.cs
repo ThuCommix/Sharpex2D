@@ -33,7 +33,7 @@ namespace Sharpex2D.Content.Factory
         /// <returns>Texture2D.</returns>
         public override Texture2D CreateContent(string path)
         {
-            return new Texture2D(SGL.SpriteBatch.Graphics.ResourceManager.CreateResource(path));
+            return new Texture2D(SGL.SpriteBatch.Renderer.CreateResource(path));
         }
     }
 }

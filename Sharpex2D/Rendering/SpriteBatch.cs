@@ -27,7 +27,7 @@ namespace Sharpex2D.Rendering
     [TestState(TestState.Tested)]
     public class SpriteBatch : IComponent
     {
-        internal readonly IGraphics Graphics;
+        internal readonly IRenderer Renderer;
 
         /// <summary>
         /// Initializes a new SpriteBatch class.
@@ -38,8 +38,8 @@ namespace Sharpex2D.Rendering
             if (!graphicsManager.IsSupported)
                 throw new NotSupportedException("The specified GraphicsManager is not supported.");
 
-            Graphics = graphicsManager.Create();
-            Graphics.Initialize();
+            Renderer = graphicsManager.Create();
+            Renderer.Initialize();
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public SmoothingMode SmoothingMode
         {
-            get { return Graphics.SmoothingMode; }
-            set { Graphics.SmoothingMode = value; }
+            get { return Renderer.SmoothingMode; }
+            set { Renderer.SmoothingMode = value; }
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public InterpolationMode InterpolationMode
         {
-            get { return Graphics.InterpolationMode; }
-            set { Graphics.InterpolationMode = value; }
+            get { return Renderer.InterpolationMode; }
+            set { Renderer.InterpolationMode = value; }
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public void Begin()
         {
-            Graphics.Begin();
+            Renderer.Begin();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public void End()
         {
-            Graphics.End();
+            Renderer.End();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawString(string text, Font font, Rectangle rectangle, Color color)
         {
-            Graphics.DrawString(text, font.Instance, rectangle, color);
+            Renderer.DrawString(text, font.Instance, rectangle, color);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawString(string text, Font font, Vector2 position, Color color)
         {
-            Graphics.DrawString(text, font.Instance, position, color);
+            Renderer.DrawString(text, font.Instance, position, color);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(texture.Texture, position, color, opacity);
+            Renderer.DrawTexture(texture.Texture, position, color, opacity);
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Sharpex2D.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(texture.Texture, rectangle, color, opacity);
+            Renderer.DrawTexture(texture.Texture, rectangle, color, opacity);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Sharpex2D.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(spriteSheet, position, color, opacity);
+            Renderer.DrawTexture(spriteSheet, position, color, opacity);
         }
 
         /// <summary>
@@ -191,7 +191,7 @@ namespace Sharpex2D.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            Graphics.DrawTexture(spriteSheet, rectangle, color, opacity);
+            Renderer.DrawTexture(spriteSheet, rectangle, color, opacity);
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace Sharpex2D.Rendering
         public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1f)
         {
-            Graphics.DrawTexture(texture.Texture, source, destination, color, opacity);
+            Renderer.DrawTexture(texture.Texture, source, destination, color, opacity);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Sharpex2D.Rendering
         /// <returns>Vector2.</returns>
         public Vector2 MeasureString(string text, Font font)
         {
-            return Graphics.MeasureString(text, font.Instance);
+            return Renderer.MeasureString(text, font.Instance);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Sharpex2D.Rendering
         /// <param name="matrix">The Matrix.</param>
         public void SetTransform(Matrix2x3 matrix)
         {
-            Graphics.SetTransform(matrix);
+            Renderer.SetTransform(matrix);
         }
 
         /// <summary>
@@ -256,90 +256,7 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public void ResetTransform()
         {
-            Graphics.ResetTransform();
-        }
-
-        /// <summary>
-        /// Draws a Rectangle.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void DrawRectangle(Pen pen, Rectangle rectangle)
-        {
-            Graphics.DrawRectangle(pen.Instance, rectangle);
-        }
-
-        /// <summary>
-        /// Draws a Line between two points.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="start">The Startpoint.</param>
-        /// <param name="target">The Targetpoint.</param>
-        public void DrawLine(Pen pen, Vector2 start, Vector2 target)
-        {
-            Graphics.DrawLine(pen.Instance, start, target);
-        }
-
-        /// <summary>
-        /// Draws a Ellipse.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="ellipse">The Ellipse.</param>
-        public void DrawEllipse(Pen pen, Ellipse ellipse)
-        {
-            Graphics.DrawEllipse(pen.Instance, ellipse);
-        }
-
-        /// <summary>
-        /// Draws an Arc.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="startAngle">The StartAngle.</param>
-        /// <param name="sweepAngle">The SweepAngle.</param>
-        public void DrawArc(Pen pen, Rectangle rectangle, float startAngle, float sweepAngle)
-        {
-            Graphics.DrawArc(pen.Instance, rectangle, startAngle, sweepAngle);
-        }
-
-        /// <summary>
-        /// Draws a Polygon.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="polygon">The Polygon.</param>
-        public void DrawPolygon(Pen pen, Polygon polygon)
-        {
-            Graphics.DrawPolygon(pen.Instance, polygon);
-        }
-
-        /// <summary>
-        /// Fills a Rectangle.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        public void FillRectangle(Color color, Rectangle rectangle)
-        {
-            Graphics.FillRectangle(color, rectangle);
-        }
-
-        /// <summary>
-        /// Fills a Ellipse.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="ellipse">The Ellipse.</param>
-        public void FillEllipse(Color color, Ellipse ellipse)
-        {
-            Graphics.FillEllipse(color, ellipse);
-        }
-
-        /// <summary>
-        /// Fills a Polygon.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="polygon">The Polygon.</param>
-        public void FillPolygon(Color color, Polygon polygon)
-        {
-            Graphics.FillPolygon(color, polygon);
+            Renderer.ResetTransform();
         }
     }
 }

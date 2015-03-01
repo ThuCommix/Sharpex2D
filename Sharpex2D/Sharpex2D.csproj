@@ -101,6 +101,7 @@
     <Compile Include="Content\BatchEventArgs.cs" />
     <Compile Include="Content\BatchProgressEventArgs.cs" />
     <Compile Include="Content\Factory\AttachableFactory.cs" />
+    <Compile Include="Content\Factory\AudioEffectFactory.cs" />
     <Compile Include="Content\Factory\AudioSourceFactory.cs" />
     <Compile Include="Content\Factory\ContentPipeline.cs" />
     <Compile Include="Content\Factory\IAttachableFactory.cs" />
@@ -307,46 +308,41 @@
     <Compile Include="Physics\Shapes\TextureBasedCircle.cs" />
     <Compile Include="Precision.cs" />
     <Compile Include="Rendering\AnimatedSpriteSheet.cs" />
-    <Compile Include="Rendering\GDI\GDIGraphics.cs" />
-    <Compile Include="Rendering\GDI\GDIGraphicsManager.cs" />
     <Compile Include="Rendering\GraphicsManager.cs" />
-    <Compile Include="Rendering\IGraphics.cs" />
+    <Compile Include="Rendering\IRenderer.cs" />
     <Compile Include="Rendering\ITexture.cs" />
-    <Compile Include="Rendering\OpenGL\IRenderContext.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLFont.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLGraphics.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLGraphicsManager.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLPen.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLResourceManager.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLTexture.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLVersion.cs" />
-    <Compile Include="Rendering\OpenGL\Windows\LayerType.cs" />
-    <Compile Include="Rendering\OpenGL\Windows\NativeRenderContext.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGL.cs" />
+    <Compile Include="Rendering\OpenGL\BitmapFont.cs" />
+    <Compile Include="Rendering\OpenGL\ContextAttributes.cs" />
+    <Compile Include="Rendering\OpenGL\IndexBuffer.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLColor.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLError.cs" />
+    <Compile Include="Rendering\OpenGL\OpenGLFont.cs" />
+    <Compile Include="Rendering\OpenGL\OpenGLGraphicsManager.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLHelper.cs" />
-    <Compile Include="Rendering\OpenGL\Windows\PixelFormatDescription.cs" />
-    <Compile Include="Rendering\OpenGL\Windows\PixelFormatDescriptor.cs" />
-    <Compile Include="Rendering\OpenGL\Windows\PixelFormatType.cs" />
-    <Compile Include="Rendering\OpenGL\PreRenderedText.cs" />
+    <Compile Include="Rendering\OpenGL\OpenGLRenderer.cs" />
+    <Compile Include="Rendering\OpenGL\OpenGLInterops.cs" />
+    <Compile Include="Rendering\OpenGL\OpenGLTexture.cs" />
+    <Compile Include="Rendering\OpenGL\PixelFormatDescription.cs" />
+    <Compile Include="Rendering\OpenGL\PixelFormatDescriptor.cs" />
+    <Compile Include="Rendering\OpenGL\RenderContext.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\FragmentShader.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\Shader.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\ShaderProgram.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\SimpleFragmentShader.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\SimpleVertexShader.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\VertexShader.cs" />
     <Compile Include="Rendering\GraphicsException.cs" />
-    <Compile Include="Rendering\ResourceManager.cs" />
     <Compile Include="Rendering\Font.cs" />
     <Compile Include="Rendering\IFont.cs" />
-    <Compile Include="Rendering\GDI\GDIHelper.cs" />
-    <Compile Include="Rendering\GDI\GDIResourceManager.cs" />
     <Compile Include="Rendering\InterpolationMode.cs" />
+    <Compile Include="Rendering\OpenGL\TextEntity.cs" />
+    <Compile Include="Rendering\OpenGL\TextEntityManager.cs" />
+    <Compile Include="Rendering\OpenGL\VertexArray.cs" />
+    <Compile Include="Rendering\OpenGL\VertexBuffer.cs" />
     <Compile Include="Rendering\Scene\SceneEventArgs.cs" />
     <Compile Include="Rendering\SpriteBatch.cs" />
-    <Compile Include="Rendering\Typeface.cs" />
-    <Compile Include="Rendering\TypefaceStyle.cs" />
-    <Compile Include="Rendering\GDI\GDIFont.cs" />
-    <Compile Include="Rendering\GDI\GDIPen.cs" />
-    <Compile Include="Rendering\GDI\GDITexture.cs" />
-    <Compile Include="Rendering\IPen.cs" />
+    <Compile Include="Rendering\TextAccessoire.cs" />
     <Compile Include="Rendering\Keyframe.cs" />
-    <Compile Include="Rendering\Pen.cs" />
     <Compile Include="Rendering\Scene\Scene.cs" />
     <Compile Include="Rendering\SmoothingMode.cs" />
     <Compile Include="Rendering\SpriteSheet.cs" />
@@ -403,10 +399,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rendering\OpenGL\Linux\" />
-    <Folder Include="Rendering\OpenGL\MacOSX\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="ToDo.txt" />
   </ItemGroup>
