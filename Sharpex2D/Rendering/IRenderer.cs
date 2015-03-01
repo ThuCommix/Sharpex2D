@@ -25,13 +25,8 @@ namespace Sharpex2D.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface IGraphics
+    public interface IRenderer
     {
-        /// <summary>
-        /// Gets the ResourceManager.
-        /// </summary>
-        ResourceManager ResourceManager { get; }
-
         /// <summary>
         /// Gets or sets the SmoothingMode.
         /// </summary>
@@ -142,62 +137,19 @@ namespace Sharpex2D.Rendering
         void ResetTransform();
 
         /// <summary>
-        /// Draws a Rectangle.
+        /// Creates a new Resource.
         /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        void DrawRectangle(IPen pen, Rectangle rectangle);
+        /// <param name="fontFamily">The FontFamily.</param>
+        /// <param name="size">The Size.</param>
+        /// <param name="accessoire">The TextAccessoire.</param>
+        /// <returns>IFont.</returns>
+        IFont CreateResource(string fontFamily, float size, TextAccessoire accessoire);
 
         /// <summary>
-        /// Draws a Line between two points.
+        /// Creates a new Resource.
         /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="start">The Startpoint.</param>
-        /// <param name="target">The Targetpoint.</param>
-        void DrawLine(IPen pen, Vector2 start, Vector2 target);
-
-        /// <summary>
-        /// Draws a Ellipse.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="ellipse">The Ellipse.</param>
-        void DrawEllipse(IPen pen, Ellipse ellipse);
-
-        /// <summary>
-        /// Draws an Arc.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="startAngle">The StartAngle.</param>
-        /// <param name="sweepAngle">The SweepAngle.</param>
-        void DrawArc(IPen pen, Rectangle rectangle, float startAngle, float sweepAngle);
-
-        /// <summary>
-        /// Draws a Polygon.
-        /// </summary>
-        /// <param name="pen">The Pen.</param>
-        /// <param name="polygon">The Polygon.</param>
-        void DrawPolygon(IPen pen, Polygon polygon);
-
-        /// <summary>
-        /// Fills a Rectangle.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        void FillRectangle(Color color, Rectangle rectangle);
-
-        /// <summary>
-        /// Fills a Ellipse.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="ellipse">The Ellipse.</param>
-        void FillEllipse(Color color, Ellipse ellipse);
-
-        /// <summary>
-        /// Fills a Polygon.
-        /// </summary>
-        /// <param name="color">The Color.</param>
-        /// <param name="polygon">The Polygon.</param>
-        void FillPolygon(Color color, Polygon polygon);
+        /// <param name="path">The Path.</param>
+        /// <returns>ITexture.</returns>
+        ITexture CreateResource(string path);
     }
 }
