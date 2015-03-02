@@ -61,7 +61,6 @@ namespace Sharpex2D.Input.Windows.XInput
             for (int i = FirstControllerIndex; i < MaxControllerCount; i++)
             {
                 Controllers[i] = new Gamepad(i);
-                System.Diagnostics.Debug.WriteLine(i);
             }
         }
 
