@@ -24,10 +24,30 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public enum BatteryLevel
     {
+        /// <summary>
+        /// The gamepad is wired, no battery is consumed.
+        /// </summary>
+        /// <remarks>This do not work for gamepads without battery. Gamepads without battery always return BatteryLevel.Empty.</remarks>
         Wired,
+
+        /// <summary>
+        /// The battery is empty.
+        /// </summary>
         Empty,
+
+        /// <summary>
+        /// The battery is low.
+        /// </summary>
         Low,
+
+        /// <summary>
+        /// The battery is medium.
+        /// </summary>
         Medium,
+
+        /// <summary>
+        /// The battery is full.
+        /// </summary>
         Full
     }
 }
