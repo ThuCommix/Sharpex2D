@@ -24,7 +24,7 @@ using Sharpex2D.Math;
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public class MouseState
     {
         private readonly Dictionary<MouseButtons, bool> _reference;

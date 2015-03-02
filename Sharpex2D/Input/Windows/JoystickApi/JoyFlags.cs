@@ -21,7 +21,7 @@
 namespace Sharpex2D.Input.Windows.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     internal enum JoyFlags
     {
         /// <summary>
