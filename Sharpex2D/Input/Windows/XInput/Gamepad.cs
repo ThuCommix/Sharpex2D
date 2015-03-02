@@ -41,11 +41,6 @@ namespace Sharpex2D.Input.Windows.XInput
         internal const int FirstControllerIndex = 0;
 
         /// <summary>
-        /// LastIndex.
-        /// </summary>
-        internal const int LastControllerIndex = MaxControllerCount - 1;
-
-        /// <summary>
         /// Gets the Available Controllers.
         /// </summary>
         private static readonly Gamepad[] Controllers;
@@ -63,9 +58,10 @@ namespace Sharpex2D.Input.Windows.XInput
         static Gamepad()
         {
             Controllers = new Gamepad[MaxControllerCount];
-            for (int i = FirstControllerIndex; i <= LastControllerIndex; ++i)
+            for (int i = FirstControllerIndex; i < MaxControllerCount; i++)
             {
                 Controllers[i] = new Gamepad(i);
+                System.Diagnostics.Debug.WriteLine(i);
             }
         }
 

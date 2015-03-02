@@ -45,7 +45,11 @@ namespace Sharpex2D.Input
             Mouse = new Mouse(new XPlatform.Mouse());
 #if Windows
             Keyboard = new Keyboard(new Windows.Keyboard());
-            Gamepad = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
+            Gamepads = new Gamepad[4];
+            Gamepads[0] = new Gamepad(Windows.XInput.Gamepad.Retrieve(0));
+            Gamepads[1] = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
+            Gamepads[2] = new Gamepad(Windows.XInput.Gamepad.Retrieve(2));
+            Gamepads[3] = new Gamepad(Windows.XInput.Gamepad.Retrieve(3));
             Joystick = new Joystick(new Windows.JoystickApi.Joystick());
 
             var nativeTouch = new TouchDevice();
@@ -61,7 +65,10 @@ namespace Sharpex2D.Input
 
             Add(Mouse);
             Add(Keyboard);
-            Add(Gamepad);
+            Add(Gamepads[0]);
+            Add(Gamepads[1]);
+            Add(Gamepads[2]);
+            Add(Gamepads[3]);
             Add(Joystick);
 #else
             Keyboard = new Keyboard(new XPlatform.Keyboard());
@@ -91,7 +98,7 @@ namespace Sharpex2D.Input
         /// <summary>
         /// Gets or sets the Gamepad.
         /// </summary>
-        public Gamepad Gamepad { get; set; }
+        public Gamepad[] Gamepads { get; set; }
 
         /// <summary>
         /// Gets or sets the Joystick.
