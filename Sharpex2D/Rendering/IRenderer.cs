@@ -151,5 +151,13 @@ namespace Sharpex2D.Rendering
         /// <param name="path">The Path.</param>
         /// <returns>ITexture.</returns>
         ITexture CreateResource(string path);
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        /// <returns>ITexture.</returns>
+        ITexture CreateResource(int width, int height);
     }
 }

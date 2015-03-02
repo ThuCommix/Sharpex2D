@@ -19,9 +19,11 @@
 // THE SOFTWARE.
 
 using System;
+using System.Drawing;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering.OpenGL.Shaders;
 using Sharpex2D.Surface;
+using Rectangle = Sharpex2D.Math.Rectangle;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
@@ -70,8 +72,8 @@ namespace Sharpex2D.Rendering.OpenGL
             var fshader = new FragmentShader();
             fshader.Compile(SimpleFragmentShader.SourceCode);
             _colorShader.Link(vshader, fshader);
-            OpenGLInterops.glEnable(OpenGLInterops.GL_BLEND);
-            OpenGLInterops.glBlendFunc(OpenGLInterops.GL_SRC_ALPHA, OpenGLInterops.GL_ONE_MINUS_SRC_ALPHA);
+            OpenGLInterops.Enable(OpenGLInterops.GL_BLEND);
+            OpenGLInterops.AlphaBlend();
             SetTransform(Matrix2x3.Identity);
         }
 
@@ -81,11 +83,11 @@ namespace Sharpex2D.Rendering.OpenGL
         public void Begin()
         {
             _renderContext.MakeCurrent();
-            OpenGLInterops.glClear(OpenGLInterops.GL_COLOR_BUFFER_BIT);
+            OpenGLInterops.Clear();
             var clearColor = OpenGLHelper.ConvertColor(_graphicsDevice.ClearColor);
-            OpenGLInterops.glClearColor(clearColor.R, clearColor.G, clearColor.B, clearColor.A);
+            OpenGLInterops.ClearColor(clearColor);
             _windowSize = _window.Size;
-            OpenGLInterops.glViewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
+            OpenGLInterops.Viewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
         }
 
         /// <summary>
@@ -186,7 +188,7 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
-            OpenGLInterops.glDrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
             _colorShader.Unbind();
@@ -253,7 +255,7 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
 
-            OpenGLInterops.glDrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
             _colorShader.Unbind();
@@ -365,7 +367,7 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
 
-            OpenGLInterops.glDrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
             _colorShader.Unbind();
@@ -447,7 +449,22 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <returns>ITexture.</returns>
         public ITexture CreateResource(string path)
         {
-            return new OpenGLTexture((System.Drawing.Bitmap) System.Drawing.Image.FromFile(path));
+            return new OpenGLTexture((Bitmap) Image.FromFile(path));
+        }
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        /// <returns>ITexture.</returns>
+        public ITexture CreateResource(int width, int height)
+        {
+            var emptyBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            var graphics = Graphics.FromImage(emptyBmp);
+            graphics.Clear(System.Drawing.Color.Transparent);
+            graphics.Dispose();
+            return new OpenGLTexture(emptyBmp);
         }
     } 
 }
