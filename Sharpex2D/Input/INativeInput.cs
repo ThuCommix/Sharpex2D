@@ -22,15 +22,11 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    public interface INativeInput : IUpdateable
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Initializes the input.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        void Initialize();
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,19 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal enum BatteryDeviceType : byte
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Gamepad.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        BATTERY_DEVTYPE_GAMEPAD = 0x00,
+
+        /// <summary>
+        /// Headset.
+        /// </summary>
+        BATTERY_DEVTYPE_HEADSET = 0x01
     }
 }

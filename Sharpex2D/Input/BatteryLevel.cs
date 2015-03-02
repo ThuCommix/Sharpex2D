@@ -22,15 +22,12 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    public enum BatteryLevel
     {
-        /// <summary>
-        /// Gets the MouseState.
-        /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        Wired,
+        Empty,
+        Low,
+        Medium,
+        Full
     }
 }

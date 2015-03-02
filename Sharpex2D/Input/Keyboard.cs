@@ -18,73 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Keyboard : IInputDevice
+    public static class Keyboard
     {
-        private readonly NativeInput<KeyboardState> _nativeKeyboard;
-
-        /// <summary>
-        /// Initializes a new Keyboard class.
-        /// </summary>
-        /// <param name="nativeKeyboard">The NativeInput.</param>
-        public Keyboard(NativeInput<KeyboardState> nativeKeyboard)
-        {
-            _nativeKeyboard = nativeKeyboard;
-        }
-
-        /// <summary>
-        /// A value indicating whether the Platform is supported.
-        /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeKeyboard.IsPlatformSupported; }
-        }
-
-        /// <summary>
-        /// Gets the PlattformVersion.
-        /// </summary>
-        public Version PlatformVersion
-        {
-            get { return _nativeKeyboard.PlatformVersion; }
-        }
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return _nativeKeyboard.Guid; }
-        }
-
-        /// <summary>
-        /// Initializes the Device.
-        /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeKeyboard.InitializeDevice();
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeKeyboard.Update(gameTime);
-        }
-
         /// <summary>
         /// Gets the KeyboardState.
         /// </summary>
         /// <returns>KeyboardState.</returns>
-        public KeyboardState GetState()
+        public static KeyboardState GetState()
         {
-            return _nativeKeyboard.GetState();
+            return SGL.InputManager.GetInput<NativeInput<KeyboardState>>().GetState();
         }
     }
 }

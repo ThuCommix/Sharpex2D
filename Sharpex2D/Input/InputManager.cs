@@ -19,19 +19,18 @@
 // THE SOFTWARE.
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sharpex2D.Debug.Logging;
-using Sharpex2D.Input.Windows.Touch;
+using Sharpex2D.Input.Implementation.Touch;
 
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class InputManager : IComponent, IUpdateable, IEnumerable<IInputDevice>
+    internal class InputManager : IUpdateable
     {
-        private readonly List<IInputDevice> _devices;
+        private readonly List<INativeInput> _inputs;
         private readonly Logger _logger;
 
         /// <summary>
@@ -39,259 +38,88 @@ namespace Sharpex2D.Input
         /// </summary>
         public InputManager()
         {
-            _devices = new List<IInputDevice>();
+            _inputs = new List<INativeInput>();
             _logger = LogManager.GetClassLogger();
-
-            Mouse = new Mouse(new XPlatform.Mouse());
-#if Windows
-            Keyboard = new Keyboard(new Windows.Keyboard());
-            Gamepads = new Gamepad[4];
-            Gamepads[0] = new Gamepad(Windows.XInput.Gamepad.Retrieve(0));
-            Gamepads[1] = new Gamepad(Windows.XInput.Gamepad.Retrieve(1));
-            Gamepads[2] = new Gamepad(Windows.XInput.Gamepad.Retrieve(2));
-            Gamepads[3] = new Gamepad(Windows.XInput.Gamepad.Retrieve(3));
-            Joystick = new Joystick(new Windows.JoystickApi.Joystick());
-
-            var nativeTouch = new TouchDevice();
-            if (nativeTouch.IsPlatformSupported)
-            {
-                TouchPanel = new TouchPanel(nativeTouch);
-                Add(TouchPanel);
-            }
-            else
-            {
-                _logger.Info("Disabled touch input due incompatibility with the current platform.");
-            }
-
-            Add(Mouse);
-            Add(Keyboard);
-            Add(Gamepads[0]);
-            Add(Gamepads[1]);
-            Add(Gamepads[2]);
-            Add(Gamepads[3]);
-            Add(Joystick);
-#else
-            Keyboard = new Keyboard(new XPlatform.Keyboard());
-            Add(Mouse);
-            Add(Keyboard);
-#endif
         }
 
         /// <summary>
-        /// Gets the Devices.
-        /// </summary>
-        public IInputDevice[] Devices
-        {
-            get { return _devices.ToArray(); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Keyboard device.
-        /// </summary>
-        public Keyboard Keyboard { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Mouse device.
-        /// </summary>
-        public Mouse Mouse { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Gamepad.
-        /// </summary>
-        public Gamepad[] Gamepads { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Joystick.
-        /// </summary>
-        public Joystick Joystick { get; set; }
-
-        /// <summary>
-        /// Gets or sets the TouchPanel.
-        /// </summary>
-        public TouchPanel TouchPanel { get; set; }
-
-        /// <summary>
-        /// Adds a new device to the InputManager.
-        /// </summary>
-        /// <param name="device">The Device.</param>
-        public void Add(IInputDevice device)
-        {
-            device.InitializeDevice();
-            _devices.Add(device);
-        }
-
-        /// <summary>
-        /// Removes a device from the InputManager.
-        /// </summary>
-        /// <param name="device">The Device.</param>
-        public void Remove(IInputDevice device)
-        {
-            if (_devices.Contains(device))
-            {
-                _devices.Remove(device);
-            }
-        }
-
-        /// <summary>
-        /// Gets a special device.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <returns>InputDevice</returns>
-        public T Get<T>() where T : IInputDevice
-        {
-            for (int i = 0; i <= _devices.Count - 1; i++)
-            {
-                if (_devices[i].GetType() == typeof (T))
-                {
-                    return (T) _devices[i];
-                }
-            }
-
-            throw new InvalidOperationException("Device not found (" + typeof (T).FullName + ").");
-        }
-
-        /// <summary>
-        /// Gets any device which matches T.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <returns>Array of InputDevice.</returns>
-        public T[] AnyDevice<T>() where T : IInputDevice
-        {
-            var deviceList = new List<T>();
-            for (int i = 0; i <= _devices.Count - 1; i++)
-            {
-                if (_devices[i].GetType() == typeof (T))
-                {
-                    deviceList.Add((T) _devices[i]);
-                }
-            }
-
-            if (deviceList.Count == 0)
-            {
-                throw new InvalidOperationException("Devices not found (" + typeof (T).FullName + ").");
-            }
-
-            return deviceList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the device if supported.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <returns>InputDevice.</returns>
-        public T GetSupportedDevice<T>() where T : IInputDevice
-        {
-            for (int i = 0; i <= _devices.Count - 1; i++)
-            {
-                if (_devices[i].GetType() == typeof (T) && _devices[i].IsPlatformSupported)
-                {
-                    return (T) _devices[i];
-                }
-            }
-
-            throw new InvalidOperationException("Device not found (" + typeof (T).FullName + ").");
-        }
-
-        /// <summary>
-        /// Gets any supported device which matches T.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <returns>Array of InputDevice.</returns>
-        public T[] AnySupportedDevice<T>() where T : IInputDevice
-        {
-            var deviceList = new List<T>();
-            for (int i = 0; i <= _devices.Count - 1; i++)
-            {
-                if (_devices[i].GetType() == typeof (T) && _devices[i].IsPlatformSupported)
-                {
-                    deviceList.Add((T) _devices[i]);
-                }
-            }
-
-            if (deviceList.Count == 0)
-            {
-                throw new InvalidOperationException("Devices not found (" + typeof (T).FullName + ").");
-            }
-
-            return deviceList.ToArray();
-        }
-
-        /// <summary>
-        /// Gets the device by guid.
-        /// </summary>
-        /// <param name="guid">The Guid.</param>
-        /// <returns>InputDevice.</returns>
-        public IInputDevice GetDeviceByGuid(Guid guid)
-        {
-            foreach (IInputDevice device in _devices.Where(device => device.Guid == guid))
-            {
-                return device;
-            }
-
-            throw new InvalidOperationException("Device not found (" + guid + ").");
-        }
-
-        /// <summary>
-        /// Gets any device which matches the guid.
-        /// </summary>
-        /// <param name="guid">The Guid.</param>
-        /// <returns>Array of InputDevice.</returns>
-        public IInputDevice[] AnyDeviceByGuid(Guid guid)
-        {
-            List<IInputDevice> deviceList = _devices.Where(device => device.Guid == guid).ToList();
-
-            if (deviceList.Count == 0)
-            {
-                throw new InvalidOperationException("Devices not found (" + guid + ").");
-            }
-
-            return deviceList.ToArray();
-        }
-
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("EA75A88F-C5C3-48B4-ACA1-3366B579CA57"); }
-        }
-
-        /// <summary>
-        /// Updates the object.
+        /// Updates all inputs.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < _devices.Count; i++)
+            foreach (INativeInput input in _inputs)
             {
-                _devices[i].Update(gameTime);
+                input.Update(gameTime);
             }
         }
 
-        #endregion
-
-        #region IEnumerable Implementation
-
         /// <summary>
-        /// Gets the Enumerator.
+        /// Initializes the InputManager.
         /// </summary>
-        /// <returns>IEnumerator.</returns>
-        public IEnumerator<IInputDevice> GetEnumerator()
+        public void Initialize()
         {
-            return _devices.GetEnumerator();
+            _inputs.Add(Implementation.XInput.Gamepad.Retrieve(0));
+            _inputs.Add(Implementation.XInput.Gamepad.Retrieve(1));
+            _inputs.Add(Implementation.XInput.Gamepad.Retrieve(2));
+            _inputs.Add(Implementation.XInput.Gamepad.Retrieve(3));
+
+            _inputs.Add(new Implementation.Mouse());
+            _inputs.Add(new Implementation.Keyboard());
+
+            _inputs.Add(new Implementation.JoystickApi.Joystick());
+            _inputs.Add(new TouchDevice());
+
+            foreach (INativeInput input in _inputs)
+            {
+                try
+                {
+                    input.Initialize();
+                }
+                catch
+                {
+                    _logger.Warn("Unable to initialize {0}.", input.GetType().Name);
+                }
+            }
         }
 
         /// <summary>
-        /// Gets the Enumerator.
+        /// Gets the input.
         /// </summary>
-        /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <returns>INativeInput.</returns>
+        public T GetInput<T>() where T : INativeInput
         {
-            return GetEnumerator();
+            foreach (INativeInput input in _inputs.Where(input => input.GetType().BaseType == typeof (T)))
+            {
+                return (T) input;
+            }
+
+            throw new InvalidOperationException("The input was not found.");
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the input.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <returns>INativeInput.</returns>
+        public T[] GetInputs<T>() where T : INativeInput
+        {
+            var inputs = new List<T>();
+            bool flag = false;
+
+            foreach (INativeInput input in _inputs.Where(input => input.GetType().BaseType == typeof (T)))
+            {
+                inputs.Add((T) input);
+                flag = true;
+            }
+
+            if (flag)
+            {
+                return inputs.ToArray();
+            }
+
+            throw new InvalidOperationException("The input was not found.");
+        }
     }
 }

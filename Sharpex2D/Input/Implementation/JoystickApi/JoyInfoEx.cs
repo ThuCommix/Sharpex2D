@@ -18,19 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System.Runtime.InteropServices;
+
+namespace Sharpex2D.Input.Implementation.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public static class Mouse
+    [TestState(TestState.Untested)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct JoyInfoEx
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// The Size of this structure.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        public uint dwSize;
+
+        /// <summary>
+        /// The flags.
+        /// </summary>
+        public uint dwFlags;
+
+        public uint dwXpos;
+        public uint dwYpos;
+        public uint dwZpos;
+        public uint dwRpos;
+        public uint dwUpos;
+        public uint dwVpos;
+        public uint dwButtons;
+        public uint dwButtonNumber;
+        public uint dwPOV;
+        public uint dwReserved1;
+        public uint dwReserved2;
     }
 }

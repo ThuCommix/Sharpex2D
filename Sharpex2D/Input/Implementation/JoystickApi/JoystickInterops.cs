@@ -18,19 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System.Runtime.InteropServices;
+using System.Security;
+
+namespace Sharpex2D.Input.Implementation.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal static class JoystickInterops
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Gets the number of connected devices.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        /// <returns></returns>
+        [DllImport("winmm.dll")]
+        internal static extern uint joyGetNumDevs();
+
+        /// <summary>
+        /// Gets the state of the Joystick.
+        /// </summary>
+        /// <param name="uJoyId">The Joystick Id.</param>
+        /// <param name="pji">The JoyInfo.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("winmm.dll")]
+        internal static extern uint joyGetPos(uint uJoyId, ref JoyInfo pji);
+
+        /// <summary>
+        /// Gets the state of the extended Joystick.
+        /// </summary>
+        /// <param name="uJoyId">The Joystick Id.</param>
+        /// <param name="pjiex">The extended JoyInfo.</param>
+        /// <returns>UInt32.</returns>
+        [DllImport("winmm.dll"), SuppressUnmanagedCodeSecurity]
+        internal static extern uint joyGetPosEx(uint uJoyId, ref JoyInfoEx pjiex);
     }
 }

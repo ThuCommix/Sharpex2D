@@ -18,19 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+
+namespace Sharpex2D.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal enum XInputBatteryLevel
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Empty.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        Empty = 0x00,
+
+        /// <summary>
+        /// Low.
+        /// </summary>
+        Low = 0x01,
+
+        /// <summary>
+        /// Medium.
+        /// </summary>
+        Medium = 0x02,
+
+        /// <summary>
+        /// Full.
+        /// </summary>
+        Full = 0x03
     }
 }

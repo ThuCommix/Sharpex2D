@@ -18,62 +18,77 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using Sharpex2D.Input.Implementation.Touch;
-using Sharpex2D.Math;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class Touch
+    [TestState(TestState.Tested)]
+    internal enum JoyFlags
     {
         /// <summary>
-        /// Initializes a new Touch class.
+        /// Returns all informations.
         /// </summary>
-        /// <param name="id">The Id.</param>
-        /// <param name="contact">The ContactSize.</param>
-        /// <param name="location">The Location.</param>
-        /// <param name="dateTime">The DateTime.</param>
-        /// <param name="touchMode">The TouchMode.</param>
-        public Touch(int id, Vector2 contact, Vector2 location, DateTime dateTime, TouchMode touchMode)
-        {
-            Id = id;
-            Contact = contact;
-            Location = location;
-            Time = dateTime;
-            TouchMode = touchMode;
-            ContactRectangle = new Rectangle(location, contact);
-        }
+        JOY_RETURNALL =
+            (JOY_RETURNX | JOY_RETURNY | JOY_RETURNZ | JOY_RETURNR | JOY_RETURNU | JOY_RETURNV | JOY_RETURNPOV |
+             JOY_RETURNBUTTONS),
 
         /// <summary>
-        /// Gets the Contact size.
+        /// Returns button information.
         /// </summary>
-        public Vector2 Contact { private set; get; }
+        JOY_RETURNBUTTONS = 128,
 
         /// <summary>
-        /// Gets the Location.
+        /// Returns the centered value.
         /// </summary>
-        public Vector2 Location { private set; get; }
+        JOY_RETURNCENTERED = 1024,
 
         /// <summary>
-        /// Gets the ContactRectangle.
+        /// Returns the pov.
         /// </summary>
-        public Rectangle ContactRectangle { private set; get; }
+        JOY_RETURNPOV = 64,
 
         /// <summary>
-        /// Gets the Id.
+        /// Returns the pov cts.
         /// </summary>
-        public int Id { private set; get; }
+        JOY_RETURNPOVCTS = 512,
 
         /// <summary>
-        /// Gets the Time.
+        /// Returns uncalibrated values.
         /// </summary>
-        public DateTime Time { private set; get; }
+        JOY_RETURNRAWDATA = 256,
 
         /// <summary>
-        /// Gets the TouchMode.
+        /// Returns the X position.
         /// </summary>
-        public TouchMode TouchMode { private set; get; }
+        JOY_RETURNX = 1,
+
+        /// <summary>
+        /// Returns the Y position.
+        /// </summary>
+        JOY_RETURNY = 2,
+
+        /// <summary>
+        /// Returns the Z position.
+        /// </summary>
+        JOY_RETURNZ = 4,
+
+        /// <summary>
+        /// Returns the fourth axis.
+        /// </summary>
+        JOY_RETURNR = 8,
+
+        /// <summary>
+        /// Returns the fifth axis.
+        /// </summary>
+        JOY_RETURNU = 16,
+
+        /// <summary>
+        /// Returns the sixth axis.
+        /// </summary>
+        JOY_RETURNV = 32,
+
+        /// <summary>
+        /// User dead zone.
+        /// </summary>
+        JOY_USEDEADZONE = 2048
     }
 }

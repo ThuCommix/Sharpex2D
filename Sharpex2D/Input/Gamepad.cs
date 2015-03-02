@@ -24,67 +24,52 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Gamepad : IInputDevice
+    public static class Gamepad
     {
-        private readonly NativeInput<GamepadState> _nativeGamepad;
-
-        /// <summary>
-        /// Initializes a new Gamepad class.
-        /// </summary>
-        /// <param name="nativeGamepad">The NativeInput.</param>
-        public Gamepad(NativeInput<GamepadState> nativeGamepad)
-        {
-            _nativeGamepad = nativeGamepad;
-        }
-
-        /// <summary>
-        /// A value indicating whether the Platform is supported.
-        /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeGamepad.IsPlatformSupported; }
-        }
-
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        public Version PlatformVersion
-        {
-            get { return _nativeGamepad.PlatformVersion; }
-        }
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return _nativeGamepad.Guid; }
-        }
-
-        /// <summary>
-        /// Initializes the Device.
-        /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeGamepad.InitializeDevice();
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeGamepad.Update(gameTime);
-        }
-
         /// <summary>
         /// Gets the GamepadState.
         /// </summary>
+        /// <param name="playerIndex">The PlayerIndex.</param>
         /// <returns>GamepadState.</returns>
-        public GamepadState GetState()
+        public static GamepadState GetState(PlayerIndex playerIndex)
         {
-            return _nativeGamepad.GetState();
+            return SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex].GetState();
+        }
+
+        /// <summary>
+        /// Vibrates the Gamepad.
+        /// </summary>
+        /// <param name="playerIndex">The PlayerIndex.</param>
+        /// <param name="left">The Left.</param>
+        /// <param name="right">The Right.</param>
+        /// <param name="length">The Length.</param>
+        public static void Vibrate(PlayerIndex playerIndex, float left, float right, float length)
+        {
+            var gamepad = SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex] as IGamepad;
+            if (gamepad != null)
+            {
+                gamepad.Vibrate(left, right, length);
+            }
+            else
+            {
+                throw new NotSupportedException("The gamepad does not support vibration.");
+            }
+        }
+
+        /// <summary>
+        /// Gets the BatteryLevel.
+        /// </summary>
+        /// <param name="playerIndex">The PlayerIndex.</param>
+        /// <returns>BatteryPercentage.</returns>
+        public static BatteryLevel BatteryLevel(PlayerIndex playerIndex)
+        {
+            var gamepad = SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex] as IGamepad;
+            if (gamepad != null)
+            {
+                return gamepad.BatteryLevel;
+            }
+
+            throw new NotSupportedException("The gamepad does not support battery levels.");
         }
     }
 }

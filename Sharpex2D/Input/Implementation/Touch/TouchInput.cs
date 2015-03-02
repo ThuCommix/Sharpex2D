@@ -18,19 +18,64 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System;
+using System.Runtime.InteropServices;
+
+namespace Sharpex2D.Input.Implementation.Touch
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public static class Mouse
+    [TestState(TestState.Untested)]
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct TouchInput
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// The X-coordinate.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        public int x;
+
+        /// <summary>
+        /// The Y-coordinate.
+        /// </summary>
+        public int y;
+
+        /// <summary>
+        /// The DeviceHandle.
+        /// </summary>
+        public IntPtr hSource;
+
+        /// <summary>
+        /// Current TouchId.
+        /// </summary>
+        public int dwID;
+
+        /// <summary>
+        /// The TouchEvent Flags.
+        /// </summary>
+        public int dwFlags;
+
+        /// <summary>
+        /// The TouchInputMask flags.
+        /// </summary>
+        public int dwMask;
+
+        /// <summary>
+        /// The Timestamp.
+        /// </summary>
+        public int dwTime;
+
+        /// <summary>
+        /// The Extra info.
+        /// </summary>
+        public IntPtr dwExtraInfo;
+
+        /// <summary>
+        /// The Width of the touched area.
+        /// </summary>
+        public int cxContact;
+
+        /// <summary>
+        /// The Height of the touched area.
+        /// </summary>
+        public int cyContact;
     }
 }

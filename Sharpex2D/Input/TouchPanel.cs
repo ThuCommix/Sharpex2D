@@ -18,73 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class TouchPanel : IInputDevice
+    public static class TouchPanel
     {
-        private readonly NativeInput<TouchState> _nativeTouch;
-
-        /// <summary>
-        /// Initializes a new TouchPanel class.
-        /// </summary>
-        /// <param name="nativeTouch">The NativeInput.</param>
-        public TouchPanel(NativeInput<TouchState> nativeTouch)
-        {
-            _nativeTouch = nativeTouch;
-        }
-
-        /// <summary>
-        /// A value indicating whether the Platform is supported.
-        /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeTouch.IsPlatformSupported; }
-        }
-
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        public Version PlatformVersion
-        {
-            get { return _nativeTouch.PlatformVersion; }
-        }
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return _nativeTouch.Guid; }
-        }
-
-        /// <summary>
-        /// Initializes the Device.
-        /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeTouch.InitializeDevice();
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeTouch.Update(gameTime);
-        }
-
         /// <summary>
         /// Gets the TouchState.
         /// </summary>
         /// <returns>TouchState.</returns>
-        public TouchState GetState()
+        public static TouchState GetState()
         {
-            return _nativeTouch.GetState();
+            return SGL.InputManager.GetInput<NativeInput<TouchState>>().GetState();
         }
     }
 }

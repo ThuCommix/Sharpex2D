@@ -18,19 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System;
+using System.Windows.Forms;
+
+namespace Sharpex2D.Input.Implementation
 {
+#if Windows
+
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal class MessageEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Initializes a new MessageEventArgs class.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
+        /// <param name="msg">The Message.</param>
+        internal MessageEventArgs(Message msg)
         {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
+            Message = msg;
         }
+
+        /// <summary>
+        /// Gets the Message.
+        /// </summary>
+        public Message Message { private set; get; }
     }
+
+#endif
 }

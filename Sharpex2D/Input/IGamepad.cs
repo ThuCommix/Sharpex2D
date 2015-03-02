@@ -22,15 +22,25 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal interface IGamepad
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Gets the BatteryLevel.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        BatteryLevel BatteryLevel { get; }
+
+        /// <summary>
+        /// Gets the GamepadState.
+        /// </summary>
+        /// <returns>GamepadState.</returns>
+        GamepadState GetState();
+
+        /// <summary>
+        /// Vibtrates the Gamepad.
+        /// </summary>
+        /// <param name="left">The Left.</param>
+        /// <param name="right">The Right.</param>
+        /// <param name="length">The Length.</param>
+        void Vibrate(float left, float right, float length);
     }
 }

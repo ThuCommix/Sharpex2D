@@ -18,19 +18,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    internal enum XInputBatteryType : byte
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Device is not connected.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        Disconnected = 0x00,
+
+        /// <summary>
+        /// The device is wired.
+        /// </summary>
+        Wired = 0x01,
+
+        /// <summary>
+        /// Alkaline battery source.
+        /// </summary>
+        Alkaline = 0x02,
+
+        /// <summary>
+        /// Nickel metal hydride battery source.
+        /// </summary>
+        Nimh = 0x03,
+
+        /// <summary>
+        /// Unknown battery source.
+        /// </summary>
+        Unknown = 0xFF,
     }
 }

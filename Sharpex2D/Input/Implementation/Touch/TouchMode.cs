@@ -18,19 +18,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.Touch
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public static class Mouse
+    [TestState(TestState.Untested)]
+    public enum TouchMode
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Move.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        Move = TouchFlags.TOUCHEVENTF_MOVE,
+
+        /// <summary>
+        /// Down.
+        /// </summary>
+        Down = TouchFlags.TOUCHEVENTF_DOWN,
+
+        /// <summary>
+        /// Up.
+        /// </summary>
+        Up = TouchFlags.TOUCHEVENTF_UP
     }
 }

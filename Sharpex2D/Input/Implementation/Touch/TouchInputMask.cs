@@ -18,19 +18,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+
+namespace Sharpex2D.Input.Implementation.Touch
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public static class Mouse
+    [TestState(TestState.Untested)]
+    internal enum TouchInputMask
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// cxContact and cyContact are valid. See the following text for more information on primary touch points.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        TOUCHINPUTMASKF_CONTACTAREA = 0x0004,
+
+        /// <summary>
+        /// dwExtraInfo is valid.
+        /// </summary>
+        TOUCHINPUTMASKF_EXTRAINFO = 0x0002,
+
+        /// <summary>
+        /// The system time was set in the TOUCHINPUT structure.
+        /// </summary>
+        TOUCHINPUTMASKF_TIMEFROMSYSTEM = 0x0001
     }
 }

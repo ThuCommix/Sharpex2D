@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,19 +18,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System.Runtime.InteropServices;
+
+namespace Sharpex2D.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    [StructLayout(LayoutKind.Explicit)]
+    internal struct XInputBatteryInformation
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// The BatteryType.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(0)] public byte BatteryType;
+
+        /// <summary>
+        /// The BatteryLevel.
+        /// </summary>
+        [MarshalAs(UnmanagedType.I1)] [FieldOffset(1)] public byte BatteryLevel;
+
+        /// <summary>
+        /// Converts the object to string.
+        /// </summary>
+        /// <returns>String.</returns>
+        public override string ToString()
         {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
+            return string.Format("{0} {1}", (XInputBatteryType) BatteryType, (XInputBatteryLevel) BatteryLevel);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,61 +19,82 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Input.Implementation.Touch;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class Touch
+    [TestState(TestState.Tested)]
+    [Flags]
+    internal enum ButtonFlags
     {
         /// <summary>
-        /// Initializes a new Touch class.
+        /// D-Pad Up.
         /// </summary>
-        /// <param name="id">The Id.</param>
-        /// <param name="contact">The ContactSize.</param>
-        /// <param name="location">The Location.</param>
-        /// <param name="dateTime">The DateTime.</param>
-        /// <param name="touchMode">The TouchMode.</param>
-        public Touch(int id, Vector2 contact, Vector2 location, DateTime dateTime, TouchMode touchMode)
-        {
-            Id = id;
-            Contact = contact;
-            Location = location;
-            Time = dateTime;
-            TouchMode = touchMode;
-            ContactRectangle = new Rectangle(location, contact);
-        }
+        XINPUT_GAMEPAD_DPAD_UP = 0x0001,
 
         /// <summary>
-        /// Gets the Contact size.
+        /// D-Pad Down.
         /// </summary>
-        public Vector2 Contact { private set; get; }
+        XINPUT_GAMEPAD_DPAD_DOWN = 0x0002,
 
         /// <summary>
-        /// Gets the Location.
+        /// D-Pad Left.
         /// </summary>
-        public Vector2 Location { private set; get; }
+        XINPUT_GAMEPAD_DPAD_LEFT = 0x0004,
 
         /// <summary>
-        /// Gets the ContactRectangle.
+        /// D-Pad Right.
         /// </summary>
-        public Rectangle ContactRectangle { private set; get; }
+        XINPUT_GAMEPAD_DPAD_RIGHT = 0x0008,
 
         /// <summary>
-        /// Gets the Id.
+        /// Start.
         /// </summary>
-        public int Id { private set; get; }
+        XINPUT_GAMEPAD_START = 0x0010,
 
         /// <summary>
-        /// Gets the Time.
+        /// Back.
         /// </summary>
-        public DateTime Time { private set; get; }
+        XINPUT_GAMEPAD_BACK = 0x0020,
 
         /// <summary>
-        /// Gets the TouchMode.
+        /// Left Thumb.
         /// </summary>
-        public TouchMode TouchMode { private set; get; }
-    }
+        XINPUT_GAMEPAD_LEFT_THUMB = 0x0040,
+
+        /// <summary>
+        /// Right Thumb.
+        /// </summary>
+        XINPUT_GAMEPAD_RIGHT_THUMB = 0x0080,
+
+        /// <summary>
+        /// Left Shoulder.
+        /// </summary>
+        XINPUT_GAMEPAD_LEFT_SHOULDER = 0x0100,
+
+        /// <summary>
+        /// Right Shoulder.
+        /// </summary>
+        XINPUT_GAMEPAD_RIGHT_SHOULDER = 0x0200,
+
+        /// <summary>
+        /// A.
+        /// </summary>
+        XINPUT_GAMEPAD_A = 0x1000,
+
+        /// <summary>
+        /// B.
+        /// </summary>
+        XINPUT_GAMEPAD_B = 0x2000,
+
+        /// <summary>
+        /// X.
+        /// </summary>
+        XINPUT_GAMEPAD_X = 0x4000,
+
+        /// <summary>
+        /// Y.
+        /// </summary>
+        XINPUT_GAMEPAD_Y = 0x8000
+    };
 }

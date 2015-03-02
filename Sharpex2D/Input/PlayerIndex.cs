@@ -22,15 +22,26 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public static class Mouse
+    public enum PlayerIndex
     {
         /// <summary>
-        /// Gets the MouseState.
+        /// Player 1.
         /// </summary>
-        /// <returns>MouseState.</returns>
-        public static MouseState GetState()
-        {
-            return SGL.InputManager.GetInput<NativeInput<MouseState>>().GetState();
-        }
+        Player1 = 0,
+
+        /// <summary>
+        /// Player 2.
+        /// </summary>
+        Player2 = 1,
+
+        /// <summary>
+        /// Player 3.
+        /// </summary>
+        Player3 = 2,
+
+        /// <summary>
+        /// Player 4.
+        /// </summary>
+        Player4 = 3
     }
 }

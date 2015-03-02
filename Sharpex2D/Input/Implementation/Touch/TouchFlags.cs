@@ -18,62 +18,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using Sharpex2D.Input.Implementation.Touch;
-using Sharpex2D.Math;
-
-namespace Sharpex2D.Input
+namespace Sharpex2D.Input.Implementation.Touch
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    public class Touch
+    internal enum TouchFlags
     {
         /// <summary>
-        /// Initializes a new Touch class.
+        /// Movement has occurred. Cannot be combined with TOUCHEVENTF_DOWN.
         /// </summary>
-        /// <param name="id">The Id.</param>
-        /// <param name="contact">The ContactSize.</param>
-        /// <param name="location">The Location.</param>
-        /// <param name="dateTime">The DateTime.</param>
-        /// <param name="touchMode">The TouchMode.</param>
-        public Touch(int id, Vector2 contact, Vector2 location, DateTime dateTime, TouchMode touchMode)
-        {
-            Id = id;
-            Contact = contact;
-            Location = location;
-            Time = dateTime;
-            TouchMode = touchMode;
-            ContactRectangle = new Rectangle(location, contact);
-        }
+        TOUCHEVENTF_MOVE = 0x0001,
 
         /// <summary>
-        /// Gets the Contact size.
+        /// The corresponding touch point was established through a new contact. Cannot be combined with TOUCHEVENTF_MOVE or
+        /// TOUCHEVENTF_UP.
         /// </summary>
-        public Vector2 Contact { private set; get; }
+        TOUCHEVENTF_DOWN = 0x0002,
 
         /// <summary>
-        /// Gets the Location.
+        /// A touch point was removed.
         /// </summary>
-        public Vector2 Location { private set; get; }
+        TOUCHEVENTF_UP = 0x0004,
 
         /// <summary>
-        /// Gets the ContactRectangle.
+        /// A touch point is in range. This flag is used to enable touch hover support on compatible hardware.
+        /// Applications that do not want support for hover can ignore this flag.
         /// </summary>
-        public Rectangle ContactRectangle { private set; get; }
+        TOUCHEVENTF_INRANGE = 0x0008,
 
         /// <summary>
-        /// Gets the Id.
+        /// Indicates that this TOUCHINPUT structure corresponds to a primary contact point.
+        /// See the following text for more information on primary touch points.
         /// </summary>
-        public int Id { private set; get; }
+        TOUCHEVENTF_PRIMARY = 0x0010,
 
         /// <summary>
-        /// Gets the Time.
+        /// When received using GetTouchInputInfo, this input was not coalesced.
         /// </summary>
-        public DateTime Time { private set; get; }
+        TOUCHEVENTF_NOCOALESCE = 0x0020,
 
         /// <summary>
-        /// Gets the TouchMode.
+        /// The touch event came from the user's palm.
         /// </summary>
-        public TouchMode TouchMode { private set; get; }
+        TOUCHEVENTF_PALM = 0x0080
     }
 }

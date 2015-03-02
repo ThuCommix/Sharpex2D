@@ -18,73 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Joystick : IInputDevice
+    public static class Joystick
     {
-        private readonly NativeInput<JoystickState> _nativeJoystick;
-
-        /// <summary>
-        /// Initializes a new Joystick class.
-        /// </summary>
-        /// <param name="nativeJoystick">The NativeInput.</param>
-        public Joystick(NativeInput<JoystickState> nativeJoystick)
-        {
-            _nativeJoystick = nativeJoystick;
-        }
-
-        /// <summary>
-        /// A value indicating whether the Platform is supported.
-        /// </summary>
-        public bool IsPlatformSupported
-        {
-            get { return _nativeJoystick.IsPlatformSupported; }
-        }
-
-        /// <summary>
-        /// Gets the PlatformVersion.
-        /// </summary>
-        public Version PlatformVersion
-        {
-            get { return _nativeJoystick.PlatformVersion; }
-        }
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return _nativeJoystick.Guid; }
-        }
-
-        /// <summary>
-        /// Initializes the Device.
-        /// </summary>
-        public void InitializeDevice()
-        {
-            _nativeJoystick.InitializeDevice();
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime</param>
-        public void Update(GameTime gameTime)
-        {
-            _nativeJoystick.Update(gameTime);
-        }
-
         /// <summary>
         /// Gets the JoystickState.
         /// </summary>
         /// <returns>JoystickState.</returns>
-        public JoystickState GetState()
+        public static JoystickState GetState()
         {
-            return _nativeJoystick.GetState();
+            return SGL.InputManager.GetInput<NativeInput<JoystickState>>().GetState();
         }
     }
 }
