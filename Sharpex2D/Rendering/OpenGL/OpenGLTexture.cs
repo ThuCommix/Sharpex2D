@@ -25,7 +25,7 @@ using System.Drawing.Imaging;
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
+    [TestState(TestState.InProgress)]
     [MetaData("Name", "OpenGL Texture")]
     internal class OpenGLTexture : ITexture
     {
@@ -45,6 +45,40 @@ namespace Sharpex2D.Rendering.OpenGL
         public int Height { get; private set; }
 
         /// <summary>
+        /// Gets or sets the color of the specified texel.
+        /// </summary>
+        /// <param name="x">The x offset.</param>
+        /// <param name="y">The y offset.</param>
+        /// <returns>Color.</returns>
+        public Color this[int x, int y]
+        {
+            get
+            {
+                var pixelData = new byte[Width*Height*4];
+                Bind();
+                OpenGLInterops.GetTexImage(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_RGBA,
+                    OpenGLInterops.GL_UNSIGNED_BYTE, pixelData);
+                Unbind();
+
+                var offset = x*4 + y*(4*Width);
+
+                return Color.FromArgb(pixelData[offset + 3], pixelData[offset], pixelData[offset + 1], pixelData[offset + 2]);
+            }
+            set
+            {
+                var pixelData = new byte[4];
+                pixelData[0] = value.R;
+                pixelData[1] = value.G;
+                pixelData[2] = value.B;
+                pixelData[3] = value.A;
+                Bind();
+                OpenGLInterops.TexSubImage2D(OpenGLInterops.GL_TEXTURE_2D, 0, x, y, 1, 1, OpenGLInterops.GL_RGBA,
+                    OpenGLInterops.GL_UNSIGNED_BYTE, pixelData);
+                Unbind();
+            }
+        }
+
+        /// <summary>
         /// Initializes a new OpenGLTexture class.
         /// </summary>
         /// <param name="bitmap">The Bitmap.</param>
@@ -55,25 +89,23 @@ namespace Sharpex2D.Rendering.OpenGL
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
-            var textureBuffer = new uint[1];
-            OpenGLInterops.glGenTextures(1, textureBuffer);
-            Id = textureBuffer[0];
+            Id = OpenGLInterops.GenTexture();
 
-            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
-            OpenGLInterops.glTexParameteri(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_S,
+            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
+            OpenGLInterops.TexParameterI(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_S,
                 (int) OpenGLInterops.GL_REPEAT);
-            OpenGLInterops.glTexParameteri(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_T,
+            OpenGLInterops.TexParameterI(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_T,
                 (int) OpenGLInterops.GL_REPEAT);
 
-            OpenGLInterops.glTexParameterf(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MIN_FILTER,
+            OpenGLInterops.TexParameterF(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MIN_FILTER,
                 SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear ? OpenGLInterops.GL_LINEAR : OpenGLInterops.GL_NEAREST);
-            OpenGLInterops.glTexParameterf(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MAG_FILTER,
+            OpenGLInterops.TexParameterF(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MAG_FILTER,
                 SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear ? OpenGLInterops.GL_LINEAR : OpenGLInterops.GL_NEAREST);
 
-            OpenGLInterops.glTexImage2D(OpenGLInterops.GL_TEXTURE_2D, 0, OpenGLInterops.GL_RGBA, Width, Height, 0,
+            OpenGLInterops.TexImage2D(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_RGBA, Width, Height,
                 OpenGLInterops.GL_BGRA, OpenGLInterops.GL_UNSIGNED_BYTE, data.Scan0);
 
-            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
+            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
             bitmap.UnlockBits(data);
             bitmap.Dispose();
         }
@@ -84,7 +116,7 @@ namespace Sharpex2D.Rendering.OpenGL
         internal void Bind()
         {
             OpenGLInterops.ActiveTexture(OpenGLInterops.GL_TEXTURE0);
-            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
+            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
         }
 
         /// <summary>
@@ -92,7 +124,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         internal void Unbind()
         {
-            OpenGLInterops.glBindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
+            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
         }
     }
 }

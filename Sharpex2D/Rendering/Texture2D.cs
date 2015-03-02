@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 
+using System;
 using Sharpex2D.Content;
 
 namespace Sharpex2D.Rendering
@@ -40,6 +41,16 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
+        /// Initializes a new Texture2D class.
+        /// </summary>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        public Texture2D(int width, int height)
+        {
+            Texture = SGL.SpriteBatch.Renderer.CreateResource(width, height);
+        }
+
+        /// <summary>
         /// Gets the Width.
         /// </summary>
         public int Width
@@ -53,6 +64,28 @@ namespace Sharpex2D.Rendering
         public int Height
         {
             get { return Texture.Height; }
+        }
+
+        /// <summary>
+        /// Gets or sets the color of the specified texel.
+        /// </summary>
+        /// <param name="x">The x offset.</param>
+        /// <param name="y">The y offset.</param>
+        /// <returns>Color.</returns>
+        public Color this[int x, int y]
+        {
+            set
+            {
+                if (x >= Width) throw new ArgumentOutOfRangeException("x");
+                if (y >= Height) throw new ArgumentOutOfRangeException("y");
+                Texture[x, y] = value;
+            }
+            get
+            {
+                if (x >= Width) throw new ArgumentOutOfRangeException("x");
+                if (y >= Height) throw new ArgumentOutOfRangeException("y");
+                return Texture[x, y];
+            }
         }
     }
 }

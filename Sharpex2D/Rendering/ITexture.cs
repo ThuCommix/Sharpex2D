@@ -33,5 +33,17 @@ namespace Sharpex2D.Rendering
         /// Gets the Height.
         /// </summary>
         int Height { get; }
+
+        /// <summary>
+        /// Gets or sets the color of the specified texel.
+        /// </summary>
+        /// <param name="x">The x offset.</param>
+        /// <param name="y">The y offset.</param>
+        /// <returns>Color.</returns>
+        Color this[int x, int y]
+        {
+            set;
+            get;
+        }
     }
 }
