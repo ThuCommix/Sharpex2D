@@ -43,7 +43,7 @@ Rewrite Script Engine : Pending ...
 Implement Lua : Pending ...
 
 
-RENDERING ENGINE TODO 90%:
+RENDERING ENGINE TODO 100%:
 
 OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
 	-> Problem detected race condition with opengl init (gameloop) and using it (content loading)
@@ -60,9 +60,18 @@ Shader support : Pending ...
 Hide Instance in Pen and Texture2D. Just pass the .Instance to the plugins : Done
 	-> The previous system was some wierdo stuff, realy.
 Complety rewrite opengl and use 3.3 : Done
-Allow texture manipulation : Pending ...
+Allow texture manipulation : Done
+		-> Writing leaves the written pixel transparent : Done, wrong api signature used
+		-> Reading causing crash : Done, working
 
 
+INPUT ENGINE TODO 100%:
+
+Make Keyboard and other inputs static : Done
+Fix broken XInput methods : Done
+Rework the InputManager to match the new system : Done
+Rework namespace : Done
+Fix wrong visiblities : Done
 
 
 MISC TODO:
