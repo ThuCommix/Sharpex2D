@@ -77,7 +77,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public static void ThrowLastError()
         {
-            var glError = (OpenGLError)OpenGLInterops.glGetError();
+            var glError = OpenGLInterops.GetError();
             if (glError != OpenGLError.GL_NO_ERROR)
             {
                 throw new GraphicsException(glError.ToString());
@@ -89,7 +89,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public static void ClearLastError()
         {
-            OpenGLInterops.glGetError();
+            OpenGLInterops.GetError();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <returns>OpenGLError.</returns>
         public static OpenGLError GetLastError()
         {
-            return (OpenGLError)OpenGLInterops.glGetError();
+            return OpenGLInterops.GetError();
         }
 
         /// <summary>

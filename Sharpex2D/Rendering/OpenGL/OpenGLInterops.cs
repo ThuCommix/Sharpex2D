@@ -225,41 +225,47 @@ namespace Sharpex2D.Rendering.OpenGL
         #region DllImport
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glBindTexture(uint target, uint texture);
+        private extern static void glTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, IntPtr pixels);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glBlendFunc(uint sfactor, uint dfactor);
+        private extern static void glGetTexImage(uint target, int level, uint format, uint type, IntPtr pixels);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glClear(uint mask);
+        private static extern void glBindTexture(uint target, uint texture);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glClearColor(float red, float green, float blue, float alpha);
+        private static extern void glBlendFunc(uint sfactor, uint dfactor);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glDrawElements(uint mode, int count, uint type, IntPtr indices);
+        private static extern void glClear(uint mask);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glEnable(uint cap);
+        private static extern void glClearColor(float red, float green, float blue, float alpha);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glGenTextures(int n, uint[] textures);
+        private static extern void glDrawElements(uint mode, int count, uint type, IntPtr indices);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern uint glGetError();
+        private static extern void glEnable(uint cap);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glTexImage2D(uint target, int level, uint internalformat, int width, int height,
+        private static extern void glGenTextures(int n, uint[] textures);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        private static extern uint glGetError();
+
+        [DllImport("opengl32.dll", SetLastError = true)]
+        private static extern void glTexImage2D(uint target, int level, uint internalformat, int width, int height,
             int border, uint format, uint type, IntPtr pixels);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glTexParameterf(uint target, uint pname, float param);
+        private static extern void glTexParameterf(uint target, uint pname, float param);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glTexParameteri(uint target, uint pname, int param);
+        private static extern void glTexParameteri(uint target, uint pname, int param);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        public static extern void glViewport(int x, int y, int width, int height);
+        private static extern void glViewport(int x, int y, int width, int height);
 
         #endregion
 
@@ -273,6 +279,189 @@ namespace Sharpex2D.Rendering.OpenGL
         public static void BindBuffer(uint target, uint buffer)
         {
             InvokeExtensionMethod<glBindBuffer>(target, buffer);
+        }
+
+        /// <summary>
+        /// Sets the texture parameter.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="pname">The ParameterName.</param>
+        /// <param name="param">The Parameter.</param>
+        public static void TexParameterI(uint target, uint pname, int param)
+        {
+            glTexParameteri(target, pname, param);
+        }
+
+        /// <summary>
+        /// Sets the texture parameter.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="pname">The ParameterName.</param>
+        /// <param name="param">The Parameter.</param>
+        public static void TexParameterF(uint target, uint pname, float param)
+        {
+            glTexParameterf(target, pname, param);
+        }
+
+        /// <summary>
+        /// Enables the specified option.
+        /// </summary>
+        /// <param name="cap">The Option.</param>
+        public static void Enable(uint cap)
+        {
+            glEnable(cap);
+        }
+
+        /// <summary>
+        /// Generates buffer for a texture.
+        /// </summary>
+        /// <returns>The Id.</returns>
+        public static uint GenTexture()
+        {
+            var textures = new uint[1];
+            glGenTextures(1, textures);
+            return textures[0];
+        }
+
+        /// <summary>
+        /// Generates buffer for n texture.
+        /// </summary>
+        /// <returns>The Ids.</returns>
+        public static uint[] GenTextures(int n)
+        {
+            var textures = new uint[n];
+            glGenTextures(n, textures);
+            return textures;
+        }
+
+        /// <summary>
+        /// Draws specified elements.
+        /// </summary>
+        /// <param name="mode">The Mode.</param>
+        /// <param name="count">The Count.</param>
+        /// <param name="type">The Type.</param>
+        /// <param name="indices">The Indices.</param>
+        public static void DrawElements(uint mode, int count, uint type, IntPtr indices)
+        {
+            glDrawElements(mode, count, type, indices);
+        }
+
+        /// <summary>
+        /// Sets the clear color.
+        /// </summary>
+        /// <param name="color">The Color.</param>
+        public static void ClearColor(OpenGLColor color)
+        {
+            glClearColor(color.R, color.G, color.B, color.A);
+        }
+
+        /// <summary>
+        /// Sets the blend function.
+        /// </summary>
+        public static void AlphaBlend()
+        {
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+
+        /// <summary>
+        /// Clears the buffer.
+        /// </summary>
+        public static void Clear()
+        {
+            glClear(GL_COLOR_BUFFER_BIT);
+        }
+
+        /// <summary>
+        /// Gets the error.
+        /// </summary>
+        /// <returns>OpenGLError.</returns>
+        public static OpenGLError GetError()
+        {
+            return (OpenGLError)glGetError();
+        }
+
+        /// <summary>
+        /// Binds a texture.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="texture">The Texture.</param>
+        public static void BindTexture(uint target, uint texture)
+        {
+            glBindTexture(target, texture);
+        }
+
+        /// <summary>
+        /// Textures an image.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="internalformat">The InternalFormat.</param>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        /// <param name="format">The Format.</param>
+        /// <param name="type">The Type.</param>
+        /// <param name="pixels">The Pixels.</param>
+        public static void TexImage2D(uint target, uint internalformat, int width, int height, uint format,
+            uint type, IntPtr pixels)
+        {
+            glTexImage2D(target, 0, internalformat, width, height, 0, format, type, pixels);
+        }
+
+        /// <summary>
+        /// Sets the Viewport.
+        /// </summary>
+        /// <param name="x">The X.</param>
+        /// <param name="y">The Y.</param>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        public static void Viewport(int x, int y, int width, int height)
+        {
+            glViewport(x, y, width, height);
+        }
+
+        /// <summary>
+        /// Gets the textured image.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="format">The Format.</param>
+        /// <param name="type">The Type.</param>
+        /// <param name="pixels">The Pixels.</param>
+        public static void GetTexImage(uint target, uint format, uint type, object pixels)
+        {
+            var pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            try
+            {
+                glGetTexImage(target, 0, format, type, pData.AddrOfPinnedObject());
+            }
+            finally
+            {
+                pData.Free();
+            }
+        }
+
+        /// <summary>
+        /// Textures a sub image.
+        /// </summary>
+        /// <param name="target">The Target.</param>
+        /// <param name="level">The Level.</param>
+        /// <param name="xoffset">The XOffset.</param>
+        /// <param name="yoffset">The YOffset.</param>
+        /// <param name="width">The Width.</param>
+        /// <param name="height">The Height.</param>
+        /// <param name="format">The Format.</param>
+        /// <param name="type">The Type.</param>
+        /// <param name="pixels">The Pixels.</param>
+        public static void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height,
+            uint format, uint type, object pixels)
+        {
+            var pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            try
+            {
+                glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pData.AddrOfPinnedObject());
+            }
+            finally
+            {
+                pData.Free();
+            }
         }
 
         /// <summary>
@@ -577,8 +766,6 @@ namespace Sharpex2D.Rendering.OpenGL
         public const uint GL_ONE_MINUS_SRC_ALPHA = 0x0303;
         public const uint GL_BLEND = 0x0BE2;
         public const uint GL_TRIANGLES = 0x0004;
-        public const uint GL_TRUE = 1;
-        public const uint GL_FALSE = 0;
         public const uint GL_UNSIGNED_BYTE = 0x1401;
         public const uint GL_UNSIGNED_SHORT = 0x1403;
         public const uint GL_UNSIGNED_INT = 0x1405;
