@@ -34,7 +34,12 @@ namespace Sharpex2D.Input
         /// <param name="reference">The Reference.</param>
         public KeyboardState(Dictionary<Keys, bool> reference)
         {
-            _reference = reference;
+            _reference = new Dictionary<Keys, bool>();
+
+            foreach (KeyValuePair<Keys, bool> pair in reference)
+            {
+                _reference.Add(pair.Key, pair.Value);
+            }
         }
 
         /// <summary>
@@ -50,21 +55,6 @@ namespace Sharpex2D.Input
             }
 
             return _reference[key];
-        }
-
-        /// <summary>
-        /// A value indicating whether the key is released.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if released.</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            if (!_reference.ContainsKey(key))
-            {
-                return false;
-            }
-
-            return !_reference[key];
         }
     }
 }

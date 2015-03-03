@@ -67,8 +67,8 @@ namespace Sharpex2D.Input
             IsRightStickPressed = rightStick;
             LeftTrigger = leftTrigger;
             RightTrigger = rightTrigger;
-            LeftThumbStick = thumbLeft;
-            RightThumbStick = thumbRight;
+            LeftThumbStick = new Vector2(thumbLeft.X, thumbLeft.Y);
+            RightThumbStick = new Vector2(thumbRight.X, thumbRight.Y);
         }
 
         /// <summary>

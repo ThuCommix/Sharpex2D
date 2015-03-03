@@ -37,7 +37,12 @@ namespace Sharpex2D.Input
         public MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
         {
             Position = new Vector2(position.X, position.Y);
-            _reference = reference;
+            _reference = new Dictionary<MouseButtons, bool>();
+
+            foreach (KeyValuePair<MouseButtons, bool> pair in reference)
+            {
+                _reference.Add(pair.Key, pair.Value);
+            }
         }
 
         /// <summary>
@@ -50,7 +55,7 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <param name="button">The MouseButton.</param>
         /// <returns>True if pressed.</returns>
-        public bool IsMouseButtonDown(MouseButtons button)
+        public bool IsMouseDown(MouseButtons button)
         {
             if (!_reference.ContainsKey(button))
             {
@@ -58,21 +63,6 @@ namespace Sharpex2D.Input
             }
 
             return _reference[button];
-        }
-
-        /// <summary>
-        /// A value indicating whether the MouseButton is released.
-        /// </summary>
-        /// <param name="button">The MouseButton.</param>
-        /// <returns>True if released.</returns>
-        public bool IsMouseButtonUp(MouseButtons button)
-        {
-            if (!_reference.ContainsKey(button))
-            {
-                return false;
-            }
-
-            return !_reference[button];
         }
     }
 }
