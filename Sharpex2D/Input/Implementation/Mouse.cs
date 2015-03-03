@@ -32,6 +32,7 @@ namespace Sharpex2D.Input.Implementation
     {
         private readonly Dictionary<MouseButtons, bool> _mousestate;
         private Vector2 _position;
+        private readonly object _locker;
 
         /// <summary>
         /// Initializes a new Mouse class.
@@ -42,6 +43,7 @@ namespace Sharpex2D.Input.Implementation
             _position = new Vector2(0, 0);
             Control control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();
+            _locker = new object();
             control.MouseMove += surface_MouseMove;
             control.MouseDown += surface_MouseDown;
             control.MouseUp += surface_MouseUp;
@@ -60,7 +62,10 @@ namespace Sharpex2D.Input.Implementation
         /// <returns>MouseState.</returns>
         public override MouseState GetState()
         {
-            return new MouseState(_mousestate, _position);
+            lock (_locker)
+            {
+                return new MouseState(_mousestate, _position);
+            }
         }
 
         /// <summary>
@@ -70,11 +75,14 @@ namespace Sharpex2D.Input.Implementation
         /// <param name="state">The State.</param>
         private void SetButtonState(MouseButtons button, bool state)
         {
-            if (!_mousestate.ContainsKey(button))
+            lock (_locker)
             {
-                _mousestate.Add(button, state);
+                if (!_mousestate.ContainsKey(button))
+                {
+                    _mousestate.Add(button, state);
+                }
+                _mousestate[button] = state;
             }
-            _mousestate[button] = state;
         }
 
         private void surface_MouseUp(object sender, MouseEventArgs e)
