@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -38,7 +38,7 @@ namespace Sharpex2D.Rendering
         InterpolationMode InterpolationMode { get; set; }
 
         /// <summary>
-        /// Initializes the graphics.
+        /// Initializes the renderer.
         /// </summary>
         void Initialize();
 
@@ -91,20 +91,22 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// Draws a Texture.
         /// </summary>
+        /// <param name="texture">The Texture.</param>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f);
 
         /// <summary>
         /// Draws a Texture.
         /// </summary>
+        /// <param name="texture">The Texture.</param>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f);
 
         /// <summary>
         /// Draws a Texture.
