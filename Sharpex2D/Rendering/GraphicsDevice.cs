@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -29,6 +29,8 @@ namespace Sharpex2D.Rendering
     [TestState(TestState.Tested)]
     public class GraphicsDevice : IComponent, IDisposable
     {
+        private Color _clearColor;
+
         /// <summary>
         /// Initializes a new GraphicsDeivce.
         /// </summary>
@@ -46,7 +48,7 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// Sets or gets the graphic resolution.
         /// </summary>
-        public BackBuffer BackBuffer { get; set; }
+        public BackBuffer BackBuffer { get; internal set; }
 
         /// <summary>
         /// Sets or gets the RenderTarget.
@@ -76,12 +78,18 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// Gets or sets the Clear Color.
         /// </summary>
-        public Color ClearColor { set; get; }
-
-        /// <summary>
-        /// Gets the RefreshRate.
-        /// </summary>
-        public float RefreshRate { internal set; get; }
+        public Color ClearColor
+        {
+            set
+            {
+                _clearColor = value;
+                if (ClearColorChanged != null)
+                {
+                    ClearColorChanged(this, EventArgs.Empty);
+                }
+            }
+            get { return _clearColor; }
+        }
 
         #region IComponent Implementation
 
@@ -105,6 +113,25 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
+        /// Deconstructs the GraphicsDevice class.
+        /// </summary>
+        ~GraphicsDevice()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Triggered if the clear color changed.
+        /// </summary>
+        public event EventHandler<EventArgs> ClearColorChanged;
+
+
+        /// <summary>
+        /// Triggered if the graphics device is disposed.
+        /// </summary>
+        public event EventHandler<EventArgs> Disposed;
+
+        /// <summary>
         /// Disposes the object.
         /// </summary>
         /// <param name="disposing">Indicates whether managed resources should be disposed.</param>
@@ -117,6 +144,11 @@ namespace Sharpex2D.Rendering
                 {
                     RenderTarget.Dispose();
                 }
+            }
+
+            if (Disposed != null)
+            {
+                Disposed(this, EventArgs.Empty);
             }
         }
     }
