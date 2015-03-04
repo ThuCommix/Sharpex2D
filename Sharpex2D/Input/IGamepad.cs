@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -22,12 +22,17 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal interface IGamepad
+    internal interface IGamepad : IInput
     {
         /// <summary>
         /// Gets the BatteryLevel.
         /// </summary>
         BatteryLevel BatteryLevel { get; }
+
+        /// <summary>
+        /// A value indicating whether the Gamepad is available.
+        /// </summary>
+        bool IsAvailable { get; }
 
         /// <summary>
         /// Gets the GamepadState.

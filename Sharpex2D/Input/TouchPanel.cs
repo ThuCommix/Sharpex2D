@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -25,12 +25,20 @@ namespace Sharpex2D.Input
     public static class TouchPanel
     {
         /// <summary>
+        /// A value indicating whether the TouchInput is available.
+        /// </summary>
+        public static bool IsAvailable
+        {
+            get { return SGL.InputManager.GetInput<ITouchInput>().IsAvailable; }
+        }
+
+        /// <summary>
         /// Gets the TouchState.
         /// </summary>
         /// <returns>TouchState.</returns>
         public static TouchState GetState()
         {
-            return SGL.InputManager.GetInput<NativeInput<TouchState>>().GetState();
+            return SGL.InputManager.GetInput<ITouchInput>().GetState();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -24,16 +24,14 @@ using System.Runtime.InteropServices;
 
 namespace Sharpex2D.Input.Implementation.JoystickApi
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    internal class Joystick : NativeInput<JoystickState>
+    internal class Joystick : IJoystick
     {
         /// <summary>
         /// A value indicating whether a Joystick is available.
         /// </summary>
-        public bool Available
+        public bool IsAvailable
         {
             get { return JoystickInterops.joyGetNumDevs() > 0; }
         }
@@ -42,7 +40,7 @@ namespace Sharpex2D.Input.Implementation.JoystickApi
         /// Gets the State.
         /// </summary>
         /// <returns>JoystickState.</returns>
-        public override JoystickState GetState()
+        public JoystickState GetState()
         {
             if (JoystickInterops.joyGetNumDevs() > 0)
             {
@@ -67,6 +65,21 @@ namespace Sharpex2D.Input.Implementation.JoystickApi
         }
 
         /// <summary>
+        /// Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public void Update(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Initializes the input.
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
         /// Trys an MMResult.
         /// </summary>
         /// <param name="result">The Result.</param>
@@ -87,6 +100,4 @@ namespace Sharpex2D.Input.Implementation.JoystickApi
             }
         }
     }
-
-#endif
 }

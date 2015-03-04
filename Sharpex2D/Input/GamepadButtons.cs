@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,40 +18,85 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input.Implementation.XInput
+namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal static class XInputConstants
+    public enum GamepadButtons
     {
         /// <summary>
-        /// Devtype Gamepad.
+        /// Dpad up.
         /// </summary>
-        public const int XINPUT_DEVTYPE_GAMEPAD = 0x01;
+        Up,
 
         /// <summary>
-        /// Subtype gamepad.
+        /// Dpad down.
         /// </summary>
-        public const int XINPUT_DEVSUBTYPE_GAMEPAD = 0x01;
+        Down,
 
         /// <summary>
-        /// Threshold Left thumb deadzone.
+        /// Dpad left.
         /// </summary>
-        public const int XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE = 7849;
+        Left,
 
         /// <summary>
-        /// Threshold Right thumb deadzone.
+        /// Dpad right.
         /// </summary>
-        public const int XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE = 8689;
+        Right,
 
         /// <summary>
-        /// Threshold trigger deadzone.
+        /// A.
         /// </summary>
-        public const int XINPUT_GAMEPAD_TRIGGER_THRESHOLD = 30;
+        A,
 
         /// <summary>
-        /// Flag Gamepad.
+        /// B.
         /// </summary>
-        public const int XINPUT_FLAG_GAMEPAD = 0x00000001;
+        B,
+
+        /// <summary>
+        /// X.
+        /// </summary>
+        X,
+
+        /// <summary>
+        /// Y.
+        /// </summary>
+        Y,
+
+        /// <summary>
+        /// Back.
+        /// </summary>
+        Back,
+
+        /// <summary>
+        /// Start.
+        /// </summary>
+        Start,
+
+        /// <summary>
+        /// Guide.
+        /// </summary>
+        Guide,
+
+        /// <summary>
+        /// Left shoulder.
+        /// </summary>
+        LeftShoulder,
+
+        /// <summary>
+        /// Right shoulder.
+        /// </summary>
+        RightShoulder,
+
+        /// <summary>
+        /// Left stick.
+        /// </summary>
+        LeftStick,
+
+        /// <summary>
+        /// Right stick.
+        /// </summary>
+        RightStick
     }
 }

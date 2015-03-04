@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -24,8 +24,6 @@ namespace Sharpex2D.Input.Implementation.XInput
     [TestState(TestState.Tested)]
     internal static class XInputInterops
     {
-#if Windows
-
         /// <summary>
         /// Gets the XInput state.
         /// </summary>
@@ -72,7 +70,5 @@ namespace Sharpex2D.Input.Implementation.XInput
         {
             return NativeMethods.XInputGetBatteryInformation(dwUserIndex, devType, ref pBatteryInformation);
         }
-
-#endif
     }
 }

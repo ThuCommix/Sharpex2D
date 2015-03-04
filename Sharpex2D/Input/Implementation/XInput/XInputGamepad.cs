@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -69,7 +69,7 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <returns>True if the button was pressed.</returns>
         public bool IsButtonPressed(int buttonFlags)
         {
-            return (wButtons & buttonFlags) == buttonFlags;
+            return (wButtons & buttonFlags) != 0;
         }
 
         /// <summary>

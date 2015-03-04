@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,16 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Globalization;
 using Sharpex2D.Math;
 
 namespace Sharpex2D.Input.Implementation.XInput
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class Gamepad : NativeInput<GamepadState>, IGamepad
+    internal class Gamepad : IGamepad
     {
         /// <summary>
         /// Maximum Controller input.
@@ -84,9 +83,9 @@ namespace Sharpex2D.Input.Implementation.XInput
         public XInputBatteryInformation BatteryInformationHeadset { get; internal set; }
 
         /// <summary>
-        /// A value indicating whether the Controller is Connected.
+        /// A value indicating whether the Controller is available.
         /// </summary>
-        public bool IsConnected { get; internal set; }
+        public bool IsAvailable { get; internal set; }
 
         /// <summary>
         /// Gets the BatteryLevel.
@@ -127,7 +126,7 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// Gets the State.
         /// </summary>
         /// <returns>GamepadState.</returns>
-        public override GamepadState GetState()
+        public GamepadState GetState()
         {
             return
                 new GamepadState(
@@ -145,9 +144,12 @@ namespace Sharpex2D.Input.Implementation.XInput
                     _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_SHOULDER),
                     _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_LEFT_THUMB),
                     _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GAMEPAD_RIGHT_THUMB),
-                    _gamepadStateCurrent.Gamepad.bLeftTrigger, _gamepadStateCurrent.Gamepad.bRightTrigger,
-                    new Vector2(_gamepadStateCurrent.Gamepad.sThumbLX, _gamepadStateCurrent.Gamepad.sThumbLY),
-                    new Vector2(_gamepadStateCurrent.Gamepad.sThumbRX, _gamepadStateCurrent.Gamepad.sThumbRY));
+                    _gamepadStateCurrent.Gamepad.IsButtonPressed((int) ButtonFlags.XINPUT_GUIDE),
+                    _gamepadStateCurrent.Gamepad.bLeftTrigger/255f, _gamepadStateCurrent.Gamepad.bRightTrigger/255f,
+                    new Vector2(_gamepadStateCurrent.Gamepad.sThumbLX/32767f,
+                        _gamepadStateCurrent.Gamepad.sThumbLY/32767f),
+                    new Vector2(_gamepadStateCurrent.Gamepad.sThumbRX/32767f,
+                        _gamepadStateCurrent.Gamepad.sThumbRY/32767f));
         }
 
         /// <summary>
@@ -173,10 +175,11 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             int result = XInputInterops.XInputGetState(_playerIndex, ref _gamepadStateCurrent);
-            IsConnected = (result == 0);
+            IsAvailable = (result == 0);
+            if (!IsAvailable) return;
 
             UpdateBatteryState();
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
@@ -197,11 +200,17 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <summary>
         /// Initializes the Device.
         /// </summary>
-        public override void Initialize()
+        public void Initialize()
         {
             if (!_isInitilized)
             {
                 _isInitilized = true;
+                Update(new GameTime
+                {
+                    ElapsedGameTime = 0,
+                    IsRunningSlowly = false,
+                    TotalGameTime = TimeSpan.FromSeconds(0)
+                });
             }
         }
 
@@ -264,6 +273,4 @@ namespace Sharpex2D.Input.Implementation.XInput
             return _playerIndex.ToString(CultureInfo.InvariantCulture);
         }
     }
-
-#endif
 }

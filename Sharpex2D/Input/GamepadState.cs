@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
 using Sharpex2D.Math;
 
 namespace Sharpex2D.Input
@@ -26,6 +27,8 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     public class GamepadState
     {
+        private readonly Dictionary<GamepadButtons, bool> _states;
+
         /// <summary>
         /// Initializes a new GamepadState class.
         /// </summary>
@@ -43,28 +46,33 @@ namespace Sharpex2D.Input
         /// <param name="rightShoulder">The RightShoulder Button.</param>
         /// <param name="leftStick">The LeftstickState.</param>
         /// <param name="rightStick">The RightstickState</param>
+        /// <param name="guide">The Guide State.</param>
         /// <param name="leftTrigger">The LeftTrigger.</param>
         /// <param name="rightTrigger">The RightTrigger.</param>
         /// <param name="thumbLeft">The Left Thumbstick Position.</param>
         /// <param name="thumbRight">The Right Thumbstick Position.</param>
-        public GamepadState(bool dpadUp, bool dpadDown, bool dpadLeft, bool dpadRight, bool aPressed, bool bPressed,
+        internal GamepadState(bool dpadUp, bool dpadDown, bool dpadLeft, bool dpadRight, bool aPressed, bool bPressed,
             bool yPressed, bool xPressed, bool backPressed, bool startPressed, bool leftShoulder, bool rightShoulder,
-            bool leftStick, bool rightStick, int leftTrigger, int rightTrigger, Vector2 thumbLeft, Vector2 thumbRight)
+            bool leftStick, bool rightStick, bool guide, float leftTrigger, float rightTrigger, Vector2 thumbLeft,
+            Vector2 thumbRight)
         {
-            IsDPadUpPressed = dpadUp;
-            IsDPadDownPressed = dpadDown;
-            IsDPadLeftPressed = dpadLeft;
-            IsDPadRightPressed = dpadRight;
-            IsAPressed = aPressed;
-            IsBPressed = bPressed;
-            IsYPressed = yPressed;
-            IsXPressed = xPressed;
-            IsBackPressed = backPressed;
-            IsStartPressed = startPressed;
-            IsLeftShoulderPressed = leftShoulder;
-            IsRightShoulderPressed = rightShoulder;
-            IsLeftStickPressed = leftStick;
-            IsRightStickPressed = rightStick;
+            _states = new Dictionary<GamepadButtons, bool>();
+            _states.Add(GamepadButtons.Up, dpadUp);
+            _states.Add(GamepadButtons.Down, dpadDown);
+            _states.Add(GamepadButtons.Left, dpadLeft);
+            _states.Add(GamepadButtons.Right, dpadRight);
+            _states.Add(GamepadButtons.A, aPressed);
+            _states.Add(GamepadButtons.B, bPressed);
+            _states.Add(GamepadButtons.Y, yPressed);
+            _states.Add(GamepadButtons.X, xPressed);
+            _states.Add(GamepadButtons.Back, backPressed);
+            _states.Add(GamepadButtons.Start, startPressed);
+            _states.Add(GamepadButtons.LeftShoulder, leftShoulder);
+            _states.Add(GamepadButtons.RightShoulder, rightShoulder);
+            _states.Add(GamepadButtons.LeftStick, leftStick);
+            _states.Add(GamepadButtons.RightStick, rightStick);
+            _states.Add(GamepadButtons.Guide, guide);
+
             LeftTrigger = leftTrigger;
             RightTrigger = rightTrigger;
             LeftThumbStick = new Vector2(thumbLeft.X, thumbLeft.Y);
@@ -72,84 +80,14 @@ namespace Sharpex2D.Input
         }
 
         /// <summary>
-        /// A value indicating whether the D-Pad up is pressed.
-        /// </summary>
-        public bool IsDPadUpPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether the D-Pad down is pressed.
-        /// </summary>
-        public bool IsDPadDownPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether the D-Pad left is pressed.
-        /// </summary>
-        public bool IsDPadLeftPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether the D-Pad right is pressed.
-        /// </summary>
-        public bool IsDPadRightPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether A is pressed.
-        /// </summary>
-        public bool IsAPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether B is pressed.
-        /// </summary>
-        public bool IsBPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether X is pressed.
-        /// </summary>
-        public bool IsXPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether Y is pressed.
-        /// </summary>
-        public bool IsYPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether back is pressed.
-        /// </summary>
-        public bool IsBackPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether start is pressed.
-        /// </summary>
-        public bool IsStartPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether left-shoulder is pressed.
-        /// </summary>
-        public bool IsLeftShoulderPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether right-shoulder is pressed.
-        /// </summary>
-        public bool IsRightShoulderPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether left-stick is pressed.
-        /// </summary>
-        public bool IsLeftStickPressed { get; private set; }
-
-        /// <summary>
-        /// A value indicating whether right-stick is pressed.
-        /// </summary>
-        public bool IsRightStickPressed { get; private set; }
-
-        /// <summary>
         /// A value indicating whether left-trigger is pressed.
         /// </summary>
-        public int LeftTrigger { get; private set; }
+        public float LeftTrigger { get; private set; }
 
         /// <summary>
         /// A value indicating whether right-trigger is pressed.
         /// </summary>
-        public int RightTrigger { get; private set; }
+        public float RightTrigger { get; private set; }
 
         /// <summary>
         /// Gets the LeftThumbStick.
@@ -160,5 +98,15 @@ namespace Sharpex2D.Input
         /// Gets the RightThumbStick.
         /// </summary>
         public Vector2 RightThumbStick { get; private set; }
+
+        /// <summary>
+        /// A value indicating whether the specified button is pressed.
+        /// </summary>
+        /// <param name="button">The GamepadButton.</param>
+        /// <returns>True if currently pressed.</returns>
+        public bool IsPressed(GamepadButtons button)
+        {
+            return _states[button];
+        }
     }
 }

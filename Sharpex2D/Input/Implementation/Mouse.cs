@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -28,11 +28,11 @@ namespace Sharpex2D.Input.Implementation
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class Mouse : NativeInput<MouseState>
+    internal class Mouse : IMouse
     {
+        private readonly object _locker;
         private readonly Dictionary<MouseButtons, bool> _mousestate;
         private Vector2 _position;
-        private readonly object _locker;
 
         /// <summary>
         /// Initializes a new Mouse class.
@@ -44,9 +44,9 @@ namespace Sharpex2D.Input.Implementation
             Control control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();
             _locker = new object();
-            control.MouseMove += surface_MouseMove;
-            control.MouseDown += surface_MouseDown;
-            control.MouseUp += surface_MouseUp;
+            control.MouseMove += MouseMove;
+            control.MouseDown += MouseDown;
+            control.MouseUp += MouseUp;
             Handle = handle;
         }
 
@@ -60,12 +60,27 @@ namespace Sharpex2D.Input.Implementation
         /// Gets the State.
         /// </summary>
         /// <returns>MouseState.</returns>
-        public override MouseState GetState()
+        public MouseState GetState()
         {
             lock (_locker)
             {
                 return new MouseState(_mousestate, _position);
             }
+        }
+
+        /// <summary>
+        /// Updates the object.
+        /// </summary>
+        /// <param name="gameTime">The GameTime.</param>
+        public void Update(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Initializes the input.
+        /// </summary>
+        public void Initialize()
+        {
         }
 
         /// <summary>
@@ -85,17 +100,32 @@ namespace Sharpex2D.Input.Implementation
             }
         }
 
-        private void surface_MouseUp(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Triggered if the mouse buttons are pressed up.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void MouseUp(object sender, MouseEventArgs e)
         {
             SetButtonState((MouseButtons) e.Button, false);
         }
 
-        private void surface_MouseDown(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Triggered if the mouse buttons are pressed down.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void MouseDown(object sender, MouseEventArgs e)
         {
             SetButtonState((MouseButtons) e.Button, true);
         }
 
-        private void surface_MouseMove(object sender, MouseEventArgs e)
+        /// <summary>
+        /// Triggered if the mouse moved.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void MouseMove(object sender, MouseEventArgs e)
         {
             _position = new Vector2(e.Location.X/SGL.GraphicsDevice.Scale.X, e.Location.Y/SGL.GraphicsDevice.Scale.Y);
         }

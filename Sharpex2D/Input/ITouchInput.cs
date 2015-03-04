@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -22,11 +22,17 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface INativeInput : IUpdateable
+    internal interface ITouchInput : IInput
     {
         /// <summary>
-        /// Initializes the input.
+        /// A value indicating whether the TouchInput is available.
         /// </summary>
-        void Initialize();
+        bool IsAvailable { get; }
+
+        /// <summary>
+        /// Gets the TouchState.
+        /// </summary>
+        /// <returns>TouchState.</returns>
+        TouchState GetState();
     }
 }

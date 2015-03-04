@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -23,10 +23,9 @@ using Sharpex2D.Surface;
 
 namespace Sharpex2D.Input.Implementation
 {
-#if Windows
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class Keyboard : NativeInput<KeyboardState>
+    internal class Keyboard : IKeyboard
     {
         private readonly Dictionary<Keys, bool> _currentKeyState;
         private readonly GameWindow _gameWindow;
@@ -41,10 +40,17 @@ namespace Sharpex2D.Input.Implementation
         }
 
         /// <summary>
+        /// Initializes the input.
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
         /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             _currentKeyState.Clear();
 
@@ -60,7 +66,7 @@ namespace Sharpex2D.Input.Implementation
         /// Gets the KeyboardState.
         /// </summary>
         /// <returns>KeyboardState.</returns>
-        public override KeyboardState GetState()
+        public KeyboardState GetState()
         {
             return new KeyboardState(_currentKeyState);
         }
@@ -75,5 +81,4 @@ namespace Sharpex2D.Input.Implementation
             return 0 != (NativeMethods.GetAsyncKeyState(key) & 0x8000);
         }
     }
-#endif
 }

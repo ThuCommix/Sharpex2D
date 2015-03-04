@@ -1,4 +1,6 @@
-﻿// Permission is hereby granted, free of charge, to any person obtaining a copy
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -20,27 +22,11 @@ namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public abstract class NativeInput<T> : INativeInput
+    internal interface IInput : IUpdateable
     {
         /// <summary>
-        /// Initializes the component.
+        /// Initializes the input.
         /// </summary>
-        public virtual void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Updates the object.
-        /// </summary>
-        /// <param name="gameTime">The GameTime.</param>
-        public virtual void Update(GameTime gameTime)
-        {
-        }
-
-        /// <summary>
-        /// Gets the State.
-        /// </summary>
-        /// <returns>TState.</returns>
-        public abstract T GetState();
+        void Initialize();
     }
 }

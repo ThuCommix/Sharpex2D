@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -29,11 +29,9 @@ using Sharpex2D.Surface;
 
 namespace Sharpex2D.Input.Implementation.Touch
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]
-    internal class TouchDevice : NativeInput<TouchState>
+    internal class TouchDevice : ITouchInput
     {
         private readonly Logger _logger;
         private readonly List<Input.Touch> _touches;
@@ -52,7 +50,7 @@ namespace Sharpex2D.Input.Implementation.Touch
         /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             _touches.Clear();
         }
@@ -60,7 +58,7 @@ namespace Sharpex2D.Input.Implementation.Touch
         /// <summary>
         /// Initializes the input.
         /// </summary>
-        public override void Initialize()
+        public void Initialize()
         {
             IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
 
@@ -70,6 +68,7 @@ namespace Sharpex2D.Input.Implementation.Touch
                 throw new InvalidOperationException("Unable to register TouchWindow.");
             }
 
+            IsAvailable = true;
 
             var msgFilter = new MessageFilter(handle) {Filter = TouchInterops.WM_TOUCH};
             msgFilter.MessageArrived += MessageArrived;
@@ -77,10 +76,15 @@ namespace Sharpex2D.Input.Implementation.Touch
         }
 
         /// <summary>
+        /// A value indicating whether the Joystick is available.
+        /// </summary>
+        public bool IsAvailable { get; private set; }
+
+        /// <summary>
         /// Gets the State.
         /// </summary>
         /// <returns>TouchState.</returns>
-        public override TouchState GetState()
+        public TouchState GetState()
         {
             return new TouchState(_touches.ToArray());
         }
@@ -156,6 +160,4 @@ namespace Sharpex2D.Input.Implementation.Touch
             }
         }
     }
-
-#endif
 }

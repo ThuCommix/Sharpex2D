@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -32,7 +32,7 @@ namespace Sharpex2D.Input
         /// Initializes a new KeyState class.
         /// </summary>
         /// <param name="reference">The Reference.</param>
-        public KeyboardState(Dictionary<Keys, bool> reference)
+        internal KeyboardState(Dictionary<Keys, bool> reference)
         {
             _reference = new Dictionary<Keys, bool>();
 
@@ -47,7 +47,7 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>True if pressed.</returns>
-        public bool IsKeyDown(Keys key)
+        public bool IsPressed(Keys key)
         {
             if (!_reference.ContainsKey(key))
             {

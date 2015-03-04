@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,8 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
@@ -33,7 +31,7 @@ namespace Sharpex2D.Input
         /// <returns>GamepadState.</returns>
         public static GamepadState GetState(PlayerIndex playerIndex)
         {
-            return SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex].GetState();
+            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].GetState();
         }
 
         /// <summary>
@@ -45,31 +43,27 @@ namespace Sharpex2D.Input
         /// <param name="length">The Length.</param>
         public static void Vibrate(PlayerIndex playerIndex, float left, float right, float length)
         {
-            var gamepad = SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex] as IGamepad;
-            if (gamepad != null)
-            {
-                gamepad.Vibrate(left, right, length);
-            }
-            else
-            {
-                throw new NotSupportedException("The gamepad does not support vibration.");
-            }
+            SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].Vibrate(left, right, length);
         }
 
         /// <summary>
         /// Gets the BatteryLevel.
         /// </summary>
         /// <param name="playerIndex">The PlayerIndex.</param>
-        /// <returns>BatteryPercentage.</returns>
+        /// <returns>BatteryLevel.</returns>
         public static BatteryLevel BatteryLevel(PlayerIndex playerIndex)
         {
-            var gamepad = SGL.InputManager.GetInputs<NativeInput<GamepadState>>()[(int) playerIndex] as IGamepad;
-            if (gamepad != null)
-            {
-                return gamepad.BatteryLevel;
-            }
+            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].BatteryLevel;
+        }
 
-            throw new NotSupportedException("The gamepad does not support battery levels.");
+        /// <summary>
+        /// A value indicating whether the Gamepad is available.
+        /// </summary>
+        /// <param name="playerIndex">The PlayerIndex.</param>
+        /// <returns>True if available.</returns>
+        public static bool IsAvailable(PlayerIndex playerIndex)
+        {
+            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].IsAvailable;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -23,19 +23,10 @@ using System.Windows.Forms;
 
 namespace Sharpex2D.Input.Implementation
 {
-#if Windows
-
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal class MessageFilter : NativeWindow
     {
-        /// <summary>
-        /// MessageEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void MessageEventHandler(object sender, MessageEventArgs e);
-
         private bool _filterAssigned;
         private int _messageFilter;
 
@@ -64,7 +55,7 @@ namespace Sharpex2D.Input.Implementation
         /// <summary>
         /// MessageArrived event.
         /// </summary>
-        public event MessageEventHandler MessageArrived;
+        public event EventHandler<MessageEventArgs> MessageArrived;
 
         /// <summary>
         /// WindProc.
@@ -85,6 +76,4 @@ namespace Sharpex2D.Input.Implementation
             base.WndProc(ref m);
         }
     }
-
-#endif
 }

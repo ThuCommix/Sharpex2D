@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -30,15 +30,15 @@ namespace Sharpex2D.Input
     [TestState(TestState.Tested)]
     internal class InputManager : IUpdateable
     {
-        private readonly List<INativeInput> _inputs;
+        private readonly List<IInput> _inputs;
         private readonly Logger _logger;
 
         /// <summary>
         /// Initializes a new InputManager Instance.
         /// </summary>
-        public InputManager()
+        internal InputManager()
         {
-            _inputs = new List<INativeInput>();
+            _inputs = new List<IInput>();
             _logger = LogManager.GetClassLogger();
         }
 
@@ -48,7 +48,7 @@ namespace Sharpex2D.Input
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
         {
-            foreach (INativeInput input in _inputs)
+            foreach (IInput input in _inputs)
             {
                 input.Update(gameTime);
             }
@@ -57,7 +57,7 @@ namespace Sharpex2D.Input
         /// <summary>
         /// Initializes the InputManager.
         /// </summary>
-        public void Initialize()
+        internal void Initialize()
         {
             _inputs.Add(Implementation.XInput.Gamepad.Retrieve(0));
             _inputs.Add(Implementation.XInput.Gamepad.Retrieve(1));
@@ -70,7 +70,7 @@ namespace Sharpex2D.Input
             _inputs.Add(new Implementation.JoystickApi.Joystick());
             _inputs.Add(new TouchDevice());
 
-            foreach (INativeInput input in _inputs)
+            foreach (IInput input in _inputs)
             {
                 try
                 {
@@ -88,11 +88,11 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>INativeInput.</returns>
-        public T GetInput<T>() where T : INativeInput
+        internal T GetInput<T>() where T : IInput
         {
-            foreach (INativeInput input in _inputs.Where(input => input.GetType().BaseType == typeof (T)))
+            foreach (T input in _inputs.OfType<T>())
             {
-                return (T) input;
+                return input;
             }
 
             throw new InvalidOperationException("The input was not found.");
@@ -103,14 +103,14 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>INativeInput.</returns>
-        public T[] GetInputs<T>() where T : INativeInput
+        internal T[] GetInputs<T>() where T : IInput
         {
             var inputs = new List<T>();
             bool flag = false;
 
-            foreach (INativeInput input in _inputs.Where(input => input.GetType().BaseType == typeof (T)))
+            foreach (T input in _inputs.OfType<T>())
             {
-                inputs.Add((T) input);
+                inputs.Add(input);
                 flag = true;
             }
 

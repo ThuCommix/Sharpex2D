@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -30,7 +30,7 @@ namespace Sharpex2D.Input
         /// <returns>KeyboardState.</returns>
         public static KeyboardState GetState()
         {
-            return SGL.InputManager.GetInput<NativeInput<KeyboardState>>().GetState();
+            return SGL.InputManager.GetInput<IKeyboard>().GetState();
         }
     }
 }

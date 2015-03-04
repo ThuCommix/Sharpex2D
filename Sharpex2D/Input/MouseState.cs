@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -34,7 +34,7 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <param name="reference">The Reference.</param>
         /// <param name="position">The Position.</param>
-        public MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
+        internal MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
         {
             Position = new Vector2(position.X, position.Y);
             _reference = new Dictionary<MouseButtons, bool>();
@@ -55,7 +55,7 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <param name="button">The MouseButton.</param>
         /// <returns>True if pressed.</returns>
-        public bool IsMouseDown(MouseButtons button)
+        public bool IsPressed(MouseButtons button)
         {
             if (!_reference.ContainsKey(button))
             {
