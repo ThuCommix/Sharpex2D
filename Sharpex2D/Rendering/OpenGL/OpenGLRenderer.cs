@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,6 +20,8 @@
 
 using System;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 using Sharpex2D.Math;
 using Sharpex2D.Rendering.OpenGL.Shaders;
 using Sharpex2D.Surface;
@@ -28,26 +30,19 @@ using Rectangle = Sharpex2D.Math.Rectangle;
 namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
-    public class OpenGLRenderer : IRenderer
+    [TestState(TestState.Tested)]
+    public class OpenGLRenderer : IRenderer, IDisposable
     {
-        private readonly RenderContext _renderContext;
         private readonly GraphicsDevice _graphicsDevice;
-        private ShaderProgram _colorShader;
+        private readonly RenderContext _renderContext;
         private readonly TextEntityManager _textEntityManager;
-        private float[] _matrix4;
         private readonly GameWindow _window;
+        private ShaderProgram _colorShader;
+        private float[] _matrix4;
+        private IndexBuffer _sourceEbo;
+        private VertexArray _sourceVao;
+        private VertexBuffer _sourceVbo;
         private Vector2 _windowSize;
-
-        /// <summary>
-        /// Gets or sets the SmoothingMode.
-        /// </summary>
-        public SmoothingMode SmoothingMode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the InterpolationMode.
-        /// </summary>
-        public InterpolationMode InterpolationMode { get; set; }
 
         /// <summary>
         /// Initializes a new OpenGLRenderer class.
@@ -61,7 +56,26 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Initializes the graphics.
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Gets or sets the SmoothingMode.
+        /// </summary>
+        public SmoothingMode SmoothingMode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the InterpolationMode.
+        /// </summary>
+        public InterpolationMode InterpolationMode { get; set; }
+
+        /// <summary>
+        /// Initializes the renderer.
         /// </summary>
         public void Initialize()
         {
@@ -75,6 +89,29 @@ namespace Sharpex2D.Rendering.OpenGL
             OpenGLInterops.Enable(OpenGLInterops.GL_BLEND);
             OpenGLInterops.AlphaBlend();
             SetTransform(Matrix2x3.Identity);
+            OpenGLColor clearColor = OpenGLHelper.ConvertColor(_graphicsDevice.ClearColor);
+            OpenGLInterops.ClearColor(clearColor);
+            _windowSize = _window.Size;
+            OpenGLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
+            _sourceVao = new VertexArray();
+            _sourceVao.Bind();
+            _colorShader.Bind();
+            _sourceEbo = new IndexBuffer();
+
+            var elements = new ushort[]
+            {
+                0, 1, 2,
+                2, 3, 0
+            };
+
+            _sourceEbo.Bind();
+            _sourceEbo.SetData(elements);
+
+            _sourceVbo = new VertexBuffer();
+            _sourceVbo.Bind();
+
+            _graphicsDevice.ClearColorChanged += GraphicsDeviceClearColorChanged;
+            _window.ScreenSizeChanged += WindowScreenSizeChanged;
         }
 
         /// <summary>
@@ -84,10 +121,6 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             _renderContext.MakeCurrent();
             OpenGLInterops.Clear();
-            var clearColor = OpenGLHelper.ConvertColor(_graphicsDevice.ClearColor);
-            OpenGLInterops.ClearColor(clearColor);
-            _windowSize = _window.Size;
-            OpenGLInterops.Viewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
         }
 
         /// <summary>
@@ -108,9 +141,9 @@ namespace Sharpex2D.Rendering.OpenGL
         public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
         {
             var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new InvalidOperationException("Expected a OpenGLFont as resource.");
+            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
 
-            var texture = _textEntityManager.GetFontTexture(text, oglFont, color, (int)rectangle.Width);
+            OpenGLTexture texture = _textEntityManager.GetFontTexture(text, oglFont, color, (int) rectangle.Width);
             DrawTexture(texture, new Vector2(rectangle.X, rectangle.Y), Color.White);
         }
 
@@ -124,9 +157,9 @@ namespace Sharpex2D.Rendering.OpenGL
         public void DrawString(string text, IFont font, Vector2 position, Color color)
         {
             var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new InvalidOperationException("Expected a OpenGLFont as resource.");
+            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
 
-            var texture = _textEntityManager.GetFontTexture(text, oglFont, color);
+            OpenGLTexture texture = _textEntityManager.GetFontTexture(text, oglFont, color);
             DrawTexture(texture, position, Color.White);
         }
 
@@ -140,61 +173,40 @@ namespace Sharpex2D.Rendering.OpenGL
         public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1)
         {
             var tex = texture as OpenGLTexture;
-            if (tex == null) throw new InvalidOperationException("Expected OpenGLTexture as resource.");
-            var col = OpenGLHelper.ConvertColor(color);
+            if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
+            OpenGLColor col = OpenGLHelper.ConvertColor(color);
 
-            var vertices = new []
+            var vertices = new[]
             {
                 //  Position                                         Color             Texcoords
-                position.X, position.Y,                              col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
-                position.X + tex.Width, position.Y,                  col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
-                position.X + tex.Width, position.Y + tex.Height,     col.R, col.G, col.B, 1.0f, 1.0f, // Bottom-right
-                position.X, position.Y + tex.Height,                 col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
+                position.X, position.Y, col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
+                position.X + tex.Width, position.Y, col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
+                position.X + tex.Width, position.Y + tex.Height, col.R, col.G, col.B, 1.0f, 1.0f, // Bottom-right
+                position.X, position.Y + tex.Height, col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
             };
 
-            var elements = new ushort[]
-            {
-                0, 1, 2,
-                2, 3, 0
-            };
+            _sourceVbo.SetData(vertices);
 
-            var vao = new VertexArray();
-            vao.Bind();
-
-            var vbo = new VertexBuffer();
-            vbo.Bind();
-            vbo.SetData(vertices);
-
-            var ebo = new IndexBuffer();
-            ebo.Bind();
-
-            _colorShader.Bind();
             tex.Bind();
-            _colorShader.SetUniform("alpha", opacity);
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height);
+
+            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
-            ebo.SetData(elements);
-
-            var posAttrib = _colorShader.GetAttribLocation("position");
+            uint posAttrib = _colorShader.GetAttribLocation("position");
             VertexBuffer.EnableVertexAttribArray(posAttrib);
             VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
 
-            var colAttrib = _colorShader.GetAttribLocation("color");
+            uint colAttrib = _colorShader.GetAttribLocation("color");
             VertexBuffer.EnableVertexAttribArray(colAttrib);
             VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
 
-            var texAttrib = _colorShader.GetAttribLocation("texcoord");
+            uint texAttrib = _colorShader.GetAttribLocation("texcoord");
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
-            _colorShader.Unbind();
-            ebo.Dispose();
-            vbo.Dispose();
-            vao.Dispose();
         }
 
         /// <summary>
@@ -207,73 +219,55 @@ namespace Sharpex2D.Rendering.OpenGL
         public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1)
         {
             var tex = texture as OpenGLTexture;
-            if (tex == null) throw new InvalidOperationException("Expected OpenGLTexture as resource.");
-            var col = OpenGLHelper.ConvertColor(color);
+            if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
+            OpenGLColor col = OpenGLHelper.ConvertColor(color);
 
             var vertices = new[]
             {
                 //  Position                                         Color             Texcoords
-                rectangle.X, rectangle.Y,                              col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
-                rectangle.X + rectangle.Width, rectangle.Y,                  col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
-                rectangle.X + rectangle.Width, rectangle.Y + tex.Height,     col.R, col.G, col.B, 1.0f, 1.0f, // Bottom-right
-                rectangle.X, rectangle.Y + rectangle.Height,                 col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
+                rectangle.X, rectangle.Y, col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
+                rectangle.X + rectangle.Width, rectangle.Y, col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
+                rectangle.X + rectangle.Width, rectangle.Y + tex.Height, col.R, col.G, col.B, 1.0f, 1.0f,
+                // Bottom-right
+                rectangle.X, rectangle.Y + rectangle.Height, col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
             };
 
-            var elements = new ushort[]
-            {
-                0, 1, 2,
-                2, 3, 0
-            };
+            _sourceVbo.SetData(vertices);
 
-            var vao = new VertexArray();
-            vao.Bind();
-
-            var vbo = new VertexBuffer();
-            vbo.Bind();
-            vbo.SetData(vertices);
-
-            var ebo = new IndexBuffer();
-            ebo.Bind();
-
-            _colorShader.Bind();
             tex.Bind();
-            _colorShader.SetUniform("alpha", opacity);
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height);
+
+            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
-            ebo.SetData(elements);
-
-            var posAttrib = _colorShader.GetAttribLocation("position");
+            uint posAttrib = _colorShader.GetAttribLocation("position");
             VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7 * sizeof(float), 0);
+            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
 
-            var colAttrib = _colorShader.GetAttribLocation("color");
+            uint colAttrib = _colorShader.GetAttribLocation("color");
             VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7 * sizeof(float), 2 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
 
-            var texAttrib = _colorShader.GetAttribLocation("texcoord");
+            uint texAttrib = _colorShader.GetAttribLocation("texcoord");
             VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
-            _colorShader.Unbind();
-            ebo.Dispose();
-            vbo.Dispose();
-            vao.Dispose();
         }
 
         /// <summary>
         /// Draws a Texture.
         /// </summary>
+        /// <param name="texture">The Texture.</param>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color,
+            float opacity = 1)
         {
-            DrawTexture(spriteSheet,
+            DrawTexture(texture, spriteSheet,
                 new Rectangle(position.X, position.Y, spriteSheet.Rectangle.Width, spriteSheet.Rectangle.Height), color,
                 opacity);
         }
@@ -281,13 +275,15 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <summary>
         /// Draws a Texture.
         /// </summary>
+        /// <param name="texture">The Texture.</param>
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
         /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color,
+            float opacity = 1)
         {
-            DrawTexture(spriteSheet.Texture2D.Texture, spriteSheet.Rectangle, rectangle, color, opacity);
+            DrawTexture(texture, spriteSheet.Rectangle, rectangle, color, opacity);
         }
 
         /// <summary>
@@ -302,22 +298,22 @@ namespace Sharpex2D.Rendering.OpenGL
             float opacity = 1)
         {
             var tex = texture as OpenGLTexture;
-            if (tex == null) throw new InvalidOperationException("Expected OpenGLTexture as resource.");
-            var col = OpenGLHelper.ConvertColor(color);
+            if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
+            OpenGLColor col = OpenGLHelper.ConvertColor(color);
 
-            var oglX = source.X <= 0
+            float oglX = source.X <= 0
                 ? 0
                 : source.X
                   /texture.Width;
-            var oglY = source.Y <= 0
+            float oglY = source.Y <= 0
                 ? 0
                 : source.Y
                   /texture.Height;
-            var oglW = source.Width <= 0
+            float oglW = source.Width <= 0
                 ? 0
                 : source.Width
-                  / texture.Width;
-            var oglH = source.Height <= 0
+                  /texture.Width;
+            float oglH = source.Height <= 0
                 ? 0
                 : source.Height
                   /texture.Height;
@@ -325,55 +321,35 @@ namespace Sharpex2D.Rendering.OpenGL
             var vertices = new[]
             {
                 //  Position                                                       Color             Texcoords
-                destination.X, destination.Y,                                      col.R, col.G, col.B, oglX, oglY, // Top-left
-                destination.X + destination.Width, destination.Y,                  col.R, col.G, col.B, oglX + oglW, oglY, // Top-right
-                destination.X + destination.Width, destination.Y + destination.Height,     col.R, col.G, col.B, oglX + oglW, oglY + oglH, // Bottom-right
-                destination.X, destination.Y + destination.Height,                 col.R, col.G, col.B, oglX, oglY + oglH // Bottom-left
+                destination.X, destination.Y, col.R, col.G, col.B, oglX, oglY, // Top-left
+                destination.X + destination.Width, destination.Y, col.R, col.G, col.B, oglX + oglW, oglY, // Top-right
+                destination.X + destination.Width, destination.Y + destination.Height, col.R, col.G, col.B, oglX + oglW,
+                oglY + oglH, // Bottom-right
+                destination.X, destination.Y + destination.Height, col.R, col.G, col.B, oglX, oglY + oglH // Bottom-left
             };
 
-            var elements = new ushort[]
-            {
-                0, 1, 2,
-                2, 3, 0
-            };
+            _sourceVbo.SetData(vertices);
 
-            var vao = new VertexArray();
-            vao.Bind();
-
-            var vbo = new VertexBuffer();
-            vbo.Bind();
-            vbo.SetData(vertices);
-
-            var ebo = new IndexBuffer();
-            ebo.Bind();
-
-            _colorShader.Bind();
             tex.Bind();
-            _colorShader.SetUniform("alpha", opacity);
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height);
+
+            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
-            ebo.SetData(elements);
-
-            var posAttrib = _colorShader.GetAttribLocation("position");
+            uint posAttrib = _colorShader.GetAttribLocation("position");
             VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7 * sizeof(float), 0);
+            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
 
-            var colAttrib = _colorShader.GetAttribLocation("color");
+            uint colAttrib = _colorShader.GetAttribLocation("color");
             VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7 * sizeof(float), 2 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
 
-            var texAttrib = _colorShader.GetAttribLocation("texcoord");
+            uint texAttrib = _colorShader.GetAttribLocation("texcoord");
             VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
 
             tex.Unbind();
-            _colorShader.Unbind();
-            ebo.Dispose();
-            vbo.Dispose();
-            vao.Dispose();
         }
 
         /// <summary>
@@ -385,10 +361,10 @@ namespace Sharpex2D.Rendering.OpenGL
         public Vector2 MeasureString(string text, IFont font)
         {
             var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new InvalidOperationException("Expected a OpenGLFont as resource.");
+            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
 
-            var gdiFont = OpenGLHelper.ConvertFont(oglFont);
-            var result = System.Windows.Forms.TextRenderer.MeasureText(text, gdiFont);
+            System.Drawing.Font gdiFont = OpenGLHelper.ConvertFont(oglFont);
+            Size result = TextRenderer.MeasureText(text, gdiFont);
             return new Vector2(result.Width, result.Height);
         }
 
@@ -460,11 +436,54 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <returns>ITexture.</returns>
         public ITexture CreateResource(int width, int height)
         {
-            var emptyBmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            var graphics = Graphics.FromImage(emptyBmp);
+            var emptyBmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+            Graphics graphics = Graphics.FromImage(emptyBmp);
             graphics.Clear(System.Drawing.Color.Transparent);
             graphics.Dispose();
             return new OpenGLTexture(emptyBmp);
         }
-    } 
+
+        /// <summary>
+        /// Deconstructs the OpenGLRenderer class.
+        /// </summary>
+        ~OpenGLRenderer()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The disposing state.</param>
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _sourceVao.Dispose();
+                _sourceEbo.Dispose();
+                _colorShader.Delete();
+                _sourceVbo.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Triggered if the clear color changed.
+        /// </summary>
+        private void GraphicsDeviceClearColorChanged(object sender, EventArgs e)
+        {
+            OpenGLColor clearColor = OpenGLHelper.ConvertColor(_graphicsDevice.ClearColor);
+            OpenGLInterops.ClearColor(clearColor);
+        }
+
+        /// <summary>
+        /// Triggered if the screen size changed.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void WindowScreenSizeChanged(object sender, EventArgs e)
+        {
+            _windowSize = _window.Size;
+            OpenGLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
+        }
+    }
 }

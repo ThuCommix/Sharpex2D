@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -27,6 +27,7 @@ namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
+    [SuppressUnmanagedCodeSecurity]
     internal static class OpenGLInterops
     {
         #region WGL
@@ -74,7 +75,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="deviceContext">The DeviceContext.</param>
         /// <param name="pixelFormatDescriptor">The PixelFormatDescriptor.</param>
         /// <returns>True on success.</returns>
-        [DllImport("gdi32.dll", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("gdi32.dll", SetLastError = true)]
         public static extern int ChoosePixelFormat(IntPtr deviceContext, ref PixelFormatDescriptor pixelFormatDescriptor);
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="pixelFormat">The PixelFormat.</param>
         /// <param name="pixelFormatDescriptor">The PixelFormatDescriptor.</param>
         /// <returns>True on success.</returns>
-        [DllImport("gdi32.dll", EntryPoint = "SetPixelFormat", SetLastError = true), SuppressUnmanagedCodeSecurity]
+        [DllImport("gdi32.dll", EntryPoint = "SetPixelFormat", SetLastError = true)]
         public static extern bool SetPixelFormat(IntPtr deviceContext, int pixelFormat,
             ref PixelFormatDescriptor pixelFormatDescriptor);
 
@@ -119,20 +120,18 @@ namespace Sharpex2D.Rendering.OpenGL
 
         #region Delegates
 
-        private delegate IntPtr wglCreateContextAttribsARB(IntPtr hdc, IntPtr hShareContext, int[] attribList);
+        private delegate void glActiveTexture(uint texture);
 
-        private delegate void glBindFragDataLocation(uint program, uint color, string name);
+        private delegate void glAttachShader(uint program, uint shader);
 
         private delegate void glBindBuffer(uint target, uint buffer);
 
-        private delegate void glDeleteBuffers(int n, uint[] buffers);
+        private delegate void glBindFragDataLocation(uint program, uint color, string name);
 
-        private delegate void glGenBuffers(int n, uint[] buffers);
+        private delegate void glBindVertexArray(uint array);
 
 
         private delegate void glBufferData(uint target, int size, IntPtr data, uint usage);
-
-        private delegate void glAttachShader(uint program, uint shader);
 
         private delegate void glCompileShader(uint shader);
 
@@ -140,11 +139,19 @@ namespace Sharpex2D.Rendering.OpenGL
 
         private delegate uint glCreateShader(uint type);
 
+        private delegate void glDeleteBuffers(int n, uint[] buffers);
+
         private delegate void glDeleteProgram(uint program);
 
         private delegate void glDeleteShader(uint shader);
 
+        private delegate void glDeleteVertexArrays(int n, uint[] arrays);
+
         private delegate void glEnableVertexAttribArray(uint index);
+
+        private delegate void glGenBuffers(int n, uint[] buffers);
+
+        private delegate void glGenVertexArrays(int n, uint[] arrays);
 
         private delegate int glGetAttribLocation(uint program, string name);
 
@@ -154,8 +161,6 @@ namespace Sharpex2D.Rendering.OpenGL
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall, ThrowOnUnmappableChar = true)]
         private delegate void glShaderSource(uint shader, int count, string[] source, int[] length);
-
-        private delegate void glUseProgram(uint program);
 
         private delegate void glUniform1f(int location, float v0);
 
@@ -167,16 +172,12 @@ namespace Sharpex2D.Rendering.OpenGL
 
         private delegate void glUniformMatrix4fv(int location, int count, bool transpose, float[] value);
 
+        private delegate void glUseProgram(uint program);
+
         private delegate void glVertexAttribPointer(
             uint index, int size, uint type, bool normalized, int stride, IntPtr pointer);
 
-        private delegate void glBindVertexArray(uint array);
-
-        private delegate void glDeleteVertexArrays(int n, uint[] arrays);
-
-        private delegate void glGenVertexArrays(int n, uint[] arrays);
-
-        private delegate void glActiveTexture(uint texture);
+        private delegate IntPtr wglCreateContextAttribsARB(IntPtr hdc, IntPtr hShareContext, int[] attribList);
 
         #endregion
 
@@ -192,16 +193,16 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             if (_extensions == null) _extensions = new Dictionary<string, Delegate>();
 
-            var delegateType = typeof (T);
+            Type delegateType = typeof (T);
             if (!_extensions.ContainsKey(delegateType.Name))
             {
-                var hfunc = wglGetProcAddress(delegateType.Name);
+                IntPtr hfunc = wglGetProcAddress(delegateType.Name);
                 if (hfunc == IntPtr.Zero)
                 {
                     throw new MissingMethodException(delegateType.Name);
                 }
 
-                var del = Marshal.GetDelegateForFunctionPointer(hfunc, delegateType);
+                Delegate del = Marshal.GetDelegateForFunctionPointer(hfunc, delegateType);
                 _extensions.Add(delegateType.Name, del);
             }
 
@@ -225,10 +226,11 @@ namespace Sharpex2D.Rendering.OpenGL
         #region DllImport
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        private extern static void glTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, IntPtr pixels);
+        private static extern void glTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width,
+            int height, uint format, uint type, IntPtr pixels);
 
         [DllImport("opengl32.dll", SetLastError = true)]
-        private extern static void glGetTexImage(uint target, int level, uint format, uint type, IntPtr pixels);
+        private static extern void glGetTexImage(uint target, int level, uint format, uint type, IntPtr pixels);
 
         [DllImport("opengl32.dll", SetLastError = true)]
         private static extern void glBindTexture(uint target, uint texture);
@@ -270,6 +272,51 @@ namespace Sharpex2D.Rendering.OpenGL
         #endregion
 
         #region Wrapped Methods
+
+        public const uint GL_COLOR_BUFFER_BIT = 0x00004000;
+        public const uint GL_TEXTURE0 = 0x84C0;
+        public const uint GL_REPEAT = 0x2901;
+        public const uint GL_TEXTURE_WRAP_S = 0x2802;
+        public const uint GL_TEXTURE_WRAP_T = 0x2803;
+        public const uint GL_NEAREST = 9728u;
+        public const uint GL_LINEAR = 9729u;
+        public const uint GL_TEXTURE_MAG_FILTER = 10240u;
+        public const uint GL_TEXTURE_MIN_FILTER = 10241u;
+        public const uint GL_TEXTURE_2D = 3553u;
+        public const uint GL_SRC_ALPHA = 0x0302;
+        public const uint GL_ONE_MINUS_SRC_ALPHA = 0x0303;
+        public const uint GL_BLEND = 0x0BE2;
+        public const uint GL_TRIANGLES = 0x0004;
+        public const uint GL_UNSIGNED_BYTE = 0x1401;
+        public const uint GL_UNSIGNED_SHORT = 0x1403;
+        public const uint GL_UNSIGNED_INT = 0x1405;
+        public const uint GL_FLOAT = 0x1406;
+        public const uint GL_MAJOR_VERSION = 0x821B;
+        public const uint GL_MINOR_VERSION = 0x821C;
+
+        public const uint GL_RGBA = 0x1908;
+        public const uint GL_RGBA8 = 32856u;
+        public const uint GL_BGRA = 32993u;
+        public const uint GL_RGBA32UI = 0x8D70;
+        public const uint GL_RGB32UI = 0x8D71;
+        public const uint GL_RGBA16UI = 0x8D76;
+        public const uint GL_RGB16UI = 0x8D77;
+        public const uint GL_RGBA8UI = 0x8D7C;
+        public const uint GL_RGB8UI = 0x8D7D;
+        public const uint GL_RGBA32I = 0x8D82;
+        public const uint GL_RGB32I = 0x8D83;
+        public const uint GL_RGBA16I = 0x8D88;
+        public const uint GL_RGB16I = 0x8D89;
+        public const uint GL_RGBA8I = 0x8D8E;
+        public const uint GL_RGB8I = 0x8D8F;
+
+
+        public const uint GL_ARRAY_BUFFER = 0x8892;
+        public const uint GL_ELEMENT_ARRAY_BUFFER = 0x8893;
+        public const uint GL_ARRAY_BUFFER_BINDING = 0x8894;
+        public const uint GL_STATIC_DRAW = 0x88E4;
+        public const uint GL_FRAGMENT_SHADER = 0x8B30;
+        public const uint GL_VERTEX_SHADER = 0x8B31;
 
         /// <summary>
         /// Binds the selected buffer.
@@ -377,7 +424,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <returns>OpenGLError.</returns>
         public static OpenGLError GetError()
         {
-            return (OpenGLError)glGetError();
+            return (OpenGLError) glGetError();
         }
 
         /// <summary>
@@ -427,7 +474,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="pixels">The Pixels.</param>
         public static void GetTexImage(uint target, uint format, uint type, object pixels)
         {
-            var pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            GCHandle pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
             try
             {
                 glGetTexImage(target, 0, format, type, pData.AddrOfPinnedObject());
@@ -453,7 +500,7 @@ namespace Sharpex2D.Rendering.OpenGL
         public static void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height,
             uint format, uint type, object pixels)
         {
-            var pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
+            GCHandle pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
             try
             {
                 glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pData.AddrOfPinnedObject());
@@ -506,7 +553,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="usage">The Usage.</param>
         public static void BufferData(uint target, ushort[] data, uint usage)
         {
-            var dataSize = data.Length*sizeof (ushort);
+            int dataSize = data.Length*sizeof (ushort);
             IntPtr p = Marshal.AllocHGlobal(dataSize);
             var shortData = new short[data.Length];
             Buffer.BlockCopy(data, 0, shortData, 0, dataSize);
@@ -751,52 +798,6 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             InvokeExtensionMethod<glGenVertexArrays>(n, arrays);
         }
-
-        public const uint GL_COLOR_BUFFER_BIT = 0x00004000;
-        public const uint GL_TEXTURE0 = 0x84C0;
-        public const uint GL_REPEAT = 0x2901;
-        public const uint GL_TEXTURE_WRAP_S = 0x2802;
-        public const uint GL_TEXTURE_WRAP_T = 0x2803;
-        public const uint GL_NEAREST = 9728u;
-        public const uint GL_LINEAR = 9729u;
-        public const uint GL_TEXTURE_MAG_FILTER = 10240u;
-        public const uint GL_TEXTURE_MIN_FILTER = 10241u;
-        public const uint GL_TEXTURE_2D = 3553u;
-        public const uint GL_SRC_ALPHA = 0x0302;
-        public const uint GL_ONE_MINUS_SRC_ALPHA = 0x0303;
-        public const uint GL_BLEND = 0x0BE2;
-        public const uint GL_TRIANGLES = 0x0004;
-        public const uint GL_UNSIGNED_BYTE = 0x1401;
-        public const uint GL_UNSIGNED_SHORT = 0x1403;
-        public const uint GL_UNSIGNED_INT = 0x1405;
-        public const uint GL_FLOAT = 0x1406;
-        public const uint GL_MAJOR_VERSION = 0x821B;
-        public const uint GL_MINOR_VERSION = 0x821C;
-
-        public const uint GL_RGBA = 0x1908;
-        public const uint GL_RGBA8 = 32856u;
-        public const uint GL_BGRA = 32993u;
-        public const uint GL_RGBA32UI = 0x8D70;
-        public const uint GL_RGB32UI = 0x8D71;
-        public const uint GL_RGBA16UI = 0x8D76;
-        public const uint GL_RGB16UI = 0x8D77;
-        public const uint GL_RGBA8UI = 0x8D7C;
-        public const uint GL_RGB8UI = 0x8D7D;
-        public const uint GL_RGBA32I = 0x8D82;
-        public const uint GL_RGB32I = 0x8D83;
-        public const uint GL_RGBA16I = 0x8D88;
-        public const uint GL_RGB16I = 0x8D89;
-        public const uint GL_RGBA8I = 0x8D8E;
-        public const uint GL_RGB8I = 0x8D8F;
-
-
-        public const uint GL_ARRAY_BUFFER = 0x8892;
-        public const uint GL_ELEMENT_ARRAY_BUFFER = 0x8893;
-        public const uint GL_ARRAY_BUFFER_BINDING = 0x8894;
-        public const uint GL_STATIC_DRAW = 0x88E4;
-        public const uint GL_FRAGMENT_SHADER = 0x8B30;
-        public const uint GL_VERTEX_SHADER = 0x8B31;
-
 
         #endregion
     }
