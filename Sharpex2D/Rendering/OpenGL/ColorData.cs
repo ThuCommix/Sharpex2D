@@ -18,44 +18,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering
+using Sharpex2D.Math;
+
+namespace Sharpex2D.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface ITexture
+    internal class ColorData
     {
         /// <summary>
-        /// Gets the Width.
+        /// Initializes a new ColorData class.
         /// </summary>
-        int Width { get; }
+        /// <param name="color">The Color.</param>
+        /// <param name="position">The Position.</param>
+        public ColorData(Color color, Vector2 position)
+        {
+            Position = position;
+            Color = color;
+        }
 
         /// <summary>
-        /// Gets the Height.
+        /// Gets the Color.
         /// </summary>
-        int Height { get; }
+        public Color Color { get; private set; }
 
         /// <summary>
-        /// A value indicating whether the texture is locked.
+        /// Gets the Position.
         /// </summary>
-        bool IsLocked { get; }
-
-        /// <summary>
-        /// Gets or sets the color of the specified texel.
-        /// </summary>
-        /// <param name="x">The x offset.</param>
-        /// <param name="y">The y offset.</param>
-        /// <returns>Color.</returns>
-        /// <remarks>The texture must be locked before accessing the color data.</remarks>
-        Color this[int x, int y] { set; get; }
-
-        /// <summary>
-        /// Locks the texture.
-        /// </summary>
-        void Lock();
-
-        /// <summary>
-        /// Unlocks the data.
-        /// </summary>
-        void Unlock();
+        public Vector2 Position { get; private set; }
     }
 }

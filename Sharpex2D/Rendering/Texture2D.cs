@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -67,25 +67,58 @@ namespace Sharpex2D.Rendering
         }
 
         /// <summary>
+        /// A value indicating whether the texture is locked.
+        /// </summary>
+        public bool IsLocked
+        {
+            get { return Texture.IsLocked; }
+        }
+
+        /// <summary>
         /// Gets or sets the color of the specified texel.
         /// </summary>
         /// <param name="x">The x offset.</param>
         /// <param name="y">The y offset.</param>
         /// <returns>Color.</returns>
+        /// <remarks>The texture must be locked before accessing the color data.</remarks>
         public Color this[int x, int y]
         {
             set
             {
+                if (!IsLocked)
+                    throw new InvalidOperationException("The texture must be locked before accessing the color data.");
                 if (x >= Width) throw new ArgumentOutOfRangeException("x");
                 if (y >= Height) throw new ArgumentOutOfRangeException("y");
                 Texture[x, y] = value;
             }
             get
             {
+                if (!IsLocked)
+                    throw new InvalidOperationException("The texture must be locked before accessing the color data.");
                 if (x >= Width) throw new ArgumentOutOfRangeException("x");
                 if (y >= Height) throw new ArgumentOutOfRangeException("y");
                 return Texture[x, y];
             }
+        }
+
+        /// <summary>
+        /// Locks the texture.
+        /// </summary>
+        public void Lock()
+        {
+            if (IsLocked) throw new InvalidOperationException("The texture must be unlocked in order to be locked.");
+
+            Texture.Lock();
+        }
+
+        /// <summary>
+        /// Unlocks the data.
+        /// </summary>
+        public void Unlock()
+        {
+            if (!IsLocked) throw new InvalidOperationException("The texture must be locked in order to be unlocked.");
+
+            Texture.Unlock();
         }
     }
 }
