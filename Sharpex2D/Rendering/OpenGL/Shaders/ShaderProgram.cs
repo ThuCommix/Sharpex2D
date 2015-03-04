@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D.Rendering.OpenGL.Shaders
 {
@@ -27,17 +28,17 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
     internal class ShaderProgram
     {
         /// <summary>
-        /// Gets the shader program Id.
-        /// </summary>
-        public uint Id { private set; get; }
-
-        /// <summary>
         /// Initializes a new ShaderProgram class.
         /// </summary>
         public ShaderProgram()
         {
             Id = OpenGLInterops.CreateProgram();
         }
+
+        /// <summary>
+        /// Gets the shader program Id.
+        /// </summary>
+        public uint Id { private set; get; }
 
         /// <summary>
         /// Links a vertex shader and a fragment shader to this program.
@@ -59,7 +60,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// <param name="data">The Data.</param>
         public void SetUniform(string name, params float[] data)
         {
-            var propertyLoc = OpenGLInterops.GetUniformLocation(Id, name);
+            int propertyLoc = OpenGLInterops.GetUniformLocation(Id, name);
 
             switch (data.Length)
             {
@@ -87,7 +88,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// <param name="data">The Data.</param>
         public void SetUniformMatrix(string name, float[] data)
         {
-            var propertyLoc = OpenGLInterops.GetUniformLocation(Id, name);
+            int propertyLoc = OpenGLInterops.GetUniformLocation(Id, name);
             OpenGLInterops.UniformMatrix4(propertyLoc, 1, false, data);
         }
 
@@ -122,7 +123,14 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// </summary>
         public void Delete()
         {
-            OpenGLInterops.DeleteProgram(Id);
+            try
+            {
+                OpenGLInterops.DeleteProgram(Id);
+            }
+            catch
+            {
+                LogManager.GetClassLogger().Warn("Unable to dispose.");
+            }
         }
     }
 }

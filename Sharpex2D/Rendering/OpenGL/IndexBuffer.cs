@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using Sharpex2D.Debug.Logging;
 
 namespace Sharpex2D.Rendering.OpenGL
 {
@@ -26,11 +27,6 @@ namespace Sharpex2D.Rendering.OpenGL
     [TestState(TestState.Tested)]
     internal class IndexBuffer : IDisposable
     {
-        /// <summary>
-        /// Gets the opengl identifer.
-        /// </summary>
-        public uint Id { get; private set; }
-
         /// <summary>
         /// Initializes a new IndexBuffer class.
         /// </summary>
@@ -43,7 +39,21 @@ namespace Sharpex2D.Rendering.OpenGL
             Id = buffers[0];
         }
 
-                /// <summary>
+        /// <summary>
+        /// Gets the opengl identifer.
+        /// </summary>
+        public uint Id { get; private set; }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
         /// Deconstructs the IndexBuffer class.
         /// </summary>
         ~IndexBuffer()
@@ -80,19 +90,17 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <summary>
         /// Disposes the object.
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
         /// <param name="disposing">The disposing state.</param>
         protected void Dispose(bool disposing)
         {
-            OpenGLInterops.DeleteBuffers(1, new[] {Id});
+            try
+            {
+                OpenGLInterops.DeleteBuffers(1, new[] {Id});
+            }
+            catch
+            {
+                LogManager.GetClassLogger().Warn("Unable to dispose.");
+            }
         }
     }
 }
