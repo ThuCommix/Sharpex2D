@@ -19,9 +19,9 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Debug.Logging;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -66,7 +66,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void Bind()
         {
-            OpenGLInterops.BindBuffer(OpenGLInterops.GL_ELEMENT_ARRAY_BUFFER, Id);
+            OpenGLInterops.BindBuffer(BufferTarget.ElementBuffer, Id);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <remarks>Bind must be called in order to take effect.</remarks>
         public void SetData(ushort[] indices)
         {
-            OpenGLInterops.BufferData(OpenGLInterops.GL_ELEMENT_ARRAY_BUFFER, indices, OpenGLInterops.GL_STATIC_DRAW);
+            OpenGLInterops.BufferData(BufferTarget.ElementBuffer, indices, DrawMode.StaticDraw);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void Unbind()
         {
-            OpenGLInterops.BindBuffer(OpenGLInterops.GL_ELEMENT_ARRAY_BUFFER, 0);
+            OpenGLInterops.BindBuffer(BufferTarget.ElementBuffer, 0);
         }
 
         /// <summary>

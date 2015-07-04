@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,14 +20,12 @@
 
 using System;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Framework.Audio.WaveOut
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal static class WaveOutResult
     {
-#if Windows
-
         /// <summary>
         /// Trys a WaveOut operation.
         /// </summary>
@@ -41,7 +39,5 @@ namespace Sharpex2D.Audio.WaveOut
                 throw new InvalidOperationException((result).ToString());
             }
         }
-
-#endif
     }
 }

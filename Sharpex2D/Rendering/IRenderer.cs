@@ -19,28 +19,20 @@
 // THE SOFTWARE.
 
 
-using Sharpex2D.Math;
+using System;
+using System.IO;
 
-namespace Sharpex2D.Rendering
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface IRenderer
+    public interface IRenderer : IDisposable
     {
-        /// <summary>
-        /// Gets or sets the SmoothingMode.
-        /// </summary>
-        SmoothingMode SmoothingMode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the InterpolationMode.
-        /// </summary>
-        InterpolationMode InterpolationMode { get; set; }
-
         /// <summary>
         /// Initializes the renderer.
         /// </summary>
-        void Initialize();
+        /// <param name="game">The Game.</param>
+        void Initialize(Game game);
 
         /// <summary>
         /// Begins the draw operation.
@@ -51,24 +43,6 @@ namespace Sharpex2D.Rendering
         /// Ends the draw operation.
         /// </summary>
         void End();
-
-        /// <summary>
-        /// Draws a string.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="color">The Color.</param>
-        void DrawString(string text, IFont font, Rectangle rectangle, Color color);
-
-        /// <summary>
-        /// Draws a string.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="position">The Position.</param>
-        /// <param name="color">The Color.</param>
-        void DrawString(string text, IFont font, Vector2 position, Color color);
 
         /// <summary>
         /// Draws a Texture.
@@ -120,14 +94,6 @@ namespace Sharpex2D.Rendering
             float opacity = 1f);
 
         /// <summary>
-        /// Measures the string.
-        /// </summary>
-        /// <param name="text">The String.</param>
-        /// <param name="font">The Font.</param>
-        /// <returns>Vector2.</returns>
-        Vector2 MeasureString(string text, IFont font);
-
-        /// <summary>
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
@@ -137,15 +103,6 @@ namespace Sharpex2D.Rendering
         /// Resets the Transform.
         /// </summary>
         void ResetTransform();
-
-        /// <summary>
-        /// Creates a new Resource.
-        /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="accessoire">The TextAccessoire.</param>
-        /// <returns>IFont.</returns>
-        IFont CreateResource(string fontFamily, float size, TextAccessoire accessoire);
 
         /// <summary>
         /// Creates a new Resource.
@@ -161,5 +118,12 @@ namespace Sharpex2D.Rendering
         /// <param name="height">The Height.</param>
         /// <returns>ITexture.</returns>
         ITexture CreateResource(int width, int height);
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="stream">The Stream.</param>
+        /// <returns>ITexture.</returns>
+        ITexture CreateResource(Stream stream);
     }
 }

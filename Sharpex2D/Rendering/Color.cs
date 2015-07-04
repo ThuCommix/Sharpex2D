@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,9 +19,8 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Rendering
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -812,12 +811,18 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// The * Operator.
         /// </summary>
-        /// <param name="a">The FirstColor.</param>
-        /// <param name="scale">The Scalevalue.</param>
+        /// <param name="a">The Color.</param>
+        /// <param name="alphaScale">The Scalevalue.</param>
         /// <returns>Bool.</returns>
-        public static Color operator *(Color a, float scale)
+        public static Color operator *(Color a, float alphaScale)
         {
-            return Multiply(a, scale);
+            if (alphaScale < 0)
+                throw new ArgumentOutOfRangeException("alphaScale");
+            if (alphaScale > 1)
+                throw new ArgumentOutOfRangeException("alphaScale");
+
+            a.A = (byte) (a.A*alphaScale);
+            return a;
         }
 
         /// <summary>
@@ -856,49 +861,6 @@ namespace Sharpex2D.Rendering
         public override string ToString()
         {
             return "{R:" + R + " G:" + G + " B:" + B + " A:" + A + "}";
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Multiplies the specified color.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="scale">The scale.</param>
-        public static Color Multiply(Color value, float scale)
-        {
-            int r = value.R;
-            int g = value.G;
-            int b = value.B;
-            int a = value.A;
-
-            var intScale = (int) MathHelper.Clamp(scale*65536f, 0, 0xffffff);
-
-            r = (r*intScale) >> 16;
-            g = (g*intScale) >> 16;
-            b = (b*intScale) >> 16;
-            a = (a*intScale) >> 16;
-
-            r = r > 255 ? 255 : r;
-            g = g > 255 ? 255 : g;
-            b = b > 255 ? 255 : b;
-            a = a > 255 ? 255 : a;
-
-            return FromArgb(a, r, g, b);
-        }
-
-        /// <summary>
-        /// Counterpart for ToString.
-        /// </summary>
-        /// <param name="stringColor">The ColorString.</param>
-        /// <returns>Color</returns>
-        public static Color ToColor(string stringColor)
-        {
-            string[] raw = stringColor.Replace("{", "").Replace("}", "").Trim().Split(':');
-            return new Color(Convert.ToInt32(raw[1]), Convert.ToInt32(raw[3]), Convert.ToInt32(raw[5]),
-                Convert.ToInt32(raw[7]));
         }
 
         #endregion

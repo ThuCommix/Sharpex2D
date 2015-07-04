@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Input.Implementation.JoystickApi
+namespace Sharpex2D.Framework.Input.Implementation.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]

@@ -18,7 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input.Implementation.XInput
+using System.Runtime.InteropServices;
+
+namespace Sharpex2D.Framework.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -30,10 +32,8 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pState">The InputState.</param>
         /// <returns></returns>
-        internal static int XInputGetState(int dwUserIndex, ref XInputState pState)
-        {
-            return NativeMethods.XInputGetState(dwUserIndex, ref pState);
-        }
+        [DllImport("xinput9_1_0.dll")]
+        internal static extern int XInputGetState(int dwUserIndex, ref XInputState pState);
 
         /// <summary>
         /// Sets the Input state.
@@ -41,10 +41,8 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <param name="dwUserIndex">The Index.</param>
         /// <param name="pVibration">The Vibration.</param>
         /// <returns></returns>
-        internal static int XInputSetState(int dwUserIndex, ref XInputVibration pVibration)
-        {
-            return NativeMethods.XInputSetState(dwUserIndex, ref pVibration);
-        }
+        [DllImport("xinput9_1_0.dll")]
+        internal static extern int XInputSetState(int dwUserIndex, ref XInputVibration pVibration);
 
         /// <summary>
         /// Gets the Capabilities.
@@ -53,22 +51,19 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <param name="dwFlags">The dwFlags.</param>
         /// <param name="pCapabilities">The Capabilities.</param>
         /// <returns></returns>
-        internal static int XInputGetCapabilities(int dwUserIndex, int dwFlags, ref XInputCapabilities pCapabilities)
-        {
-            return NativeMethods.XInputGetCapabilities(dwUserIndex, dwFlags, ref pCapabilities);
-        }
+        [DllImport("xinput9_1_0.dll")]
+        internal static extern int XInputGetCapabilities(int dwUserIndex, int dwFlags,
+            ref XInputCapabilities pCapabilities);
 
         /// <summary>
-        /// Gets the Battery information.
+        /// Gets the battery information.
         /// </summary>
         /// <param name="dwUserIndex">The Index.</param>
-        /// <param name="devType">The DevType.</param>
+        /// <param name="devType">The Type.</param>
         /// <param name="pBatteryInformation">The BatteryInformation.</param>
         /// <returns></returns>
-        internal static int XInputGetBatteryInformation(int dwUserIndex, byte devType,
-            ref XInputBatteryInformation pBatteryInformation)
-        {
-            return NativeMethods.XInputGetBatteryInformation(dwUserIndex, devType, ref pBatteryInformation);
-        }
+        [DllImport("xinput1_4.dll")]
+        internal static extern int XInputGetBatteryInformation(int dwUserIndex, byte devType,
+            ref XInputBatteryInformation pBatteryInformation);
     }
 }

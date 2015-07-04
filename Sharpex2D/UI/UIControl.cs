@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,12 +20,10 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Common.Extensions;
-using Sharpex2D.Input;
-using Sharpex2D.Math;
-using Sharpex2D.Rendering;
+using Sharpex2D.Framework.Input;
+using Sharpex2D.Framework.Rendering;
 
-namespace Sharpex2D.UI
+namespace Sharpex2D.Framework.UI
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -39,18 +37,21 @@ namespace Sharpex2D.UI
         /// <param name="gameTime">The GameTime.</param>
         public void Update(GameTime gameTime)
         {
-            _mouseState = _inputManager.Mouse.GetState();
-            _keyState = _inputManager.Keyboard.GetState();
-            _mouseRectangle.X = _mouseState.Position.X;
-            _mouseRectangle.Y = _mouseState.Position.Y;
-            IsMouseHoverState = _mouseRectangle.Intersects(Bounds.ToRectangle());
+            _lastMouseState = _currentMouseState;
+            _lastKeyState = _currentKeyState;
+            _currentMouseState = Mouse.GetState();
+            _currentKeyState = Keyboard.GetState();
+            _mouseRectangle.X = _currentMouseState.Position.X;
+            _mouseRectangle.Y = _currentMouseState.Position.Y;
+            IsMouseHoverState =
+                _mouseRectangle.Intersects(new Rectangle(Bounds.X, Bounds.Y, Bounds.Width, Bounds.Height));
 
             //check if the mouse clicked the control
 
-            if (IsMouseHoverState && IsMouseDown(MouseButtons.Left))
+            /* if (IsMouseHoverState && IsMousePressed(MouseButtons.Left))
             {
                 SetFocus();
-            }
+            }*/
 
             OnUpdate(gameTime);
         }
@@ -61,9 +62,15 @@ namespace Sharpex2D.UI
 
         #region Properties
 
-        private KeyboardState _keyState;
+        private KeyboardState _currentKeyState;
+        private MouseState _currentMouseState;
+        private KeyboardState _lastKeyState;
+        private MouseState _lastMouseState;
         private Vector2 _lastRelativeMousePostion;
-        private MouseState _mouseState;
+        private Rectangle _mouseRectangle;
+        private UIControl _parent;
+        private Vector2 _position;
+        private UISize _size;
 
         /// <summary>
         /// Gets the relative mouse position.
@@ -77,7 +84,7 @@ namespace Sharpex2D.UI
                     return _lastRelativeMousePostion;
                 }
 
-                _lastRelativeMousePostion = _mouseState.Position - Position;
+                _lastRelativeMousePostion = _currentMouseState.Position - Position;
 
                 return _lastRelativeMousePostion;
             }
@@ -178,7 +185,6 @@ namespace Sharpex2D.UI
             UpdateBounds();
             _mouseRectangle = new Rectangle {Width = 1, Height = 1};
             Guid = Guid.NewGuid();
-            _inputManager = SGL.Components.Get<InputManager>();
             CanGetFocus = true;
             Enable = true;
             Visible = true;
@@ -187,6 +193,8 @@ namespace Sharpex2D.UI
             Children = new List<UIControl>();
             UIManager = assignedUIManager;
             UIManager.Add(this);
+            _currentMouseState = Mouse.GetState();
+            _lastMouseState = Mouse.GetState();
         }
 
         /// <summary>
@@ -258,41 +266,55 @@ namespace Sharpex2D.UI
         /// </summary>
         /// <param name="mouseButton">The MouseButton.</param>
         /// <returns>True if pressed</returns>
-        public bool IsMouseDown(MouseButtons mouseButton)
+        public bool IsMousePressed(MouseButtons mouseButton)
         {
             //while the cursor do not intersect our control, return false
-            return IsMouseHoverState && Enable && _mouseState.IsMouseButtonUp(mouseButton);
+
+            if (_currentMouseState == null || _lastMouseState == null)
+                return false;
+
+            return IsMouseHoverState && Enable && !_currentMouseState.IsPressed(mouseButton) &&
+                   _lastMouseState.IsPressed(mouseButton);
         }
 
         /// <summary>
-        /// Determines, if a Key was pressed down.
+        /// Determines, if a MouseButton was pressed down.
+        /// </summary>
+        /// <param name="mouseButton">The MouseButton.</param>
+        /// <returns>True if pressed down.</returns>
+        public bool IsMouseDown(MouseButtons mouseButton)
+        {
+            if (_currentMouseState == null)
+                return false;
+
+            return IsMouseHoverState && Enable && _currentMouseState.IsPressed(mouseButton);
+        }
+
+        /// <summary>
+        /// Determines, if a Key was pressed.
         /// </summary>
         /// <param name="key">The Key.</param>
-        /// <returns>True if pressed down</returns>
+        /// <returns>True if pressed.</returns>
+        public bool IsKeyPressed(Keys key)
+        {
+            if (_currentKeyState == null || _lastKeyState == null)
+                return false;
+
+            return HasFocus && Enable && !_currentKeyState.IsPressed(key) && _lastKeyState.IsPressed(key);
+        }
+
+        /// <summary>
+        /// Determines, if a key is pressed down.
+        /// </summary>
+        /// <param name="key">The Key.</param>
+        /// <returns>True if pressed down.</returns>
         public bool IsKeyDown(Keys key)
         {
-            return HasFocus && Enable && _keyState.IsKeyDown(key);
+            if (_currentKeyState == null)
+                return false;
+
+            return HasFocus && Enable && _currentKeyState.IsPressed(key);
         }
-
-        /// <summary>
-        /// Determines, if a Key was relased.
-        /// </summary>
-        /// <param name="key">The Key.</param>
-        /// <returns>True if pressed</returns>
-        public bool IsKeyUp(Keys key)
-        {
-            return HasFocus && Enable && _keyState.IsKeyUp(key);
-        }
-
-        #endregion
-
-        #region Private Fields
-
-        private readonly InputManager _inputManager;
-        private Rectangle _mouseRectangle;
-        private UIControl _parent;
-        private Vector2 _position;
-        private UISize _size;
 
         #endregion
 

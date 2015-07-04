@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -21,14 +21,16 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Framework.Audio.WaveOut
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal static class MMInterops
     {
-        internal delegate void WaveCallback(
-            IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved);
+        /// <summary>
+        /// Callbackfunction number.
+        /// </summary>
+        internal const int CALLBACK_FUNCTION = 0x00030000;
 
         /// <summary>
         /// Gets the number of devices.
@@ -159,10 +161,8 @@ namespace Sharpex2D.Audio.WaveOut
         [DllImport("winmm.dll")]
         internal static extern MMResult waveOutSetPitch(IntPtr hWaveOut, int dwPitch);
 
-        /// <summary>
-        /// Callbackfunction number.
-        /// </summary>
-        internal const int CALLBACK_FUNCTION = 0x00030000;
+        internal delegate void WaveCallback(
+            IntPtr handle, WaveMessage msg, UIntPtr user, WaveHdr header, UIntPtr reserved);
 
         /// <summary>
         /// WaveDelegate.

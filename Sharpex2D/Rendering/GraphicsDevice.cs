@@ -20,10 +20,8 @@
 
 using System;
 using System.Windows.Forms;
-using Sharpex2D.Math;
-using Sharpex2D.Surface;
 
-namespace Sharpex2D.Rendering
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -34,10 +32,12 @@ namespace Sharpex2D.Rendering
         /// <summary>
         /// Initializes a new GraphicsDeivce.
         /// </summary>
-        /// <param name="renderTarget">The RenderTarget.</param>
-        public GraphicsDevice(RenderTarget renderTarget)
+        /// <param name="gameWindow">The GameWindow.</param>
+        /// <param name="graphicsManager">The GraphicsManager.</param>
+        public GraphicsDevice(GameWindow gameWindow, GraphicsManager graphicsManager)
         {
-            RenderTarget = renderTarget;
+            GameWindow = gameWindow;
+            GraphicsManager = graphicsManager;
         }
 
         /// <summary>
@@ -46,14 +46,14 @@ namespace Sharpex2D.Rendering
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Sets or gets the graphic resolution.
+        /// Sets or gets the GameWindow.
         /// </summary>
-        public BackBuffer BackBuffer { get; internal set; }
+        public GameWindow GameWindow { get; private set; }
 
         /// <summary>
-        /// Sets or gets the RenderTarget.
+        /// Gets the graphics manager.
         /// </summary>
-        public RenderTarget RenderTarget { get; internal set; }
+        public GraphicsManager GraphicsManager { get; private set; }
 
         /// <summary>
         /// Gets the ScaleValue.
@@ -62,14 +62,14 @@ namespace Sharpex2D.Rendering
         {
             get
             {
-                Control control = Control.FromHandle(RenderTarget.Handle);
+                Control control = Control.FromHandle(GameWindow.Handle);
                 if (control == null)
                 {
                     return new Vector2(1, 1);
                 }
 
-                float x = control.ClientSize.Width/(float) BackBuffer.Width;
-                float y = control.ClientSize.Height/(float) BackBuffer.Height;
+                float x = control.ClientSize.Width/(float) GraphicsManager.PreferredBackBufferWidth;
+                float y = control.ClientSize.Height/(float) GraphicsManager.PreferredBackBufferHeight;
 
                 return new Vector2(x, y);
             }
@@ -125,7 +125,6 @@ namespace Sharpex2D.Rendering
         /// </summary>
         public event EventHandler<EventArgs> ClearColorChanged;
 
-
         /// <summary>
         /// Triggered if the graphics device is disposed.
         /// </summary>
@@ -142,7 +141,7 @@ namespace Sharpex2D.Rendering
                 IsDisposed = true;
                 if (disposing)
                 {
-                    RenderTarget.Dispose();
+                    GameWindow.Dispose();
                 }
             }
 

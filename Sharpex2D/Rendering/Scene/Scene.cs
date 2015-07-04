@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,11 +18,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Content;
-using Sharpex2D.Entities;
-using Sharpex2D.UI;
+using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Entities;
+using Sharpex2D.Framework.UI;
 
-namespace Sharpex2D.Rendering.Scene
+namespace Sharpex2D.Framework.Rendering.Scene
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

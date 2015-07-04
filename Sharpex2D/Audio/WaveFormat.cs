@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -21,12 +21,12 @@
 
 using System.Runtime.InteropServices;
 
-namespace Sharpex2D.Audio
+namespace Sharpex2D.Framework.Audio
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     [StructLayout(LayoutKind.Explicit)]
-    public class WaveFormat
+    public struct WaveFormat
     {
         /// <summary>
         /// Waveform-audio format type.
@@ -62,14 +62,6 @@ namespace Sharpex2D.Audio
         /// Extra attributes.
         /// </summary>
         [FieldOffset(16)] internal short cbSize;
-
-        /// <summary>
-        /// Initializes a new WaveFormat struct.
-        /// </summary>
-        public WaveFormat()
-            : this(22050, 16, 2)
-        {
-        }
 
         /// <summary>
         /// Initializes a new WaveFormat struct.

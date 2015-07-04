@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,19 +20,12 @@
 
 using System;
 
-namespace Sharpex2D
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public class GameTimer : IUpdateable
     {
-        /// <summary>
-        /// TickedEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void TickedEventHandler(object sender, EventArgs e);
-
         private bool _enabled;
         private float _passedms;
 
@@ -62,11 +55,11 @@ namespace Sharpex2D
                 _enabled = value;
                 if (value)
                 {
-                    SGL.QueryComponents<GameLoop>().Subscribe(this);
+                    GameHost.Get<GameLoop>().Subscribe(this);
                 }
                 else
                 {
-                    SGL.QueryComponents<GameLoop>().Unsubscribe(this);
+                    GameHost.Get<GameLoop>().Unsubscribe(this);
                 }
             }
             get { return _enabled; }
@@ -101,6 +94,6 @@ namespace Sharpex2D
         /// <summary>
         /// Ticked event.
         /// </summary>
-        public event TickedEventHandler Ticked;
+        public event EventHandler<EventArgs> Ticked;
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,11 +20,11 @@
 
 using System;
 
-namespace Sharpex2D.Audio.OpenAL
+namespace Sharpex2D.Framework.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class OpenALContext
+    internal class OpenALContext : IDisposable
     {
         /// <summary>
         /// Gets the handle of the openal context.
@@ -41,19 +41,28 @@ namespace Sharpex2D.Audio.OpenAL
         }
 
         /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Deconstructs the OpenALContext class.
+        /// </summary>
+        ~OpenALContext()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
         /// Makes the context the current Context.
         /// </summary>
         public void MakeCurrent()
         {
-            OpenAL.alcMakeContextCurrent(_handle);
-        }
-
-        /// <summary>
-        /// Destroys the Context.
-        /// </summary>
-        public void Destroy()
-        {
-            OpenAL.alcDestroyContext(_handle);
+            OpenALInterops.alcMakeContextCurrent(_handle);
         }
 
         /// <summary>
@@ -62,7 +71,17 @@ namespace Sharpex2D.Audio.OpenAL
         /// <param name="openALDeviceHandle">The OpenALDevice.</param>
         public static OpenALContext CreateContext(IntPtr openALDeviceHandle)
         {
-            return new OpenALContext(OpenAL.alcCreateContext(openALDeviceHandle, IntPtr.Zero));
+            return new OpenALContext(OpenALInterops.alcCreateContext(openALDeviceHandle, IntPtr.Zero));
+        }
+
+        /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        /// <param name="disposing">The disposing state.</param>
+        protected void Dispose(bool disposing)
+        {
+            MakeCurrent();
+            OpenALInterops.alcDestroyContext(_handle);
         }
     }
 }

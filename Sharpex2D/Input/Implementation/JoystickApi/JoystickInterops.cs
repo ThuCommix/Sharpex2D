@@ -21,7 +21,7 @@
 using System.Runtime.InteropServices;
 using System.Security;
 
-namespace Sharpex2D.Input.Implementation.JoystickApi
+namespace Sharpex2D.Framework.Input.Implementation.JoystickApi
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

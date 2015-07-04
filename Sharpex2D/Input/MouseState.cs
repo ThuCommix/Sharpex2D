@@ -19,9 +19,8 @@
 // THE SOFTWARE.
 
 using System.Collections.Generic;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -34,10 +33,12 @@ namespace Sharpex2D.Input
         /// </summary>
         /// <param name="reference">The Reference.</param>
         /// <param name="position">The Position.</param>
-        internal MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position)
+        /// <param name="delta">The WheelDelta.</param>
+        internal MouseState(Dictionary<MouseButtons, bool> reference, Vector2 position, int delta)
         {
             Position = new Vector2(position.X, position.Y);
             _reference = new Dictionary<MouseButtons, bool>();
+            WheelDelta = delta;
 
             foreach (KeyValuePair<MouseButtons, bool> pair in reference)
             {
@@ -49,6 +50,11 @@ namespace Sharpex2D.Input
         /// Gets the Position.
         /// </summary>
         public Vector2 Position { private set; get; }
+
+        /// <summary>
+        /// Gets the wheel delta.
+        /// </summary>
+        public int WheelDelta { get; private set; }
 
         /// <summary>
         /// A value indicating whether the MouseButton is pressed.

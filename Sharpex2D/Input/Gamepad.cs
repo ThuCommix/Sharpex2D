@@ -18,12 +18,79 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+using System;
+
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public static class Gamepad
     {
+        private static float _leftThumbStickDeadZone;
+        private static float _rightThumbStickDeadZone;
+        private static float _triggerDeadZone;
+
+        /// <summary>
+        /// Initializes the Gamepad class.
+        /// </summary>
+        static Gamepad()
+        {
+            LeftThumbStickDeadZone = 0.1f;
+            RightThumbStickDeadZone = 0.1f;
+            TriggerDeadZone = 0.1f;
+        }
+
+        /// <summary>
+        /// Gets or sets the left thumbstick dead zone.
+        /// </summary>
+        public static float LeftThumbStickDeadZone
+        {
+            set
+            {
+                if (value < 0 || value > 1)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _leftThumbStickDeadZone = value;
+            }
+            get { return _leftThumbStickDeadZone; }
+        }
+
+        /// <summary>
+        /// Gets or sets the right thumbstick dead zone.
+        /// </summary>
+        public static float RightThumbStickDeadZone
+        {
+            set
+            {
+                if (value < 0 || value > 1)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _rightThumbStickDeadZone = value;
+            }
+            get { return _rightThumbStickDeadZone; }
+        }
+
+        /// <summary>
+        /// Gets or sets the trigger dead zone.
+        /// </summary>
+        public static float TriggerDeadZone
+        {
+            set
+            {
+                if (value < 0 || value > 1)
+                {
+                    throw new ArgumentOutOfRangeException("value");
+                }
+
+                _triggerDeadZone = value;
+            }
+            get { return _triggerDeadZone; }
+        }
+
         /// <summary>
         /// Gets the GamepadState.
         /// </summary>
@@ -31,7 +98,9 @@ namespace Sharpex2D.Input
         /// <returns>GamepadState.</returns>
         public static GamepadState GetState(PlayerIndex playerIndex)
         {
-            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].GetState();
+            GamepadState state = GameHost.InputManager.GetInputs<IGamepad>()[(int) playerIndex].GetState();
+            state.ApplyDeadZones(LeftThumbStickDeadZone, RightThumbStickDeadZone, TriggerDeadZone);
+            return state;
         }
 
         /// <summary>
@@ -43,7 +112,7 @@ namespace Sharpex2D.Input
         /// <param name="length">The Length.</param>
         public static void Vibrate(PlayerIndex playerIndex, float left, float right, float length)
         {
-            SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].Vibrate(left, right, length);
+            GameHost.InputManager.GetInputs<IGamepad>()[(int) playerIndex].Vibrate(left, right, length);
         }
 
         /// <summary>
@@ -53,7 +122,7 @@ namespace Sharpex2D.Input
         /// <returns>BatteryLevel.</returns>
         public static BatteryLevel BatteryLevel(PlayerIndex playerIndex)
         {
-            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].BatteryLevel;
+            return GameHost.InputManager.GetInputs<IGamepad>()[(int) playerIndex].BatteryLevel;
         }
 
         /// <summary>
@@ -63,7 +132,7 @@ namespace Sharpex2D.Input
         /// <returns>True if available.</returns>
         public static bool IsAvailable(PlayerIndex playerIndex)
         {
-            return SGL.InputManager.GetInputs<IGamepad>()[(int) playerIndex].IsAvailable;
+            return GameHost.InputManager.GetInputs<IGamepad>()[(int) playerIndex].IsAvailable;
         }
     }
 }

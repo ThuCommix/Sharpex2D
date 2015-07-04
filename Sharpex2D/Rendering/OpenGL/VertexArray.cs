@@ -19,9 +19,9 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Debug.Logging;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

@@ -20,10 +20,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
+using Sharpex2D.Framework.Rendering.OpenGL.Shaders;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -60,7 +62,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <summary>
         /// Gets a pointer to the requested function.
         /// </summary>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <returns>IntPtr.</returns>
         [DllImport("opengl32.dll", SetLastError = true)]
         public static extern IntPtr wglGetProcAddress(string name);
@@ -129,7 +131,6 @@ namespace Sharpex2D.Rendering.OpenGL
         private delegate void glBindFragDataLocation(uint program, uint color, string name);
 
         private delegate void glBindVertexArray(uint array);
-
 
         private delegate void glBufferData(uint target, int size, IntPtr data, uint usage);
 
@@ -226,6 +227,9 @@ namespace Sharpex2D.Rendering.OpenGL
         #region DllImport
 
         [DllImport("opengl32.dll", SetLastError = true)]
+        private static extern void glDisable(uint cap);
+
+        [DllImport("opengl32.dll", SetLastError = true)]
         private static extern void glTexSubImage2D(uint target, int level, int xoffset, int yoffset, int width,
             int height, uint format, uint type, IntPtr pixels);
 
@@ -269,63 +273,49 @@ namespace Sharpex2D.Rendering.OpenGL
         [DllImport("opengl32.dll", SetLastError = true)]
         private static extern void glViewport(int x, int y, int width, int height);
 
+        [HandleProcessCorruptedStateExceptions]
+        [DllImport("opengl32.dll", SetLastError = true)]
+        private static extern void glDeleteTextures(int n, uint[] textures);
+
         #endregion
 
         #region Wrapped Methods
-
-        public const uint GL_COLOR_BUFFER_BIT = 0x00004000;
-        public const uint GL_TEXTURE0 = 0x84C0;
-        public const uint GL_REPEAT = 0x2901;
-        public const uint GL_TEXTURE_WRAP_S = 0x2802;
-        public const uint GL_TEXTURE_WRAP_T = 0x2803;
-        public const uint GL_NEAREST = 9728u;
-        public const uint GL_LINEAR = 9729u;
-        public const uint GL_TEXTURE_MAG_FILTER = 10240u;
-        public const uint GL_TEXTURE_MIN_FILTER = 10241u;
-        public const uint GL_TEXTURE_2D = 3553u;
-        public const uint GL_SRC_ALPHA = 0x0302;
-        public const uint GL_ONE_MINUS_SRC_ALPHA = 0x0303;
-        public const uint GL_BLEND = 0x0BE2;
-        public const uint GL_TRIANGLES = 0x0004;
-        public const uint GL_UNSIGNED_BYTE = 0x1401;
-        public const uint GL_UNSIGNED_SHORT = 0x1403;
-        public const uint GL_UNSIGNED_INT = 0x1405;
-        public const uint GL_FLOAT = 0x1406;
-        public const uint GL_MAJOR_VERSION = 0x821B;
-        public const uint GL_MINOR_VERSION = 0x821C;
-
-        public const uint GL_RGBA = 0x1908;
-        public const uint GL_RGBA8 = 32856u;
-        public const uint GL_BGRA = 32993u;
-        public const uint GL_RGBA32UI = 0x8D70;
-        public const uint GL_RGB32UI = 0x8D71;
-        public const uint GL_RGBA16UI = 0x8D76;
-        public const uint GL_RGB16UI = 0x8D77;
-        public const uint GL_RGBA8UI = 0x8D7C;
-        public const uint GL_RGB8UI = 0x8D7D;
-        public const uint GL_RGBA32I = 0x8D82;
-        public const uint GL_RGB32I = 0x8D83;
-        public const uint GL_RGBA16I = 0x8D88;
-        public const uint GL_RGB16I = 0x8D89;
-        public const uint GL_RGBA8I = 0x8D8E;
-        public const uint GL_RGB8I = 0x8D8F;
-
-
-        public const uint GL_ARRAY_BUFFER = 0x8892;
-        public const uint GL_ELEMENT_ARRAY_BUFFER = 0x8893;
-        public const uint GL_ARRAY_BUFFER_BINDING = 0x8894;
-        public const uint GL_STATIC_DRAW = 0x88E4;
-        public const uint GL_FRAGMENT_SHADER = 0x8B30;
-        public const uint GL_VERTEX_SHADER = 0x8B31;
 
         /// <summary>
         /// Binds the selected buffer.
         /// </summary>
         /// <param name="target">The Target.</param>
         /// <param name="buffer">The Buffer.</param>
-        public static void BindBuffer(uint target, uint buffer)
+        public static void BindBuffer(BufferTarget target, uint buffer)
         {
-            InvokeExtensionMethod<glBindBuffer>(target, buffer);
+            InvokeExtensionMethod<glBindBuffer>((uint) target, buffer);
+        }
+
+        /// <summary>
+        /// Deletes a texture.
+        /// </summary>
+        /// <param name="textureId">The TextureId.</param>
+        public static void DeleteTexture(uint textureId)
+        {
+            DeleteTextures(new[] {textureId});
+        }
+
+        /// <summary>
+        /// Deletes a set of textures.
+        /// </summary>
+        /// <param name="textureIds">The TextureIds.</param>
+        public static void DeleteTextures(uint[] textureIds)
+        {
+            glDeleteTextures(textureIds.Length, textureIds);
+        }
+
+        /// <summary>
+        /// Disables the specified option.
+        /// </summary>
+        /// <param name="cap">The Option.</param>
+        public static void Disable(uint cap)
+        {
+            glDisable(cap);
         }
 
         /// <summary>
@@ -334,9 +324,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="target">The Target.</param>
         /// <param name="pname">The ParameterName.</param>
         /// <param name="param">The Parameter.</param>
-        public static void TexParameterI(uint target, uint pname, int param)
+        public static void TexParameterI(TextureParam target, TextureParam pname, int param)
         {
-            glTexParameteri(target, pname, param);
+            glTexParameteri((uint) target, (uint) pname, param);
         }
 
         /// <summary>
@@ -345,9 +335,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="target">The Target.</param>
         /// <param name="pname">The ParameterName.</param>
         /// <param name="param">The Parameter.</param>
-        public static void TexParameterF(uint target, uint pname, float param)
+        public static void TexParameterF(TextureParam target, TextureParam pname, TextureParam param)
         {
-            glTexParameterf(target, pname, param);
+            glTexParameterf((uint) target, (uint) pname, (float) param);
         }
 
         /// <summary>
@@ -357,6 +347,14 @@ namespace Sharpex2D.Rendering.OpenGL
         public static void Enable(uint cap)
         {
             glEnable(cap);
+        }
+
+        /// <summary>
+        /// Enables alpha blending.
+        /// </summary>
+        public static void EnableBlend()
+        {
+            glEnable(0x0BE2);
         }
 
         /// <summary>
@@ -388,9 +386,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="count">The Count.</param>
         /// <param name="type">The Type.</param>
         /// <param name="indices">The Indices.</param>
-        public static void DrawElements(uint mode, int count, uint type, IntPtr indices)
+        public static void DrawElements(DrawMode mode, int count, DataTypes type, IntPtr indices)
         {
-            glDrawElements(mode, count, type, indices);
+            glDrawElements((uint) mode, count, (uint) type, indices);
         }
 
         /// <summary>
@@ -407,7 +405,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public static void AlphaBlend()
         {
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glBlendFunc(0x0302, 0x0303);
         }
 
         /// <summary>
@@ -415,7 +413,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public static void Clear()
         {
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(0x00004000);
         }
 
         /// <summary>
@@ -432,9 +430,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="target">The Target.</param>
         /// <param name="texture">The Texture.</param>
-        public static void BindTexture(uint target, uint texture)
+        public static void BindTexture(TextureParam target, uint texture)
         {
-            glBindTexture(target, texture);
+            glBindTexture((uint) target, texture);
         }
 
         /// <summary>
@@ -447,10 +445,11 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="format">The Format.</param>
         /// <param name="type">The Type.</param>
         /// <param name="pixels">The Pixels.</param>
-        public static void TexImage2D(uint target, uint internalformat, int width, int height, uint format,
-            uint type, IntPtr pixels)
+        public static void TexImage2D(TextureParam target, ColorFormat internalformat, int width, int height,
+            ColorFormat format,
+            DataTypes type, IntPtr pixels)
         {
-            glTexImage2D(target, 0, internalformat, width, height, 0, format, type, pixels);
+            glTexImage2D((uint) target, 0, (uint) internalformat, width, height, 0, (uint) format, (uint) type, pixels);
         }
 
         /// <summary>
@@ -472,12 +471,12 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="format">The Format.</param>
         /// <param name="type">The Type.</param>
         /// <param name="pixels">The Pixels.</param>
-        public static void GetTexImage(uint target, uint format, uint type, object pixels)
+        public static void GetTexImage(TextureParam target, ColorFormat format, DataTypes type, object pixels)
         {
             GCHandle pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
             try
             {
-                glGetTexImage(target, 0, format, type, pData.AddrOfPinnedObject());
+                glGetTexImage((uint) target, 0, (uint) format, (uint) type, pData.AddrOfPinnedObject());
             }
             finally
             {
@@ -497,13 +496,14 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="format">The Format.</param>
         /// <param name="type">The Type.</param>
         /// <param name="pixels">The Pixels.</param>
-        public static void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height,
-            uint format, uint type, object pixels)
+        public static void TexSubImage2D(TextureParam target, int level, int xoffset, int yoffset, int width, int height,
+            ColorFormat format, DataTypes type, object pixels)
         {
             GCHandle pData = GCHandle.Alloc(pixels, GCHandleType.Pinned);
             try
             {
-                glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pData.AddrOfPinnedObject());
+                glTexSubImage2D((uint) target, level, xoffset, yoffset, width, height, (uint) format, (uint) type,
+                    pData.AddrOfPinnedObject());
             }
             finally
             {
@@ -537,11 +537,11 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="target">The Target.</param>
         /// <param name="data">The Data.</param>
         /// <param name="usage">The Usage.</param>
-        public static void BufferData(uint target, float[] data, uint usage)
+        public static void BufferData(BufferTarget target, float[] data, DrawMode usage)
         {
             IntPtr p = Marshal.AllocHGlobal(data.Length*sizeof (float));
             Marshal.Copy(data, 0, p, data.Length);
-            InvokeExtensionMethod<glBufferData>(target, data.Length*sizeof (float), p, usage);
+            InvokeExtensionMethod<glBufferData>((uint) target, data.Length*sizeof (float), p, (uint) usage);
             Marshal.FreeHGlobal(p);
         }
 
@@ -551,14 +551,14 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="target">The Target.</param>
         /// <param name="data">The Data.</param>
         /// <param name="usage">The Usage.</param>
-        public static void BufferData(uint target, ushort[] data, uint usage)
+        public static void BufferData(BufferTarget target, ushort[] data, DrawMode usage)
         {
             int dataSize = data.Length*sizeof (ushort);
             IntPtr p = Marshal.AllocHGlobal(dataSize);
             var shortData = new short[data.Length];
             Buffer.BlockCopy(data, 0, shortData, 0, dataSize);
             Marshal.Copy(shortData, 0, p, data.Length);
-            InvokeExtensionMethod<glBufferData>(target, dataSize, p, usage);
+            InvokeExtensionMethod<glBufferData>((uint) target, dataSize, p, (uint) usage);
             Marshal.FreeHGlobal(p);
         }
 
@@ -567,7 +567,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="program">The Program.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         public static void BindFragDataLocation(uint program, uint color, string name)
         {
             InvokeExtensionMethod<glBindFragDataLocation>(program, color, name);
@@ -577,9 +577,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// Binds the texture to a sampler.
         /// </summary>
         /// <param name="texture">The SamplerId.</param>
-        public static void ActiveTexture(uint texture)
+        public static void ActiveTexture(TextureParam texture)
         {
-            InvokeExtensionMethod<glActiveTexture>(texture);
+            InvokeExtensionMethod<glActiveTexture>((uint) texture);
         }
 
         /// <summary>
@@ -615,9 +615,9 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         /// <param name="type">The type specifing whether the shader is a fragment - or vertexshader.</param>
         /// <returns>The Id.</returns>
-        public static uint CreateShader(uint type)
+        public static uint CreateShader(ShaderType type)
         {
-            return (uint) InvokeExtensionMethod<glCreateShader>(type);
+            return (uint) InvokeExtensionMethod<glCreateShader>((uint) type);
         }
 
         /// <summary>
@@ -651,7 +651,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// Gets the attribute location.
         /// </summary>
         /// <param name="program">The Program.</param>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <returns>The Id pointing to the attribute.</returns>
         public static int GetAttribLocation(uint program, string name)
         {
@@ -662,7 +662,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// Gets the location of an uniform.
         /// </summary>
         /// <param name="program">The Program.</param>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <returns>The Id pointing to the uniform.</returns>
         public static int GetUniformLocation(uint program, string name)
         {
@@ -764,10 +764,10 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="normalized">The State.</param>
         /// <param name="stride">The Stride.</param>
         /// <param name="pointer">The Pointer.</param>
-        public static void VertexAttribPointer(uint index, int size, uint type, bool normalized, int stride,
+        public static void VertexAttribPointer(uint index, int size, DataTypes type, bool normalized, int stride,
             IntPtr pointer)
         {
-            InvokeExtensionMethod<glVertexAttribPointer>(index, size, type, normalized, stride, pointer);
+            InvokeExtensionMethod<glVertexAttribPointer>(index, size, (uint) type, normalized, stride, pointer);
         }
 
         /// <summary>

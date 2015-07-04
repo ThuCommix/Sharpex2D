@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,9 +20,9 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Debug.Logging;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Audio.OpenAL
+namespace Sharpex2D.Framework.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -60,7 +60,7 @@ namespace Sharpex2D.Audio.OpenAL
         {
             _context.MakeCurrent();
             var sources = new uint[1];
-            OpenAL.alGenSources(1, sources);
+            OpenALInterops.alGenSources(1, sources);
 
             var source = new OpenALSource(sources[0]);
             _sources.Add(source);
@@ -81,7 +81,7 @@ namespace Sharpex2D.Audio.OpenAL
                     _context.MakeCurrent();
                     var sources = new uint[1];
                     sources[0] = source.SourceId;
-                    OpenAL.alDeleteSources(1, sources);
+                    OpenALInterops.alDeleteSources(1, sources);
                     source.Reset();
                 }
             }
@@ -103,13 +103,13 @@ namespace Sharpex2D.Audio.OpenAL
         {
             _context.MakeCurrent();
 
-            foreach (var source in _sources)
+            foreach (OpenALSource source in _sources)
             {
                 if (source != null && source.SourceId != 0)
                 {
                     var sources = new uint[1];
                     sources[0] = source.SourceId;
-                    OpenAL.alDeleteSources(1, sources);
+                    OpenALInterops.alDeleteSources(1, sources);
                     source.Reset();
                 }
 #if DEBUG

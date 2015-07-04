@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

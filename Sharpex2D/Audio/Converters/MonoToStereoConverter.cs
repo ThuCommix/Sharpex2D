@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,7 +20,7 @@
 
 using System;
 
-namespace Sharpex2D.Audio.Converters
+namespace Sharpex2D.Framework.Audio.Converters
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -43,10 +43,8 @@ namespace Sharpex2D.Audio.Converters
             {
                 case 8:
 
-                    for (var n = 0; n < audioData.Length; n++)
+                    foreach (byte sample in audioData)
                     {
-                        var sample = audioData[n];
-
                         output[outputIndex++] = sample;
                         output[outputIndex++] = sample;
                     }

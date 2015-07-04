@@ -21,7 +21,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Sharpex2D.Input.Implementation
+namespace Sharpex2D.Framework.Input.Implementation
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

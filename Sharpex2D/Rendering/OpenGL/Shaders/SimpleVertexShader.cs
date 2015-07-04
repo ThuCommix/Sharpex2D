@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering.OpenGL.Shaders
+namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -29,8 +29,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
 in vec2 position;
 in vec3 color;
 in vec2 texcoord;
-uniform float alpha;
-uniform vec2 dim;
+uniform vec3 dim;
 uniform mat4 transform;
 out vec3 Color;
 out vec2 Texcoord;
@@ -39,7 +38,7 @@ out float Alpha;
 void main() {
     Color = color;
     Texcoord = texcoord;
-    Alpha = alpha;
+    Alpha = dim.z;
     gl_Position = vec4(position.x * 2.0 / dim.x - 1.0, position.y * -2.0 / dim.y + 1.0, 0.0, 1.0) * transform;
 }
 ";

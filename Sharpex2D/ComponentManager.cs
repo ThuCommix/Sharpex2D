@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -23,19 +23,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sharpex2D
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public class ComponentManager : IConstructable, IEnumerable<IComponent>
     {
-        /// <summary>
-        /// ComponentEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void ComponentEventHandler(object sender, ComponentEventArgs e);
-
         private readonly List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;
 
@@ -78,12 +71,12 @@ namespace Sharpex2D
         /// <summary>
         /// ComponentRemoved event.
         /// </summary>
-        public event ComponentEventHandler ComponentRemoved;
+        public event EventHandler<ComponentEventArgs> ComponentRemoved;
 
         /// <summary>
         /// ComponentAdded event.
         /// </summary>
-        public event ComponentEventHandler ComponentAdded;
+        public event EventHandler<ComponentEventArgs> ComponentAdded;
 
         /// <summary>
         /// Adds a new Component to the enumeration.
@@ -127,7 +120,7 @@ namespace Sharpex2D
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <returns>Component</returns>
-        public T Get<T>()
+        internal T Get<T>()
         {
             foreach (T component in _internalComponents.Where(component => component != null).OfType<T>())
             {

@@ -20,27 +20,13 @@
 
 using System;
 using System.Globalization;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Input.Implementation.XInput
+namespace Sharpex2D.Framework.Input.Implementation.XInput
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal class Gamepad : IGamepad
     {
-        /// <summary>
-        /// Maximum Controller input.
-        /// </summary>
-        internal const int MaxControllerCount = 4;
-
-        /// <summary>
-        /// StartIndex.
-        /// </summary>
-        internal const int FirstControllerIndex = 0;
-
-        /// <summary>
-        /// Gets the Available Controllers.
-        /// </summary>
         private static readonly Gamepad[] Controllers;
 
         private readonly int _playerIndex;
@@ -55,8 +41,8 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// </summary>
         static Gamepad()
         {
-            Controllers = new Gamepad[MaxControllerCount];
-            for (int i = FirstControllerIndex; i < MaxControllerCount; i++)
+            Controllers = new Gamepad[4];
+            for (int i = 0; i < 4; i++)
             {
                 Controllers[i] = new Gamepad(i);
             }
@@ -69,6 +55,7 @@ namespace Sharpex2D.Input.Implementation.XInput
         private Gamepad(int playerIndex)
         {
             _playerIndex = playerIndex;
+            UpdateBatteryState();
             _gamepadStatePrev.Copy(_gamepadStateCurrent);
         }
 
@@ -96,7 +83,6 @@ namespace Sharpex2D.Input.Implementation.XInput
             {
                 var xinputBatteryType = (XInputBatteryType) BatteryInformationGamepad.BatteryType;
                 var xinputBatteryLevel = (XInputBatteryLevel) BatteryInformationGamepad.BatteryLevel;
-                System.Diagnostics.Debug.WriteLine(xinputBatteryType);
                 if (xinputBatteryType == XInputBatteryType.Wired)
                 {
                     return BatteryLevel.Wired;
@@ -160,8 +146,8 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// <param name="length">The Length.</param>
         public void Vibrate(float leftMotor, float rightMotor, float length)
         {
-            leftMotor = (float) System.Math.Max(0d, System.Math.Min(1d, leftMotor));
-            rightMotor = (float) System.Math.Max(0d, System.Math.Min(1d, rightMotor));
+            leftMotor = (float) Math.Max(0d, Math.Min(1d, leftMotor));
+            rightMotor = (float) Math.Max(0d, Math.Min(1d, rightMotor));
 
             var vibration = new XInputVibration
             {
@@ -219,7 +205,7 @@ namespace Sharpex2D.Input.Implementation.XInput
         /// </summary>
         /// <param name="index">The Index.</param>
         /// <returns>XboxController.</returns>
-        public static Gamepad Retrieve(int index)
+        internal static Gamepad Retrieve(int index)
         {
             return Controllers[index];
         }
@@ -239,17 +225,6 @@ namespace Sharpex2D.Input.Implementation.XInput
 
             BatteryInformationHeadset = headset;
             BatteryInformationGamepad = gamepad;
-        }
-
-        /// <summary>
-        /// Gets the Capabilities.
-        /// </summary>
-        /// <returns></returns>
-        public XInputCapabilities GetCapabilities()
-        {
-            var capabilities = new XInputCapabilities();
-            XInputInterops.XInputGetCapabilities(_playerIndex, XInputConstants.XINPUT_FLAG_GAMEPAD, ref capabilities);
-            return capabilities;
         }
 
         /// <summary>

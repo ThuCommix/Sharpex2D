@@ -21,27 +21,23 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Windows.Forms;
-using Sharpex2D.Math;
-using Sharpex2D.Rendering.OpenGL.Shaders;
-using Sharpex2D.Surface;
-using Rectangle = Sharpex2D.Math.Rectangle;
+using System.IO;
+using Sharpex2D.Framework.Rendering.OpenGL.Shaders;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class OpenGLRenderer : IRenderer, IDisposable
+    internal class OpenGLRenderer : IRenderer
     {
-        private readonly GraphicsDevice _graphicsDevice;
         private readonly RenderContext _renderContext;
-        private readonly TextEntityManager _textEntityManager;
-        private readonly GameWindow _window;
         private ShaderProgram _colorShader;
+        private GraphicsDevice _graphicsDevice;
         private float[] _matrix4;
         private IndexBuffer _sourceEbo;
         private VertexArray _sourceVao;
         private VertexBuffer _sourceVbo;
+        private GameWindow _window;
         private Vector2 _windowSize;
 
         /// <summary>
@@ -50,9 +46,6 @@ namespace Sharpex2D.Rendering.OpenGL
         public OpenGLRenderer()
         {
             _renderContext = new RenderContext();
-            _graphicsDevice = SGL.QueryComponents<GraphicsDevice>();
-            _textEntityManager = new TextEntityManager();
-            _window = SGL.QueryComponents<RenderTarget>().Window;
         }
 
         /// <summary>
@@ -65,20 +58,14 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Gets or sets the SmoothingMode.
-        /// </summary>
-        public SmoothingMode SmoothingMode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the InterpolationMode.
-        /// </summary>
-        public InterpolationMode InterpolationMode { get; set; }
-
-        /// <summary>
         /// Initializes the renderer.
         /// </summary>
-        public void Initialize()
+        /// <param name="game">The Game.</param>
+        public void Initialize(Game game)
         {
+            _graphicsDevice = game.Get<GraphicsDevice>();
+            _window = game.Get<GameWindow>();
+
             _renderContext.Initialize();
             _colorShader = new ShaderProgram();
             var vshader = new VertexShader();
@@ -86,12 +73,12 @@ namespace Sharpex2D.Rendering.OpenGL
             var fshader = new FragmentShader();
             fshader.Compile(SimpleFragmentShader.SourceCode);
             _colorShader.Link(vshader, fshader);
-            OpenGLInterops.Enable(OpenGLInterops.GL_BLEND);
             OpenGLInterops.AlphaBlend();
+            OpenGLInterops.EnableBlend();
             SetTransform(Matrix2x3.Identity);
             OpenGLColor clearColor = OpenGLHelper.ConvertColor(_graphicsDevice.ClearColor);
             OpenGLInterops.ClearColor(clearColor);
-            _windowSize = _window.Size;
+            _windowSize = _window.ClientSize;
             OpenGLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
             _sourceVao = new VertexArray();
             _sourceVao.Bind();
@@ -111,7 +98,7 @@ namespace Sharpex2D.Rendering.OpenGL
             _sourceVbo.Bind();
 
             _graphicsDevice.ClearColorChanged += GraphicsDeviceClearColorChanged;
-            _window.ScreenSizeChanged += WindowScreenSizeChanged;
+            _window.ClientSizeChanged += WindowScreenSizeChanged;
         }
 
         /// <summary>
@@ -121,6 +108,7 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             _renderContext.MakeCurrent();
             OpenGLInterops.Clear();
+            OpenGLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
         }
 
         /// <summary>
@@ -129,38 +117,6 @@ namespace Sharpex2D.Rendering.OpenGL
         public void End()
         {
             _renderContext.SwapBuffers();
-        }
-
-        /// <summary>
-        /// Draws a string.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="color">The Color.</param>
-        public void DrawString(string text, IFont font, Rectangle rectangle, Color color)
-        {
-            var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
-
-            OpenGLTexture texture = _textEntityManager.GetFontTexture(text, oglFont, color, (int) rectangle.Width);
-            DrawTexture(texture, new Vector2(rectangle.X, rectangle.Y), Color.White);
-        }
-
-        /// <summary>
-        /// Draws a string.
-        /// </summary>
-        /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="position">The Position.</param>
-        /// <param name="color">The Color.</param>
-        public void DrawString(string text, IFont font, Vector2 position, Color color)
-        {
-            var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
-
-            OpenGLTexture texture = _textEntityManager.GetFontTexture(text, oglFont, color);
-            DrawTexture(texture, position, Color.White);
         }
 
         /// <summary>
@@ -189,7 +145,8 @@ namespace Sharpex2D.Rendering.OpenGL
 
             tex.Bind();
 
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
+            _colorShader.SetUniform("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
+                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
             uint posAttrib = _colorShader.GetAttribLocation("position");
@@ -204,7 +161,7 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
-            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
             tex.Unbind();
         }
@@ -227,7 +184,7 @@ namespace Sharpex2D.Rendering.OpenGL
                 //  Position                                         Color             Texcoords
                 rectangle.X, rectangle.Y, col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
                 rectangle.X + rectangle.Width, rectangle.Y, col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
-                rectangle.X + rectangle.Width, rectangle.Y + tex.Height, col.R, col.G, col.B, 1.0f, 1.0f,
+                rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height, col.R, col.G, col.B, 1.0f, 1.0f,
                 // Bottom-right
                 rectangle.X, rectangle.Y + rectangle.Height, col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
             };
@@ -236,7 +193,8 @@ namespace Sharpex2D.Rendering.OpenGL
 
             tex.Bind();
 
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
+            _colorShader.SetUniform("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
+                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
             uint posAttrib = _colorShader.GetAttribLocation("position");
@@ -251,7 +209,7 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
-            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
             tex.Unbind();
         }
@@ -332,7 +290,8 @@ namespace Sharpex2D.Rendering.OpenGL
 
             tex.Bind();
 
-            _colorShader.SetUniform("dim", _graphicsDevice.BackBuffer.Width, _graphicsDevice.BackBuffer.Height, opacity);
+            _colorShader.SetUniform("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
+                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, opacity);
             _colorShader.SetUniformMatrix("transform", _matrix4);
 
             uint posAttrib = _colorShader.GetAttribLocation("position");
@@ -347,25 +306,9 @@ namespace Sharpex2D.Rendering.OpenGL
             VertexBuffer.EnableVertexAttribArray(texAttrib);
             VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
-            OpenGLInterops.DrawElements(OpenGLInterops.GL_TRIANGLES, 6, OpenGLInterops.GL_UNSIGNED_SHORT, IntPtr.Zero);
+            OpenGLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
             tex.Unbind();
-        }
-
-        /// <summary>
-        /// Measures the string.
-        /// </summary>
-        /// <param name="text">The String.</param>
-        /// <param name="font">The Font.</param>
-        /// <returns>Vector2.</returns>
-        public Vector2 MeasureString(string text, IFont font)
-        {
-            var oglFont = font as OpenGLFont;
-            if (oglFont == null) throw new ArgumentException("Expected a OpenGLFont as resource.");
-
-            System.Drawing.Font gdiFont = OpenGLHelper.ConvertFont(oglFont);
-            Size result = TextRenderer.MeasureText(text, gdiFont);
-            return new Vector2(result.Width, result.Height);
         }
 
         /// <summary>
@@ -409,23 +352,21 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <summary>
         /// Creates a new Resource.
         /// </summary>
-        /// <param name="fontFamily">The FontFamily.</param>
-        /// <param name="size">The Size.</param>
-        /// <param name="accessoire">The TextAccessoire.</param>
-        /// <returns>IFont.</returns>
-        public IFont CreateResource(string fontFamily, float size, TextAccessoire accessoire)
-        {
-            return new OpenGLFont(fontFamily, size, accessoire);
-        }
-
-        /// <summary>
-        /// Creates a new Resource.
-        /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>ITexture.</returns>
         public ITexture CreateResource(string path)
         {
             return new OpenGLTexture((Bitmap) Image.FromFile(path));
+        }
+
+        /// <summary>
+        /// Creates a new Resource.
+        /// </summary>
+        /// <param name="stream">The Stream.</param>
+        /// <returns>ITexture.</returns>
+        public ITexture CreateResource(Stream stream)
+        {
+            return new OpenGLTexture(stream);
         }
 
         /// <summary>
@@ -459,10 +400,7 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             if (disposing)
             {
-                _sourceVao.Dispose();
-                _sourceEbo.Dispose();
-                _colorShader.Delete();
-                _sourceVbo.Dispose();
+                _renderContext.Dispose();
             }
         }
 
@@ -482,8 +420,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="e">The EventArgs.</param>
         private void WindowScreenSizeChanged(object sender, EventArgs e)
         {
-            _windowSize = _window.Size;
-            OpenGLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
+            _windowSize = _window.ClientSize;
         }
     }
 }

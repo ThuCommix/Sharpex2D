@@ -21,10 +21,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sharpex2D.Debug.Logging;
-using Sharpex2D.Input.Implementation.Touch;
+using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Input.Implementation.Touch;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]

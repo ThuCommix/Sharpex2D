@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -23,13 +23,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Sharpex2D.Debug.Logging;
-using Sharpex2D.Rendering;
+using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Rendering;
 
-namespace Sharpex2D
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public class GameLoop : IComponent
     {
         private readonly List<IDrawable> _drawables;
@@ -66,14 +66,14 @@ namespace Sharpex2D
         public bool IsRunning { get; private set; }
 
         /// <summary>
-        /// Gets the measured frames per second.
+        /// Gets the measured draws per second.
         /// </summary>
-        public int MeasuredFrames { get; private set; }
+        public int Draws { get; private set; }
 
         /// <summary>
         /// Gets the measured updates per second.
         /// </summary>
-        public int MeasuredUpdates { get; private set; }
+        public int Updates { get; private set; }
 
         /// <summary>
         /// Gets or sets the DrawMode.
@@ -167,11 +167,11 @@ namespace Sharpex2D
         private void Loop()
         {
             //initialize render device
-            SGL.SpriteBatch = new SpriteBatch(SGL.GraphicsManager) {GraphicsDevice = SGL.GraphicsDevice};
-            SGL.Components.Add(SGL.SpriteBatch);
+            GameHost.SpriteBatch = new SpriteBatch(GameHost.GraphicsManager) {GraphicsDevice = GameHost.GraphicsDevice};
+            GameHost.Components.Add(GameHost.SpriteBatch);
 
             //load content 
-            SGL.GameInstance.OnLoadContent();
+            GameHost.GameInstance.OnLoadContent();
 
             _gameTimer.Start();
             long startTime = _gameTimer.ElapsedTicks;
@@ -206,8 +206,8 @@ namespace Sharpex2D
                 if (frameCounter >= Stopwatch.Frequency)
                 {
                     frameCounter = 0;
-                    MeasuredFrames = frames;
-                    MeasuredUpdates = updates;
+                    Draws = frames;
+                    Updates = updates;
                     frames = 0;
                     updates = 0;
                 }
@@ -236,7 +236,7 @@ namespace Sharpex2D
 
             //the game ended, clean up components
 
-            foreach (var component in SGL.Components.OfType<IDisposable>())
+            foreach (IDisposable component in GameHost.Components.OfType<IDisposable>())
             {
                 (component).Dispose();
 #if DEBUG
@@ -263,7 +263,7 @@ namespace Sharpex2D
         {
             for (int i = 0; i < _drawables.Count; i++)
             {
-                _drawables[i].Draw(SGL.SpriteBatch, _gameTime);
+                _drawables[i].Draw(GameHost.SpriteBatch, _gameTime);
             }
         }
     }

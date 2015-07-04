@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -27,7 +27,6 @@ namespace Sharpex2D.Input
         /// <summary>
         /// The gamepad is wired, no battery is consumed.
         /// </summary>
-        /// <remarks>This do not work for gamepads without battery. Gamepads without battery always return BatteryLevel.Empty.</remarks>
         Wired,
 
         /// <summary>

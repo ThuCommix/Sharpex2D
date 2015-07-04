@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,10 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     internal enum ContextAttributes
     {
         /// <summary>
@@ -67,6 +67,6 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <summary>
         /// Compatibility profile.
         /// </summary>
-        CompatibilityProfile = 0x00000002,
+        CompatibilityProfile = 0x00000002
     }
 }

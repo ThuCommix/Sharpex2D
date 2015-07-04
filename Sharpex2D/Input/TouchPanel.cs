@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -29,7 +29,7 @@ namespace Sharpex2D.Input
         /// </summary>
         public static bool IsAvailable
         {
-            get { return SGL.InputManager.GetInput<ITouchInput>().IsAvailable; }
+            get { return GameHost.InputManager.GetInput<ITouchInput>().IsAvailable; }
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Sharpex2D.Input
         /// <returns>TouchState.</returns>
         public static TouchState GetState()
         {
-            return SGL.InputManager.GetInput<ITouchInput>().GetState();
+            return GameHost.InputManager.GetInput<ITouchInput>().GetState();
         }
     }
 }

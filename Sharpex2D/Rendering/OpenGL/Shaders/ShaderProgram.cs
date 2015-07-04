@@ -19,9 +19,9 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Debug.Logging;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Rendering.OpenGL.Shaders
+namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -56,7 +56,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// <summary>
         /// Sets an uniform.
         /// </summary>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <param name="data">The Data.</param>
         public void SetUniform(string name, params float[] data)
         {
@@ -84,7 +84,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// <summary>
         /// Sets an Uniform matrix.
         /// </summary>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <param name="data">The Data.</param>
         public void SetUniformMatrix(string name, float[] data)
         {
@@ -95,7 +95,7 @@ namespace Sharpex2D.Rendering.OpenGL.Shaders
         /// <summary>
         /// Gets the attribute location.
         /// </summary>
-        /// <param name="name">The Name.</param>
+        /// <param name="name">The Title.</param>
         /// <returns>UInt.</returns>
         public uint GetAttribLocation(string name)
         {

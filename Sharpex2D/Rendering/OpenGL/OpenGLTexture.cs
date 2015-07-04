@@ -18,13 +18,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using Sharpex2D.Math;
-using Rectangle = System.Drawing.Rectangle;
+using System.IO;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -42,32 +42,36 @@ namespace Sharpex2D.Rendering.OpenGL
             Height = bitmap.Height;
             Width = bitmap.Width;
 
-            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+            BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
                 ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
 
             Id = OpenGLInterops.GenTexture();
 
-            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
-            OpenGLInterops.TexParameterI(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_S,
-                (int) OpenGLInterops.GL_REPEAT);
-            OpenGLInterops.TexParameterI(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_WRAP_T,
-                (int) OpenGLInterops.GL_REPEAT);
+            OpenGLInterops.BindTexture(TextureParam.Texture2D, Id);
+            OpenGLInterops.TexParameterI(TextureParam.Texture2D, TextureParam.WrapS,
+                (int) TextureParam.Repeat);
+            OpenGLInterops.TexParameterI(TextureParam.Texture2D, TextureParam.WrapT,
+                (int) TextureParam.Repeat);
 
-            OpenGLInterops.TexParameterF(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MIN_FILTER,
-                SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear
-                    ? OpenGLInterops.GL_LINEAR
-                    : OpenGLInterops.GL_NEAREST);
-            OpenGLInterops.TexParameterF(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_TEXTURE_MAG_FILTER,
-                SGL.SpriteBatch.InterpolationMode == InterpolationMode.Linear
-                    ? OpenGLInterops.GL_LINEAR
-                    : OpenGLInterops.GL_NEAREST);
+            OpenGLInterops.TexParameterF(TextureParam.Texture2D, TextureParam.MinFilter,
+                TextureParam.Linear);
+            OpenGLInterops.TexParameterF(TextureParam.Texture2D, TextureParam.MagFilter,
+                TextureParam.Linear);
 
-            OpenGLInterops.TexImage2D(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_RGBA, Width, Height,
-                OpenGLInterops.GL_BGRA, OpenGLInterops.GL_UNSIGNED_BYTE, data.Scan0);
+            OpenGLInterops.TexImage2D(TextureParam.Texture2D, ColorFormat.Rgba, Width, Height,
+                ColorFormat.Bgra, DataTypes.UByte, data.Scan0);
 
-            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
+            OpenGLInterops.BindTexture(TextureParam.Texture2D, 0);
             bitmap.UnlockBits(data);
             bitmap.Dispose();
+        }
+
+        /// <summary>
+        /// Initializes a new OpenGLTexture class.
+        /// </summary>
+        /// <param name="stream">The Stream.</param>
+        internal OpenGLTexture(Stream stream) : this((Bitmap) Image.FromStream(stream))
+        {
         }
 
         /// <summary>
@@ -117,8 +121,8 @@ namespace Sharpex2D.Rendering.OpenGL
             _lockedColors = new List<ColorData>();
             _lockedData = new byte[Width*Height*4];
             Bind();
-            OpenGLInterops.GetTexImage(OpenGLInterops.GL_TEXTURE_2D, OpenGLInterops.GL_RGBA,
-                OpenGLInterops.GL_UNSIGNED_BYTE, _lockedData);
+            OpenGLInterops.GetTexImage(TextureParam.Texture2D, ColorFormat.Rgba,
+                DataTypes.UByte, _lockedData);
             Unbind();
         }
 
@@ -137,23 +141,39 @@ namespace Sharpex2D.Rendering.OpenGL
                 pixelData[1] = colordata.Color.G;
                 pixelData[2] = colordata.Color.B;
                 pixelData[3] = colordata.Color.A;
-                OpenGLInterops.TexSubImage2D(OpenGLInterops.GL_TEXTURE_2D, 0, (int) colordata.Position.X,
-                    (int) colordata.Position.Y, 1, 1, OpenGLInterops.GL_RGBA,
-                    OpenGLInterops.GL_UNSIGNED_BYTE, pixelData);
+                OpenGLInterops.TexSubImage2D(TextureParam.Texture2D, 0, (int) colordata.Position.X,
+                    (int) colordata.Position.Y, 1, 1, ColorFormat.Rgba,
+                    DataTypes.UByte, pixelData);
             }
             Unbind();
 
             IsLocked = false;
         }
 
+        /// <summary>
+        /// Disposes the texture.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Deconstructs the OpenGLTexture class.
+        /// </summary>
+        ~OpenGLTexture()
+        {
+            Dispose(false);
+        }
 
         /// <summary>
         /// Binds the current texture.
         /// </summary>
         internal void Bind()
         {
-            OpenGLInterops.ActiveTexture(OpenGLInterops.GL_TEXTURE0);
-            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, Id);
+            OpenGLInterops.ActiveTexture(TextureParam.Texture0);
+            OpenGLInterops.BindTexture(TextureParam.Texture2D, Id);
         }
 
         /// <summary>
@@ -161,7 +181,22 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         internal void Unbind()
         {
-            OpenGLInterops.BindTexture(OpenGLInterops.GL_TEXTURE_2D, 0);
+            OpenGLInterops.BindTexture(TextureParam.Texture2D, 0);
+        }
+
+        /// <summary>
+        /// Disposes the texture.
+        /// </summary>
+        /// <param name="disposing">The disposing state.</param>
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _lockedColors.Clear();
+                _lockedData = null;
+            }
+
+            //Anything in opengl gets cleaned up if we destroy the context.
         }
     }
 }

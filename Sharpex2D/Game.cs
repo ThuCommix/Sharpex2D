@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,84 +19,87 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Audio;
-using Sharpex2D.Content;
-using Sharpex2D.GameService;
-using Sharpex2D.Input;
-using Sharpex2D.Rendering;
-using Sharpex2D.Rendering.Scene;
-using Sharpex2D.Surface;
+using System.Collections.Generic;
+using Sharpex2D.Framework.Audio;
+using Sharpex2D.Framework.Audio.WaveOut;
+using Sharpex2D.Framework.Content;
+using Sharpex2D.Framework.Rendering;
+using Sharpex2D.Framework.Rendering.OpenGL;
+using Sharpex2D.Framework.Rendering.Scene;
 
-namespace Sharpex2D
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public abstract class Game : IUpdateable, IDrawable, IConstructable
     {
-        private RenderTarget _renderTarget;
-
         /// <summary>
         /// Initializes a new Game class.
         /// </summary>
         protected Game()
         {
-            GameComponentManager = new GameComponentManager();
+            Components = new GameComponentCollection();
         }
 
         /// <summary>
-        /// Gets the GameComponentManager.
+        /// Gets the components.
         /// </summary>
-        public GameComponentManager GameComponentManager { private set; get; }
+        public GameComponentCollection Components { private set; get; }
 
         /// <summary>
-        /// The current InputManager.
+        /// Gets the component manager.
         /// </summary>
-        public InputManager Input { get; set; }
+        public ComponentManager ComponentManager
+        {
+            get { return GameHost.Components; }
+        }
 
         /// <summary>
-        /// The Current AudioManager.
+        /// Gets the media player.
         /// </summary>
-        public AudioManager AudioManager { get; internal set; }
+        public MediaPlayer MediaPlayer { get; internal set; }
 
         /// <summary>
-        /// The Current ContentManager.
+        /// Gets the content manager.
         /// </summary>
-        public ContentManager Content { get; set; }
+        public ContentManager Content { get; internal set; }
 
         /// <summary>
-        /// The Current SceneManager.
+        /// Gets the scene manager.
         /// </summary>
-        public SceneManager SceneManager { get; set; }
+        public SceneManager SceneManager { get; internal set; }
 
         /// <summary>
-        /// The Current GameServices.
+        /// Gets or sets the graphics manager.
         /// </summary>
-        public GameServiceContainer GameServices { set; get; }
+        public GraphicsManager GraphicsManager { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sound manager.
+        /// </summary>
+        public SoundManager SoundManager { set; get; }
 
         /// <summary>
         /// Sets or gets the TargetFrameTime.
         /// </summary>
         public float TargetTime
         {
-            get { return SGL.Components.Get<GameLoop>().TargetTime; }
-            set { SGL.Components.Get<GameLoop>().TargetTime = value; }
+            get { return GameHost.Get<GameLoop>().TargetTime; }
+            set { GameHost.Get<GameLoop>().TargetTime = value; }
         }
 
         /// <summary>
-        /// A value indicating whether the surface is active.
+        /// A value indicating whether the game window is focused.
         /// </summary>
-        public bool IsActive
+        public bool IsFocused
         {
-            get { return _renderTarget.Window.IsActive; }
+            get { return Window.IsFocused; }
         }
 
         /// <summary>
-        /// Gets the GameWindow.
+        /// Gets the game window.
         /// </summary>
-        public GameWindow Window
-        {
-            get { return _renderTarget.Window; }
-        }
+        public GameWindow Window { get; private set; }
 
         #region IComponent Implementation
 
@@ -117,7 +120,7 @@ namespace Sharpex2D
         /// </summary>
         void IConstructable.Construct()
         {
-            _renderTarget = SGL.Components.Get<RenderTarget>();
+            Window = GameHost.Get<GameWindow>();
         }
 
         #endregion
@@ -150,26 +153,28 @@ namespace Sharpex2D
         #endregion
 
         /// <summary>
-        /// Updates the object.
+        /// Updates the components.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnUpdate(GameTime gameTime)
         {
-            foreach (IGameComponent gameComponent in GameComponentManager)
+            IEnumerable<GameComponent> components = Components.GetUpdateables();
+            foreach (GameComponent gameComponent in components)
             {
                 gameComponent.Update(gameTime);
             }
         }
 
         /// <summary>
-        /// Processes a Render.
+        /// Draws the components.
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnDrawing(SpriteBatch spriteBatch, GameTime gameTime)
         {
             spriteBatch.Begin();
-            foreach (IGameComponent gameComponent in GameComponentManager)
+            IEnumerable<DrawableGameComponent> components = Components.GetDrawables();
+            foreach (DrawableGameComponent gameComponent in components)
             {
                 gameComponent.Draw(spriteBatch, gameTime);
             }
@@ -180,7 +185,22 @@ namespace Sharpex2D
         /// Processes the Game initialization.
         /// </summary>
         /// <param name="launchParameters">The LaunchParameters.</param>
-        public abstract EngineConfiguration OnInitialize(LaunchParameters launchParameters);
+        public virtual void OnInitialize(LaunchParameters launchParameters)
+        {
+            GraphicsManager = new OpenGLGraphicsManager();
+            GraphicsManager.PreferredBackBufferWidth = 800;
+            GraphicsManager.PreferredBackBufferHeight = 480;
+
+            SoundManager = new WaveOutSoundManager();
+        }
+
+        /// <summary>
+        /// Runs the game.
+        /// </summary>
+        public void Run()
+        {
+            GameHost.Initialize(this);
+        }
 
         /// <summary>
         /// Processes the Game load.
@@ -213,7 +233,7 @@ namespace Sharpex2D
         /// </summary>
         public void Exit()
         {
-            SGL.Shutdown();
+            GameHost.Shutdown();
         }
 
         /// <summary>
@@ -222,7 +242,17 @@ namespace Sharpex2D
         /// <param name="launchParameters">The LaunchParameters.</param>
         public void Restart(LaunchParameters launchParameters)
         {
-            SGL.Restart(launchParameters.ToString());
+            GameHost.Restart(launchParameters.ToString());
+        }
+
+        /// <summary>
+        /// Gets a component.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <returns>IComponent.</returns>
+        public T Get<T>() where T : IComponent
+        {
+            return GameHost.Get<T>();
         }
     }
 }

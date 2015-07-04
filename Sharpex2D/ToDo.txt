@@ -24,7 +24,7 @@ Implement OpenAL : Done
 		this could cause the CLR to tell that some coms are not disposed. I will investigate this.
 Add some sort of audio effect pool, to play a sound on a currently free audiorenderer : Done
 	-> This would allow to play the same audio effect simultaneously
-
+Renamed OpenALAudioBuffer to OpenALAudio and OpenAL to OpenALInterops : Done
 
 
 CONTENT SYSTEM TODO 100%:
@@ -33,17 +33,33 @@ Simplify Content Processors since we never load s2d formats ;) : Done
 Implement unified script content processor : Done
 	-> But needs much work on the script system
 Rename Content Processors into *Factory : Done
+Simplify the contentmanager class : Done
+	-> Removed the internal cache wich limited the developer in terms of how they want to handle data
+	-> ContentStorage<T1, T2> : Singleton<ContentStorage<T1, T2> as alternative
 
 Datatype -> Factory Enumeration -> Factory load data type -> push through content manager
 
 
-SCRIPT SYSTEM TODO:
+SCRIPT SYSTEM TODO 100%:
 
-Rewrite Script Engine : Pending ...
-Implement Lua : Pending ...
+Rewrite Script Engine : Done
+Implement Lua : Canceled ... (Maybe in a later version of sgl)
 
 
-RENDERING ENGINE TODO 100%:
+NETWORK SYSTEM 90%:
+
+Make the connection collection Thread safe : Done
+Check for Bugs and uncaught exceptions : Pending ...
+Send Disconnect if the peer did a protocol violation : Done
+
+
+SURFACE SYSTEM TODO 100%:
+
+Beautify and simplify this ugly piece of "system" : Done
+	-> check for missing features in the new GameWindow class
+
+
+RENDERING ENGINE TODO 90%:
 
 OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
 	-> Problem detected race condition with opengl init (gameloop) and using it (content loading)
@@ -56,13 +72,30 @@ OpenGL sometimes throw Invalid_Value ... on reading textures (Content Processor)
 			-> Sometimes the OpenGLContext fails to establish while in VSDebug Mode
 Fix OpenGL stretching not working properly : Done
 Use a higher OpenGL version since OpenGL 1.1 is very old : Done
-Shader support : Pending ...
+Shader support (Effect) : Pending ...
 Hide Instance in Pen and Texture2D. Just pass the .Instance to the plugins : Done
 	-> The previous system was some wierdo stuff, realy.
 Complety rewrite opengl and use 3.3 : Done
 Allow texture manipulation : Done
 		-> Writing leaves the written pixel transparent : Done, wrong api signature used
 		-> Reading causing crash : Done, working
+		-> Added Lock and Unlock methods for efficiency reasons
+Try to minimize OpenGL Api calls : Done
+		-> The overhead by creating the vao and fbo each render call is insane
+		-> Optimized over 40% by not allocating vaos, ebos und vbos each time
+		   Also passed die opacity along with die window dimension in a vec3 which gains -1 api call
+		   We could also move the float[] alloc to initialize but Im not sure if this have an impact. Tests shown it only takes 38TICKS to create the array and fill it.
+Textures can now be disposed : Done
+	-> This should happen in the renderer itself when it disposes.
+	-> For opengl context disposing clears all user data on the gpu, so no explicit disposing is neccessary.
+Added color alpha multiplying : Done
+
+Add a content importer tool : Done
+		Add pre rendered spritefonts like in xna : Done
+			-> Generate from xml 
+		Add texture importing for the content tool : Done
+		Add sound importing for the content tool : Done
+
 
 
 INPUT ENGINE TODO 100%:
@@ -72,11 +105,38 @@ Fix broken XInput methods : Done
 Rework the InputManager to match the new system : Done
 Rework namespace : Done
 Fix wrong visiblities : Done
+Fixed a bug in MouseState and KeyState : Done
+	-> States where not copied, but the reference pointed to the new state
+Fix dic get changed by mouse while copy to MouseState : Done
+	-> Used lock()
+Im not happy with the current abstraction system : Done
+	-> Instead auf NativeInput<T> just use an Interface IGamepad, IKeyboard, IMouse and so on.
+	-> Implemented the input in a private way.
+	-> Also did a heavy lifting on the gamepad state
+			-> Buttonstates via IsPressed(GamepadButtons.A)
+			-> LeftTrigger & RightTrigger now in float [0 - 1]
+			-> LeftThumb & RightThumb now [-1 - 1]
+			-> Support for 4 gamepads instead of 1.
+	-> Fixed not working battery level for gamepads.. I returned always 0 instead of p/invoke the xinput api.. yes lol.
+Add dead trigger zones for gamepads : Done
 
 
 MISC TODO:
 
 Do not force kill app after closing. Simply close the surface after the game loop executed : Done
 Clean up disposable components : Done
+Changed Vector2 properties to fields : Done
+Changed Rectangle properties to fields : Done
+
+Work on the Scene management!
+
+Isolate SGL : Done
+	-> GameHost encapsulated in Game?
+
+Change the way of content loading.. may implement the compilers in Sharpex2D itself. : Pending ...
+Debug OpenAL : Pending ...
+	-> OpenAL seems to be broken ...
+Implement newer DX version : Pending ...
+
 
 

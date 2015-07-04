@@ -18,11 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Rendering
+using System;
+using Sharpex2D.Framework.Content;
+
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface ITexture
+    public interface ITexture : IContent, IDisposable
     {
         /// <summary>
         /// Gets the Width.

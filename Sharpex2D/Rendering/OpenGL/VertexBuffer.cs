@@ -19,9 +19,9 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Debug.Logging;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -66,7 +66,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void Bind()
         {
-            OpenGLInterops.BindBuffer(OpenGLInterops.GL_ARRAY_BUFFER, Id);
+            OpenGLInterops.BindBuffer(BufferTarget.ArrayBuffer, Id);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <remarks>Bind must be called in order to take effect.</remarks>
         public void SetData(float[] vertices)
         {
-            OpenGLInterops.BufferData(OpenGLInterops.GL_ARRAY_BUFFER, vertices, OpenGLInterops.GL_STATIC_DRAW);
+            OpenGLInterops.BufferData(BufferTarget.ArrayBuffer, vertices, DrawMode.StaticDraw);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void Unbind()
         {
-            OpenGLInterops.BindBuffer(OpenGLInterops.GL_ARRAY_BUFFER, 0);
+            OpenGLInterops.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="offset">The Offset.</param>
         public static void VertexAttribPointer(uint index, int size, bool normalized, int stride, int offset)
         {
-            OpenGLInterops.VertexAttribPointer(index, size, OpenGLInterops.GL_FLOAT, normalized, stride,
+            OpenGLInterops.VertexAttribPointer(index, size, DataTypes.Float, normalized, stride,
                 new IntPtr(offset));
         }
     }

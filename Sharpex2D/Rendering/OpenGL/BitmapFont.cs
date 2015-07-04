@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -23,7 +23,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -36,19 +36,24 @@ namespace Sharpex2D.Rendering.OpenGL
         /// <param name="font">The Font.</param>
         /// <param name="color">The Color.</param>
         /// <returns>Bitmap.</returns>
-        public static Bitmap DrawTextToBitmap(string text, System.Drawing.Font font, Color color)
+        public static Bitmap DrawTextToBitmap(string text, Font font, Color color)
         {
-            var fontColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-            var result = TextRenderer.MeasureText(text, font);
+            if (text == string.Empty || text == "")
+            {
+                return new Bitmap(1, 1);
+            }
+
+            System.Drawing.Color fontColor = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
+            Size result = TextRenderer.MeasureText(text, font);
             var bitmapFont = new Bitmap(result.Width, result.Height);
-            var graphics = Graphics.FromImage(bitmapFont);
+            Graphics graphics = Graphics.FromImage(bitmapFont);
             graphics.Clear(System.Drawing.Color.Transparent);
             graphics.CompositingMode = CompositingMode.SourceOver;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
-            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.High;
+            graphics.InterpolationMode = InterpolationMode.High;
             graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
-            graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.DrawString(text, font, new SolidBrush(fontColor), new PointF(0, 0));
             graphics.Flush();
             graphics.Dispose();

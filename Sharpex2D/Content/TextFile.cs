@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,15 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Content
+namespace Sharpex2D.Framework.Content
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
+    [TestState(TestState.Tested)]
     public class TextFile : IContent
     {
         /// <summary>
         /// Gets the text of this instance.
         /// </summary>
         public string Text { internal set; get; }
+
+        /// <summary>
+        /// Converts the object to string.
+        /// </summary>
+        /// <returns>String.</returns>
+        public override string ToString()
+        {
+            return Text;
+        }
     }
 }

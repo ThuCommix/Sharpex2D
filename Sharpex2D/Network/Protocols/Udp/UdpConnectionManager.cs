@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -29,8 +29,6 @@ namespace Sharpex2D.Network.Protocols.Udp
     [TestState(TestState.Untested)]
     internal class UdpConnectionManager
     {
-        public delegate void PingTimedOutEventHandler(object sender, IPAddress ipAddress);
-
         private readonly List<UdpPingRequest> _pingRequests;
         private bool _isRunning;
 
@@ -102,7 +100,7 @@ namespace Sharpex2D.Network.Protocols.Udp
                         //the client highly likely timed out.
                         if (PingTimedOut != null)
                         {
-                            PingTimedOut(this, _pingRequests[i].IP);
+                            PingTimedOut(this, new PingTimedOutEventArgs(_pingRequests[i].IP));
                         }
                         removeList.Add(_pingRequests[i]);
                     }
@@ -124,6 +122,6 @@ namespace Sharpex2D.Network.Protocols.Udp
         /// <summary>
         /// Called if a PingRequest timed out.
         /// </summary>
-        public event PingTimedOutEventHandler PingTimedOut;
+        public event EventHandler<PingTimedOutEventArgs> PingTimedOut;
     }
 }

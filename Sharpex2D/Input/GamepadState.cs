@@ -19,9 +19,8 @@
 // THE SOFTWARE.
 
 using System.Collections.Generic;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -98,6 +97,74 @@ namespace Sharpex2D.Input
         /// Gets the RightThumbStick.
         /// </summary>
         public Vector2 RightThumbStick { get; private set; }
+
+        /// <summary>
+        /// Applies the dead zones.
+        /// </summary>
+        /// <param name="leftThumbStick">The LeftThumbStickDeadZone.</param>
+        /// <param name="rightThumbStick">The RightThumbStickDeadZone.</param>
+        /// <param name="trigger">The TriggerDeadZone.</param>
+        internal void ApplyDeadZones(float leftThumbStick, float rightThumbStick, float trigger)
+        {
+            if (trigger > 0)
+            {
+                if (LeftTrigger < trigger)
+                {
+                    LeftTrigger = 0;
+                }
+
+                if (RightTrigger < trigger)
+                {
+                    RightTrigger = 0;
+                }
+            }
+
+            if (leftThumbStick > 0)
+            {
+                if (LeftThumbStick.X > 0 && LeftThumbStick.X < leftThumbStick)
+                {
+                    LeftThumbStick = new Vector2(0, LeftThumbStick.Y);
+                }
+
+                if (LeftThumbStick.Y > 0 && LeftThumbStick.Y < leftThumbStick)
+                {
+                    LeftThumbStick = new Vector2(LeftThumbStick.X, 0);
+                }
+
+                if (LeftThumbStick.X < 0 && LeftThumbStick.X > -leftThumbStick)
+                {
+                    LeftThumbStick = new Vector2(0, LeftThumbStick.Y);
+                }
+
+                if (LeftThumbStick.Y < 0 && LeftThumbStick.Y > -leftThumbStick)
+                {
+                    LeftThumbStick = new Vector2(LeftThumbStick.X, 0);
+                }
+            }
+
+            if (rightThumbStick > 0)
+            {
+                if (RightThumbStick.X > 0 && RightThumbStick.X < rightThumbStick)
+                {
+                    RightThumbStick = new Vector2(0, RightThumbStick.Y);
+                }
+
+                if (RightThumbStick.Y > 0 && RightThumbStick.Y < rightThumbStick)
+                {
+                    RightThumbStick = new Vector2(RightThumbStick.X, 0);
+                }
+
+                if (RightThumbStick.X < 0 && RightThumbStick.X > -rightThumbStick)
+                {
+                    RightThumbStick = new Vector2(0, RightThumbStick.Y);
+                }
+
+                if (RightThumbStick.Y < 0 && RightThumbStick.Y > -rightThumbStick)
+                {
+                    RightThumbStick = new Vector2(RightThumbStick.X, 0);
+                }
+            }
+        }
 
         /// <summary>
         /// A value indicating whether the specified button is pressed.

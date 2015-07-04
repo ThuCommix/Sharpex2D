@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -25,20 +25,19 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace Sharpex2D.Audio.WaveOut
+namespace Sharpex2D.Framework.Audio.WaveOut
 {
-#if Windows
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal class WaveOut
     {
         private readonly MMInterops.WaveCallback _callback;
         private readonly object _lockObj = new object();
+        internal SoundMixer AudioMixer;
         private int _activeBuffers;
         private List<WaveOutBuffer> _buffers;
         private int _latency = 150;
         private PlaybackState _playbackState = PlaybackState.Stopped;
-        internal AudioMixer AudioMixer;
 
         /// <summary>
         /// Initializes a new WaveOut class.
@@ -46,7 +45,7 @@ namespace Sharpex2D.Audio.WaveOut
         public WaveOut()
         {
             _callback = Callback;
-            AudioMixer = new AudioMixer();
+            AudioMixer = new SoundMixer();
         }
 
         /// <summary>
@@ -115,7 +114,7 @@ namespace Sharpex2D.Audio.WaveOut
         /// <summary>
         /// Triggered if the playback state changed.
         /// </summary>
-        public event PlaybackChangedEventHandler PlaybackChanged;
+        public event EventHandler<EventArgs> PlaybackChanged;
 
         /// <summary>
         /// Gets the available device amount.
@@ -134,7 +133,7 @@ namespace Sharpex2D.Audio.WaveOut
         public static WaveOutCaps GetDevice(int device)
         {
             var caps = new WaveOutCaps();
-            MMInterops.waveOutGetDevCaps((uint)device, out caps, (uint)Marshal.SizeOf(caps));
+            MMInterops.waveOutGetDevCaps((uint) device, out caps, (uint) Marshal.SizeOf(caps));
             return caps;
         }
 
@@ -402,5 +401,4 @@ namespace Sharpex2D.Audio.WaveOut
             Dispose(false);
         }
     }
-#endif
 }

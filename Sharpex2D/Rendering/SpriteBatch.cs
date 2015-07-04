@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,9 +19,8 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Math;
 
-namespace Sharpex2D.Rendering
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -39,31 +38,13 @@ namespace Sharpex2D.Rendering
                 throw new NotSupportedException("The specified GraphicsManager is not supported.");
 
             Renderer = graphicsManager.Create();
-            Renderer.Initialize();
+            Renderer.Initialize(GameHost.GameInstance);
         }
 
         /// <summary>
         /// Gets the GraphicsDevice.
         /// </summary>
         public GraphicsDevice GraphicsDevice { internal set; get; }
-
-        /// <summary>
-        /// Gets or sets the SmoothingMode.
-        /// </summary>
-        public SmoothingMode SmoothingMode
-        {
-            get { return Renderer.SmoothingMode; }
-            set { Renderer.SmoothingMode = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the InterpolationMode.
-        /// </summary>
-        public InterpolationMode InterpolationMode
-        {
-            get { return Renderer.InterpolationMode; }
-            set { Renderer.InterpolationMode = value; }
-        }
 
         /// <summary>
         /// Gets the Guid.
@@ -93,24 +74,28 @@ namespace Sharpex2D.Rendering
         /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="rectangle">The Rectangle.</param>
+        /// <param name="font">The SpriteFont.</param>
+        /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Rectangle rectangle, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawString(string text, SpriteFont font, Vector2 position, Color color, float opacity = 1f)
         {
-            Renderer.DrawString(text, font.Instance, rectangle, color);
+            font.DrawText(this, text, position, color, opacity);
         }
 
         /// <summary>
         /// Draws a string.
         /// </summary>
         /// <param name="text">The Text.</param>
-        /// <param name="font">The Font.</param>
-        /// <param name="position">The Position.</param>
+        /// <param name="font">The SpriteFont.</param>
+        /// <param name="layoutRectangle">The LayoutRectangle.</param>
+        /// <param name="format">The TextFormat.</param>
         /// <param name="color">The Color.</param>
-        public void DrawString(string text, Font font, Vector2 position, Color color)
+        /// <param name="opacity">The Opacity.</param>
+        public void DrawString(string text, SpriteFont font, Rectangle layoutRectangle, TextFormat format, Color color,
+            float opacity = 1f)
         {
-            Renderer.DrawString(text, font.Instance, position, color);
+            font.DrawText(this, text, layoutRectangle, format, color, opacity);
         }
 
         /// <summary>
@@ -168,7 +153,7 @@ namespace Sharpex2D.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f)
         {
-            Renderer.DrawTexture(spriteSheet, position, color, opacity);
+            Renderer.DrawTexture(spriteSheet.Texture2D.Texture, spriteSheet, position, color, opacity);
         }
 
         /// <summary>
@@ -191,7 +176,7 @@ namespace Sharpex2D.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            Renderer.DrawTexture(spriteSheet, rectangle, color, opacity);
+            Renderer.DrawTexture(spriteSheet.Texture2D.Texture, spriteSheet, rectangle, color, opacity);
         }
 
         /// <summary>
@@ -229,17 +214,6 @@ namespace Sharpex2D.Rendering
         public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, float opacity = 1f)
         {
             DrawTexture(texture, source, destination, Color.White, opacity);
-        }
-
-        /// <summary>
-        /// Measures the string.
-        /// </summary>
-        /// <param name="text">The String.</param>
-        /// <param name="font">The Font.</param>
-        /// <returns>Vector2.</returns>
-        public Vector2 MeasureString(string text, Font font)
-        {
-            return Renderer.MeasureString(text, font.Instance);
         }
 
         /// <summary>

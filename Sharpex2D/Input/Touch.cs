@@ -19,10 +19,9 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Input.Implementation.Touch;
-using Sharpex2D.Math;
+using Sharpex2D.Framework.Input.Implementation.Touch;
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Untested)]

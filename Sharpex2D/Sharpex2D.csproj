@@ -7,7 +7,7 @@
     <ProjectGuid>{EB9B32BD-2DDE-4C2F-8532-963AEE62B440}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sharpex2D</RootNamespace>
+    <RootNamespace>Sharpex2D.Framework</RootNamespace>
     <AssemblyName>Sharpex2D</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -26,7 +26,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;Windows</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -34,6 +34,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>
     </DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -45,198 +46,202 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Sharpex2D.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audio\AudioEffect.cs" />
-    <Compile Include="Audio\AudioEffectGroup.cs" />
-    <Compile Include="Audio\AudioEffectPool.cs" />
-    <Compile Include="Audio\AudioException.cs" />
-    <Compile Include="Audio\AudioManager.cs" />
-    <Compile Include="Audio\AudioMixer.cs" />
-    <Compile Include="Audio\AudioSource.cs" />
+    <Compile Include="Audio\SoundEffect.cs" />
+    <Compile Include="Audio\SoundEffectGroup.cs" />
+    <Compile Include="Audio\SoundEffectPool.cs" />
+    <Compile Include="Audio\SoundException.cs" />
+    <Compile Include="Audio\SoundManager.cs" />
+    <Compile Include="Audio\MediaPlayer.cs" />
+    <Compile Include="Audio\SoundMixer.cs" />
+    <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\Converters\IAudioDataConverter.cs" />
     <Compile Include="Audio\Converters\MonoToStereoConverter.cs" />
     <Compile Include="Audio\Converters\StereoToMonoConverter.cs" />
-    <Compile Include="Audio\IAudioInitializer.cs" />
-    <Compile Include="Audio\IAudioProvider.cs" />
-    <Compile Include="Audio\IAudioSource.cs" />
+    <Compile Include="Audio\ISoundPlayer.cs" />
     <Compile Include="Audio\OpenAL\DeviceSpecifications.cs" />
     <Compile Include="Audio\OpenAL\SourceProperty.cs" />
-    <Compile Include="Audio\OpenAL\OpenAL.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudioBuffer.cs" />
+    <Compile Include="Audio\OpenAL\OpenALInterops.cs" />
+    <Compile Include="Audio\OpenAL\OpenALAudio.cs" />
     <Compile Include="Audio\OpenAL\OpenALAudioFormat.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudioInitializer.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudioProvider.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudioSource.cs" />
+    <Compile Include="Audio\OpenAL\OpenALSoundManager.cs" />
+    <Compile Include="Audio\OpenAL\OpenALSoundPlayer.cs" />
     <Compile Include="Audio\OpenAL\OpenALContext.cs" />
     <Compile Include="Audio\OpenAL\OpenALDataBuffer.cs" />
     <Compile Include="Audio\OpenAL\OpenALDevice.cs" />
     <Compile Include="Audio\OpenAL\OpenALSource.cs" />
     <Compile Include="Audio\OpenAL\OpenALSourcePool.cs" />
     <Compile Include="Audio\OpenAL\SourceState.cs" />
-    <Compile Include="Audio\PlaybackChangedEventHandler.cs" />
     <Compile Include="Audio\PlaybackMode.cs" />
     <Compile Include="Audio\PlaybackState.cs" />
     <Compile Include="Audio\WaveOut\MMInterops.cs" />
     <Compile Include="Audio\WaveOut\WaveHeaderFlags.cs" />
     <Compile Include="Audio\WaveOut\WaveMessage.cs" />
     <Compile Include="Audio\WaveOut\WaveOut.cs" />
-    <Compile Include="Audio\WaveOut\WaveOutAudioSource.cs" />
     <Compile Include="Audio\WaveOut\WaveOutBuffer.cs" />
-    <Compile Include="Audio\WaveOut\WaveOutAudioInitializer.cs" />
-    <Compile Include="Audio\WaveOut\WaveOutAudioProvider.cs" />
-    <Compile Include="Common\Extensions\AudioEffectExtension.cs" />
-    <Compile Include="Common\Extensions\OpenALSourceStateExtension.cs" />
-    <Compile Include="Common\Extensions\StringExtensions.cs" />
+    <Compile Include="Audio\WaveOut\WaveOutSoundManager.cs" />
+    <Compile Include="Audio\WaveOut\WaveOutSoundPlayer.cs" />
     <Compile Include="ComponentEventArgs.cs" />
-    <Compile Include="Content\Batch.cs" />
-    <Compile Include="Content\BatchEventArgs.cs" />
-    <Compile Include="Content\BatchProgressEventArgs.cs" />
-    <Compile Include="Content\Factory\AttachableFactory.cs" />
-    <Compile Include="Content\Factory\AudioEffectFactory.cs" />
-    <Compile Include="Content\Factory\AudioSourceFactory.cs" />
-    <Compile Include="Content\Factory\ContentPipeline.cs" />
-    <Compile Include="Content\Factory\IAttachableFactory.cs" />
-    <Compile Include="Content\Factory\ScriptFileFactory.cs" />
-    <Compile Include="Content\Factory\TextFileFactory.cs" />
-    <Compile Include="Content\Factory\Texture2DFactory.cs" />
-    <Compile Include="Content\IBatch.cs" />
+    <Compile Include="Content\ContentStorage.cs" />
+    <Compile Include="Content\DeprecatedXmlContentException.cs" />
+    <Compile Include="Content\Importers\Importer.cs" />
+    <Compile Include="Content\Importers\ImportContentAttribute.cs" />
+    <Compile Include="Content\Importers\ScriptImporter.cs" />
+    <Compile Include="Content\Importers\SoundImporter.cs" />
+    <Compile Include="Content\Importers\SpriteFontImporter.cs" />
+    <Compile Include="Content\Importers\TextFileImporter.cs" />
+    <Compile Include="Content\Importers\Texture2DImporter.cs" />
+    <Compile Include="Content\InvalidXmlContentException.cs" />
+    <Compile Include="Content\InvalidXmlContentTypeException.cs" />
     <Compile Include="Content\TextFile.cs" />
+    <Compile Include="Content\XmlContentCompression.cs" />
+    <Compile Include="Content\XmlContent.cs" />
+    <Compile Include="Content\XmlContentMetaData.cs" />
     <Compile Include="Debug\CpuWatcher.cs" />
     <Compile Include="Debug\IDebugWatcher.cs" />
     <Compile Include="Debug\Memory.cs" />
     <Compile Include="Debug\MemoryUnit.cs" />
     <Compile Include="Debug\MemoryWatcher.cs" />
     <Compile Include="Debug\ThreadWatcher.cs" />
-    <Compile Include="Development\AttributeHelper.cs" />
-    <Compile Include="Development\DeveloperAttribute.cs" />
-    <Compile Include="Development\MetaDataAttribute.cs" />
-    <Compile Include="Development\MetaDataCollection.cs" />
-    <Compile Include="Development\MetaDataReader.cs" />
-    <Compile Include="Development\NativeMethods.cs" />
-    <Compile Include="Development\Platform.cs" />
-    <Compile Include="Development\ReflectionHelper.cs" />
-    <Compile Include="Development\TestState.cs" />
-    <Compile Include="Development\TestStateAttribute.cs" />
-    <Compile Include="Development\VersionAttribute.cs" />
+    <Compile Include="AttributeHelper.cs" />
+    <Compile Include="DeveloperAttribute.cs" />
+    <Compile Include="DrawableGameComponent.cs" />
+    <Compile Include="GameComponent.cs" />
+    <Compile Include="GameComponentEventArgs.cs" />
+    <Compile Include="MetaDataAttribute.cs" />
+    <Compile Include="MetaDataCollection.cs" />
+    <Compile Include="MetaDataReader.cs" />
+    <Compile Include="Network\ConnectionRefusedException.cs" />
+    <Compile Include="Network\IncomingMessageEventArgs.cs" />
+    <Compile Include="Network\IncomingMessage.cs" />
+    <Compile Include="Network\IPEndPointBindException.cs" />
+    <Compile Include="Network\NetworkPeer.cs" />
+    <Compile Include="Network\OutgoingMessage.cs" />
+    <Compile Include="Network\PacketContext.cs" />
+    <Compile Include="Network\PeerJoinedEventArgs.cs" />
+    <Compile Include="Network\PeerDisconnectedEventArgs.cs" />
+    <Compile Include="Network\DisconnectReason.cs" />
+    <Compile Include="Network\PeerProtocol.cs" />
+    <Compile Include="Network\PeerStatistics.cs" />
+    <Compile Include="Network\RemotePeer.cs" />
+    <Compile Include="Network\RemotePeerNotAvailableException.cs" />
+    <Compile Include="Network\SynchronizedList.cs" />
+    <Compile Include="ReflectionHelper.cs" />
+    <Compile Include="Rendering\OpenGL\BufferTarget.cs" />
+    <Compile Include="Rendering\OpenGL\ColorFormat.cs" />
+    <Compile Include="Rendering\OpenGL\DataTypes.cs" />
+    <Compile Include="Rendering\OpenGL\DrawMode.cs" />
+    <Compile Include="Rendering\OpenGL\Shaders\ShaderType.cs" />
+    <Compile Include="Rendering\OpenGL\TextureParam.cs" />
+    <Compile Include="Rendering\SpriteFont.cs" />
+    <Compile Include="Rendering\TextFormat.cs" />
+    <Compile Include="TestState.cs" />
+    <Compile Include="TestStateAttribute.cs" />
+    <Compile Include="VersionAttribute.cs" />
     <Compile Include="DrawMode.cs" />
-    <Compile Include="EngineConfiguration.cs" />
     <Compile Include="Audio\WaveOut\MMResult.cs" />
     <Compile Include="Audio\WaveOut\WaveCapsFormats.cs" />
     <Compile Include="Audio\WaveOut\WaveCapsSupported.cs" />
     <Compile Include="Audio\WaveOut\WaveOutCaps.cs" />
     <Compile Include="Audio\WaveStream.cs" />
-    <Compile Include="Common\BufferedCollection.cs" />
-    <Compile Include="Common\Collection.cs" />
-    <Compile Include="Common\Delay.cs" />
-    <Compile Include="Common\Retry.cs" />
-    <Compile Include="Common\Singleton.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
-    <Compile Include="Debug\DebugConsole.cs" />
     <Compile Include="Debug\ExceptionHandler.cs" />
-    <Compile Include="Debug\Logging\Adapters\Console\ConsoleAdapter.cs" />
+    <Compile Include="Debug\Logging\Adapters\ConsoleAdapter.cs" />
     <Compile Include="Debug\Logging\Adapters\IAdapter.cs" />
-    <Compile Include="Debug\Logging\Adapters\Streaming\StreamingAdapter.cs" />
-    <Compile Include="Debug\Logging\Adapters\Streaming\StreamingAdapterBase.cs" />
-    <Compile Include="Debug\Logging\Adapters\VisualStudio\VSAdapter.cs" />
+    <Compile Include="Debug\Logging\Adapters\StreamingAdapter.cs" />
+    <Compile Include="Debug\Logging\Adapters\StreamingAdapterBase.cs" />
+    <Compile Include="Debug\Logging\Adapters\VSAdapter.cs" />
     <Compile Include="Debug\Logging\Logger.cs" />
     <Compile Include="Debug\Logging\LogLevel.cs" />
     <Compile Include="Debug\Logging\LogManager.cs" />
-    <Compile Include="Debug\Logging\Adapters\Console\OutputMode.cs" />
-    <Compile Include="Common\Extensions\BinaryReaderExtension.cs" />
-    <Compile Include="Common\Extensions\LogLevelExtension.cs" />
-    <Compile Include="Common\Extensions\UIBoundsExtension.cs" />
-    <Compile Include="Common\Extensions\VectorExtension.cs" />
-    <Compile Include="Common\Pathfinding\AStar\AStarAlgorithm.cs" />
-    <Compile Include="Common\Pathfinding\Grid.cs" />
-    <Compile Include="Common\Pathfinding\GridField.cs" />
-    <Compile Include="Common\Pathfinding\IAlgorithm.cs" />
-    <Compile Include="Common\Pathfinding\Neighbor.cs" />
-    <Compile Include="Common\Pathfinding\PathFinder.cs" />
-    <Compile Include="Common\IThreadInvoker.cs" />
+    <Compile Include="Debug\Logging\Adapters\OutputMode.cs" />
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="Entities\EntityPositionEventArgs.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRandom.cs" />
     <Compile Include="ComponentManager.cs" />
-    <Compile Include="GameService\GameTrigger.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="IComponent.cs" />
     <Compile Include="IConstructable.cs" />
     <Compile Include="Content\ContentManager.cs" />
-    <Compile Include="Content\ContentVerifier.cs" />
     <Compile Include="Content\IContent.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\EntityEnvironment.cs" />
-    <Compile Include="GameComponentManager.cs" />
+    <Compile Include="GameComponentCollection.cs" />
     <Compile Include="GameTime.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="IGameComponent.cs" />
+    <Compile Include="Input\BatteryLevel.cs" />
     <Compile Include="Input\Gamepad.cs" />
+    <Compile Include="Input\GamepadButtons.cs" />
+    <Compile Include="Input\IGamepad.cs" />
+    <Compile Include="Input\IJoystick.cs" />
+    <Compile Include="Input\IKeyboard.cs" />
+    <Compile Include="Input\IMouse.cs" />
+    <Compile Include="Input\Implementation\JoystickApi\JoyFlags.cs" />
+    <Compile Include="Input\Implementation\JoystickApi\JoyInfo.cs" />
+    <Compile Include="Input\Implementation\JoystickApi\JoyInfoEx.cs" />
+    <Compile Include="Input\Implementation\JoystickApi\Joystick.cs" />
+    <Compile Include="Input\Implementation\JoystickApi\JoystickInterops.cs" />
+    <Compile Include="Input\Implementation\Keyboard.cs" />
+    <Compile Include="Input\Implementation\KeyboardInterops.cs" />
+    <Compile Include="Input\Implementation\MessageEventArgs.cs" />
+    <Compile Include="Input\Implementation\MessageFilter.cs" />
+    <Compile Include="Input\Implementation\Mouse.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchDevice.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchFlags.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchInput.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchInputMask.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchInterops.cs" />
+    <Compile Include="Input\Implementation\Touch\TouchMode.cs" />
+    <Compile Include="Input\Implementation\XInput\BatteryDeviceType.cs" />
+    <Compile Include="Input\Implementation\XInput\ButtonFlags.cs" />
+    <Compile Include="Input\Implementation\XInput\Gamepad.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputBatteryInformation.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputBatteryLevel.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputBatteryType.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputCapabilities.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputConstants.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputGamepad.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputInterops.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputState.cs" />
+    <Compile Include="Input\Implementation\XInput\XInputVibration.cs" />
+    <Compile Include="Input\ITouchInput.cs" />
+    <Compile Include="Input\PlayerIndex.cs" />
     <Compile Include="Input\GamepadState.cs" />
-    <Compile Include="Input\IInputDevice.cs" />
+    <Compile Include="Input\IInput.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
-    <Compile Include="Input\NativeInput.cs" />
     <Compile Include="Input\TouchPanel.cs" />
-    <Compile Include="Input\Windows\JoystickApi\JoystickInterops.cs" />
-    <Compile Include="Input\Windows\Keyboard.cs" />
-    <Compile Include="Input\Windows\Touch\TouchDevice.cs" />
     <Compile Include="Input\TouchState.cs" />
-    <Compile Include="Input\Windows\JoystickApi\JoyFlags.cs" />
-    <Compile Include="Input\Windows\JoystickApi\JoyInfo.cs" />
-    <Compile Include="Input\Windows\JoystickApi\JoyInfoEx.cs" />
     <Compile Include="Input\JoystickButton.cs" />
     <Compile Include="Input\JoystickState.cs" />
     <Compile Include="Input\PointOfView.cs" />
     <Compile Include="Input\KeyboardState.cs" />
     <Compile Include="Input\MouseState.cs" />
-    <Compile Include="Input\Windows\JoystickApi\Joystick.cs" />
-    <Compile Include="Input\Windows\MessageEventArgs.cs" />
-    <Compile Include="Input\Windows\MessageFilter.cs" />
     <Compile Include="Input\Touch.cs" />
-    <Compile Include="Input\Windows\Touch\TouchFlags.cs" />
-    <Compile Include="Input\Windows\Touch\TouchInput.cs" />
-    <Compile Include="Input\Windows\Touch\TouchInputMask.cs" />
-    <Compile Include="Input\Windows\Touch\TouchInterops.cs" />
-    <Compile Include="Input\Windows\Touch\TouchMode.cs" />
     <Compile Include="IUpdateable.cs" />
-    <Compile Include="GameService\LaunchParameter.cs" />
-    <Compile Include="GameService\LaunchParameters.cs" />
-    <Compile Include="GameService\Achievement.cs" />
-    <Compile Include="GameService\AchievementProvider.cs" />
-    <Compile Include="GameService\Gamer.cs" />
-    <Compile Include="GameService\GameServiceContainer.cs" />
-    <Compile Include="GameService\IGameService.cs" />
-    <Compile Include="GameService\GameSettings.cs" />
+    <Compile Include="LaunchParameter.cs" />
+    <Compile Include="LaunchParameters.cs" />
+    <Compile Include="Gamer.cs" />
     <Compile Include="GameUpdateRequiredException.cs" />
-    <Compile Include="Input\Windows\XInput\BatteryDeviceType.cs" />
-    <Compile Include="Input\Windows\XInput\BatteryLevel.cs" />
-    <Compile Include="Input\Windows\XInput\BatteryType.cs" />
-    <Compile Include="Input\Windows\XInput\ButtonFlags.cs" />
-    <Compile Include="Input\Windows\XInput\CapabilityFlags.cs" />
-    <Compile Include="Input\Windows\XInput\SubTypes.cs" />
-    <Compile Include="Input\Windows\XInput\Gamepad.cs" />
-    <Compile Include="Input\Windows\XInput\XInputBatteryInformation.cs" />
-    <Compile Include="Input\Windows\XInput\XInputCapabilities.cs" />
-    <Compile Include="Input\Windows\XInput\XInputConstants.cs" />
-    <Compile Include="Input\Windows\XInput\XInputGamepad.cs" />
-    <Compile Include="Input\Windows\XInput\XInputKeystroke.cs" />
-    <Compile Include="Input\Windows\XInput\XInputState.cs" />
-    <Compile Include="Input\Windows\XInput\XInputVibration.cs" />
-    <Compile Include="Input\XPlatform\Keyboard.cs" />
-    <Compile Include="Input\XPlatform\Mouse.cs" />
-    <Compile Include="Input\Windows\XInput\XInputAPI.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\Keys.cs" />
     <Compile Include="Input\MouseButtons.cs" />
@@ -246,58 +251,26 @@
     <Compile Include="Localization\LanguageSerializationException.cs" />
     <Compile Include="Localization\LanguageSerializer.cs" />
     <Compile Include="Localization\LocalizedValue.cs" />
-    <Compile Include="Math\Circle.cs" />
-    <Compile Include="Math\Ellipse.cs" />
-    <Compile Include="Math\IGeometry.cs" />
-    <Compile Include="Math\Matrix.cs" />
-    <Compile Include="Math\Matrix2x3.cs" />
-    <Compile Include="Math\Polygon.cs" />
-    <Compile Include="Math\PolygonCollisionResult.cs" />
-    <Compile Include="Math\PolygonContainer.cs" />
-    <Compile Include="Math\Rectangle.cs" />
+    <Compile Include="Circle.cs" />
+    <Compile Include="Matrix2x3.cs" />
+    <Compile Include="Polygon.cs" />
+    <Compile Include="PolygonCollisionResult.cs" />
+    <Compile Include="Rectangle.cs" />
     <Compile Include="Audio\WaveFormat.cs" />
     <Compile Include="Audio\WaveFormats.cs" />
     <Compile Include="Audio\WaveOut\WaveHdr.cs" />
     <Compile Include="Audio\WaveOut\WaveOutResult.cs" />
-    <Compile Include="Network\Logic\IClientListener.cs" />
-    <Compile Include="Network\Packages\System\UdpNotify.cs" />
-    <Compile Include="Network\Packages\System\UdpPackage.cs" />
-    <Compile Include="Network\Protocols\Udp\UdpClient.cs" />
-    <Compile Include="Network\Protocols\Udp\UdpConnection.cs" />
-    <Compile Include="Network\Protocols\Udp\UdpConnectionManager.cs" />
-    <Compile Include="Network\Protocols\Udp\UdpPingRequest.cs" />
-    <Compile Include="Network\Protocols\Udp\UdpServer.cs" />
-    <Compile Include="Network\SerializableConnection.cs" />
-    <Compile Include="Network\IConnection.cs" />
-    <Compile Include="Network\IReceiver.cs" />
-    <Compile Include="Network\ISender.cs" />
-    <Compile Include="Network\Logic\IPackageListener.cs" />
-    <Compile Include="Network\Packages\BasePackage.cs" />
-    <Compile Include="Network\Packages\BinaryPackage.cs" />
-    <Compile Include="Network\Packages\IBasePackage.cs" />
-    <Compile Include="Network\Packages\PackageSerializer.cs" />
-    <Compile Include="Network\Packages\System\NotificationMode.cs" />
-    <Compile Include="Network\Packages\System\NotificationPackage.cs" />
-    <Compile Include="Network\Packages\System\PingPackage.cs" />
-    <Compile Include="Network\Protocols\IClient.cs" />
-    <Compile Include="Network\Protocols\IServer.cs" />
-    <Compile Include="Network\Protocols\Local\LocalClient.cs" />
-    <Compile Include="Network\Protocols\Local\LocalConnection.cs" />
-    <Compile Include="Network\Protocols\Local\LocalServer.cs" />
-    <Compile Include="Plugin\PluginCatalog.cs" />
-    <Compile Include="Plugin\PluginContainer.cs" />
-    <Compile Include="Plugin\PluginActivator.cs" />
     <Compile Include="Precision.cs" />
     <Compile Include="Rendering\AnimatedSpriteSheet.cs" />
     <Compile Include="Rendering\GraphicsManager.cs" />
     <Compile Include="Rendering\IRenderer.cs" />
     <Compile Include="Rendering\ITexture.cs" />
     <Compile Include="Rendering\OpenGL\BitmapFont.cs" />
+    <Compile Include="Rendering\OpenGL\ColorData.cs" />
     <Compile Include="Rendering\OpenGL\ContextAttributes.cs" />
     <Compile Include="Rendering\OpenGL\IndexBuffer.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLColor.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLError.cs" />
-    <Compile Include="Rendering\OpenGL\OpenGLFont.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLGraphicsManager.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLHelper.cs" />
     <Compile Include="Rendering\OpenGL\OpenGLRenderer.cs" />
@@ -313,11 +286,6 @@
     <Compile Include="Rendering\OpenGL\Shaders\SimpleVertexShader.cs" />
     <Compile Include="Rendering\OpenGL\Shaders\VertexShader.cs" />
     <Compile Include="Rendering\GraphicsException.cs" />
-    <Compile Include="Rendering\Font.cs" />
-    <Compile Include="Rendering\IFont.cs" />
-    <Compile Include="Rendering\InterpolationMode.cs" />
-    <Compile Include="Rendering\OpenGL\TextEntity.cs" />
-    <Compile Include="Rendering\OpenGL\TextEntityManager.cs" />
     <Compile Include="Rendering\OpenGL\VertexArray.cs" />
     <Compile Include="Rendering\OpenGL\VertexBuffer.cs" />
     <Compile Include="Rendering\Scene\SceneEventArgs.cs" />
@@ -325,44 +293,25 @@
     <Compile Include="Rendering\TextAccessoire.cs" />
     <Compile Include="Rendering\Keyframe.cs" />
     <Compile Include="Rendering\Scene\Scene.cs" />
-    <Compile Include="Rendering\SmoothingMode.cs" />
     <Compile Include="Rendering\SpriteSheet.cs" />
     <Compile Include="Rendering\Texture2D.cs" />
-    <Compile Include="Scripting\IScript.cs" />
-    <Compile Include="Scripting\IScriptEvaluator.cs" />
-    <Compile Include="Scripting\ScriptEventArgs.cs" />
+    <Compile Include="Scripting\EntryAttribute.cs" />
+    <Compile Include="Scripting\EntryPoint.cs" />
+    <Compile Include="Scripting\Script.cs" />
+    <Compile Include="Scripting\ScriptCompiler.cs" />
     <Compile Include="Scripting\ScriptException.cs" />
-    <Compile Include="Scripting\ScriptFile.cs" />
-    <Compile Include="Scripting\ScriptHost.cs" />
-    <Compile Include="Scripting\IScriptEntry.cs" />
-    <Compile Include="Scripting\CSharp\CSharpScriptCompiler.cs" />
-    <Compile Include="Scripting\ScriptStorageBuffer.cs" />
-    <Compile Include="Scripting\CSharp\CSharpScript.cs" />
-    <Compile Include="Scripting\CSharp\CSharpScriptEvaluator.cs" />
-    <Compile Include="Scripting\VB\VBScript.cs" />
-    <Compile Include="Scripting\VB\VBScriptCompiler.cs" />
-    <Compile Include="Scripting\VB\VBScriptEvaluator.cs" />
-    <Compile Include="Plugin\IsolatedAssemblySource.cs" />
-    <Compile Include="Plugin\ProxySource.cs" />
-    <Compile Include="Surface\GameWindow.cs" />
-    <Compile Include="Surface\ScreenSizeEventHandler.cs" />
-    <Compile Include="Surface\SurfaceLayout.cs" />
+    <Compile Include="Scripting\ScriptFinishedEventArgs.cs" />
+    <Compile Include="Scripting\ScriptType.cs" />
+    <Compile Include="GameWindow.cs" />
+    <Compile Include="ScreenDevice.cs" />
+    <Compile Include="ScreenDeviceManager.cs" />
     <Compile Include="UI\UIBounds.cs" />
     <Compile Include="UI\UIManager.cs" />
     <Compile Include="UI\UIControl.cs" />
     <Compile Include="UI\UISize.cs" />
-    <Compile Include="Surface\RenderTarget.cs" />
-    <Compile Include="Surface\SurfaceStyle.cs" />
-    <Compile Include="Development\GlobalSuppressions.cs" />
-    <Compile Include="IConfigurator.cs" />
-    <Compile Include="IDevice.cs" />
-    <Compile Include="InitializeHelper.cs" />
-    <Compile Include="Configurator.cs" />
-    <Compile Include="Math\MathHelper.cs" />
-    <Compile Include="Math\Vector2.cs" />
-    <Compile Include="Plugin\PluginException.cs" />
+    <Compile Include="MathHelper.cs" />
+    <Compile Include="Vector2.cs" />
     <Compile Include="Rendering\Color.cs" />
-    <Compile Include="Rendering\BackBuffer.cs" />
     <Compile Include="Rendering\GraphicsDevice.cs" />
     <Compile Include="Rendering\Scene\SceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -371,8 +320,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SGL.cs" />
-    <Compile Include="EngineState.cs" />
+    <Compile Include="GameHost.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -380,10 +328,13 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="ToDo.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sharpex2D.pfx" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Input
+namespace Sharpex2D.Framework.Input
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -30,7 +30,7 @@ namespace Sharpex2D.Input
         /// <returns>MouseState.</returns>
         public static MouseState GetState()
         {
-            return SGL.InputManager.GetInput<IMouse>().GetState();
+            return GameHost.InputManager.GetInput<IMouse>().GetState();
         }
     }
 }

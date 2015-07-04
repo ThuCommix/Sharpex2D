@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Audio.OpenAL
+namespace Sharpex2D.Framework.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -50,7 +50,7 @@ namespace Sharpex2D.Audio.OpenAL
         public static OpenALDataBuffer CreateBuffer()
         {
             var bufferId = new uint[1];
-            OpenAL.alGenBuffers(1, bufferId);
+            OpenALInterops.alGenBuffers(1, bufferId);
             return new OpenALDataBuffer(bufferId[0]);
         }
     }

@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,28 +20,22 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Content;
+using Sharpex2D.Framework.Content;
 
-namespace Sharpex2D.Rendering.Scene
+namespace Sharpex2D.Framework.Rendering.Scene
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class SceneManager : IGameComponent, IComponent
+    public class SceneManager : DrawableGameComponent, IComponent
     {
-        /// <summary>
-        /// SceneEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void SceneEventHandler(object sender, SceneEventArgs e);
-
         private readonly List<Scene> _scenes;
         private Scene _activeScene;
 
         /// <summary>
         /// Initializes a new SceneManager class.
         /// </summary>
-        public SceneManager()
+        /// <param name="game">The Game.</param>
+        public SceneManager(Game game) : base(game)
         {
             _scenes = new List<Scene>();
             Order = 0;
@@ -103,7 +97,7 @@ namespace Sharpex2D.Rendering.Scene
         /// Updates the object.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             if (ActiveScene != null)
             {
@@ -116,7 +110,7 @@ namespace Sharpex2D.Rendering.Scene
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
+        public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             if (ActiveScene != null)
             {
@@ -127,7 +121,7 @@ namespace Sharpex2D.Rendering.Scene
         /// <summary>
         /// SceneChanged event.
         /// </summary>
-        public event SceneEventHandler SceneChanged;
+        public event EventHandler<SceneEventArgs> SceneChanged;
 
         /// <summary>
         /// Gets a specified scene.
@@ -154,7 +148,7 @@ namespace Sharpex2D.Rendering.Scene
         public void AddScene(Scene scene)
         {
             scene.Initialize();
-            scene.LoadContent(SGL.Components.Get<ContentManager>());
+            scene.LoadContent(GameHost.Get<ContentManager>());
             _scenes.Add(scene);
         }
 
@@ -166,7 +160,7 @@ namespace Sharpex2D.Rendering.Scene
         public Scene AddSceneFluently(Scene scene)
         {
             scene.Initialize();
-            scene.LoadContent(SGL.Components.Get<ContentManager>());
+            scene.LoadContent(GameHost.Get<ContentManager>());
             _scenes.Add(scene);
             return scene;
         }

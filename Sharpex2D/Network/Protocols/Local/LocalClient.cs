@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -125,28 +125,28 @@ namespace Sharpex2D.Network.Protocols.Local
 
                         switch (notificationPackage.Mode)
                         {
-                            //client joined
+                                //client joined
                             case NotificationMode.ClientJoined:
                                 for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientJoined(notificationPackage.Connection[0]);
                                 }
                                 break;
-                            //client exited
+                                //client exited
                             case NotificationMode.ClientExited:
                                 for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientExited(notificationPackage.Connection[0]);
                                 }
                                 break;
-                            //client listing
+                                //client listing
                             case NotificationMode.ClientList:
                                 for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
                                     _clientListeners[i].OnClientListing(notificationPackage.Connection);
                                 }
                                 break;
-                            //server shutdown
+                                //server shutdown
                             case NotificationMode.ServerShutdown:
                                 for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {
@@ -154,7 +154,7 @@ namespace Sharpex2D.Network.Protocols.Local
                                     _tcpClient.Close();
                                 }
                                 break;
-                            //we timed out.
+                                //we timed out.
                             case NotificationMode.TimeOut:
                                 for (int i = 0; i <= _clientListeners.Count - 1; i++)
                                 {

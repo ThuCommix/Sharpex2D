@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -21,13 +21,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sharpex2D.Audio.OpenAL
+namespace Sharpex2D.Framework.Audio.OpenAL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal class OpenALDevice : IDisposable
     {
-        private readonly List<OpenALAudioBuffer> _audioBuffers;
+        private readonly List<OpenALAudio> _audioBuffers;
         private IntPtr _deviceHandle;
         private bool _disposing;
 
@@ -40,13 +40,13 @@ namespace Sharpex2D.Audio.OpenAL
         {
             Name = deviceName;
             Id = id;
-            _audioBuffers = new List<OpenALAudioBuffer>();
+            _audioBuffers = new List<OpenALAudio>();
 
             InitializeDevice();
         }
 
         /// <summary>
-        /// Gets the Name of the audio device.
+        /// Gets the Title of the audio device.
         /// </summary>
         public string Name { private set; get; }
 
@@ -87,9 +87,9 @@ namespace Sharpex2D.Audio.OpenAL
         /// </summary>
         /// <param name="format">The AudioFormat.</param>
         /// <returns>OpenALAudioBuffer.</returns>
-        internal OpenALAudioBuffer CreateAudioBuffer(OpenALAudioFormat format)
+        internal OpenALAudio CreateAudioBuffer(OpenALAudioFormat format)
         {
-            var audioBuffer = new OpenALAudioBuffer(format, this);
+            var audioBuffer = new OpenALAudio(format, this);
             lock (_audioBuffers)
             {
                 _audioBuffers.Add(audioBuffer);
@@ -102,7 +102,7 @@ namespace Sharpex2D.Audio.OpenAL
         /// Destroys the AudioBuffer.
         /// </summary>
         /// <param name="audioBuffer">The OpenALAudioBuffer.</param>
-        internal void DestroyAudioBuffer(OpenALAudioBuffer audioBuffer)
+        internal void DestroyAudioBuffer(OpenALAudio audioBuffer)
         {
             if (_disposing) return; //avoid deadlock
 
@@ -121,14 +121,14 @@ namespace Sharpex2D.Audio.OpenAL
             if (disposing)
             {
                 SourcePool.Dispose();
+                Context.Dispose();
             }
 
             if (_deviceHandle == IntPtr.Zero) return;
 
             _disposing = true;
 
-            Context.Destroy();
-            OpenAL.alcCloseDevice(_deviceHandle);
+            OpenALInterops.alcCloseDevice(_deviceHandle);
             _deviceHandle = IntPtr.Zero;
             Context = null;
         }
@@ -141,7 +141,7 @@ namespace Sharpex2D.Audio.OpenAL
             if (_deviceHandle != IntPtr.Zero) return;
 
             _disposing = false;
-            _deviceHandle = OpenAL.alcOpenDevice(Name);
+            _deviceHandle = OpenALInterops.alcOpenDevice(Name);
             Context = OpenALContext.CreateContext(_deviceHandle);
             SourcePool = new OpenALSourcePool(Context);
         }
@@ -155,7 +155,7 @@ namespace Sharpex2D.Audio.OpenAL
         /// </summary>
         public static OpenALDevice[] AvailableDevices
         {
-            get { return _openALDevices ?? (_openALDevices = OpenAL.GetOpenALDevices()); }
+            get { return _openALDevices ?? (_openALDevices = OpenALInterops.GetOpenALDevices()); }
         }
 
         /// <summary>

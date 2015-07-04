@@ -21,10 +21,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using Sharpex2D.Math;
-using Sharpex2D.Surface;
 
-namespace Sharpex2D.Input.Implementation
+namespace Sharpex2D.Framework.Input.Implementation
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -32,6 +30,7 @@ namespace Sharpex2D.Input.Implementation
     {
         private readonly object _locker;
         private readonly Dictionary<MouseButtons, bool> _mousestate;
+        private int _delta;
         private Vector2 _position;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace Sharpex2D.Input.Implementation
         /// </summary>
         public Mouse()
         {
-            IntPtr handle = SGL.Components.Get<RenderTarget>().Handle;
+            IntPtr handle = GameHost.Get<GameWindow>().Handle;
             _position = new Vector2(0, 0);
             Control control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();
@@ -47,6 +46,7 @@ namespace Sharpex2D.Input.Implementation
             control.MouseMove += MouseMove;
             control.MouseDown += MouseDown;
             control.MouseUp += MouseUp;
+            control.MouseWheel += MouseWheel;
             Handle = handle;
         }
 
@@ -54,7 +54,6 @@ namespace Sharpex2D.Input.Implementation
         /// Represents the surface handle.
         /// </summary>
         public IntPtr Handle { private set; get; }
-
 
         /// <summary>
         /// Gets the State.
@@ -64,7 +63,9 @@ namespace Sharpex2D.Input.Implementation
         {
             lock (_locker)
             {
-                return new MouseState(_mousestate, _position);
+                int delta = _delta;
+                _delta = 0;
+                return new MouseState(_mousestate, _position, delta);
             }
         }
 
@@ -81,6 +82,16 @@ namespace Sharpex2D.Input.Implementation
         /// </summary>
         public void Initialize()
         {
+        }
+
+        /// <summary>
+        /// Raises when the mouse wheel delta changed.
+        /// </summary>
+        /// <param name="sender">The Sender.</param>
+        /// <param name="e">The EventArgs.</param>
+        private void MouseWheel(object sender, MouseEventArgs e)
+        {
+            _delta = e.Delta;
         }
 
         /// <summary>
@@ -101,7 +112,7 @@ namespace Sharpex2D.Input.Implementation
         }
 
         /// <summary>
-        /// Triggered if the mouse buttons are pressed up.
+        /// Raises if the mouse buttons are pressed up.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -111,7 +122,7 @@ namespace Sharpex2D.Input.Implementation
         }
 
         /// <summary>
-        /// Triggered if the mouse buttons are pressed down.
+        /// Raises if the mouse buttons are pressed down.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
@@ -121,13 +132,14 @@ namespace Sharpex2D.Input.Implementation
         }
 
         /// <summary>
-        /// Triggered if the mouse moved.
+        /// Raises if the mouse moved.
         /// </summary>
         /// <param name="sender">The Sender.</param>
         /// <param name="e">The EventArgs.</param>
         private void MouseMove(object sender, MouseEventArgs e)
         {
-            _position = new Vector2(e.Location.X/SGL.GraphicsDevice.Scale.X, e.Location.Y/SGL.GraphicsDevice.Scale.Y);
+            _position = new Vector2(e.Location.X/GameHost.GraphicsDevice.Scale.X,
+                e.Location.Y/GameHost.GraphicsDevice.Scale.Y);
         }
     }
 }

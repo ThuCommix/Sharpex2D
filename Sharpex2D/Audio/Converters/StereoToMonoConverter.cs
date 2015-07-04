@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,7 +20,7 @@
 
 using System;
 
-namespace Sharpex2D.Audio.Converters
+namespace Sharpex2D.Framework.Audio.Converters
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -36,7 +36,7 @@ namespace Sharpex2D.Audio.Converters
         {
             if (format.Channels != 2) throw new InvalidOperationException("The source has to be stereo.");
 
-            byte[] output = new byte[audioData.Length/2];
+            var output = new byte[audioData.Length/2];
             int outputIndex = 0;
 
             switch (format.BitsPerSample)
@@ -44,10 +44,10 @@ namespace Sharpex2D.Audio.Converters
                 case 8:
                     for (int n = 0; n < audioData.Length; n += 2)
                     {
-                        var left = audioData[n];
-                        var right = audioData[n];
+                        byte left = audioData[n];
+                        byte right = audioData[n];
 
-                        byte mixed = (byte) ((left + right)/2);
+                        var mixed = (byte) ((left + right)/2);
 
                         output[outputIndex++] = mixed;
                     }

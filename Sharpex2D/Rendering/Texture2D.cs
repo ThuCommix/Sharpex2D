@@ -20,13 +20,13 @@
 
 
 using System;
-using Sharpex2D.Content;
+using Sharpex2D.Framework.Content;
 
-namespace Sharpex2D.Rendering
+namespace Sharpex2D.Framework.Rendering
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [MetaData("Name", "Texture2D")]
+    [MetaData("Title", "Texture2D")]
     public class Texture2D : IContent
     {
         internal readonly ITexture Texture;
@@ -47,7 +47,7 @@ namespace Sharpex2D.Rendering
         /// <param name="height">The Height.</param>
         public Texture2D(int width, int height)
         {
-            Texture = SGL.SpriteBatch.Renderer.CreateResource(width, height);
+            Texture = GameHost.SpriteBatch.Renderer.CreateResource(width, height);
         }
 
         /// <summary>

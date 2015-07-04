@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,29 +20,14 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Math;
-using Sharpex2D.Rendering;
+using Sharpex2D.Framework.Rendering;
 
-namespace Sharpex2D.Entities
+namespace Sharpex2D.Framework.Entities
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public abstract class Entity
     {
-        /// <summary>
-        /// EntityDestroyedEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void EntityDestroyedEventHandler(object sender, EventArgs e);
-
-        /// <summary>
-        /// EntityPositionEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void EntityPositionEventHandler(object sender, EntityPositionEventArgs e);
-
         private Vector2 _position;
 
         /// <summary>
@@ -98,12 +83,12 @@ namespace Sharpex2D.Entities
         /// <summary>
         /// PositionChanged event.
         /// </summary>
-        public event EntityPositionEventHandler PositionChanged;
+        public event EventHandler<EntityPositionEventArgs> PositionChanged;
 
         /// <summary>
         /// Destroyed event.
         /// </summary>
-        public event EntityDestroyedEventHandler Destroyed;
+        public event EventHandler<EventArgs> Destroyed;
 
         /// <summary>
         /// Called, if the Position changed.

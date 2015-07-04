@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -21,65 +21,52 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
-using Sharpex2D.Content.Factory;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
+using Sharpex2D.Framework.Content.Importers;
+using Sharpex2D.Framework.Debug.Logging;
 
-namespace Sharpex2D.Content
+namespace Sharpex2D.Framework.Content
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public class ContentManager : IComponent
     {
-        /// <summary>
-        /// BatchProgressEventHandler.
-        /// </summary>
-        /// <param name="sender">The Sender.</param>
-        /// <param name="e">The EventArgs.</param>
-        public delegate void BatchProgressEventHandler(object sender, BatchProgressEventArgs e);
-
-        private readonly List<IBatch> _batchList;
-        private readonly Dictionary<string, IContent> _contentCache;
-        private bool _batching;
+        private string _rootPath;
+        private readonly Dictionary<Type, Importer> _importers;
+        private readonly Logger _logger;
 
         /// <summary>
         /// Initializes a new ContentManager.
         /// </summary>
         public ContentManager()
         {
-            RootPath = Path.Combine(Environment.CurrentDirectory, "Content");
-            ContentVerifier = new ContentVerifier();
-            ContentPipeline = new ContentPipeline();
+            _logger = LogManager.GetClassLogger();
+            _importers = new Dictionary<Type, Importer>();
 
-            if (!Directory.Exists(RootPath))
-            {
-                Directory.CreateDirectory(RootPath);
-            }
+            AddImporterFromAssembly(GetType().Assembly);
+            AddImporterFromAssembly(Assembly.GetExecutingAssembly());
 
-            _contentCache = new Dictionary<string, IContent>();
-            _batchList = new List<IBatch>();
-
-            //add build in factories
-            ContentPipeline.Attach(new AudioSourceFactory());
-            ContentPipeline.Attach(new TextFileFactory());
-            ContentPipeline.Attach(new ScriptFileFactory());
-            ContentPipeline.Attach(new Texture2DFactory());
-            ContentPipeline.Attach(new AudioEffectFactory());
         }
 
         /// <summary>
         /// Sets or gets the base ContentPath.
         /// </summary>
-        public string RootPath { get; private set; }
+        public string RootPath
+        {
+            get { return _rootPath; }
+            set
+            {
+                _rootPath = value;
 
-        /// <summary>
-        /// Gets the ContentVerifier.
-        /// </summary>
-        public ContentVerifier ContentVerifier { private set; get; }
 
-        /// <summary>
-        /// Gets the ContentPipeline.
-        /// </summary>
-        public ContentPipeline ContentPipeline { private set; get; }
+                if (!Directory.Exists(RootPath))
+                {
+                    Directory.CreateDirectory(RootPath);
+                }
+            }
+        }
 
         #region IComponent Implementation
 
@@ -94,200 +81,134 @@ namespace Sharpex2D.Content
         #endregion
 
         /// <summary>
-        /// BatchProgressChanged event.
+        /// Adds all Importer objects from the specified assembly.
         /// </summary>
-        public event BatchProgressEventHandler BatchProgressChanged;
+        /// <param name="assembly">The Assembly.</param>
+        /// <param name="allowOverwrite">Indicates whether importer can be overwritten.</param>
+        /// <remarks>Allowing overwrite is dangerous.</remarks>
+        public void AddImporterFromAssembly(Assembly assembly, bool allowOverwrite = false)
+        {
+            var types = assembly.GetTypes();
+
+            foreach (var type in types)
+            {
+                if (type.BaseType == typeof(Importer))
+                {
+                    ImportContentAttribute attribute;
+                    if (AttributeHelper.TryGetAttribute(type, out attribute))
+                    {
+                        if (!_importers.ContainsKey(attribute.Type) || allowOverwrite)
+                        {
+                            try
+                            {
+                                var importer = (Importer) Activator.CreateInstance(type);
+                                if (_importers.ContainsKey(attribute.Type))
+                                {
+                                    _importers[attribute.Type] = importer;
+                                    _logger.Info("Overwriting {0} for type {1}", type.Name, attribute.Type);
+                                }
+                                else
+                                {
+                                    _importers.Add(attribute.Type, importer);
+                                    _logger.Info("Registered {0} for type {1}", type.Name, attribute.Type);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                throw new ContentLoadException("Error while instantiating a content importer.", ex);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _logger.Info("Overwriting is not allowed for type {0}.", attribute.Type);
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Loads an asset.
         /// </summary>
         /// <typeparam name="T">The Type.</typeparam>
         /// <param name="asset">The Asset.</param>
-        /// <returns>T.</returns>
+        /// <returns>TContent.</returns>
         public T Load<T>(string asset) where T : IContent
+        {
+            if (_importers.All(x => x.Key != typeof (T)))
+            {
+                throw new ContentLoadException(string.Format("No importer specified for the given type ({0})",
+                    typeof (T).Name));
+            }
+
+            var importer = _importers.First(x => x.Key == typeof (T)).Value;
+
+            importer.LoadXmlContent(SolveFileLocation(asset));
+            return (T)importer.ImportXmlContent();
+        }
+
+        /// <summary>
+        /// Loads an asset and checks the hash.
+        /// </summary>
+        /// <typeparam name="T">The Type.</typeparam>
+        /// <param name="asset">The Asset.</param>
+        /// <param name="expectedHash">The expected Hash.</param>
+        /// <param name="algorithm"></param>
+        /// <returns>TContent.</returns>
+        public T Load<T>(string asset, string expectedHash, HashAlgorithm algorithm) where T : IContent
+        {
+            string filepath = SolveFileLocation(asset);
+
+            string hash = BitConverter.ToString(algorithm.ComputeHash(File.ReadAllBytes(filepath)));
+            if (hash.ToLower().Replace("-", "") != expectedHash.ToLower().Replace("-", ""))
+            {
+                throw new ContentLoadException(
+                    string.Format("The computed hash for {0} does not match the expected hash.", filepath));
+            }
+
+            return Load<T>(asset);
+        }
+
+        /// <summary>
+        /// Solves the file location.
+        /// </summary>
+        /// <param name="asset">The Asset.</param>
+        /// <returns>Returns the absolute file location of the specified asset.</returns>
+        private string SolveFileLocation(string asset)
         {
             //make the path valid if not
             asset = asset.Replace("/", @"\");
 
-            //query content cache first.
-            T data;
-            if (QueryCache(asset, out data))
-            {
-                return data;
-            }
+            string filepath = Path.Combine(RootPath, asset);
 
             if (!File.Exists(Path.Combine(RootPath, asset)))
             {
+                //May a reason could be that no extension was provided. Search
+                //in the directory specified by the asset for files with the same name
+                //and return the first matching one else we tried our best.
+
+                string directory = filepath.Substring(0, filepath.LastIndexOf(@"\", StringComparison.Ordinal));
+
+                if (Directory.Exists(directory))
+                {
+                    string pattern = filepath.Substring(filepath.LastIndexOf(@"\", StringComparison.Ordinal),
+                        filepath.Length - filepath.LastIndexOf(@"\", StringComparison.Ordinal)).Replace(@"\", "");
+
+                    try
+                    {
+                        return Directory.GetFiles(directory, pattern + ".*", SearchOption.TopDirectoryOnly).First();
+                    }
+                    catch
+                    {
+                        // throw new ContentLoadException("Asset not found, I really tried hard </3.");
+                        throw new ContentLoadException("Asset not found.");
+                    }
+                }
+
                 throw new ContentLoadException("Asset not found.");
             }
 
-            data = ContentPipeline.ProcessDatatype<T>(Path.Combine(RootPath, asset));
-            ApplyCache(asset, data);
-
-            return data;
-        }
-
-        /// <summary>
-        /// Queues a Batch.
-        /// </summary>
-        /// <param name="batch">The Batch.</param>
-        public void Queue(IBatch batch)
-        {
-            if (_batching)
-            {
-                throw new InvalidOperationException("Enqueue is running.");
-            }
-
-            _batchList.Add(batch);
-        }
-
-        /// <summary>
-        /// Loads all batches.
-        /// </summary>
-        public void Enqueue()
-        {
-            if (_batching)
-            {
-                throw new InvalidOperationException("Enqueue is running already.");
-            }
-
-            _batching = true;
-            new Task(EnqueueInner).Start();
-        }
-
-        /// <summary>
-        /// Loads all batches.
-        /// </summary>
-        private void EnqueueInner()
-        {
-            long totalBytes = 0;
-            long processedBytes = 0;
-            for (int j = 0; j <= _batchList.Count - 1; j++)
-            {
-                totalBytes += new FileInfo(Path.Combine(RootPath, _batchList[j].Asset)).Length;
-            }
-
-            for (int i = 0; i <= _batchList.Count - 1; i++)
-            {
-                IContent data = Load(_batchList[i].Asset, _batchList[i].Type);
-                _batchList[i].RaiseEvent(data);
-                processedBytes += new FileInfo(Path.Combine(RootPath, _batchList[i].Asset)).Length;
-
-                var eventArgs = new BatchProgressEventArgs
-                {
-                    Count = _batchList.Count,
-                    Current = _batchList[i],
-                    Processed = i,
-                    ProcessedBytes = processedBytes,
-                    TotalBytes = totalBytes,
-                    ProgressPercentage = 100*i/_batchList.Count
-                };
-
-                if (BatchProgressChanged != null)
-                {
-                    BatchProgressChanged(this, eventArgs);
-                }
-            }
-            _batching = false;
-            _batchList.Clear();
-
-            var completedArgs = new BatchProgressEventArgs
-            {
-                Count = _batchList.Count,
-                Current = null,
-                Processed = _batchList.Count,
-                ProcessedBytes = processedBytes,
-                TotalBytes = totalBytes,
-                ProgressPercentage = 100,
-                Completed = true
-            };
-
-            if (BatchProgressChanged != null)
-            {
-                BatchProgressChanged(this, completedArgs);
-            }
-        }
-
-        /// <summary>
-        /// Loads an asset.
-        /// </summary>
-        /// <param name="asset">The Asset.</param>
-        /// <param name="type">The Type.</param>
-        /// <returns>IContent.</returns>
-        private IContent Load(string asset, Type type)
-        {
-            IContent data;
-            if (QueryCache(asset, type, out data))
-            {
-                return data;
-            }
-
-            if (!File.Exists(Path.Combine(RootPath, asset)))
-            {
-                throw new ContentLoadException("Asset not found.");
-            }
-
-            data = ContentPipeline.ProcessDatatype(Path.Combine(RootPath, asset), type);
-            ApplyCache(asset, data);
-
-            return data;
-        }
-
-        /// <summary>
-        /// Apply the cache.
-        /// </summary>
-        /// <param name="asset">The Asset.</param>
-        /// <param name="data">The Data.</param>
-        private void ApplyCache(string asset, IContent data)
-        {
-            if (!_contentCache.ContainsKey(asset))
-            {
-                _contentCache.Add(asset, data);
-            }
-        }
-
-        /// <summary>
-        /// Queries the cache.
-        /// </summary>
-        /// <typeparam name="T">The Type.</typeparam>
-        /// <param name="asset">The Asset.</param>
-        /// <param name="contentData">The ContentData.</param>
-        /// <returns>True on success.</returns>
-        internal bool QueryCache<T>(string asset, out T contentData) where T : IContent
-        {
-            foreach (KeyValuePair<string, IContent> data in _contentCache)
-            {
-                if (data.Value is T && data.Key == asset)
-                {
-                    contentData = (T) data.Value;
-                    return true;
-                }
-            }
-
-            contentData = default(T);
-            return false;
-        }
-
-        /// <summary>
-        /// Queries the cache.
-        /// </summary>
-        /// <param name="type">The Type.</param>
-        /// <param name="asset">The Asset.</param>
-        /// <param name="contentData">The ContentData.</param>
-        /// <returns>True on success.</returns>
-        internal bool QueryCache(string asset, Type type, out IContent contentData)
-        {
-            foreach (KeyValuePair<string, IContent> data in _contentCache)
-            {
-                if (data.Value.GetType() == type && data.Key == asset)
-                {
-                    contentData = data.Value;
-                    return true;
-                }
-            }
-
-            contentData = null;
-            return false;
+            return filepath;
         }
     }
 }

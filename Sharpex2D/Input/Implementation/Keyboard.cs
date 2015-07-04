@@ -19,9 +19,8 @@
 // THE SOFTWARE.
 
 using System.Collections.Generic;
-using Sharpex2D.Surface;
 
-namespace Sharpex2D.Input.Implementation
+namespace Sharpex2D.Framework.Input.Implementation
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -36,7 +35,7 @@ namespace Sharpex2D.Input.Implementation
         public Keyboard()
         {
             _currentKeyState = new Dictionary<Keys, bool>();
-            _gameWindow = SGL.QueryComponents<RenderTarget>().Window;
+            _gameWindow = GameHost.Get<GameWindow>();
         }
 
         /// <summary>
@@ -54,7 +53,7 @@ namespace Sharpex2D.Input.Implementation
         {
             _currentKeyState.Clear();
 
-            if (!_gameWindow.IsActive) return;
+            if (!_gameWindow.IsFocused) return;
 
             for (int i = 1; i < 255; i++)
             {
@@ -78,7 +77,7 @@ namespace Sharpex2D.Input.Implementation
         /// <returns>True if pressed.</returns>
         private bool GetKeyState(Keys key)
         {
-            return 0 != (NativeMethods.GetAsyncKeyState(key) & 0x8000);
+            return 0 != (KeyboardInterops.GetAsyncKeyState(key) & 0x8000);
         }
     }
 }

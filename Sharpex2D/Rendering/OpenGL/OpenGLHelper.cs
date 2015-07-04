@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -19,16 +19,15 @@
 // THE SOFTWARE.
 
 using System.Diagnostics;
-using System.Drawing;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     internal static class OpenGLHelper
     {
         /// <summary>
-        /// Converts the color to a OpenGLColor.
+        /// Converts the Sharpex2D.Rendering.Color class into a OpenGLColor class.
         /// </summary>
         /// <param name="color">The Color.</param>
         /// <returns>The OpenGLColor.</returns>
@@ -43,41 +42,11 @@ namespace Sharpex2D.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Converts the font out of an OpenGLFont object.
-        /// </summary>
-        /// <param name="font">The OpenGLFont.</param>
-        /// <returns>Font.</returns>
-        public static System.Drawing.Font ConvertFont(OpenGLFont font)
-        {
-            FontStyle style;
-            switch (font.Accessoire)
-            {
-                case TextAccessoire.Bold:
-                    style = FontStyle.Bold;
-                    break;
-                case TextAccessoire.Italic:
-                    style = FontStyle.Italic;
-                    break;
-                case TextAccessoire.Strikeout:
-                    style = FontStyle.Strikeout;
-                    break;
-                case TextAccessoire.Underline:
-                    style = FontStyle.Underline;
-                    break;
-                default:
-                    style = FontStyle.Regular;
-                    break;
-            }
-
-            return new System.Drawing.Font(font.FontFamily, font.Size, style);
-        }
-
-        /// <summary>
         /// Throws the last error.
         /// </summary>
         public static void ThrowLastError()
         {
-            var glError = OpenGLInterops.GetError();
+            OpenGLError glError = OpenGLInterops.GetError();
             if (glError != OpenGLError.GL_NO_ERROR)
             {
                 throw new GraphicsException(glError.ToString());

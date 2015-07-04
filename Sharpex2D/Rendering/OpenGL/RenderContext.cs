@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2014 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,9 +20,8 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Sharpex2D.Surface;
 
-namespace Sharpex2D.Rendering.OpenGL
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
@@ -45,27 +44,27 @@ namespace Sharpex2D.Rendering.OpenGL
         /// </summary>
         public void Initialize()
         {
-            _windowHandle = SGL.QueryComponents<RenderTarget>().Handle;
+            _windowHandle = GameHost.Get<GameWindow>().Handle;
 
-            _deviceContext = NativeMethods.GetDC(_windowHandle);
+            _deviceContext = OpenGLInterops.GetDC(_windowHandle);
 
             var pfd = new PixelFormatDescriptor();
-            pfd.Size = (short)Marshal.SizeOf(pfd);
+            pfd.Size = (short) Marshal.SizeOf(pfd);
             pfd.Version = 1;
             pfd.FormatDescription = PixelFormatDescription.DrawToWindow |
-                          PixelFormatDescription.SupportOpenGL |
-                          PixelFormatDescription.DoubleBuffer;
+                                    PixelFormatDescription.SupportOpenGL |
+                                    PixelFormatDescription.DoubleBuffer;
             pfd.PixelType = 0;
             pfd.ColorBits = 24;
-            pfd.RedBits = 0; 
+            pfd.RedBits = 0;
             pfd.RedShift = 0;
             pfd.GreenBits = 0;
             pfd.GreenShift = 0;
             pfd.BlueBits = 0;
             pfd.BlueShift = 0;
             pfd.AlphaBits = 0;
-            pfd.AlphaShift = 0; 
-            pfd.AccumBits = 0; 
+            pfd.AlphaShift = 0;
+            pfd.AccumBits = 0;
             pfd.AccumRedBits = 0;
             pfd.AccumGreenBits = 0;
             pfd.AccumBlueBits = 0;
@@ -75,7 +74,7 @@ namespace Sharpex2D.Rendering.OpenGL
             pfd.AuxBuffers = 0;
             pfd.LayerType = 0;
             pfd.Reserved = 0;
-            pfd.LayerMask = 0; 
+            pfd.LayerMask = 0;
             pfd.VisibleMask = 0;
             pfd.DamageMask = 0;
 
@@ -103,7 +102,7 @@ namespace Sharpex2D.Rendering.OpenGL
                     0
                 };
 
-                var hrc = OpenGLInterops.CreateContextWithAttributes(_deviceContext, IntPtr.Zero, attributes);
+                IntPtr hrc = OpenGLInterops.CreateContextWithAttributes(_deviceContext, IntPtr.Zero, attributes);
                 OpenGLInterops.wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
                 OpenGLInterops.wglDeleteContext(_renderContext);
                 OpenGLInterops.wglMakeCurrent(_deviceContext, hrc);
@@ -122,7 +121,7 @@ namespace Sharpex2D.Rendering.OpenGL
         {
             if (_renderContext != IntPtr.Zero)
             {
-                NativeMethods.wglMakeCurrent(_deviceContext, _renderContext);
+                OpenGLInterops.wglMakeCurrent(_deviceContext, _renderContext);
             }
         }
 
@@ -161,7 +160,6 @@ namespace Sharpex2D.Rendering.OpenGL
 
             if (disposing)
             {
-
             }
         }
     }
