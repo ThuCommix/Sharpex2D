@@ -40,9 +40,6 @@
     <Reference Include="SharpDX.DXGI">
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.DXGI.dll</HintPath>
     </Reference>
-    <Reference Include="Sharpex2D">
-      <HintPath>..\Sharpex2D\bin\Debug\Sharpex2D.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -66,6 +63,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Rendering\DirectX9\ToDo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sharpex2D\Sharpex2D.csproj">
+      <Project>{eb9b32bd-2dde-4c2f-8532-963aee62b440}</Project>
+      <Name>Sharpex2D</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('..\packages\SharpDX.2.6.3\build\SharpDX.targets')" />

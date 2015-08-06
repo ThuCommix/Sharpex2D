@@ -82,9 +82,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         }
 
         /// <summary>
-        /// Begins the draw operation.
+        /// Clears the buffer.
         /// </summary>
-        public void Begin()
+        public void Clear()
         {
             CurrentDevice.BeginScene();
             CurrentDevice.Clear(ClearFlags.Target, DirectXHelper.ConvertColor(_graphicsDevice.ClearColor), 0, 0);
@@ -93,9 +93,24 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         }
 
         /// <summary>
-        /// Ends the draw operation.
+        /// Draws a range of textures.
         /// </summary>
-        public void End()
+        /// <param name="drawOperations">The DrawOperations.</param>
+        public void DrawTextures(IEnumerable<DrawOperation> drawOperations)
+        {
+            foreach (var operation in drawOperations)
+            {
+                //Already buffered by the driver, so we can safely call the draw texture. As in later implementations
+                //we draw all textures in this method using and regenerating the vertex buffer
+                DrawTexture(operation.Texture, operation.Source, operation.Destination, operation.Color,
+                    operation.Opacity);
+            }
+        }
+
+        /// <summary>
+        /// Presents the buffer.
+        /// </summary>
+        public void Present()
         {
             _sprite.End();
             CurrentDevice.EndScene();

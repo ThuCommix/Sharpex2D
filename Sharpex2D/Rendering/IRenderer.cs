@@ -20,6 +20,7 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Sharpex2D.Framework.Rendering
@@ -35,14 +36,9 @@ namespace Sharpex2D.Framework.Rendering
         void Initialize(Game game);
 
         /// <summary>
-        /// Begins the draw operation.
+        /// Clears the buffer.
         /// </summary>
-        void Begin();
-
-        /// <summary>
-        /// Ends the draw operation.
-        /// </summary>
-        void End();
+        void Clear();
 
         /// <summary>
         /// Draws a Texture.
@@ -92,6 +88,17 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1f);
+
+        /// <summary>
+        /// Draws a range of textures.
+        /// </summary>
+        /// <param name="drawOperations">The DrawOperations.</param>
+        void DrawTextures(IEnumerable<DrawOperation> drawOperations);
+
+        /// <summary>
+        /// Presents the buffer.
+        /// </summary>
+        void Present();
 
         /// <summary>
         /// Sets the Transform.

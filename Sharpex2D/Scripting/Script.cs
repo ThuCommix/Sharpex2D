@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -30,7 +31,7 @@ namespace Sharpex2D.Framework.Scripting
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public class Script : IContent
+    public class Script : IContent, IEnumerable<EntryPoint>
     {
         private readonly Dictionary<string, MethodInfo> _entries;
         private readonly List<EntryPoint> _entryPoints;
@@ -177,6 +178,24 @@ namespace Sharpex2D.Framework.Scripting
                 _logger.Info("Finished script <{0}>.", entry);
                 IsRunning = false;
             }
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<EntryPoint> GetEnumerator()
+        {
+            return _entryPoints.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

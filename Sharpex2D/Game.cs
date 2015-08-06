@@ -172,13 +172,11 @@ namespace Sharpex2D.Framework
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnDrawing(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            spriteBatch.Begin();
             IEnumerable<DrawableGameComponent> components = Components.GetDrawables();
             foreach (DrawableGameComponent gameComponent in components)
             {
                 gameComponent.Draw(spriteBatch, gameTime);
             }
-            spriteBatch.End();
         }
 
         /// <summary>
@@ -190,6 +188,8 @@ namespace Sharpex2D.Framework
             GraphicsManager = new OpenGLGraphicsManager();
             GraphicsManager.PreferredBackBufferWidth = 800;
             GraphicsManager.PreferredBackBufferHeight = 480;
+
+            Content.RootPath = "Content";
 
             SoundManager = new WaveOutSoundManager();
         }

@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -39,6 +40,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         private VertexBuffer _sourceVbo;
         private GameWindow _window;
         private Vector2 _windowSize;
+        private readonly float[] _staticVertices;
 
         /// <summary>
         /// Initializes a new OpenGLRenderer class.
@@ -46,6 +48,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         public OpenGLRenderer()
         {
             _renderContext = new RenderContext();
+            _staticVertices = new float[28];
         }
 
         /// <summary>
@@ -102,9 +105,9 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Begins the draw operation.
+        /// Clears the buffer.
         /// </summary>
-        public void Begin()
+        public void Clear()
         {
             _renderContext.MakeCurrent();
             OpenGLInterops.Clear();
@@ -112,9 +115,105 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         }
 
         /// <summary>
-        /// Ends the draw operation.
+        /// Draws a range of textures.
         /// </summary>
-        public void End()
+        /// <param name="drawOperations">The DrawOperations.</param>
+        public void DrawTextures(IEnumerable<DrawOperation> drawOperations)
+        {
+            var oldOpacity = 1f;
+
+            _colorShader.SetUniform("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
+                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, oldOpacity);
+            _colorShader.SetUniformMatrix("transform", _matrix4);
+
+            uint posAttrib = _colorShader.GetAttribLocation("position");
+            VertexBuffer.EnableVertexAttribArray(posAttrib);
+            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7 * sizeof(float), 0);
+
+            uint colAttrib = _colorShader.GetAttribLocation("color");
+            VertexBuffer.EnableVertexAttribArray(colAttrib);
+            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7 * sizeof(float), 2 * sizeof(float));
+
+            uint texAttrib = _colorShader.GetAttribLocation("texcoord");
+            VertexBuffer.EnableVertexAttribArray(texAttrib);
+            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
+
+            foreach (var operation in drawOperations)
+            {
+                var tex = operation.Texture as OpenGLTexture;
+                if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
+                OpenGLColor col = OpenGLHelper.ConvertColor(operation.Color);
+
+                float oglX = operation.Source.X <= 0
+                    ? 0
+                    : operation.Source.X
+                      / operation.Texture.Width;
+                float oglY = operation.Source.Y <= 0
+                    ? 0
+                    : operation.Source.Y
+                      / operation.Texture.Height;
+                float oglW = operation.Source.Width <= 0
+                    ? 0
+                    : operation.Source.Width
+                      / operation.Texture.Width;
+                float oglH = operation.Source.Height <= 0
+                    ? 0
+                    : operation.Source.Height
+                      /operation.Texture.Height;
+
+                _staticVertices[0] = operation.Destination.X;
+                _staticVertices[1] = operation.Destination.Y;
+                _staticVertices[2] = col.R;
+                _staticVertices[3] = col.G;
+                _staticVertices[4] = col.B;
+                _staticVertices[5] = oglX;
+                _staticVertices[6] = oglY;
+
+                _staticVertices[7] = operation.Destination.X + operation.Destination.Width;
+                _staticVertices[8] = operation.Destination.Y;
+                _staticVertices[9] = col.R;
+                _staticVertices[10] = col.G;
+                _staticVertices[11] = col.B;
+                _staticVertices[12] = oglX + oglW;
+                _staticVertices[13] = oglY;
+
+                _staticVertices[14] = operation.Destination.X + operation.Destination.Width;
+                _staticVertices[15] = operation.Destination.Y + operation.Destination.Height;
+                _staticVertices[16] = col.R;
+                _staticVertices[17] = col.G;
+                _staticVertices[18] = col.B;
+                _staticVertices[19] = oglX + oglW;
+                _staticVertices[20] = oglY + oglH;
+
+                _staticVertices[21] = operation.Destination.X;
+                _staticVertices[22] = operation.Destination.Y + operation.Destination.Height;
+                _staticVertices[23] = col.R;
+                _staticVertices[24] = col.G;
+                _staticVertices[25] = col.B;
+                _staticVertices[26] = oglX;
+                _staticVertices[27] = oglY + oglH;
+
+
+                _sourceVbo.SetData(_staticVertices);
+
+                //if the opacity differs, send the updated information to the color shader
+                if (oldOpacity != operation.Opacity)
+                {
+                    oldOpacity = operation.Opacity;
+                    _colorShader.SetUniform("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
+                        _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, oldOpacity);
+                }
+
+                tex.Bind();
+                OpenGLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
+                tex.Unbind();
+            }
+        }
+
+        /// <summary>
+        /// Presents the buffer.
+        /// </summary>
+        public void Present()
         {
             _renderContext.SwapBuffers();
         }
