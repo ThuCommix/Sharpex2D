@@ -150,7 +150,7 @@ namespace Sharpex2D.Framework.Rendering
                 offsetWidth = 0;
             }
 
-            return new Vector2(maxWidth, offsetHeight + charHeight + heightPadding);
+            return new Vector2(maxWidth, offsetHeight == 0 ? offsetHeight + charHeight + heightPadding : offsetHeight);
         }
 
         /// <summary>
