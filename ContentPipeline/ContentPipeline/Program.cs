@@ -22,10 +22,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using ContentPipeline.Exporters;
 using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content;
+using System.Threading.Tasks;
 
 namespace ContentPipeline
 {
@@ -76,6 +78,9 @@ namespace ContentPipeline
 
             for (int i = 2; i < args.Length; i++)
             {
+                if (!File.Exists(args[i]) || !args[i].EndsWith(".dll"))
+                    continue;
+
                 try
                 {
                     assemblyList.Add(Assembly.LoadFrom(args[i]));
@@ -108,7 +113,7 @@ namespace ContentPipeline
                                     else
                                     {
                                         exporters.Add(extension, exporter);
-                                        Console.WriteLine("-- Registered {0} for {1}", type.Name, extension);
+                                        //Console.WriteLine("-- Registered {0} for {1}", type.Name, extension);
                                     }
                                 }
                             }
@@ -182,7 +187,7 @@ namespace ContentPipeline
 
             Console.WriteLine("Exporting files ...");
 
-            foreach (string file in files)
+            Parallel.ForEach(files, file =>
             {
                 var fileInfo = new FileInfo(file);
                 if (fileInfo.Exists)
@@ -202,7 +207,7 @@ namespace ContentPipeline
                             Console.WriteLine("Compiled {0}", fileInfo.Name);
                             compiled++;
                         }
-                        catch(Exception e)
+                        catch (Exception e)
                         {
                             Console.WriteLine("Error {0} a compile error occured", e.StackTrace);
                             errors++;
@@ -224,7 +229,7 @@ namespace ContentPipeline
                     Console.WriteLine("Skipping {0} because the file does not longer exists", file);
                     skipped++;
                 }
-            }
+            });
 
             sw.Stop();
 
