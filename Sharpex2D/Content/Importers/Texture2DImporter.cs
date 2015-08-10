@@ -34,7 +34,7 @@ namespace Sharpex2D.Framework.Content.Importers
         /// <returns>IContent.</returns>
         public override IContent OnCreate(XmlContent xmlContent)
         {
-            return new Texture2D(GameHost.SpriteBatch.Renderer.CreateResource(xmlContent.GetDataStream()));
+            return new Texture2D(GameHost.SpriteBatch.Renderer.CreateTexture(xmlContent.GetDataStream()));
         }
     }
 }

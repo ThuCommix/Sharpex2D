@@ -453,7 +453,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(string path)
+        public ITexture CreateTexture(string path)
         {
             return new OpenGLTexture((Bitmap) Image.FromFile(path));
         }
@@ -463,9 +463,19 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(Stream stream)
+        public ITexture CreateTexture(Stream stream)
         {
             return new OpenGLTexture(stream);
+        }
+
+        /// <summary>
+        /// Creates a new effect.
+        /// </summary>
+        /// <param name="source">The Source.</param>
+        /// <returns>IEffect</returns>
+        public IEffect CreateEffect(string source)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -474,7 +484,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(int width, int height)
+        public ITexture CreateTexture(int width, int height)
         {
             var emptyBmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             Graphics graphics = Graphics.FromImage(emptyBmp);

@@ -116,7 +116,7 @@ namespace Sharpex2D.Framework.Rendering
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>ITexture.</returns>
-        ITexture CreateResource(string path);
+        ITexture CreateTexture(string path);
 
         /// <summary>
         /// Creates a new Resource.
@@ -124,13 +124,20 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
         /// <returns>ITexture.</returns>
-        ITexture CreateResource(int width, int height);
+        ITexture CreateTexture(int width, int height);
 
         /// <summary>
         /// Creates a new Resource.
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <returns>ITexture.</returns>
-        ITexture CreateResource(Stream stream);
+        ITexture CreateTexture(Stream stream);
+
+        /// <summary>
+        /// Creates a new effect.
+        /// </summary>
+        /// <param name="source">The Source.</param>
+        /// <returns>IEffect</returns>
+        IEffect CreateEffect(string source);
     }
 }

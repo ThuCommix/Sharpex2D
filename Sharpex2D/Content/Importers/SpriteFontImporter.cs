@@ -81,7 +81,7 @@ namespace Sharpex2D.Framework.Content.Importers
             using (var memoryStream = new MemoryStream())
             {
                 memoryStream.Write(data, (int) offset, (int) (data.Length - offset));
-                var texture = new Texture2D(GameHost.SpriteBatch.Renderer.CreateResource(memoryStream));
+                var texture = new Texture2D(GameHost.SpriteBatch.Renderer.CreateTexture(memoryStream));
                 return new SpriteFont(fontName, fontSize, spacing, kerning, style, texture, charLayout);
             }
         }

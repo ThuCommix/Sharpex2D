@@ -266,7 +266,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         /// <param name="path">The Path.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(string path)
+        public ITexture CreateTexture(string path)
         {
             var texture = new DirectXTexture(path);
             _textures.Add(texture);
@@ -279,7 +279,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="width">The Width.</param>
         /// <param name="height">The Height.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(int width, int height)
+        public ITexture CreateTexture(int width, int height)
         {
             return new DirectXTexture(width, height);
         }
@@ -289,9 +289,19 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         /// <param name="stream">The Stream.</param>
         /// <returns>ITexture.</returns>
-        public ITexture CreateResource(Stream stream)
+        public ITexture CreateTexture(Stream stream)
         {
             return new DirectXTexture(stream);
+        }
+
+        /// <summary>
+        /// Creates a new effect.
+        /// </summary>
+        /// <param name="source">The Source.</param>
+        /// <returns>IEffect</returns>
+        public IEffect CreateEffect(string source)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

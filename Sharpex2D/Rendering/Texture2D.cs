@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="height">The Height.</param>
         public Texture2D(int width, int height)
         {
-            Texture = GameHost.SpriteBatch.Renderer.CreateResource(width, height);
+            Texture = GameHost.SpriteBatch.Renderer.CreateTexture(width, height);
         }
 
         /// <summary>
