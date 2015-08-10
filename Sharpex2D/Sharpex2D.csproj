@@ -125,6 +125,7 @@
     <Compile Include="DrawableGameComponent.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="GameComponentEventArgs.cs" />
+    <Compile Include="GameException.cs" />
     <Compile Include="MetaDataAttribute.cs" />
     <Compile Include="MetaDataCollection.cs" />
     <Compile Include="MetaDataReader.cs" />
@@ -145,6 +146,8 @@
     <Compile Include="Network\SynchronizedList.cs" />
     <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Rendering\DrawOperation.cs" />
+    <Compile Include="Rendering\Effect.cs" />
+    <Compile Include="Rendering\IEffect.cs" />
     <Compile Include="Rendering\OpenGL\BufferTarget.cs" />
     <Compile Include="Rendering\OpenGL\ColorFormat.cs" />
     <Compile Include="Rendering\OpenGL\DataTypes.cs" />
