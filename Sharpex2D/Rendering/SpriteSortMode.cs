@@ -32,6 +32,12 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Sprites are not drawn until end is called.
         /// </summary>
-        Deferred = 1
+        Deferred = 1,
+
+        /// <summary>
+        /// Same as deferred but sorting by alpha value.
+        /// </summary>
+        /// <remarks>Under certain circumstances this can increase performance.</remarks>
+        Alpha = 2,
     }
 }

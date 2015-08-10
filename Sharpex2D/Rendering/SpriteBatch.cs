@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sharpex2D.Framework.Rendering
 {
@@ -88,9 +89,11 @@ namespace Sharpex2D.Framework.Rendering
             if (!_beginCalled)
                 throw new GraphicsException("Begin must be called before End can be called.");
 
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
-                Renderer.DrawTextures(_currentDrawOperations);
+                Renderer.DrawTextures(_currentSortMode == SpriteSortMode.Alpha
+                    ? (IEnumerable<DrawOperation>) _currentDrawOperations.OrderBy(x => x.Opacity)
+                    : _currentDrawOperations);
                 _currentDrawOperations.Clear();
             }
 
@@ -152,7 +155,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Vector2 position, Color color, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     new Rectangle(0, 0, texture.Width, texture.Height),
@@ -172,7 +175,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(Texture2D texture, Vector2 position, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     new Rectangle(0, 0, texture.Width, texture.Height),
@@ -193,7 +196,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="color">The Color.</param>
         public void DrawTexture(Texture2D texture, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     new Rectangle(0, 0, texture.Width, texture.Height),
@@ -213,7 +216,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(Texture2D texture, Rectangle rectangle, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     new Rectangle(0, 0, texture.Width, texture.Height),
@@ -234,7 +237,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(spriteSheet.Texture2D.Texture,
                     spriteSheet.Rectangle,
@@ -255,7 +258,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Vector2 position, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(spriteSheet.Texture2D.Texture,
                     spriteSheet.Rectangle,
@@ -277,7 +280,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(spriteSheet.Texture2D.Texture,
                     spriteSheet.Rectangle, rectangle, color, opacity));
@@ -296,7 +299,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(SpriteSheet spriteSheet, Rectangle rectangle, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(spriteSheet.Texture2D.Texture,
                     spriteSheet.Rectangle, rectangle, Color.White, opacity));
@@ -318,7 +321,7 @@ namespace Sharpex2D.Framework.Rendering
         public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, Color color,
             float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     source, destination, color, opacity));
@@ -338,7 +341,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(Texture2D texture, Rectangle source, Rectangle destination, float opacity = 1f)
         {
-            if (_currentSortMode == SpriteSortMode.Deferred)
+            if (_currentSortMode != SpriteSortMode.Immediate)
             {
                 _currentDrawOperations.Add(new DrawOperation(texture.Texture,
                     source, destination, Color.White, opacity));
