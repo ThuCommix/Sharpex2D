@@ -16,10 +16,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Globalization;
 using System.IO;
-using NAudio.Wave;
+using CSCore.Codecs;
+using CSCore.Codecs.WAV;
 using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
@@ -46,39 +46,24 @@ namespace ContentPipeline.Exporters
         /// <param name="xmlContent">The XmlContent.</param>
         public override void OnCreate(string inputPath, ref XmlContent xmlContent)
         {
-            var extension = new FileInfo(inputPath).Extension;
-            if (extension == ".mp3")
+            var targetStream = new MemoryStream();
+            using (var stream = CodecFactory.Instance.GetCodec(inputPath))
             {
-                using (var reader = new Mp3FileReader(inputPath))
+                using (var memoryStream = new WaveWriter(targetStream, stream.WaveFormat))
                 {
-                    using (var waveStream = WaveFormatConversionStream.CreatePcmStream(reader))
+                    byte[] buffer = new byte[stream.WaveFormat.BytesPerSecond];
+                    int read;
+                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        WaveFileWriter.CreateWaveFile("_1temp.wav", waveStream);
-
-                        xmlContent.SetDataStream(new MemoryStream(File.ReadAllBytes("_1temp.wav")),
-                            AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type,
-                            XmlContentCompression.Deflate);
-
-                        File.Delete("_1temp.wav");
+                        memoryStream.Write(buffer, 0, read);
                     }
+
+                    xmlContent.SetDataStream(targetStream,
+                        AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type,
+                        XmlContentCompression.Deflate);
                 }
             }
-            else
-            {
-                using (var reader = new WaveFileReader(inputPath))
-                {
-                    using (var waveStream = WaveFormatConversionStream.CreatePcmStream(reader))
-                    {
-                        WaveFileWriter.CreateWaveFile("_1temp.wav", waveStream);
-
-                        xmlContent.SetDataStream(new MemoryStream(File.ReadAllBytes("_1temp.wav")),
-                            AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type,
-                            XmlContentCompression.Deflate);
-
-                        File.Delete("_1temp.wav");
-                    }
-                }
-            }
+            targetStream.Dispose();
 
             var artist = "";
             var title = new FileInfo(inputPath).Name.Split('.')[0];

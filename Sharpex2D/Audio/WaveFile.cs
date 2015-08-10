@@ -58,22 +58,21 @@ namespace Sharpex2D.Framework.Audio
 
             try
             {
-                using (BinaryReader br = new BinaryReader(stream))
-                {
-                    waveHeader.RiffId = br.ReadBytes(4);
-                    waveHeader.Size = br.ReadUInt32();
-                    waveHeader.WavId = br.ReadBytes(4);
-                    waveHeader.FmtId = br.ReadBytes(4);
-                    waveHeader.FmtSize = br.ReadUInt32();
-                    waveHeader.Format = br.ReadUInt16();
-                    waveHeader.Channels = br.ReadUInt16();
-                    waveHeader.SampleRate = br.ReadUInt32();
-                    waveHeader.BytesPerSec = br.ReadUInt32();
-                    waveHeader.BlockSize = br.ReadUInt16();
-                    waveHeader.Bit = br.ReadUInt16();
-                    waveHeader.DataId = br.ReadBytes(4);
-                    waveHeader.DataSize = br.ReadUInt32();
-                }
+                var br = new BinaryReader(stream);
+
+                waveHeader.RiffId = br.ReadBytes(4);
+                waveHeader.Size = br.ReadUInt32();
+                waveHeader.WavId = br.ReadBytes(4);
+                waveHeader.FmtId = br.ReadBytes(4);
+                waveHeader.FmtSize = br.ReadUInt32();
+                waveHeader.Format = br.ReadUInt16();
+                waveHeader.Channels = br.ReadUInt16();
+                waveHeader.SampleRate = br.ReadUInt32();
+                waveHeader.BytesPerSec = br.ReadUInt32();
+                waveHeader.BlockSize = br.ReadUInt16();
+                waveHeader.Bit = br.ReadUInt16();
+                waveHeader.DataId = br.ReadBytes(4);
+                waveHeader.DataSize = br.ReadUInt32();
             }
             catch
             {
@@ -82,9 +81,7 @@ namespace Sharpex2D.Framework.Audio
 
             if (Encoding.ASCII.GetString(waveHeader.RiffId) != "RIFF" ||
                 Encoding.ASCII.GetString(waveHeader.WavId) != "WAVE" ||
-                Encoding.ASCII.GetString(waveHeader.FmtId) != "fmt " ||
-                stream.Position == stream.Length ||
-                waveHeader.DataSize/waveHeader.BlockSize + stream.Position != stream.Length)
+                Encoding.ASCII.GetString(waveHeader.FmtId) != "fmt ")
             {
                 throw new InvalidOperationException("Invalid file format.");
             }

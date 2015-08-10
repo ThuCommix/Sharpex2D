@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
 using CSCore;
 using CSCore.Codecs.RAW;
 using CSCore.SoundOut;
@@ -143,12 +144,14 @@ namespace Sharpex2D.Audio.DirectSound
         /// <summary>
         /// Initializes the sound player with the given source.
         /// </summary>
-        /// <param name="waveStream">The WaveStream.</param>
-        public void Initialize(WaveStream waveStream)
+        /// <param name="audioData">The AudioData.</param>
+        /// <param name="format">The Format.</param>
+        public void Initialize(byte[] audioData, Framework.Audio.WaveFormat format)
         {
-            var reader = new RawDataReader(waveStream,
-                new CSCore.WaveFormat(waveStream.Format.SamplesPerSec, waveStream.Format.BitsPerSample,
-                    waveStream.Format.Channels));
+            var memoryStream = new MemoryStream(audioData);
+            var reader = new RawDataReader(memoryStream,
+                new CSCore.WaveFormat(format.SamplesPerSec, format.BitsPerSample,
+                    format.Channels));
 
             _volumeSource = new VolumeSource(reader);
             _panSource = new PanSource(_volumeSource);

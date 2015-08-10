@@ -112,8 +112,9 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Initializes the sound player with the given sound source.
         /// </summary>
-        /// <param name="stream">The WaveStream.</param>
-        public void Initialize(WaveStream stream)
+        /// <param name="audioData">The AudioData.</param>
+        /// <param name="format">The Format.</param>
+        public void Initialize(byte[] audioData, WaveFormat format)
         {
             //clean old playback if existent
             if (_audio != null)
@@ -121,17 +122,14 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                 _audio.Dispose();
             }
 
-            OpenALAudioFormat audioFormat = DetectAudioFormat(stream.Format);
+            _sounddata = audioData;
+            OpenALAudioFormat audioFormat = DetectAudioFormat(format);
             _audio = OpenALDevice.DefaultDevice.CreateAudioBuffer(audioFormat);
             _audio.PlaybackChanged += AudioPlaybackChanged;
             Volume = _volume;
             Pan = _pan;
 
-            stream.Seek(0, SeekOrigin.Begin);
-            _sounddata = new byte[stream.Length];
-            stream.Read(_sounddata, 0, _sounddata.Length);
-
-            _audio.Initialize(_sounddata, stream.Format);
+            _audio.Initialize(_sounddata, format);
         }
 
         /// <summary>

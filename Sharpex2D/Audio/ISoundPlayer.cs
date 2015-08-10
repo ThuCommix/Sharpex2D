@@ -59,8 +59,9 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Initializes the sound player with the given source.
         /// </summary>
-        /// <param name="stream">The WaveStream.</param>
-        void Initialize(WaveStream stream);
+        /// <param name="audioData">The AudioData.</param>
+        /// <param name="format">The Format.</param>
+        void Initialize(byte[] audioData, WaveFormat format);
 
         /// <summary>
         /// Plays the sound.

@@ -27,7 +27,7 @@ namespace Sharpex2D.Framework.Audio
     [TestState(TestState.Tested)]
     public class Sound : IContent
     {
-        private readonly WaveStream _waveStream;
+        private readonly WaveFile _waveFile;
 
         /// <summary>
         /// Initializes a new Sound class.
@@ -37,16 +37,16 @@ namespace Sharpex2D.Framework.Audio
         /// <param name="artist">The Artist.</param>
         /// <param name="year">The Year.</param>
         /// <param name="format">The WaveFormat.</param>
-        /// <param name="waveStream">The WaveStream.</param>
-        internal Sound(string title, string album, string artist, int year, WaveFormat format, WaveStream waveStream)
+        /// <param name="waveFile">The WaveFile.</param>
+        internal Sound(string title, string album, string artist, int year, WaveFormat format, WaveFile waveFile)
         {
             Title = title;
             Album = album;
             Artist = artist;
             Year = year == 0 ? (int?) null : year;
             Format = format;
-            _waveStream = waveStream;
-            Duration = new TimeSpan(0, 0, (int)_waveStream.Length / Format.AvgBytesPerSec);
+            _waveFile = waveFile;
+            Duration = new TimeSpan(0, 0, (int)_waveFile.WaveHeader.DataSize / Format.AvgBytesPerSec);
         }
 
         /// <summary>
@@ -80,12 +80,12 @@ namespace Sharpex2D.Framework.Audio
         public TimeSpan Duration { private set; get; }
 
         /// <summary>
-        /// Gets the wave stream.
+        /// Gets the audio data.
         /// </summary>
-        /// <returns>WaveStream.</returns>
-        internal WaveStream GetStream()
+        /// <returns>Bytes.</returns>
+        internal byte[] GetAudioData()
         {
-            return _waveStream;
+            return _waveFile.GetAudioData();
         }
     }
 }

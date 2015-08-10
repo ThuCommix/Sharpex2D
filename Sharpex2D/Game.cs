@@ -20,6 +20,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Audio.WaveOut;
 using Sharpex2D.Framework.Content;

@@ -99,7 +99,7 @@ namespace Sharpex2D.Framework.Audio
         public void Initialize()
         {
             if (Sound == null) throw new NullReferenceException("Sound was null.");
-            _audioProvider.Initialize(Sound.GetStream());
+            _audioProvider.Initialize(Sound.GetAudioData(), Sound.Format);
         }
 
         /// <summary>

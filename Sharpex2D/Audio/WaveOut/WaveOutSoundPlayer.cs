@@ -98,17 +98,13 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Initializes the sound player with the given sound source.
         /// </summary>
-        /// <param name="stream">The WaveStream.</param>
-        public void Initialize(WaveStream stream)
+        /// <param name="audioData">The AudioData.</param>
+        /// <param name="format">The Format.</param>
+        public void Initialize(byte[] audioData, WaveFormat format)
         {
+            var waveFormat = format;
 
-            stream.Seek(0, SeekOrigin.Begin);
-            _sounddata = new byte[stream.Length];
-            stream.Read(_sounddata, 0, _sounddata.Length);
-
-            var waveFormat = stream.Format;
-
-            if (stream.Format.Channels == 1) //try to convert to stereo for full audiomixer support
+            if (format.Channels == 1) //try to convert to stereo for full audiomixer support
             {
                 try
                 {
@@ -118,7 +114,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                 {
                 }
             }
-
+            _sounddata = audioData;
             _waveOut.Device = _device;
             _waveOut.Initialize(_sounddata, waveFormat);
             _userStop = false;

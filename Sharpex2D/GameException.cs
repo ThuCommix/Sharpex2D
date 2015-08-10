@@ -18,33 +18,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.IO;
-using System.Linq;
-using Sharpex2D.Framework.Audio;
+using System;
+using System.Runtime.Serialization;
 
-namespace Sharpex2D.Framework.Content.Importers
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ImportContent(typeof(Sound))]
-    public class SoundImporter : Importer
+    [Serializable]
+    public class GameException : Exception
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Initializes a new GameException class.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        public GameException()
         {
-            var artist = xmlContent.First(x => x.Name == "Artist").Value;
-            var title = xmlContent.First(x => x.Name == "Title").Value;
-            var album = xmlContent.First(x => x.Name == "Album").Value;
-            var year = xmlContent.First(x => x.Name == "Year").Value;
-            var formattedYear = year == "" ? 0 : int.Parse(year);
+        }
 
-            var waveFile = new WaveFile(new MemoryStream(xmlContent.GetData()));
+        /// <summary>
+        /// Initializes a new GameException class.
+        /// </summary>
+        /// <param name="message">The Message.</param>
+        public GameException(string message)
+            : base(message)
+        {
+        }
 
-            return new Sound(title, album, artist, formattedYear, waveFile.WaveFormat, waveFile);
+        /// <summary>
+        /// Initializes a new GameException class.
+        /// </summary>
+        /// <param name="message">The Message.</param>
+        /// <param name="inner">The InnerException.</param>
+        public GameException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new GameException class.
+        /// </summary>
+        /// <param name="serializationInfo">The SerializationInfo.</param>
+        /// <param name="context">The StreamContext.</param>
+        public GameException(SerializationInfo serializationInfo, StreamingContext context)
+            : base(serializationInfo, context)
+        {
         }
     }
 }
