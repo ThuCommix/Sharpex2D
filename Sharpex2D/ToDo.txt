@@ -128,7 +128,7 @@ Clean up disposable components : Done
 Changed Vector2 properties to fields : Done
 Changed Rectangle properties to fields : Done
 
-Work on the Scene management!
+Work on the Scene management : Pending ...
 
 Isolate SGL : Done
 	-> GameHost encapsulated in Game?
@@ -137,7 +137,7 @@ Change the way of content loading.. may implement the compilers in Sharpex2D its
 Debug OpenAL : Pending ...
 	-> OpenAL seems to be broken ...
 Implement newer DX version : Pending ...
-Sorted drawing in SpriteBatch : Pending ...
+Sorted drawing in SpriteBatch : Done
 	-> Dont present at End();
 	-> IRenderer.Present();
 
