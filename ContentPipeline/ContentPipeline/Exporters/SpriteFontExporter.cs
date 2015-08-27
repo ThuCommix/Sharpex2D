@@ -174,7 +174,7 @@ namespace ContentPipeline.Exporters
                     fontBitmap.Save(outputStream, ImageFormat.Png);
                     fontBitmap.Dispose();
                     graphics.Dispose();
-
+                    outputStream.Seek(0, SeekOrigin.Begin);
                     outputStream.CopyTo(stream);
                 }
             }
