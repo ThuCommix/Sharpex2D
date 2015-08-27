@@ -201,7 +201,7 @@ namespace ContentPipeline.Actions
                 var fileInfo = new FileInfo(file);
                 if (fileInfo.Exists)
                 {
-                    if (exporters.ContainsKey(fileInfo.Extension))
+                    if (exporters.ContainsKey(fileInfo.Extension.ToLower()))
                     {
                         var memoryStream = new MemoryStream();
 
