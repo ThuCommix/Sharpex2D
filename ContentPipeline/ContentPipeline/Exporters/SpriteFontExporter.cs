@@ -47,12 +47,14 @@ namespace ContentPipeline.Exporters
         }
 
         /// <summary>
-        /// Raises when the xml content is ready for processing.
+        /// Raises when the content should be created.
         /// </summary>
         /// <param name="inputPath">The InputPath.</param>
-        /// <param name="xmlContent">The XmlContent.</param>
-        public override void OnCreate(string inputPath, ref XmlContent xmlContent)
+        /// <param name="stream">The OutputStream.</param>
+        /// <returns>The MetaInformations</returns>
+        public override IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream)
         {
+            var metaInfos = new List<MetaInformation>();
             XDocument xml = XDocument.Load(inputPath);
             string fontName = xml.Elements().Select(x => x.Element("FontName")).First().Value;
             float fontSize = float.Parse(xml.Elements().Select(x => x.Element("Size")).First().Value,
@@ -105,7 +107,7 @@ namespace ContentPipeline.Exporters
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
 
-            float padding = graphics.MeasureString("__", targetFont).Width - 2;
+            float padding = graphics.MeasureString("__", targetFont).Width;
             var fontDescriptions = new Dictionary<char, Rectangle>();
 
             foreach (short character in characters)
@@ -148,11 +150,11 @@ namespace ContentPipeline.Exporters
                     fontDescription.Value);
             }
 
-            xmlContent.Add(new XmlContentMetaData("FontName", fontName));
-            xmlContent.Add(new XmlContentMetaData("FontSize", fontSize.ToString(CultureInfo.InvariantCulture)));
-            xmlContent.Add(new XmlContentMetaData("Style", style));
-            xmlContent.Add(new XmlContentMetaData("Spacing", spacing.ToString(CultureInfo.InvariantCulture)));
-            xmlContent.Add(new XmlContentMetaData("Kerning", useKerning ? "True" : "False"));
+            metaInfos.Add(new MetaInformation("FontName", fontName));
+            metaInfos.Add(new MetaInformation("FontSize", fontSize.ToString(CultureInfo.InvariantCulture)));
+            metaInfos.Add(new MetaInformation("Style", style));
+            metaInfos.Add(new MetaInformation("Spacing", spacing.ToString(CultureInfo.InvariantCulture)));
+            metaInfos.Add(new MetaInformation("Kerning", useKerning ? "True" : "False"));
 
             using (var outputStream = new MemoryStream())
             {
@@ -167,16 +169,17 @@ namespace ContentPipeline.Exporters
                         binaryWriter.Write(fontDescription.Value.Height);
                     }
 
-                    xmlContent.Add(new XmlContentMetaData("Offset", outputStream.Position.ToString(CultureInfo.InvariantCulture)));
+                    metaInfos.Add(new MetaInformation("Offset", outputStream.Position.ToString(CultureInfo.InvariantCulture)));
 
                     fontBitmap.Save(outputStream, ImageFormat.Png);
                     fontBitmap.Dispose();
                     graphics.Dispose();
 
-                    xmlContent.SetDataStream(outputStream,
-                        AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type, XmlContentCompression.Deflate);
+                    outputStream.CopyTo(stream);
                 }
             }
+
+            return metaInfos;
         }
     }
 }

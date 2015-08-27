@@ -16,10 +16,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using CSCore;
 using CSCore.Codecs;
 using CSCore.Codecs.WAV;
+using CSCore.Streams;
+using CSCore.Tags.ID3;
 using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
@@ -40,48 +45,51 @@ namespace ContentPipeline.Exporters
         }
 
         /// <summary>
-        /// Raises when the xml content is ready for processing.
+        /// Raises when the content should be created.
         /// </summary>
         /// <param name="inputPath">The InputPath.</param>
-        /// <param name="xmlContent">The XmlContent.</param>
-        public override void OnCreate(string inputPath, ref XmlContent xmlContent)
+        /// <param name="stream">The OutputStream.</param>
+        /// <returns>The MetaInformations</returns>
+        public override IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream)
         {
-            var targetStream = new MemoryStream();
-            using (var stream = CodecFactory.Instance.GetCodec(inputPath))
+            var metaInfos = new List<MetaInformation>();
+            var waveSource = CodecFactory.Instance.GetCodec(inputPath);
+            if (waveSource.WaveFormat.Channels == 1)
+                waveSource = new MonoToStereoSource(waveSource).ToWaveSource();
+            using (var targetStream = new MemoryStream())
             {
-                using (var memoryStream = new WaveWriter(targetStream, stream.WaveFormat))
+                using (var memoryStream = new WaveWriter(targetStream, waveSource.WaveFormat))
                 {
-                    byte[] buffer = new byte[stream.WaveFormat.BytesPerSecond];
+                    byte[] buffer = new byte[waveSource.WaveFormat.BytesPerSecond];
                     int read;
-                    while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                    while ((read = waveSource.Read(buffer, 0, buffer.Length)) > 0)
                     {
                         memoryStream.Write(buffer, 0, read);
                     }
-
-                    xmlContent.SetDataStream(targetStream,
-                        AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type,
-                        XmlContentCompression.Deflate);
+                    targetStream.Seek(0, SeekOrigin.Begin);
+                    targetStream.CopyTo(stream);
                 }
             }
-            targetStream.Dispose();
+
+            waveSource.Dispose();
 
             var artist = "";
             var title = new FileInfo(inputPath).Name.Split('.')[0];
             var album = "";
             var year = 0;
-            /*
+
             var id3V1 = ID3v1.FromFile(inputPath);
             if (id3V1 != null)
             {
-                if (String.IsNullOrWhiteSpace(id3V1.Title))
+                if (!String.IsNullOrWhiteSpace(id3V1.Title))
                 {
                     title = id3V1.Title;
                 }
-                if (String.IsNullOrWhiteSpace(id3V1.Artist))
+                if (!String.IsNullOrWhiteSpace(id3V1.Artist))
                 {
                     artist = id3V1.Artist;
                 }
-                if (String.IsNullOrWhiteSpace(id3V1.Album))
+                if (!String.IsNullOrWhiteSpace(id3V1.Album))
                 {
                     album = id3V1.Album;
                 }
@@ -95,15 +103,15 @@ namespace ContentPipeline.Exporters
             var id3V2 = ID3v2.FromFile(inputPath);
             if (id3V2 != null)
             {
-                if (String.IsNullOrWhiteSpace(id3V2.QuickInfo.Title))
+                if (!String.IsNullOrWhiteSpace(id3V2.QuickInfo.Title))
                 {
                     title = id3V2.QuickInfo.Title;
                 }
-                if (String.IsNullOrWhiteSpace(id3V2.QuickInfo.Artist))
+                if (!String.IsNullOrWhiteSpace(id3V2.QuickInfo.Artist))
                 {
                     artist = id3V2.QuickInfo.Artist;
                 }
-                if (String.IsNullOrWhiteSpace(id3V2.QuickInfo.Album))
+                if (!String.IsNullOrWhiteSpace(id3V2.QuickInfo.Album))
                 {
                     album = id3V2.QuickInfo.Album;
                 }
@@ -112,12 +120,13 @@ namespace ContentPipeline.Exporters
                 {
                     year = id3V2.QuickInfo.Year.Value;
                 }
-            }*/
+            }
 
-            xmlContent.Add(new XmlContentMetaData("Title", title));
-            xmlContent.Add(new XmlContentMetaData("Artist", artist));
-            xmlContent.Add(new XmlContentMetaData("Album", album));
-            xmlContent.Add(new XmlContentMetaData("Year", year.ToString(CultureInfo.InvariantCulture)));
+            metaInfos.Add(new MetaInformation("Title", title));
+            metaInfos.Add(new MetaInformation("Artist", artist));
+            metaInfos.Add(new MetaInformation("Album", album));
+            metaInfos.Add(new MetaInformation("Year", year.ToString(CultureInfo.InvariantCulture)));
+            return metaInfos;
         }
     }
 }

@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.IO;
 using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content;
 
@@ -33,10 +35,11 @@ namespace ContentPipeline.Exporters
         public abstract string[] FileFilter { get; }
 
         /// <summary>
-        /// Raises when the xml content is ready for processing.
+        /// Raises when the content should be created.
         /// </summary>
         /// <param name="inputPath">The InputPath.</param>
-        /// <param name="xmlContent">The XmlContent.</param>
-        public abstract void OnCreate(string inputPath, ref XmlContent xmlContent);
+        /// <param name="stream">The OutputStream.</param>
+        /// <returns>The MetaInformations</returns>
+        public abstract IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream);
     }
 }

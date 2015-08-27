@@ -16,6 +16,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -39,22 +40,25 @@ namespace ContentPipeline.Exporters
         }
 
         /// <summary>
-        /// Raises when the xml content is ready for processing.
+        /// Raises when the content should be created.
         /// </summary>
         /// <param name="inputPath">The InputPath.</param>
-        /// <param name="xmlContent">The XmlContent.</param>
-        public override void OnCreate(string inputPath, ref XmlContent xmlContent)
+        /// <param name="stream">The OutputStream.</param>
+        /// <returns>The MetaInformations</returns>
+        public override IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream)
         {
+            var metaInfos = new List<MetaInformation>();
             var fileInfo = new FileInfo(inputPath);
-            xmlContent.Add(new XmlContentMetaData("Type",
+            metaInfos.Add(new MetaInformation("Type",
                 fileInfo.Extension == FileFilter[0]
                     ? ((int) ScriptType.CSharp).ToString(CultureInfo.InvariantCulture)
                     : ((int) ScriptType.VisualBasic).ToString(CultureInfo.InvariantCulture)));
 
-            xmlContent.Add(new XmlContentMetaData("Encoding", Encoding.UTF8.BodyName));
+            metaInfos.Add(new MetaInformation("Encoding", Encoding.UTF8.BodyName));
 
-            xmlContent.SetData(Encoding.UTF8.GetBytes(File.ReadAllText(inputPath)),
-                AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type);
+            var data = Encoding.UTF8.GetBytes(File.ReadAllText(inputPath));
+            stream.Write(data, 0, data.Length);
+            return metaInfos;
         }
     }
 }

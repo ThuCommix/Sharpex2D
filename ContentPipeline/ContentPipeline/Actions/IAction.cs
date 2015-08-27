@@ -1,4 +1,6 @@
-﻿// Permission is hereby granted, free of charge, to any person obtaining a copy
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
@@ -16,40 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using Sharpex2D.Framework;
-using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Rendering;
 
-namespace ContentPipeline.Exporters
+namespace ContentPipeline.Actions
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ExportContent(typeof (Texture2D))]
-    public class Texture2DExporter : Exporter
+    public interface IAction
     {
         /// <summary>
-        /// Gets or sets the file filter.
+        /// Gets the option name.
         /// </summary>
-        public override string[] FileFilter
-        {
-            get { return new[] {".png", ".bmp", ".jpg", ".jpeg", ".tiff"}; }
-        }
+        string Option { get; }
 
         /// <summary>
-        /// Raises when the content should be created.
+        /// Executes the action.
         /// </summary>
-        /// <param name="inputPath">The InputPath.</param>
-        /// <param name="stream">The OutputStream.</param>
-        /// <returns>The MetaInformations</returns>
-        public override IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream)
-        {
-            var bitmap = (Bitmap) Image.FromFile(inputPath);
-            bitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            return new List<MetaInformation>();
-        }
+        /// <param name="args">The Arguments.</param>
+        /// <returns>Application ExitCode.</returns>
+        int Execute(string[] args);
     }
 }

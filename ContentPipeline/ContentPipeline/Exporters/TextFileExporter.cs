@@ -16,6 +16,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Sharpex2D.Framework;
@@ -37,16 +38,17 @@ namespace ContentPipeline.Exporters
         }
 
         /// <summary>
-        /// Raises when the xml content is ready for processing.
+        /// Raises when the content should be created.
         /// </summary>
         /// <param name="inputPath">The InputPath.</param>
-        /// <param name="xmlContent">The XmlContent.</param>
-        public override void OnCreate(string inputPath, ref XmlContent xmlContent)
+        /// <param name="stream">The OutputStream.</param>
+        /// <returns>The MetaInformations</returns>
+        public override IEnumerable<MetaInformation> OnCreate(string inputPath, Stream stream)
         {
-            xmlContent.Add(new XmlContentMetaData("Encoding", Encoding.UTF8.BodyName));
-
-            xmlContent.SetData(Encoding.UTF8.GetBytes(File.ReadAllText(inputPath)),
-                AttributeHelper.GetAttribute<ExportContentAttribute>(this).Type);
+            var metaInfos = new List<MetaInformation> {new MetaInformation("Encoding", Encoding.UTF8.BodyName)};
+            var data = Encoding.UTF8.GetBytes(File.ReadAllText(inputPath));
+            stream.Write(data, 0, data.Length);
+            return metaInfos;
         }
     }
 }

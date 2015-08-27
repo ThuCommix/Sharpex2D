@@ -27,7 +27,7 @@ namespace ContentPipeline.Exporters
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class ExportContentAttribute : ImportContentAttribute
     {
         /// <summary>

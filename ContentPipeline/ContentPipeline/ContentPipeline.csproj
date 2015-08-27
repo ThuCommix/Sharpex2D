@@ -48,6 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\ActionManager.cs" />
+    <Compile Include="Actions\CompileAction.cs" />
+    <Compile Include="Actions\IAction.cs" />
+    <Compile Include="Actions\OptionsAction.cs" />
+    <Compile Include="Actions\VersionAction.cs" />
     <Compile Include="Exporters\ExportContentAttribute.cs" />
     <Compile Include="Exporters\Exporter.cs" />
     <Compile Include="Exporters\ScriptExporter.cs" />
