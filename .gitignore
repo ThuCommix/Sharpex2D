@@ -43,7 +43,9 @@ local.properties
 
 # Build results
 
-bin/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
 Dokumentation/
 x64/
 build/
