@@ -20,7 +20,7 @@
 
 using System;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio
 {
@@ -99,7 +99,7 @@ namespace Sharpex2D.Framework.Audio
         public void Initialize()
         {
             if (Sound == null) throw new NullReferenceException("Sound was null.");
-            _audioProvider.Initialize(Sound.GetAudioData(), Sound.Format);
+            _audioProvider.Initialize(Sound.GetAudioStream(), Sound.Format);
         }
 
         /// <summary>

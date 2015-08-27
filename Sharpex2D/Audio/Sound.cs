@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
 using Sharpex2D.Framework.Content;
 
 namespace Sharpex2D.Framework.Audio
@@ -27,7 +28,7 @@ namespace Sharpex2D.Framework.Audio
     [TestState(TestState.Tested)]
     public class Sound : IContent
     {
-        private readonly WaveFile _waveFile;
+        private readonly WaveReader _waveFile;
 
         /// <summary>
         /// Initializes a new Sound class.
@@ -38,7 +39,7 @@ namespace Sharpex2D.Framework.Audio
         /// <param name="year">The Year.</param>
         /// <param name="format">The WaveFormat.</param>
         /// <param name="waveFile">The WaveFile.</param>
-        internal Sound(string title, string album, string artist, int year, WaveFormat format, WaveFile waveFile)
+        internal Sound(string title, string album, string artist, int year, WaveFormat format, WaveReader waveFile)
         {
             Title = title;
             Album = album;
@@ -80,12 +81,12 @@ namespace Sharpex2D.Framework.Audio
         public TimeSpan Duration { private set; get; }
 
         /// <summary>
-        /// Gets the audio data.
+        /// Gets the audio stream.
         /// </summary>
-        /// <returns>Bytes.</returns>
-        internal byte[] GetAudioData()
+        /// <returns>Stream.</returns>
+        internal Stream GetAudioStream()
         {
-            return _waveFile.GetAudioData();
+            return _waveFile.GetAudioStream();
         }
     }
 }

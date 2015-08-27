@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
 
 namespace Sharpex2D.Framework.Audio
 {
@@ -59,9 +60,9 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Initializes the sound player with the given source.
         /// </summary>
-        /// <param name="audioData">The AudioData.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The Format.</param>
-        void Initialize(byte[] audioData, WaveFormat format);
+        void Initialize(Stream stream, WaveFormat format);
 
         /// <summary>
         /// Plays the sound.

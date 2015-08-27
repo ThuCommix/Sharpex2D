@@ -20,6 +20,7 @@
 
 
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
@@ -31,7 +32,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         private readonly SoundMixer _audioMixer;
         private readonly object _locker;
         private readonly OpenALSource _source;
-        private byte[] _audioData;
+        private Stream _stream;
         private bool _beginDispose;
         private int _bufferSize;
         private Task _playbackThread;
@@ -142,20 +143,20 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Initializes the OpenALAudioBuffer class.
         /// </summary>
-        /// <param name="audioData">The Buffer.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The WaveFormat.</param>
-        public void Initialize(byte[] audioData, WaveFormat format)
+        public void Initialize(Stream stream, WaveFormat format)
         {
-            Initialize(audioData, format, 150);
+            Initialize(stream, format, 150);
         }
 
         /// <summary>
         /// Initializes the OpenALAudioBuffer class.
         /// </summary>
-        /// <param name="audioData">The Buffer.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The WaveFormat.</param>
         /// <param name="latency">The Latency.</param>
-        public void Initialize(byte[] audioData, WaveFormat format, int latency)
+        public void Initialize(Stream stream, WaveFormat format, int latency)
         {
             lock (_locker)
             {
@@ -170,9 +171,9 @@ namespace Sharpex2D.Framework.Audio.OpenAL
 
             SampleRate = (uint) format.SamplesPerSec;
             Latency = latency;
-            _audioData = audioData;
+            _stream = stream;
             WaveFormat = format;
-            Length = audioData.Length/format.AvgBytesPerSec*1000;
+            Length = stream.Length/format.AvgBytesPerSec*1000;
             _bufferSize = format.AvgBytesPerSec/1000*latency;
             _processedBytes = 0;
         }
@@ -272,7 +273,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                         OpenALInterops.alSourcePlay(_source.SourceId);
                     }
 
-                    while (_processedBytes < _audioData.Length)
+                    while (_processedBytes < _stream.Length)
                     {
                         if (_beginDispose) return;
                         switch (PlaybackState)
@@ -388,16 +389,13 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                 OpenALInterops.alSourceUnqueueBuffers(_source.SourceId, 1, unqueueBuffer);
                 var data = new byte[_bufferSize];
                 int datalength = _bufferSize;
-                if (_bufferSize > _audioData.Length - _processedBytes)
+                if (_bufferSize > _stream.Length - _processedBytes)
                 {
-                    Buffer.BlockCopy(_audioData, _processedBytes, data, 0, _audioData.Length - _processedBytes);
-                    datalength = _audioData.Length - _processedBytes;
-                    _processedBytes += datalength;
+                    _processedBytes += _stream.Read(data, 0, (int) _stream.Length - _processedBytes);
                 }
                 else
                 {
-                    Buffer.BlockCopy(_audioData, _processedBytes, data, 0, _bufferSize);
-                    _processedBytes += _bufferSize;
+                    _processedBytes += _stream.Read(data, 0, _bufferSize);
                 }
                 _audioMixer.ApplyEffects(data, WaveFormat);
                 OpenALInterops.alBufferData(target.Id, Format, data, datalength, SampleRate);

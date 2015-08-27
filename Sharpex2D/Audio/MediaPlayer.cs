@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio
 {
@@ -179,7 +179,7 @@ namespace Sharpex2D.Framework.Audio
         /// <param name="sound">The Sound.</param>
         public void Initialize(Sound sound)
         {
-            _audioProvider.Initialize(sound.GetAudioData(), sound.Format);
+            _audioProvider.Initialize(sound.GetAudioStream(), sound.Format);
         }
 
         /// <summary>

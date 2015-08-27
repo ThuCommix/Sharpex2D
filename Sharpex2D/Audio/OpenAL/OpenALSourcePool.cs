@@ -20,7 +20,7 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {

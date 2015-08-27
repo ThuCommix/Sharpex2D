@@ -20,7 +20,6 @@
 
 using System;
 using System.IO;
-using Sharpex2D.Framework.Audio.Converters;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
@@ -31,7 +30,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
     {
         private readonly int _device;
         private readonly WaveOut _waveOut;
-        private byte[] _sounddata;
+        private Stream _stream;
         private PlaybackMode _playbackMode = PlaybackMode.None;
         private bool _userStop;
 
@@ -98,25 +97,14 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Initializes the sound player with the given sound source.
         /// </summary>
-        /// <param name="audioData">The AudioData.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The Format.</param>
-        public void Initialize(byte[] audioData, WaveFormat format)
+        public void Initialize(Stream stream, WaveFormat format)
         {
             var waveFormat = format;
-
-            if (format.Channels == 1) //try to convert to stereo for full audiomixer support
-            {
-                try
-                {
-                    new MonoToStereoConverter().ConvertAudioData(_sounddata, ref waveFormat);
-                }
-                catch (NotSupportedException)
-                {
-                }
-            }
-            _sounddata = audioData;
+            _stream = stream;
             _waveOut.Device = _device;
-            _waveOut.Initialize(_sounddata, waveFormat);
+            _waveOut.Initialize(stream, waveFormat);
             _userStop = false;
         }
 
@@ -191,7 +179,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             if (disposing)
             {
                 _waveOut.Dispose();
-                _sounddata = null;
+                _stream.Dispose();
             }
         }
 
@@ -203,7 +191,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         private void PlaybackChangedEvent(object sender, EventArgs e)
         {
             if (PlaybackState == PlaybackState.Stopped && !_userStop && _playbackMode == PlaybackMode.Loop &&
-                _sounddata != null)
+                _stream != null)
             {
                 Play(PlaybackMode.Loop);
             }

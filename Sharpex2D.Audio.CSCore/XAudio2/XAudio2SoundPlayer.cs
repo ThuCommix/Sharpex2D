@@ -125,12 +125,11 @@ namespace Sharpex2D.Audio.XAudio2
         /// <summary>
         /// Initializes the sound player with the given source.
         /// </summary>
-        /// <param name="audioData">The AudioData.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The Format.</param>
-        public void Initialize(byte[] audioData, Framework.Audio.WaveFormat format)
+        public void Initialize(Stream stream, Framework.Audio.WaveFormat format)
         {
-            var memoryStream = new MemoryStream(audioData);
-            var reader = new RawDataReader(memoryStream,
+            var reader = new RawDataReader(stream,
                 new CSCore.WaveFormat(format.SamplesPerSec, format.BitsPerSample,
                     format.Channels));
 

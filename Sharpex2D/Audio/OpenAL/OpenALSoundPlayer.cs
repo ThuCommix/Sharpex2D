@@ -29,7 +29,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
     internal class OpenALSoundPlayer : ISoundPlayer
     {
         private OpenALAudio _audio;
-        private byte[] _sounddata;
+        private Stream _stream;
         private float _pan;
         private PlaybackMode _playbackMode;
         private bool _userStop;
@@ -112,9 +112,9 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Initializes the sound player with the given sound source.
         /// </summary>
-        /// <param name="audioData">The AudioData.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The Format.</param>
-        public void Initialize(byte[] audioData, WaveFormat format)
+        public void Initialize(Stream stream, WaveFormat format)
         {
             //clean old playback if existent
             if (_audio != null)
@@ -122,14 +122,22 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                 _audio.Dispose();
             }
 
-            _sounddata = audioData;
+            _stream = stream;
             OpenALAudioFormat audioFormat = DetectAudioFormat(format);
             _audio = OpenALDevice.DefaultDevice.CreateAudioBuffer(audioFormat);
             _audio.PlaybackChanged += AudioPlaybackChanged;
             Volume = _volume;
             Pan = _pan;
 
-            _audio.Initialize(_sounddata, format);
+            _audio.Initialize(stream, format);
+        }
+
+        /// <summary>
+        /// Deconstructs the OpenALSoundPlayer class.
+        /// </summary>
+        ~OpenALSoundPlayer()
+        {
+            Dispose(false);
         }
 
         /// <summary>
@@ -197,8 +205,17 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// </summary>
         public void Dispose()
         {
-            OpenALDevice.DefaultDevice.Dispose();
-            _sounddata = null;
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                OpenALDevice.DefaultDevice.Dispose();
+                _stream.Dispose();
+            }
         }
 
         /// <summary>
@@ -239,7 +256,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         private void AudioPlaybackChanged(object sender, EventArgs e)
         {
             if (PlaybackState == PlaybackState.Stopped && !_userStop && _playbackMode == PlaybackMode.Loop &&
-                _sounddata != null)
+                _stream != null)
             {
                 Play(PlaybackMode.Loop);
             }

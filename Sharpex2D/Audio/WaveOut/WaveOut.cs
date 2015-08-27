@@ -77,7 +77,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Gets the current Stream.
         /// </summary>
-        public MemoryStream Stream { get; private set; }
+        public Stream Stream { get; private set; }
 
         /// <summary>
         /// Gets the WaveFormat.
@@ -152,14 +152,14 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Initializes the playback.
         /// </summary>
-        /// <param name="audioData">The AudioData.</param>
+        /// <param name="stream">The Stream.</param>
         /// <param name="format">The WaveFormat.</param>
-        public void Initialize(byte[] audioData, WaveFormat format)
+        public void Initialize(Stream stream, WaveFormat format)
         {
             lock (_lockObj)
             {
                 Stop();
-                Stream = new MemoryStream(audioData);
+                Stream = stream;
                 Format = format;
                 WaveOutHandle = CreateWaveOut();
                 int bufferSize = (format.AvgBytesPerSec/1000*_latency);
@@ -366,20 +366,6 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                     WaveOutHandle = IntPtr.Zero;
                 }
             }
-        }
-
-        /// <summary>
-        /// Sets the Volume.
-        /// </summary>
-        /// <param name="waveOut">The WaveOut.</param>
-        /// <param name="left">The Left.</param>
-        /// <param name="right">The Right.</param>
-        public static void SetVolume(IntPtr waveOut, float left, float right)
-        {
-            uint tmp = (uint) (left*0xFFFF) + ((uint) (right*0xFFFF) << 16);
-            MMResult result = MMInterops.waveOutSetVolume(waveOut, tmp);
-            if (result != MMResult.MMSYSERR_NOERROR)
-                WaveOutResult.Try(MMInterops.waveOutSetVolume(waveOut, tmp));
         }
 
         /// <summary>
