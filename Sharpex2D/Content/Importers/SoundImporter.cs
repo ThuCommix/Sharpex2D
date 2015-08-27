@@ -30,19 +30,19 @@ namespace Sharpex2D.Framework.Content.Importers
     public class SoundImporter : Importer
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Creates the content based on the content binary.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        /// <param name="xcf">The ExtensibleContentFormat.</param>
+        /// <returns>IContent</returns>
+        public override IContent OnCreate(ExtensibleContentFormat xcf)
         {
-            var artist = xmlContent.First(x => x.Name == "Artist").Value;
-            var title = xmlContent.First(x => x.Name == "Title").Value;
-            var album = xmlContent.First(x => x.Name == "Album").Value;
-            var year = xmlContent.First(x => x.Name == "Year").Value;
+            var artist = xcf.First(x => x.Key == "Artist").Value;
+            var title = xcf.First(x => x.Key == "Title").Value;
+            var album = xcf.First(x => x.Key == "Album").Value;
+            var year = xcf.First(x => x.Key == "Year").Value;
             var formattedYear = year == "" ? 0 : int.Parse(year);
 
-            var waveFile = new WaveFile(new MemoryStream(xmlContent.GetData()));
+            var waveFile = new WaveReader(xcf);
 
             return new Sound(title, album, artist, formattedYear, waveFile.WaveFormat, waveFile);
         }

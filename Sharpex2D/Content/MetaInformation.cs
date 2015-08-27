@@ -18,33 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Framework.Content.Importers
+namespace Sharpex2D.Framework.Content
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public abstract class Importer
+    public class MetaInformation
     {
         /// <summary>
-        /// Creates the content based on the content binary.
+        /// Gets the key.
         /// </summary>
-        /// <param name="xcf">The ExtensibleContentFormat.</param>
-        /// <returns>IContent</returns>
-        public abstract IContent OnCreate(ExtensibleContentFormat xcf);
+        public string Key { private set; get; }
 
         /// <summary>
-        /// Loads the extensible content format.
+        /// Gets the value.
         /// </summary>
-        /// <param name="path">The Path.</param>
-        public virtual IContent LoadXcf(string path)
+        public string Value { private set; get; }
+
+        /// <summary>
+        /// Initializes a new MetaInformation class.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        public MetaInformation(string key, string value)
         {
-            var xcf = ExtensibleContentFormat.LoadFromFile(path);
-
-            if (!xcf.EnsureCorrectType(AttributeHelper.GetAttribute<ImportContentAttribute>(this).Type))
-            {
-                throw new ContentLoadException("The specified file does not export the requested type.");
-            }
-
-            return OnCreate(xcf);
+            Key = key;
+            Value = value;
         }
     }
 }

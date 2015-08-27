@@ -30,15 +30,15 @@ namespace Sharpex2D.Framework.Content.Importers
     public class ScriptImporter : Importer
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Creates the content based on the content binary.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        /// <param name="xcf">The ExtensibleContentFormat.</param>
+        /// <returns>IContent</returns>
+        public override IContent OnCreate(ExtensibleContentFormat xcf)
         {
-            var scriptType = (ScriptType)int.Parse(xmlContent.First(x => x.Name == "Type").Value);
-            var encoding = Encoding.GetEncoding(xmlContent.First(x => x.Name == "Encoding").Value);
-            var scriptContent = encoding.GetString(xmlContent.GetData());
+            var scriptType = (ScriptType)int.Parse(xcf.First(x => x.Key == "Type").Value);
+            var encoding = Encoding.GetEncoding(xcf.First(x => x.Key == "Encoding").Value);
+            var scriptContent = encoding.GetString(xcf.GetData());
 
             return new Script(scriptContent, scriptType);
         }

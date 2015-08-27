@@ -29,14 +29,14 @@ namespace Sharpex2D.Framework.Content.Importers
     public class TextFileImporter : Importer
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Creates the content based on the content binary.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        /// <param name="xcf">The ExtensibleContentFormat.</param>
+        /// <returns>IContent</returns>
+        public override IContent OnCreate(ExtensibleContentFormat xcf)
         {
-            var encoding = Encoding.GetEncoding(xmlContent.First(x => x.Name == "Encoding").Value);
-            return new TextFile {Text = encoding.GetString(xmlContent.GetData())};
+            var encoding = Encoding.GetEncoding(xcf.First(x => x.Key == "Encoding").Value);
+            return new TextFile {Text = encoding.GetString(xcf.GetData())};
         }
     }
 }

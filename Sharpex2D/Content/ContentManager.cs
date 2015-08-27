@@ -25,7 +25,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using Sharpex2D.Framework.Content.Importers;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Content
 {
@@ -142,9 +142,7 @@ namespace Sharpex2D.Framework.Content
             }
 
             var importer = _importers.First(x => x.Key == typeof (T)).Value;
-
-            importer.LoadXmlContent(SolveFileLocation(asset));
-            return (T)importer.ImportXmlContent();
+            return (T)importer.LoadXcf(SolveFileLocation(asset));
         }
 
         /// <summary>

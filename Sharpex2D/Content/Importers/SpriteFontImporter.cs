@@ -32,21 +32,21 @@ namespace Sharpex2D.Framework.Content.Importers
     public class SpriteFontImporter : Importer
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Creates the content based on the content binary.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        /// <param name="xcf">The ExtensibleContentFormat.</param>
+        /// <returns>IContent</returns>
+        public override IContent OnCreate(ExtensibleContentFormat xcf)
         {
-            var fontName = xmlContent.First(x => x.Name == "FontName").Value;
-            var fontSize = float.Parse(xmlContent.First(x => x.Name == "FontSize").Value,
+            var fontName = xcf.First(x => x.Key == "FontName").Value;
+            var fontSize = float.Parse(xcf.First(x => x.Key == "FontSize").Value,
                 CultureInfo.InvariantCulture);
-            var styleString = xmlContent.First(x => x.Name == "Style").Value;
-            var spacing = float.Parse(xmlContent.First(x => x.Name == "Spacing").Value,
+            var styleString = xcf.First(x => x.Key == "Style").Value;
+            var spacing = float.Parse(xcf.First(x => x.Key == "Spacing").Value,
                 CultureInfo.InvariantCulture);
-            var kerning = xmlContent.First(x => x.Name == "Kerning").Value == "true";
+            var kerning = xcf.First(x => x.Key == "Kerning").Value == "true";
             var style = SpriteFont.FontStyle.Regular;
-            var offset = long.Parse(xmlContent.First(x => x.Name == "Offset").Value);
+            var offset = long.Parse(xcf.First(x => x.Key == "Offset").Value);
 
             switch (styleString)
             {
@@ -59,7 +59,7 @@ namespace Sharpex2D.Framework.Content.Importers
             }
 
             var charLayout = new Dictionary<char, Rectangle>();
-            var data = xmlContent.GetData();
+            var data = xcf.GetData();
 
             using (var memoryStream = new MemoryStream(data))
             {

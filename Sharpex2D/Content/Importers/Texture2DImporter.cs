@@ -28,13 +28,13 @@ namespace Sharpex2D.Framework.Content.Importers
     public class Texture2DImporter : Importer
     {
         /// <summary>
-        /// Raises when the xml content is loaded and ready for processing.
+        /// Creates the content based on the content binary.
         /// </summary>
-        /// <param name="xmlContent">The XmlContent.</param>
-        /// <returns>IContent.</returns>
-        public override IContent OnCreate(XmlContent xmlContent)
+        /// <param name="xcf">The ExtensibleContentFormat.</param>
+        /// <returns>IContent</returns>
+        public override IContent OnCreate(ExtensibleContentFormat xcf)
         {
-            return new Texture2D(GameHost.SpriteBatch.Renderer.CreateTexture(xmlContent.GetDataStream()));
+            return new Texture2D(GameHost.SpriteBatch.Renderer.CreateTexture(xcf.GetDataStream()));
         }
     }
 }
