@@ -22,9 +22,8 @@ using System;
 using System.Diagnostics;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Debug;
-using Sharpex2D.Framework.Debug.Logging;
 using Sharpex2D.Framework.Input;
+using Sharpex2D.Framework.Logging;
 using Sharpex2D.Framework.Rendering;
 using Sharpex2D.Framework.Rendering.Scene;
 
@@ -122,7 +121,6 @@ namespace Sharpex2D.Framework
             Components.Get<GameLoop>().Subscribe((IDrawable) GameInstance);
             Components.Get<GameLoop>().Subscribe((IUpdateable) GameInstance);
             Components.Get<GameLoop>().Subscribe(InputManager);
-            Components.Add(new ExceptionHandler());
 
             Run();
         }

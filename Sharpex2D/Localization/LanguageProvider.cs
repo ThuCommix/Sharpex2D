@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Localization
 {

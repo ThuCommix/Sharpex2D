@@ -23,7 +23,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Scripting
 {

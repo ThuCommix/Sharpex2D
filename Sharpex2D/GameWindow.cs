@@ -25,7 +25,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework
 {

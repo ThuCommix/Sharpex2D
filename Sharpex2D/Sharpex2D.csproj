@@ -50,7 +50,8 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Sharpex2D.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -70,9 +71,6 @@
     <Compile Include="Audio\MediaPlayer.cs" />
     <Compile Include="Audio\SoundMixer.cs" />
     <Compile Include="Audio\Sound.cs" />
-    <Compile Include="Audio\Converters\IAudioDataConverter.cs" />
-    <Compile Include="Audio\Converters\MonoToStereoConverter.cs" />
-    <Compile Include="Audio\Converters\StereoToMonoConverter.cs" />
     <Compile Include="Audio\ISoundPlayer.cs" />
     <Compile Include="Audio\OpenAL\DeviceSpecifications.cs" />
     <Compile Include="Audio\OpenAL\SourceProperty.cs" />
@@ -89,7 +87,7 @@
     <Compile Include="Audio\OpenAL\SourceState.cs" />
     <Compile Include="Audio\PlaybackMode.cs" />
     <Compile Include="Audio\PlaybackState.cs" />
-    <Compile Include="Audio\WaveFile.cs" />
+    <Compile Include="Audio\WaveReader.cs" />
     <Compile Include="Audio\WaveHeader.cs" />
     <Compile Include="Audio\WaveOut\MMInterops.cs" />
     <Compile Include="Audio\WaveOut\WaveHeaderFlags.cs" />
@@ -99,8 +97,10 @@
     <Compile Include="Audio\WaveOut\WaveOutSoundManager.cs" />
     <Compile Include="Audio\WaveOut\WaveOutSoundPlayer.cs" />
     <Compile Include="ComponentEventArgs.cs" />
+    <Compile Include="Content\ContentStream.cs" />
+    <Compile Include="Content\ExtensibleContentFormat.cs" />
+    <Compile Include="Content\MetaInformation.cs" />
     <Compile Include="Content\ContentStorage.cs" />
-    <Compile Include="Content\DeprecatedXmlContentException.cs" />
     <Compile Include="Content\Importers\Importer.cs" />
     <Compile Include="Content\Importers\ImportContentAttribute.cs" />
     <Compile Include="Content\Importers\ScriptImporter.cs" />
@@ -108,18 +108,7 @@
     <Compile Include="Content\Importers\SpriteFontImporter.cs" />
     <Compile Include="Content\Importers\TextFileImporter.cs" />
     <Compile Include="Content\Importers\Texture2DImporter.cs" />
-    <Compile Include="Content\InvalidXmlContentException.cs" />
-    <Compile Include="Content\InvalidXmlContentTypeException.cs" />
     <Compile Include="Content\TextFile.cs" />
-    <Compile Include="Content\XmlContentCompression.cs" />
-    <Compile Include="Content\XmlContent.cs" />
-    <Compile Include="Content\XmlContentMetaData.cs" />
-    <Compile Include="Debug\CpuWatcher.cs" />
-    <Compile Include="Debug\IDebugWatcher.cs" />
-    <Compile Include="Debug\Memory.cs" />
-    <Compile Include="Debug\MemoryUnit.cs" />
-    <Compile Include="Debug\MemoryWatcher.cs" />
-    <Compile Include="Debug\ThreadWatcher.cs" />
     <Compile Include="AttributeHelper.cs" />
     <Compile Include="DeveloperAttribute.cs" />
     <Compile Include="DrawableGameComponent.cs" />
@@ -169,17 +158,15 @@
     <Compile Include="Audio\WaveStream.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
-    <Compile Include="Debug\ExceptionHandler.cs" />
-    <Compile Include="Debug\Logging\Adapters\ConsoleAdapter.cs" />
-    <Compile Include="Debug\Logging\Adapters\IAdapter.cs" />
-    <Compile Include="Debug\Logging\Adapters\StreamingAdapter.cs" />
-    <Compile Include="Debug\Logging\Adapters\StreamingAdapterBase.cs" />
-    <Compile Include="Debug\Logging\Adapters\VSAdapter.cs" />
-    <Compile Include="Debug\Logging\Logger.cs" />
-    <Compile Include="Debug\Logging\LogLevel.cs" />
-    <Compile Include="Debug\Logging\LogManager.cs" />
-    <Compile Include="Debug\Logging\Adapters\OutputMode.cs" />
-    <Compile Include="Debug\Profiler.cs" />
+    <Compile Include="Logging\Adapters\ConsoleAdapter.cs" />
+    <Compile Include="Logging\Adapters\IAdapter.cs" />
+    <Compile Include="Logging\Adapters\StreamingAdapter.cs" />
+    <Compile Include="Logging\Adapters\StreamingAdapterBase.cs" />
+    <Compile Include="Logging\Adapters\VSAdapter.cs" />
+    <Compile Include="Logging\Logger.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Logging\Adapters\OutputMode.cs" />
     <Compile Include="Entities\EntityPositionEventArgs.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRandom.cs" />
@@ -338,9 +325,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ToDo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Sharpex2D.pfx" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

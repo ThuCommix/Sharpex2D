@@ -19,7 +19,7 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {

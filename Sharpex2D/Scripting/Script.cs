@@ -25,7 +25,7 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Debug.Logging;
+using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Scripting
 {
