@@ -43,6 +43,7 @@ local.properties
 
 # Build results
 
+bin/
 Dokumentation/
 x64/
 build/
