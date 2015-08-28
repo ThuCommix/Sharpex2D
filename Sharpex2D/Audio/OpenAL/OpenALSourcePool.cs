@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
@@ -29,7 +28,6 @@ namespace Sharpex2D.Framework.Audio.OpenAL
     internal class OpenALSourcePool : IDisposable
     {
         private readonly OpenALContext _context;
-        private readonly Logger _logger;
         private readonly List<OpenALSource> _sources;
 
         /// <summary>
@@ -40,7 +38,6 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         {
             _context = context;
             _sources = new List<OpenALSource>();
-            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -113,7 +110,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                     source.Reset();
                 }
 #if DEBUG
-                _logger.Info("Source automatically disposed.");
+                Logger.Instance.Debug("Source automatically disposed.");
 #endif
             }
 

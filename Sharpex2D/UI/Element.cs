@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sharpex2D.Framework.Rendering;
@@ -71,12 +70,33 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Gets the children elements.
         /// </summary>
-        public Element[] Elements { get { return _elements.ToArray(); } }
+        public Element[] Elements
+        {
+            get { return _elements.ToArray(); }
+        }
 
         /// <summary>
         /// Gets the parent element.
         /// </summary>
         public Element Parent { private set; get; }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<Element> GetEnumerator()
+        {
+            return _elements.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         /// <summary>
         /// Draws the element.
@@ -116,7 +136,6 @@ namespace Sharpex2D.Framework.UI
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-
         }
 
         /// <summary>
@@ -125,25 +144,6 @@ namespace Sharpex2D.Framework.UI
         /// <param name="gameTime">The GameTime.</param>
         public virtual void OnUpdate(GameTime gameTime)
         {
-
-        }
-
-        /// <summary>
-        /// Gets the enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        public IEnumerator<Element> GetEnumerator()
-        {
-            return _elements.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

@@ -25,19 +25,34 @@ namespace Sharpex2D.Framework.Audio
     internal struct WaveHeader
     {
         /// <summary>
-        /// Gets or sets the riff id.
+        /// Gets or sets the bit.
         /// </summary>
-        public byte[] RiffId;
+        public ushort Bit;
 
         /// <summary>
-        /// Gets or sets the size.
+        /// Gets or sets the block size.
         /// </summary>
-        public uint Size;
+        public ushort BlockSize;
 
         /// <summary>
-        /// Gets or sets the wav id.
+        /// Gets or sets the bytes per seconds.
         /// </summary>
-        public byte[] WavId;
+        public uint BytesPerSec;
+
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
+        public ushort Channels;
+
+        /// <summary>
+        /// Gets or sets the data id.
+        /// </summary>
+        public byte[] DataId;
+
+        /// <summary>
+        /// Gets or sets the data size.
+        /// </summary>
+        public uint DataSize;
 
         /// <summary>
         /// Gets or sets the fmt id.
@@ -55,9 +70,9 @@ namespace Sharpex2D.Framework.Audio
         public ushort Format;
 
         /// <summary>
-        /// Gets or sets the format.
+        /// Gets or sets the riff id.
         /// </summary>
-        public ushort Channels;
+        public byte[] RiffId;
 
         /// <summary>
         /// Gets or sets the sample rate.
@@ -65,28 +80,13 @@ namespace Sharpex2D.Framework.Audio
         public uint SampleRate;
 
         /// <summary>
-        /// Gets or sets the bytes per seconds.
+        /// Gets or sets the size.
         /// </summary>
-        public uint BytesPerSec;
+        public uint Size;
 
         /// <summary>
-        /// Gets or sets the block size.
+        /// Gets or sets the wav id.
         /// </summary>
-        public ushort BlockSize;
-
-        /// <summary>
-        /// Gets or sets the bit.
-        /// </summary>
-        public ushort Bit;
-
-        /// <summary>
-        /// Gets or sets the data id.
-        /// </summary>
-        public byte[] DataId;
-
-        /// <summary>
-        /// Gets or sets the data size.
-        /// </summary>
-        public uint DataSize;
+        public byte[] WavId;
     }
 }

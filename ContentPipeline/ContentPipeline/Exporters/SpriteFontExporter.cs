@@ -107,7 +107,7 @@ namespace ContentPipeline.Exporters
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
 
-            float padding = graphics.MeasureString("__", targetFont).Width;
+            float padding = graphics.MeasureString("__", targetFont).Width - 2;
             var fontDescriptions = new Dictionary<char, Rectangle>();
 
             foreach (short character in characters)

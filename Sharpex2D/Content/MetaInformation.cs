@@ -25,16 +25,6 @@ namespace Sharpex2D.Framework.Content
     public class MetaInformation
     {
         /// <summary>
-        /// Gets the key.
-        /// </summary>
-        public string Key { private set; get; }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        public string Value { private set; get; }
-
-        /// <summary>
         /// Initializes a new MetaInformation class.
         /// </summary>
         /// <param name="key"></param>
@@ -44,5 +34,15 @@ namespace Sharpex2D.Framework.Content
             Key = key;
             Value = value;
         }
+
+        /// <summary>
+        /// Gets the key.
+        /// </summary>
+        public string Key { private set; get; }
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        public string Value { private set; get; }
     }
 }

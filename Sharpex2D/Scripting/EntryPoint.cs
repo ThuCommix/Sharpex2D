@@ -36,7 +36,7 @@ namespace Sharpex2D.Framework.Scripting
         /// <summary>
         /// Gets the Title.
         /// </summary>
-        public string Name { private set; get; }
+        public string Name { get; }
 
         /// <summary>
         /// Converts the object to string.

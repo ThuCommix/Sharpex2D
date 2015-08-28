@@ -21,7 +21,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework
 {
@@ -81,7 +80,7 @@ namespace Sharpex2D.Framework
                     }
                     else
                     {
-                        LogManager.GetClassLogger().Warn("Invalid launch parameter ({0}).", value[i]);
+                        Logger.Instance.Warn($"Invalid launch parameter ({value[i]}).");
                     }
                 }
             }

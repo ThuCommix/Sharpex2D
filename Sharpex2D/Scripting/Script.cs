@@ -21,11 +21,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Scripting
 {
@@ -35,7 +33,6 @@ namespace Sharpex2D.Framework.Scripting
     {
         private readonly Dictionary<string, MethodInfo> _entries;
         private readonly List<EntryPoint> _entryPoints;
-        private readonly Logger _logger;
         private Task _scriptThread;
 
         /// <summary>
@@ -45,7 +42,6 @@ namespace Sharpex2D.Framework.Scripting
         /// <param name="scriptType">The ScriptType.</param>
         internal Script(string source, ScriptType scriptType)
         {
-            _logger = LogManager.GetClassLogger();
             _entryPoints = new List<EntryPoint>();
             _entries = new Dictionary<string, MethodInfo>();
             Source = source;
@@ -109,6 +105,24 @@ namespace Sharpex2D.Framework.Scripting
         }
 
         /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        public IEnumerator<EntryPoint> GetEnumerator()
+        {
+            return _entryPoints.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the enumerator.
+        /// </summary>
+        /// <returns>IEnumerator.</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        /// <summary>
         /// Triggered if the script finished executing.
         /// </summary>
         public event EventHandler<ScriptFinishedEventArgs> Finished;
@@ -128,7 +142,7 @@ namespace Sharpex2D.Framework.Scripting
             _scriptThread = new Task(() =>
             {
                 IsRunning = true;
-                _logger.Info("Running script <{0}>.", entry);
+                Logger.Instance.Debug($"Running script <{entry}>.");
                 object result = null;
                 try
                 {
@@ -140,7 +154,7 @@ namespace Sharpex2D.Framework.Scripting
                 }
                 finally
                 {
-                    _logger.Info("Finished script <{0}>.", entry);
+                    Logger.Instance.Debug($"Finished script <{entry}>.");
                     IsRunning = false;
                     if (Finished != null)
                     {
@@ -164,7 +178,7 @@ namespace Sharpex2D.Framework.Scripting
             }
 
             IsRunning = true;
-            _logger.Info("Running script <{0}>.", entry);
+            Logger.Instance.Debug($"Running script <{entry}>.");
             try
             {
                 return _entries[entry.Name].Invoke(null, parameters);
@@ -175,27 +189,9 @@ namespace Sharpex2D.Framework.Scripting
             }
             finally
             {
-                _logger.Info("Finished script <{0}>.", entry);
+                Logger.Instance.Debug($"Finished script <{entry}>.");
                 IsRunning = false;
             }
-        }
-
-        /// <summary>
-        /// Gets the enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        public IEnumerator<EntryPoint> GetEnumerator()
-        {
-            return _entryPoints.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the enumerator.
-        /// </summary>
-        /// <returns>IEnumerator.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

@@ -57,6 +57,6 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Indicates connection.
         /// </summary>
-        Connected = 6,
+        Connected = 6
     }
 }

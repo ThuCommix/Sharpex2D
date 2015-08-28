@@ -32,6 +32,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
     internal class OpenGLRenderer : IRenderer
     {
         private readonly RenderContext _renderContext;
+        private readonly float[] _staticVertices;
         private ShaderProgram _colorShader;
         private GraphicsDevice _graphicsDevice;
         private float[] _matrix4;
@@ -40,7 +41,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         private VertexBuffer _sourceVbo;
         private GameWindow _window;
         private Vector2 _windowSize;
-        private readonly float[] _staticVertices;
 
         /// <summary>
         /// Initializes a new OpenGLRenderer class.
@@ -128,15 +128,15 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
 
             uint posAttrib = _colorShader.GetAttribLocation("position");
             VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7 * sizeof(float), 0);
+            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
 
             uint colAttrib = _colorShader.GetAttribLocation("color");
             VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7 * sizeof(float), 2 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
 
             uint texAttrib = _colorShader.GetAttribLocation("texcoord");
             VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
+            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             foreach (var operation in drawOperations)
             {
@@ -147,15 +147,15 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
                 float oglX = operation.Source.X <= 0
                     ? 0
                     : operation.Source.X
-                      / operation.Texture.Width;
+                      /operation.Texture.Width;
                 float oglY = operation.Source.Y <= 0
                     ? 0
                     : operation.Source.Y
-                      / operation.Texture.Height;
+                      /operation.Texture.Height;
                 float oglW = operation.Source.Width <= 0
                     ? 0
                     : operation.Source.Width
-                      / operation.Texture.Width;
+                      /operation.Texture.Width;
                 float oglH = operation.Source.Height <= 0
                     ? 0
                     : operation.Source.Height

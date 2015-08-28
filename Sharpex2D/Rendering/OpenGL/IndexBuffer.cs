@@ -19,7 +19,6 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {
@@ -42,7 +41,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <summary>
         /// Gets the opengl identifer.
         /// </summary>
-        public uint Id { get; private set; }
+        public uint Id { get; }
 
         /// <summary>
         /// Disposes the object.
@@ -99,7 +98,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             }
             catch
             {
-                LogManager.GetClassLogger().Warn("Unable to dispose.");
+                Logger.Instance.Warn("Unable to dispose.");
             }
         }
     }

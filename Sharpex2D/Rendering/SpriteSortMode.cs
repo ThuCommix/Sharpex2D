@@ -38,6 +38,6 @@ namespace Sharpex2D.Framework.Rendering
         /// Same as deferred but sorting by alpha value.
         /// </summary>
         /// <remarks>Under certain circumstances this can increase performance.</remarks>
-        Alpha = 2,
+        Alpha = 2
     }
 }

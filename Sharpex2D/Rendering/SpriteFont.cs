@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Rendering
             /// <summary>
             /// Italic text style.
             /// </summary>
-            Italic,
+            Italic
         }
 
         private readonly Dictionary<char, Rectangle> _charLayout;

@@ -24,7 +24,7 @@ namespace Sharpex2D.Framework.Content.Importers
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ImportContent(typeof(Texture2D))]
+    [ImportContent(typeof (Texture2D))]
     public class Texture2DImporter : Importer
     {
         /// <summary>

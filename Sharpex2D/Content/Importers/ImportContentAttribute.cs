@@ -24,14 +24,9 @@ namespace Sharpex2D.Framework.Content.Importers
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class ImportContentAttribute : Attribute
     {
-        /// <summary>
-        /// Gets the type.
-        /// </summary>
-        public Type Type { private set; get; }
-
         /// <summary>
         /// Initializes a new ImportContentAttribute class.
         /// </summary>
@@ -40,5 +35,10 @@ namespace Sharpex2D.Framework.Content.Importers
         {
             Type = type;
         }
+
+        /// <summary>
+        /// Gets the type.
+        /// </summary>
+        public Type Type { private set; get; }
     }
 }

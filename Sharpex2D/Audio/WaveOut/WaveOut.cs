@@ -32,12 +32,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
     internal class WaveOut
     {
         private readonly MMInterops.WaveCallback _callback;
-        private readonly object _lockObj = new object();
-        internal SoundMixer AudioMixer;
         private int _activeBuffers;
         private List<WaveOutBuffer> _buffers;
-        private int _latency = 150;
-        private PlaybackState _playbackState = PlaybackState.Stopped;
+        internal SoundMixer AudioMixer;
 
         /// <summary>
         /// Initializes a new WaveOut class.
@@ -51,10 +48,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Just exists for lock.
         /// </summary>
-        internal object LockObj
-        {
-            get { return _lockObj; }
-        }
+        internal object LockObj { get; } = new object();
 
         /// <summary>
         /// Gets or sets the Volume.
@@ -87,10 +81,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Gets the PlaybackState.
         /// </summary>
-        public PlaybackState PlaybackState
-        {
-            get { return _playbackState; }
-        }
+        public PlaybackState PlaybackState { get; private set; } = PlaybackState.Stopped;
 
         /// <summary>
         /// Gets the Device.
@@ -105,11 +96,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Gets or sets the Latency.
         /// </summary>
-        public int Latency
-        {
-            get { return _latency; }
-            set { _latency = value; }
-        }
+        public int Latency { get; set; } = 150;
 
         /// <summary>
         /// Triggered if the playback state changed.
@@ -156,13 +143,13 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <param name="format">The WaveFormat.</param>
         public void Initialize(Stream stream, WaveFormat format)
         {
-            lock (_lockObj)
+            lock (LockObj)
             {
                 Stop();
                 Stream = stream;
                 Format = format;
                 WaveOutHandle = CreateWaveOut();
-                int bufferSize = (format.AvgBytesPerSec/1000*_latency);
+                int bufferSize = (format.AvgBytesPerSec/1000*Latency);
                 _buffers = new List<WaveOutBuffer>();
                 for (int i = 0; i < 2; i++)
                 {
@@ -177,16 +164,16 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public void Play()
         {
-            if (_playbackState == PlaybackState.Stopped)
+            if (PlaybackState == PlaybackState.Stopped)
             {
                 StartPlayback();
-                _playbackState = PlaybackState.Playing;
+                PlaybackState = PlaybackState.Playing;
                 RaisePlaybackChanged();
             }
-            else if (_playbackState == PlaybackState.Paused)
+            else if (PlaybackState == PlaybackState.Paused)
             {
                 Resume();
-                _playbackState = PlaybackState.Playing;
+                PlaybackState = PlaybackState.Playing;
                 RaisePlaybackChanged();
             }
         }
@@ -196,13 +183,13 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public void Pause()
         {
-            if (_playbackState == PlaybackState.Playing)
+            if (PlaybackState == PlaybackState.Playing)
             {
-                lock (_lockObj)
+                lock (LockObj)
                 {
                     MMInterops.waveOutPause(WaveOutHandle);
                 }
-                _playbackState = PlaybackState.Paused;
+                PlaybackState = PlaybackState.Paused;
                 RaisePlaybackChanged();
             }
         }
@@ -212,13 +199,13 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public void Resume()
         {
-            if (_playbackState == PlaybackState.Paused)
+            if (PlaybackState == PlaybackState.Paused)
             {
-                lock (_lockObj)
+                lock (LockObj)
                 {
                     MMInterops.waveOutRestart(WaveOutHandle);
                 }
-                _playbackState = PlaybackState.Playing;
+                PlaybackState = PlaybackState.Playing;
                 RaisePlaybackChanged();
             }
         }
@@ -228,10 +215,10 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public void Stop()
         {
-            if (_playbackState != PlaybackState.Stopped)
+            if (PlaybackState != PlaybackState.Stopped)
             {
-                _playbackState = PlaybackState.Stopped;
-                lock (_lockObj)
+                PlaybackState = PlaybackState.Stopped;
+                lock (LockObj)
                 {
                     MMResult result = MMInterops.waveOutReset(WaveOutHandle);
                     WaveOutResult.Try(result);
@@ -277,9 +264,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                 Interlocked.Decrement(ref _activeBuffers);
 
                 if (buffer == null) return;
-                if (_playbackState != PlaybackState.Stopped)
+                if (PlaybackState != PlaybackState.Stopped)
                 {
-                    lock (_lockObj)
+                    lock (LockObj)
                     {
                         if (buffer.WriteData())
                             Interlocked.Increment(ref _activeBuffers);
@@ -288,13 +275,13 @@ namespace Sharpex2D.Framework.Audio.WaveOut
 
                 if (_activeBuffers == 0)
                 {
-                    _playbackState = PlaybackState.Stopped;
+                    PlaybackState = PlaybackState.Stopped;
                     RaisePlaybackChanged();
                 }
             }
             else if (msg == WaveMessage.WOM_CLOSE)
             {
-                _playbackState = PlaybackState.Stopped;
+                PlaybackState = PlaybackState.Stopped;
                 RaisePlaybackChanged();
             }
         }
@@ -309,7 +296,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             {
                 if (!buffer.IsInQueue)
                 {
-                    lock (_lockObj)
+                    lock (LockObj)
                     {
                         if (buffer.WriteData())
                         {
@@ -317,7 +304,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                         }
                         else
                         {
-                            _playbackState = PlaybackState.Stopped;
+                            PlaybackState = PlaybackState.Stopped;
                             RaisePlaybackChanged();
                             break;
                         }
@@ -343,7 +330,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         {
             if (_buffers != null)
             {
-                lock (_lockObj)
+                lock (LockObj)
                 {
                     foreach (WaveOutBuffer buffer in _buffers)
                     {
@@ -360,7 +347,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                 if (WaveOutHandle == IntPtr.Zero)
                     return;
 
-                lock (_lockObj)
+                lock (LockObj)
                 {
                     WaveOutResult.Try(MMInterops.waveOutClose(WaveOutHandle));
                     WaveOutHandle = IntPtr.Zero;

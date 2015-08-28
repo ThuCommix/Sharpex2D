@@ -48,12 +48,12 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Sets or gets the GameWindow.
         /// </summary>
-        public GameWindow GameWindow { get; private set; }
+        public GameWindow GameWindow { get; }
 
         /// <summary>
         /// Gets the graphics manager.
         /// </summary>
-        public GraphicsManager GraphicsManager { get; private set; }
+        public GraphicsManager GraphicsManager { get; }
 
         /// <summary>
         /// Gets the ScaleValue.

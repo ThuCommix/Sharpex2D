@@ -20,8 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Audio.WaveOut;
 using Sharpex2D.Framework.Content;
@@ -46,7 +44,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the components.
         /// </summary>
-        public GameComponentCollection Components { private set; get; }
+        public GameComponentCollection Components { get; }
 
         /// <summary>
         /// Gets the component manager.

@@ -29,32 +29,6 @@ namespace Sharpex2D.Framework.Content
         private readonly long _dataOffset;
 
         /// <summary>
-        /// Gets the length
-        /// </summary>
-        public override long Length
-        {
-            get
-            {
-                return base.Length - _dataOffset;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the position
-        /// </summary>
-        public override long Position
-        {
-            get
-            {
-                return base.Position - _dataOffset;
-            }
-            set
-            {
-                Seek(value, SeekOrigin.Begin);
-            }
-        }
-
-        /// <summary>
         /// Initializes a new ContentStream class
         /// </summary>
         /// <param name="file">The File</param>
@@ -64,6 +38,23 @@ namespace Sharpex2D.Framework.Content
         {
             _dataOffset = offset;
             base.Seek(_dataOffset, SeekOrigin.Begin);
+        }
+
+        /// <summary>
+        /// Gets the length
+        /// </summary>
+        public override long Length
+        {
+            get { return base.Length - _dataOffset; }
+        }
+
+        /// <summary>
+        /// Gets or sets the position
+        /// </summary>
+        public override long Position
+        {
+            get { return base.Position - _dataOffset; }
+            set { Seek(value, SeekOrigin.Begin); }
         }
 
         /// <summary>

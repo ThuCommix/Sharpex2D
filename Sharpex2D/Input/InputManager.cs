@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Sharpex2D.Framework.Input.Implementation.Touch;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Input
 {
@@ -31,7 +30,6 @@ namespace Sharpex2D.Framework.Input
     internal class InputManager : IUpdateable
     {
         private readonly List<IInput> _inputs;
-        private readonly Logger _logger;
 
         /// <summary>
         /// Initializes a new InputManager Instance.
@@ -39,7 +37,6 @@ namespace Sharpex2D.Framework.Input
         internal InputManager()
         {
             _inputs = new List<IInput>();
-            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -78,7 +75,7 @@ namespace Sharpex2D.Framework.Input
                 }
                 catch
                 {
-                    _logger.Warn("Unable to initialize {0}.", input.GetType().Name);
+                    Logger.Instance.Warn($"Unable to initialize {input.GetType().Name}.");
                 }
             }
         }

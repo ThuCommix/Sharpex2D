@@ -25,7 +25,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework
 {
@@ -99,7 +98,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the screen device manager.
         /// </summary>
-        public ScreenDeviceManager ScreenDeviceManager { get; private set; }
+        public ScreenDeviceManager ScreenDeviceManager { get; }
 
         /// <summary>
         /// A value indicating whether to allow the user to resize the game window.
@@ -460,7 +459,7 @@ namespace Sharpex2D.Framework
                 }
                 catch
                 {
-                    LogManager.GetClassLogger().Warn("Already disposed.");
+                    Logger.Instance.Warn("Already disposed.");
                 }
             }
         }

@@ -79,7 +79,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             if (error != OpenGLError.GL_NO_ERROR)
             {
                 string methodName = new StackFrame(1).GetMethod().Name;
-                System.Diagnostics.Debug.WriteLine("{0} failed with {1}.", methodName, error);
+                Debug.WriteLine("{0} failed with {1}.", methodName, error);
             }
         }
     }

@@ -27,7 +27,6 @@ namespace Sharpex2D.Framework.Network
     [TestState(TestState.Tested)]
     public class PacketContext : IDisposable
     {
-        private readonly bool _canWrite;
         private readonly MemoryStream _packetStream;
         private readonly byte[] _readBuffer;
 
@@ -39,7 +38,7 @@ namespace Sharpex2D.Framework.Network
         {
             _packetStream = new MemoryStream();
             Identifer = identifer;
-            _canWrite = true;
+            CanWrite = true;
             _readBuffer = new byte[8];
             _packetStream.Write(BitConverter.GetBytes(identifer), 0, 2);
         }
@@ -57,7 +56,7 @@ namespace Sharpex2D.Framework.Network
 
             _packetStream = new MemoryStream(data);
             _readBuffer = new byte[8];
-            _canWrite = false;
+            CanWrite = false;
             _packetStream.Read(_readBuffer, 0, 2);
             Identifer = BitConverter.ToInt16(_readBuffer, 0);
         }
@@ -78,10 +77,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// A value indicating whether the PacketContext can write.
         /// </summary>
-        public bool CanWrite
-        {
-            get { return _canWrite; }
-        }
+        public bool CanWrite { get; }
 
         /// <summary>
         /// Disposes the object.

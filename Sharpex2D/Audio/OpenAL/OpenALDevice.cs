@@ -48,12 +48,12 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Gets the Title of the audio device.
         /// </summary>
-        public string Name { private set; get; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the Id.
         /// </summary>
-        public int Id { private set; get; }
+        public int Id { get; }
 
         /// <summary>
         /// Gets the OpenALContext.

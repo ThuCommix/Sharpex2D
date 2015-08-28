@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.IO;
 using System.Linq;
 using Sharpex2D.Framework.Audio;
 
@@ -26,7 +25,7 @@ namespace Sharpex2D.Framework.Content.Importers
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ImportContent(typeof(Sound))]
+    [ImportContent(typeof (Sound))]
     public class SoundImporter : Importer
     {
         /// <summary>

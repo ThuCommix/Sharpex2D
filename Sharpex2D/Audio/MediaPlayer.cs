@@ -20,7 +20,6 @@
 
 using System;
 using System.Collections.Generic;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio
 {
@@ -28,9 +27,9 @@ namespace Sharpex2D.Framework.Audio
     [TestState(TestState.Tested)]
     public class MediaPlayer : IComponent, IDisposable
     {
-        internal readonly SoundManager SoundManager;
         private readonly List<SoundEffectGroup> _audioEffectGroups;
         private readonly ISoundPlayer _audioProvider;
+        internal readonly SoundManager SoundManager;
 
         /// <summary>
         /// Initializes a new MediaPlayer class.
@@ -39,16 +38,15 @@ namespace Sharpex2D.Framework.Audio
         internal MediaPlayer(SoundManager soundManager)
         {
             _audioEffectGroups = new List<SoundEffectGroup>();
-            Logger logger = LogManager.GetClassLogger();
             Queue = new Queue<Sound>();
 
             if (soundManager == null)
             {
-                logger.Warn("The specified audio initializer was null.");
+                Logger.Instance.Warn("The specified audio initializer was null.");
             }
             else if (!soundManager.IsSupported)
             {
-                logger.Warn("The specified AudioProvider is not supported.");
+                Logger.Instance.Warn("The specified AudioProvider is not supported.");
             }
             else
             {
@@ -61,11 +59,11 @@ namespace Sharpex2D.Framework.Audio
                 MetaDataCollection metadata = MetaDataReader.ReadMetaData(_audioProvider);
                 if (metadata.ContainsKey("Title"))
                 {
-                    logger.Info("Audiosystem initialized with {0}.", metadata["Title"]);
+                    Logger.Instance.Debug($"Audiosystem initialized with {metadata["Title"]}.");
                 }
                 else
                 {
-                    logger.Info("Audiosystem initialized with unknown.");
+                    Logger.Instance.Debug("Audiosystem initialized with unknown.");
                 }
 #endif
             }
@@ -125,7 +123,7 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Gets the sound queue.
         /// </summary>
-        public Queue<Sound> Queue { private set; get; }
+        public Queue<Sound> Queue { get; }
 
         #region IComponent Implementation
 

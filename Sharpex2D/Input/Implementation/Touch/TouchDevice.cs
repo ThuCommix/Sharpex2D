@@ -23,7 +23,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Input.Implementation.Touch
 {
@@ -31,7 +30,6 @@ namespace Sharpex2D.Framework.Input.Implementation.Touch
     [TestState(TestState.Untested)]
     internal class TouchDevice : ITouchInput
     {
-        private readonly Logger _logger;
         private readonly List<Input.Touch> _touches;
         private IntPtr _handle;
 
@@ -41,7 +39,6 @@ namespace Sharpex2D.Framework.Input.Implementation.Touch
         public TouchDevice()
         {
             _touches = new List<Input.Touch>();
-            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -109,7 +106,7 @@ namespace Sharpex2D.Framework.Input.Implementation.Touch
 
             if (!TouchInterops.GetTouchInputInfo(m.LParam, inputCount, touchInput, Marshal.SizeOf(touchInput)))
             {
-                _logger.Warn("Error while extracting TouchInputInfo.");
+                Logger.Instance.Warn("Error while extracting TouchInputInfo.");
                 return;
             }
 
@@ -142,7 +139,7 @@ namespace Sharpex2D.Framework.Input.Implementation.Touch
 
                 if (!TouchInterops.CloseTouchInputHandle(m.LParam))
                 {
-                    _logger.Warn("Unable to close TouchInputHandle.");
+                    Logger.Instance.Warn("Unable to close TouchInputHandle.");
                 }
             }
         }
@@ -154,7 +151,7 @@ namespace Sharpex2D.Framework.Input.Implementation.Touch
         {
             if (!TouchInterops.UnregisterTouchWindow(_handle))
             {
-                _logger.Warn("Unable to unregister TouchWindow.");
+                Logger.Instance.Warn("Unable to unregister TouchWindow.");
             }
         }
     }

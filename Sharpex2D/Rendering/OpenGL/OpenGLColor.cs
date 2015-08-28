@@ -24,11 +24,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
     [TestState(TestState.Tested)]
     internal struct OpenGLColor
     {
-        private readonly float _a;
-        private readonly float _b;
-        private readonly float _g;
-        private readonly float _r;
-
         /// <summary>
         /// Initializes a new OpenGLColor struct.
         /// </summary>
@@ -48,43 +43,31 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="b">The B value.</param>
         public OpenGLColor(float a, float r, float g, float b)
         {
-            _a = a;
-            _r = r;
-            _g = g;
-            _b = b;
+            A = a;
+            R = r;
+            G = g;
+            B = b;
         }
 
         /// <summary>
         /// Gets the A value.
         /// </summary>
-        public float A
-        {
-            get { return _a; }
-        }
+        public float A { get; }
 
         /// <summary>
         /// Gets the R value.
         /// </summary>
-        public float R
-        {
-            get { return _r; }
-        }
+        public float R { get; }
 
         /// <summary>
         /// Gets the G value.
         /// </summary>
-        public float G
-        {
-            get { return _g; }
-        }
+        public float G { get; }
 
         /// <summary>
         /// Gets the B value.
         /// </summary>
-        public float B
-        {
-            get { return _b; }
-        }
+        public float B { get; }
 
         /// <summary>
         /// Converts the OpenGLColor to string.
@@ -92,7 +75,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("(R: {0} G: {1} B: {2} A: {3})", _r, _g, _b, _a);
+            return string.Format("(R: {0} G: {1} B: {2} A: {3})", R, G, B, A);
         }
     }
 }

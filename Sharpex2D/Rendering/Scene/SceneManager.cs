@@ -72,6 +72,15 @@ namespace Sharpex2D.Framework.Rendering.Scene
             }
         }
 
+        #region IGameComponent Implementation
+
+        /// <summary>
+        /// Gets the Order.
+        /// </summary>
+        public int Order { get; private set; }
+
+        #endregion
+
         #region IComponent Implementation
 
         /// <summary>
@@ -81,15 +90,6 @@ namespace Sharpex2D.Framework.Rendering.Scene
         {
             get { return new Guid("00C8ED49-0C1B-47A8-B990-C71F5C4CB09E"); }
         }
-
-        #endregion
-
-        #region IGameComponent Implementation
-
-        /// <summary>
-        /// Gets the Order.
-        /// </summary>
-        public int Order { get; private set; }
 
         #endregion
 

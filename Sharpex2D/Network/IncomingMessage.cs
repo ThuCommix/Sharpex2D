@@ -38,7 +38,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the data.
         /// </summary>
-        public byte[] Data { private set; get; }
+        public byte[] Data { get; }
 
         /// <summary>
         /// Gets the size of the message

@@ -29,16 +29,6 @@ namespace Sharpex2D.Framework.Audio
     [TestState(TestState.Tested)]
     internal class WaveReader
     {
-        /// <summary>
-        /// Gets the wave header.
-        /// </summary>
-        public WaveHeader WaveHeader { private set; get; }
-
-        /// <summary>
-        /// Gets the wave format.
-        /// </summary>
-        public WaveFormat WaveFormat { private set; get; }
-
         private readonly long _offset;
         private readonly ExtensibleContentFormat _xcf;
 
@@ -91,8 +81,18 @@ namespace Sharpex2D.Framework.Audio
             _offset = stream.Position;
 
             WaveHeader = waveHeader;
-            WaveFormat = new WaveFormat((int)waveHeader.SampleRate, waveHeader.Bit, waveHeader.Channels);
+            WaveFormat = new WaveFormat((int) waveHeader.SampleRate, waveHeader.Bit, waveHeader.Channels);
         }
+
+        /// <summary>
+        /// Gets the wave header.
+        /// </summary>
+        public WaveHeader WaveHeader { private set; get; }
+
+        /// <summary>
+        /// Gets the wave format.
+        /// </summary>
+        public WaveFormat WaveFormat { private set; get; }
 
         /// <summary>
         /// Gets the audio stream.

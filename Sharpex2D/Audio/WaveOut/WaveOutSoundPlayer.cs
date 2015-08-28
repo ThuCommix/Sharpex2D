@@ -30,8 +30,8 @@ namespace Sharpex2D.Framework.Audio.WaveOut
     {
         private readonly int _device;
         private readonly WaveOut _waveOut;
-        private Stream _stream;
         private PlaybackMode _playbackMode = PlaybackMode.None;
+        private Stream _stream;
         private bool _userStop;
 
         /// <summary>

@@ -28,11 +28,11 @@ namespace Sharpex2D.Framework.Rendering
     [TestState(TestState.Tested)]
     public class SpriteBatch : IComponent
     {
+        private readonly List<DrawOperation> _currentDrawOperations;
         internal readonly IRenderer Renderer;
-        private SpriteSortMode _currentSortMode;
         private bool _beginCalled;
+        private SpriteSortMode _currentSortMode;
         private bool _endCalled = true;
-        private readonly List<DrawOperation> _currentDrawOperations; 
 
         /// <summary>
         /// Initializes a new SpriteBatch class.

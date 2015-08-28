@@ -18,45 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Network.Protocols;
-
-namespace Sharpex2D.Network.Logic
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    public interface IClientListener
+    public enum LogLevel
     {
         /// <summary>
-        /// Gets the client instance.
+        /// Indicates a debug information.
         /// </summary>
-        IClient Client { get; }
+        Debug = 0,
 
         /// <summary>
-        /// Called if a client joined on the server.
+        /// Indicates a warning.
         /// </summary>
-        /// <param name="connection">The IPAddress.</param>
-        void OnClientJoined(IConnection connection);
+        Warning = 1,
 
         /// <summary>
-        /// Called if a client exited.
+        /// Indicates an error.
         /// </summary>
-        /// <param name="connection">The IPAddress.</param>
-        void OnClientExited(IConnection connection);
+        Error = 2,
 
         /// <summary>
-        /// Called if the server sends a client list.
+        /// Indicates a engine message.
         /// </summary>
-        /// <param name="connections">The Connections.</param>
-        void OnClientListing(IConnection[] connections);
-
-        /// <summary>
-        /// Called if the server is closing.
-        /// </summary>
-        void OnServerShutdown();
-
-        /// <summary>
-        /// Called, if our client timed out.
-        /// </summary>
-        void OnClientTimedOut();
+        Engine = 3
     }
 }

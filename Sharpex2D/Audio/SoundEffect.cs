@@ -20,7 +20,6 @@
 
 using System;
 using Sharpex2D.Framework.Content;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Audio
 {
@@ -45,15 +44,14 @@ namespace Sharpex2D.Framework.Audio
         {
             Sound = sound;
             SoundManager soundManager = GameHost.Get<MediaPlayer>().SoundManager;
-            Logger logger = LogManager.GetClassLogger();
 
             if (soundManager == null)
             {
-                logger.Warn("The specified SoundManager was null.");
+                Logger.Instance.Warn("The specified SoundManager was null.");
             }
             else if (!soundManager.IsSupported)
             {
-                logger.Warn("The specified SoundManager is not supported.");
+                Logger.Instance.Warn("The specified SoundManager is not supported.");
             }
             else
             {

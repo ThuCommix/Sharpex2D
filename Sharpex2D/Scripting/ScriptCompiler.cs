@@ -23,7 +23,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using Microsoft.CSharp;
 using Microsoft.VisualBasic;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Scripting
 {
@@ -31,16 +30,6 @@ namespace Sharpex2D.Framework.Scripting
     [TestState(TestState.Tested)]
     public static class ScriptCompiler
     {
-        private static readonly Logger Logger;
-
-        /// <summary>
-        /// Initializes a new ScriptCompiler class.
-        /// </summary>
-        static ScriptCompiler()
-        {
-            Logger = LogManager.GetClassLogger();
-        }
-
         /// <summary>
         /// Compiles the source to assembly.
         /// </summary>
@@ -78,11 +67,11 @@ namespace Sharpex2D.Framework.Scripting
             {
                 if (error.IsWarning)
                 {
-                    Logger.Warn("{0} (Line {1})", error.ErrorText, error.Line);
+                    Logger.Instance.Warn($"{error.ErrorText} (Line {error.Line})");
                 }
                 else
                 {
-                    Logger.Critical("{0} (Line {1})", error.ErrorText, error.Line);
+                    Logger.Instance.Error($"{error.ErrorText} (Line {error.Line})");
                     flag = true;
                 }
             }
@@ -117,11 +106,11 @@ namespace Sharpex2D.Framework.Scripting
             {
                 if (error.IsWarning)
                 {
-                    Logger.Warn("{0} (Line {1})", error.ErrorText, error.Line);
+                    Logger.Instance.Warn($"{error.ErrorText} (Line {error.Line})");
                 }
                 else
                 {
-                    Logger.Critical("{0} (Line {1})", error.ErrorText, error.Line);
+                    Logger.Instance.Error($"{error.ErrorText} (Line {error.Line})");
                     flag = true;
                 }
             }

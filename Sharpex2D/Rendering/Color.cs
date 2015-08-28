@@ -45,22 +45,22 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Gets or sets the RedValue.
         /// </summary>
-        public byte R { set; get; }
+        public byte R { get; set; }
 
         /// <summary>
         /// Gets or sets the GreenValue.
         /// </summary>
-        public byte G { set; get; }
+        public byte G { get; set; }
 
         /// <summary>
         /// Gets or sets the BlueValue.
         /// </summary>
-        public byte B { set; get; }
+        public byte B { get; set; }
 
         /// <summary>
         /// Gets or sets the AlphaValue.
         /// </summary>
-        public byte A { set; get; }
+        public byte A { get; set; }
 
         /// <summary>
         /// Generates a Color from the given Values.

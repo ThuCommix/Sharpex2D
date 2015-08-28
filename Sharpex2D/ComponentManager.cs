@@ -29,16 +29,12 @@ namespace Sharpex2D.Framework
     [TestState(TestState.Tested)]
     public class ComponentManager : IConstructable, IEnumerable<IComponent>
     {
-        private readonly List<IComponent> _internalComponents = new List<IComponent>();
         private bool _alreadyCalledConstruct;
 
         /// <summary>
         /// Access to the Components enumeration.
         /// </summary>
-        private List<IComponent> Components
-        {
-            get { return _internalComponents; }
-        }
+        private List<IComponent> Components { get; } = new List<IComponent>();
 
         #region IComponent Implementation
 
@@ -57,9 +53,9 @@ namespace Sharpex2D.Framework
         /// </summary>
         public void Construct()
         {
-            for (int i = 0; i <= _internalComponents.Count - 1; i++)
+            for (int i = 0; i <= Components.Count - 1; i++)
             {
-                var com = _internalComponents[i] as IConstructable;
+                var com = Components[i] as IConstructable;
                 if (com != null)
                 {
                     com.Construct();
@@ -122,7 +118,7 @@ namespace Sharpex2D.Framework
         /// <returns>Component</returns>
         internal T Get<T>()
         {
-            foreach (T component in _internalComponents.Where(component => component != null).OfType<T>())
+            foreach (T component in Components.Where(component => component != null).OfType<T>())
             {
                 return component;
             }
@@ -137,7 +133,7 @@ namespace Sharpex2D.Framework
         /// <returns>IComponent</returns>
         public IComponent GetByGuid(Guid guid)
         {
-            foreach (IComponent component in _internalComponents)
+            foreach (IComponent component in Components)
             {
                 if (component == null) continue;
                 if (component.Guid == guid)
@@ -157,7 +153,7 @@ namespace Sharpex2D.Framework
         /// <returns>IEnumerator.</returns>
         public IEnumerator<IComponent> GetEnumerator()
         {
-            return _internalComponents.GetEnumerator();
+            return Components.GetEnumerator();
         }
 
         /// <summary>

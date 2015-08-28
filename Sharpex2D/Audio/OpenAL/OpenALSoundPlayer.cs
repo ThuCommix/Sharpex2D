@@ -29,9 +29,9 @@ namespace Sharpex2D.Framework.Audio.OpenAL
     internal class OpenALSoundPlayer : ISoundPlayer
     {
         private OpenALAudio _audio;
-        private Stream _stream;
         private float _pan;
         private PlaybackMode _playbackMode;
+        private Stream _stream;
         private bool _userStop;
         private float _volume = 0.5f;
 
@@ -133,14 +133,6 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         }
 
         /// <summary>
-        /// Deconstructs the OpenALSoundPlayer class.
-        /// </summary>
-        ~OpenALSoundPlayer()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
         /// Plays the sound.
         /// </summary>
         /// <param name="playbackMode">The PlaybackMode.</param>
@@ -207,6 +199,14 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Deconstructs the OpenALSoundPlayer class.
+        /// </summary>
+        ~OpenALSoundPlayer()
+        {
+            Dispose(false);
         }
 
         protected void Dispose(bool disposing)

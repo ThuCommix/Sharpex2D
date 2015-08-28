@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Audio
             Year = year == 0 ? (int?) null : year;
             Format = format;
             _waveFile = waveFile;
-            Duration = new TimeSpan(0, 0, (int)_waveFile.WaveHeader.DataSize / Format.AvgBytesPerSec);
+            Duration = new TimeSpan(0, 0, (int) _waveFile.WaveHeader.DataSize/Format.AvgBytesPerSec);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Gets the format.
         /// </summary>
-        public WaveFormat Format { private set; get; }
+        public WaveFormat Format { get; }
 
         /// <summary>
         /// Gets the duration.

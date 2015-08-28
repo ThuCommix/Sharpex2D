@@ -115,6 +115,7 @@
     <Compile Include="GameComponent.cs" />
     <Compile Include="GameComponentEventArgs.cs" />
     <Compile Include="GameException.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="MetaDataAttribute.cs" />
     <Compile Include="MetaDataCollection.cs" />
     <Compile Include="MetaDataReader.cs" />
@@ -158,15 +159,7 @@
     <Compile Include="Audio\WaveStream.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
-    <Compile Include="Logging\Adapters\ConsoleAdapter.cs" />
-    <Compile Include="Logging\Adapters\IAdapter.cs" />
-    <Compile Include="Logging\Adapters\StreamingAdapter.cs" />
-    <Compile Include="Logging\Adapters\StreamingAdapterBase.cs" />
-    <Compile Include="Logging\Adapters\VSAdapter.cs" />
-    <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="Logging\Adapters\OutputMode.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="Entities\EntityPositionEventArgs.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRandom.cs" />

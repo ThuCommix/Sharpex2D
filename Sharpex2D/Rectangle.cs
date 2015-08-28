@@ -26,6 +26,15 @@ namespace Sharpex2D.Framework
     [TestState(TestState.Tested)]
     public struct Rectangle
     {
+        #region Empty Rectangle
+
+        /// <summary>
+        /// Gets an empty Rectangle instance.
+        /// </summary>
+        public static Rectangle Empty { get; } = new Rectangle(0, 0, 0, 0);
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -130,20 +139,6 @@ namespace Sharpex2D.Framework
         public Vector2 Center
         {
             get { return new Vector2(X + Width*0.5f, Y + Height*0.5f); }
-        }
-
-        #endregion
-
-        #region Empty Rectangle
-
-        private static readonly Rectangle EmptyRectangle = new Rectangle(0, 0, 0, 0);
-
-        /// <summary>
-        /// Gets an empty Rectangle instance.
-        /// </summary>
-        public static Rectangle Empty
-        {
-            get { return EmptyRectangle; }
         }
 
         #endregion

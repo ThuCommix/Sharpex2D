@@ -32,11 +32,11 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         private readonly SoundMixer _audioMixer;
         private readonly object _locker;
         private readonly OpenALSource _source;
-        private Stream _stream;
         private bool _beginDispose;
         private int _bufferSize;
         private Task _playbackThread;
         private int _processedBytes;
+        private Stream _stream;
 
         /// <summary>
         /// Initializes a new OpenALAudioBuffer class.
@@ -59,7 +59,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Gets the AudioFormat.
         /// </summary>
-        public OpenALAudioFormat Format { get; private set; }
+        public OpenALAudioFormat Format { get; }
 
         /// <summary>
         /// Gets the WaveFormat.
@@ -69,7 +69,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Gets the owner of this buffer.
         /// </summary>
-        public OpenALDevice Owner { get; private set; }
+        public OpenALDevice Owner { get; }
 
         /// <summary>
         /// Gets or sets the Volume.

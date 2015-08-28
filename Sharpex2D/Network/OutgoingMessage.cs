@@ -67,11 +67,11 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the peer protocol.
         /// </summary>
-        internal PeerProtocol Protocol1 { private set; get; }
+        internal PeerProtocol Protocol1 { get; }
 
         /// <summary>
         /// Gets the data.
         /// </summary>
-        internal byte[] Data { private set; get; }
+        internal byte[] Data { get; }
     }
 }

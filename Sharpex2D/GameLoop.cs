@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using Sharpex2D.Framework.Logging;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework
@@ -35,7 +34,6 @@ namespace Sharpex2D.Framework
         private readonly List<IDrawable> _drawables;
         private readonly GameTime _gameTime;
         private readonly Stopwatch _gameTimer;
-        private readonly Logger _logger;
         private readonly Thread _loopThread;
         private readonly List<IUpdateable> _updateables;
 
@@ -52,7 +50,6 @@ namespace Sharpex2D.Framework
             _gameTime = new GameTime();
             Precision = Precision.High;
             DrawMode = DrawMode.Limited;
-            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -88,10 +85,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the Guid.
         /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("DD6E2432-C78E-4C15-8E99-854369D96781"); }
-        }
+        public Guid Guid => new Guid("DD6E2432-C78E-4C15-8E99-854369D96781");
 
         /// <summary>
         /// Subscribes a new IDrawable to the game loop.
@@ -240,7 +234,7 @@ namespace Sharpex2D.Framework
             {
                 (component).Dispose();
 #if DEBUG
-                _logger.Engine("Disposing: {0}", component.GetType().Name);
+                Logger.Instance.Engine($"Disposing: {component.GetType().Name}");
 #endif
             }
         }

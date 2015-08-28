@@ -23,7 +23,6 @@ using System.Diagnostics;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Input;
-using Sharpex2D.Framework.Logging;
 using Sharpex2D.Framework.Rendering;
 using Sharpex2D.Framework.Rendering.Scene;
 
@@ -42,16 +41,6 @@ namespace Sharpex2D.Framework
         /// Gets the current InputManager.
         /// </summary>
         internal static InputManager InputManager;
-
-        private static readonly Logger Logger;
-
-        /// <summary>
-        /// Initializes a new GameHost class.
-        /// </summary>
-        static GameHost()
-        {
-            Logger = LogManager.GetClassLogger();
-        }
 
         /// <summary>
         /// Current GraphicsDevice.
@@ -136,7 +125,7 @@ namespace Sharpex2D.Framework
             Components.Construct();
             Components.Get<GameLoop>().Start();
 
-            Logger.Engine("Sharpex2D ({0}) is sucessfully running.", typeof (GameHost).Assembly.GetName().Version);
+            Logger.Instance.Engine($"Sharpex2D ({typeof (GameHost).Assembly.GetName().Version}) is sucessfully running.");
         }
 
         /// <summary>
@@ -172,7 +161,7 @@ namespace Sharpex2D.Framework
             }
             catch (Exception)
             {
-                Logger.Engine("Failed to restart the process.");
+                Logger.Instance.Engine("Failed to restart the process.");
             }
         }
 

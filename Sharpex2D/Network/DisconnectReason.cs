@@ -42,6 +42,6 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Protocol violation.
         /// </summary>
-        ProtocolViolation,
+        ProtocolViolation
     }
 }

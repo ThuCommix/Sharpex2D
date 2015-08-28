@@ -24,6 +24,5 @@ namespace Sharpex2D.Framework.Content
     [TestState(TestState.Tested)]
     public interface IContent
     {
-
     }
 }

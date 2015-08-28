@@ -42,12 +42,11 @@ namespace Sharpex2D.Framework.Network
             /// <summary>
             /// User datagram protocol.
             /// </summary>
-            Udp,
+            Udp
         }
 
         internal static Random Random;
         private readonly SynchronizedList<RemotePeer> _connections;
-
         private readonly Socket _hostSocket;
         private readonly int _id;
         private readonly Task _peerActivityTask;
@@ -146,7 +145,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the peer statistics.
         /// </summary>
-        public PeerStatistics PeerStatistics { private set; get; }
+        public PeerStatistics PeerStatistics { get; }
 
         /// <summary>
         /// Gets the available connections.

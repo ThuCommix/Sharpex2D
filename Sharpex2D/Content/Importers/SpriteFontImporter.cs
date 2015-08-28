@@ -28,7 +28,7 @@ namespace Sharpex2D.Framework.Content.Importers
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ImportContent(typeof(SpriteFont))]
+    [ImportContent(typeof (SpriteFont))]
     public class SpriteFontImporter : Importer
     {
         /// <summary>

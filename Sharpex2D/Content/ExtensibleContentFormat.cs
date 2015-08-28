@@ -31,8 +31,8 @@ namespace Sharpex2D.Framework.Content
     public class ExtensibleContentFormat : IEnumerable<MetaInformation>
     {
         private readonly List<MetaInformation> _metaInformations;
-        private long _dataOffset;
         private string _basePath;
+        private long _dataOffset;
 
         /// <summary>
         /// Initializes a new ExtensibleContentFormat class
@@ -54,6 +54,24 @@ namespace Sharpex2D.Framework.Content
         private ExtensibleContentFormat(List<MetaInformation> metaInformations)
         {
             _metaInformations = metaInformations;
+        }
+
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
+        /// <returns>IEnumerator</returns>
+        public IEnumerator<MetaInformation> GetEnumerator()
+        {
+            return _metaInformations.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Gets the enumerator
+        /// </summary>
+        /// <returns>IEnumerator</returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         /// <summary>
@@ -112,7 +130,7 @@ namespace Sharpex2D.Framework.Content
                         metaCollection.Add(new MetaInformation(binaryReader.ReadString(), binaryReader.ReadString()));
                     }
 
-                    return new ExtensibleContentFormat(metaCollection) { _dataOffset = dataOffset, _basePath = file };
+                    return new ExtensibleContentFormat(metaCollection) {_dataOffset = dataOffset, _basePath = file};
                 }
             }
         }
@@ -139,7 +157,7 @@ namespace Sharpex2D.Framework.Content
                     var dataOffset = binaryWriter.BaseStream.Position;
                     binaryWriter.Seek(0, SeekOrigin.Begin);
                     binaryWriter.Write(dataOffset);
-                    binaryWriter.Seek((int)dataOffset, SeekOrigin.Begin);
+                    binaryWriter.Seek((int) dataOffset, SeekOrigin.Begin);
                     binaryWriter.Write(data);
                 }
             }
@@ -166,24 +184,6 @@ namespace Sharpex2D.Framework.Content
                 stream.Read(buffer, 0, buffer.Length);
                 return buffer;
             }
-        }
-
-        /// <summary>
-        /// Gets the enumerator
-        /// </summary>
-        /// <returns>IEnumerator</returns>
-        public IEnumerator<MetaInformation> GetEnumerator()
-        {
-            return _metaInformations.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Gets the enumerator
-        /// </summary>
-        /// <returns>IEnumerator</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

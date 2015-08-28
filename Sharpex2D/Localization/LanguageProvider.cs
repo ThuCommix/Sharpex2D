@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Localization
 {
@@ -31,13 +30,14 @@ namespace Sharpex2D.Framework.Localization
     public class LanguageProvider
     {
         private readonly List<Language> _languages;
-        private readonly Logger _logger;
         private Language _currentLanguage;
 
+        /// <summary>
+        /// Initalizes a new LanguageProvider class
+        /// </summary>
         public LanguageProvider()
         {
             _languages = new List<Language>();
-            _logger = LogManager.GetClassLogger();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Sharpex2D.Framework.Localization
                 }
                 catch (Exception)
                 {
-                    _logger.Warn("Error while deserializing {0}.", file);
+                    Logger.Instance.Warn($"Error while deserializing {file}.");
                 }
             }
         }

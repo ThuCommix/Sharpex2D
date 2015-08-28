@@ -25,7 +25,6 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using Sharpex2D.Framework.Content.Importers;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Content
 {
@@ -33,21 +32,18 @@ namespace Sharpex2D.Framework.Content
     [TestState(TestState.Tested)]
     public class ContentManager : IComponent
     {
-        private string _rootPath;
         private readonly Dictionary<Type, Importer> _importers;
-        private readonly Logger _logger;
+        private string _rootPath;
 
         /// <summary>
         /// Initializes a new ContentManager.
         /// </summary>
         public ContentManager()
         {
-            _logger = LogManager.GetClassLogger();
             _importers = new Dictionary<Type, Importer>();
 
             AddImporterFromAssembly(GetType().Assembly);
             AddImporterFromAssembly(Assembly.GetExecutingAssembly());
-
         }
 
         /// <summary>
@@ -92,7 +88,7 @@ namespace Sharpex2D.Framework.Content
 
             foreach (var type in types)
             {
-                if (type.BaseType == typeof(Importer))
+                if (type.BaseType == typeof (Importer))
                 {
                     ImportContentAttribute attribute;
                     if (AttributeHelper.TryGetAttribute(type, out attribute))
@@ -105,12 +101,12 @@ namespace Sharpex2D.Framework.Content
                                 if (_importers.ContainsKey(attribute.Type))
                                 {
                                     _importers[attribute.Type] = importer;
-                                    _logger.Info("Overwriting {0} for type {1}", type.Name, attribute.Type);
+                                    Logger.Instance.Debug($"Overwriting {type.Name} for type {attribute.Type}");
                                 }
                                 else
                                 {
                                     _importers.Add(attribute.Type, importer);
-                                    _logger.Info("Registered {0} for type {1}", type.Name, attribute.Type);
+                                    Logger.Instance.Debug($"Registered {type.Name} for type {attribute.Type}");
                                 }
                             }
                             catch (Exception ex)
@@ -121,7 +117,7 @@ namespace Sharpex2D.Framework.Content
                     }
                     else
                     {
-                        _logger.Info("Overwriting is not allowed for type {0}.", attribute.Type);
+                        Logger.Instance.Debug($"Overwriting is not allowed for type {attribute.Type}.");
                     }
                 }
             }
@@ -142,7 +138,7 @@ namespace Sharpex2D.Framework.Content
             }
 
             var importer = _importers.First(x => x.Key == typeof (T)).Value;
-            return (T)importer.LoadXcf(SolveFileLocation(asset));
+            return (T) importer.LoadXcf(SolveFileLocation(asset));
         }
 
         /// <summary>

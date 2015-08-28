@@ -42,7 +42,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets all available screen devices.
         /// </summary>
-        public ScreenDevice[] Devices { get; private set; }
+        public ScreenDevice[] Devices { get; }
 
         /// <summary>
         /// Gets the default screen device.

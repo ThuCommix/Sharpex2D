@@ -19,76 +19,79 @@
 // THE SOFTWARE.
 
 using System;
+using System.IO;
 
-namespace Sharpex2D.Framework.Rendering.OpenGL
+namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    internal class VertexArray : IDisposable
+    public class Logger : Singleton<Logger>
     {
         /// <summary>
-        /// Initializes a new VertexArray class.
+        /// Initializes a new Logger class
         /// </summary>
-        public VertexArray()
+        public Logger()
         {
-            var buffers = new uint[1];
-            OpenGLInterops.GenVertexArrays(1, buffers);
-            if (buffers[0] == 0) throw new GraphicsException("Unable to allocate memory for vertex array.");
-
-            Id = buffers[0];
+            MinimumLogLevel = LogLevel.Debug;
+            Out = Console.Out;
         }
 
         /// <summary>
-        /// Gets the opengl identifer.
+        /// Gets or sets the minimum log level
         /// </summary>
-        public uint Id { get; }
+        public LogLevel MinimumLogLevel { set; get; }
 
         /// <summary>
-        /// Disposes the object.
+        /// Gets or sets the textwriter
         /// </summary>
-        public void Dispose()
+        public TextWriter Out { set; get; }
+
+        /// <summary>
+        /// Writes a debug message
+        /// </summary>
+        /// <param name="message">The Message</param>
+        public void Debug(string message)
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Trace(message, LogLevel.Debug);
         }
 
         /// <summary>
-        /// Deconstructs the VertexArray class.
+        /// Writes a warning message
         /// </summary>
-        ~VertexArray()
+        /// <param name="message">The Message</param>
+        public void Warn(string message)
         {
-            Dispose(false);
+            Trace(message, LogLevel.Warning);
         }
 
         /// <summary>
-        /// Binds the VertexArray.
+        /// Writes an error message
         /// </summary>
-        public void Bind()
+        /// <param name="message">The Message</param>
+        public void Error(string message)
         {
-            OpenGLInterops.BindVertexArray(Id);
+            Trace(message, LogLevel.Error);
         }
 
         /// <summary>
-        /// Unbinds the VertexArray.
+        /// Writes an engine message
         /// </summary>
-        public void Unbind()
+        /// <param name="message">The Message</param>
+        internal void Engine(string message)
         {
-            OpenGLInterops.BindVertexArray(0);
+            Trace(message, LogLevel.Engine);
         }
 
         /// <summary>
-        /// Disposes the object.
+        /// Traces a message
         /// </summary>
-        /// <param name="disposing">The disposing state.</param>
-        protected void Dispose(bool disposing)
+        /// <param name="message">The Message</param>
+        /// <param name="level">The LogLevel</param>
+        public void Trace(string message, LogLevel level)
         {
-            try
+            if (level >= MinimumLogLevel && Out != null)
             {
-                OpenGLInterops.DeleteVertexArrays(1, new[] {Id});
-            }
-            catch
-            {
-                Logger.Instance.Warn("Unable to dispose.");
+                Out.WriteLine($"[{level}] {message}");
             }
         }
     }

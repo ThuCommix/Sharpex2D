@@ -19,7 +19,6 @@
 // THE SOFTWARE.
 
 using System;
-using Sharpex2D.Framework.Logging;
 
 namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
 {
@@ -38,7 +37,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
         /// <summary>
         /// Gets the shader program Id.
         /// </summary>
-        public uint Id { private set; get; }
+        public uint Id { get; }
 
         /// <summary>
         /// Links a vertex shader and a fragment shader to this program.
@@ -129,7 +128,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
             }
             catch
             {
-                LogManager.GetClassLogger().Warn("Unable to dispose.");
+                Logger.Instance.Warn("Unable to dispose.");
             }
         }
     }

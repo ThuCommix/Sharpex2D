@@ -28,7 +28,6 @@ namespace Sharpex2D.Framework.Input.Implementation.XInput
     internal class Gamepad : IGamepad
     {
         private static readonly Gamepad[] Controllers;
-
         private readonly int _playerIndex;
         private XInputState _gamepadStateCurrent;
         private XInputState _gamepadStatePrev = new XInputState();

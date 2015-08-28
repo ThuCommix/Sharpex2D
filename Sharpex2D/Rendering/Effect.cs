@@ -39,6 +39,15 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
+        /// Disposes the object.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
         /// Sets the data.
         /// </summary>
         /// <typeparam name="T">The DataType.</typeparam>
@@ -74,15 +83,6 @@ namespace Sharpex2D.Framework.Rendering
         ~Effect()
         {
             Dispose(false);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         /// <summary>
