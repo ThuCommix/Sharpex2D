@@ -35,7 +35,7 @@ namespace ContentPipeline.Exporters
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
-    [ExportContent(typeof(SpriteFont))]
+    [ExportContent(typeof (SpriteFont))]
     public class SpriteFontExporter : Exporter
     {
         /// <summary>
@@ -43,7 +43,7 @@ namespace ContentPipeline.Exporters
         /// </summary>
         public override string[] FileFilter
         {
-            get { return new[] { ".font" }; }
+            get { return new[] {".font"}; }
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace ContentPipeline.Exporters
 
             //resharper going crazy lol
             List<Tuple<short, short>> regions = (from charRegion in result
-                                                 let start = short.Parse(charRegion.Elements().Select(x => x.Element("Start")).First().Value)
-                                                 let end = short.Parse(charRegion.Elements().Select(x => x.Element("End")).First().Value)
-                                                 select new Tuple<short, short>(start, end)).ToList();
+                let start = short.Parse(charRegion.Elements().Select(x => x.Element("Start")).First().Value)
+                let end = short.Parse(charRegion.Elements().Select(x => x.Element("End")).First().Value)
+                select new Tuple<short, short>(start, end)).ToList();
 
             var characters = new List<short>();
             foreach (Tuple<short, short> region in regions)
@@ -107,16 +107,14 @@ namespace ContentPipeline.Exporters
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
 
-            float padding = graphics.MeasureString("__", targetFont).Width - 2;
             var fontDescriptions = new Dictionary<char, Rectangle>();
 
             foreach (short character in characters)
             {
-                SizeF dimension =
-                    graphics.MeasureString("_" + (char)(character) + "_", targetFont);
-                float charWidth = dimension.Width - padding + spacing;
+                SizeF dimension = PrecissionMeasureString(graphics, ((char) character).ToString(), targetFont);
+                float charWidth = (int) Math.Ceiling(dimension.Width) + spacing;
                 if (dimension.Height > highestHeight)
-                    highestHeight = dimension.Height;
+                    highestHeight = (int) Math.Ceiling(dimension.Height);
 
                 if (currentWidth + charWidth > maxWidth)
                 {
@@ -124,10 +122,10 @@ namespace ContentPipeline.Exporters
                     height += highestHeight + 10;
                 }
 
-                fontDescriptions.Add((char)character,
-                    new Rectangle((int)Math.Ceiling(currentWidth), (int)Math.Ceiling(height),
-                        (int)Math.Ceiling(charWidth),
-                        (int)Math.Ceiling(dimension.Height)));
+                fontDescriptions.Add((char) character,
+                    new Rectangle((int) Math.Ceiling(currentWidth), (int) Math.Ceiling(height),
+                        (int) Math.Ceiling(charWidth),
+                        (int) Math.Ceiling(dimension.Height)));
                 currentWidth += charWidth;
             }
 
@@ -136,7 +134,7 @@ namespace ContentPipeline.Exporters
             graphics.Dispose();
             testBmp.Dispose();
 
-            var fontBitmap = new Bitmap((int)Math.Ceiling(maxWidth), (int)Math.Ceiling(height));
+            var fontBitmap = new Bitmap((int) Math.Ceiling(maxWidth), (int) Math.Ceiling(height));
             graphics = Graphics.FromImage(fontBitmap);
             graphics.Clear(System.Drawing.Color.Transparent);
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
@@ -169,7 +167,8 @@ namespace ContentPipeline.Exporters
                         binaryWriter.Write(fontDescription.Value.Height);
                     }
 
-                    metaInfos.Add(new MetaInformation("Offset", outputStream.Position.ToString(CultureInfo.InvariantCulture)));
+                    metaInfos.Add(new MetaInformation("Offset",
+                        outputStream.Position.ToString(CultureInfo.InvariantCulture)));
 
                     fontBitmap.Save(outputStream, ImageFormat.Png);
                     fontBitmap.Dispose();
@@ -180,6 +179,36 @@ namespace ContentPipeline.Exporters
             }
 
             return metaInfos;
+        }
+
+        /// <summary>
+        /// Gets the size of a string
+        /// </summary>
+        /// <param name="graphics">The Graphics</param>
+        /// <param name="text">The Text</param>
+        /// <param name="font">The Font</param>
+        /// <returns></returns>
+        private SizeF PrecissionMeasureString(Graphics graphics, string text, Font font)
+        {
+            if (text == " ")
+            {
+                var result = graphics.MeasureString(" ", font);
+                return  new SizeF(result.Width*1.5f, result.Height);
+            }
+            var format = new StringFormat();
+            var rect = new RectangleF(0, 0, 1000, 1000);
+            CharacterRange[] ranges =
+            {
+                new CharacterRange(0,
+                    text.Length)
+            };
+
+            format.SetMeasurableCharacterRanges(ranges);
+
+            var regions = graphics.MeasureCharacterRanges(text, font, rect, format);
+            rect = regions[0].GetBounds(graphics);
+
+            return new SizeF(rect.Right, rect.Bottom);
         }
     }
 }
