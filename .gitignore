@@ -42,13 +42,15 @@ local.properties
 *.sln
 
 # Build results
-
-[Bb]in
-[Dd]ebug*/
-[Rr]elease*/
-Dokumentation/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
 x64/
+x86/
 build/
+bld/
+[Bb]in/
 [Oo]bj/
 
 # MSTest test Results
