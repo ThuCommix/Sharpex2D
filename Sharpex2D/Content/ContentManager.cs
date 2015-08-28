@@ -177,9 +177,14 @@ namespace Sharpex2D.Framework.Content
 
             if (!File.Exists(Path.Combine(RootPath, asset)))
             {
-                //May a reason could be that no extension was provided. Search
-                //in the directory specified by the asset for files with the same name
+                //May a reason could be that no extension was provided. Check if asset + .xcf exists else
+                //search in the directory specified by the asset for files with the same name
                 //and return the first matching one else we tried our best.
+
+                if (File.Exists(Path.Combine(RootPath, asset + ".xcf")))
+                {
+                    return Path.Combine(RootPath, asset + ".xcf");
+                }
 
                 string directory = filepath.Substring(0, filepath.LastIndexOf(@"\", StringComparison.Ordinal));
 
