@@ -193,7 +193,7 @@ namespace ContentPipeline.Exporters
             if (text == " ")
             {
                 var result = graphics.MeasureString(" ", font);
-                return  new SizeF(result.Width*1.5f, result.Height);
+                return  new SizeF(result.Width*2f, result.Height);
             }
             var format = new StringFormat();
             var rect = new RectangleF(0, 0, 1000, 1000);
