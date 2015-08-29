@@ -18,17 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-
 namespace Sharpex2D.Framework
 {
     [Developer("ThuCommix", "developer@sharpex2d.de")]
     [TestState(TestState.Tested)]
     public interface IComponent
     {
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        Guid Guid { get; }
+
     }
 }

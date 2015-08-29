@@ -144,6 +144,8 @@
     <Compile Include="Rendering\OpenGL\DrawMode.cs" />
     <Compile Include="Rendering\OpenGL\Shaders\ShaderType.cs" />
     <Compile Include="Rendering\OpenGL\TextureParam.cs" />
+    <Compile Include="Rendering\Scene.cs" />
+    <Compile Include="Rendering\SceneManager.cs" />
     <Compile Include="Rendering\SpriteSortMode.cs" />
     <Compile Include="Rendering\SpriteFont.cs" />
     <Compile Include="Rendering\TextFormat.cs" />
@@ -276,11 +278,9 @@
     <Compile Include="Rendering\GraphicsException.cs" />
     <Compile Include="Rendering\OpenGL\VertexArray.cs" />
     <Compile Include="Rendering\OpenGL\VertexBuffer.cs" />
-    <Compile Include="Rendering\Scene\SceneEventArgs.cs" />
     <Compile Include="Rendering\SpriteBatch.cs" />
     <Compile Include="Rendering\TextAccessoire.cs" />
     <Compile Include="Rendering\Keyframe.cs" />
-    <Compile Include="Rendering\Scene\Scene.cs" />
     <Compile Include="Rendering\SpriteSheet.cs" />
     <Compile Include="Rendering\Texture2D.cs" />
     <Compile Include="Scripting\EntryAttribute.cs" />
@@ -301,7 +301,6 @@
     <Compile Include="Vector2.cs" />
     <Compile Include="Rendering\Color.cs" />
     <Compile Include="Rendering\GraphicsDevice.cs" />
-    <Compile Include="Rendering\Scene\SceneManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

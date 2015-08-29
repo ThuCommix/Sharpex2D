@@ -25,7 +25,6 @@ using Sharpex2D.Framework.Audio.WaveOut;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Rendering;
 using Sharpex2D.Framework.Rendering.OpenGL;
-using Sharpex2D.Framework.Rendering.Scene;
 
 namespace Sharpex2D.Framework
 {
@@ -101,18 +100,6 @@ namespace Sharpex2D.Framework
         /// </summary>
         public GameWindow Window { get; private set; }
 
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("6782E502-BE99-4030-9472-C295E822881B"); }
-        }
-
-        #endregion
-
         #region IConstructable Implementation
 
         /// <summary>
@@ -134,7 +121,7 @@ namespace Sharpex2D.Framework
         /// <param name="gameTime">The GameTime.</param>
         void IDrawable.Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            OnDrawing(spriteBatch, gameTime);
+            OnDraw(spriteBatch, gameTime);
         }
 
         #endregion
@@ -170,7 +157,7 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void OnDrawing(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void OnDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             IEnumerable<DrawableGameComponent> components = Components.GetDrawables();
             foreach (DrawableGameComponent gameComponent in components)

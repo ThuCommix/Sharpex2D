@@ -24,7 +24,6 @@ using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Input;
 using Sharpex2D.Framework.Rendering;
-using Sharpex2D.Framework.Rendering.Scene;
 
 namespace Sharpex2D.Framework
 {

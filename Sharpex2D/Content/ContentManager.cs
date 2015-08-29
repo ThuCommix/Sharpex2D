@@ -64,18 +64,6 @@ namespace Sharpex2D.Framework.Content
             }
         }
 
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("0DD94218-396E-4EBA-9B3C-EAD05420A375"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// Adds all Importer objects from the specified assembly.
         /// </summary>

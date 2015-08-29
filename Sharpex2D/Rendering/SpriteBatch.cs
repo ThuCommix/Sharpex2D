@@ -54,14 +54,6 @@ namespace Sharpex2D.Framework.Rendering
         public GraphicsDevice GraphicsDevice { internal set; get; }
 
         /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("CCAC7DA7-25FE-4450-94B7-253E8B6D94DE"); }
-        }
-
-        /// <summary>
         /// Begins the draw operation.
         /// </summary>
         public void Begin()

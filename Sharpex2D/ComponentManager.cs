@@ -36,18 +36,6 @@ namespace Sharpex2D.Framework
         /// </summary>
         private List<IComponent> Components { get; } = new List<IComponent>();
 
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("6A3D114D-6DF4-429E-82ED-F7CD0AE29CF8"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// Initializes all Components.
         /// </summary>
@@ -56,10 +44,7 @@ namespace Sharpex2D.Framework
             for (int i = 0; i <= Components.Count - 1; i++)
             {
                 var com = Components[i] as IConstructable;
-                if (com != null)
-                {
-                    com.Construct();
-                }
+                com?.Construct();
             }
             _alreadyCalledConstruct = true;
         }
@@ -85,16 +70,10 @@ namespace Sharpex2D.Framework
             {
                 //Single Construct.
                 var com = component as IConstructable;
-                if (com != null)
-                {
-                    com.Construct();
-                }
+                com?.Construct();
             }
 
-            if (ComponentAdded != null)
-            {
-                ComponentAdded(this, new ComponentEventArgs(component));
-            }
+            ComponentAdded?.Invoke(this, new ComponentEventArgs(component));
         }
 
         /// <summary>
@@ -105,10 +84,7 @@ namespace Sharpex2D.Framework
         {
             Components.Remove(component);
 
-            if (ComponentRemoved != null)
-            {
-                ComponentRemoved(this, new ComponentEventArgs(component));
-            }
+            ComponentRemoved?.Invoke(this, new ComponentEventArgs(component));
         }
 
         /// <summary>
@@ -124,25 +100,6 @@ namespace Sharpex2D.Framework
             }
 
             throw new InvalidOperationException("Component not found (" + typeof (T).FullName + ").");
-        }
-
-        /// <summary>
-        /// Gets the Component by Guid.
-        /// </summary>
-        /// <param name="guid">The Guid.</param>
-        /// <returns>IComponent</returns>
-        public IComponent GetByGuid(Guid guid)
-        {
-            foreach (IComponent component in Components)
-            {
-                if (component == null) continue;
-                if (component.Guid == guid)
-                {
-                    return component;
-                }
-            }
-
-            throw new InvalidOperationException("Component with guid " + guid + " not found.");
         }
 
         #region IEnumerable Implementation

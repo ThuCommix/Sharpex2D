@@ -234,14 +234,6 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
-        /// Gets the guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("94410ED9-4839-41D7-9700-9D5D836F2A7F"); }
-        }
-
-        /// <summary>
         /// Disposes the object.
         /// </summary>
         public void Dispose()

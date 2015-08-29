@@ -125,18 +125,6 @@ namespace Sharpex2D.Framework.Audio
         /// </summary>
         public Queue<Sound> Queue { get; }
 
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Gets the Guid.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("825A61CB-7761-4574-AA50-AA41BDBC4951"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// Disposes the object.
         /// </summary>

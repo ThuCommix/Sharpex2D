@@ -91,18 +91,6 @@ namespace Sharpex2D.Framework.Rendering
             get { return _clearColor; }
         }
 
-        #region IComponent Implementation
-
-        /// <summary>
-        /// Sets or gets the Guid of the Component.
-        /// </summary>
-        public Guid Guid
-        {
-            get { return new Guid("9360F0CF-F712-499D-912A-891B1E35876C"); }
-        }
-
-        #endregion
-
         /// <summary>
         /// Disposes the GraphicsDevice.
         /// </summary>
