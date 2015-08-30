@@ -1,28 +1,18 @@
 <img src="https://www.codeplex.com/Download?ProjectName=sharpex2d&DownloadId=879927"/>
 
 
-####Opensource 2D GameEngine for indie developers
+####Opensource 2d game framework for indie developers
 
+Sharpex2D supports you on creating 2d games in your favorite language c# or vb.net. The framework is completely open source and can be used even in commercial projects.
 
-Sharpex2D allows you to create beautiful 2D games under .NET for Windows and Mono compatible systems. This engine is completly open source and free to use, even for comercial projects. It's written in C# and supports the following graphic frameworks.
+######Key-features
+* OpenGL and DirectX graphic utilization
+* Contentsystem for easy content importing
+* Audio support
+* Different input mechanism such as keyboad, mouse, gamepad, joystick and touch
+* Networking
+* Scripting through csharp- and vb script
 
-######Graphics
-* DirectX9
-* DirectX10
-* DirectX11
-* OpenGL
-* Graphics Device Interface
+The actuall implementation is abstract so you could write your own rendering or audio mechanism.
 
-There are also different types of handling input. The supported devices are listed below.
-
-######Input
-* Keyboard
-* Mouse
-* Touch
-* Gamepad
-* Joystick
-
-######Getting started
-Checkout the [wiki](https://github.com/ThuCommix/Sharpex2D/wiki), and get a quick overview of how to use Sharpex2D in your game.
-
-You can download the engine via nuget (https://www.nuget.org/profiles/ThuCommix/). For additional info visit http://sharpex2d.de/ . The source code can be found here: https://github.com/ThuCommix/Sharpex2D .
+(Readme WIP)
