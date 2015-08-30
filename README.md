@@ -1,4 +1,4 @@
-<img src="https://www.codeplex.com/Download?ProjectName=sharpex2d&DownloadId=879927"/>
+<img src="http://stuff.thucommix.de/i/Sharpex-Logo-Complete.png"/>
 
 
 ####Opensource 2d game framework for indie developers
