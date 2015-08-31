@@ -185,6 +185,9 @@ namespace Sharpex2D.Framework.Entities
         {
             foreach (var entity in _entities)
             {
+                if(!entity.Enabled)
+                    continue;
+
                 entity.Update(gameTime);
             }
         }
@@ -198,6 +201,9 @@ namespace Sharpex2D.Framework.Entities
         {
             foreach (var entity in _entities)
             {
+                if(!entity.Visible)
+                    continue;
+
                 entity.Draw(spriteBatch, gameTime);
             }
         }

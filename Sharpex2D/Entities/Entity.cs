@@ -38,9 +38,19 @@ namespace Sharpex2D.Framework.Entities
         /// </summary>
         /// <typeparam name="T">The Type</typeparam>
         /// <returns>T</returns>
-        public T EntityAs<T>() where T : Entity
+        public T As<T>() where T : Entity
         {
             return this as T;
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the entity is assignable from the specified type
+        /// </summary>
+        /// <typeparam name="T">The Type</typeparam>
+        /// <returns>True on success</returns>
+        public bool Is<T>() where T : Entity
+        {
+            return GetType().IsAssignableFrom(typeof (T));
         }
 
         /// <summary>
