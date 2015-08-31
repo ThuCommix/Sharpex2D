@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -26,8 +26,6 @@ using SharpDX.Direct3D9;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     internal class DirectXRenderer : IRenderer
     {
         private readonly List<ITexture> _textures;

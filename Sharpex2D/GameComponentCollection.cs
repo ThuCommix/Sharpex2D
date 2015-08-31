@@ -25,8 +25,6 @@ using System.Linq;
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class GameComponentCollection : IList<GameComponent>
     {
         private readonly DrawOrderComparer _drawOrderComparer;
@@ -227,8 +225,6 @@ namespace Sharpex2D.Framework
             return list;
         }
 
-        [Developer("ThuCommix", "developer@sharpex2d.de")]
-        [TestState(TestState.Tested)]
         public class DrawOrderComparer : IComparer<DrawableGameComponent>
         {
             /// <summary>
@@ -243,8 +239,6 @@ namespace Sharpex2D.Framework
             }
         }
 
-        [Developer("ThuCommix", "developer@sharpex2d.de")]
-        [TestState(TestState.Tested)]
         public class UpdateOrderComparer : IComparer<GameComponent>
         {
             /// <summary>

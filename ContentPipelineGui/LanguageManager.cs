@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Windows;
 
@@ -27,3 +27,4 @@ namespace ContentPipelineUI
         }
     }
 }
+

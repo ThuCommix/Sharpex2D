@@ -24,8 +24,6 @@ using System.Linq;
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class LaunchParameters
     {
         private readonly Dictionary<string, string> _parameters;

@@ -25,8 +25,6 @@ using Sharpex2D.Framework.Input.Implementation.Touch;
 
 namespace Sharpex2D.Framework.Input
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     internal class InputManager : IUpdateable
     {
         private readonly List<IInput> _inputs;

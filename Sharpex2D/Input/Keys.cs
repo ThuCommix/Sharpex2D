@@ -20,8 +20,6 @@
 
 namespace Sharpex2D.Framework.Input
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public enum Keys
     {
         KeyCode = 65535,

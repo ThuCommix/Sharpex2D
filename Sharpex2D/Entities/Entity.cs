@@ -18,107 +18,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
 using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework.Entities
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    public abstract class Entity
+    public abstract class Entity : IUpdateable, IDrawable
     {
-        private Vector2 _position;
-
         /// <summary>
-        /// Initializes a new Entity class.
+        /// Initializes a new Entity class
         /// </summary>
         protected Entity()
         {
-            Id = 0;
-            _position = new Vector2(0, 0);
-            Entities = new List<Entity>();
-            RaiseEvents = true;
+            Visible = true;
+            Enabled = true;
         }
 
         /// <summary>
-        /// Sets or gets the Position of the Entity.
+        /// Converts the entity to the specified type
         /// </summary>
-        public Vector2 Position
+        /// <typeparam name="T">The Type</typeparam>
+        /// <returns>T</returns>
+        public T EntityAs<T>() where T : Entity
         {
-            get { return _position; }
-            set
-            {
-                OnPositionChanged(value - _position);
-                _position = value;
-                IsDirty = true;
-            }
+            return this as T;
         }
 
         /// <summary>
-        /// Sets or gets the Id of the Entity.
+        /// A value indicating whether the entity is visible
         /// </summary>
-        public int Id { get; set; }
+        public bool Visible { set; get; }
 
         /// <summary>
-        /// Gets the EntityContainer.
+        /// A value indicating whether the entity is enabled
         /// </summary>
-        public List<Entity> Entities { private set; get; }
-
-        /// <summary>
-        /// A value indicating whether the Entity is dirty.
-        /// </summary>
-        public bool IsDirty { set; get; }
-
-        /// <summary>
-        /// A value indicating whether the Entity is destroyed.
-        /// </summary>
-        public bool IsDestroyed { private set; get; }
-
-        /// <summary>
-        /// A value indicating whether the Entity can raise events.
-        /// </summary>
-        public bool RaiseEvents { set; get; }
-
-        /// <summary>
-        /// PositionChanged event.
-        /// </summary>
-        public event EventHandler<EntityPositionEventArgs> PositionChanged;
-
-        /// <summary>
-        /// Destroyed event.
-        /// </summary>
-        public event EventHandler<EventArgs> Destroyed;
-
-        /// <summary>
-        /// Called, if the Position changed.
-        /// </summary>
-        /// <param name="delta">The Delta.</param>
-        public virtual void OnPositionChanged(Vector2 delta)
-        {
-            if (RaiseEvents)
-            {
-                if (PositionChanged != null)
-                {
-                    PositionChanged(this, new EntityPositionEventArgs(delta));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Destroys the Entity.
-        /// </summary>
-        public void Destroy()
-        {
-            IsDestroyed = true;
-            if (RaiseEvents)
-            {
-                if (Destroyed != null)
-                {
-                    Destroyed(this, EventArgs.Empty);
-                }
-            }
-        }
+        public bool Enabled { set; get; }
 
         /// <summary>
         /// Updates the object.

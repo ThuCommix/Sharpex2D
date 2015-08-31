@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -24,8 +24,6 @@ using System.Linq;
 
 namespace Sharpex2D.Framework.Content
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class ContentStorage<T1, T2> : Singleton<ContentStorage<T1, T2>>, IEnumerable<T2> where T2 : IContent
     {
         private readonly Dictionary<T1, T2> _storage;

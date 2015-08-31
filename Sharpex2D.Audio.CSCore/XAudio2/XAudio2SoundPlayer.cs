@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -30,8 +30,6 @@ using Sharpex2D.Framework.Audio;
 
 namespace Sharpex2D.Audio.XAudio2
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     [MetaData("Title", "XAudio2")]
     internal class XAudio2SoundPlayer : ISoundPlayer
     {

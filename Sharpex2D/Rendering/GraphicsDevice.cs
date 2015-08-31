@@ -23,8 +23,6 @@ using System.Windows.Forms;
 
 namespace Sharpex2D.Framework.Rendering
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class GraphicsDevice : IComponent, IDisposable
     {
         private Color _clearColor;

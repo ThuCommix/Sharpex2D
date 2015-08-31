@@ -28,8 +28,6 @@ using Sharpex2D.Framework.Content.Importers;
 
 namespace Sharpex2D.Framework.Content
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class ContentManager : IComponent
     {
         private readonly Dictionary<Type, Importer> _importers;

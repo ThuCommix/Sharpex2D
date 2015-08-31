@@ -18,25 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Framework
+using System;
+
+namespace Sharpex2D.Framework.Entities
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(Tested)]
-    public enum TestState
+    public class EntityChangedEventArgs : EventArgs
     {
         /// <summary>
-        /// The component is not tested.
+        /// Gets the entity
         /// </summary>
-        Untested = 0,
+        public Entity Entity { get; }
 
         /// <summary>
-        /// The component is currently under testing.
+        /// Initializes a new EntityChangedEventArgs class
         /// </summary>
-        InProgress = 1,
-
-        /// <summary>
-        /// The component is tested.
-        /// </summary>
-        Tested = 2
+        /// <param name="entity">The Entity</param>
+        internal EntityChangedEventArgs(Entity entity)
+        {
+            Entity = entity;
+        }
     }
 }

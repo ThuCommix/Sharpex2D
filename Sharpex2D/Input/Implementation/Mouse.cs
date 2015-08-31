@@ -24,8 +24,6 @@ using System.Windows.Forms;
 
 namespace Sharpex2D.Framework.Input.Implementation
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     internal class Mouse : IMouse
     {
         private readonly object _locker;

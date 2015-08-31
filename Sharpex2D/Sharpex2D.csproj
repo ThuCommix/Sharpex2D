@@ -110,8 +110,9 @@
     <Compile Include="Content\Importers\Texture2DImporter.cs" />
     <Compile Include="Content\TextFile.cs" />
     <Compile Include="AttributeHelper.cs" />
-    <Compile Include="DeveloperAttribute.cs" />
     <Compile Include="DrawableGameComponent.cs" />
+    <Compile Include="Entities\EntityChangedEventArgs.cs" />
+    <Compile Include="Entities\EntityManager.cs" />
     <Compile Include="GameComponent.cs" />
     <Compile Include="GameComponentEventArgs.cs" />
     <Compile Include="GameException.cs" />
@@ -149,8 +150,6 @@
     <Compile Include="Rendering\SpriteSortMode.cs" />
     <Compile Include="Rendering\SpriteFont.cs" />
     <Compile Include="Rendering\TextFormat.cs" />
-    <Compile Include="TestState.cs" />
-    <Compile Include="TestStateAttribute.cs" />
     <Compile Include="UI\Element.cs" />
     <Compile Include="VersionAttribute.cs" />
     <Compile Include="DrawMode.cs" />
@@ -162,7 +161,6 @@
     <Compile Include="Singleton.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="LogLevel.cs" />
-    <Compile Include="Entities\EntityPositionEventArgs.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="GameRandom.cs" />
     <Compile Include="ComponentManager.cs" />
@@ -172,7 +170,6 @@
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Content\IContent.cs" />
     <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\EntityEnvironment.cs" />
     <Compile Include="GameComponentCollection.cs" />
     <Compile Include="GameTime.cs" />
     <Compile Include="IDrawable.cs" />

@@ -22,8 +22,6 @@ using System.Runtime.InteropServices;
 
 namespace Sharpex2D.Framework.Input.Implementation.XInput
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     [StructLayout(LayoutKind.Sequential)]
     internal struct XInputVibration
     {

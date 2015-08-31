@@ -27,8 +27,6 @@ using Sharpex2D.Framework.Rendering;
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     internal static class GameHost
     {
         /// <summary>

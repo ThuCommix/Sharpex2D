@@ -28,8 +28,6 @@ using Sharpex2D.Framework.Rendering.OpenGL;
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public abstract class Game : IUpdateable, IDrawable, IConstructable
     {
         /// <summary>

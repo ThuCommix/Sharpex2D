@@ -20,8 +20,6 @@
 
 namespace Sharpex2D.Framework.Input.Implementation.XInput
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     internal enum BatteryDeviceType : byte
     {
         /// <summary>

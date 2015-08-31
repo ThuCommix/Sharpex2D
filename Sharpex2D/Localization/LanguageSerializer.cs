@@ -24,8 +24,6 @@ using System.Xml.Serialization;
 
 namespace Sharpex2D.Framework.Localization
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
     public class LanguageSerializer
     {
         /// <summary>

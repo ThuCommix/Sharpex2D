@@ -23,9 +23,6 @@ using System.Runtime.Serialization;
 
 namespace Sharpex2D.Framework.Content
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
-    [Serializable]
     public class ContentLoadException : Exception
     {
         /// <summary>

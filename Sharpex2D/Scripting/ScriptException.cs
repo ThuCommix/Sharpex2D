@@ -23,8 +23,6 @@ using System.Runtime.Serialization;
 
 namespace Sharpex2D.Framework.Scripting
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     [Serializable]
     public class ScriptException : Exception
     {

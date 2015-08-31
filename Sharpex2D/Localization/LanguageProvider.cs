@@ -25,8 +25,6 @@ using System.Linq;
 
 namespace Sharpex2D.Framework.Localization
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Untested)]
     public class LanguageProvider
     {
         private readonly List<Language> _languages;

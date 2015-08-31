@@ -20,8 +20,6 @@
 
 namespace Sharpex2D.Framework.UI
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public class UISize
     {
         private readonly Vector2 _size;

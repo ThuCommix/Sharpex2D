@@ -1,4 +1,4 @@
-﻿using System.Windows.Input;
+using System.Windows.Input;
 using ContentPipelineUI.Commands;
 using ContentPipelineUI.Models;
 using Microsoft.Win32;
@@ -112,3 +112,4 @@ namespace ContentPipelineUI.ViewModels
         }
     }
 }
+

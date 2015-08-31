@@ -20,8 +20,6 @@
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public struct Circle
     {
         /// <summary>

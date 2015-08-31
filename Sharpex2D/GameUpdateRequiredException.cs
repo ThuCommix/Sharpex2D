@@ -23,8 +23,6 @@ using System.Runtime.Serialization;
 
 namespace Sharpex2D.Framework
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     [Serializable]
     public class GameUpdateRequiredException : Exception
     {

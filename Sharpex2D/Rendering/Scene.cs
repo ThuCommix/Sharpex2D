@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,12 +20,11 @@
 
 using System;
 using System.Linq;
+using Sharpex2D.Framework.Entities;
 using Sharpex2D.Framework.UI;
 
 namespace Sharpex2D.Framework.Rendering
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     public abstract class Scene : IUpdateable, IDrawable, IDisposable
     {
         /// <summary>
@@ -37,6 +36,11 @@ namespace Sharpex2D.Framework.Rendering
         /// Gets the UI manager
         /// </summary>
         public UIManager UIManager { get; }
+
+        /// <summary>
+        /// Gets the entity manager
+        /// </summary>
+        public EntityManager EntityManager { get; }
 
         /// <summary>
         /// A value indicating whether the scene is attached to the scene manager
@@ -58,6 +62,7 @@ namespace Sharpex2D.Framework.Rendering
         {
             Game = GameHost.GameInstance;
             UIManager = new UIManager();
+            EntityManager = new EntityManager();
         }
 
         /// <summary>
@@ -72,14 +77,20 @@ namespace Sharpex2D.Framework.Rendering
         /// Updates the scene
         /// </summary>
         /// <param name="gameTime">The GameTime</param>
-        public abstract void OnUpdate(GameTime gameTime);
+        public virtual void OnUpdate(GameTime gameTime)
+        {
+            EntityManager.Update(gameTime);
+        }
 
         /// <summary>
         /// Draws the scene
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch</param>
         /// <param name="gameTime">The GameTime</param>
-        public abstract void OnDraw(SpriteBatch spriteBatch, GameTime gameTime);
+        public virtual void OnDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        {
+            EntityManager.Draw(spriteBatch, gameTime);
+        }
 
         /// <summary>
         /// Updates the scene
@@ -135,3 +146,4 @@ namespace Sharpex2D.Framework.Rendering
         }
     }
 }
+

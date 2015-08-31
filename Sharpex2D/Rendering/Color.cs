@@ -22,8 +22,6 @@ using System;
 
 namespace Sharpex2D.Framework.Rendering
 {
-    [Developer("ThuCommix", "developer@sharpex2d.de")]
-    [TestState(TestState.Tested)]
     [Serializable]
     public struct Color
     {
