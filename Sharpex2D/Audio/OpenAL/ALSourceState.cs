@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,41 +20,26 @@
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal enum DeviceSpecifications
+    internal enum ALSourceState
     {
         /// <summary>
-        /// Indicates the Version of ALC.
+        /// Initializing
         /// </summary>
-        Version = 0xB002,
+        Initializing = 0x1011,
 
         /// <summary>
-        /// Indicates the default device specifier.
+        /// Playing
         /// </summary>
-        DefaultDeviceSpecifier = 0x1004,
+        Playing = 0x1012,
 
         /// <summary>
-        /// Indicates the device specifier.
+        /// Paused
         /// </summary>
-        DeviceSpecifier = 0x1005,
+        Paused = 0x1013,
 
         /// <summary>
-        /// Indicates the capture device specifier.
+        /// Stopped
         /// </summary>
-        CaptureDeviceSpecifier = 0x310,
-
-        /// <summary>
-        /// Indicates the capture default device specifier.
-        /// </summary>
-        CaptureDefaultDeviceSpecifier = 0x311,
-
-        /// <summary>
-        /// Indicates the all device specifier.
-        /// </summary>
-        AllDevicesSpecifier = 0x1013,
-
-        /// <summary>
-        /// Indicates the default all device specifier.
-        /// </summary>
-        DefaultAllDevicesSpecifier = 0x1012
+        Stopped = 0x1014
     }
 }

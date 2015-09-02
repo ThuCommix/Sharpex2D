@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,31 +20,20 @@
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal enum OpenALAudioFormat
+    public class ALSoundManager : SoundManager
     {
         /// <summary>
-        /// Unknown.
+        /// A value indicating whether the openal sound manager is supported
         /// </summary>
-        Unknown = 0,
+        public override bool IsSupported => ALInterops.IsSupported();
 
         /// <summary>
-        /// Mono, 8Bit.
+        /// Creates a new openal sound player
         /// </summary>
-        Mono8Bit = 0x1100,
-
-        /// <summary>
-        /// Mono, 16Bit.
-        /// </summary>
-        Mono16Bit = 0x1101,
-
-        /// <summary>
-        /// Stereo, 8Bit.
-        /// </summary>
-        Stereo8Bit = 0x1102,
-
-        /// <summary>
-        /// Stereo, 16Bit.
-        /// </summary>
-        Stereo16Bit = 0x1103
+        /// <returns>ISoundPlayer</returns>
+        public override ISoundPlayer Create()
+        {
+            return new ALSoundPlayer();
+        }
     }
 }

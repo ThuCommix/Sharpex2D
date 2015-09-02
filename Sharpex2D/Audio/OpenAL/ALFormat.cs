@@ -20,23 +20,31 @@
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    public class OpenALSoundManager : SoundManager
+    internal enum ALFormat
     {
         /// <summary>
-        /// A value indicating whether the sound manager is supported.
+        /// Unknown.
         /// </summary>
-        public override bool IsSupported
-        {
-            get { return OpenALInterops.IsSupported(); }
-        }
+        Unknown = 0,
 
         /// <summary>
-        /// Creates a new ISoundPlayer.
+        /// Mono, 8Bit.
         /// </summary>
-        /// <returns>ISoundPlayer.</returns>
-        public override ISoundPlayer Create()
-        {
-            return new OpenALSoundPlayer();
-        }
+        Mono8Bit = 0x1100,
+
+        /// <summary>
+        /// Mono, 16Bit.
+        /// </summary>
+        Mono16Bit = 0x1101,
+
+        /// <summary>
+        /// Stereo, 8Bit.
+        /// </summary>
+        Stereo8Bit = 0x1102,
+
+        /// <summary>
+        /// Stereo, 16Bit.
+        /// </summary>
+        Stereo16Bit = 0x1103
     }
 }

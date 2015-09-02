@@ -63,6 +63,16 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\OpenAL\ALContext.cs" />
+    <Compile Include="Audio\OpenAL\ALDevice.cs" />
+    <Compile Include="Audio\OpenAL\ALFormat.cs" />
+    <Compile Include="Audio\OpenAL\ALInterops.cs" />
+    <Compile Include="Audio\OpenAL\ALPlayback.cs" />
+    <Compile Include="Audio\OpenAL\ALSoundManager.cs" />
+    <Compile Include="Audio\OpenAL\ALSoundPlayer.cs" />
+    <Compile Include="Audio\OpenAL\ALSource.cs" />
+    <Compile Include="Audio\OpenAL\ALSourceParameters.cs" />
+    <Compile Include="Audio\OpenAL\ALSourceState.cs" />
     <Compile Include="Audio\SoundEffect.cs" />
     <Compile Include="Audio\SoundEffectGroup.cs" />
     <Compile Include="Audio\SoundEffectPool.cs" />
@@ -72,19 +82,6 @@
     <Compile Include="Audio\SoundMixer.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\ISoundPlayer.cs" />
-    <Compile Include="Audio\OpenAL\DeviceSpecifications.cs" />
-    <Compile Include="Audio\OpenAL\SourceProperty.cs" />
-    <Compile Include="Audio\OpenAL\OpenALInterops.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudio.cs" />
-    <Compile Include="Audio\OpenAL\OpenALAudioFormat.cs" />
-    <Compile Include="Audio\OpenAL\OpenALSoundManager.cs" />
-    <Compile Include="Audio\OpenAL\OpenALSoundPlayer.cs" />
-    <Compile Include="Audio\OpenAL\OpenALContext.cs" />
-    <Compile Include="Audio\OpenAL\OpenALDataBuffer.cs" />
-    <Compile Include="Audio\OpenAL\OpenALDevice.cs" />
-    <Compile Include="Audio\OpenAL\OpenALSource.cs" />
-    <Compile Include="Audio\OpenAL\OpenALSourcePool.cs" />
-    <Compile Include="Audio\OpenAL\SourceState.cs" />
     <Compile Include="Audio\PlaybackMode.cs" />
     <Compile Include="Audio\PlaybackState.cs" />
     <Compile Include="Audio\WaveReader.cs" />

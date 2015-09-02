@@ -21,14 +21,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal class OpenALInterops
+    [SuppressUnmanagedCodeSecurity]
+    internal class ALInterops
     {
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr alGetString(int name);
-
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr alcGetString([In] IntPtr device, int name);
 
@@ -37,22 +36,6 @@ namespace Sharpex2D.Framework.Audio.OpenAL
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern sbyte alIsExtensionPresent(string extensionName);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alcCaptureStart(IntPtr device);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alcCaptureStop(IntPtr device);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alcCaptureSamples(IntPtr device, IntPtr buffer, int numSamples);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr alcCaptureOpenDevice(string deviceName, uint frequency, OpenALAudioFormat format,
-            int bufferSize);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alcCaptureCloseDevice(IntPtr device);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern IntPtr alcOpenDevice(string deviceName);
@@ -67,16 +50,10 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         internal static extern void alcMakeContextCurrent(IntPtr context);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr alcGetContextsDevice(IntPtr context);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr alcGetCurrentContext();
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void alcDestroyContext(IntPtr context);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetSourcei(uint sourceId, SourceProperty property, out int value);
+        internal static extern void alGetSourcei(uint sourceId, ALSourceParameters param, out int value);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void alSourcePlay(uint sourceId);
@@ -100,77 +77,35 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         internal static extern void alDeleteSources(int count, uint[] sources);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetSourcef(uint sourceId, SourceProperty property, out float value);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetSource3f(uint sourceId, SourceProperty property, out float val1,
-            out float val2, out float val3);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alSourcef(uint sourceId, SourceProperty property, float value);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alSourcefv(uint sourceId, SourceProperty property, float[] value);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alSource3f(uint sourceId, SourceProperty property, float val1, float val2,
-            float val3);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alSourcei(uint sourceId, SourceProperty property, float val1);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void alGenBuffers(int count, uint[] bufferIDs);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alBufferData(uint bufferId, OpenALAudioFormat format, byte[] data, int byteSize,
+        internal static extern void alBufferData(uint bufferId, ALFormat format, byte[] data, int byteSize,
             uint frequency);
 
         [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
         internal static extern void alDeleteBuffers(int numBuffers, uint[] bufferIDs);
 
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alListenerf(SourceProperty param, float val);
+        public const int DeviceSpecifier = 0x1005;
 
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alListenerfv(SourceProperty param, float[] val);
+        public const int AllDevicesSpecifier = 0x1013;
 
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alListener3f(SourceProperty param, float val1, float val2, float val3);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetListener3f(SourceProperty param, out float val1, out float val2,
-            out float val3);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetListenerf(SourceProperty param, out float val);
-
-        [DllImport("OpenAL32.dll", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void alGetListenerfv(SourceProperty param, float[] val);
-
-        internal static OpenALDevice[] GetOpenALDevices()
+        internal static string[] GetALDeviceNames()
         {
             var strings = new string[0];
             if (IsExtensionPresent("ALC_ENUMERATE_ALL_EXT"))
             {
                 strings =
                     ReadStringsFromMemory(alcGetString(IntPtr.Zero,
-                        (int) DeviceSpecifications.AllDevicesSpecifier));
+                        AllDevicesSpecifier));
             }
             else if (IsExtensionPresent("ALC_ENUMERATION_EXT"))
             {
                 strings =
-                    ReadStringsFromMemory(alcGetString(IntPtr.Zero, (int) DeviceSpecifications.DeviceSpecifier));
+                    ReadStringsFromMemory(alcGetString(IntPtr.Zero, DeviceSpecifier));
             }
 
-            var devices = new OpenALDevice[strings.Length];
-
-            for (int i = 0; i < devices.Length; i++)
-            {
-                devices[i] = new OpenALDevice(strings[i], i);
-            }
-
-            return devices;
+            return strings;
         }
 
         internal static string[] ReadStringsFromMemory(IntPtr location)

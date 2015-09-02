@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -22,24 +22,33 @@ using System;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal class OpenALContext : IDisposable
+    internal class ALSource : IDisposable
     {
         /// <summary>
-        /// Gets the handle of the openal context.
+        /// Gets the openal source id
         /// </summary>
-        private readonly IntPtr _handle;
+        public uint Id { get; }
+
+        private readonly ALDevice _device;
 
         /// <summary>
-        /// Creates a new OpenALContext class.
+        /// Initializes a new ALSource class
         /// </summary>
-        /// <param name="contextHandle">The ContextHandle.</param>
-        private OpenALContext(IntPtr contextHandle)
+        /// <param name="device">The device</param>
+        /// <param name="sourceId">The source id</param>
+        public ALSource(ALDevice device, uint sourceId)
         {
-            _handle = contextHandle;
+            Id = sourceId;
+            _device = device;
+        }
+
+        ~ALSource()
+        {
+            Dispose(false);
         }
 
         /// <summary>
-        /// Disposes the object.
+        /// Disposes the openal source
         /// </summary>
         public void Dispose()
         {
@@ -48,38 +57,12 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         }
 
         /// <summary>
-        /// Deconstructs the OpenALContext class.
+        /// Disposes the openal source
         /// </summary>
-        ~OpenALContext()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Makes the context the current Context.
-        /// </summary>
-        public void MakeCurrent()
-        {
-            OpenALInterops.alcMakeContextCurrent(_handle);
-        }
-
-        /// <summary>
-        /// Creates a new OpenALContext on the specified OpenALDevice.
-        /// </summary>
-        /// <param name="openALDeviceHandle">The OpenALDevice.</param>
-        public static OpenALContext CreateContext(IntPtr openALDeviceHandle)
-        {
-            return new OpenALContext(OpenALInterops.alcCreateContext(openALDeviceHandle, IntPtr.Zero));
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <param name="disposing">The disposing state.</param>
+        /// <param name="disposing">The disposing state</param>
         protected void Dispose(bool disposing)
         {
-            MakeCurrent();
-            OpenALInterops.alcDestroyContext(_handle);
+            _device.DeleteALSource(this);
         }
     }
 }

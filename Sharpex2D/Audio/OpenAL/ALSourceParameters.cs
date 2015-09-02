@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,95 +20,95 @@
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal enum SourceProperty
+    internal enum ALSourceParameters
     {
         /// <summary>
-        /// SourceState.
+        /// SourceState
         /// </summary>
         SourceState = 0x1010,
 
         /// <summary>
-        /// BuffersQueued.
+        /// BuffersQueued
         /// </summary>
         BuffersQueued = 0x1015,
 
         /// <summary>
-        /// AllBuffersProcessed.
+        /// AllBuffersProcessed
         /// </summary>
         AllBuffersProcessed = 0x1016,
 
         /// <summary>
-        /// Pitch.
+        /// Pitch
         /// </summary>
         Pitch = 0x1003,
 
         /// <summary>
-        /// Position.
+        /// Position
         /// </summary>
         Position = 0x1004,
 
         /// <summary>
-        /// Direction.
+        /// Direction
         /// </summary>
         Direction = 0x1005,
 
         /// <summary>
-        /// Velocity.
+        /// Velocity
         /// </summary>
         Velocity = 0x1006,
 
         /// <summary>
-        /// Gain.
+        /// Gain
         /// </summary>
         Gain = 0x100A,
 
         /// <summary>
-        /// Min gain.
+        /// Min gain
         /// </summary>
         MinGain = 0x100D,
 
         /// <summary>
-        /// Max gain.
+        /// Max gain
         /// </summary>
         MaxGain = 0x100E,
 
         /// <summary>
-        /// Orientation.
+        /// Orientation
         /// </summary>
         Orientation = 0x100F,
 
         /// <summary>
-        /// Max distance.
+        /// Max distance
         /// </summary>
         MaxDistance = 0x1023,
 
         /// <summary>
-        /// Roll off factor.
+        /// Roll off factor
         /// </summary>
         RollOffFactor = 0x1021,
 
         /// <summary>
-        /// Cone outer gain.
+        /// Cone outer gain
         /// </summary>
         ConeOuterGain = 0x1022,
 
         /// <summary>
-        /// Cone inner angle.
+        /// Cone inner angle
         /// </summary>
         ConeInnerAngle = 0x1001,
 
         /// <summary>
-        /// Cone outer angle.
+        /// Cone outer angle
         /// </summary>
         ConeOuterAngle = 0x1002,
 
         /// <summary>
-        /// Reference distance.
+        /// Reference distance
         /// </summary>
         ReferenceDistance = 0x1020,
 
         /// <summary>
-        /// Source relative.
+        /// Source relative
         /// </summary>
         SourceRelative = 514
     }
