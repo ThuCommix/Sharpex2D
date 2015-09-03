@@ -24,13 +24,11 @@ using CSCore;
 using CSCore.Codecs.RAW;
 using CSCore.SoundOut;
 using CSCore.Streams;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 using PlaybackState = Sharpex2D.Framework.Audio.PlaybackState;
 
 namespace Sharpex2D.Audio.DirectSound
 {
-    [MetaData("Title", "DirectSound")]
     internal class DirectSoundPlayer : ISoundPlayer
     {
         private readonly ISoundOut _soundOut;

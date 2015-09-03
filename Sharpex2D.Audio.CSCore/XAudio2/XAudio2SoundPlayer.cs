@@ -22,15 +22,12 @@ using System;
 using System.IO;
 using CSCore;
 using CSCore.Codecs.RAW;
-using CSCore.Codecs.WAV;
 using CSCore.Streams;
 using CSCore.XAudio2;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 
 namespace Sharpex2D.Audio.XAudio2
 {
-    [MetaData("Title", "XAudio2")]
     internal class XAudio2SoundPlayer : ISoundPlayer
     {
         private readonly XAudio2_8 _xAudio;

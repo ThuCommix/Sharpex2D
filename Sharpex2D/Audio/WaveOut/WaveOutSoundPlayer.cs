@@ -23,7 +23,6 @@ using System.IO;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
-    [MetaData("Title", "WaveOut API")]
     internal class WaveOutSoundPlayer : ISoundPlayer
     {
         private readonly int _device;

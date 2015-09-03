@@ -23,7 +23,6 @@ using Sharpex2D.Framework.Content;
 
 namespace Sharpex2D.Framework
 {
-    [MetaData("Title", "Gamer Profile")]
     [Serializable]
     public class Gamer : IContent
     {

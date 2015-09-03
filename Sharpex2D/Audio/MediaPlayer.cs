@@ -51,19 +51,6 @@ namespace Sharpex2D.Framework.Audio
                 SoundManager = soundManager;
                 _audioProvider = soundManager.Create();
                 _audioProvider.PlaybackChanged += PlaybackChanged;
-
-
-#if DEBUG
-                MetaDataCollection metadata = MetaDataReader.ReadMetaData(_audioProvider);
-                if (metadata.ContainsKey("Title"))
-                {
-                    Logger.Instance.Debug($"Audiosystem initialized with {metadata["Title"]}.");
-                }
-                else
-                {
-                    Logger.Instance.Debug("Audiosystem initialized with unknown.");
-                }
-#endif
             }
         }
 
