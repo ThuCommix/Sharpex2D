@@ -39,7 +39,8 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         public ALContext Context { get; private set; }
 
         private IntPtr _deviceHandle;
-        private readonly List<ALSource> _sources; 
+        private readonly List<ALSource> _sources;
+        private bool _isInitialized;
 
         /// <summary>
         /// Initializes a new ALDevice class
@@ -55,8 +56,12 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// </summary>
         public void Initialize()
         {
-            _deviceHandle = ALInterops.alcOpenDevice(Name);
-            Context = ALContext.CreateContext(_deviceHandle);
+            if (!_isInitialized)
+            {
+                _deviceHandle = ALInterops.alcOpenDevice(Name);
+                Context = ALContext.CreateContext(_deviceHandle);
+                _isInitialized = true;
+            }
         }
 
         /// <summary>

@@ -86,7 +86,7 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         public event EventHandler<EventArgs> PlaybackChanged;
 
         private ALPlayback _alPlayback;
-        private ALDevice _alDevice;
+        private readonly ALDevice _alDevice;
 
         /// <summary>
         /// Initializes a new ALSoundPlayer class
