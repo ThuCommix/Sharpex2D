@@ -71,6 +71,11 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         }
 
         /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice { set; get; }
+
+        /// <summary>
         /// Gets the playback state
         /// </summary>
         public PlaybackState PlaybackState => _alPlayback?.PlaybackState ?? PlaybackState.Stopped;
@@ -86,15 +91,13 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         public event EventHandler<EventArgs> PlaybackChanged;
 
         private ALPlayback _alPlayback;
-        private readonly ALDevice _alDevice;
 
         /// <summary>
         /// Initializes a new ALSoundPlayer class
         /// </summary>
         public ALSoundPlayer()
         {
-            _alDevice = ALDevice.DefaultDevice;
-            _alDevice.Initialize();
+            PlaybackDevice = ALDevice.DefaultDevice;
         }
 
         /// <summary>
@@ -110,7 +113,11 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                 _alPlayback.Dispose();
             }
 
-            _alPlayback = new ALPlayback(_alDevice);
+            if (PlaybackDevice == null)
+                throw new NullReferenceException("PlaybackDevice was null.");
+
+            ((ALDevice)PlaybackDevice).Initialize();
+            _alPlayback = new ALPlayback((ALDevice)PlaybackDevice);
             _alPlayback.PlaybackChanged += PlaybackChanged;
             _alPlayback.Initialize(stream, format);
         }

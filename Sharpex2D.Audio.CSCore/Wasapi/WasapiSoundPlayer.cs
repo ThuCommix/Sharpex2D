@@ -32,12 +32,9 @@ namespace Sharpex2D.Audio.Wasapi
     internal class WasapiSoundPlayer : ISoundPlayer
     {
         private readonly ISoundOut _soundOut;
-        private float _pan;
         private PanSource _panSource;
         private PlaybackMode _playbackMode;
-        private long _position;
         private bool _userStopped;
-        private float _volume;
         private VolumeSource _volumeSource;
 
         /// <summary>
@@ -47,6 +44,7 @@ namespace Sharpex2D.Audio.Wasapi
         {
             _soundOut = new WasapiOut();
             _soundOut.Stopped += SoundOutStopped;
+            PlaybackDevice = new WasapiDevice(((WasapiOut)_soundOut).Device);
         }
 
         /// <summary>
@@ -54,10 +52,9 @@ namespace Sharpex2D.Audio.Wasapi
         /// </summary>
         public float Pan
         {
-            get { return _panSource == null ? _pan : _panSource.Pan; }
+            get { return _panSource?.Pan ?? 0; }
             set
             {
-                _pan = value;
                 if (_panSource != null)
                 {
                     _panSource.Pan = value;
@@ -70,10 +67,9 @@ namespace Sharpex2D.Audio.Wasapi
         /// </summary>
         public float Volume
         {
-            get { return _volumeSource == null ? _volume : _volumeSource.Volume; }
+            get { return _volumeSource?.Volume ?? 0; }
             set
             {
-                _volume = value;
                 if (_volumeSource != null)
                 {
                     _volumeSource.Volume = value;
@@ -86,10 +82,9 @@ namespace Sharpex2D.Audio.Wasapi
         /// </summary>
         public long Position
         {
-            get { return _soundOut.WaveSource == null ? 0 : _soundOut.WaveSource.GetPosition().Milliseconds; }
+            get { return _soundOut.WaveSource?.GetPosition().Milliseconds ?? 0; }
             set
             {
-                _position = value;
                 if (_soundOut.WaveSource != null)
                 {
                     Seek(value);
@@ -127,10 +122,12 @@ namespace Sharpex2D.Audio.Wasapi
         /// <summary>
         /// Gets the sound length.
         /// </summary>
-        public long Length
-        {
-            get { return _soundOut.WaveSource == null ? 0 : _soundOut.WaveSource.GetLength().Milliseconds; }
-        }
+        public long Length => _soundOut.WaveSource?.GetLength().Milliseconds ?? 0;
+        
+        /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice { set; get; }
 
         /// <summary>
         /// Triggered if the playback state changed.
@@ -150,11 +147,13 @@ namespace Sharpex2D.Audio.Wasapi
 
             _volumeSource = new VolumeSource(reader);
             _panSource = new PanSource(_volumeSource);
+
+            if (PlaybackDevice == null)
+                throw new NullReferenceException("PlaybackDevice was null.");
+
+            ((WasapiOut) _soundOut).Device = ((WasapiDevice) PlaybackDevice).MMDevice;
             _soundOut.Initialize(_panSource.ToWaveSource());
             _soundOut.Volume = 1f;
-            _panSource.Pan = _pan;
-            _volumeSource.Volume = _volume;
-            Seek(_position);
         }
 
         /// <summary>
@@ -204,10 +203,7 @@ namespace Sharpex2D.Audio.Wasapi
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            if (_soundOut.WaveSource == null)
-                return;
-
-            _soundOut.WaveSource.SetPosition(new TimeSpan(0, 0, 0, 0, (int) position));
+            _soundOut.WaveSource?.SetPosition(new TimeSpan(0, 0, 0, 0, (int) position));
         }
 
         /// <summary>
@@ -264,10 +260,7 @@ namespace Sharpex2D.Audio.Wasapi
         /// </summary>
         private void RaisePlaybackChanged()
         {
-            if (PlaybackChanged != null)
-            {
-                PlaybackChanged(this, EventArgs.Empty);
-            }
+            PlaybackChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

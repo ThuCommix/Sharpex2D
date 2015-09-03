@@ -41,7 +41,7 @@ namespace Sharpex2D.Framework.Audio
         public SoundEffect(Sound sound)
         {
             Sound = sound;
-            SoundManager soundManager = GameHost.Get<MediaPlayer>().SoundManager;
+            SoundManager soundManager = GameHost.Get<SoundPlayer>().SoundManager;
 
             if (soundManager == null)
             {
@@ -84,9 +84,15 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Gets the PlaybackState.
         /// </summary>
-        public PlaybackState PlaybackState
+        public PlaybackState PlaybackState => _audioProvider.PlaybackState;
+
+        /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice
         {
-            get { return _audioProvider.PlaybackState; }
+            get { return _audioProvider.PlaybackDevice; }
+            set { _audioProvider.PlaybackDevice = value; }
         }
 
         /// <summary>
@@ -110,8 +116,7 @@ namespace Sharpex2D.Framework.Audio
         /// <param name="e">The EventArgs.</param>
         private void PlaybackChanged(object sender, EventArgs e)
         {
-            if (PlaybackStateChanged != null)
-                PlaybackStateChanged(this, e);
+            PlaybackStateChanged?.Invoke(this, e);
         }
 
         /// <summary>

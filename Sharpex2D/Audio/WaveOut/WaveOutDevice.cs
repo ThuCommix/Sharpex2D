@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,27 +18,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
-
-namespace Sharpex2D.Framework.Audio
+namespace Sharpex2D.Framework.Audio.WaveOut
 {
-    public abstract class SoundManager
+    internal class WaveOutDevice : IPlaybackDevice
     {
         /// <summary>
-        /// A value indicating whether the sound player is supported by the current platform
+        /// Gets the name
         /// </summary>
-        public abstract bool IsSupported { get; }
+        public string Name => WaveOutCaps.szPname;
 
         /// <summary>
-        /// Creates the sound player
+        /// Gets the waveout caps
         /// </summary>
-        /// <returns>ISoundPlayer.</returns>
-        public abstract ISoundPlayer Create();
+        public WaveOutCaps WaveOutCaps { get; }
+
+        public int Index { get; }
 
         /// <summary>
-        /// Enumerates the playback devices
+        /// Initializes a new WaveOutDevice class
         /// </summary>
-        /// <returns>Enumerable playback devices</returns>
-        public abstract IEnumerable<IPlaybackDevice> EnumerateDevices();
+        /// <param name="caps">The waveout caps</param>
+        /// <param name="index">The index</param>
+        public WaveOutDevice(WaveOutCaps caps, int index)
+        {
+            WaveOutCaps = caps;
+            Index = index;
+        }
     }
 }

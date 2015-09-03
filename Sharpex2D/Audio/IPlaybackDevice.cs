@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -17,28 +17,13 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-
-using System.Collections.Generic;
-
 namespace Sharpex2D.Framework.Audio
 {
-    public abstract class SoundManager
+    public interface IPlaybackDevice
     {
         /// <summary>
-        /// A value indicating whether the sound player is supported by the current platform
+        /// Gets the name
         /// </summary>
-        public abstract bool IsSupported { get; }
-
-        /// <summary>
-        /// Creates the sound player
-        /// </summary>
-        /// <returns>ISoundPlayer.</returns>
-        public abstract ISoundPlayer Create();
-
-        /// <summary>
-        /// Enumerates the playback devices
-        /// </summary>
-        /// <returns>Enumerable playback devices</returns>
-        public abstract IEnumerable<IPlaybackDevice> EnumerateDevices();
+        string Name { get; }
     }
 }

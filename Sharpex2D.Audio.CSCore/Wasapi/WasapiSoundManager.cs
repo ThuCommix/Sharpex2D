@@ -18,8 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+using System.Linq;
+using CSCore.CoreAudioAPI;
 using CSCore.SoundOut;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 
 namespace Sharpex2D.Audio.Wasapi
@@ -29,10 +31,7 @@ namespace Sharpex2D.Audio.Wasapi
         /// <summary>
         /// A value indicating whether the sound player is supported by the current platform.
         /// </summary>
-        public override bool IsSupported
-        {
-            get { return WasapiOut.IsSupportedOnCurrentPlatform; }
-        }
+        public override bool IsSupported => WasapiOut.IsSupportedOnCurrentPlatform;
 
         /// <summary>
         /// Creates the ISoundPlayer.
@@ -41,6 +40,17 @@ namespace Sharpex2D.Audio.Wasapi
         public override ISoundPlayer Create()
         {
             return new WasapiSoundPlayer();
+        }
+
+        /// <summary>
+        /// Enumerates the playback devices
+        /// </summary>
+        /// <returns>Enumerable playback devices</returns>
+        public override IEnumerable<IPlaybackDevice> EnumerateDevices()
+        {
+            var mmDeviceEnumerator = new MMDeviceEnumerator();
+            var deviceCollection = mmDeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active);
+            return deviceCollection.Select(device => new WasapiDevice(device)).ToList();
         }
     }
 }

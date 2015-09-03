@@ -23,17 +23,17 @@ using System.Collections.Generic;
 
 namespace Sharpex2D.Framework.Audio
 {
-    public class MediaPlayer : IComponent, IDisposable
+    public class SoundPlayer : IComponent, IDisposable
     {
         private readonly List<SoundEffectGroup> _audioEffectGroups;
         private readonly ISoundPlayer _audioProvider;
         internal readonly SoundManager SoundManager;
 
         /// <summary>
-        /// Initializes a new MediaPlayer class.
+        /// Initializes a new SoundPlayer class
         /// </summary>
-        /// <param name="soundManager">The SoundManager.</param>
-        internal MediaPlayer(SoundManager soundManager)
+        /// <param name="soundManager">The SoundManager</param>
+        internal SoundPlayer(SoundManager soundManager)
         {
             _audioEffectGroups = new List<SoundEffectGroup>();
             Queue = new Queue<Sound>();
@@ -57,26 +57,17 @@ namespace Sharpex2D.Framework.Audio
         /// <summary>
         /// Gets an array of all AudioEffectGroups of this instance.
         /// </summary>
-        public SoundEffectGroup[] AudioEffectGroups
-        {
-            get { return _audioEffectGroups.ToArray(); }
-        }
+        public SoundEffectGroup[] AudioEffectGroups => _audioEffectGroups.ToArray();
 
         /// <summary>
         /// Gets the PlaybackState.
         /// </summary>
-        public PlaybackState PlaybackState
-        {
-            get { return _audioProvider.PlaybackState; }
-        }
+        public PlaybackState PlaybackState => _audioProvider.PlaybackState;
 
         /// <summary>
         /// Gets the Length.
         /// </summary>
-        public long Length
-        {
-            get { return _audioProvider.Length; }
-        }
+        public long Length => _audioProvider.Length;
 
         /// <summary>
         /// Gets the Position.
@@ -106,6 +97,15 @@ namespace Sharpex2D.Framework.Audio
         }
 
         /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice
+        {
+            get { return _audioProvider.PlaybackDevice; }
+            set { _audioProvider.PlaybackDevice = value; }
+        }
+
+        /// <summary>
         /// Gets the sound queue.
         /// </summary>
         public Queue<Sound> Queue { get; }
@@ -115,7 +115,7 @@ namespace Sharpex2D.Framework.Audio
         /// </summary>
         public void Dispose()
         {
-            if (_audioProvider != null) _audioProvider.Dispose();
+            _audioProvider?.Dispose();
         }
 
         /// <summary>
@@ -130,8 +130,7 @@ namespace Sharpex2D.Framework.Audio
         /// <param name="e">The EventArgs.</param>
         private void PlaybackChanged(object sender, EventArgs e)
         {
-            if (PlaybackStateChanged != null)
-                PlaybackStateChanged(this, e);
+            PlaybackStateChanged?.Invoke(this, e);
 
             if (PlaybackState == PlaybackState.Stopped)
             {

@@ -117,8 +117,8 @@ namespace Sharpex2D.Framework
         private static void Run()
         {
             GraphicsManager = GameInstance.GraphicsManager;
-            GameInstance.MediaPlayer = new MediaPlayer(GameInstance.SoundManager);
-            Components.Add(GameInstance.MediaPlayer);
+            GameInstance.SoundPlayer = new SoundPlayer(GameInstance.SoundManager);
+            Components.Add(GameInstance.SoundPlayer);
             Components.Construct();
             Components.Get<GameLoop>().Start();
 

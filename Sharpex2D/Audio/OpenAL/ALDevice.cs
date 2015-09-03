@@ -24,7 +24,7 @@ using System.Linq;
 
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
-    internal class ALDevice : IDisposable
+    internal class ALDevice : IDisposable, IPlaybackDevice
     {
         private static ALDevice[] _devices;
 

@@ -33,6 +33,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         private int _activeBuffers;
         private List<WaveOutBuffer> _buffers;
         internal SoundMixer AudioMixer;
+        private static WaveOutDevice[] _devices;
 
         /// <summary>
         /// Initializes a new WaveOut class.
@@ -105,7 +106,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// Gets the available device amount.
         /// </summary>
         /// <returns>Int32.</returns>
-        public static int GetDeviceCount()
+        private static int GetDeviceCount()
         {
             return MMInterops.waveOutGetNumDevs();
         }
@@ -114,24 +115,28 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// Gets the caps of the device. 
         /// </summary>
         /// <param name="device">The Device.</param>
-        /// <returns>WaveOutCaps.</returns>
-        public static WaveOutCaps GetDevice(int device)
+        /// <returns>WaveOutDevice</returns>
+        private static WaveOutDevice GetDevice(int device)
         {
             var caps = new WaveOutCaps();
             MMInterops.waveOutGetDevCaps((uint) device, out caps, (uint) Marshal.SizeOf(caps));
-            return caps;
+            return new WaveOutDevice(caps, device);
         }
 
         /// <summary>
         /// Gets all devices.
         /// </summary>
         /// <returns>Array of WaveOutCaps.</returns>
-        public static WaveOutCaps[] GetDevices()
+        public static WaveOutDevice[] EnumerateDevices()
         {
-            var caps = new WaveOutCaps[GetDeviceCount()];
-            for (int i = 0; i < caps.Length; i++)
-                caps[i] = GetDevice(i);
-            return caps;
+            if (_devices == null)
+            {
+                _devices = new WaveOutDevice[GetDeviceCount()];
+                for (int i = 0; i < _devices.Length; i++)
+                    _devices[i] = GetDevice(i);
+            }
+
+            return _devices;
         }
 
         /// <summary>

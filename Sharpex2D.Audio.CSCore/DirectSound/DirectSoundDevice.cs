@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,28 +18,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Framework;
+using System;
 using Sharpex2D.Framework.Audio;
 
-namespace Sharpex2D.Audio.XAudio2
+namespace Sharpex2D.Audio.DirectSound
 {
-    public class XAudio2SoundManager : SoundManager
+    internal class DirectSoundDevice : CSCore.SoundOut.DirectSound.DirectSoundDevice, IPlaybackDevice
     {
         /// <summary>
-        /// A value indicating whether the sound player is supported by the current platform.
+        /// Gets the name
         /// </summary>
-        public override bool IsSupported
+        public string Name => Description;
+
+        /// <summary>
+        /// Initializes a new DirectSoundDevice class
+        /// </summary>
+        /// <param name="description">The description</param>
+        /// <param name="module"></param>
+        /// <param name="guid"></param>
+        public DirectSoundDevice(string description, string module, Guid guid) : base(description, module, guid)
         {
-            get { return true; } //TODO that's actually a lie.
+
         }
 
         /// <summary>
-        /// Creates the ISoundPlayer.
+        /// Creates a new directsound device from the cscore device
         /// </summary>
-        /// <returns>ISoundPlayer.</returns>
-        public override ISoundPlayer Create()
+        /// <param name="device">The device</param>
+        /// <returns>Directsound device</returns>
+        public static DirectSoundDevice FromCsCoreDirectSoundDevice(CSCore.SoundOut.DirectSound.DirectSoundDevice device)
         {
-            return new XAudio2SoundPlayer();
+            return new DirectSoundDevice(device.Description, device.Module, device.Guid);
         }
     }
 }

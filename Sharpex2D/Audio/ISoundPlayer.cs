@@ -46,6 +46,11 @@ namespace Sharpex2D.Framework.Audio
         PlaybackState PlaybackState { get; }
 
         /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        IPlaybackDevice PlaybackDevice { get; set; }
+
+        /// <summary>
         /// Gets the sound length.
         /// </summary>
         long Length { get; }

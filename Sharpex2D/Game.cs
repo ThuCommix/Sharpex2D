@@ -54,7 +54,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the media player.
         /// </summary>
-        public MediaPlayer MediaPlayer { get; internal set; }
+        public SoundPlayer SoundPlayer { get; internal set; }
 
         /// <summary>
         /// Gets the content manager.

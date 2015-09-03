@@ -19,6 +19,7 @@
 // THE SOFTWARE.
 
 using System;
+using System.Collections.Generic;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
@@ -27,10 +28,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// A value indicating whether the sound player is supported.
         /// </summary>
-        public override bool IsSupported
-        {
-            get { return new Version(5, 1) <= Environment.OSVersion.Version; }
-        }
+        public override bool IsSupported => new Version(5, 1) <= Environment.OSVersion.Version;
 
         /// <summary>
         /// Creates a new ISoundPlayer.
@@ -39,6 +37,15 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         public override ISoundPlayer Create()
         {
             return new WaveOutSoundPlayer();
+        }
+
+        /// <summary>
+        /// Enumerates the playback devices
+        /// </summary>
+        /// <returns>Enumerable playback devices</returns>
+        public override IEnumerable<IPlaybackDevice> EnumerateDevices()
+        {
+            return WaveOut.EnumerateDevices();
         }
     }
 }

@@ -32,12 +32,9 @@ namespace Sharpex2D.Audio.DirectSound
     internal class DirectSoundPlayer : ISoundPlayer
     {
         private readonly ISoundOut _soundOut;
-        private float _pan;
         private PanSource _panSource;
         private PlaybackMode _playbackMode;
-        private long _position;
         private bool _userStopped;
-        private float _volume;
         private VolumeSource _volumeSource;
 
         /// <summary>
@@ -47,6 +44,10 @@ namespace Sharpex2D.Audio.DirectSound
         {
             _soundOut = new DirectSoundOut();
             _soundOut.Stopped += SoundOutStopped;
+
+            PlaybackDevice =
+                DirectSoundDevice.FromCsCoreDirectSoundDevice(
+                    CSCore.SoundOut.DirectSound.DirectSoundDevice.DefaultDevice);
         }
 
         /// <summary>
@@ -54,10 +55,9 @@ namespace Sharpex2D.Audio.DirectSound
         /// </summary>
         public float Pan
         {
-            get { return _panSource == null ? _pan : _panSource.Pan; }
+            get { return _panSource?.Pan ?? 0; }
             set
             {
-                _pan = value;
                 if (_panSource != null)
                 {
                     _panSource.Pan = value;
@@ -70,10 +70,9 @@ namespace Sharpex2D.Audio.DirectSound
         /// </summary>
         public float Volume
         {
-            get { return _volumeSource == null ? _volume : _volumeSource.Volume; }
+            get { return _volumeSource?.Volume ?? 0; }
             set
             {
-                _volume = value;
                 if (_volumeSource != null)
                 {
                     _volumeSource.Volume = value;
@@ -86,10 +85,9 @@ namespace Sharpex2D.Audio.DirectSound
         /// </summary>
         public long Position
         {
-            get { return _soundOut.WaveSource == null ? 0 : _soundOut.WaveSource.GetPosition().Milliseconds; }
+            get { return _soundOut.WaveSource?.GetPosition().Milliseconds ?? 0; }
             set
             {
-                _position = value;
                 if (_soundOut.WaveSource != null)
                 {
                     Seek(value);
@@ -127,10 +125,12 @@ namespace Sharpex2D.Audio.DirectSound
         /// <summary>
         /// Gets the sound length.
         /// </summary>
-        public long Length
-        {
-            get { return _soundOut.WaveSource == null ? 0 : _soundOut.WaveSource.GetLength().Milliseconds; }
-        }
+        public long Length => _soundOut.WaveSource?.GetLength().Milliseconds ?? 0;
+
+        /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice { set; get; }
 
         /// <summary>
         /// Triggered if the playback state changed.
@@ -148,13 +148,14 @@ namespace Sharpex2D.Audio.DirectSound
                 new CSCore.WaveFormat(format.SamplesPerSec, format.BitsPerSample,
                     format.Channels));
 
+            if (PlaybackDevice == null)
+                throw new NullReferenceException("PlaybackDevice was null.");
+
             _volumeSource = new VolumeSource(reader);
             _panSource = new PanSource(_volumeSource);
+            ((DirectSoundOut) _soundOut).Device = ((DirectSoundDevice) PlaybackDevice).Guid;
             _soundOut.Initialize(_panSource.ToWaveSource());
             _soundOut.Volume = 1f;
-            _panSource.Pan = _pan;
-            _volumeSource.Volume = _volume;
-            Seek(_position);
         }
 
         /// <summary>
@@ -204,10 +205,7 @@ namespace Sharpex2D.Audio.DirectSound
         /// <param name="position">The Position.</param>
         public void Seek(long position)
         {
-            if (_soundOut.WaveSource == null)
-                return;
-
-            _soundOut.WaveSource.SetPosition(new TimeSpan(0, 0, 0, 0, (int) position));
+            _soundOut.WaveSource?.SetPosition(new TimeSpan(0, 0, 0, 0, (int) position));
         }
 
         /// <summary>
@@ -264,10 +262,7 @@ namespace Sharpex2D.Audio.DirectSound
         /// </summary>
         private void RaisePlaybackChanged()
         {
-            if (PlaybackChanged != null)
-            {
-                PlaybackChanged(this, EventArgs.Empty);
-            }
+            PlaybackChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

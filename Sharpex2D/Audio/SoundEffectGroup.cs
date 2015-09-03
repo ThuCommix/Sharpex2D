@@ -61,7 +61,7 @@ namespace Sharpex2D.Framework.Audio
             _soundEffects = new List<SoundEffect>();
             Name = name;
             MasterVolume = masterVolume;
-            GameHost.Get<MediaPlayer>().AddEffectGroup(this);
+            GameHost.Get<SoundPlayer>().AddEffectGroup(this);
         }
 
         /// <summary>

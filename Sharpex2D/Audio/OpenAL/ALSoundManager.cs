@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.Collections.Generic;
+
 namespace Sharpex2D.Framework.Audio.OpenAL
 {
     public class ALSoundManager : SoundManager
@@ -34,6 +36,15 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         public override ISoundPlayer Create()
         {
             return new ALSoundPlayer();
+        }
+
+        /// <summary>
+        /// Enumerates the playback devices
+        /// </summary>
+        /// <returns>Enumerable playback devices</returns>
+        public override IEnumerable<IPlaybackDevice> EnumerateDevices()
+        {
+            return ALDevice.EnumerateALDevices();
         }
     }
 }

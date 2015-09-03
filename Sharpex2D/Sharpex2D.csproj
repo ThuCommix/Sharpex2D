@@ -63,6 +63,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audio\IPlaybackDevice.cs" />
     <Compile Include="Audio\OpenAL\ALContext.cs" />
     <Compile Include="Audio\OpenAL\ALDevice.cs" />
     <Compile Include="Audio\OpenAL\ALFormat.cs" />
@@ -78,12 +79,13 @@
     <Compile Include="Audio\SoundEffectPool.cs" />
     <Compile Include="Audio\SoundException.cs" />
     <Compile Include="Audio\SoundManager.cs" />
-    <Compile Include="Audio\MediaPlayer.cs" />
+    <Compile Include="Audio\SoundPlayer.cs" />
     <Compile Include="Audio\SoundMixer.cs" />
     <Compile Include="Audio\Sound.cs" />
     <Compile Include="Audio\ISoundPlayer.cs" />
     <Compile Include="Audio\PlaybackMode.cs" />
     <Compile Include="Audio\PlaybackState.cs" />
+    <Compile Include="Audio\WaveOut\WaveOutDevice.cs" />
     <Compile Include="Audio\WaveReader.cs" />
     <Compile Include="Audio\WaveHeader.cs" />
     <Compile Include="Audio\WaveOut\MMInterops.cs" />

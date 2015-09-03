@@ -20,12 +20,12 @@
 
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Sharpex2D.Framework.Audio.WaveOut
 {
     internal class WaveOutSoundPlayer : ISoundPlayer
     {
-        private readonly int _device;
         private readonly WaveOut _waveOut;
         private PlaybackMode _playbackMode = PlaybackMode.None;
         private Stream _stream;
@@ -36,9 +36,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         public WaveOutSoundPlayer()
         {
-            WaveOutCaps[] devices = WaveOut.GetDevices();
+            var devices = WaveOut.EnumerateDevices();
             if (devices.Length == 0) throw new SoundException("No available audio devices where found.");
-            _device = 0;
+            PlaybackDevice = devices.First();
             _waveOut = new WaveOut();
             _waveOut.PlaybackChanged += PlaybackChangedEvent;
         }
@@ -78,18 +78,17 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// Gets the PlaybackState.
         /// </summary>
-        public PlaybackState PlaybackState
-        {
-            get { return _waveOut.PlaybackState; }
-        }
+        public PlaybackState PlaybackState => _waveOut.PlaybackState;
+
+        /// <summary>
+        /// Gets or sets the playback device
+        /// </summary>
+        public IPlaybackDevice PlaybackDevice { get; set; }
 
         /// <summary>
         /// Gets the sound length.
         /// </summary>
-        public long Length
-        {
-            get { return _waveOut.Stream.Length/_waveOut.Format.AvgBytesPerSec*1000; }
-        }
+        public long Length => _waveOut.Stream.Length/_waveOut.Format.AvgBytesPerSec*1000;
 
         /// <summary>
         /// Initializes the sound player with the given sound source.
@@ -100,7 +99,11 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         {
             var waveFormat = format;
             _stream = stream;
-            _waveOut.Device = _device;
+
+            if (PlaybackDevice == null)
+                throw new NullReferenceException("PlaybackDevice was null.");
+
+            _waveOut.Device = ((WaveOutDevice)PlaybackDevice).Index;
             _waveOut.Initialize(stream, waveFormat);
             _userStop = false;
         }
@@ -193,10 +196,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                 Play(PlaybackMode.Loop);
             }
 
-            if (PlaybackChanged != null)
-            {
-                PlaybackChanged(this, e);
-            }
+            PlaybackChanged?.Invoke(this, e);
         }
     }
 }

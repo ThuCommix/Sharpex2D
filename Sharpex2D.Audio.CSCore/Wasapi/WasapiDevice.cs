@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -18,27 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Collections.Generic;
+using CSCore.CoreAudioAPI;
+using Sharpex2D.Framework.Audio;
 
-namespace Sharpex2D.Framework.Audio
+namespace Sharpex2D.Audio.Wasapi
 {
-    public abstract class SoundManager
+    internal class WasapiDevice : IPlaybackDevice
     {
         /// <summary>
-        /// A value indicating whether the sound player is supported by the current platform
+        /// Gets the name
         /// </summary>
-        public abstract bool IsSupported { get; }
+        public string Name => MMDevice.FriendlyName;
 
         /// <summary>
-        /// Creates the sound player
+        /// Gets the MM device
         /// </summary>
-        /// <returns>ISoundPlayer.</returns>
-        public abstract ISoundPlayer Create();
+        public MMDevice MMDevice { get; }
 
         /// <summary>
-        /// Enumerates the playback devices
+        /// Initializes a new WasapiDevice class
         /// </summary>
-        /// <returns>Enumerable playback devices</returns>
-        public abstract IEnumerable<IPlaybackDevice> EnumerateDevices();
+        /// <param name="mmDevice">The MM device</param>
+        public WasapiDevice(MMDevice mmDevice)
+        {
+            MMDevice = mmDevice;
+        }
     }
 }

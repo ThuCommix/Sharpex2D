@@ -18,7 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using Sharpex2D.Framework;
+using System.Collections.Generic;
+using System.Linq;
 using Sharpex2D.Framework.Audio;
 
 namespace Sharpex2D.Audio.DirectSound
@@ -28,10 +29,7 @@ namespace Sharpex2D.Audio.DirectSound
         /// <summary>
         /// A value indicating whether the sound player is supported by the current platform.
         /// </summary>
-        public override bool IsSupported
-        {
-            get { return true; }
-        }
+        public override bool IsSupported => true;
 
         /// <summary>
         /// Creates the ISoundPlayer.
@@ -40,6 +38,18 @@ namespace Sharpex2D.Audio.DirectSound
         public override ISoundPlayer Create()
         {
             return new DirectSoundPlayer();
+        }
+
+        /// <summary>
+        /// Enumerates the playback devices
+        /// </summary>
+        /// <returns>Enumerable playback devices</returns>
+        public override IEnumerable<IPlaybackDevice> EnumerateDevices()
+        {
+            return
+                CSCore.SoundOut.DirectSound.DirectSoundDevice.EnumerateDevices()
+                    .Select(DirectSoundDevice.FromCsCoreDirectSoundDevice)
+                    .ToList();
         }
     }
 }
