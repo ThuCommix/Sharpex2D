@@ -98,6 +98,7 @@ namespace Sharpex2D.Framework.Network
         {
             _protocol = protocol;
             LocalEndPoint = localEndPoint;
+            Scheduler = NetworkScheduler.FcFs;
             _connections = new SynchronizedList<RemotePeer>();
             PeerStatistics = new PeerStatistics();
             _id = Random.Next(Int32.MaxValue);
@@ -165,6 +166,11 @@ namespace Sharpex2D.Framework.Network
         /// Gets the latency.
         /// </summary>
         public int Latency { private set; get; }
+
+        /// <summary>
+        /// Gets or sets the scheduler
+        /// </summary>
+        public NetworkScheduler Scheduler { set; get; }
 
         /// <summary>
         /// Disposes the object.
@@ -650,9 +656,19 @@ namespace Sharpex2D.Framework.Network
         /// <param name="outgoingMessage">The OutgoingMessage.</param>
         public void Send(OutgoingMessage outgoingMessage)
         {
-            foreach (RemotePeer remotePeer in _connections)
+            if (Scheduler == NetworkScheduler.Uniform)
             {
-                Send(outgoingMessage, remotePeer);
+                foreach (var remotePeer in _connections.Shuffle(_connections.Count))
+                {
+                    Send(outgoingMessage, remotePeer);
+                }
+            }
+            else
+            {
+                foreach (var remotePeer in _connections)
+                {
+                    Send(outgoingMessage, remotePeer);
+                }
             }
         }
 

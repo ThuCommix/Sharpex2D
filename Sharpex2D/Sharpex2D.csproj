@@ -117,10 +117,12 @@
     <Compile Include="GameException.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Network\ConnectionRefusedException.cs" />
+    <Compile Include="Network\EnumerableShuffleExtension.cs" />
     <Compile Include="Network\IncomingMessageEventArgs.cs" />
     <Compile Include="Network\IncomingMessage.cs" />
     <Compile Include="Network\IPEndPointBindException.cs" />
     <Compile Include="Network\NetworkPeer.cs" />
+    <Compile Include="Network\NetworkScheduler.cs" />
     <Compile Include="Network\OutgoingMessage.cs" />
     <Compile Include="Network\PacketContext.cs" />
     <Compile Include="Network\PeerJoinedEventArgs.cs" />
