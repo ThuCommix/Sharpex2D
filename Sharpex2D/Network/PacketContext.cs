@@ -48,7 +48,7 @@ namespace Sharpex2D.Framework.Network
         internal PacketContext(byte[] data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             if (data.Length == 0)
                 throw new ArgumentException("The data must atleast contains 1 byte.");
 
@@ -62,10 +62,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the Length of the PacketContext in bytes.
         /// </summary>
-        public long Length
-        {
-            get { return _packetStream.Length; }
-        }
+        public long Length => _packetStream.Length;
 
         /// <summary>
         /// Gets the Identifer.

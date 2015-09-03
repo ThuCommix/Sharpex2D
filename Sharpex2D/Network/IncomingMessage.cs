@@ -41,10 +41,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the size of the message
         /// </summary>
-        public int Size
-        {
-            get { return Data.Length; }
-        }
+        public int Size => Data.Length;
 
         /// <summary>
         /// Gets the remote peer.

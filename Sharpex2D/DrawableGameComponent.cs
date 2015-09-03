@@ -47,8 +47,7 @@ namespace Sharpex2D.Framework
                 if (_drawOrder != value)
                 {
                     _drawOrder = value;
-                    if (DrawOrderChanged != null)
-                        DrawOrderChanged(this, EventArgs.Empty);
+                    DrawOrderChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
             get { return _drawOrder; }
@@ -64,8 +63,7 @@ namespace Sharpex2D.Framework
                 if (_visible != value)
                 {
                     _visible = value;
-                    if (VisibleChanged != null)
-                        VisibleChanged(this, EventArgs.Empty);
+                    VisibleChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
             get { return _visible; }

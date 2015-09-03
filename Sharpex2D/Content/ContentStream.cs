@@ -41,10 +41,7 @@ namespace Sharpex2D.Framework.Content
         /// <summary>
         /// Gets the length
         /// </summary>
-        public override long Length
-        {
-            get { return base.Length - _dataOffset; }
-        }
+        public override long Length => base.Length - _dataOffset;
 
         /// <summary>
         /// Gets or sets the position

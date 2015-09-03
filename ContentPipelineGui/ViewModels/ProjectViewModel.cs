@@ -104,8 +104,7 @@ namespace ContentPipelineUI.ViewModels
 
         private bool GetOpenDirectoryResult(out string path)
         {
-            var dialog = new CommonOpenFileDialog();
-            dialog.IsFolderPicker = true;
+            var dialog = new CommonOpenFileDialog {IsFolderPicker = true};
             CommonFileDialogResult result = dialog.ShowDialog();
             path = dialog.FileName;
             return result == CommonFileDialogResult.Ok;

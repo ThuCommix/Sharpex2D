@@ -20,7 +20,6 @@
 
 
 using System;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content.Importers;
 
 namespace ContentPipeline.Exporters

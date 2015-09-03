@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Scripting;
 
@@ -32,10 +31,7 @@ namespace ContentPipeline.Exporters
         /// <summary>
         /// Gets or sets the file filter.
         /// </summary>
-        public override string[] FileFilter
-        {
-            get { return new[] {".cs", ".vb"}; }
-        }
+        public override string[] FileFilter => new[] {".cs", ".vb"};
 
         /// <summary>
         /// Raises when the content should be created.

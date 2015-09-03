@@ -35,7 +35,7 @@ namespace ContentPipeline.Actions
         /// <summary>
         /// Gets the option name.
         /// </summary>
-        public string Option { get { return "--compile"; } }
+        public string Option => "--compile";
 
         /// <summary>
         /// Executes the action.
@@ -79,9 +79,8 @@ namespace ContentPipeline.Actions
             Console.WriteLine("Resolving exporters ...");
 
             var exporters = new Dictionary<string, Exporter>();
-            var assemblyList = new List<Assembly>();
+            var assemblyList = new List<Assembly> {Assembly.GetExecutingAssembly()};
 
-            assemblyList.Add(Assembly.GetExecutingAssembly());
 
             for (int i = 2; i < args.Length; i++)
             {

@@ -39,28 +39,19 @@ namespace Sharpex2D.Framework.Content
         /// <summary>
         /// Gets the stored data.
         /// </summary>
-        public T2[] Data
-        {
-            get { return _storage.Values.ToArray(); }
-        }
+        public T2[] Data => _storage.Values.ToArray();
 
         /// <summary>
         /// Gets the amount of all stored data objects.
         /// </summary>
-        public int Count
-        {
-            get { return _storage.Values.Count; }
-        }
+        public int Count => _storage.Values.Count;
 
         /// <summary>
         /// Gets the data based on the id.
         /// </summary>
         /// <param name="id">The Id.</param>
         /// <returns>TData.</returns>
-        public T2 this[T1 id]
-        {
-            get { return _storage[id]; }
-        }
+        public T2 this[T1 id] => _storage[id];
 
         /// <summary>
         /// Gets the enumerator.

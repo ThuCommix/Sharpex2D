@@ -68,10 +68,7 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Gets the children elements.
         /// </summary>
-        public Element[] Elements
-        {
-            get { return _elements.ToArray(); }
-        }
+        public Element[] Elements => _elements.ToArray();
 
         /// <summary>
         /// Gets the parent element.

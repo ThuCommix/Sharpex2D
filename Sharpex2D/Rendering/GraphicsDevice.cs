@@ -81,10 +81,7 @@ namespace Sharpex2D.Framework.Rendering
             set
             {
                 _clearColor = value;
-                if (ClearColorChanged != null)
-                {
-                    ClearColorChanged(this, EventArgs.Empty);
-                }
+                ClearColorChanged?.Invoke(this, EventArgs.Empty);
             }
             get { return _clearColor; }
         }
@@ -131,10 +128,7 @@ namespace Sharpex2D.Framework.Rendering
                 }
             }
 
-            if (Disposed != null)
-            {
-                Disposed(this, EventArgs.Empty);
-            }
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

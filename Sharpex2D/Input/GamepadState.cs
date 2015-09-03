@@ -53,22 +53,24 @@ namespace Sharpex2D.Framework.Input
             bool leftStick, bool rightStick, bool guide, float leftTrigger, float rightTrigger, Vector2 thumbLeft,
             Vector2 thumbRight)
         {
-            _states = new Dictionary<GamepadButtons, bool>();
-            _states.Add(GamepadButtons.Up, dpadUp);
-            _states.Add(GamepadButtons.Down, dpadDown);
-            _states.Add(GamepadButtons.Left, dpadLeft);
-            _states.Add(GamepadButtons.Right, dpadRight);
-            _states.Add(GamepadButtons.A, aPressed);
-            _states.Add(GamepadButtons.B, bPressed);
-            _states.Add(GamepadButtons.Y, yPressed);
-            _states.Add(GamepadButtons.X, xPressed);
-            _states.Add(GamepadButtons.Back, backPressed);
-            _states.Add(GamepadButtons.Start, startPressed);
-            _states.Add(GamepadButtons.LeftShoulder, leftShoulder);
-            _states.Add(GamepadButtons.RightShoulder, rightShoulder);
-            _states.Add(GamepadButtons.LeftStick, leftStick);
-            _states.Add(GamepadButtons.RightStick, rightStick);
-            _states.Add(GamepadButtons.Guide, guide);
+            _states = new Dictionary<GamepadButtons, bool>
+            {
+                {GamepadButtons.Up, dpadUp},
+                {GamepadButtons.Down, dpadDown},
+                {GamepadButtons.Left, dpadLeft},
+                {GamepadButtons.Right, dpadRight},
+                {GamepadButtons.A, aPressed},
+                {GamepadButtons.B, bPressed},
+                {GamepadButtons.Y, yPressed},
+                {GamepadButtons.X, xPressed},
+                {GamepadButtons.Back, backPressed},
+                {GamepadButtons.Start, startPressed},
+                {GamepadButtons.LeftShoulder, leftShoulder},
+                {GamepadButtons.RightShoulder, rightShoulder},
+                {GamepadButtons.LeftStick, leftStick},
+                {GamepadButtons.RightStick, rightStick},
+                {GamepadButtons.Guide, guide}
+            };
 
             LeftTrigger = leftTrigger;
             RightTrigger = rightTrigger;

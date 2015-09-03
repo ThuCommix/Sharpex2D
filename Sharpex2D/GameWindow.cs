@@ -250,8 +250,7 @@ namespace Sharpex2D.Framework
         /// <param name="e">The EventArgs.</param>
         private void ApplicationIdleEvent(object sender, EventArgs e)
         {
-            if (ApplicationIdle != null)
-                ApplicationIdle(this, EventArgs.Empty);
+            ApplicationIdle?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -345,10 +344,7 @@ namespace Sharpex2D.Framework
                 if (WindowAppearance != _targetAppearance)
                 {
                     WindowAppearance = _targetAppearance;
-                    if (WindowAppearanceChanged != null)
-                    {
-                        WindowAppearanceChanged(this, EventArgs.Empty);
-                    }
+                    WindowAppearanceChanged?.Invoke(this, EventArgs.Empty);
                 }
             };
             _systemWindow.Invoke(br);
@@ -361,10 +357,7 @@ namespace Sharpex2D.Framework
         /// <param name="e">The EventArgs.</param>
         private void ClientSizeChangedHandler(object sender, EventArgs e)
         {
-            if (ClientSizeChanged != null)
-            {
-                ClientSizeChanged(this, EventArgs.Empty);
-            }
+            ClientSizeChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -381,16 +374,10 @@ namespace Sharpex2D.Framework
             if (sdn != ScreenDeviceName)
             {
                 ScreenDeviceName = sdn;
-                if (ScreenDeviceChanged != null)
-                {
-                    ScreenDeviceChanged(this, EventArgs.Empty);
-                }
+                ScreenDeviceChanged?.Invoke(this, EventArgs.Empty);
             }
 
-            if (PositionChanged != null)
-            {
-                PositionChanged(this, EventArgs.Empty);
-            }
+            PositionChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

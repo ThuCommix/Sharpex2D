@@ -43,7 +43,7 @@ namespace Sharpex2D.Framework.Audio
         {
             set
             {
-                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException("value");
+                if (value < 0 || value > 1) throw new ArgumentOutOfRangeException(nameof(value));
 
                 _volume = value;
             }
@@ -57,7 +57,7 @@ namespace Sharpex2D.Framework.Audio
         {
             set
             {
-                if (value < -1 || value > 1) throw new ArgumentOutOfRangeException("value");
+                if (value < -1 || value > 1) throw new ArgumentOutOfRangeException(nameof(value));
 
                 _pan = value;
             }

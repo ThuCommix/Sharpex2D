@@ -32,10 +32,7 @@ namespace ContentPipeline.Exporters
         /// <summary>
         /// Gets or sets the file filter.
         /// </summary>
-        public override string[] FileFilter
-        {
-            get { return new[] {".png", ".bmp", ".jpg", ".jpeg", ".tiff"}; }
-        }
+        public override string[] FileFilter => new[] {".png", ".bmp", ".jpg", ".jpeg", ".tiff"};
 
         /// <summary>
         /// Raises when the content should be created.

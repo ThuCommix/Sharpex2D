@@ -46,10 +46,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the component manager.
         /// </summary>
-        public ComponentManager ComponentManager
-        {
-            get { return GameHost.Components; }
-        }
+        public ComponentManager ComponentManager => GameHost.Components;
 
         /// <summary>
         /// Gets the media player.
@@ -88,10 +85,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// A value indicating whether the game window is focused.
         /// </summary>
-        public bool IsFocused
-        {
-            get { return Window.IsFocused; }
-        }
+        public bool IsFocused => Window.IsFocused;
 
         /// <summary>
         /// Gets the game window.
@@ -170,9 +164,11 @@ namespace Sharpex2D.Framework
         /// <param name="launchParameters">The LaunchParameters.</param>
         public virtual void OnInitialize(LaunchParameters launchParameters)
         {
-            GraphicsManager = new OpenGLGraphicsManager();
-            GraphicsManager.PreferredBackBufferWidth = 800;
-            GraphicsManager.PreferredBackBufferHeight = 480;
+            GraphicsManager = new OpenGLGraphicsManager
+            {
+                PreferredBackBufferWidth = 800,
+                PreferredBackBufferHeight = 480
+            };
 
             Content.RootPath = "Content";
 

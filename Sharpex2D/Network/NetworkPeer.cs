@@ -321,10 +321,7 @@ namespace Sharpex2D.Framework.Network
             var remotePeer = new RemotePeer {RemoteEndPoint = (IPEndPoint) socket.RemoteEndPoint, Socket = socket};
             var joinedArgs = new PeerJoinedEventArgs(remotePeer);
 
-            if (PeerJoined != null)
-            {
-                PeerJoined(this, joinedArgs);
-            }
+            PeerJoined?.Invoke(this, joinedArgs);
 
             if (joinedArgs.Cancel)
             {
@@ -404,11 +401,8 @@ namespace Sharpex2D.Framework.Network
                         //send disconnect
                         _udpClient.BeginSend(new byte[] {(byte) PeerProtocol.Disconnected, 0}, 2, OnUdpSent, null);
 
-                        if (PeerDisconnected != null)
-                        {
-                            PeerDisconnected(this,
-                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.ProtocolViolation));
-                        }
+                        PeerDisconnected?.Invoke(this,
+                            new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.ProtocolViolation));
 
                         return;
                     }
@@ -457,11 +451,8 @@ namespace Sharpex2D.Framework.Network
                             _connections.Remove(remotePeer);
                             remotePeer.IsConnected = false;
 
-                            if (PeerDisconnected != null)
-                            {
-                                PeerDisconnected(this,
-                                    new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
-                            }
+                            PeerDisconnected?.Invoke(this,
+                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
 
                             break;
                     }
@@ -475,10 +466,7 @@ namespace Sharpex2D.Framework.Network
                             var remotePeer = new RemotePeer {RemoteEndPoint = remoteEndPoint};
                             var joinedArgs = new PeerJoinedEventArgs(remotePeer);
 
-                            if (PeerJoined != null)
-                            {
-                                PeerJoined(this, joinedArgs);
-                            }
+                            PeerJoined?.Invoke(this, joinedArgs);
 
                             if (joinedArgs.Cancel)
                             {
@@ -530,10 +518,7 @@ namespace Sharpex2D.Framework.Network
             {
                 remotePeer.IsConnected = false;
                 _connections.Remove(remotePeer);
-                if (PeerDisconnected != null)
-                {
-                    PeerDisconnected(this, new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
-                }
+                PeerDisconnected?.Invoke(this, new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
                 return;
             }
 
@@ -552,11 +537,8 @@ namespace Sharpex2D.Framework.Network
                         _connections.Remove(remotePeer);
                         remotePeer.Socket.LingerState = new LingerOption(true, 4);
                         remotePeer.Socket.Disconnect(false);
-                        if (PeerDisconnected != null)
-                        {
-                            PeerDisconnected(this,
-                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.ProtocolViolation));
-                        }
+                        PeerDisconnected?.Invoke(this,
+                            new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.ProtocolViolation));
 
                         return;
                     }
@@ -576,11 +558,8 @@ namespace Sharpex2D.Framework.Network
                             remotePeer.IsConnected = false;
                             _connections.Remove(remotePeer);
 
-                            if (PeerDisconnected != null)
-                            {
-                                PeerDisconnected(this,
-                                    new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
-                            }
+                            PeerDisconnected?.Invoke(this,
+                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
                         }
                     }
                 }
@@ -635,11 +614,8 @@ namespace Sharpex2D.Framework.Network
                                         remotePeer.IsConnected = false;
                                         _connections.Remove(remotePeer);
 
-                                        if (PeerDisconnected != null)
-                                        {
-                                            PeerDisconnected(this,
-                                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
-                                        }
+                                        PeerDisconnected?.Invoke(this,
+                                            new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
                                     }
                                 }
                             }
@@ -660,11 +636,8 @@ namespace Sharpex2D.Framework.Network
                             remotePeer.IsConnected = false;
                             _connections.Remove(remotePeer);
 
-                            if (PeerDisconnected != null)
-                            {
-                                PeerDisconnected(this,
-                                    new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
-                            }
+                            PeerDisconnected?.Invoke(this,
+                                new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.Disconnected));
                         }
                     }
                 }
@@ -785,10 +758,7 @@ namespace Sharpex2D.Framework.Network
                         _connections.Remove(remotePeer);
                         remotePeer.IsConnected = false;
 
-                        if (PeerDisconnected != null)
-                        {
-                            PeerDisconnected(this, new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.TimeOut));
-                        }
+                        PeerDisconnected?.Invoke(this, new PeerDisconnectedEventArgs(remotePeer, DisconnectReason.TimeOut));
                     }
                     else
                     {

@@ -51,8 +51,7 @@ namespace Sharpex2D.Framework
                 if (_enabled != value)
                 {
                     _enabled = value;
-                    if (EnabledChanged != null)
-                        EnabledChanged(this, EventArgs.Empty);
+                    EnabledChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
             get { return _enabled; }
@@ -68,8 +67,7 @@ namespace Sharpex2D.Framework
                 if (value != _updateOrder)
                 {
                     _updateOrder = value;
-                    if (UpdateOrderChanged != null)
-                        UpdateOrderChanged(this, EventArgs.Empty);
+                    UpdateOrderChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
             get { return _updateOrder; }
@@ -83,8 +81,7 @@ namespace Sharpex2D.Framework
             Dispose(true);
             GC.SuppressFinalize(this);
 
-            if (Disposed != null)
-                Disposed(this, EventArgs.Empty);
+            Disposed?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

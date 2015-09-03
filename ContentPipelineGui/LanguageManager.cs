@@ -16,7 +16,7 @@ namespace ContentPipelineUI
 
             try
             {
-                resourceDictionary.Source = new Uri(string.Format("..\\Resources\\{0}.xaml", Thread.CurrentThread.CurrentCulture), UriKind.Relative);
+                resourceDictionary.Source = new Uri($"..\\Resources\\{Thread.CurrentThread.CurrentCulture}.xaml", UriKind.Relative);
             }
             catch
             {

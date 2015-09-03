@@ -70,10 +70,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average bandwidth.
         /// </summary>
-        public int AvgBandwidth
-        {
-            get { return AvgBytesReceived + AvgBytesSent; }
-        }
+        public int AvgBandwidth => AvgBytesReceived + AvgBytesSent;
 
         /// <summary>
         /// Gets the amount of packets sent.
@@ -124,10 +121,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average packet size.
         /// </summary>
-        public int AvgPacketSize
-        {
-            get { return ((TotalBytesReceived + TotalBytesSent)/2)/(PacketsReceived + PacketsSent); }
-        }
+        public int AvgPacketSize => ((TotalBytesReceived + TotalBytesSent)/2)/(PacketsReceived + PacketsSent);
 
         /// <summary>
         /// Gets the lifetime.

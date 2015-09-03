@@ -54,10 +54,7 @@ namespace Sharpex2D.Framework.Localization
             {
                 _currentLanguage = lang;
 
-                if (LanguageChanged != null)
-                {
-                    LanguageChanged(this, new LanguageEventArgs(_currentLanguage));
-                }
+                LanguageChanged?.Invoke(this, new LanguageEventArgs(_currentLanguage));
             }
             else
             {

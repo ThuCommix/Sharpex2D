@@ -35,7 +35,7 @@ namespace ContentPipelineUI.Models
         /// <summary>
         /// Gets the list of all possible plugin positions.
         /// </summary>
-        public List<string> Plugins { private set; get; }
+        public List<string> Plugins { get; }
 
         /// <summary>
         /// Initializes a new Project class.

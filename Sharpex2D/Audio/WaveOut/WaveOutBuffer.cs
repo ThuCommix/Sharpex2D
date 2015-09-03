@@ -42,9 +42,9 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         public WaveOutBuffer(WaveOut waveOut, int bufferSize)
         {
             if (waveOut == null)
-                throw new ArgumentNullException("waveOut");
+                throw new ArgumentNullException(nameof(waveOut));
             if (bufferSize <= 0)
-                throw new ArgumentOutOfRangeException("bufferSize");
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
 
             _waveOut = waveOut;
             _bufferSize = bufferSize;
@@ -53,10 +53,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// <summary>
         /// A value indicating whether the Buffer is in queue.
         /// </summary>
-        public bool IsInQueue
-        {
-            get { return (_header.dwFlags & WaveHeaderFlags.WHDR_INQUEUE) == WaveHeaderFlags.WHDR_INQUEUE; }
-        }
+        public bool IsInQueue => (_header.dwFlags & WaveHeaderFlags.WHDR_INQUEUE) == WaveHeaderFlags.WHDR_INQUEUE;
 
         /// <summary>
         /// Disposes the object.

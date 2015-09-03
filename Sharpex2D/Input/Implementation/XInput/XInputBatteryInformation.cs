@@ -41,7 +41,7 @@ namespace Sharpex2D.Framework.Input.Implementation.XInput
         /// <returns>String.</returns>
         public override string ToString()
         {
-            return string.Format("{0} {1}", (XInputBatteryType) BatteryType, (XInputBatteryLevel) BatteryLevel);
+            return $"{(XInputBatteryType) BatteryType} {(XInputBatteryLevel) BatteryLevel}";
         }
     }
 }

@@ -21,15 +21,12 @@ namespace ContentPipelineUI.ViewModels
         /// <summary>
         /// A value indicating whether a project is loaded.
         /// </summary>
-        public bool IsProjectLoaded
-        {
-            get { return Project != null; }
-        }
+        public bool IsProjectLoaded => Project != null;
 
         /// <summary>
         /// A value indicating whether the project is not loaded.
         /// </summary>
-        public bool IsNotProjectLoaded { get { return !IsProjectLoaded; } }
+        public bool IsNotProjectLoaded => !IsProjectLoaded;
 
         /// <summary>
         /// Gets the project.
@@ -39,7 +36,7 @@ namespace ContentPipelineUI.ViewModels
         /// <summary>
         /// Gets the output.
         /// </summary>
-        public string Output { get { return _stringBuilder.ToString(); } }
+        public string Output => _stringBuilder.ToString();
 
         /// <summary>
         /// A value indicating whether the content pipeline is currently building.
@@ -49,7 +46,7 @@ namespace ContentPipelineUI.ViewModels
         /// <summary>
         /// Gets the product version.
         /// </summary>
-        public string ProductVersion { get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+        public string ProductVersion => Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public ICommand OnLoadProject { private set; get; }
 

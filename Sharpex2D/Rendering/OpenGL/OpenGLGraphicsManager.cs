@@ -25,14 +25,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <summary>
         /// A value indicating whether the Renderer is supported.
         /// </summary>
-        public override bool IsSupported
-        {
-            get
-            {
-                return true;
-                //lie
-            }
-        }
+        public override bool IsSupported => true;
 
         /// <summary>
         /// Creates the renderer.

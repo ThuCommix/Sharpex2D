@@ -45,17 +45,11 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Gets the Width.
         /// </summary>
-        public int Width
-        {
-            get { return (int) _size.X; }
-        }
+        public int Width => (int) _size.X;
 
         /// <summary>
         /// Gets the Height.
         /// </summary>
-        public int Height
-        {
-            get { return (int) _size.Y; }
-        }
+        public int Height => (int) _size.Y;
     }
 }

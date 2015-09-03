@@ -21,7 +21,6 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using Sharpex2D.Framework;
 using ContentPipeline.Actions;
 
 namespace ContentPipeline

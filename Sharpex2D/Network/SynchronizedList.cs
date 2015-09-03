@@ -120,18 +120,12 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the amount of items.
         /// </summary>
-        public int Count
-        {
-            get { return _internalList.Count; }
-        }
+        public int Count => _internalList.Count;
 
         /// <summary>
         /// A value indicating whether the list is read only.
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Gets the index of the specified item.

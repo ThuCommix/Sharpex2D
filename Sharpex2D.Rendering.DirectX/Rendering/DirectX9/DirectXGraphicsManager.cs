@@ -27,10 +27,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <summary>
         /// A value indicating whether the Renderer is supported.
         /// </summary>
-        public override bool IsSupported
-        {
-            get { return Environment.OSVersion.Version >= new Version(5, 1); }
-        }
+        public override bool IsSupported => Environment.OSVersion.Version >= new Version(5, 1);
 
         /// <summary>
         /// Creates the renderer.

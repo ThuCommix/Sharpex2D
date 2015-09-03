@@ -55,26 +55,17 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Returns a null vector.
         /// </summary>
-        public static Vector2 Zero
-        {
-            get { return new Vector2(0, 0); }
-        }
+        public static Vector2 Zero => new Vector2(0, 0);
 
         /// <summary>
         /// Returns a vector that represents the x-axis.
         /// </summary>
-        public static Vector2 UnitX
-        {
-            get { return new Vector2(1, 0); }
-        }
+        public static Vector2 UnitX => new Vector2(1, 0);
 
         /// <summary>
         /// Returns a vector that represents the y-axis.
         /// </summary>
-        public static Vector2 UnitY
-        {
-            get { return new Vector2(0, 1); }
-        }
+        public static Vector2 UnitY => new Vector2(0, 1);
 
         #endregion
 
@@ -97,18 +88,12 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the length.
         /// </summary>
-        public float Length
-        {
-            get { return MathHelper.Sqrt(LengthSquared); }
-        }
+        public float Length => MathHelper.Sqrt(LengthSquared);
 
         /// <summary>
         /// Gets the length squared.
         /// </summary>
-        public float LengthSquared
-        {
-            get { return X*X + Y*Y; }
-        }
+        public float LengthSquared => X*X + Y*Y;
 
         #endregion
 

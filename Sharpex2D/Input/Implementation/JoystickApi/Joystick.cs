@@ -29,10 +29,7 @@ namespace Sharpex2D.Framework.Input.Implementation.JoystickApi
         /// <summary>
         /// A value indicating whether a Joystick is available.
         /// </summary>
-        public bool IsAvailable
-        {
-            get { return JoystickInterops.joyGetNumDevs() > 0; }
-        }
+        public bool IsAvailable => JoystickInterops.joyGetNumDevs() > 0;
 
         /// <summary>
         /// Gets the State.

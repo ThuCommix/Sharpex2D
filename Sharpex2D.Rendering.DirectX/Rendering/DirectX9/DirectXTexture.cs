@@ -99,12 +99,12 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <summary>
         /// Gets the Width.
         /// </summary>
-        public int Width { get; private set; }
+        public int Width { get; }
 
         /// <summary>
         /// Gets the Height.
         /// </summary>
-        public int Height { get; private set; }
+        public int Height { get; }
 
         /// <summary>
         /// A value indicating whether the texture is locked.

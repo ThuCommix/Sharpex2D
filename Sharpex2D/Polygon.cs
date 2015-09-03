@@ -69,18 +69,12 @@ namespace Sharpex2D.Framework
         /// <summary>
         ///     A value indicating whether the Polygon is valid.
         /// </summary>
-        public bool IsValid
-        {
-            get { return _points.Count > 2; }
-        }
+        public bool IsValid => _points.Count > 2;
 
         /// <summary>
         ///     Gets the coordinates of the Polygon.
         /// </summary>
-        public Vector2[] Points
-        {
-            get { return _points.ToArray(); }
-        }
+        public Vector2[] Points => _points.ToArray();
 
         /// <summary>
         ///     Projects an axis.

@@ -55,10 +55,7 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="key">The Key.</param>
         /// <returns>String.</returns>
-        public string this[string key]
-        {
-            get { return _parameters[key]; }
-        }
+        public string this[string key] => _parameters[key];
 
         /// <summary>
         /// Parses the command line parameters.

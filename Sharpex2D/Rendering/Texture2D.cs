@@ -50,26 +50,17 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Gets the Width.
         /// </summary>
-        public int Width
-        {
-            get { return Texture.Width; }
-        }
+        public int Width => Texture.Width;
 
         /// <summary>
         /// Gets the Height.
         /// </summary>
-        public int Height
-        {
-            get { return Texture.Height; }
-        }
+        public int Height => Texture.Height;
 
         /// <summary>
         /// A value indicating whether the texture is locked.
         /// </summary>
-        public bool IsLocked
-        {
-            get { return Texture.IsLocked; }
-        }
+        public bool IsLocked => Texture.IsLocked;
 
         /// <summary>
         /// Gets or sets the color of the specified texel.
@@ -84,16 +75,16 @@ namespace Sharpex2D.Framework.Rendering
             {
                 if (!IsLocked)
                     throw new InvalidOperationException("The texture must be locked before accessing the color data.");
-                if (x >= Width) throw new ArgumentOutOfRangeException("x");
-                if (y >= Height) throw new ArgumentOutOfRangeException("y");
+                if (x >= Width) throw new ArgumentOutOfRangeException(nameof(x));
+                if (y >= Height) throw new ArgumentOutOfRangeException(nameof(y));
                 Texture[x, y] = value;
             }
             get
             {
                 if (!IsLocked)
                     throw new InvalidOperationException("The texture must be locked before accessing the color data.");
-                if (x >= Width) throw new ArgumentOutOfRangeException("x");
-                if (y >= Height) throw new ArgumentOutOfRangeException("y");
+                if (x >= Width) throw new ArgumentOutOfRangeException(nameof(x));
+                if (y >= Height) throw new ArgumentOutOfRangeException(nameof(y));
                 return Texture[x, y];
             }
         }

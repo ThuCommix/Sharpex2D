@@ -47,7 +47,7 @@ namespace Sharpex2D.Framework.Input
             {
                 if (value < 0 || value > 1)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _leftThumbStickDeadZone = value;
@@ -64,7 +64,7 @@ namespace Sharpex2D.Framework.Input
             {
                 if (value < 0 || value > 1)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _rightThumbStickDeadZone = value;
@@ -81,7 +81,7 @@ namespace Sharpex2D.Framework.Input
             {
                 if (value < 0 || value > 1)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _triggerDeadZone = value;

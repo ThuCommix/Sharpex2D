@@ -20,7 +20,6 @@
 
 using System.Collections.Generic;
 using System.IO;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content;
 
 namespace ContentPipeline.Exporters

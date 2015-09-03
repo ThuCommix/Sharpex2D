@@ -119,8 +119,7 @@ namespace Sharpex2D.Framework.Content
         {
             if (_importers.All(x => x.Key != typeof (T)))
             {
-                throw new ContentLoadException(string.Format("No importer specified for the given type ({0})",
-                    typeof (T).Name));
+                throw new ContentLoadException($"No importer specified for the given type ({typeof (T).Name})");
             }
 
             var importer = _importers.First(x => x.Key == typeof (T)).Value;
@@ -143,7 +142,7 @@ namespace Sharpex2D.Framework.Content
             if (hash.ToLower().Replace("-", "") != expectedHash.ToLower().Replace("-", ""))
             {
                 throw new ContentLoadException(
-                    string.Format("The computed hash for {0} does not match the expected hash.", filepath));
+                    $"The computed hash for {filepath} does not match the expected hash.");
             }
 
             return Load<T>(asset);

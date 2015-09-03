@@ -45,10 +45,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// A value indicating whether the list has a fixed size.
         /// </summary>
-        public bool IsFixedSize
-        {
-            get { return false; }
-        }
+        public bool IsFixedSize => false;
 
         /// <summary>
         /// Gets the sync root.
@@ -58,10 +55,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// A value indicating whether the list is synchronized.
         /// </summary>
-        public bool IsSynchronized
-        {
-            get { return false; }
-        }
+        public bool IsSynchronized => false;
 
         /// <summary>
         /// Adds a new component.
@@ -70,8 +64,7 @@ namespace Sharpex2D.Framework
         public void Add(GameComponent component)
         {
             _gameComponents.Add(component);
-            if (ComponentAdded != null)
-                ComponentAdded(this, new GameComponentEventArgs(component));
+            ComponentAdded?.Invoke(this, new GameComponentEventArgs(component));
         }
 
         /// <summary>
@@ -93,8 +86,7 @@ namespace Sharpex2D.Framework
             if (_gameComponents.Contains(component))
             {
                 _gameComponents.Remove(component);
-                if (ComponentRemoved != null)
-                    ComponentRemoved(this, new GameComponentEventArgs(component));
+                ComponentRemoved?.Invoke(this, new GameComponentEventArgs(component));
 
                 _gameComponents.Sort(new UpdateOrderComparer());
                 return true;
@@ -163,18 +155,12 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// A value indicating whether the list is read only.
         /// </summary>
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         /// <summary>
         /// Gets the count.
         /// </summary>
-        public int Count
-        {
-            get { return _gameComponents.Count; }
-        }
+        public int Count => _gameComponents.Count;
 
         /// <summary>
         /// Gets the enumerator.

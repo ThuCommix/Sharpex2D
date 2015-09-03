@@ -87,9 +87,9 @@ namespace Sharpex2D.Framework
         /// <param name="level">The LogLevel</param>
         public void Trace(string message, LogLevel level)
         {
-            if (level >= MinimumLogLevel && Out != null)
+            if (level >= MinimumLogLevel)
             {
-                Out.WriteLine($"[{level}] {message}");
+                Out?.WriteLine($"[{level}] {message}");
             }
         }
     }

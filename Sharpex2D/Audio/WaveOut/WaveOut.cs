@@ -342,8 +342,8 @@ namespace Sharpex2D.Framework.Audio.WaveOut
                 }
                 _buffers.Clear();
             }
-            if (Stream != null)
-                Stream.Close();
+
+            Stream?.Close();
 
             if (disposing)
             {
@@ -363,10 +363,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
         /// </summary>
         private void RaisePlaybackChanged()
         {
-            if (PlaybackChanged != null)
-            {
-                PlaybackChanged(this, EventArgs.Empty);
-            }
+            PlaybackChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

@@ -152,7 +152,6 @@
     <Compile Include="Audio\WaveOut\WaveCapsFormats.cs" />
     <Compile Include="Audio\WaveOut\WaveCapsSupported.cs" />
     <Compile Include="Audio\WaveOut\WaveOutCaps.cs" />
-    <Compile Include="Audio\WaveStream.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="Content\ContentLoadException.cs" />
     <Compile Include="LogLevel.cs" />

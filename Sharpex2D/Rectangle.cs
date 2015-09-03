@@ -94,50 +94,32 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the left.
         /// </summary>
-        public float Left
-        {
-            get { return X; }
-        }
+        public float Left => X;
 
         /// <summary>
         /// Gets the right.
         /// </summary>
-        public float Right
-        {
-            get { return X + Width; }
-        }
+        public float Right => X + Width;
 
         /// <summary>
         /// Gets the top.
         /// </summary>
-        public float Top
-        {
-            get { return Y; }
-        }
+        public float Top => Y;
 
         /// <summary>
         /// Gets the bottom.
         /// </summary>
-        public float Bottom
-        {
-            get { return Y + Height; }
-        }
+        public float Bottom => Y + Height;
 
         /// <summary>
         /// Gets the location.
         /// </summary>
-        public Vector2 Location
-        {
-            get { return new Vector2(X, Y); }
-        }
+        public Vector2 Location => new Vector2(X, Y);
 
         /// <summary>
         /// Gets the center.
         /// </summary>
-        public Vector2 Center
-        {
-            get { return new Vector2(X + Width*0.5f, Y + Height*0.5f); }
-        }
+        public Vector2 Center => new Vector2(X + Width*0.5f, Y + Height*0.5f);
 
         #endregion
 

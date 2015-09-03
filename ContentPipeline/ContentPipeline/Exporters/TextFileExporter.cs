@@ -30,10 +30,7 @@ namespace ContentPipeline.Exporters
         /// <summary>
         /// Gets or sets the file filter.
         /// </summary>
-        public override string[] FileFilter
-        {
-            get { return new[] { ".txt" }; }
-        }
+        public override string[] FileFilter => new[] { ".txt" };
 
         /// <summary>
         /// Raises when the content should be created.

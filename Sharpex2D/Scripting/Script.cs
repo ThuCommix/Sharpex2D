@@ -97,10 +97,7 @@ namespace Sharpex2D.Framework.Scripting
         /// <summary>
         /// Gets the entry points.
         /// </summary>
-        public EntryPoint[] EntryPoints
-        {
-            get { return _entryPoints.ToArray(); }
-        }
+        public EntryPoint[] EntryPoints => _entryPoints.ToArray();
 
         /// <summary>
         /// Gets the enumerator.
@@ -154,10 +151,7 @@ namespace Sharpex2D.Framework.Scripting
                 {
                     Logger.Instance.Debug($"Finished script <{entry}>.");
                     IsRunning = false;
-                    if (Finished != null)
-                    {
-                        Finished(this, new ScriptFinishedEventArgs(result, entry));
-                    }
+                    Finished?.Invoke(this, new ScriptFinishedEventArgs(result, entry));
                 }
             });
             _scriptThread.Start();

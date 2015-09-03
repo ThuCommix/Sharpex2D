@@ -25,7 +25,6 @@ using CSCore.Codecs;
 using CSCore.Codecs.WAV;
 using CSCore.Streams;
 using CSCore.Tags.ID3;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Content;
 
@@ -37,10 +36,7 @@ namespace ContentPipeline.Exporters
         /// <summary>
         /// Gets or sets the file filter.
         /// </summary>
-        public override string[] FileFilter
-        {
-            get { return new[] { ".mp3", ".wav", ".flac" }; }
-        }
+        public override string[] FileFilter => new[] { ".mp3", ".wav", ".flac" };
 
         /// <summary>
         /// Raises when the content should be created.
