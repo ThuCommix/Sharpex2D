@@ -55,17 +55,17 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="fontName">The FontName.</param>
         /// <param name="size">The Size.</param>
         /// <param name="spacing">The Spacing.</param>
-        /// <param name="useKerning">The KerningMode.</param>
+        /// <param name="whiteSpacing">The WhiteSpacing.</param>
         /// <param name="fontStyle">The FontStyle.</param>
         /// <param name="fontTexture">The FontTexture.</param>
         /// <param name="charLayout">The CharLayout.</param>
-        internal SpriteFont(string fontName, float size, float spacing, bool useKerning, FontStyle fontStyle,
+        internal SpriteFont(string fontName, float size, float spacing, float whiteSpacing, FontStyle fontStyle,
             Texture2D fontTexture, Dictionary<char, Rectangle> charLayout)
         {
             FontName = fontName;
             Size = size;
             Spacing = spacing;
-            UseKerning = useKerning;
+            WhiteSpacing = whiteSpacing;
             Style = fontStyle;
             _fontTexture = fontTexture;
             _charLayout = charLayout;
@@ -87,9 +87,9 @@ namespace Sharpex2D.Framework.Rendering
         public float Spacing { private set; get; }
 
         /// <summary>
-        /// A value indicating whether the spritefont uses kerning for font measurement.
+        /// Gets the white spacing size
         /// </summary>
-        public bool UseKerning { private set; get; }
+        public float WhiteSpacing { private set; get; }
 
         /// <summary>
         /// Gets the font style.

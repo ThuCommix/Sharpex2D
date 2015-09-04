@@ -26,7 +26,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Sharpex2D.Framework;
 using Sharpex2D.Framework.Content;
 using Sharpex2D.Framework.Rendering;
 using Rectangle = System.Drawing.Rectangle;
@@ -57,7 +56,7 @@ namespace ContentPipeline.Exporters
             float spacing = float.Parse(xml.Elements().Select(x => x.Element("Spacing")).First().Value,
                 CultureInfo.InvariantCulture.NumberFormat);
             string style = xml.Elements().Select(x => x.Element("Style")).First().Value;
-            bool useKerning = xml.Elements().Select(x => x.Element("UseKerning")).First().Value == "True";
+            float whiteSpacing = float.Parse(xml.Elements().Select(x => x.Element("WhiteSpacing")).First().Value);
 
             IEnumerable<XElement> result = xml.Elements().Select(x => x.Element("CharacterRegions"));
             var fontStyle = FontStyle.Regular;
@@ -106,7 +105,7 @@ namespace ContentPipeline.Exporters
 
             foreach (short character in characters)
             {
-                SizeF dimension = PrecissionMeasureString(graphics, ((char) character).ToString(), targetFont);
+                SizeF dimension = PrecissionMeasureString(graphics, ((char) character).ToString(), whiteSpacing, targetFont);
                 float charWidth = (int) Math.Ceiling(dimension.Width) + spacing;
                 if (dimension.Height > highestHeight)
                     highestHeight = (int) Math.Ceiling(dimension.Height);
@@ -147,7 +146,7 @@ namespace ContentPipeline.Exporters
             metaInfos.Add(new MetaInformation("FontSize", fontSize.ToString(CultureInfo.InvariantCulture)));
             metaInfos.Add(new MetaInformation("Style", style));
             metaInfos.Add(new MetaInformation("Spacing", spacing.ToString(CultureInfo.InvariantCulture)));
-            metaInfos.Add(new MetaInformation("Kerning", useKerning ? "True" : "False"));
+            metaInfos.Add(new MetaInformation("WhiteSpacing", whiteSpacing.ToString(CultureInfo.InvariantCulture)));
 
             using (var outputStream = new MemoryStream())
             {
@@ -181,14 +180,19 @@ namespace ContentPipeline.Exporters
         /// </summary>
         /// <param name="graphics">The Graphics</param>
         /// <param name="text">The Text</param>
+        /// <param name="whiteSpacing">The white spacing value</param>
         /// <param name="font">The Font</param>
         /// <returns></returns>
-        private SizeF PrecissionMeasureString(Graphics graphics, string text, Font font)
+        private SizeF PrecissionMeasureString(Graphics graphics, string text, float whiteSpacing, Font font)
         {
             if (text == " ")
             {
                 var result = graphics.MeasureString(" ", font);
-                return  new SizeF(result.Width*2f, result.Height);
+                if (whiteSpacing == 0)
+                {
+                    return new SizeF(result.Width*2f, result.Height);
+                }
+                return new SizeF(whiteSpacing, result.Height);
             }
             var format = new StringFormat();
             var rect = new RectangleF(0, 0, 1000, 1000);

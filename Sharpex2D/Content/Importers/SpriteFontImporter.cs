@@ -42,7 +42,7 @@ namespace Sharpex2D.Framework.Content.Importers
             var styleString = xcf.First(x => x.Key == "Style").Value;
             var spacing = float.Parse(xcf.First(x => x.Key == "Spacing").Value,
                 CultureInfo.InvariantCulture);
-            var kerning = xcf.First(x => x.Key == "Kerning").Value == "true";
+            var whiteSpacing = float.Parse(xcf.First(x => x.Key == "WhiteSpacing").Value);
             var style = SpriteFont.FontStyle.Regular;
             var offset = long.Parse(xcf.First(x => x.Key == "Offset").Value);
 
@@ -80,7 +80,7 @@ namespace Sharpex2D.Framework.Content.Importers
             {
                 memoryStream.Write(data, (int) offset, (int) (data.Length - offset));
                 var texture = new Texture2D(GameHost.SpriteBatch.Renderer.CreateTexture(memoryStream));
-                return new SpriteFont(fontName, fontSize, spacing, kerning, style, texture, charLayout);
+                return new SpriteFont(fontName, fontSize, spacing, whiteSpacing, style, texture, charLayout);
             }
         }
     }
