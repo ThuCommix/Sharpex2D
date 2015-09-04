@@ -62,7 +62,24 @@ namespace Sharpex2D.Framework.Audio.OpenAL
         /// <summary>
         /// Gets the position in ms
         /// </summary>
-        public long Position { set; get; }
+        public long Position {
+            get
+            {
+                if (_playbackStream == null)
+                    return 0;
+
+                return _playbackStream.Position / _waveFormat.AvgBytesPerSec * 1000;
+            }
+            set
+            {
+                if (_playbackStream == null)
+                    return;
+
+                var requestesPostion = value/1000*_waveFormat.AvgBytesPerSec;
+                if (requestesPostion < _playbackStream.Length)
+                    _playbackStream.Seek(requestesPostion, SeekOrigin.Begin);
+            }
+        }
 
         /// <summary>
         /// Gets the latency
