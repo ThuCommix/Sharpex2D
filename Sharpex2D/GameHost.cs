@@ -87,7 +87,7 @@ namespace Sharpex2D.Framework
             GameInstance.Content = new ContentManager();
 
             var launchParameters = new LaunchParameters();
-            GameInstance.OnInitialize(launchParameters);
+            GameInstance.Setup(launchParameters);
 
             GraphicsManager = GameInstance.GraphicsManager;
 
@@ -120,6 +120,7 @@ namespace Sharpex2D.Framework
             GameInstance.SoundPlayer = new SoundPlayer(GameInstance.SoundManager);
             Components.Add(GameInstance.SoundPlayer);
             Components.Construct();
+            GameInstance.Initialize();
             Components.Get<GameLoop>().Start();
 
             Logger.Instance.Engine($"Sharpex2D ({typeof (GameHost).Assembly.GetName().Version}) is sucessfully running.");
@@ -131,7 +132,7 @@ namespace Sharpex2D.Framework
         internal static void Shutdown()
         {
             Components.Get<GameLoop>().Stop();
-            GameInstance.OnUnload();
+            GameInstance.Unload();
         }
 
         /// <summary>

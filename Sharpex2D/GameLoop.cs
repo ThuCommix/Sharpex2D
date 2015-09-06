@@ -163,7 +163,7 @@ namespace Sharpex2D.Framework
             GameHost.Components.Add(GameHost.SpriteBatch);
 
             //load content 
-            GameHost.GameInstance.OnLoadContent();
+            GameHost.GameInstance.LoadContent();
 
             _gameTimer.Start();
             long startTime = _gameTimer.ElapsedTicks;

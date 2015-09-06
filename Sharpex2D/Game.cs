@@ -113,7 +113,7 @@ namespace Sharpex2D.Framework
         /// <param name="gameTime">The GameTime.</param>
         void IDrawable.Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-            OnDraw(spriteBatch, gameTime);
+            Draw(spriteBatch, gameTime);
         }
 
         #endregion
@@ -126,7 +126,7 @@ namespace Sharpex2D.Framework
         /// <param name="gameTime">The GameTime.</param>
         void IUpdateable.Update(GameTime gameTime)
         {
-            OnUpdate(gameTime);
+            Update(gameTime);
         }
 
         #endregion
@@ -135,7 +135,7 @@ namespace Sharpex2D.Framework
         /// Updates the components.
         /// </summary>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void OnUpdate(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             IEnumerable<GameComponent> components = Components.GetUpdateables();
             foreach (GameComponent gameComponent in components)
@@ -149,7 +149,7 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="spriteBatch">The SpriteBatch.</param>
         /// <param name="gameTime">The GameTime.</param>
-        public virtual void OnDraw(SpriteBatch spriteBatch, GameTime gameTime)
+        public virtual void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             IEnumerable<DrawableGameComponent> components = Components.GetDrawables();
             foreach (DrawableGameComponent gameComponent in components)
@@ -159,10 +159,10 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
-        /// Processes the Game initialization.
+        /// Processes the game setup
         /// </summary>
         /// <param name="launchParameters">The LaunchParameters.</param>
-        public virtual void OnInitialize(LaunchParameters launchParameters)
+        public virtual void Setup(LaunchParameters launchParameters)
         {
             GraphicsManager = new OpenGLGraphicsManager
             {
@@ -176,6 +176,14 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
+        /// Initializes the game
+        /// </summary>
+        public virtual void Initialize()
+        {
+            
+        }
+
+        /// <summary>
         /// Runs the game.
         /// </summary>
         public void Run()
@@ -186,12 +194,12 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Processes the Game load.
         /// </summary>
-        public abstract void OnLoadContent();
+        public abstract void LoadContent();
 
         /// <summary>
         /// Processes the Game unload.
         /// </summary>
-        public virtual void OnUnload()
+        public virtual void Unload()
         {
         }
 
