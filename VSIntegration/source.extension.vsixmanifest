@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="VSIntegration.Company.4f1c708e-b803-40c4-bb38-0512599d5c7d" Version="1.0" Language="en-US" Publisher="ThuCommix" />
+    <DisplayName>Sharpex2D for Visual Studio</DisplayName>
+    <Description xml:space="preserve">Sharpex2D integration for Visual Studio.</Description>
+    <MoreInfo>https://github.com/ThuCommix/Sharpex2D</MoreInfo>
+    <License>Resources\License.txt</License>
+    <GettingStartedGuide>https://github.com/ThuCommix/Sharpex2D</GettingStartedGuide>
+    <Icon>Resources\sharpex2DLogo32.png</Icon>
+    <PreviewImage>Resources\sharpex2DLogo200.png</PreviewImage>
+    <Tags>Game, Game framework, Engine</Tags>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[12.0,)" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Pro" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Enterprise" />
+    <InstallationTarget Version="[12.0,)" Id="Microsoft.VisualStudio.Ultimate" />
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    <Dependency Id="Microsoft.VisualStudio.MPF.14.0" DisplayName="Visual Studio MPF 14.0" d:Source="Installed" Version="[14.0]" />
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="File" Path="ItemTemplates" d:TargetPath="ItemTemplates\Sharpex2D\SpriteFont CSharp.zip" />
+    <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="File" Path="ItemTemplates" d:TargetPath="ItemTemplates\Sharpex2D\SpriteFont VB.zip" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Sharpex2D\Game CSharp.zip" />
+    <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="File" Path="ProjectTemplates" d:TargetPath="ProjectTemplates\Sharpex2D\Game VB.zip" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>
