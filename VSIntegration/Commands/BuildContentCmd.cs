@@ -18,16 +18,46 @@ namespace VSIntegration.Commands
         public override void OnClick(object sender, EventArgs e)
         {
             var proj = ((VSIntegrationPackage) Package).ContentProject;
+
             var ideService = Package.GetServiceAs<DTE, DTE2>();
             var selectedItems = (UIHierarchyItem[])ideService.ToolWindows.SolutionExplorer.SelectedItems;
-            if (selectedItems == null || selectedItems.Length == 0 || selectedItems[0].Name != "content.proj")
+            if (selectedItems == null || selectedItems.Length == 0)
                 return;
 
-            var contentprojItem = selectedItems[0].Object as ProjectItem;
-            if(contentprojItem == null)
+            var contentprojItem = selectedItems[0].Object as Project;
+            if (contentprojItem == null)
                 return;
 
-            var projFilePath = Path.GetDirectoryName(contentprojItem.ContainingProject.FullName);
+            var projFilePath = Path.GetDirectoryName(contentprojItem.FullName);
+            var fullPath = Path.Combine(projFilePath, "content.proj");
+            var fileInfo = new FileInfo(fullPath);
+
+            if (proj.FileLastChanged == null || proj.FileLastChanged < fileInfo.LastWriteTime)
+            {
+                try
+                {
+                    proj.FileLastChanged = fileInfo.LastWriteTime;
+                    XDocument xml = XDocument.Parse(File.ReadAllText(fullPath));
+
+                    proj.ContentPipeline = xml.Element("ContentProject").Attribute("ContentPipeline").Value;
+                    proj.SourceFolder = xml.Element("ContentProject").Element("ContentSourceFolder").Value;
+                    proj.TargetFolder = xml.Element("ContentProject").Element("ContentTargetFolder").Value;
+                    proj.IsError = false;
+                }
+                catch
+                {
+                    proj.IsError = true;
+                }
+            }
+
+            if (proj.IsError)
+            {
+                MessageBox.Show(Resources.ErrorReadingContentProj, "Sharpex2D", MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
             var sourceFolder = Path.Combine(projFilePath, proj.SourceFolder);
             var buildConfig = ideService.Solution.SolutionBuild.ActiveConfiguration.Name;
             var outputFolder = Path.Combine(projFilePath, "bin", buildConfig, proj.TargetFolder);
@@ -91,48 +121,6 @@ namespace VSIntegration.Commands
                 MessageBox.Show(
                     Resources.ContentPipelineExeWasNotFound,
                     "Sharpex2D", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public override void OnQueryStatus(object sender, EventArgs e)
-        {
-            var project = ((VSIntegrationPackage) Package).ContentProject;
-            var ideService = Package.GetServiceAs<DTE, DTE2>();
-            var selectedItems = (UIHierarchyItem[]) ideService.ToolWindows.SolutionExplorer.SelectedItems;
-
-            Visible = false;
-
-            if (selectedItems == null || selectedItems.Length == 0 || selectedItems[0].Name != "content.proj")
-                return;
-
-            var contentprojItem = selectedItems[0].Object as ProjectItem;
-            if (contentprojItem != null)
-            {
-                var fullPath = contentprojItem.Properties.Item("FullPath").Value.ToString();
-                if (File.Exists(fullPath))
-                {
-                    var fileInfo = new FileInfo(fullPath);
-                    if (project.FileLastChanged == null || project.FileLastChanged < fileInfo.LastWriteTime)
-                    {
-                        try
-                        {
-                            project.FileLastChanged = fileInfo.LastWriteTime;
-                            XDocument xml = XDocument.Parse(File.ReadAllText(fullPath));
-
-                            project.ContentPipeline = xml.Element("ContentProject").Attribute("ContentPipeline").Value;
-                            project.SourceFolder = xml.Element("ContentProject").Element("ContentSourceFolder").Value;
-                            project.TargetFolder = xml.Element("ContentProject").Element("ContentTargetFolder").Value;
-                        }
-                        catch
-                        {
-                            project.IsError = true;
-                            Visible = false;
-                            return;
-                        }
-                    }
-
-                    Visible = true;
-                }
             }
         }
     }

@@ -79,6 +79,15 @@ namespace VSIntegration.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error while reading the content.proj file. ähnelt.
+        /// </summary>
+        internal static string ErrorReadingContentProj {
+            get {
+                return ResourceManager.GetString("ErrorReadingContentProj", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Could not create the output folder. Please check your configuration at the content.proj ähnelt.
         /// </summary>
         internal static string UnableToCreateOutputFolder {

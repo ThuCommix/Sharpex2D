@@ -126,4 +126,7 @@
   <data name="UnableToCreateOutputFolder" xml:space="preserve">
     <value>Could not create the output folder. Please check your configuration at the content.proj</value>
   </data>
+  <data name="ErrorReadingContentProj" xml:space="preserve">
+    <value>Error while reading the content.proj file.</value>
+  </data>
 </root>

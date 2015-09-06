@@ -37,7 +37,7 @@
          must be a menu. -->
     <Groups>
       <Group guid="guidVSIntegrationPackageCmdSet" id="MyMenuGroup" priority="0x0000">
-        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
       </Group>
     </Groups>
 
@@ -54,7 +54,7 @@
           If you do not want an image next to your command, remove the Icon node /> -->
       <Button guid="guidVSIntegrationPackageCmdSet" id="VSIntegrationId" priority="0x0100" type="Button">
         <Parent guid="guidVSIntegrationPackageCmdSet" id="MyMenuGroup" />
-        <Icon guid="guidImages" id="bmpPicArrows" />
+        <Icon guid="guidImages2" id="build" />
         <CommandFlag>DynamicVisibility</CommandFlag>
         <Strings language="en">
           <ButtonText>Build content</ButtonText>
@@ -75,6 +75,7 @@
             inside a button definition. An important aspect of this declaration is that the element id
             must be the actual index (1-based) of the bitmap inside the bitmap strip. -->
       <Bitmap guid="guidImages" href="Resources\VSIntegration.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+      <Bitmap guid="guidImages2" href="Resources\build.png" usedList="build"/>
     </Bitmaps>
   </Commands>
 
@@ -84,8 +85,12 @@
 
     <!-- This is the guid used to group the menu commands together -->
     <GuidSymbol name="guidVSIntegrationPackageCmdSet" value="{ad1ab5de-3757-4b6f-b2ab-94fd863dd720}">
-      <IDSymbol name="MyMenuGroup" value="0x1020" />
+      <IDSymbol name="MyMenuGroup" value="0x1100" />
       <IDSymbol name="VSIntegrationId" value="0x0100" />
+    </GuidSymbol>
+
+    <GuidSymbol name="guidImages2" value="{723C9265-AC70-4E0D-B832-BC0A94706AA7}" >
+      <IDSymbol name="build" value="1" />
     </GuidSymbol>
 
     <GuidSymbol name="guidImages" value="{f31c3ecb-b3d0-4ce2-abab-d0c3d2156e2b}" >

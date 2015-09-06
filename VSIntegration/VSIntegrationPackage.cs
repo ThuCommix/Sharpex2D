@@ -4,18 +4,13 @@
 // </copyright>
 //------------------------------------------------------------------------------
 
-using System;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
+using EnvDTE;
 using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using Microsoft.Win32;
-using VSIntegration.Content;
+using VSLangProj;
 
 namespace VSIntegration
 {
@@ -41,7 +36,7 @@ namespace VSIntegration
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    [ProvideAutoLoad("F1536EF8-92EC-443C-9ED7-FDADF150DA82")]
+    [ProvideAutoLoad(VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string)]
     public sealed class VSIntegrationPackage : PackageBase
     {
         /// <summary>
@@ -49,13 +44,13 @@ namespace VSIntegration
         /// </summary>
         public const string PackageGuidString = "074e074e-1d0f-44d0-8782-171e1ca818e1";
 
-        public Project ContentProject { private set; get; }
+        public Content.Project ContentProject { private set; get; }
 
         #region Package Members
 
         public VSIntegrationPackage()
         {
-            ContentProject = new Project();
+            ContentProject = new Content.Project();
         }
 
         /// <summary>
@@ -64,7 +59,26 @@ namespace VSIntegration
         /// </summary>
         protected override void Initialize()
         {
-            base.Initialize();
+            var ideService = GetService<DTE>();
+            var sharpex2DFound = false;
+
+            foreach (
+                var vsProject in
+                    ideService.Solution.Projects.Cast<Project>()
+                        .Select(project => (VSProject) project.Object)
+                        .Where(vsProject => vsProject != null))
+            {
+                sharpex2DFound = vsProject.References.Cast<Reference>().Any(reference => reference.Name == "Sharpex2D");
+                if (sharpex2DFound)
+                    break;
+            }
+
+            //Only load package if the sharpex2d.dll was found in references
+
+            if (sharpex2DFound)
+            {
+                base.Initialize();
+            }
         }
 
         #endregion
