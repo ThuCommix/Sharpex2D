@@ -35,7 +35,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Gets the UI manager
         /// </summary>
-        public UIManager UIManager { get; }
+        public ElementManager ElementManager { get; }
 
         /// <summary>
         /// Gets the entity manager
@@ -61,7 +61,7 @@ namespace Sharpex2D.Framework.Rendering
         protected Scene()
         {
             Game = GameHost.GameInstance;
-            UIManager = new UIManager();
+            ElementManager = new ElementManager(Game);
             EntityManager = new EntityManager();
         }
 
@@ -80,6 +80,7 @@ namespace Sharpex2D.Framework.Rendering
         public virtual void OnUpdate(GameTime gameTime)
         {
             EntityManager.Update(gameTime);
+            ElementManager.Update(gameTime);
         }
 
         /// <summary>
@@ -90,6 +91,7 @@ namespace Sharpex2D.Framework.Rendering
         public virtual void OnDraw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             EntityManager.Draw(spriteBatch, gameTime);
+            ElementManager.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>

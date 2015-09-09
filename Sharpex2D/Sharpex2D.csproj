@@ -148,6 +148,8 @@
     <Compile Include="Rendering\SpriteFont.cs" />
     <Compile Include="Rendering\TextFormat.cs" />
     <Compile Include="UI\Element.cs" />
+    <Compile Include="UI\ElementManager.cs" />
+    <Compile Include="UI\InputState.cs" />
     <Compile Include="VersionAttribute.cs" />
     <Compile Include="DrawMode.cs" />
     <Compile Include="Audio\WaveOut\MMResult.cs" />
@@ -286,10 +288,6 @@
     <Compile Include="GameWindow.cs" />
     <Compile Include="ScreenDevice.cs" />
     <Compile Include="ScreenDeviceManager.cs" />
-    <Compile Include="UI\UIBounds.cs" />
-    <Compile Include="UI\UIManager.cs" />
-    <Compile Include="UI\UIControl.cs" />
-    <Compile Include="UI\UISize.cs" />
     <Compile Include="MathHelper.cs" />
     <Compile Include="Vector2.cs" />
     <Compile Include="Rendering\Color.cs" />

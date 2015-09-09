@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
+﻿// Copyright (c) 2012-2015 Sharpex2D - Kevin Scholz (ThuCommix)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the 'Software'), to deal
@@ -20,36 +20,40 @@
 
 namespace Sharpex2D.Framework.UI
 {
-    public class UISize
+    public class InputState
     {
-        private readonly Vector2 _size;
+        /// <summary>
+        /// Gets the state
+        /// </summary>
+        public object State { get; }
 
         /// <summary>
-        /// Initializes a new UISize class.
+        /// Initializes a new InputState class
         /// </summary>
-        public UISize()
+        /// <param name="state">The state</param>
+        public InputState(object state)
         {
-            _size = new Vector2(0, 0);
+            State = state;
         }
 
         /// <summary>
-        /// Initializes a new UISize class.
+        /// Converts the state as the specified type
         /// </summary>
-        /// <param name="width">The Width.</param>
-        /// <param name="height">The Height.</param>
-        public UISize(int width, int height)
+        /// <typeparam name="T">The type</typeparam>
+        /// <returns>T</returns>
+        public T As<T>() where T : class 
         {
-            _size = new Vector2(width, height);
+            return State as T;
         }
 
         /// <summary>
-        /// Gets the Width.
+        /// Gets a value indicating whether the specified type is assignable from state
         /// </summary>
-        public int Width => (int) _size.X;
-
-        /// <summary>
-        /// Gets the Height.
-        /// </summary>
-        public int Height => (int) _size.Y;
+        /// <typeparam name="T">The type</typeparam>
+        /// <returns>True when convertable</returns>
+        public bool Is<T>()
+        {
+            return State is T;
+        }
     }
 }
