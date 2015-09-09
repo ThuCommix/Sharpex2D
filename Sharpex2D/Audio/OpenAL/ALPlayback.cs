@@ -250,8 +250,6 @@ namespace Sharpex2D.Framework.Audio.OpenAL
                     FillBuffer(finishedBuffer);
                 }
 
-                Position = _playbackStream.Position/_waveFormat.AvgBytesPerSec*1000;
-
                 int sourceState;
                 ALInterops.alGetSourcei(_source.Id, ALSourceParameters.SourceState, out sourceState);
                 if ((ALSourceState)sourceState == ALSourceState.Stopped)
