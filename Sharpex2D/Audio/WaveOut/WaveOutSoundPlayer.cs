@@ -179,7 +179,7 @@ namespace Sharpex2D.Framework.Audio.WaveOut
             if (disposing)
             {
                 _waveOut.Dispose();
-                _stream.Dispose();
+                _stream?.Dispose();
             }
         }
 
