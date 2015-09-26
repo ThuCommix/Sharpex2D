@@ -43,6 +43,26 @@ namespace Sharpex2D.Framework.Rendering
         public Keyframe CurrentKeyframe { private set; get; }
 
         /// <summary>
+        /// Gets the amount of keyframes.
+        /// </summary>
+        public int KeyframeCount => _keyframes.Count;
+
+        /// <summary>
+        /// Gets the current keyframe index
+        /// </summary>
+        public int CurrentKeyframeIndex => _ckeyframe;
+
+        /// <summary>
+        /// A value indicating whether the animation should be looped
+        /// </summary>
+        public bool Loop { set; get; }
+
+        /// <summary>
+        /// A value indicating whether a not looped <see cref="Loop"/> animation is finished
+        /// </summary>
+        public bool IsFinished { private set; get; }
+
+        /// <summary>
         /// A value indicating whether the AnimatedSpriteSheet should update automatically.
         /// </summary>
         public bool AutoUpdate { set; get; }
@@ -61,6 +81,7 @@ namespace Sharpex2D.Framework.Rendering
 
                 if (_ckeyframe <= _keyframes.Count - 1)
                 {
+                    IsFinished = false;
                     if (_durationPassed >= _keyframes[_ckeyframe].Duration)
                     {
                         _ckeyframe++;
@@ -69,7 +90,14 @@ namespace Sharpex2D.Framework.Rendering
                 }
                 else
                 {
-                    _ckeyframe = 0;
+                    if (Loop)
+                    {
+                        _ckeyframe = 0;
+                    }
+                    else
+                    {
+                        IsFinished = true;
+                    }
                 }
 
                 ActivateKeyframe(_ckeyframe);
