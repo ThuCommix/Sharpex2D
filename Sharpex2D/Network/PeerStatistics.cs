@@ -24,11 +24,6 @@ namespace Sharpex2D.Framework.Network
 {
     public class PeerStatistics
     {
-        private int _packetsReceived;
-        private int _packetsSent;
-        private int _totalBytesReceived;
-        private int _totalBytesSent;
-
         /// <summary>
         /// Initializes a new PeerStatistics class.
         /// </summary>
@@ -40,7 +35,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average amount of bytes sent per second.
         /// </summary>
-        public int AvgBytesSent
+        public long AvgBytesSent
         {
             get
             {
@@ -55,7 +50,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average amount of bytes received per second.
         /// </summary>
-        public int AvgBytesReceived
+        public long AvgBytesReceived
         {
             get
             {
@@ -70,43 +65,27 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average bandwidth.
         /// </summary>
-        public int AvgBandwidth => AvgBytesReceived + AvgBytesSent;
+        public long AvgBandwidth => AvgBytesReceived + AvgBytesSent;
 
         /// <summary>
         /// Gets the amount of packets sent.
         /// </summary>
-        public int PacketsSent
-        {
-            internal set { _packetsSent = value > Int32.MaxValue ? Int32.MaxValue : value; }
-            get { return _packetsSent; }
-        }
+        public long PacketsSent { internal set; get; }
 
         /// <summary>
         /// Gets the amount of packets received.
         /// </summary>
-        public int PacketsReceived
-        {
-            internal set { _packetsReceived = value > Int32.MaxValue ? Int32.MaxValue : value; }
-            get { return _packetsReceived; }
-        }
+        public long PacketsReceived { internal set; get; }
 
         /// <summary>
         /// Gets the total amount of bytes sent.
         /// </summary>
-        public int TotalBytesSent
-        {
-            internal set { _totalBytesSent = value > Int32.MaxValue ? Int32.MaxValue : value; }
-            get { return _totalBytesSent; }
-        }
+        public long TotalBytesSent { internal set; get; }
 
         /// <summary>
         /// Gets the total amount of bytes received.
         /// </summary>
-        public int TotalBytesReceived
-        {
-            internal set { _totalBytesReceived = value > Int32.MaxValue ? Int32.MaxValue : value; }
-            get { return _totalBytesReceived; }
-        }
+        public long TotalBytesReceived { internal set; get; }
 
         /// <summary>
         /// Gets the amount of bytes sent per second.
@@ -121,7 +100,7 @@ namespace Sharpex2D.Framework.Network
         /// <summary>
         /// Gets the average packet size.
         /// </summary>
-        public int AvgPacketSize => ((TotalBytesReceived + TotalBytesSent)/2)/(PacketsReceived + PacketsSent);
+        public long AvgPacketSize => ((TotalBytesReceived + TotalBytesSent)/2)/(PacketsReceived + PacketsSent);
 
         /// <summary>
         /// Gets the lifetime.
