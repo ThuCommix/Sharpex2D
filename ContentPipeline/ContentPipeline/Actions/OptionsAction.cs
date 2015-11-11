@@ -30,7 +30,7 @@ namespace ContentPipeline.Actions
         /// <summary>
         /// Gets the option name.
         /// </summary>
-        public string Option => "--version";
+        public string Option => "--options";
 
         /// <summary>
         /// Executes the action.
