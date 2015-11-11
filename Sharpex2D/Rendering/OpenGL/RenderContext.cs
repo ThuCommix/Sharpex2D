@@ -44,7 +44,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             _windowHandle = GameHost.Get<GameWindow>().Handle;
 
-            _deviceContext = OpenGLInterops.GetDC(_windowHandle);
+            _deviceContext = GLInterops.GetDC(_windowHandle);
 
             var pfd = new PixelFormatDescriptor();
             pfd.Size = (short) Marshal.SizeOf(pfd);
@@ -77,18 +77,18 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             pfd.DamageMask = 0;
 
             int pixelFormat;
-            if ((pixelFormat = OpenGLInterops.ChoosePixelFormat(_deviceContext, ref pfd)) == 0)
+            if ((pixelFormat = GLInterops.ChoosePixelFormat(_deviceContext, ref pfd)) == 0)
             {
                 throw new GraphicsException("Unable to choose pixel format.");
             }
 
-            if (!OpenGLInterops.SetPixelFormat(_deviceContext, pixelFormat, ref pfd))
+            if (!GLInterops.SetPixelFormat(_deviceContext, pixelFormat, ref pfd))
             {
                 throw new GraphicsException("Unable to set pixel format.");
             }
 
-            _renderContext = OpenGLInterops.wglCreateContext(_deviceContext);
-            OpenGLInterops.wglMakeCurrent(_deviceContext, _renderContext);
+            _renderContext = GLInterops.wglCreateContext(_deviceContext);
+            GLInterops.wglMakeCurrent(_deviceContext, _renderContext);
 
             try
             {
@@ -100,10 +100,10 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
                     0
                 };
 
-                IntPtr hrc = OpenGLInterops.CreateContextWithAttributes(_deviceContext, IntPtr.Zero, attributes);
-                OpenGLInterops.wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
-                OpenGLInterops.wglDeleteContext(_renderContext);
-                OpenGLInterops.wglMakeCurrent(_deviceContext, hrc);
+                IntPtr hrc = GLInterops.CreateContextWithAttributes(_deviceContext, IntPtr.Zero, attributes);
+                GLInterops.wglMakeCurrent(IntPtr.Zero, IntPtr.Zero);
+                GLInterops.wglDeleteContext(_renderContext);
+                GLInterops.wglMakeCurrent(_deviceContext, hrc);
                 _renderContext = hrc;
             }
             catch (MissingMethodException)
@@ -119,7 +119,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             if (_renderContext != IntPtr.Zero)
             {
-                OpenGLInterops.wglMakeCurrent(_deviceContext, _renderContext);
+                GLInterops.wglMakeCurrent(_deviceContext, _renderContext);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             if (_deviceContext != IntPtr.Zero || _windowHandle != IntPtr.Zero)
             {
-                OpenGLInterops.SwapBuffers(_deviceContext);
+                GLInterops.SwapBuffers(_deviceContext);
             }
         }
 
@@ -149,10 +149,10 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="disposing">The disposing state.</param>
         public virtual void Dispose(bool disposing)
         {
-            OpenGLInterops.ReleaseDC(_windowHandle, _deviceContext);
+            GLInterops.ReleaseDC(_windowHandle, _deviceContext);
             if (_renderContext != IntPtr.Zero)
             {
-                OpenGLInterops.wglDeleteContext(_renderContext);
+                GLInterops.wglDeleteContext(_renderContext);
                 _renderContext = IntPtr.Zero;
             }
 

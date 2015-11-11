@@ -20,26 +20,26 @@
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {
-    internal struct OpenGLColor
+    internal struct GLColor
     {
         /// <summary>
-        /// Initializes a new OpenGLColor struct.
+        /// Initializes a new GLColor struct.
         /// </summary>
         /// <param name="r">The R value.</param>
         /// <param name="g">The G value.</param>
         /// <param name="b">The B value.</param>
-        public OpenGLColor(float r, float g, float b) : this(1, r, g, b)
+        public GLColor(float r, float g, float b) : this(1, r, g, b)
         {
         }
 
         /// <summary>
-        /// Initializes a new OpenGLColor struct.
+        /// Initializes a new GLColor struct.
         /// </summary>
         /// <param name="a">The A value.</param>
         /// <param name="r">The R value.</param>
         /// <param name="g">The G value.</param>
         /// <param name="b">The B value.</param>
-        public OpenGLColor(float a, float r, float g, float b)
+        public GLColor(float a, float r, float g, float b)
         {
             A = a;
             R = r;

@@ -29,15 +29,12 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="source">The SourceRectangle.</param>
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        public DrawOperation(ITexture texture, Rectangle source, Rectangle destination, Color color,
-            float opacity = 1f)
+        public DrawOperation(ITexture texture, Rectangle source, Rectangle destination, Color color)
         {
             Texture = texture;
             Source = source;
             Destination = destination;
             Color = color;
-            Opacity = opacity;
         }
 
         /// <summary>
@@ -59,10 +56,5 @@ namespace Sharpex2D.Framework.Rendering
         /// Gets the color.
         /// </summary>
         public Color Color { private set; get; }
-
-        /// <summary>
-        /// Gets the opacity.
-        /// </summary>
-        public float Opacity { private set; get; }
     }
 }

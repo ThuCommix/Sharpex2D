@@ -164,7 +164,7 @@ namespace Sharpex2D.Framework
         /// <param name="launchParameters">The LaunchParameters.</param>
         public virtual void Setup(LaunchParameters launchParameters)
         {
-            GraphicsManager = new OpenGLGraphicsManager
+            GraphicsManager = new GLGraphicsManager
             {
                 PreferredBackBufferWidth = 800,
                 PreferredBackBufferHeight = 480

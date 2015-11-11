@@ -20,7 +20,7 @@
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {
-    public class OpenGLGraphicsManager : GraphicsManager
+    public class GLGraphicsManager : GraphicsManager
     {
         /// <summary>
         /// A value indicating whether the Renderer is supported.
@@ -33,7 +33,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <returns>IRenderer.</returns>
         public override IRenderer Create()
         {
-            return new OpenGLRenderer();
+            return new GLRenderer();
         }
     }
 }

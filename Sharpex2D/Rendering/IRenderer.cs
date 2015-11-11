@@ -43,9 +43,8 @@ namespace Sharpex2D.Framework.Rendering
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
-        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, Vector2 position, Color color);
 
         /// <summary>
         /// Draws a Texture.
@@ -54,7 +53,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, Rectangle rectangle, Color color);
 
         /// <summary>
         /// Draws a Texture.
@@ -63,8 +62,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color);
 
         /// <summary>
         /// Draws a Texture.
@@ -73,8 +71,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color, float opacity = 1f);
+        void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color);
 
         /// <summary>
         /// Draws a Texture.
@@ -83,9 +80,7 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="source">The SourceRectangle.</param>
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color,
-            float opacity = 1f);
+        void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color);
 
         /// <summary>
         /// Draws a range of textures.
@@ -130,12 +125,5 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="stream">The Stream.</param>
         /// <returns>ITexture.</returns>
         ITexture CreateTexture(Stream stream);
-
-        /// <summary>
-        /// Creates a new effect.
-        /// </summary>
-        /// <param name="source">The Source.</param>
-        /// <returns>IEffect</returns>
-        IEffect CreateEffect(string source);
     }
 }

@@ -100,8 +100,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             {
                 //Already buffered by the driver, so we can safely call the draw texture. As in later implementations
                 //we draw all textures in this method using and regenerating the vertex buffer
-                DrawTexture(operation.Texture, operation.Source, operation.Destination, operation.Color,
-                    operation.Opacity);
+                DrawTexture(operation.Texture, operation.Source, operation.Destination, operation.Color);
             }
         }
 
@@ -120,14 +119,11 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="position">The Position.</param>
-        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Vector2 position, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Vector2 position, Color color)
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
-
-            color.A = (byte) (opacity*255);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color), null, null,
                 DirectXHelper.ConvertVector2(position));
@@ -138,9 +134,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
-        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color, float opacity = 1)
+        public void DrawTexture(ITexture texture, Rectangle rectangle, Color color)
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
@@ -149,7 +144,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleY = rectangle.Height/texture.Height;
 
             _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
-            color.A = (byte) (opacity*255);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color), null, null,
                 new Vector3(rectangle.X, rectangle.Y, 0));
@@ -164,14 +158,10 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color,
-            float opacity = 1)
+        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color)
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
-
-            color.A = (byte) (opacity*255);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(spriteSheet.Rectangle), null, DirectXHelper.ConvertVector2(position));
@@ -184,9 +174,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="rectangle">The Rectangle.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color,
-            float opacity = 1)
+        public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Rectangle rectangle, Color color)
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
@@ -195,7 +183,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleY = rectangle.Height/spriteSheet.Rectangle.Height;
 
             _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
-            color.A = (byte) (opacity*255);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(spriteSheet.Rectangle), null,
@@ -211,9 +198,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="source">The SourceRectangle.</param>
         /// <param name="destination">The DestinationRectangle.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        public void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color,
-            float opacity = 1)
+        public void DrawTexture(ITexture texture, Rectangle source, Rectangle destination, Color color)
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
@@ -222,7 +207,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleY = destination.Height/source.Height;
 
             _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
-            color.A = (byte) (opacity*255);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(source), null,
@@ -292,15 +276,6 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             return new DirectXTexture(stream);
         }
 
-        /// <summary>
-        /// Creates a new effect.
-        /// </summary>
-        /// <param name="source">The Source.</param>
-        /// <returns>IEffect</returns>
-        public IEffect CreateEffect(string source)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <summary>
         /// Disposes the object.

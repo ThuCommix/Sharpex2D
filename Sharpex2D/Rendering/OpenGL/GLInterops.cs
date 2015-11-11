@@ -23,12 +23,11 @@ using System.Collections.Generic;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using Sharpex2D.Framework.Rendering.OpenGL.Shaders;
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {
     [SuppressUnmanagedCodeSecurity]
-    internal static class OpenGLInterops
+    internal static class GLInterops
     {
         #region WGL
 
@@ -170,6 +169,14 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         private delegate void glUniform4f(int location, float v0, float v1, float v2, float v3);
 
         private delegate void glUniformMatrix4fv(int location, int count, bool transpose, float[] value);
+
+        private delegate void glUniform1i(int location, int v0);
+
+        private delegate void glUniform2i(int location, int v0);
+
+        private delegate void glUniform3i(int location, int v0);
+
+        private delegate void glUniform4i(int location, int v0);
 
         private delegate void glUseProgram(uint program);
 
@@ -393,7 +400,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// Sets the clear color.
         /// </summary>
         /// <param name="color">The Color.</param>
-        public static void ClearColor(OpenGLColor color)
+        public static void ClearColor(GLColor color)
         {
             glClearColor(color.R, color.G, color.B, color.A);
         }
@@ -418,9 +425,9 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// Gets the error.
         /// </summary>
         /// <returns>OpenGLError.</returns>
-        public static OpenGLError GetError()
+        public static GLError GetError()
         {
-            return (OpenGLError) glGetError();
+            return (GLError) glGetError();
         }
 
         /// <summary>
@@ -613,9 +620,9 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         /// <param name="type">The type specifing whether the shader is a fragment - or vertexshader.</param>
         /// <returns>The Id.</returns>
-        public static uint CreateShader(ShaderType type)
+        public static uint CreateShader(uint type)
         {
-            return (uint) InvokeExtensionMethod<glCreateShader>((uint) type);
+            return (uint) InvokeExtensionMethod<glCreateShader>(type);
         }
 
         /// <summary>
@@ -700,7 +707,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         /// <param name="location">The Location.</param>
         /// <param name="v0">The first Parameter.</param>
-        public static void Uniform1(int location, float v0)
+        public static void FloatUniform1(int location, float v0)
         {
             InvokeExtensionMethod<glUniform1f>(location, v0);
         }
@@ -711,7 +718,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="location">The Location.</param>
         /// <param name="v0">The first Parameter.</param>
         /// <param name="v1">The second Parameter.</param>
-        public static void Uniform2(int location, float v0, float v1)
+        public static void FloatUniform2(int location, float v0, float v1)
         {
             InvokeExtensionMethod<glUniform2f>(location, v0, v1);
         }
@@ -723,7 +730,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="v0">The first Parameter.</param>
         /// <param name="v1">The second Parameter.</param>
         /// <param name="v2">The third Parameter.</param>
-        public static void Uniform3(int location, float v0, float v1, float v2)
+        public static void FloatUniform3(int location, float v0, float v1, float v2)
         {
             InvokeExtensionMethod<glUniform3f>(location, v0, v1, v2);
         }
@@ -736,9 +743,55 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="v1">The second Parameter.</param>
         /// <param name="v2">The third Parameter.</param>
         /// <param name="v3">The fourth Parameter.</param>
-        public static void Uniform4(int location, float v0, float v1, float v2, float v3)
+        public static void FloatUniform4(int location, float v0, float v1, float v2, float v3)
         {
             InvokeExtensionMethod<glUniform4f>(location, v0, v1, v2, v3);
+        }
+
+        /// <summary>
+        /// Sets the uniform.
+        /// </summary>
+        /// <param name="location">The Location.</param>
+        /// <param name="v0">The first Parameter.</param>
+        public static void IntUniform1(int location, int v0)
+        {
+            InvokeExtensionMethod<glUniform1i>(location, v0);
+        }
+
+        /// <summary>
+        /// Sets the uniform.
+        /// </summary>
+        /// <param name="location">The Location.</param>
+        /// <param name="v0">The first Parameter.</param>
+        /// <param name="v1">The second Parameter.</param>
+        public static void IntUniform2(int location, int v0, int v1)
+        {
+            InvokeExtensionMethod<glUniform2i>(location, v0, v1);
+        }
+
+        /// <summary>
+        /// Sets the uniform.
+        /// </summary>
+        /// <param name="location">The Location.</param>
+        /// <param name="v0">The first Parameter.</param>
+        /// <param name="v1">The second Parameter.</param>
+        /// <param name="v2">The third Parameter.</param>
+        public static void IntUniform3(int location, int v0, int v1, int v2)
+        {
+            InvokeExtensionMethod<glUniform3i>(location, v0, v1, v2);
+        }
+
+        /// <summary>
+        /// Sets the uniform.
+        /// </summary>
+        /// <param name="location">The Location.</param>
+        /// <param name="v0">The first Parameter.</param>
+        /// <param name="v1">The second Parameter.</param>
+        /// <param name="v2">The third Parameter.</param>
+        /// <param name="v3">The fourth Parameter.</param>
+        public static void IntUniform4(int location, int v0, int v1, int v2, int v3)
+        {
+            InvokeExtensionMethod<glUniform4i>(location, v0, v1, v2, v3);
         }
 
         /// <summary>

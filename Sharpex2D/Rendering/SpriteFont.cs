@@ -97,6 +97,11 @@ namespace Sharpex2D.Framework.Rendering
         public FontStyle Style { private set; get; }
 
         /// <summary>
+        /// Gets or sets the default replace char
+        /// </summary>
+        public char DefaultReplaceChar { set; get; } = '_';
+
+        /// <summary>
         /// Replaces all illegal characters.
         /// </summary>
         /// <param name="value">The String.</param>
@@ -156,10 +161,9 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="text">The Text.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
-        internal void DrawText(SpriteBatch spriteBatch, string text, Vector2 position, Color color, float opacity)
+        internal void DrawText(SpriteBatch spriteBatch, string text, Vector2 position, Color color)
         {
-            DrawText(spriteBatch, text, new Rectangle(position.X, position.Y, 0, 0), TextFormat.None, color, opacity);
+            DrawText(spriteBatch, text, new Rectangle(position.X, position.Y, 0, 0), TextFormat.None, color);
         }
 
         /// <summary>
@@ -170,14 +174,15 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="layoutRectangle">The LayoutRectangle.</param>
         /// <param name="format">The TextFormat.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
         internal void DrawText(SpriteBatch spriteBatch, string text, Rectangle layoutRectangle, TextFormat format,
-            Color color, float opacity)
+            Color color)
         {
             float offsetWidth = 0;
             float offsetHeight = 0;
             float charHeight = 0;
             const float heightPadding = 2f;
+
+            text = ReplaceIllegalChars(text, DefaultReplaceChar);
 
             if (format == TextFormat.None)
             {
@@ -190,7 +195,7 @@ namespace Sharpex2D.Framework.Rendering
                         spriteBatch.DrawTexture(_fontTexture, charLayout,
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
-                            color, opacity);
+                            color);
                         offsetWidth += charLayout.Width;
                         charHeight = charLayout.Height;
                     }
@@ -218,7 +223,7 @@ namespace Sharpex2D.Framework.Rendering
                         spriteBatch.DrawTexture(_fontTexture, charLayout,
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
-                            color, opacity);
+                            color);
                         offsetWidth += charLayout.Width;
                         charHeight = charLayout.Height;
                     }
@@ -247,7 +252,7 @@ namespace Sharpex2D.Framework.Rendering
                         spriteBatch.DrawTexture(_fontTexture, charLayout,
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
-                            color, opacity);
+                            color);
                         offsetWidth += charLayout.Width;
                     }
                     offsetWidth += _charLayout[' '].Width;

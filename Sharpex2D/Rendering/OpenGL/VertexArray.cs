@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         public VertexArray()
         {
             var buffers = new uint[1];
-            OpenGLInterops.GenVertexArrays(1, buffers);
+            GLInterops.GenVertexArrays(1, buffers);
             if (buffers[0] == 0) throw new GraphicsException("Unable to allocate memory for vertex array.");
 
             Id = buffers[0];
@@ -63,7 +63,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Bind()
         {
-            OpenGLInterops.BindVertexArray(Id);
+            GLInterops.BindVertexArray(Id);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Unbind()
         {
-            OpenGLInterops.BindVertexArray(0);
+            GLInterops.BindVertexArray(0);
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             try
             {
-                OpenGLInterops.DeleteVertexArrays(1, new[] {Id});
+                GLInterops.DeleteVertexArrays(1, new[] {Id});
             }
             catch
             {

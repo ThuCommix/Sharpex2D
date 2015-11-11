@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         public VertexBuffer()
         {
             var buffers = new uint[1];
-            OpenGLInterops.GenBuffers(1, buffers);
+            GLInterops.GenBuffers(1, buffers);
             if (buffers[0] == 0) throw new GraphicsException("Unable to allocate memory for index buffer.");
 
             Id = buffers[0];
@@ -63,7 +63,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Bind()
         {
-            OpenGLInterops.BindBuffer(BufferTarget.ArrayBuffer, Id);
+            GLInterops.BindBuffer(BufferTarget.ArrayBuffer, Id);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <remarks>Bind must be called in order to take effect.</remarks>
         public void SetData(float[] vertices)
         {
-            OpenGLInterops.BufferData(BufferTarget.ArrayBuffer, vertices, DrawMode.StaticDraw);
+            GLInterops.BufferData(BufferTarget.ArrayBuffer, vertices, DrawMode.StaticDraw);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Unbind()
         {
-            OpenGLInterops.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            GLInterops.BindBuffer(BufferTarget.ArrayBuffer, 0);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             try
             {
-                OpenGLInterops.DeleteBuffers(1, new[] {Id});
+                GLInterops.DeleteBuffers(1, new[] {Id});
             }
             catch
             {
@@ -106,7 +106,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="index">The Index.</param>
         public static void EnableVertexAttribArray(uint index)
         {
-            OpenGLInterops.EnableVertexAttribArray(index);
+            GLInterops.EnableVertexAttribArray(index);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="offset">The Offset.</param>
         public static void VertexAttribPointer(uint index, int size, bool normalized, int stride, int offset)
         {
-            OpenGLInterops.VertexAttribPointer(index, size, DataTypes.Float, normalized, stride,
+            GLInterops.VertexAttribPointer(index, size, DataTypes.Float, normalized, stride,
                 new IntPtr(offset));
         }
     }

@@ -22,21 +22,21 @@ using System.Diagnostics;
 
 namespace Sharpex2D.Framework.Rendering.OpenGL
 {
-    internal static class OpenGLHelper
+    internal static class GLHelper
     {
         /// <summary>
-        /// Converts the Sharpex2D.Rendering.Color class into a OpenGLColor class.
+        /// Converts the Sharpex2D.Rendering.Color class into a GLColor class.
         /// </summary>
         /// <param name="color">The Color.</param>
-        /// <returns>The OpenGLColor.</returns>
-        public static OpenGLColor ConvertColor(Color color)
+        /// <returns>The GLColor.</returns>
+        public static GLColor ConvertColor(Color color)
         {
             float a = color.A/255f;
             float r = color.R/255f;
             float g = color.G/255f;
             float b = color.B/255f;
 
-            return new OpenGLColor(a, r, g, b);
+            return new GLColor(a, r, g, b);
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public static void ThrowLastError()
         {
-            OpenGLError glError = OpenGLInterops.GetError();
-            if (glError != OpenGLError.GL_NO_ERROR)
+            GLError glError = GLInterops.GetError();
+            if (glError != GLError.GL_NO_ERROR)
             {
                 throw new GraphicsException(glError.ToString());
             }
@@ -56,16 +56,16 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public static void ClearLastError()
         {
-            OpenGLInterops.GetError();
+            GLInterops.GetError();
         }
 
         /// <summary>
         /// Gets the last error.
         /// </summary>
         /// <returns>OpenGLError.</returns>
-        public static OpenGLError GetLastError()
+        public static GLError GetLastError()
         {
-            return OpenGLInterops.GetError();
+            return GLInterops.GetError();
         }
 
         /// <summary>
@@ -73,8 +73,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public static void DisplayLastError()
         {
-            OpenGLError error = GetLastError();
-            if (error != OpenGLError.GL_NO_ERROR)
+            GLError error = GetLastError();
+            if (error != GLError.GL_NO_ERROR)
             {
                 string methodName = new StackFrame(1).GetMethod().Name;
                 Debug.WriteLine("{0} failed with {1}.", methodName, error);

@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         public IndexBuffer()
         {
             var buffers = new uint[1];
-            OpenGLInterops.GenBuffers(1, buffers);
+            GLInterops.GenBuffers(1, buffers);
             if (buffers[0] == 0) throw new GraphicsException("Unable to allocate memory for index buffer.");
 
             Id = buffers[0];
@@ -63,7 +63,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Bind()
         {
-            OpenGLInterops.BindBuffer(BufferTarget.ElementBuffer, Id);
+            GLInterops.BindBuffer(BufferTarget.ElementBuffer, Id);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <remarks>Bind must be called in order to take effect.</remarks>
         public void SetData(ushort[] indices)
         {
-            OpenGLInterops.BufferData(BufferTarget.ElementBuffer, indices, DrawMode.StaticDraw);
+            GLInterops.BufferData(BufferTarget.ElementBuffer, indices, DrawMode.StaticDraw);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void Unbind()
         {
-            OpenGLInterops.BindBuffer(BufferTarget.ElementBuffer, 0);
+            GLInterops.BindBuffer(BufferTarget.ElementBuffer, 0);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         {
             try
             {
-                OpenGLInterops.DeleteBuffers(1, new[] {Id});
+                GLInterops.DeleteBuffers(1, new[] {Id});
             }
             catch
             {

@@ -18,16 +18,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-namespace Sharpex2D.Framework.Rendering.OpenGL.Shaders
+namespace Sharpex2D.Framework.Rendering.OpenGL
 {
-    internal class VertexShader : Shader
+    internal enum GLError
     {
         /// <summary>
-        /// Initializes a new VertexShader class.
+        /// No error.
         /// </summary>
-        public VertexShader()
-        {
-            Id = OpenGLInterops.CreateShader(ShaderType.Vertex);
-        }
+        GL_NO_ERROR = 0,
+
+        /// <summary>
+        /// Invalid enum.
+        /// </summary>
+        GL_INVALID_ENUM = 0x0500,
+
+        /// <summary>
+        /// Invalid value.
+        /// </summary>
+        GL_INVALID_VALUE = 0x0501,
+
+        /// <summary>
+        /// Invalid operation.
+        /// </summary>
+        GL_INVALID_OPERATION = 0x0502,
+
+        /// <summary>
+        /// Stackoverflow.
+        /// </summary>
+        GL_STACK_OVERFLOW = 0x0503,
+
+        /// <summary>
+        /// Stackunderflow.
+        /// </summary>
+        GL_STACK_UNDERFLOW = 0x0504,
+
+        /// <summary>
+        /// Out of memory.
+        /// </summary>
+        GL_OUT_OF_MEMORY = 0x0505,
+
+        /// <summary>
+        /// Invalid framebuffer operation.
+        /// </summary>
+        GL_INVALID_FRAMEBUFFER_OPERATION = 0x0506,
+
+        /// <summary>
+        /// Table is too large.
+        /// </summary>
+        GL_TABLE_TOO_LARGE = 0x8031
     }
 }
