@@ -29,6 +29,7 @@ namespace Sharpex2D.Framework.Rendering
     {
         private readonly List<Scene> _scenes;
         private Scene _activeScene;
+        private ISceneTransition _transition;
 
         /// <summary>
         /// Gets or sets the active scene
@@ -92,6 +93,19 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
+        /// Changes the scene with the specified transition
+        /// </summary>
+        /// <param name="scene">The scene</param>
+        /// <param name="transition">The transition</param>
+        public void ChangeWithTransition(Scene scene, ISceneTransition transition)
+        {
+            transition.TransitionCompleted += (sender, e) => { _transition = null; };
+            transition.ChangeScene += (sender, e) => { ActiveScene = scene; };
+
+            _transition = transition;
+        }
+
+        /// <summary>
         /// Clears all scenes
         /// </summary>
         public void Clear()
@@ -119,6 +133,7 @@ namespace Sharpex2D.Framework.Rendering
         public override void Update(GameTime gameTime)
         {
             ActiveScene?.OnUpdate(gameTime);
+            _transition?.Update(gameTime);
         }
 
         /// <summary>
@@ -129,6 +144,7 @@ namespace Sharpex2D.Framework.Rendering
         public override void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
             ActiveScene?.OnDraw(spriteBatch, gameTime);
+            _transition?.Draw(spriteBatch, gameTime);
         }
 
         /// <summary>
@@ -141,7 +157,7 @@ namespace Sharpex2D.Framework.Rendering
             {
                 scene.Dispose();
             }
-
+            _transition = null;
             _scenes.Clear();
         }
 
