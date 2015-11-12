@@ -18,7 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System;
 using System.Collections.Generic;
 using Sharpex2D.Framework.Audio;
 using Sharpex2D.Framework.Audio.WaveOut;
@@ -28,7 +27,7 @@ using Sharpex2D.Framework.Rendering.OpenGL;
 
 namespace Sharpex2D.Framework
 {
-    public abstract class Game : IUpdateable, IDrawable, IConstructable
+    public abstract class Game : IComponent, IUpdateable, IDrawable
     {
         /// <summary>
         /// Initializes a new Game class.
@@ -90,19 +89,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Gets the game window.
         /// </summary>
-        public GameWindow Window { get; private set; }
-
-        #region IConstructable Implementation
-
-        /// <summary>
-        /// Constructs the component.
-        /// </summary>
-        void IConstructable.Construct()
-        {
-            Window = GameHost.Get<GameWindow>();
-        }
-
-        #endregion
+        public GameWindow Window { get; internal set; }
 
         #region IDrawable Implementation
 

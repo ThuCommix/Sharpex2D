@@ -25,27 +25,12 @@ using System.Linq;
 
 namespace Sharpex2D.Framework
 {
-    public class ComponentManager : IConstructable, IEnumerable<IComponent>
+    public class ComponentManager : IEnumerable<IComponent>
     {
-        private bool _alreadyCalledConstruct;
-
         /// <summary>
         /// Access to the Components enumeration.
         /// </summary>
         private List<IComponent> Components { get; } = new List<IComponent>();
-
-        /// <summary>
-        /// Initializes all Components.
-        /// </summary>
-        public void Construct()
-        {
-            for (int i = 0; i <= Components.Count - 1; i++)
-            {
-                var com = Components[i] as IConstructable;
-                com?.Construct();
-            }
-            _alreadyCalledConstruct = true;
-        }
 
         /// <summary>
         /// ComponentRemoved event.
@@ -64,13 +49,6 @@ namespace Sharpex2D.Framework
         public void Add(IComponent component)
         {
             Components.Add(component);
-            if (_alreadyCalledConstruct)
-            {
-                //Single Construct.
-                var com = component as IConstructable;
-                com?.Construct();
-            }
-
             ComponentAdded?.Invoke(this, new ComponentEventArgs(component));
         }
 

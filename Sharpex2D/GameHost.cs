@@ -99,6 +99,7 @@ namespace Sharpex2D.Framework
             InputManager.Initialize();
             gameWindow.ClientSize = new Vector2(GraphicsManager.PreferredBackBufferWidth,
                 GraphicsManager.PreferredBackBufferHeight);
+            GameInstance.Window = gameWindow;
             GameInstance.SceneManager = new SceneManager(GameInstance);
             Components.Add(GameInstance.Content);
             Components.Add(GraphicsDevice);
@@ -107,6 +108,7 @@ namespace Sharpex2D.Framework
             Components.Get<GameLoop>().Subscribe((IDrawable) GameInstance);
             Components.Get<GameLoop>().Subscribe((IUpdateable) GameInstance);
             Components.Get<GameLoop>().Subscribe(InputManager);
+            Components.Get<GameLoop>().Subscribe(gameWindow);
 
             Run();
         }
@@ -119,7 +121,6 @@ namespace Sharpex2D.Framework
             GraphicsManager = GameInstance.GraphicsManager;
             GameInstance.SoundPlayer = new SoundPlayer(GameInstance.SoundManager);
             Components.Add(GameInstance.SoundPlayer);
-            Components.Construct();
             GameInstance.Initialize();
             Components.Get<GameLoop>().Start();
 

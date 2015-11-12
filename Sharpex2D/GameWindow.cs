@@ -28,7 +28,7 @@ using System.Windows.Forms;
 
 namespace Sharpex2D.Framework
 {
-    public class GameWindow : IComponent, IDisposable
+    public class GameWindow : IComponent, IUpdateable, IDisposable
     {
         public enum Appearance
         {
@@ -48,6 +48,7 @@ namespace Sharpex2D.Framework
         private bool _beginDeviceChange;
         private bool _isCursorVisible;
         private Appearance _targetAppearance;
+        private System.Drawing.Rectangle _clipRectangle;
 
         /// <summary>
         /// Initializes a new GameWindow class.
@@ -90,6 +91,11 @@ namespace Sharpex2D.Framework
             }
             get { return _isCursorVisible; }
         }
+
+        /// <summary>
+        /// A value indicating whether the mouse is prevented from leaving the game window
+        /// </summary>
+        public bool PreventMouseFromLeaving { get; set; }
 
         /// <summary>
         /// Gets the screen device manager.
@@ -357,6 +363,12 @@ namespace Sharpex2D.Framework
         /// <param name="e">The EventArgs.</param>
         private void ClientSizeChangedHandler(object sender, EventArgs e)
         {
+            MethodInvoker br = delegate
+            {
+                _clipRectangle = _systemWindow.Bounds;
+            };
+            _systemWindow.Invoke(br);
+
             ClientSizeChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -368,7 +380,11 @@ namespace Sharpex2D.Framework
         private void LocationChanged(object sender, EventArgs e)
         {
             string sdn = "";
-            MethodInvoker br = delegate { sdn = Screen.FromControl(_systemWindow).DeviceName; };
+            MethodInvoker br = delegate
+            {
+                sdn = Screen.FromControl(_systemWindow).DeviceName;
+                _clipRectangle = _systemWindow.Bounds;
+            };
             _systemWindow.Invoke(br);
 
             if (sdn != ScreenDeviceName)
@@ -417,6 +433,15 @@ namespace Sharpex2D.Framework
         ~GameWindow()
         {
             Dispose(false);
+        }
+
+        /// <summary>
+        /// Updates the game window
+        /// </summary>
+        /// <param name="gameTime">The game time</param>
+        public void Update(GameTime gameTime)
+        {
+            Cursor.Clip = PreventMouseFromLeaving ? _clipRectangle : System.Drawing.Rectangle.Empty;
         }
 
         /// <summary>

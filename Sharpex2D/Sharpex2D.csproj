@@ -165,7 +165,6 @@
     <Compile Include="ComponentManager.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="IComponent.cs" />
-    <Compile Include="IConstructable.cs" />
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Content\IContent.cs" />
     <Compile Include="Entities\Entity.cs" />
