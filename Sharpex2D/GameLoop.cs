@@ -46,7 +46,6 @@ namespace Sharpex2D.Framework
             _drawables = new List<IDrawable>();
             _updateables = new List<IUpdateable>();
             _gameTime = new GameTime();
-            Precision = Precision.High;
             DrawMode = DrawMode.Limited;
         }
 
@@ -74,11 +73,6 @@ namespace Sharpex2D.Framework
         /// Gets or sets the DrawMode.
         /// </summary>
         public DrawMode DrawMode { set; get; }
-
-        /// <summary>
-        /// Gets or sets the Precision.
-        /// </summary>
-        public Precision Precision { set; get; }
 
         /// <summary>
         /// Gets the Guid.
@@ -210,13 +204,6 @@ namespace Sharpex2D.Framework
                     {
                         frames++;
                         RenderSubscribers();
-                    }
-                    else
-                    {
-                        if (Precision != Precision.High)
-                        {
-                            Thread.Sleep((int) Precision);
-                        }
                     }
                 }
                 else
