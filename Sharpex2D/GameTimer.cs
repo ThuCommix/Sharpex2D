@@ -81,10 +81,7 @@ namespace Sharpex2D.Framework
                 if (_passedms >= Interval)
                 {
                     _passedms = 0;
-                    if (Ticked != null)
-                    {
-                        Ticked(this, EventArgs.Empty);
-                    }
+                    Ticked?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
