@@ -29,7 +29,7 @@ namespace Sharpex2D.Framework
         /// <summary>
         /// Initializes a new GameUpdateRequiredException class.
         /// </summary>
-        public GameUpdateRequiredException()
+        public GameUpdateRequiredException() : base("The game needs to be updated.")
         {
         }
 
