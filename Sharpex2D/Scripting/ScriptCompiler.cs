@@ -31,16 +31,17 @@ namespace Sharpex2D.Framework.Scripting
         /// <summary>
         /// Compiles the source to assembly.
         /// </summary>
-        /// <param name="script">The SharpScript.</param>
-        /// <returns>Assembly.</returns>
-        public static Assembly CompileToAssembly(Script script)
+        /// <param name="source">The source</param>
+        /// <param name="type">The type</param>
+        /// <returns>The compiled assembly</returns>
+        public static Assembly CompileToAssembly(string source, ScriptType type)
         {
-            if (script.Type == ScriptType.VisualBasic)
+            if (type == ScriptType.VisualBasic)
             {
-                return CompileFromVisualBasicScript(script.Source);
+                return CompileFromVisualBasicScript(source);
             }
 
-            return CompileFromCSharpScript(script.Source);
+            return CompileFromCSharpScript(source);
         }
 
         /// <summary>

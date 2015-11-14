@@ -23,19 +23,19 @@ using System;
 namespace Sharpex2D.Framework.Scripting
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class EntryAttribute : Attribute
+    public class MethodAttribute : Attribute
     {
         /// <summary>
-        /// Initializes a new EntryAttribute class.
+        /// Initializes a new MethodAttribute class
         /// </summary>
-        /// <param name="name">The Title.</param>
-        public EntryAttribute(string name)
+        /// <param name="name">The title</param>
+        public MethodAttribute(string name)
         {
             Name = name;
         }
 
         /// <summary>
-        /// Gets the entry name.
+        /// Gets the entry name
         /// </summary>
         public string Name { private set; get; }
     }

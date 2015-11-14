@@ -21,68 +21,61 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Sharpex2D.Framework.Content;
 
 namespace Sharpex2D.Framework.Scripting
 {
-    public class Script : IContent, IEnumerable<EntryPoint>
-    {
-        private readonly Dictionary<string, MethodInfo> _entries;
-        private readonly List<EntryPoint> _entryPoints;
+    public class Script : IContent, IEnumerable<MethodAttribute>
+    {   
+        private readonly Dictionary<MethodAttribute, MethodInfo> _methods;
         private Task _scriptThread;
 
         /// <summary>
         /// Initializes a new Script class.
         /// </summary>
+        /// <param name="name">The name</param>
         /// <param name="source">The Source.</param>
         /// <param name="scriptType">The ScriptType.</param>
-        internal Script(string source, ScriptType scriptType)
+        internal Script(string name, string source, ScriptType scriptType)
         {
-            _entryPoints = new List<EntryPoint>();
-            _entries = new Dictionary<string, MethodInfo>();
-            Source = source;
-            Type = scriptType;
+            _methods = new Dictionary<MethodAttribute, MethodInfo>();
+            Name = name;
 
-            Assembly assembly = ScriptCompiler.CompileToAssembly(this);
-            bool flag = true;
+            var assembly = ScriptCompiler.CompileToAssembly(source, scriptType);
+            var flag = true;
 
-            foreach (Type type in assembly.GetTypes())
+            foreach (var method in assembly.GetTypes().SelectMany(type => type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)))
             {
-                foreach (
-                    MethodInfo method in
-                        type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                foreach (MethodAttribute entry in method.GetCustomAttributes(typeof (MethodAttribute), true))
                 {
-                    foreach (EntryAttribute entry in method.GetCustomAttributes(typeof (EntryAttribute), true))
+                    if (entry.Name == "")
                     {
-                        if (entry.Name == "")
-                        {
-                            throw new ScriptException("The entry can not be named String.Empty.");
-                        }
-                        if (_entries.ContainsKey(entry.Name))
-                        {
-                            throw new ScriptException("The entry already exists.");
-                        }
-
-                        _entries.Add(entry.Name, method);
-                        _entryPoints.Add(new EntryPoint(entry.Name));
-                        flag = false;
-                        break;
+                        throw new ScriptException("The method can not be named String.Empty.");
                     }
+                    if (_methods.ContainsKey(entry))
+                    {
+                        throw new ScriptException("The method already exists.");
+                    }
+
+                    _methods.Add(entry, method);
+                    flag = false;
+                    break;
                 }
             }
 
             if (flag)
             {
-                throw new ScriptException("The entry point was not found.");
+                throw new ScriptException("No methods found.");
             }
         }
 
         /// <summary>
-        /// Gets the SourceCode.
+        /// Gets the name
         /// </summary>
-        internal string Source { get; private set; }
+        public string Name { internal set; get; }
 
         /// <summary>
         /// A value indicating whether the script is running.
@@ -90,22 +83,17 @@ namespace Sharpex2D.Framework.Scripting
         public bool IsRunning { get; private set; }
 
         /// <summary>
-        /// Gets the ScriptType.
-        /// </summary>
-        public ScriptType Type { get; private set; }
-
-        /// <summary>
         /// Gets the entry points.
         /// </summary>
-        public EntryPoint[] EntryPoints => _entryPoints.ToArray();
+        public MethodAttribute[] Methods => _methods.Keys.ToArray();
 
         /// <summary>
         /// Gets the enumerator.
         /// </summary>
         /// <returns>IEnumerator.</returns>
-        public IEnumerator<EntryPoint> GetEnumerator()
+        public IEnumerator<MethodAttribute> GetEnumerator()
         {
-            return _entryPoints.GetEnumerator();
+            return _methods.Keys.GetEnumerator();
         }
 
         /// <summary>
@@ -123,25 +111,25 @@ namespace Sharpex2D.Framework.Scripting
         public event EventHandler<ScriptFinishedEventArgs> Finished;
 
         /// <summary>
-        /// Executes the script.
+        /// Runs a method asynchronously
         /// </summary>
-        /// <param name="entry">The ScriptEntry.</param>
+        /// <param name="method">The method</param>
         /// <param name="parameters">The Parameters.</param>
-        public void ExecuteAsync(EntryPoint entry, params object[] parameters)
+        public void RunAsync(MethodAttribute method, params object[] parameters)
         {
-            if (!_entries.ContainsKey(entry.Name))
+            if (!_methods.ContainsKey(method))
             {
-                throw new ScriptException("The entry point was not found.");
+                throw new ScriptException("The method was not found.");
             }
 
             _scriptThread = new Task(() =>
             {
                 IsRunning = true;
-                Logger.Instance.Debug($"Running script <{entry}>.");
+                Logger.Instance.Debug($"Running script <{Name}> with method <{method.Name}>.");
                 object result = null;
                 try
                 {
-                    result = _entries[entry.Name].Invoke(null, parameters);
+                    result = _methods[method].Invoke(null, parameters);
                 }
                 catch (Exception ex)
                 {
@@ -149,31 +137,31 @@ namespace Sharpex2D.Framework.Scripting
                 }
                 finally
                 {
-                    Logger.Instance.Debug($"Finished script <{entry}>.");
+                    Logger.Instance.Debug($"Finished script <{Name}> with method <{method.Name}>.");
                     IsRunning = false;
-                    Finished?.Invoke(this, new ScriptFinishedEventArgs(result, entry));
+                    Finished?.Invoke(this, new ScriptFinishedEventArgs(result, method));
                 }
             });
             _scriptThread.Start();
         }
 
         /// <summary>
-        /// Executes the script.
+        /// Runs a method synchronously
         /// </summary>
-        /// <param name="entry">The ScriptEntry.</param>
+        /// <param name="method">The method</param>
         /// <param name="parameters">The Parameters.</param>
-        public object Execute(EntryPoint entry, params object[] parameters)
+        public object Run(MethodAttribute method, params object[] parameters)
         {
-            if (!_entries.ContainsKey(entry.Name))
+            if (!_methods.ContainsKey(method))
             {
-                throw new ScriptException("The entry point was not found.");
+                throw new ScriptException("The method was not found.");
             }
 
             IsRunning = true;
-            Logger.Instance.Debug($"Running script <{entry}>.");
+            Logger.Instance.Debug($"Running script <{Name}> with method <{method.Name}>.");
             try
             {
-                return _entries[entry.Name].Invoke(null, parameters);
+                return _methods[method].Invoke(null, parameters);
             }
             catch (Exception ex)
             {
@@ -181,7 +169,7 @@ namespace Sharpex2D.Framework.Scripting
             }
             finally
             {
-                Logger.Instance.Debug($"Finished script <{entry}>.");
+                Logger.Instance.Debug($"Finished script <{Name}> with method <{method.Name}>.");
                 IsRunning = false;
             }
         }

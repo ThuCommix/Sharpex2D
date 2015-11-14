@@ -28,11 +28,11 @@ namespace Sharpex2D.Framework.Scripting
         /// Initializes a new ScriptFinishedEventArgs.
         /// </summary>
         /// <param name="result">The Result.</param>
-        /// <param name="entry">The Entry.</param>
-        internal ScriptFinishedEventArgs(object result, EntryPoint entry)
+        /// <param name="method">The method</param>
+        internal ScriptFinishedEventArgs(object result, MethodAttribute method)
         {
             Result = result;
-            ExecutedEntry = entry;
+            ExecutedMethod = method;
         }
 
         /// <summary>
@@ -41,8 +41,8 @@ namespace Sharpex2D.Framework.Scripting
         public object Result { get; private set; }
 
         /// <summary>
-        /// Gets the ExecutedEntry.
+        /// Gets the executed method
         /// </summary>
-        public EntryPoint ExecutedEntry { private set; get; }
+        public MethodAttribute ExecutedMethod { private set; get; }
     }
 }

@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System.IO;
 using System.Linq;
 using System.Text;
 using Sharpex2D.Framework.Scripting;
@@ -38,7 +39,7 @@ namespace Sharpex2D.Framework.Content.Importers
             var encoding = Encoding.GetEncoding(xcf.First(x => x.Key == "Encoding").Value);
             var scriptContent = encoding.GetString(xcf.GetData());
 
-            return new Script(scriptContent, scriptType);
+            return new Script(new FileInfo(xcf.BasePath).Name, scriptContent, scriptType);
         }
     }
 }
