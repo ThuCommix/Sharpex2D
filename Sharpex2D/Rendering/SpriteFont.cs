@@ -69,6 +69,11 @@ namespace Sharpex2D.Framework.Rendering
             Style = fontStyle;
             _fontTexture = fontTexture;
             _charLayout = charLayout;
+
+            foreach (var c in Environment.NewLine.ToCharArray())
+            {
+                _charLayout.Add(c, Rectangle.Empty);
+            }
         }
 
         /// <summary>
@@ -196,7 +201,7 @@ namespace Sharpex2D.Framework.Rendering
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
                             color);
-                        offsetWidth += charLayout.Width;
+                        offsetWidth += charLayout.Width + Spacing;
                         charHeight = charLayout.Height;
                     }
                     offsetHeight += charHeight + heightPadding;

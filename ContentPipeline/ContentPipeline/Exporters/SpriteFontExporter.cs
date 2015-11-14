@@ -100,13 +100,14 @@ namespace ContentPipeline.Exporters
             graphics.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
             graphics.SmoothingMode = SmoothingMode.HighQuality;
             graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.CompositingMode = CompositingMode.SourceOver;
 
             var fontDescriptions = new Dictionary<char, Rectangle>();
 
             foreach (short character in characters)
             {
                 SizeF dimension = PrecissionMeasureString(graphics, ((char) character).ToString(), whiteSpacing, targetFont);
-                float charWidth = (int) Math.Ceiling(dimension.Width) + spacing;
+                float charWidth = (int) Math.Ceiling(dimension.Width);
                 if (dimension.Height > highestHeight)
                     highestHeight = (int) Math.Ceiling(dimension.Height);
 
