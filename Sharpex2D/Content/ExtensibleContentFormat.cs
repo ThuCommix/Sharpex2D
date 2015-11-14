@@ -28,8 +28,12 @@ namespace Sharpex2D.Framework.Content
 {
     public class ExtensibleContentFormat : IEnumerable<MetaInformation>
     {
+        /// <summary>
+        /// Gets the base path
+        /// </summary>
+        public string BasePath { private set; get; }
+
         private readonly List<MetaInformation> _metaInformations;
-        private string _basePath;
         private long _dataOffset;
 
         /// <summary>
@@ -128,7 +132,7 @@ namespace Sharpex2D.Framework.Content
                         metaCollection.Add(new MetaInformation(binaryReader.ReadString(), binaryReader.ReadString()));
                     }
 
-                    return new ExtensibleContentFormat(metaCollection) {_dataOffset = dataOffset, _basePath = file};
+                    return new ExtensibleContentFormat(metaCollection) {_dataOffset = dataOffset, BasePath = file};
                 }
             }
         }
@@ -167,7 +171,7 @@ namespace Sharpex2D.Framework.Content
         /// <returns>Stream</returns>
         public Stream GetDataStream()
         {
-            return new ContentStream(_basePath, _dataOffset);
+            return new ContentStream(BasePath, _dataOffset);
         }
 
         /// <summary>
