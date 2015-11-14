@@ -225,7 +225,6 @@
     <Compile Include="IUpdateable.cs" />
     <Compile Include="LaunchParameter.cs" />
     <Compile Include="LaunchParameters.cs" />
-    <Compile Include="Gamer.cs" />
     <Compile Include="GameUpdateRequiredException.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\Keys.cs" />
@@ -245,7 +244,6 @@
     <Compile Include="Audio\WaveFormats.cs" />
     <Compile Include="Audio\WaveOut\WaveHdr.cs" />
     <Compile Include="Audio\WaveOut\WaveOutResult.cs" />
-    <Compile Include="Precision.cs" />
     <Compile Include="Rendering\AnimatedSpriteSheet.cs" />
     <Compile Include="Rendering\GraphicsManager.cs" />
     <Compile Include="Rendering\IRenderer.cs" />
@@ -271,8 +269,7 @@
     <Compile Include="Rendering\Keyframe.cs" />
     <Compile Include="Rendering\SpriteSheet.cs" />
     <Compile Include="Rendering\Texture2D.cs" />
-    <Compile Include="Scripting\EntryAttribute.cs" />
-    <Compile Include="Scripting\EntryPoint.cs" />
+    <Compile Include="Scripting\MethodAttribute.cs" />
     <Compile Include="Scripting\Script.cs" />
     <Compile Include="Scripting\ScriptCompiler.cs" />
     <Compile Include="Scripting\ScriptException.cs" />
