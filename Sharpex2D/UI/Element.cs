@@ -46,7 +46,7 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// Gets the element manager
         /// </summary>
-        internal ElementManager UIElementManager { set; get; }
+        internal ElementManager ElementManager { set; get; }
 
         /// <summary>
         /// Gets or sets the bounds.
@@ -94,7 +94,7 @@ namespace Sharpex2D.Framework.UI
         /// <summary>
         /// A value indicating whether the element has the focus.
         /// </summary>
-        public bool HasFocus => UIElementManager?.FocusedElement == this;
+        public bool HasFocus => ElementManager?.FocusedElement == this;
 
         /// <summary>
         /// Gets the children elements.
@@ -147,7 +147,7 @@ namespace Sharpex2D.Framework.UI
         {
             if (CanGetFocus)
             {
-                UIElementManager?.SetFocus(this);
+                ElementManager?.SetFocus(this);
             }
         }
 

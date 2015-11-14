@@ -56,7 +56,7 @@ namespace Sharpex2D.Framework.UI
         {
             if (!element.IsRoot) return;
 
-            element.UIElementManager = this;
+            element.ElementManager = this;
             _rootElements.Add(element);
         }
 
@@ -69,7 +69,7 @@ namespace Sharpex2D.Framework.UI
         {
             var result = _rootElements.Remove(element);
             if (result)
-                element.UIElementManager = null;
+                element.ElementManager = null;
 
             return result;
         }
