@@ -35,6 +35,15 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
+        /// Initializes a new GameRandom class
+        /// </summary>
+        /// <param name="seed">The seed</param>
+        public GameRandom(int seed)
+        {
+            _random = new Random(seed);
+        }
+
+        /// <summary>
         /// Returns Int32 between Int32 min - and max value.
         /// </summary>
         /// <returns>Int</returns>
