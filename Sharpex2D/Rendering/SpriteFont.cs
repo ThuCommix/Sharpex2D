@@ -229,7 +229,7 @@ namespace Sharpex2D.Framework.Rendering
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
                             color);
-                        offsetWidth += charLayout.Width;
+                        offsetWidth += charLayout.Width + Spacing;
                         charHeight = charLayout.Height;
                     }
                     offsetHeight += charHeight + heightPadding;
@@ -258,7 +258,7 @@ namespace Sharpex2D.Framework.Rendering
                             new Rectangle(layoutRectangle.X + offsetWidth, layoutRectangle.Y + offsetHeight,
                                 charLayout.Width, charLayout.Height),
                             color);
-                        offsetWidth += charLayout.Width;
+                        offsetWidth += charLayout.Width + Spacing;
                     }
                     offsetWidth += _charLayout[' '].Width;
                 }
