@@ -63,6 +63,60 @@ namespace Sharpex2D.Framework
             }
         }
 
+        public float M11
+        {
+            get { fixed (float* values = _values) return values[0]; }
+            set { fixed (float* values = _values) values[0] = value; }
+        }
+
+        public float M12
+        {
+            get { fixed (float* values = _values) return values[1]; }
+            set { fixed (float* values = _values) values[1] = value; }
+        }
+
+        public float M13
+        {
+            get { fixed (float* values = _values) return values[2]; }
+            set { fixed (float* values = _values) values[2] = value; }
+        }
+
+        public float M21
+        {
+            get { fixed (float* values = _values) return values[3]; }
+            set { fixed (float* values = _values) values[3] = value; }
+        }
+
+        public float M22
+        {
+            get { fixed (float* values = _values) return values[4]; }
+            set { fixed (float* values = _values) values[4] = value; }
+        }
+
+        public float M23
+        {
+            get { fixed (float* values = _values) return values[5]; }
+            set { fixed (float* values = _values) values[5] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the x scale
+        /// </summary>
+        public float ScaleX
+        {
+            get { fixed (float* values = _values) return values[0]; }
+            set { fixed (float* values = _values) values[0] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the y scale
+        /// </summary>
+        public float ScaleY
+        {
+            get { fixed (float* values = _values) return values[4]; }
+            set { fixed (float* values = _values) values[4] = value; }
+        }
+
         /// <summary>
         /// Sets or gets the OffsetX.
         /// </summary>
@@ -301,30 +355,6 @@ namespace Sharpex2D.Framework
             m._values[1] = -sin;
             m._values[3] = sin;
             m._values[4] = cos;
-            return m;
-        }
-
-        /// <summary>
-        /// Creates a shearing matrix.
-        /// </summary>
-        /// <param name="value">The Value.</param>
-        /// <returns>Matrix2x3.</returns>
-        public static Matrix ShearingX(float value)
-        {
-            Matrix m = Identity;
-            m._values[1] = value;
-            return m;
-        }
-
-        /// <summary>
-        /// Creates a shearing matrix.
-        /// </summary>
-        /// <param name="value">The Value.</param>
-        /// <returns>Matrix2x3.</returns>
-        public static Matrix ShearingY(float value)
-        {
-            Matrix m = Identity;
-            m._values[3] = value;
             return m;
         }
 
