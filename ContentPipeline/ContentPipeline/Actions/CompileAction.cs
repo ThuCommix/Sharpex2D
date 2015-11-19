@@ -84,7 +84,7 @@ namespace ContentPipeline.Actions
 
             for (int i = 2; i < args.Length; i++)
             {
-                if (!File.Exists(args[i]) || !args[i].EndsWith(".dll"))
+                if (!File.Exists(args[i]) || !args[i].ToLower().EndsWith(".dll") || !args[i].ToLower().EndsWith(".exe"))
                     continue;
 
                 try
