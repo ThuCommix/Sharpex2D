@@ -123,6 +123,17 @@ namespace Sharpex2D.Framework
             Y += translation.Y;
         }
 
+        /// <summary>
+        /// Translates the vector
+        /// </summary>
+        /// <param name="matrix">The matrix</param>
+        public void Translate(Matrix2x3 matrix)
+        {
+            var result = matrix.ApplyTo(this);
+            X = result.X;
+            Y = result.Y;
+        }
+
         #endregion
 
         #region Vector Methods
@@ -302,6 +313,17 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
+        /// Translates the specified vector
+        /// </summary>
+        /// <param name="vector2">The vector</param>
+        /// <param name="matrix">The matrix</param>
+        /// <returns>Returns the translated vector</returns>
+        public static Vector2 Translate(Vector2 vector2, Matrix2x3 matrix)
+        {
+            return matrix.ApplyTo(vector2);
+        }
+
+        /// <summary>
         /// Returns the vector cross product.
         /// </summary>
         public Vector2 CrossProduct()
@@ -429,6 +451,16 @@ namespace Sharpex2D.Framework
         public static Vector2 operator /(Vector2 a, float scale)
         {
             return new Vector2(a.X/scale, a.Y/scale);
+        }
+
+        /// <summary>
+        /// Implements the operator *.
+        /// </summary>
+        /// <param name="a">The vector.</param>
+        /// <param name="matrix">The matrix</param>
+        public static Vector2 operator *(Vector2 a, Matrix2x3 matrix)
+        {
+            return matrix.ApplyTo(a);
         }
 
         #endregion
