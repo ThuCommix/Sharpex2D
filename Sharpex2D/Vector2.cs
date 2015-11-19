@@ -127,7 +127,7 @@ namespace Sharpex2D.Framework
         /// Translates the vector
         /// </summary>
         /// <param name="matrix">The matrix</param>
-        public void Translate(Matrix2x3 matrix)
+        public void Translate(Matrix matrix)
         {
             var result = matrix.ApplyTo(this);
             X = result.X;
@@ -318,7 +318,7 @@ namespace Sharpex2D.Framework
         /// <param name="vector2">The vector</param>
         /// <param name="matrix">The matrix</param>
         /// <returns>Returns the translated vector</returns>
-        public static Vector2 Translate(Vector2 vector2, Matrix2x3 matrix)
+        public static Vector2 Translate(Vector2 vector2, Matrix matrix)
         {
             return matrix.ApplyTo(vector2);
         }
@@ -458,7 +458,7 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="a">The vector.</param>
         /// <param name="matrix">The matrix</param>
-        public static Vector2 operator *(Vector2 a, Matrix2x3 matrix)
+        public static Vector2 operator *(Vector2 a, Matrix matrix)
         {
             return matrix.ApplyTo(a);
         }

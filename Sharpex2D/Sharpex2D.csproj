@@ -236,7 +236,7 @@
     <Compile Include="Localization\LanguageSerializer.cs" />
     <Compile Include="Localization\LocalizedValue.cs" />
     <Compile Include="Circle.cs" />
-    <Compile Include="Matrix2x3.cs" />
+    <Compile Include="Matrix.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="PolygonCollisionResult.cs" />
     <Compile Include="Rectangle.cs" />

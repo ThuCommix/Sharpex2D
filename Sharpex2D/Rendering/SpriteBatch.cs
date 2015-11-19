@@ -333,7 +333,7 @@ namespace Sharpex2D.Framework.Rendering
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        public void SetTransform(Matrix2x3 matrix)
+        public void SetTransform(Matrix matrix)
         {
             Renderer.SetTransform(matrix);
         }

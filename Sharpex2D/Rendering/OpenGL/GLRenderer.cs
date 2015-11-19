@@ -37,7 +37,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         private GameWindow _window;
         private Vector2 _windowSize;
         private BasicGLEffect _basicEffect;
-        private Matrix2x3 _matrix3;
+        private Matrix _matrix3;
 
         /// <summary>
         /// Initializes a new GLRenderer class.
@@ -71,7 +71,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.Compile();
             GLInterops.AlphaBlend();
             GLInterops.EnableBlend();
-            SetTransform(Matrix2x3.Identity);
+            SetTransform(Matrix.Identity);
             GLColor clearColor = GLHelper.ConvertColor(_graphicsDevice.ClearColor);
             GLInterops.ClearColor(clearColor);
             _windowSize = _window.ClientSize;
@@ -399,7 +399,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        public void SetTransform(Matrix2x3 matrix)
+        public void SetTransform(Matrix matrix)
         {
             _matrix3 = matrix;
         }
@@ -409,7 +409,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public void ResetTransform()
         {
-            SetTransform(Matrix2x3.Identity);
+            SetTransform(Matrix.Identity);
         }
 
         /// <summary>

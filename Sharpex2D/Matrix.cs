@@ -22,21 +22,21 @@ using System;
 
 namespace Sharpex2D.Framework
 {
-    public unsafe struct Matrix2x3
+    public unsafe struct Matrix
     {
         /// <summary>
         /// The identity matrix.
         /// </summary>
-        public static readonly Matrix2x3 Identity;
+        public static readonly Matrix Identity;
 
         private fixed float _values [6];
 
         /// <summary>
-        /// Initializes a new Matrix2x3 class.
+        /// Initializes a new Matrix class.
         /// </summary>
-        static Matrix2x3()
+        static Matrix()
         {
-            Matrix2x3 m = default(Matrix2x3);
+            Matrix m = default(Matrix);
             m._values[0] = 1.0f;
             m._values[4] = 1.0f;
             Identity = m;
@@ -196,10 +196,10 @@ namespace Sharpex2D.Framework
         /// Returns the inverse matrix of this matrix.
         /// </summary>
         /// <returns>Matrix2x3.</returns>
-        public Matrix2x3 Invert()
+        public Matrix Invert()
         {
-            Matrix2x3 m1 = this;
-            Matrix2x3 m2 = Identity;
+            Matrix m1 = this;
+            Matrix m2 = Identity;
 
             if (m1._values[0] == 0 || m1._values[4] == 0)
             {
@@ -241,9 +241,9 @@ namespace Sharpex2D.Framework
         /// <param name="factorX">The X Factor.</param>
         /// <param name="factorY">The Y Factor.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Scaling(float factorX, float factorY)
+        public static Matrix Scaling(float factorX, float factorY)
         {
-            Matrix2x3 m = default(Matrix2x3);
+            Matrix m = default(Matrix);
             m._values[0] = factorX;
             m._values[4] = factorY;
             return m;
@@ -254,7 +254,7 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="factor">The Factor.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Scaling(float factor)
+        public static Matrix Scaling(float factor)
         {
             return Scaling(factor, factor);
         }
@@ -265,9 +265,9 @@ namespace Sharpex2D.Framework
         /// <param name="x">The X.</param>
         /// <param name="y">The Y.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Translation(float x, float y)
+        public static Matrix Translation(float x, float y)
         {
-            Matrix2x3 m = Identity;
+            Matrix m = Identity;
             m._values[2] = x;
             m._values[5] = y;
             return m;
@@ -278,9 +278,9 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="vector">The Vector.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Translation(Vector2 vector)
+        public static Matrix Translation(Vector2 vector)
         {
-            Matrix2x3 m = Identity;
+            Matrix m = Identity;
             m._values[2] = vector.X;
             m._values[5] = vector.Y;
             return m;
@@ -291,12 +291,12 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="angle">The Angle.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Rotation(float angle)
+        public static Matrix Rotation(float angle)
         {
             float sin = MathHelper.Sin(angle);
             float cos = MathHelper.Cos(angle);
 
-            Matrix2x3 m = default(Matrix2x3);
+            Matrix m = default(Matrix);
             m._values[0] = cos;
             m._values[1] = -sin;
             m._values[3] = sin;
@@ -309,9 +309,9 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="value">The Value.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 ShearingX(float value)
+        public static Matrix ShearingX(float value)
         {
-            Matrix2x3 m = Identity;
+            Matrix m = Identity;
             m._values[1] = value;
             return m;
         }
@@ -321,9 +321,9 @@ namespace Sharpex2D.Framework
         /// </summary>
         /// <param name="value">The Value.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 ShearingY(float value)
+        public static Matrix ShearingY(float value)
         {
-            Matrix2x3 m = Identity;
+            Matrix m = Identity;
             m._values[3] = value;
             return m;
         }
@@ -334,9 +334,9 @@ namespace Sharpex2D.Framework
         /// <param name="left">The left matrix.</param>
         /// <param name="right">The right matrix.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 Multiply(Matrix2x3 left, Matrix2x3 right)
+        public static Matrix Multiply(Matrix left, Matrix right)
         {
-            Matrix2x3 m = default(Matrix2x3);
+            Matrix m = default(Matrix);
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < 3; y++)
@@ -353,7 +353,7 @@ namespace Sharpex2D.Framework
         /// <param name="left">The left matrix.</param>
         /// <param name="right">The right matrix.</param>
         /// <returns>Matrix2x3.</returns>
-        public static Matrix2x3 operator *(Matrix2x3 left, Matrix2x3 right)
+        public static Matrix operator *(Matrix left, Matrix right)
         {
             return Multiply(left, right);
         }

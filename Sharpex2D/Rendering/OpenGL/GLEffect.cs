@@ -199,7 +199,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         /// <param name="identifier">The identifier</param>
         /// <param name="value">The value</param>
-        public void SetData(string identifier, Matrix2x3 value)
+        public void SetData(string identifier, Matrix value)
         {
             _matrixf[0] = value[0, 0];
             _matrixf[1] = value[1, 0];

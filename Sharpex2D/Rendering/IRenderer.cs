@@ -97,7 +97,7 @@ namespace Sharpex2D.Framework.Rendering
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        void SetTransform(Matrix2x3 matrix);
+        void SetTransform(Matrix matrix);
 
         /// <summary>
         /// Resets the Transform.

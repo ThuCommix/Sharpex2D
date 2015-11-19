@@ -86,7 +86,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             CurrentDevice.BeginScene();
             CurrentDevice.Clear(ClearFlags.Target, DirectXHelper.ConvertColor(_graphicsDevice.ClearColor), 0, 0);
-            _sprite.Transform = Matrix.Identity;
+            _sprite.Transform = SharpDX.Matrix.Identity;
             _sprite.Begin(SpriteFlags.AlphaBlend);
         }
 
@@ -143,12 +143,12 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleX = rectangle.Width/texture.Width;
             float scaleY = rectangle.Height/texture.Height;
 
-            _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
+            _sprite.Transform = SharpDX.Matrix.Scaling(scaleX, scaleY, 1f);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color), null, null,
                 new Vector3(rectangle.X, rectangle.Y, 0));
 
-            _sprite.Transform = Matrix.Identity;
+            _sprite.Transform = SharpDX.Matrix.Identity;
         }
 
         /// <summary>
@@ -182,13 +182,13 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleX = rectangle.Width/spriteSheet.Rectangle.Width;
             float scaleY = rectangle.Height/spriteSheet.Rectangle.Height;
 
-            _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
+            _sprite.Transform = SharpDX.Matrix.Scaling(scaleX, scaleY, 1f);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(spriteSheet.Rectangle), null,
                 DirectXHelper.ConvertVector2(new Vector2(rectangle.X/scaleX, rectangle.Y/scaleY)));
 
-            _sprite.Transform = Matrix.Identity;
+            _sprite.Transform = SharpDX.Matrix.Identity;
         }
 
         /// <summary>
@@ -206,22 +206,22 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             float scaleX = destination.Width/source.Width;
             float scaleY = destination.Height/source.Height;
 
-            _sprite.Transform = Matrix.Scaling(scaleX, scaleY, 1f);
+            _sprite.Transform = SharpDX.Matrix.Scaling(scaleX, scaleY, 1f);
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(source), null,
                 DirectXHelper.ConvertVector2(new Vector2(destination.X/scaleX, destination.Y/scaleY)));
 
-            _sprite.Transform = Matrix.Identity;
+            _sprite.Transform = SharpDX.Matrix.Identity;
         }
 
         /// <summary>
         /// Sets the Transform.
         /// </summary>
         /// <param name="matrix">The Matrix.</param>
-        public void SetTransform(Matrix2x3 matrix)
+        public void SetTransform(Matrix matrix)
         {
-            Matrix m = Matrix.Identity;
+            SharpDX.Matrix m = SharpDX.Matrix.Identity;
 
             m.M12 = matrix[1, 0];
             m.M21 = matrix[0, 1];
@@ -240,7 +240,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         public void ResetTransform()
         {
-            _sprite.Transform = Matrix.Identity;
+            _sprite.Transform = SharpDX.Matrix.Identity;
         }
 
         /// <summary>
