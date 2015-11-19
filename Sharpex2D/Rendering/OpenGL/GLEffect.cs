@@ -201,23 +201,23 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="value">The value</param>
         public void SetData(string identifier, Matrix value)
         {
-            _matrixf[0] = value[0, 0];
+            _matrixf[0] = value.ScaleX;
             _matrixf[1] = value[1, 0];
             _matrixf[2] = 0;
-            _matrixf[3] = 0;
+            _matrixf[3] = value.OffsetX;
 
             _matrixf[4] = value[0, 1];
-            _matrixf[5] = value[1, 1];
+            _matrixf[5] = value.ScaleY;
             _matrixf[6] = 0;
-            _matrixf[7] = 0;
+            _matrixf[7] = value.OffsetY;
 
             _matrixf[8] = 0;
             _matrixf[9] = 0;
             _matrixf[10] = 1;
-            _matrixf[11] = 0;
+            _matrixf[11] = 1;
 
-            _matrixf[12] = value.OffsetX;
-            _matrixf[13] = value.OffsetY;
+            _matrixf[12] = 0;
+            _matrixf[13] = 0;
             _matrixf[14] = 0;
             _matrixf[15] = 1;
 
