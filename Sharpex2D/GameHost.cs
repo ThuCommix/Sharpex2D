@@ -122,9 +122,14 @@ namespace Sharpex2D.Framework
             GameInstance.SoundPlayer = new SoundPlayer(GameInstance.SoundManager);
             Components.Add(GameInstance.SoundPlayer);
             GameInstance.Initialize();
-            Components.Get<GameLoop>().Start();
 
-            Logger.Instance.Engine($"Sharpex2D ({typeof (GameHost).Assembly.GetName().Version}) is sucessfully running.");
+            Components.Get<GameLoop>().SuccessfullyInitialized += (o, e) =>
+            {
+                Logger.Instance.Engine(
+                    $"Sharpex2D ({typeof (GameHost).Assembly.GetName().Version}) is sucessfully running.");
+            };
+
+            Components.Get<GameLoop>().Start();
         }
 
         /// <summary>

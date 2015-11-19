@@ -50,6 +50,11 @@ namespace Sharpex2D.Framework
         }
 
         /// <summary>
+        /// Raises when the game is successfully initialized
+        /// </summary>
+        internal event EventHandler<EventArgs> SuccessfullyInitialized; 
+
+        /// <summary>
         /// Gets or sets the TargetTime.
         /// </summary>
         public float TargetTime { set; get; }
@@ -158,6 +163,8 @@ namespace Sharpex2D.Framework
 
             //load content 
             GameHost.GameInstance.LoadContent();
+
+            SuccessfullyInitialized?.Invoke(this, EventArgs.Empty);
 
             _gameTimer.Start();
             long startTime = _gameTimer.ElapsedTicks;
