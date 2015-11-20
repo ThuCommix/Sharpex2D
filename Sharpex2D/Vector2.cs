@@ -134,6 +134,16 @@ namespace Sharpex2D.Framework
             Y = result.Y;
         }
 
+        /// <summary>
+        /// Gets the distance between two vectors
+        /// </summary>
+        /// <param name="vector">The other vector</param>
+        /// <returns>Returns the distance</returns>
+        public float Distance(Vector2 vector)
+        {
+            return Distance(this, vector);
+        }
+
         #endregion
 
         #region Vector Methods
@@ -226,6 +236,18 @@ namespace Sharpex2D.Framework
             vector.Y = MathHelper.Round(vector.Y);
 
             return vector;
+        }
+
+        /// <summary>
+        /// Gets the distance between two vectors
+        /// </summary>
+        /// <param name="vector1">The first vector</param>
+        /// <param name="vector2">The second vector</param>
+        /// <returns>Returns the distance</returns>
+        public static float Distance(Vector2 vector1, Vector2 vector2)
+        {
+            float v1 = vector1.X - vector2.X, v2 = vector1.Y - vector2.Y;
+            return MathHelper.Sqrt((v1 * v1) + (v2 * v2));
         }
 
         /// <summary>
