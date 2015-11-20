@@ -48,7 +48,8 @@ void main() {
     Color = color;
     Texcoord = texcoord;
     Alpha = dim.z;
-    gl_Position = vec4(position.x * 2.0 / dim.x - 1.0, position.y * -2.0 / dim.y + 1.0, 0.0, 1.0) * transform;
+    vec4 transformed = vec4(position.x, position.y, 1, 1) * transform;
+    gl_Position = vec4(transformed.x * 2.0 / dim.x - 1.0, transformed.y * -2.0 / dim.y + 1.0, 0.0, 1.0);
 }
 ";
         /// <summary>
