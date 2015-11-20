@@ -133,6 +133,7 @@
     <Compile Include="Network\RemotePeer.cs" />
     <Compile Include="Network\RemotePeerNotAvailableException.cs" />
     <Compile Include="Network\SynchronizedList.cs" />
+    <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\DrawOperation.cs" />
     <Compile Include="Rendering\FadeInOutTransition.cs" />
     <Compile Include="Rendering\ISceneTransition.cs" />
