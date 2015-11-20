@@ -60,11 +60,6 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
-        /// Gets or sets the velocity
-        /// </summary>
-        public Vector2 Velocity { set; get; }
-
-        /// <summary>
         /// A value indicating whether the camera has invalid bounds
         /// </summary>
         public bool Invalid => Bounds.Width < 1 && Bounds.Height < 1;
@@ -126,7 +121,6 @@ namespace Sharpex2D.Framework.Rendering
             _bounds = bounds;
             Zoom = 1f;
             Rotation = 0f;
-            Velocity = Vector2.Zero;
         }
 
         /// <summary>
