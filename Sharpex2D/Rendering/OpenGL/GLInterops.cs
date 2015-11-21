@@ -408,9 +408,23 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <summary>
         /// Sets the blend function.
         /// </summary>
-        public static void AlphaBlend()
+        public static void SetBlendState(BlendState blendState)
         {
-            glBlendFunc(0x0302, 0x0303);
+            switch (blendState)
+            {
+                case BlendState.AlphaBlend:
+                    glBlendFunc(0x0302, 0x0303);
+                    break;
+                case BlendState.Additive:
+                    glBlendFunc(0x0302, 1);
+                    break;
+                case BlendState.Opaque:
+                    glBlendFunc(1, 0);
+                    break;
+                default:
+                    glBlendFunc(1, 0x0302);
+                    break;
+            }
         }
 
         /// <summary>

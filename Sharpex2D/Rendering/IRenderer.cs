@@ -39,6 +39,12 @@ namespace Sharpex2D.Framework.Rendering
         void Clear();
 
         /// <summary>
+        /// Sets the blend state
+        /// </summary>
+        /// <param name="blendState">The blend state</param>
+        void SetBlendState(BlendState blendState);
+
+        /// <summary>
         /// Draws a Texture.
         /// </summary>
         /// <param name="texture">The Texture.</param>
@@ -51,7 +57,6 @@ namespace Sharpex2D.Framework.Rendering
         /// </summary>
         /// <param name="texture">The Texture.</param>
         /// <param name="rectangle">The Rectangle.</param>
-        /// <param name="opacity">The Opacity.</param>
         /// <param name="color">The Color.</param>
         void DrawTexture(ITexture texture, Rectangle rectangle, Color color);
 

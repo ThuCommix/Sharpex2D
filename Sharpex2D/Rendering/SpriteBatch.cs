@@ -30,6 +30,7 @@ namespace Sharpex2D.Framework.Rendering
         internal readonly IRenderer Renderer;
         private bool _beginCalled;
         private SpriteSortMode _currentSortMode;
+        private BlendState _blendState;
         private bool _endCalled = true;
 
         /// <summary>
@@ -52,21 +53,20 @@ namespace Sharpex2D.Framework.Rendering
         public GraphicsDevice GraphicsDevice { internal set; get; }
 
         /// <summary>
-        /// Begins the draw operation.
+        /// Begins the draw operation
         /// </summary>
-        public void Begin()
-        {
-            Begin(SpriteSortMode.Immediate);
-        }
-
-        /// <summary>
-        /// Begins the draw operation.
-        /// </summary>
-        public void Begin(SpriteSortMode mode)
+        /// <param name="mode">The sort mode</param>
+        /// <param name="state">The blend state</param>
+        public void Begin(SpriteSortMode mode = SpriteSortMode.Immediate, BlendState state = BlendState.AlphaBlend)
         {
             if (!_endCalled)
                 throw new GraphicsException("End must be called before Begin can be called.");
 
+            if (_blendState != state)
+            {
+                _blendState = state;
+                Renderer.SetBlendState(state);
+            }
             _currentSortMode = mode;
             _beginCalled = true;
         }
@@ -113,7 +113,6 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="font">The SpriteFont.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
         public void DrawString(string text, SpriteFont font, Vector2 position, Color color)
         {
             //already buffered since it uses the drawtexture calls internal

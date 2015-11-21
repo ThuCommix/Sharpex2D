@@ -69,7 +69,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _renderContext.Initialize();
             _basicEffect = new BasicGLEffect();
             _basicEffect.Compile();
-            GLInterops.AlphaBlend();
+            GLInterops.SetBlendState(BlendState.AlphaBlend);
             GLInterops.EnableBlend();
             SetTransform(Matrix.Identity);
             GLColor clearColor = GLHelper.ConvertColor(_graphicsDevice.ClearColor);
@@ -105,6 +105,15 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _renderContext.MakeCurrent();
             GLInterops.Clear();
             GLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
+        }
+
+        /// <summary>
+        /// Sets the blend state
+        /// </summary>
+        /// <param name="blendState">The blend state</param>
+        public void SetBlendState(BlendState blendState)
+        {
+            GLInterops.SetBlendState(blendState);
         }
 
         /// <summary>
@@ -311,7 +320,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="spriteSheet">The SpriteSheet.</param>
         /// <param name="position">The Position.</param>
         /// <param name="color">The Color.</param>
-        /// <param name="opacity">The Opacity.</param>
         public void DrawTexture(ITexture texture, SpriteSheet spriteSheet, Vector2 position, Color color)
         {
             DrawTexture(texture, spriteSheet,

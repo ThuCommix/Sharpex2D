@@ -91,6 +91,37 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         }
 
         /// <summary>
+        /// Sets the blend state
+        /// </summary>
+        /// <param name="blendState">The blend state</param>
+        public void SetBlendState(BlendState blendState)
+        {
+            switch (blendState)
+            {
+                case BlendState.AlphaBlend:
+                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.One);
+                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
+                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
+                    break;
+                case BlendState.Additive:
+                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.One);
+                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
+                    break;
+                case BlendState.Opaque:
+                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.One);
+                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.Zero);
+                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
+                    break;
+                default:
+                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
+                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
+                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Draws a range of textures.
         /// </summary>
         /// <param name="drawOperations">The DrawOperations.</param>
