@@ -152,9 +152,38 @@ namespace Sharpex2D.Framework.Rendering
         /// <param name="rotation">The rotation</param>
         /// <param name="zoom">The zoom</param>
         /// <returns>Returns a camera</returns>
-        public static Camera CreateLookAt(Rectangle bounds, float rotation, float zoom)
+        public static Camera CreateLookAt(Rectangle bounds, float rotation = 0f, float zoom = 1f)
         {
             return new Camera(bounds) {Center = new Vector2(bounds.X, bounds.Y), Rotation = rotation, Zoom = zoom};
+        }
+
+        /// <summary>
+        /// Creates a new camera view based on the specified arguments
+        /// </summary>
+        /// <param name="position">The position</param>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <param name="rotation">The rotation</param>
+        /// <param name="zoom">The zoom</param>
+        /// <returns>Returns a camera</returns>
+        public static Camera CreateLookAt(Vector2 position, float width, float height, float rotation = 0f, float zoom = 1f)
+        {
+            return new Camera(new Rectangle(position, new Vector2(width, height))) {Rotation = rotation, Zoom = zoom};
+        }
+
+        /// <summary>
+        /// Creates a new camera view based on the specified arguments
+        /// </summary>
+        /// <param name="x">The x coordinate</param>
+        /// <param name="y">The y coordinate</param>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <param name="rotation">The rotation</param>
+        /// <param name="zoom">The zoom</param>
+        /// <returns>Returns a camera</returns>
+        public static Camera CreateLookAt(float x, float y, float width, float height, float rotation = 0f, float zoom = 1f)
+        {
+            return new Camera(new Rectangle(x, y, width, height)) {Rotation = rotation, Zoom = zoom};
         }
     }
 }
