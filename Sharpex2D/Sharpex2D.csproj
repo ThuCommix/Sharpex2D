@@ -133,10 +133,13 @@
     <Compile Include="Network\RemotePeer.cs" />
     <Compile Include="Network\RemotePeerNotAvailableException.cs" />
     <Compile Include="Network\SynchronizedList.cs" />
+    <Compile Include="Rendering\Blend.cs" />
+    <Compile Include="Rendering\BlendFunction.cs" />
     <Compile Include="Rendering\BlendState.cs" />
     <Compile Include="Rendering\Camera.cs" />
     <Compile Include="Rendering\DrawOperation.cs" />
     <Compile Include="Rendering\FadeInOutTransition.cs" />
+    <Compile Include="Rendering\IRenderTarget2D.cs" />
     <Compile Include="Rendering\ISceneTransition.cs" />
     <Compile Include="Rendering\OpenGL\BasicGLEffect.cs" />
     <Compile Include="Rendering\OpenGL\BufferTarget.cs" />
@@ -144,7 +147,10 @@
     <Compile Include="Rendering\OpenGL\DataTypes.cs" />
     <Compile Include="Rendering\OpenGL\DrawMode.cs" />
     <Compile Include="Rendering\OpenGL\GLEffect.cs" />
+    <Compile Include="Rendering\OpenGL\GLFrameBuffer.cs" />
+    <Compile Include="Rendering\OpenGL\GLHelperExtensions.cs" />
     <Compile Include="Rendering\OpenGL\TextureParam.cs" />
+    <Compile Include="Rendering\RenderTarget2D.cs" />
     <Compile Include="Rendering\Scene.cs" />
     <Compile Include="Rendering\SceneManager.cs" />
     <Compile Include="Rendering\SpriteSortMode.cs" />

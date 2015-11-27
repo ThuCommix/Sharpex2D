@@ -30,8 +30,8 @@ namespace Sharpex2D.Framework.Rendering
         internal readonly IRenderer Renderer;
         private bool _beginCalled;
         private SpriteSortMode _currentSortMode;
-        private BlendState _blendState;
         private bool _endCalled = true;
+        private RenderTarget2D _renderTarget;
 
         /// <summary>
         /// Initializes a new SpriteBatch class.
@@ -53,20 +53,31 @@ namespace Sharpex2D.Framework.Rendering
         public GraphicsDevice GraphicsDevice { internal set; get; }
 
         /// <summary>
+        /// Gets the blend state
+        /// </summary>
+        public BlendState BlendState { private set; get; }
+
+        /// <summary>
         /// Begins the draw operation
         /// </summary>
-        /// <param name="mode">The sort mode</param>
         /// <param name="state">The blend state</param>
-        public void Begin(SpriteSortMode mode = SpriteSortMode.Immediate, BlendState state = BlendState.AlphaBlend)
+        /// <param name="mode">The sort mode</param>
+        public void Begin(BlendState state, SpriteSortMode mode = SpriteSortMode.Immediate)
         {
             if (!_endCalled)
                 throw new GraphicsException("End must be called before Begin can be called.");
 
-            if (_blendState != state)
+            if (BlendState != state)
             {
-                _blendState = state;
+                BlendState = state;
                 Renderer.SetBlendState(state);
             }
+
+            if (_renderTarget != null)
+            {
+                _renderTarget.ReadOnly = true;
+            }
+
             _currentSortMode = mode;
             _beginCalled = true;
         }
@@ -87,6 +98,10 @@ namespace Sharpex2D.Framework.Rendering
                 _currentDrawOperations.Clear();
             }
 
+            if (_renderTarget != null)
+            {
+                _renderTarget.ReadOnly = false;
+            }
             _endCalled = true;
         }
 
@@ -99,11 +114,62 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
-        /// Clears the buffer.
+        /// Clears the buffer
         /// </summary>
-        internal void Clear()
+        /// <param name="color">The color</param>
+        public void Clear(Color color)
         {
-            Renderer.Clear();
+            Renderer.Clear(color);
+        }
+
+        /// <summary>
+        /// Creates  a new render target
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <returns>Returns a new render target</returns>
+        public RenderTarget2D CreateRenderTarget(int width, int height)
+        {
+            return new RenderTarget2D(Renderer.CreateRenderTarget(width, height));
+        }
+
+        /// <summary>
+        /// Resets the render target
+        /// </summary>
+        public void ResetRenderTarget()
+        {
+            if (!_endCalled)
+            {
+                throw new GraphicsException("Unable to switch render target between draw calls.");
+            }
+
+            Renderer.SetDefaultRenderTarget();
+
+            if (_renderTarget != null)
+            {
+                _renderTarget.ReadOnly = false;
+                _renderTarget = null;
+            }
+        }
+
+        /// <summary>
+        /// Sets the render target
+        /// </summary>
+        /// <param name="renderTarget">The render target</param>
+        public void SetRenderTarget(RenderTarget2D renderTarget)
+        {
+            if (!_endCalled)
+            {
+                throw new GraphicsException("Unable to switch render target between draw calls.");
+            }
+
+            if (_renderTarget != null)
+            {
+                ResetRenderTarget();
+            }
+
+            Renderer.SetRenderTarget(renderTarget.Instance);
+            _renderTarget = renderTarget;
         }
 
         /// <summary>

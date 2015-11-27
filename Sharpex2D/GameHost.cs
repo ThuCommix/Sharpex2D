@@ -91,10 +91,7 @@ namespace Sharpex2D.Framework
 
             GraphicsManager = GameInstance.GraphicsManager;
 
-            GraphicsDevice = new GraphicsDevice(gameWindow, GraphicsManager)
-            {
-                ClearColor = Color.CornflowerBlue
-            };
+            GraphicsDevice = new GraphicsDevice(gameWindow, GraphicsManager);
 
             InputManager.Initialize();
             gameWindow.ClientSize = new Vector2(GraphicsManager.PreferredBackBufferWidth,

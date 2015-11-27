@@ -38,6 +38,10 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         private Vector2 _windowSize;
         private BasicGLEffect _basicEffect;
         private Matrix _matrix3;
+        private ushort[] _elements;
+        private int _targetWidth;
+        private int _targetHeight;
+        private bool _renderfbo;
 
         /// <summary>
         /// Initializes a new GLRenderer class.
@@ -69,11 +73,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _renderContext.Initialize();
             _basicEffect = new BasicGLEffect();
             _basicEffect.Compile();
-            GLInterops.SetBlendState(BlendState.AlphaBlend);
-            GLInterops.EnableBlend();
             SetTransform(Matrix.Identity);
-            GLColor clearColor = GLHelper.ConvertColor(_graphicsDevice.ClearColor);
-            GLInterops.ClearColor(clearColor);
             _windowSize = _window.ClientSize;
             GLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
             _sourceVao = new VertexArray();
@@ -81,30 +81,81 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.Bind();
             _sourceEbo = new IndexBuffer();
 
-            var elements = new ushort[]
+            _targetWidth = _graphicsDevice.GraphicsManager.PreferredBackBufferWidth;
+            _targetHeight = _graphicsDevice.GraphicsManager.PreferredBackBufferHeight;
+
+            _elements = new ushort[]
             {
                 0, 1, 2,
                 2, 3, 0
             };
 
             _sourceEbo.Bind();
-            _sourceEbo.SetData(elements);
+            _sourceEbo.SetData(_elements);
 
             _sourceVbo = new VertexBuffer();
             _sourceVbo.Bind();
 
-            _graphicsDevice.ClearColorChanged += GraphicsDeviceClearColorChanged;
             _window.ClientSizeChanged += WindowScreenSizeChanged;
         }
 
         /// <summary>
-        /// Clears the buffer.
+        /// Clears the buffer
         /// </summary>
-        public void Clear()
+        /// <param name="color">The color</param>
+        public void Clear(Color color)
         {
             _renderContext.MakeCurrent();
+            GLInterops.ClearColor(GLHelper.ConvertColor(color));
             GLInterops.Clear();
-            GLInterops.Viewport(0, 0, (int) _windowSize.X, (int) _windowSize.Y);
+            if (!_renderfbo)
+            {
+                GLInterops.Viewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
+            }
+        }
+
+        /// <summary>
+        /// Creates  a new render target
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <returns>Returns a new render target</returns>
+        public IRenderTarget2D CreateRenderTarget(int width, int height)
+        {
+            return new GLFrameBuffer(width, height);
+        }
+
+        /// <summary>
+        /// Sets the render target
+        /// </summary>
+        /// <param name="renderTarget">The render target</param>
+        public void SetRenderTarget(IRenderTarget2D renderTarget)
+        {
+            var framebuffer = renderTarget as GLFrameBuffer;
+            if (framebuffer == null) throw new ArgumentException("Expected GLFrameBuffer as resource.");
+
+            GLInterops.BindFramebuffer(framebuffer.FramebufferId);
+            _renderfbo = true;
+            _targetWidth = framebuffer.Width;
+            _targetHeight = framebuffer.Height;
+
+            GLInterops.Viewport(0, 0, framebuffer.Width, framebuffer.Height);
+            SetTransform(Matrix.Identity);
+        }
+
+        /// <summary>
+        /// Sets the default render target
+        /// </summary>
+        public void SetDefaultRenderTarget()
+        {
+            GLInterops.BindFramebuffer(0);
+
+            _renderfbo = false;
+            _targetWidth = _graphicsDevice.GraphicsManager.PreferredBackBufferWidth;
+            _targetHeight = _graphicsDevice.GraphicsManager.PreferredBackBufferHeight;
+
+            GLInterops.Viewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
+            SetTransform(Matrix.Identity);
         }
 
         /// <summary>
@@ -202,8 +253,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
                 if (oldOpacity != operation.Color.A/255f)
                 {
                     oldOpacity = operation.Color.A/255f;
-                    _basicEffect.SetData("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                        _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, oldOpacity);
+                    _basicEffect.SetData("dim", _targetWidth, _targetHeight, oldOpacity);
                 }
 
                 tex.Bind();
@@ -245,8 +295,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
 
             tex.Bind();
 
-            _basicEffect.SetData("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, col.A);
+            _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
             uint posAttrib = _basicEffect.GetAttribLocation("position");
@@ -292,8 +341,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
 
             tex.Bind();
 
-            _basicEffect.SetData("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, col.A);
+            _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
             uint posAttrib = _basicEffect.GetAttribLocation("position");
@@ -382,8 +430,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
 
             tex.Bind();
 
-            _basicEffect.SetData("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, col.A);
+            _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
             uint posAttrib = _basicEffect.GetAttribLocation("position");
@@ -473,15 +520,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             {
                 _renderContext.Dispose();
             }
-        }
-
-        /// <summary>
-        /// Triggered if the clear color changed.
-        /// </summary>
-        private void GraphicsDeviceClearColorChanged(object sender, EventArgs e)
-        {
-            GLColor clearColor = GLHelper.ConvertColor(_graphicsDevice.ClearColor);
-            GLInterops.ClearColor(clearColor);
         }
 
         /// <summary>

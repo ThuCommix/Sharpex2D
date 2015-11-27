@@ -32,6 +32,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         private Direct3D _direct3D;
         private GraphicsDevice _graphicsDevice;
         private Sprite _sprite;
+        private bool _begin;
+        private bool _sceneBegin;
+        private Surface _mainSurface;
 
         /// <summary>
         /// Initializes a new DirectXRenderer class.
@@ -73,21 +76,76 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
                 _graphicsDevice.GameWindow.Handle,
                 CreateFlags.HardwareVertexProcessing, presentationParameters);
             CurrentDevice.SetRenderState(RenderState.MultisampleAntialias, true);
-            CurrentDevice.SetRenderState(RenderState.AlphaBlendEnable, true);
             CurrentDevice.SetRenderState(RenderState.AlphaFunc, Compare.Less);
-            CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
             _sprite = new Sprite(CurrentDevice) {Transform = SharpDX.Matrix.Identity};
+
+            _mainSurface = CurrentDevice.GetRenderTarget(0);
         }
 
         /// <summary>
-        /// Clears the buffer.
+        /// Begins the draw operation
         /// </summary>
-        public void Clear()
+        private void BeginDraw()
         {
+            if (_begin) return;
+
+            _begin = true;
+            _sceneBegin = true;
             CurrentDevice.BeginScene();
-            CurrentDevice.Clear(ClearFlags.Target, DirectXHelper.ConvertColor(_graphicsDevice.ClearColor), 0, 0);
-            _sprite.Transform = SharpDX.Matrix.Identity;
-            _sprite.Begin(SpriteFlags.AlphaBlend);
+            _sprite.Begin();
+        }
+
+        /// <summary>
+        /// Clears the buffer
+        /// </summary>
+        /// <param name="color">The color</param>
+        public void Clear(Color color)
+        {
+            CurrentDevice.Clear(ClearFlags.Target, DirectXHelper.ConvertColor(color), 0, 0);
+        }
+
+        /// <summary>
+        /// Creates  a new render target
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <returns>Returns a new render target</returns>
+        public IRenderTarget2D CreateRenderTarget(int width, int height)
+        {
+            return new DirectXRenderTarget2D(width, height);
+        }
+
+        /// <summary>
+        /// Sets the render target
+        /// </summary>
+        /// <param name="renderTarget">The render target</param>
+        public void SetRenderTarget(IRenderTarget2D renderTarget)
+        {
+            var renderTargetDx = renderTarget as DirectXRenderTarget2D;
+            if (renderTargetDx == null) throw new ArgumentException("Expected a DirectXRenderTarget2D as resource.");
+
+            CurrentDevice.SetRenderTarget(0, renderTargetDx.Surface);
+            SetTransform(Matrix.Identity);
+        }
+
+        /// <summary>
+        /// Sets the default render target
+        /// </summary>
+        public void SetDefaultRenderTarget()
+        {
+            if (_begin)
+            {
+                _sprite.End();
+                _begin = false;
+            }
+
+            if (_sceneBegin)
+            {
+                CurrentDevice.EndScene();
+                _sceneBegin = false;
+            }
+            CurrentDevice.SetRenderTarget(0, _mainSurface);
+            SetTransform(Matrix.Identity);
         }
 
         /// <summary>
@@ -96,28 +154,17 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="blendState">The blend state</param>
         public void SetBlendState(BlendState blendState)
         {
-            switch (blendState)
+            if (blendState != null)
             {
-                case BlendState.AlphaBlend:
-                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.One);
-                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
-                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
-                    break;
-                case BlendState.Additive:
-                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
-                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.One);
-                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
-                    break;
-                case BlendState.Opaque:
-                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.One);
-                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.Zero);
-                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
-                    break;
-                default:
-                    CurrentDevice.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha);
-                    CurrentDevice.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha);
-                    CurrentDevice.SetRenderState(RenderState.BlendOperation, BlendOperation.Add);
-                    break;
+                CurrentDevice.SetRenderState(RenderState.AlphaBlendEnable, true);
+                CurrentDevice.SetRenderState(RenderState.SourceBlend, blendState.SourceBlend.ToDirectXBlend());
+                CurrentDevice.SetRenderState(RenderState.DestinationBlend, blendState.DestinationBlend.ToDirectXBlend());
+                CurrentDevice.SetRenderState(RenderState.BlendOperation,
+                    blendState.BlendFunction.ToDirectXBlendFunction());
+            }
+            else
+            {
+                CurrentDevice.SetRenderState(RenderState.AlphaBlendEnable, false);
             }
         }
 
@@ -127,6 +174,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="drawOperations">The DrawOperations.</param>
         public void DrawTextures(IEnumerable<DrawOperation> drawOperations)
         {
+            BeginDraw();
+
             foreach (var operation in drawOperations)
             {
                 //Already buffered by the driver, so we can safely call the draw texture. As in later implementations
@@ -140,8 +189,18 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         public void Present()
         {
-            _sprite.End();
-            CurrentDevice.EndScene();
+            if (_begin)
+            {
+                _sprite.End();
+                _begin = false;
+            }
+
+            if (_sceneBegin)
+            {
+                CurrentDevice.EndScene();
+                _sceneBegin = false;
+            }
+
             CurrentDevice.Present();
         }
 
@@ -155,6 +214,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
+
+            BeginDraw();
 
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color), null, null,
                 DirectXHelper.ConvertVector2(position));
@@ -170,6 +231,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
+
+            BeginDraw();
 
             float scaleX = rectangle.Width/texture.Width;
             float scaleY = rectangle.Height/texture.Height;
@@ -195,6 +258,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
 
+            BeginDraw();
+
             _sprite.Draw(dxTexture.InternalTexture, DirectXHelper.ConvertColor(color),
                 DirectXHelper.ConvertRectangle(spriteSheet.Rectangle), null, DirectXHelper.ConvertVector2(position));
         }
@@ -210,6 +275,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
+
+            BeginDraw();
 
             float scaleX = rectangle.Width/spriteSheet.Rectangle.Width;
             float scaleY = rectangle.Height/spriteSheet.Rectangle.Height;
@@ -235,6 +302,8 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         {
             var dxTexture = texture as DirectXTexture;
             if (dxTexture == null) throw new ArgumentException("Expected a DirectXTexture as resource.");
+
+            BeginDraw();
 
             float scaleX = destination.Width/source.Width;
             float scaleY = destination.Height/source.Height;

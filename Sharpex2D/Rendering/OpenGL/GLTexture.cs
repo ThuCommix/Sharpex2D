@@ -65,6 +65,19 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         }
 
         /// <summary>
+        /// Initializes a new GLTexture class
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <param name="texture">The texture id</param>
+        internal GLTexture(int width, int height, uint texture)
+        {
+            Width = width;
+            Height = height;
+            Id = texture;
+        }
+
+        /// <summary>
         /// Initializes a new GLTexture class.
         /// </summary>
         /// <param name="stream">The Stream.</param>

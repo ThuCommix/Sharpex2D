@@ -54,7 +54,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rendering\DirectX9\DirectXDeviceManager.cs" />
     <Compile Include="Rendering\DirectX9\DirectXGraphicsManager.cs" />
+    <Compile Include="Rendering\DirectX9\DirectXHelperExtensions.cs" />
     <Compile Include="Rendering\DirectX9\DirectXRenderer.cs" />
+    <Compile Include="Rendering\DirectX9\DirectXRenderTarget2D.cs" />
     <Compile Include="Rendering\DirectX9\DirectXTexture.cs" />
     <Compile Include="Rendering\DirectXHelper.cs" />
   </ItemGroup>

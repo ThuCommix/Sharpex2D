@@ -141,8 +141,9 @@ Sorted drawing in SpriteBatch : Done
 	-> Dont present at End();
 	-> IRenderer.Present();
 
+Implement advanced blend states : Done
 Implement DX9 rendering with shaders : Pending ...
-Implement render to texture : Pending ...
+Implement render to texture : Done
 Global shader support : Pending ...
 
 

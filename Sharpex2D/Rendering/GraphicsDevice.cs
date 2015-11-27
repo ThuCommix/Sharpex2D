@@ -25,8 +25,6 @@ namespace Sharpex2D.Framework.Rendering
 {
     public class GraphicsDevice : IComponent, IDisposable
     {
-        private Color _clearColor;
-
         /// <summary>
         /// Initializes a new GraphicsDeivce.
         /// </summary>
@@ -74,19 +72,6 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
-        /// Gets or sets the Clear Color.
-        /// </summary>
-        public Color ClearColor
-        {
-            set
-            {
-                _clearColor = value;
-                ClearColorChanged?.Invoke(this, EventArgs.Empty);
-            }
-            get { return _clearColor; }
-        }
-
-        /// <summary>
         /// Disposes the GraphicsDevice.
         /// </summary>
         public void Dispose()
@@ -102,11 +87,6 @@ namespace Sharpex2D.Framework.Rendering
         {
             Dispose(false);
         }
-
-        /// <summary>
-        /// Triggered if the clear color changed.
-        /// </summary>
-        public event EventHandler<EventArgs> ClearColorChanged;
 
         /// <summary>
         /// Triggered if the graphics device is disposed.

@@ -247,7 +247,6 @@ namespace Sharpex2D.Framework
         /// </summary>
         private void RenderSubscribers()
         {
-            GameHost.SpriteBatch.Clear();
             for (int i = 0; i < _drawables.Count; i++)
             {
                 _drawables[i].Draw(GameHost.SpriteBatch, _gameTime);

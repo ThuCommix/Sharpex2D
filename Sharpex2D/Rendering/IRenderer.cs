@@ -36,7 +36,27 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Clears the buffer.
         /// </summary>
-        void Clear();
+        /// <param name="color">The color</param>
+        void Clear(Color color);
+
+        /// <summary>
+        /// Creates  a new render target
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        /// <returns>Returns a new render target</returns>
+        IRenderTarget2D CreateRenderTarget(int width, int height);
+
+        /// <summary>
+        /// Sets the render target
+        /// </summary>
+        /// <param name="renderTarget">The render target</param>
+        void SetRenderTarget(IRenderTarget2D renderTarget);
+
+        /// <summary>
+        /// Sets the default render target
+        /// </summary>
+        void SetDefaultRenderTarget();
 
         /// <summary>
         /// Sets the blend state

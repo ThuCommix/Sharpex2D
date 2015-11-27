@@ -117,6 +117,60 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
 
         #region OpenGL32
 
+        public const uint GLZero = 0;
+
+        public const uint GLOne = 1;
+
+        public const uint GLSrcColor = 0x0300;
+
+        public const uint GLOneMinusSrcColor = 0x0301;
+
+        public const uint GLSrcAlpha = 0x0302;
+
+        public const uint GLOneMinusSrcAlpha = 0x0303;
+
+        public const uint GLDstAlpha = 0x0304;
+
+        public const uint GLOneMinusDstAlpha = 0x0305;
+
+        public const uint GLDstColor = 0x0306;
+
+        public const uint GLOneMinusDstColor = 0x0307;
+
+        public const uint GLSrcAlphaSaturate = 0x0308;
+
+        public const uint GLFuncAdd = 0x8006;
+
+        public const uint GLFuncSubtract = 0x800A;
+
+        public const uint GLFuncReverseSubtract = 0x800B;
+
+        public const uint GLMin = 0x8007;
+
+        public const uint GLMax = 0x8008;
+
+        public const uint GLDrawFrameBuffer = 0x8CA9;
+
+        public const uint GLFramebufferDefaultWidth = 0x9310;
+
+        public const uint GLFramebufferDefaultHeight = 0x9311;
+
+        public const uint GLFramebufferDefaultSamples = 0x9313;
+
+        public const uint GLFramebuffer = 0x8D40;
+
+        public const uint GLRenderbuffer = 0x8D41;
+
+        public const uint GLColorAttachment0 = 0x8CE0;
+
+        public const uint GLFramebufferComplete = 0x8CD5;
+
+        public const uint GLDepthComponent = 0x1902;
+
+        public const uint GLDepthAttachment = 0x8D00;
+
+        public const uint GLDepthTest = 0x0B71;
+
         #region Delegates
 
         private delegate void glActiveTexture(uint texture);
@@ -184,6 +238,34 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             uint index, int size, uint type, bool normalized, int stride, IntPtr pointer);
 
         private delegate IntPtr wglCreateContextAttribsARB(IntPtr hdc, IntPtr hShareContext, int[] attribList);
+
+        private delegate void glGenFramebuffers(int n, uint[] framebuffers);
+
+        private delegate void glBindFramebuffer(uint target, uint framebuffer);
+
+        private delegate void glDeleteFramebuffers(int n, uint[] framebuffers);
+
+        private delegate void glFramebufferParameteri(uint framebuffer, uint glenum, int param);
+
+        private delegate void glFramebufferTexture(
+            uint target, uint attachment, uint texture, int level);
+
+        private delegate uint glCheckFramebufferStatus(uint target);
+
+        private delegate void glBlendEquation(uint mode);
+
+        private delegate void glGenRenderbuffers(int n, uint[] buffers);
+
+        private delegate void glBindRenderbuffer(uint target, uint buffer);
+
+        private delegate void glRenderbufferStorage(uint target, uint format, int width, int height);
+
+        private delegate void glDeleteRenderbuffers(int n, uint[] buffers);
+
+        private delegate void glFramebufferRenderbuffer(
+            uint target, uint attachment, uint renderbuffertarget, uint renderbuffer);
+
+        private delegate void glDrawBuffers(int n, uint[] buffers);
 
         #endregion
 
@@ -287,6 +369,122 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         #region Wrapped Methods
 
         /// <summary>
+        /// Draws the specified buffer
+        /// </summary>
+        /// <param name="buffer">The buffer</param>
+        public static void DrawBuffer(uint buffer)
+        {
+            InvokeExtensionMethod<glDrawBuffers>(1, new[] {buffer});
+        }
+
+        /// <summary>
+        /// Attaches the renderbuffer
+        /// </summary>
+        /// <param name="renderbuffer">The renderbuffer</param>
+        public static void AttachRenderbuffer(uint renderbuffer)
+        {
+            InvokeExtensionMethod<glFramebufferRenderbuffer>(GLFramebuffer, GLDepthAttachment, GLRenderbuffer,
+                renderbuffer);
+        }
+
+        /// <summary>
+        /// Initializes a new renderbuffer storage
+        /// </summary>
+        /// <param name="width">The width</param>
+        /// <param name="height">The height</param>
+        public static void RenderbufferStorage(int width, int height)
+        {
+            InvokeExtensionMethod<glRenderbufferStorage>(GLRenderbuffer, GLDepthComponent, width, height);
+        }
+
+        /// <summary>
+        /// Deletes the renderbuffer
+        /// </summary>
+        /// <param name="renderbuffer">The renderbuffer</param>
+        public static void DeleteRenderbuffer(uint renderbuffer)
+        {
+            InvokeExtensionMethod<glDeleteRenderbuffers>(1, new[] {renderbuffer});
+        }
+
+        /// <summary>
+        /// Binds the renderbuffer
+        /// </summary>
+        /// <param name="renderbuffer">The renderbuffer</param>
+        public static void BindRenderbuffer(uint renderbuffer)
+        {
+            InvokeExtensionMethod<glBindRenderbuffer>(GLRenderbuffer, renderbuffer);
+        }
+
+        /// <summary>
+        /// Generates a new renderbuffer
+        /// </summary>
+        /// <returns>Returns the glhandle to the buffer</returns>
+        public static uint GenRenderbuffer()
+        {
+            var buffer = new uint[1];
+            InvokeExtensionMethod<glGenRenderbuffers>(1, buffer);
+            return buffer[0];
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the framebuffer was successfully instantiated
+        /// </summary>
+        /// <param name="framebuffer">The framebuffer</param>
+        /// <returns>Returns true when successfully</returns>
+        public static bool CheckFramebufferStatus(uint framebuffer)
+        {
+            return (uint)InvokeExtensionMethod<glCheckFramebufferStatus>(framebuffer) != GLFramebufferComplete;
+        }
+
+        /// <summary>
+        /// Attach a texture to the binded framebuffer
+        /// </summary>
+        /// <param name="texture">The texture id</param>
+        public static void AttachTexture2D(uint texture)
+        {
+            InvokeExtensionMethod<glFramebufferTexture>(GLFramebuffer, GLColorAttachment0, texture, 0);
+        }
+
+        /// <summary>
+        /// Generates a new framebuffer
+        /// </summary>
+        /// <returns>Returns the glhandle to the buffer</returns>
+        public static uint GenFramebuffer()
+        {
+            var buffer = new uint[1];
+            InvokeExtensionMethod<glGenFramebuffers>(1, buffer);
+            return buffer[0];
+        }
+
+        /// <summary>
+        /// Binds the framebuffer
+        /// </summary>
+        /// <param name="framebuffer">The framebuffer</param>
+        public static void BindFramebuffer(uint framebuffer)
+        {
+            InvokeExtensionMethod<glBindFramebuffer>(GLDrawFrameBuffer, framebuffer);
+        }
+
+        /// <summary>
+        /// Deletes the framebuffer
+        /// </summary>
+        /// <param name="framebuffer">The framebuffer</param>
+        public static void DeleteFramebuffer(uint framebuffer)
+        {
+            InvokeExtensionMethod<glDeleteFramebuffers>(1, new[] {framebuffer});
+        }
+
+        /// <summary>
+        /// Sets the specified framebuffer parameter
+        /// </summary>
+        /// <param name="pname">The parameter</param>
+        /// <param name="param">The parameter value</param>
+        public static void SetFramebufferParameter(uint pname, int param)
+        {
+            InvokeExtensionMethod<glFramebufferParameteri>(GLDrawFrameBuffer, pname, param);
+        }
+
+        /// <summary>
         /// Binds the selected buffer.
         /// </summary>
         /// <param name="target">The Target.</param>
@@ -363,6 +561,14 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         }
 
         /// <summary>
+        /// Disables alpha blending.
+        /// </summary>
+        public static void DisableBlend()
+        {
+            glDisable(0x0BE2);
+        }
+
+        /// <summary>
         /// Generates buffer for a texture.
         /// </summary>
         /// <returns>The Id.</returns>
@@ -410,20 +616,15 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// </summary>
         public static void SetBlendState(BlendState blendState)
         {
-            switch (blendState)
+            if (blendState != null)
             {
-                case BlendState.AlphaBlend:
-                    glBlendFunc(0x0302, 0x0303);
-                    break;
-                case BlendState.Additive:
-                    glBlendFunc(0x0302, 1);
-                    break;
-                case BlendState.Opaque:
-                    glBlendFunc(1, 0);
-                    break;
-                default:
-                    glBlendFunc(1, 0x0302);
-                    break;
+                EnableBlend();
+                InvokeExtensionMethod<glBlendEquation>(blendState.BlendFunction.ToConstant());
+                glBlendFunc(blendState.SourceBlend.ToConstant(), blendState.DestinationBlend.ToConstant());
+            }
+            else
+            {
+                DisableBlend();
             }
         }
 
