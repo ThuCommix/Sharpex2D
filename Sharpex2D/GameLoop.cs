@@ -158,7 +158,7 @@ namespace Sharpex2D.Framework
         private void Loop()
         {
             //initialize render device
-            GameHost.SpriteBatch = new SpriteBatch(GameHost.GraphicsManager) {GraphicsDevice = GameHost.GraphicsDevice};
+            GameHost.SpriteBatch = new SpriteBatch(GameHost.GraphicsManager);
             GameHost.Components.Add(GameHost.SpriteBatch);
 
             //load content 

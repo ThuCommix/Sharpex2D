@@ -135,7 +135,7 @@ namespace Sharpex2D.Framework.Rendering
             _pixel[0, 0] = Color.White;
             _pixel.Unlock();
 
-            var graphicsManager = GameHost.Get<GraphicsDevice>().GraphicsManager;
+            var graphicsManager = GameHost.Get<GraphicsManager>();
             _view = new Rectangle(0, 0, graphicsManager.PreferredBackBufferWidth,
                 graphicsManager.PreferredBackBufferHeight);
         }

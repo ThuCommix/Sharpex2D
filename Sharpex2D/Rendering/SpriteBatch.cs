@@ -48,11 +48,6 @@ namespace Sharpex2D.Framework.Rendering
         }
 
         /// <summary>
-        /// Gets the GraphicsDevice.
-        /// </summary>
-        public GraphicsDevice GraphicsDevice { internal set; get; }
-
-        /// <summary>
         /// Gets the blend state
         /// </summary>
         public BlendState BlendState { private set; get; }
@@ -162,6 +157,9 @@ namespace Sharpex2D.Framework.Rendering
             {
                 throw new GraphicsException("Unable to switch render target between draw calls.");
             }
+
+            if (renderTarget == null)
+                throw new ArgumentNullException();
 
             if (_renderTarget != null)
             {

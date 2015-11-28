@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
     {
         private readonly RenderContext _renderContext;
         private readonly float[] _staticVertices;
-        private GraphicsDevice _graphicsDevice;
+        private GraphicsManager _graphicsManager;
         private IndexBuffer _sourceEbo;
         private VertexArray _sourceVao;
         private VertexBuffer _sourceVbo;
@@ -67,8 +67,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         /// <param name="game">The Game.</param>
         public void Initialize(Game game)
         {
-            _graphicsDevice = game.Get<GraphicsDevice>();
-            _window = game.Get<GameWindow>();
+            _graphicsManager = game.GraphicsManager;
+            _window = game.Window;
 
             _renderContext.Initialize();
             _basicEffect = new BasicGLEffect();
@@ -81,8 +81,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.Bind();
             _sourceEbo = new IndexBuffer();
 
-            _targetWidth = _graphicsDevice.GraphicsManager.PreferredBackBufferWidth;
-            _targetHeight = _graphicsDevice.GraphicsManager.PreferredBackBufferHeight;
+            _targetWidth = _graphicsManager.PreferredBackBufferWidth;
+            _targetHeight = _graphicsManager.PreferredBackBufferHeight;
 
             _elements = new ushort[]
             {
@@ -151,8 +151,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             GLInterops.BindFramebuffer(0);
 
             _renderfbo = false;
-            _targetWidth = _graphicsDevice.GraphicsManager.PreferredBackBufferWidth;
-            _targetHeight = _graphicsDevice.GraphicsManager.PreferredBackBufferHeight;
+            _targetWidth = _graphicsManager.PreferredBackBufferWidth;
+            _targetHeight = _graphicsManager.PreferredBackBufferHeight;
 
             GLInterops.Viewport(0, 0, (int)_windowSize.X, (int)_windowSize.Y);
             SetTransform(Matrix.Identity);
@@ -174,9 +174,8 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
         public void DrawTextures(IEnumerable<DrawOperation> drawOperations)
         {
             var oldOpacity = 1f;
-            
-            _basicEffect.SetData("dim", _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                _graphicsDevice.GraphicsManager.PreferredBackBufferHeight, oldOpacity);
+
+            _basicEffect.SetData("dim", _targetWidth, _targetHeight, oldOpacity);
             _basicEffect.SetData("transform", _matrix3);
 
             uint posAttrib = _basicEffect.GetAttribLocation("position");

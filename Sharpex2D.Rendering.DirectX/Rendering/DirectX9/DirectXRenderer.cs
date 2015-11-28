@@ -30,7 +30,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
     {
         private readonly List<ITexture> _textures;
         private Direct3D _direct3D;
-        private GraphicsDevice _graphicsDevice;
+        private GraphicsManager _graphicsManager;
         private Sprite _sprite;
         private bool _begin;
         private bool _sceneBegin;
@@ -56,16 +56,15 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <param name="game">The Game.</param>
         public void Initialize(Game game)
         {
-            _graphicsDevice = game.Get<GraphicsDevice>();
-            _direct3D = new Direct3D();
+            _graphicsManager = game.GraphicsManager;
             AdapterInformation primaryAdaptor = _direct3D.Adapters[0];
 
             var presentationParameters = new PresentParameters
             {
                 BackBufferCount = 1,
-                BackBufferWidth = _graphicsDevice.GraphicsManager.PreferredBackBufferWidth,
-                BackBufferHeight = _graphicsDevice.GraphicsManager.PreferredBackBufferHeight,
-                DeviceWindowHandle = _graphicsDevice.GameWindow.Handle,
+                BackBufferWidth = _graphicsManager.PreferredBackBufferWidth,
+                BackBufferHeight = _graphicsManager.PreferredBackBufferHeight,
+                DeviceWindowHandle = game.Window.Handle,
                 SwapEffect = SwapEffect.Discard,
                 Windowed = true,
                 BackBufferFormat = Format.A8R8G8B8,
@@ -73,7 +72,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             };
 
             CurrentDevice = new Device(_direct3D, primaryAdaptor.Adapter, DeviceType.Hardware,
-                _graphicsDevice.GameWindow.Handle,
+                game.Window.Handle,
                 CreateFlags.HardwareVertexProcessing, presentationParameters);
             CurrentDevice.SetRenderState(RenderState.MultisampleAntialias, true);
             CurrentDevice.SetRenderState(RenderState.AlphaFunc, Compare.Less);

@@ -20,7 +20,7 @@
 
 namespace Sharpex2D.Framework.Rendering
 {
-    public abstract class GraphicsManager
+    public abstract class GraphicsManager : IComponent
     {
         /// <summary>
         /// Initializes a new GraphicsManager class.

@@ -30,28 +30,41 @@ namespace Sharpex2D.Framework.Input.Implementation
         private readonly Dictionary<MouseButtons, bool> _mousestate;
         private int _delta;
         private Vector2 _position;
+        private readonly GameWindow _gameWindow;
+        private float _scaleX;
+        private float _scaleY;
 
         /// <summary>
         /// Initializes a new Mouse class.
         /// </summary>
         public Mouse()
         {
-            IntPtr handle = GameHost.Get<GameWindow>().Handle;
+            _gameWindow = GameHost.Get<GameWindow>();
+            _gameWindow.ClientSizeChanged += ClientSizeChanged;
+            var handle = _gameWindow.Handle;
             _position = new Vector2(0, 0);
-            Control control = Control.FromHandle(handle);
+            var control = Control.FromHandle(handle);
             _mousestate = new Dictionary<MouseButtons, bool>();
             _locker = new object();
             control.MouseMove += MouseMove;
             control.MouseDown += MouseDown;
             control.MouseUp += MouseUp;
             control.MouseWheel += MouseWheel;
-            Handle = handle;
+
+            _scaleX = 1;
+            _scaleY = 1;
         }
 
         /// <summary>
-        /// Represents the surface handle.
+        /// Raises when the client size changes
         /// </summary>
-        public IntPtr Handle { private set; get; }
+        /// <param name="sender">The sender</param>
+        /// <param name="e">The event args</param>
+        private void ClientSizeChanged(object sender, EventArgs e)
+        {
+            _scaleX = _gameWindow.ClientSize.X / GameHost.GraphicsManager.PreferredBackBufferWidth;
+            _scaleY = _gameWindow.ClientSize.Y / GameHost.GraphicsManager.PreferredBackBufferHeight;
+        }
 
         /// <summary>
         /// Gets the State.
@@ -136,8 +149,7 @@ namespace Sharpex2D.Framework.Input.Implementation
         /// <param name="e">The EventArgs.</param>
         private void MouseMove(object sender, MouseEventArgs e)
         {
-            _position = new Vector2(e.Location.X/GameHost.GraphicsDevice.Scale.X,
-                e.Location.Y/GameHost.GraphicsDevice.Scale.Y);
+            _position = new Vector2(e.Location.X/_scaleX, e.Location.Y/_scaleY);
         }
     }
 }

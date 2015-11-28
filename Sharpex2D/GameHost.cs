@@ -40,11 +40,6 @@ namespace Sharpex2D.Framework
         internal static InputManager InputManager;
 
         /// <summary>
-        /// Current GraphicsDevice.
-        /// </summary>
-        internal static GraphicsDevice GraphicsDevice { get; set; }
-
-        /// <summary>
         /// The current SpriteBatch.
         /// </summary>
         internal static SpriteBatch SpriteBatch { set; get; }
@@ -90,8 +85,7 @@ namespace Sharpex2D.Framework
             GameInstance.Setup(launchParameters);
 
             GraphicsManager = GameInstance.GraphicsManager;
-
-            GraphicsDevice = new GraphicsDevice(gameWindow, GraphicsManager);
+            Components.Add(GraphicsManager);
 
             InputManager.Initialize();
             gameWindow.ClientSize = new Vector2(GraphicsManager.PreferredBackBufferWidth,
@@ -99,7 +93,6 @@ namespace Sharpex2D.Framework
             GameInstance.Window = gameWindow;
             GameInstance.SceneManager = new SceneManager(GameInstance);
             Components.Add(GameInstance.Content);
-            Components.Add(GraphicsDevice);
             Components.Add(GameInstance);
             Components.Add(GameInstance.SceneManager);
             Components.Get<GameLoop>().Subscribe((IDrawable) GameInstance);
