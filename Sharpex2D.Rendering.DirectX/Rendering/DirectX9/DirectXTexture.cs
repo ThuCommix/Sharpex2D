@@ -22,6 +22,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using SharpDX;
 using SharpDX.Direct3D9;
 
 namespace Sharpex2D.Framework.Rendering.DirectX9
@@ -29,6 +30,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
     internal class DirectXTexture : ITexture
     {
         private readonly Bitmap _bitmap;
+        private BitmapData _bitmapData;
 
         /// <summary>
         /// Initializes a new DirectXTexture class.
@@ -119,29 +121,45 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// <returns>Color.</returns>
         public Color this[int x, int y]
         {
-            //TODO Until I figured out how the datarectangle works, we will hoax with a bitmap
             //8Bit = 1Byte, the colors are stored simply as ByteA, ByteR, ByteG, ByteB
-            //LockDataRectangle requires Usage.None [and] Pool.Managed
+            //LockDataRectangle requires Usage.Dynamic [and] Pool.Managed
             get
             {
-                System.Drawing.Color result = _bitmap.GetPixel(x, y);
+                var stride = _bitmapData.Stride;
+                unsafe
+                {
+                    var ptr = (byte*) _bitmapData.Scan0;
 
-                /*DataStream dataStream;
-                var datarect = InternalTexture.LockRectangle(0, LockFlags.None, out dataStream);
+                    return new Color(ptr[(x*4) + y*stride], ptr[(x*4) + y*stride + 1], ptr[(x*4) + y*stride + 2],
+                        ptr[(x*4) + y*stride + 3]);
+                }
 
-                int offset = x*4+(y*(datarect.Pitch));
+                //DataStream dataStream;
+                //var datarect = InternalTexture.LockRectangle(0, LockFlags.None, out dataStream);
 
-                var pData = new byte[4];
-                dataStream.Read(pData, offset, pData.Length);
+                //int offset = x*4+(y*(datarect.Pitch));
 
-                dataStream.Dispose();
-                InternalTexture.UnlockRectangle(0);
-                System.Diagnostics.Debug.WriteLine(Color.FromArgb(pData[0], pData[1], pData[2], pData[3]));
-                //return Color.FromArgb(pData[0], pData[1], pData[2], pData[3]);*/
+                //var pData = new byte[4];
+                //dataStream.Seek(offset, SeekOrigin.Begin);
+                //dataStream.Read(pData, 0, pData.Length);
 
-                return Color.FromArgb(result.A, result.R, result.G, result.B);
+                //dataStream.Dispose();
+                //InternalTexture.UnlockRectangle(0);
+                //System.Diagnostics.Debug.WriteLine(Color.FromArgb(pData[3], pData[2], pData[1], pData[0]));
+                //return Color.FromArgb(pData[3], pData[2], pData[1], pData[0]);
             }
-            set { _bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B)); }
+            set
+            {
+                var stride = _bitmapData.Stride;
+                unsafe
+                {
+                    var ptr = (byte*)_bitmapData.Scan0;
+                    ptr[(x*4) + y*stride] = value.B;
+                    ptr[(x*4) + y*stride + 1] = value.G;
+                    ptr[(x*4) + y*stride + 2] = value.R;
+                    ptr[(x*4) + y*stride + 3] = value.A;
+                }
+            }
         }
 
         /// <summary>
@@ -150,6 +168,9 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         public void Lock()
         {
             IsLocked = true;
+            _bitmapData = _bitmap.LockBits(new System.Drawing.Rectangle(0, 0, _bitmap.Width, _bitmap.Height),
+                ImageLockMode.ReadWrite,
+                _bitmap.PixelFormat);
         }
 
         /// <summary>
@@ -157,6 +178,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         /// </summary>
         public void Unlock()
         {
+            _bitmap.UnlockBits(_bitmapData);
             var converter = new ImageConverter();
             var result = (byte[]) converter.ConvertTo(_bitmap, typeof (byte[]));
 
