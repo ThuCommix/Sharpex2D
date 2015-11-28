@@ -156,6 +156,7 @@
     <Compile Include="Rendering\SpriteSortMode.cs" />
     <Compile Include="Rendering\SpriteFont.cs" />
     <Compile Include="Rendering\TextFormat.cs" />
+    <Compile Include="Rendering\TextureLock.cs" />
     <Compile Include="UI\Element.cs" />
     <Compile Include="UI\ElementManager.cs" />
     <Compile Include="UI\InputState.cs" />

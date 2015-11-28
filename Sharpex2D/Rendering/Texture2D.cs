@@ -92,17 +92,18 @@ namespace Sharpex2D.Framework.Rendering
         /// <summary>
         /// Locks the texture.
         /// </summary>
-        public void Lock()
+        public IDisposable AccessData()
         {
             if (IsLocked) throw new InvalidOperationException("The texture must be unlocked in order to be locked.");
 
             Texture.Lock();
+            return new TextureLock(this);
         }
 
         /// <summary>
         /// Unlocks the data.
         /// </summary>
-        public void Unlock()
+        internal void Unlock()
         {
             if (!IsLocked) throw new InvalidOperationException("The texture must be locked in order to be unlocked.");
 

@@ -131,9 +131,10 @@ namespace Sharpex2D.Framework.Rendering
             _transitionTo = Color.FromArgb(255, transitionFrom.R, transitionFrom.G, _transitionFrom.B);
 
             _pixel = new Texture2D(1, 1);
-            _pixel.Lock();
-            _pixel[0, 0] = Color.White;
-            _pixel.Unlock();
+            using (_pixel.AccessData())
+            {
+                _pixel[0, 0] = Color.White;
+            }
 
             var graphicsManager = GameHost.Get<GraphicsManager>();
             _view = new Rectangle(0, 0, graphicsManager.PreferredBackBufferWidth,
