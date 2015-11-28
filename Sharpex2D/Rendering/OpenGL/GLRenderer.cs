@@ -282,16 +282,39 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
             GLColor col = GLHelper.ConvertColor(color);
 
-            var vertices = new[]
-            {
-                //  Position                                         Color             Texcoords
-                position.X, position.Y, col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
-                position.X + tex.Width, position.Y, col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
-                position.X + tex.Width, position.Y + tex.Height, col.R, col.G, col.B, 1.0f, 1.0f, // Bottom-right
-                position.X, position.Y + tex.Height, col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
-            };
+            _staticVertices[0] = position.X;
+            _staticVertices[1] = position.Y;
+            _staticVertices[2] = col.R;
+            _staticVertices[3] = col.G;
+            _staticVertices[4] = col.B;
+            _staticVertices[5] = 0;
+            _staticVertices[6] = 0;
 
-            _sourceVbo.SetData(vertices);
+            _staticVertices[7] = position.X + tex.Width;
+            _staticVertices[8] = position.Y;
+            _staticVertices[9] = col.R;
+            _staticVertices[10] = col.G;
+            _staticVertices[11] = col.B;
+            _staticVertices[12] = 1;
+            _staticVertices[13] = 0;
+
+            _staticVertices[14] = position.X + tex.Width;
+            _staticVertices[15] = position.Y + tex.Height;
+            _staticVertices[16] = col.R;
+            _staticVertices[17] = col.G;
+            _staticVertices[18] = col.B;
+            _staticVertices[19] = 1;
+            _staticVertices[20] = 1;
+
+            _staticVertices[21] = position.X;
+            _staticVertices[22] = position.Y + tex.Height;
+            _staticVertices[23] = col.R;
+            _staticVertices[24] = col.G;
+            _staticVertices[25] = col.B;
+            _staticVertices[26] = 0;
+            _staticVertices[27] = 1;
+
+            _sourceVbo.SetData(_staticVertices);
 
             tex.Bind();
 
@@ -317,17 +340,39 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             if (tex == null) throw new ArgumentException("Expected OpenGLTexture as resource.");
             GLColor col = GLHelper.ConvertColor(color);
 
-            var vertices = new[]
-            {
-                //  Position                                         Color             Texcoords
-                rectangle.X, rectangle.Y, col.R, col.G, col.B, 0.0f, 0.0f, // Top-left
-                rectangle.X + rectangle.Width, rectangle.Y, col.R, col.G, col.B, 1.0f, 0.0f, // Top-right
-                rectangle.X + rectangle.Width, rectangle.Y + rectangle.Height, col.R, col.G, col.B, 1.0f, 1.0f,
-                // Bottom-right
-                rectangle.X, rectangle.Y + rectangle.Height, col.R, col.G, col.B, 0.0f, 1.0f // Bottom-left
-            };
+            _staticVertices[0] = rectangle.X;
+            _staticVertices[1] = rectangle.Y;
+            _staticVertices[2] = col.R;
+            _staticVertices[3] = col.G;
+            _staticVertices[4] = col.B;
+            _staticVertices[5] = 0;
+            _staticVertices[6] = 0;
 
-            _sourceVbo.SetData(vertices);
+            _staticVertices[7] = rectangle.X + rectangle.Width;
+            _staticVertices[8] = rectangle.Y;
+            _staticVertices[9] = col.R;
+            _staticVertices[10] = col.G;
+            _staticVertices[11] = col.B;
+            _staticVertices[12] = 1;
+            _staticVertices[13] = 0;
+
+            _staticVertices[14] = rectangle.X + rectangle.Width;
+            _staticVertices[15] = rectangle.Y + rectangle.Height;
+            _staticVertices[16] = col.R;
+            _staticVertices[17] = col.G;
+            _staticVertices[18] = col.B;
+            _staticVertices[19] = 1;
+            _staticVertices[20] = 1;
+
+            _staticVertices[21] = rectangle.X;
+            _staticVertices[22] = rectangle.Y + rectangle.Height;
+            _staticVertices[23] = col.R;
+            _staticVertices[24] = col.G;
+            _staticVertices[25] = col.B;
+            _staticVertices[26] = 0;
+            _staticVertices[27] = 1;
+
+            _sourceVbo.SetData(_staticVertices);
 
             tex.Bind();
 
@@ -395,17 +440,39 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
                 : source.Height
                   /texture.Height;
 
-            var vertices = new[]
-            {
-                //  Position                                                       Color             Texcoords
-                destination.X, destination.Y, col.R, col.G, col.B, oglX, oglY, // Top-left
-                destination.X + destination.Width, destination.Y, col.R, col.G, col.B, oglX + oglW, oglY, // Top-right
-                destination.X + destination.Width, destination.Y + destination.Height, col.R, col.G, col.B, oglX + oglW,
-                oglY + oglH, // Bottom-right
-                destination.X, destination.Y + destination.Height, col.R, col.G, col.B, oglX, oglY + oglH // Bottom-left
-            };
+            _staticVertices[0] = destination.X;
+            _staticVertices[1] = destination.Y;
+            _staticVertices[2] = col.R;
+            _staticVertices[3] = col.G;
+            _staticVertices[4] = col.B;
+            _staticVertices[5] = oglX;
+            _staticVertices[6] = oglY;
 
-            _sourceVbo.SetData(vertices);
+            _staticVertices[7] = destination.X + destination.Width;
+            _staticVertices[8] = destination.Y;
+            _staticVertices[9] = col.R;
+            _staticVertices[10] = col.G;
+            _staticVertices[11] = col.B;
+            _staticVertices[12] = oglX + oglW;
+            _staticVertices[13] = oglY;
+
+            _staticVertices[14] = destination.X + destination.Width;
+            _staticVertices[15] = destination.Y + destination.Height;
+            _staticVertices[16] = col.R;
+            _staticVertices[17] = col.G;
+            _staticVertices[18] = col.B;
+            _staticVertices[19] = oglX + oglW;
+            _staticVertices[20] = oglY + oglH;
+
+            _staticVertices[21] = destination.X;
+            _staticVertices[22] = destination.Y + destination.Height;
+            _staticVertices[23] = col.R;
+            _staticVertices[24] = col.G;
+            _staticVertices[25] = col.B;
+            _staticVertices[26] = oglX;
+            _staticVertices[27] = oglY + oglH;
+
+            _sourceVbo.SetData(_staticVertices);
 
             tex.Bind();
 
