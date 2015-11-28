@@ -96,6 +96,18 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _sourceVbo = new VertexBuffer();
             _sourceVbo.Bind();
 
+            uint posAttrib = _basicEffect.GetAttribLocation("position");
+            VertexBuffer.EnableVertexAttribArray(posAttrib);
+            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7 * sizeof(float), 0);
+
+            uint colAttrib = _basicEffect.GetAttribLocation("color");
+            VertexBuffer.EnableVertexAttribArray(colAttrib);
+            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7 * sizeof(float), 2 * sizeof(float));
+
+            uint texAttrib = _basicEffect.GetAttribLocation("texcoord");
+            VertexBuffer.EnableVertexAttribArray(texAttrib);
+            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7 * sizeof(float), 5 * sizeof(float));
+
             _window.ClientSizeChanged += WindowScreenSizeChanged;
         }
 
@@ -178,17 +190,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.SetData("dim", _targetWidth, _targetHeight, oldOpacity);
             _basicEffect.SetData("transform", _matrix3);
 
-            uint posAttrib = _basicEffect.GetAttribLocation("position");
-            VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
-
-            uint colAttrib = _basicEffect.GetAttribLocation("color");
-            VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
-
-            uint texAttrib = _basicEffect.GetAttribLocation("texcoord");
-            VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             foreach (var operation in drawOperations)
             {
@@ -297,17 +298,7 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
-            uint posAttrib = _basicEffect.GetAttribLocation("position");
-            VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
 
-            uint colAttrib = _basicEffect.GetAttribLocation("color");
-            VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
-
-            uint texAttrib = _basicEffect.GetAttribLocation("texcoord");
-            VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             GLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
@@ -343,17 +334,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
-            uint posAttrib = _basicEffect.GetAttribLocation("position");
-            VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
-
-            uint colAttrib = _basicEffect.GetAttribLocation("color");
-            VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
-
-            uint texAttrib = _basicEffect.GetAttribLocation("texcoord");
-            VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             GLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
@@ -432,17 +412,6 @@ namespace Sharpex2D.Framework.Rendering.OpenGL
             _basicEffect.SetData("dim", _targetWidth, _targetHeight, col.A);
             _basicEffect.SetData("transform", _matrix3);
 
-            uint posAttrib = _basicEffect.GetAttribLocation("position");
-            VertexBuffer.EnableVertexAttribArray(posAttrib);
-            VertexBuffer.VertexAttribPointer(posAttrib, 2, false, 7*sizeof (float), 0);
-
-            uint colAttrib = _basicEffect.GetAttribLocation("color");
-            VertexBuffer.EnableVertexAttribArray(colAttrib);
-            VertexBuffer.VertexAttribPointer(colAttrib, 3, false, 7*sizeof (float), 2*sizeof (float));
-
-            uint texAttrib = _basicEffect.GetAttribLocation("texcoord");
-            VertexBuffer.EnableVertexAttribArray(texAttrib);
-            VertexBuffer.VertexAttribPointer(texAttrib, 2, false, 7*sizeof (float), 5*sizeof (float));
 
             GLInterops.DrawElements(DrawMode.Triangles, 6, DataTypes.UShort, IntPtr.Zero);
 
