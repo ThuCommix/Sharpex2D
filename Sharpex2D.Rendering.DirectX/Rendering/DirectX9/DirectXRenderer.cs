@@ -57,6 +57,7 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
         public void Initialize(Game game)
         {
             _graphicsManager = game.GraphicsManager;
+            _direct3D = new Direct3D();
             AdapterInformation primaryAdaptor = _direct3D.Adapters[0];
 
             var presentationParameters = new PresentParameters

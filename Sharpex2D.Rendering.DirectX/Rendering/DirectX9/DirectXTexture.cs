@@ -125,20 +125,21 @@ namespace Sharpex2D.Framework.Rendering.DirectX9
             get
             {
                 System.Drawing.Color result = _bitmap.GetPixel(x, y);
-                return Color.FromArgb(result.A, result.R, result.G, result.B);
 
                 /*DataStream dataStream;
-                var datarect = InternalTexture.LockRectangle(0, SharpDX.Direct3D9.LockFlags.Discard, out dataStream);
+                var datarect = InternalTexture.LockRectangle(0, LockFlags.None, out dataStream);
 
-                int offset = x*4 + (y*(datarect.Pitch));
+                int offset = x*4+(y*(datarect.Pitch));
 
                 var pData = new byte[4];
                 dataStream.Read(pData, offset, pData.Length);
 
                 dataStream.Dispose();
                 InternalTexture.UnlockRectangle(0);
+                System.Diagnostics.Debug.WriteLine(Color.FromArgb(pData[0], pData[1], pData[2], pData[3]));
+                //return Color.FromArgb(pData[0], pData[1], pData[2], pData[3]);*/
 
-                return Color.FromArgb(pData[0], pData[1], pData[2], pData[3]);*/
+                return Color.FromArgb(result.A, result.R, result.G, result.B);
             }
             set { _bitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(value.A, value.R, value.G, value.B)); }
         }
